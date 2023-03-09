@@ -163,6 +163,6 @@ def manage_sets():
                     reply = update_sets(edited_set_df)
                     reporter(reply, 3)
                 else:
-                    reporter("No selection to Edit", 3)
+                    reporter("No selection to Edit :(", 3)
 
 
