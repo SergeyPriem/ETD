@@ -170,7 +170,7 @@ def table_viewer():
 
     table_dict = {
         'Applied Users': Appl_user,
-        'Registered Users': User,
+        #'Registered Users': User,
         'Projects': Project,
         'Assignments': Assignment,
         'Contacts': Contact,
