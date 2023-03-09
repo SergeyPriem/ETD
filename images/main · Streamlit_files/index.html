@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<!-- saved from url=(0123)http://localhost:8501/component/streamlit_option_menu.option_menu/index.html?streamlitUrl=http%3A%2F%2Flocalhost%3A8501%2F# -->
+<html lang="en"><link type="text/css" rel="stylesheet" id="dark-mode-custom-link"><link type="text/css" rel="stylesheet" id="dark-mode-general-link"><style lang="en" type="text/css" id="dark-mode-custom-style"></style><style lang="en" type="text/css" id="dark-mode-native-style"></style><style lang="en" type="text/css" id="dark-mode-native-sheet"></style><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>streamlit_component_template</title><link href="./app.e7a740d2.css" rel="preload" as="style"><link href="./chunk-vendors.df4470f9.css" rel="preload" as="style"><link href="./app.0d11cb9b.js.Без названия" rel="preload" as="script"><link href="./chunk-vendors.1b4b40f9.js.Без названия" rel="preload" as="script"><link href="./chunk-vendors.df4470f9.css" rel="stylesheet"><link href="./app.e7a740d2.css" rel="stylesheet"><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style><style>
+    :root {
+      --primary-color: #ff4b4b;
+      --background-color: #262730;
+      --secondary-background-color: #0e1117;
+      --text-color: #C9C9C9;
+      --font: "Source Sans Pro", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+  </style></head><body data-new-gr-c-s-check-loaded="14.1098.0" data-gr-ext-installed=""><noscript><strong>We're sorry but streamlit_component_template doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript>
+<div id="app" data-v-app="">
+  <div id="app1">
+    <div data-v-bef81972="">
+      <div class="menu" data-v-bef81972="" data-v-4323f8ce="">
+        <div class="container-xxl d-flex flex-column flex-shrink-0 p-3" data-v-4323f8ce="">
+          <a href="http://localhost:8501/component/streamlit_option_menu.option_menu/index.html?streamlitUrl=http%3A%2F%2Flocalhost%3A8501%2F#" class="menu-title align-items-center mb-md-0 me-md-auto text-decoration-none" data-v-4323f8ce="">
+            <i class="icon bi-cast" data-v-4323f8ce=""></i> Main Menu</a>
+          <hr data-v-4323f8ce="">
+          <ul class="nav nav-pills mb-auto flex-column" data-v-4323f8ce="">
+            <li class="nav-item" data-v-4323f8ce=""><a href="http://localhost:8501/component/streamlit_option_menu.option_menu/index.html?streamlitUrl=http%3A%2F%2Flocalhost%3A8501%2F#" class="nav-link active" aria-current="page" data-v-4323f8ce=""><i class="icon bi-house" data-v-4323f8ce=""></i> Home</a></li><li class="nav-item" data-v-4323f8ce=""><a href="http://localhost:8501/component/streamlit_option_menu.option_menu/index.html?streamlitUrl=http%3A%2F%2Flocalhost%3A8501%2F#" class="nav-link" aria-current="page" data-v-4323f8ce=""><i class="icon bi-bi bi-file-earmark-spreadsheet-fill" data-v-4323f8ce=""></i> Drawing Sets</a></li><li class="nav-item" data-v-4323f8ce=""><a href="http://localhost:8501/component/streamlit_option_menu.option_menu/index.html?streamlitUrl=http%3A%2F%2Flocalhost%3A8501%2F#" class="nav-link" aria-current="page" data-v-4323f8ce=""><i class="icon bi-bi bi-file-arrow-down" data-v-4323f8ce=""></i> Transmittals</a></li><li class="nav-item" data-v-4323f8ce=""><a href="http://localhost:8501/component/streamlit_option_menu.option_menu/index.html?streamlitUrl=http%3A%2F%2Flocalhost%3A8501%2F#" class="nav-link" aria-current="page" data-v-4323f8ce=""><i class="icon bi-bi bi-file-check" data-v-4323f8ce=""></i> Assignments</a></li><li class="nav-item" data-v-4323f8ce=""><a href="http://localhost:8501/component/streamlit_option_menu.option_menu/index.html?streamlitUrl=http%3A%2F%2Flocalhost%3A8501%2F#" class="nav-link" aria-current="page" data-v-4323f8ce=""><i class="icon bi-bi bi-briefcase" data-v-4323f8ce=""></i> Manage Projects</a></li><li class="nav-item" data-v-4323f8ce=""><a href="http://localhost:8501/component/streamlit_option_menu.option_menu/index.html?streamlitUrl=http%3A%2F%2Flocalhost%3A8501%2F#" class="nav-link" aria-current="page" data-v-4323f8ce=""><i class="icon bi-bi bi-kanban" data-v-4323f8ce=""></i> Manage Sets</a></li><li class="nav-item" data-v-4323f8ce=""><a href="http://localhost:8501/component/streamlit_option_menu.option_menu/index.html?streamlitUrl=http%3A%2F%2Flocalhost%3A8501%2F#" class="nav-link" aria-current="page" data-v-4323f8ce=""><i class="icon bi-bi bi-telephone" data-v-4323f8ce=""></i> Phones</a></li><li class="nav-item" data-v-4323f8ce=""><a href="http://localhost:8501/component/streamlit_option_menu.option_menu/index.html?streamlitUrl=http%3A%2F%2Flocalhost%3A8501%2F#" class="nav-link" aria-current="page" data-v-4323f8ce=""><i class="icon bi-bi bi-info-circle" data-v-4323f8ce=""></i> Just for fun</a></li><li class="nav-item" data-v-4323f8ce=""><a href="http://localhost:8501/component/streamlit_option_menu.option_menu/index.html?streamlitUrl=http%3A%2F%2Flocalhost%3A8501%2F#" class="nav-link" aria-current="page" data-v-4323f8ce=""><i class="icon bi-bi bi-gear" data-v-4323f8ce=""></i> Settings</a></li></ul></div></div></div></div></div><script src="./chunk-vendors.1b4b40f9.js.Без названия"></script><script src="./app.0d11cb9b.js.Без названия"></script></body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
