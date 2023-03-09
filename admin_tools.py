@@ -97,7 +97,7 @@ def manage_projects():
         with viewer_tab:
             # tab_list = get_tab_names()
             tab_name = st.radio("Select the Table for view", (
-                Assignment, Appl_user, Contact, Project, Set_draw, Visit_log, User,), horizontal=True)
+                Assignment, Appl_user, Contact, Project, Set_draw, Visit_log,), horizontal=True)
 
             df = get_table(tab_name)
             st.info(f'Records Q-ty: {len(df)}')
@@ -166,26 +166,3 @@ def manage_sets():
                     reporter("No selection to Edit", 3)
 
 
-def table_viewer():
-
-    table_dict = {
-        'Applied Users': Appl_user,
-        #'Registered Users': User,
-        'Projects': Project,
-        'Assignments': Assignment,
-        'Contacts': Contact,
-        'Visit Log': Visit_log,
-    }
-
-    st.subheader('Table Viewer')
-    db_names = st.radio('Select the DB table', ('appl_user', 'user', 'project', 'assignment'),
-                        horizontal=True)
-
-    db_table = table_dict.get(db_names)
-
-    df = get_table(db_table)
-
-    if isinstance(df, pd.DataFrame):
-        st.write(df)
-    else:
-        st.warning(df)
