@@ -97,7 +97,7 @@ def manage_projects():
         with viewer_tab:
             # tab_list = get_tab_names()
             tab_name = st.radio("Select the Table for view", (
-                Assignment, Appl_user, Contact, Project, Set_draw, Visit_log, User,), horizontal=True)
+                Assignment, Appl_user, Contact, Project, Set_draw, Visit_log, ), horizontal=True)
 
             df = get_table(tab_name)
             st.info(f'Records Q-ty: {len(df)}')
