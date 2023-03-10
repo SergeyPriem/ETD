@@ -85,7 +85,6 @@ def get_appl_emails():
         return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
 
-@st.cache_data(ttl=120, show_spinner="Getting registered e-mails")
 def get_registered_emails():
     sleep(request_sleep)
     try:
@@ -149,6 +148,8 @@ def create_user(name, surname, phone, telegram, company_email, password):
                 telegram=telegram,
                 company_email=company_email,
                 hashed_pass=hashed_password,
+                vert_menu=1,
+                delay_set=3,
             )
             try:
                 session.add(new_user)
@@ -164,8 +165,6 @@ def create_appl_user(company_email, position, department, access_level, start_da
     sleep(request_sleep)
     if '@' not in company_email or len(company_email) < 12:
         return f'Wrong e-mail {company_email}'
-    if company_email in get_appl_emails():
-        return f'User {company_email} is already in DataBase'
     else:
         print(company_email, position, department, access_level)
         with Session(engine) as session:
@@ -231,3 +230,32 @@ def get_phones():
             return pd.read_sql_query(stmt, connection)
     except Exception as e:
         return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+
+
+def get_settings(email):
+    sleep(request_sleep)
+    try:
+        with Session(engine) as session:
+            stmt = select(User).where(User.company_email == email)
+            user_settings = session.exec(stmt).one()
+            return user_settings.vert_menu, user_settings.delay_set
+    except Exception as e:
+        return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+
+
+def update_settings(email, menu, delay):
+    sleep(request_sleep)
+    with Session(engine) as session:
+        statement = select(User).where(User.company_email == email)
+        results = session.exec(statement)
+        hero = results.one()
+        hero.vert_menu = menu
+        hero.delay_set = delay
+        try:
+            session.add(hero)
+            session.commit()
+            session.refresh(hero)
+        except Exception as e:
+            return f"{type(e).__name__}{getattr(e, 'args', None)}"
+
+        return "Settings Updated"

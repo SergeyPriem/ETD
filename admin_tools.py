@@ -5,15 +5,14 @@ import datetime
 import pandas as pd
 import streamlit as st
 
-from models import Appl_user, User, Project, Assignment, Contact, Visit_log, Set_draw
-from pre_sets import proj_statuses, reporter, stages, sod_statuses, add_logo
+from models import Appl_user, Project, Assignment, Contact, Visit_log, Set_draw
+from pre_sets import proj_statuses, reporter, stages, sod_statuses
 from projects_db import create_project, get_projects_names, get_table, update_projects, create_set, get_sets_names, \
     get_sets_to_edit, update_sets
 from users_db import get_appl_emails
 
 
 def manage_projects():
-    add_logo()
     empty_proj_1, content_proj, empty_proj_2 = st.columns([1, 9, 1])
     with empty_proj_1:
         st.empty()
@@ -65,7 +64,7 @@ def manage_projects():
                                        proj_status, proj_tech_ass, proj_tech_conditions,
                                        proj_surveys, proj_mdr, proj_notes)
 
-                reporter(reply, 3)
+                reporter(reply)
                 st.session_state.preview_proj_stat = False
 
         with proj_tab2:
@@ -90,9 +89,9 @@ def manage_projects():
                     proj_len_edited = len(edited_proj_df[edited_proj_df.edit])
                     if proj_len_edited:
                         reply = update_projects(edited_proj_df)
-                        reporter(reply, 3)
+                        reporter(reply)
                     else:
-                        reporter("No selection to Edit", 3)
+                        reporter("No selection to Edit")
 
         with viewer_tab:
             # tab_list = get_tab_names()
@@ -105,7 +104,6 @@ def manage_projects():
 
 
 def manage_sets():
-    add_logo()
     empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
     with empty_sets_1:
         st.empty()
@@ -132,7 +130,7 @@ def manage_sets():
             if st.button("Create", key="create sod"):
                 reply = create_set(proj_short, set_name, stage, coordinator, performer, status,
                                    set_start_date, notes)
-                reporter(reply, 3)
+                reporter(reply)
 
         with sets_edit:
             st.subheader('Edit Existing Set of Drawings')
@@ -142,7 +140,7 @@ def manage_sets():
             sets_list = get_sets_names(proj_for_sets_edit)
 
             if not isinstance(sets_list, list):
-                reporter(sets_list, 3)
+                reporter(sets_list)
                 st.stop()
             else:
                 set_to_edit = st.selectbox('Select Unit / Set of Drawings', sets_list)
@@ -161,8 +159,8 @@ def manage_sets():
                 len_edited = len(edited_set_df[edited_set_df.edit])
                 if len_edited:
                     reply = update_sets(edited_set_df)
-                    reporter(reply, 3)
+                    reporter(reply)
                 else:
-                    reporter("No selection to Edit :((", 3)
+                    reporter("No selection to Edit :((")
 
 

@@ -30,9 +30,8 @@ def appearance_settings():
     st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 
-def reporter(text: str, duration: int) -> None:
+def reporter(text: str, duration = st.session_state.delay) -> None:
     placeholder = st.empty()
-
     if isinstance(text, str):
         text_lower = text.lower()
 
@@ -62,26 +61,26 @@ def reporter(text: str, duration: int) -> None:
     placeholder.empty()
 
 
-@st.cache_data
-def add_logo():
-    st.markdown(
-        """
-        <style>
-            [data-testid="stSidebarNav"] {
-                background-image: url(http://placekitten.com/200/200);
-                background-repeat: no-repeat;
-                padding-top: 120px;
-                background-position: 70px 20px;
-            }
-            [data-testid="stSidebarNav"]::before {
-                content: "ETD";
-                margin-left: 20px;
-                margin-top: 20px;
-                font-size: 30px;
-                position: relative;
-                top: 100px;
-            }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
+# @st.cache_data
+# def add_logo():
+#     st.markdown(
+#         """
+#         <style>
+#             [data-testid="stSidebarNav"] {
+#                 background-image: url(http://placekitten.com/200/200);
+#                 background-repeat: no-repeat;
+#                 padding-top: 120px;
+#                 background-position: 70px 20px;
+#             }
+#             [data-testid="stSidebarNav"]::before {
+#                 content: "ETD";
+#                 margin-left: 20px;
+#                 margin-top: 20px;
+#                 font-size: 30px;
+#                 position: relative;
+#                 top: 100px;
+#             }
+#         </style>
+#         """,
+#         unsafe_allow_html=True,
+#     )

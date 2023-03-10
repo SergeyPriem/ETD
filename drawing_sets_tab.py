@@ -121,7 +121,7 @@ def drawing_sets():
                             **{sets_tasks.project.values[0]}: {sets_tasks.set_draw.values[0]}*.  
                             For now we haven't assignments from: 
                             **{', '.join(request_df[request_df.request == True].index.values)}**.  
-                            Kindly ask you to inform about a necessity of assignment at it's issue date.
+                            Kindly ask you to inform about a necessity of assignment and it's issue date.
                             """)
                         else:
                             st.warning("Select specialities for request")

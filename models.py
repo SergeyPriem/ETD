@@ -29,6 +29,8 @@ class User(SQLModel, table=True):
     telegram: str = Field(nullable=False)
     company_email: str = Field(nullable=False)
     valid_time: str = Field(default_factory=datetime.datetime.now, nullable=True)
+    vert_menu: int = Field(nullable=False)
+    delay_set: int = Field(nullable=False)
     hashed_pass: bytes
 
 class Contact(SQLModel, table=True):
