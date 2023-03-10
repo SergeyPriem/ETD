@@ -29,8 +29,10 @@ def appearance_settings():
             """
     st.markdown(hide_menu_style, unsafe_allow_html=True)
 
+if 'delay' not in st.session_state:
+    st.session_state.delay = 3
 
-def reporter(text: str, duration = st.session_state.delay) -> None:
+def reporter(text: str, duration=st.session_state.delay) -> None: #: int = st.session_state.delay
     placeholder = st.empty()
     if isinstance(text, str):
         text_lower = text.lower()
