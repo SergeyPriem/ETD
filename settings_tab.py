@@ -10,8 +10,6 @@ def settings_content():
         st.empty()
     with empty2_set:
         st.empty()
-    st.write(st.session_state.vert_menu)
-    st.write(st.session_state.delay)
 
     with content_set:
 
