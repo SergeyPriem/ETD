@@ -28,6 +28,9 @@ appearance_settings()
 
 registered_emails = get_registered_emails()
 
+if 'delay' not in st.session_state:
+    st.session_state.delay = 3
+
 if "preview_proj_stat" not in st.session_state:
     st.session_state.preview_proj_stat = False
 
@@ -37,19 +40,11 @@ if "logged" not in st.session_state:
 if 'rights' not in st.session_state:
     st.session_state.rights = 'basic'
 
-# if 'vert_menu' not in st.session_state:
-#     st.session_state.vert_menu = True
-
 if 'code_sent' not in st.session_state:
     st.session_state.code_sent = False
 
 if 'vert_menu' not in st.session_state:
     st.session_state.vert_menu = 1
-
-if 'delay' not in st.session_state:
-    st.session_state.delay = 3
-
-
 
 def home_content():
     empty1, content, empty2 = st.columns([2, 2, 2])
@@ -329,7 +324,8 @@ def get_menus():
 selected = None
 
 if st.session_state.logged:
-    st.session_state.vert_menu, st.session_state.delay = get_settings(st.session_state.user)
+    st.session_state.vert_menu = int(get_settings(st.session_state.user)[0])
+    st.session_state.delay = int(get_settings(st.session_state.user)[1])
 
     if st.session_state.vert_menu == 1:
         with st.sidebar:
