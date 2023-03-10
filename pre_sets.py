@@ -15,8 +15,8 @@ sod_statuses = (
 'Approved by Client')
 proj_statuses = ('current', 'perspective', 'complete', 'final stage', 'cancelled', 'suspended')
 
-connect_sleep = 0.8 #0.75
-request_sleep = 0.6  #0.6
+connect_sleep = 0 #0.75
+request_sleep = 0  #0.6
 
 
 def appearance_settings():
