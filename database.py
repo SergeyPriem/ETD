@@ -16,6 +16,4 @@ import streamlit as st
 ###############################################################################################################
 
 
-engine = create_engine(
-    st.secrets['DATABASE_URL'], connect_args={"check_same_thread": False}
-)
+engine = create_engine(st.secrets['DATABASE_URL'])
