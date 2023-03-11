@@ -259,3 +259,22 @@ def update_settings(email, menu, delay):
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
         return "Settings Updated"
+
+
+def update_user_reg_data(upd_phone, upd_telegram, email, upd_pass_2):
+    sleep(request_sleep)
+    with Session(engine) as session:
+        statement = select(User).where(User.company_email == email)
+        results = session.exec(statement)
+        hero = results.one()
+        hero.phone = upd_phone
+        hero.telegram = upd_telegram
+        hero.hashed_pass = bcrypt.hashpw(upd_pass_2.encode(), bcrypt.gensalt())
+        try:
+            session.add(hero)
+            session.commit()
+            # session.refresh(hero)
+        except Exception as e:
+            return f"{type(e).__name__}{getattr(e, 'args', None)}"
+
+        return "Data Updated"
