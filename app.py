@@ -44,8 +44,20 @@ if 'rights' not in st.session_state:
 if 'code_sent' not in st.session_state:
     st.session_state.code_sent = False
 
+if 'upd_code_sent' not in st.session_state:
+    st.session_state.upd_code_sent = False
+
 if 'vert_menu' not in st.session_state:
     st.session_state.vert_menu = 1
+
+if 'user' not in st.session_state:
+    st.session_state.user = None
+
+if st.session_state.user:
+    log_in_out = 'Log Out'
+else:
+    log_in_out = 'Log In'
+
 
 def home_content():
     empty1, content, empty2 = st.columns([2, 2, 2])
@@ -58,7 +70,8 @@ def home_content():
         st.header('Welcome!')
         st.text("The Site is designed to help you in everyday routines")
 
-        login_tab, reg_tab, change_tab = st.tabs(['Log in', 'Registration', 'Update Registration Data'])
+
+        login_tab, reg_tab, change_tab = st.tabs([log_in_out, 'Registration', 'Update Registration Data'])
         with login_tab:
             plaho = st.empty()
             login_col, logout_col = st.columns(2)
@@ -186,15 +199,17 @@ def home_content():
                         reply = create_user(name, surname, phone, telegram, company_email, reg_pass_2)
                         reporter(reply)
         with change_tab:
+            if 'user' not in st.session_state:
+                st.session_state.user = None
             if st.session_state.user:
-                upd_phone = st.text_input('Updated personal Phone', disabled=st.session_state.logged)
-                upd_telegram = st.text_input('Updated personal Telegram', disabled=st.session_state.logged)
-                upd_pass_1 = st.text_input('Updated Password', type='password', key='reg_pass_1',
-                                           disabled=st.session_state.logged)
-                upd_pass_2 = st.text_input('Repeat Updated Password', type='password', key='reg_pass_2',
-                                           disabled=st.session_state.logged)
+                upd_phone = st.text_input('Updated personal Phone', disabled=not st.session_state.logged)
+                upd_telegram = st.text_input('Updated personal Telegram', disabled=not st.session_state.logged)
+                upd_pass_1 = st.text_input('Updated Password', type='password', key='upd_pass_1',
+                                           disabled=not st.session_state.logged)
+                upd_pass_2 = st.text_input('Repeat Updated Password', type='password', key='upd_pass_2',
+                                           disabled=not st.session_state.logged)
 
-                upd_data_chb = st.checkbox('Data is Correct', disabled=st.session_state.logged)
+                upd_data_chb = st.checkbox('Updated Data is Correct', disabled=not st.session_state.logged)
 
                 if upd_data_chb:
                     # if company_email in registered_emails:
@@ -237,12 +252,12 @@ def home_content():
 
                     entered_upd_code = st.text_input("Confirmation Code from Email")
 
-                    if st.button("Confirm Code"):
-                        if company_email in registered_emails:
-                            reporter(f'User {company_email} is already in DataBase')
-                            st.stop()
+                    if st.button("Confirm Code for Update"):
+                        # if company_email in registered_emails:
+                        #     reporter(f'User {company_email} is already in DataBase')
+                        #     st.stop()
 
-                        if st.session_state.conf_num != entered_upd_code:
+                        if st.session_state.upd_conf_num != entered_upd_code:
                             reporter("Confirmation code is wrong, try again")
                             st.stop()
                         else:
@@ -250,7 +265,7 @@ def home_content():
                             reporter(reply)
 
             else:
-                st.wtite('You should Log In first')
+                st.write('You should Log In first')
 
 
 def phone_directory():
