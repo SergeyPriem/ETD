@@ -57,7 +57,7 @@ def home_content():
         st.header('Welcome!')
         st.text("The Site is designed to help you in everyday routines")
 
-        login_tab, reg_tab = st.tabs(['Log in', 'Registration'])
+        login_tab, reg_tab, change_tab = st.tabs(['Log in', 'Registration', 'Update Registration Data'])
         with login_tab:
             plaho = st.empty()
             login_col, logout_col = st.columns(2)
@@ -120,6 +120,71 @@ def home_content():
             st.write("Not in list? Send the request from your e-mail to sergey.priemshiy@uzliti-en.com")
             name = st.text_input('Your Name', disabled=st.session_state.logged)
             surname = st.text_input('Your Surame', disabled=st.session_state.logged)
+            phone = st.text_input('Your personal Phone', disabled=st.session_state.logged)
+            telegram = st.text_input('Your personal Telegram', disabled=st.session_state.logged)
+            reg_pass_1 = st.text_input('Password', type='password', key='reg_pass_1',
+                                       disabled=st.session_state.logged)
+            reg_pass_2 = st.text_input('Repeat Password', type='password', key='reg_pass_2',
+                                       disabled=st.session_state.logged)
+
+            data_chb = st.checkbox('Data is Correct', disabled=st.session_state.logged)
+
+            if data_chb:
+                if company_email in registered_emails:
+                    reporter(f'User {company_email} is already in DataBase')
+                    st.stop()
+
+                if len(reg_pass_2) < 3 or reg_pass_1 != reg_pass_2:
+                    st.warning("""- Password should be at least 3 symbols
+                    - Password and Repeat Password should be the same""")
+                    st.stop()
+                if len(name) < 2 or len(surname) < 2:
+                    st.warning("exclamation-triangle-fill Too short Name or Surname")
+                    st.stop()
+
+                if 'conf_num' not in st.session_state:
+                    st.session_state.conf_num = "".join(random.sample("123456789", 4))
+
+                conf_html = f"""
+                    <html>
+                      <head></head>
+                      <body>
+                        <h3>
+                          Hello, Colleague!
+                          <hr>
+                        </h3>
+                        <h5>
+                          You got this message because you want to register on ETD site
+                        </h5>
+                        <p>
+                            Please confirm your registration by entering the confirmation code 
+                            <b>{st.session_state.conf_num}</b> 
+                            at the <a href="https://design-energo.streamlit.app/">site</a> registration form
+                            <hr>
+                            Best regards, Administration 😎
+                        </p>
+                      </body>
+                    </html>
+                """
+                if not st.session_state.code_sent:
+                    send_mail(receiver=company_email, cc_rec="sergey.priemshiy@uzliti-en.com",
+                              html=conf_html, subj="Confirmation of ETD site registration")
+                    st.session_state.code_sent = True
+
+                entered_code = st.text_input("Confirmation Code from Email")
+
+                if st.button("Confirm Code"):
+                    if company_email in registered_emails:
+                        reporter(f'User {company_email} is already in DataBase')
+                        st.stop()
+
+                    if st.session_state.conf_num != entered_code:
+                        reporter("Confirmation code is wrong, try again")
+                        st.stop()
+                    else:
+                        reply = create_user(name, surname, phone, telegram, company_email, reg_pass_2)
+                        reporter(reply)
+        with change_tab:
             phone = st.text_input('Your personal Phone', disabled=st.session_state.logged)
             telegram = st.text_input('Your personal Telegram', disabled=st.session_state.logged)
             reg_pass_1 = st.text_input('Password', type='password', key='reg_pass_1',
