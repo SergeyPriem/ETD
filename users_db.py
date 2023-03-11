@@ -5,7 +5,7 @@ import pandas as pd
 import streamlit as st
 import bcrypt
 from sqlmodel import select, Session
-from models import User, Appl_user, Visit_log, Contact
+from models import Users, Appl_user, Visit_log, Contact
 from database import engine
 from time import sleep
 
@@ -26,7 +26,7 @@ def move_to_former(employee_to_edit, end_date):
         session.commit()
         session.refresh(hero)
 
-        return f'''**{hero.company_email}** moved to Former Users  
+        return f'''**{hero.company_email}** moved to Former Userss  
         by date **{end_date}**.  
         Access status: **:red[{hero.access_level}]**'''
 
@@ -51,7 +51,7 @@ def update_users_in_db(email, position, department, start_date, access_level):
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
-        return f"""Updated Data for User with e-mail **{hero.company_email}**  
+        return f"""Updated Data for Users with e-mail **{hero.company_email}**  
                    Position: **:blue[{hero.position}]**  
                    Department: **:blue[{hero.department}]**  
                    Access level: **:blue[{hero.access_level}]**  
@@ -63,7 +63,7 @@ def check_user(email, password):
     sleep(request_sleep)
     try:
         with Session(engine) as session:
-            stmt = select(User.hashed_pass).where(User.company_email == email)
+            stmt = select(Users.hashed_pass).where(Users.company_email == email)
             hashed_password = session.exec(stmt).one()
             valid_pass = bcrypt.checkpw(password.encode(), hashed_password)
             return valid_pass
@@ -89,7 +89,7 @@ def get_registered_emails():
     sleep(request_sleep)
     try:
         with Session(engine) as session:
-            stmt = select(User.company_email)
+            stmt = select(Users.company_email)
             registered_emails = session.exec(stmt).all()
             return registered_emails
     except Exception as e:
@@ -125,7 +125,7 @@ def add_to_log(email):
 # def check_user_time(email):
 #     try:
 #         with Session(engine) as session:
-#             stmt = select(User.valid_time).where(User.company_email == email)
+#             stmt = select(Users.valid_time).where(Users.company_email == email)
 #             valid_time = session.exec(stmt).one()
 #             if valid_time > datetime.datetime.now():
 #                 return True
@@ -137,11 +137,11 @@ def create_user(name, surname, phone, telegram, company_email, password):
     sleep(request_sleep)
     if company_email in get_appl_emails():
         if company_email in get_registered_emails():
-            return "User already registered!"
+            return "Users already registered!"
         hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
         # valid_pass = bcrypt.checkpw(password.encode(), hashed_password)
         with Session(engine) as session:
-            new_user = User(
+            new_user = Users(
                 name=name,
                 surname=surname,
                 phone=phone,
@@ -183,7 +183,7 @@ def create_appl_user(company_email, position, department, access_level, start_da
                 session.refresh(hero)
             except Exception as e:
                 return e
-        return f'User with e-mail {hero.company_email} is added to DataBase'
+        return f'Users with e-mail {hero.company_email} is added to DataBase'
 
 
 def update_user_data(employee_to_edit, user_tab):
@@ -191,7 +191,7 @@ def update_user_data(employee_to_edit, user_tab):
     sleep(request_sleep)
     with user_tab:
         st.write(employee_to_edit)
-        with st.form('Edit User Data', clear_on_submit=False):
+        with st.form('Edit Users Data', clear_on_submit=False):
             position = st.radio('Position', ('Senior', 'Lead', 'I cat.', 'II cat.', 'III cat.', 'Trainee'),
                                 horizontal=True)
 
@@ -236,7 +236,7 @@ def get_settings(email):
     sleep(request_sleep)
     try:
         with Session(engine) as session:
-            stmt = select(User).where(User.company_email == email)
+            stmt = select(Users).where(Users.company_email == email)
             user_settings = session.exec(stmt).one()
             return user_settings.vert_menu, user_settings.delay_set
     except Exception as e:
@@ -246,7 +246,7 @@ def get_settings(email):
 def update_settings(email, menu, delay):
     sleep(request_sleep)
     with Session(engine) as session:
-        statement = select(User).where(User.company_email == email)
+        statement = select(Users).where(Users.company_email == email)
         results = session.exec(statement)
         hero = results.one()
         hero.vert_menu = menu
@@ -264,7 +264,7 @@ def update_settings(email, menu, delay):
 def update_user_reg_data(upd_phone, upd_telegram, email, upd_pass_2):
     sleep(request_sleep)
     with Session(engine) as session:
-        statement = select(User).where(User.company_email == email)
+        statement = select(Users).where(Users.company_email == email)
         results = session.exec(statement)
         hero = results.one()
         hero.phone = upd_phone

@@ -37,8 +37,7 @@ def drawing_sets():
 
         df = df[df.set_name.isin(sets_selected)].set_index("id")
 
-        df.insert(0,'preview', False)
-
+        df.insert(0, 'preview', False)
 
         edit_df = st.experimental_data_editor(df, use_container_width=True, height=200,
                                               num_rows='fixed', key='sets', disabled=False)

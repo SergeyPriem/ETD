@@ -20,7 +20,7 @@ class Appl_user(SQLModel, table=True):
     end_date: date | None = None
 
 
-class User(SQLModel, table=True):
+class Users(SQLModel, table=True):
     __table_args__ = {'extend_existing': True}
     id: int | None = Field(default=None, primary_key=True)
     name: str = Field(nullable=False)
