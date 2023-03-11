@@ -411,7 +411,7 @@ if st.session_state.logged:
 
     if st.session_state.vert_menu == 1:
         with st.sidebar:
-            image = Image.open("images/lamp.jpg")
+            image = Image.open("images/circle_logo.jpg")
             st.image(image, use_column_width=True)
             selected = option_menu("ET Department", get_menus()[0], icons=get_menus()[1],
                                    menu_icon="bi bi-plug", default_index=0)
