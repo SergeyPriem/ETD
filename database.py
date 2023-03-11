@@ -15,7 +15,7 @@ import streamlit as st
 
 ###############################################################################################################
 
-engine = create_engine('mysql://{0}:{1}@{2}:{3}/{4}'.format(st.secrets["db_user"], st.secrets["db_password"],
-                                                            st.secrets["db_host"], st.secrets["db_port"],
-                                                            st.secrets["db_database"]))
 
+engine = create_engine(
+    st.secrets['DATABASE_URL'], connect_args={"check_same_thread": False}
+)
