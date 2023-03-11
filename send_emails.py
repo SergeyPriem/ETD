@@ -1,5 +1,5 @@
 import smtplib
-
+import streamlit as st
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -28,7 +28,7 @@ def send_mail(receiver: str, cc_rec: str, subj: str, html: str):
     s = smtplib.SMTP_SSL('smtp.gmail.com', 465)
 
     try:
-        s.login(msg['From'], 'rqqhmcnloefpqbyg')
+        s.login(msg['From'], st.secrets["g_key"])
         # sendmail function takes 3 arguments: sender's address, recipient's address
         # and message to send - here it is sent as one string.
         s.sendmail(msg['From'], [receiver, cc_rec], msg.as_string())
@@ -66,5 +66,5 @@ ass_html = f"""
 """
 
 
-# print(send_mail(receiver="sergey.priemshiy@uzliti-en.com", cc_rec="p.s@email.ua", subj=ass_subject, html=ass_html))
+print(send_mail(receiver="sergey.priemshiy@uzliti-en.com", cc_rec="p.s@email.ua", subj=ass_subject, html=ass_html))
 
