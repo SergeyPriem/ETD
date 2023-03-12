@@ -58,7 +58,7 @@ def update_users_in_db(email, position, department, start_date, access_level):
                    Status: **:blue[{hero.status}]**"""
 
 
-@st.cache_data(ttl=120, show_spinner="Checking user's credentials...")
+# @st.cache_data(ttl=120, show_spinner="Checking user's credentials...")
 def check_user(email, password):
     sleep(request_sleep)
     try:
