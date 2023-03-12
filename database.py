@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from sqlalchemy.pool import QueuePool
 from sqlmodel import create_engine
 import streamlit as st
 
@@ -16,4 +16,10 @@ import streamlit as st
 ###############################################################################################################
 
 
-engine = create_engine(st.secrets['DATABASE_URL'])
+engine = create_engine(st.secrets['DATABASE_URL'],
+                       pool_size=5,
+                       pool_recycle=-1,
+                       pool_timeout=30,
+                       max_overflow=10,
+                       echo_pool=False,
+                       poolclass=QueuePool)
