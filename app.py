@@ -91,6 +91,7 @@ def home_content():
                     st.stop()
                 else:
                     login_status = check_user(email, password)
+
                     if login_status is True:
                         st.session_state.logged = True
                         st.session_state.user = email

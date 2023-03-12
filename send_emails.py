@@ -66,5 +66,5 @@ ass_html = f"""
 """
 
 
-print(send_mail(receiver="sergey.priemshiy@uzliti-en.com", cc_rec="p.s@email.ua", subj=ass_subject, html=ass_html))
+# print(send_mail(receiver="sergey.priemshiy@uzliti-en.com", cc_rec="p.s@email.ua", subj=ass_subject, html=ass_html))
 

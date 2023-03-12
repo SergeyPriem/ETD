@@ -121,18 +121,6 @@ def add_to_log(email):
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
         return "OK"
 
-
-# def check_user_time(email):
-#     try:
-#         with Session(engine) as session:
-#             stmt = select(Users.valid_time).where(Users.company_email == email)
-#             valid_time = session.exec(stmt).one()
-#             if valid_time > datetime.datetime.now():
-#                 return True
-#     except Exception as e:
-#         return e
-
-
 def create_user(name, surname, phone, telegram, company_email, password):
     sleep(request_sleep)
     if company_email in get_appl_emails():
