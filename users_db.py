@@ -74,7 +74,6 @@ def check_user(email, password):
 
 @st.cache_data(ttl=120, show_spinner="Getting applied e-mails")
 def get_appl_emails():
-    sleep(request_sleep)
     try:
         with Session(engine) as session:
             stmt = select(Appl_user.company_email)
@@ -86,7 +85,6 @@ def get_appl_emails():
 
 
 def get_registered_emails():
-    sleep(request_sleep)
     try:
         with Session(engine) as session:
             stmt = select(Users.company_email)

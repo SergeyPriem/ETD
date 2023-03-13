@@ -77,8 +77,11 @@ def home_content():
             login_col, logout_col = st.columns(2)
 
             with plaho.container():
-                email = st.selectbox("Company Email", registered_emails, disabled=st.session_state.logged)
-                st.write(registered_emails)
+                if isinstance(registered_emails, list):
+                    email = st.selectbox("Company Email", registered_emails, disabled=st.session_state.logged)
+                else:
+                    reporter("Can't get users list")
+                # st.write(registered_emails)
                 st.write("Not in list? Register first 👆")
                 password = st.text_input('Password', type='password', disabled=st.session_state.logged)
                 login_but = login_col.button('Log In', disabled=st.session_state.logged, use_container_width=True)
