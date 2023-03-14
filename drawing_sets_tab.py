@@ -65,7 +65,7 @@ def drawing_sets():
 
 
             with task_col:
-                st.subheader(f"Available Assignments for :red[{proj_set[0]}: {proj_set[1]}]")
+                st.subheader(f"Available Assignments for :red[{proj_set[0]}: {proj_set[1]}:] {in_out_radio}")
 
             with quant_col:
                 st.write("")
@@ -73,7 +73,7 @@ def drawing_sets():
                 st.write(f'Quantity: {len(sets_tasks)}')
 
             sets_tasks = sets_tasks.sort_values(by=['speciality', 'date'], ascending=[True, False])
-            st.write(sets_tasks[['stage','in_out', 'speciality', 'date', 'description', 'link', 'source', 'comments',
+            st.write(sets_tasks[['stage', 'speciality', 'date', 'description', 'link', 'source', 'comments',
                                  'backup_copy', 'log', 'added_by']])
             st.markdown("---")
 

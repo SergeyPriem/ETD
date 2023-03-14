@@ -49,7 +49,7 @@ class Visit_log(SQLModel, table=True):
     __table_args__ = {'extend_existing': True}
     id: int | None = Field(default=None, primary_key=True)
     company_email: str = Field(nullable=False)
-    login_time: str = Field(default_factory=datetime.datetime.now, nullable=True)
+    login_time: datetime = Field(default_factory=datetime.datetime.now, nullable=True)
 
 
 class Project(SQLModel, table=True):

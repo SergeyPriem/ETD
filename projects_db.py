@@ -84,7 +84,7 @@ def create_set(proj_short, set_name, stage, coordinator, performer, status, set_
             performer=performer,
             current_status=status,
             start_date=set_start_date,
-            notes=notes,
+            notes=notes
             )
         try:
             session.add(new_sod)

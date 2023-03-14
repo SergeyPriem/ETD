@@ -309,11 +309,16 @@ def manage_users():
         users_tab1, users_tab2 = st.tabs(['Add Applied User', 'Edit User Details'])
         with users_tab1:
             user_email = st.text_input('Email')
-            user_position = st.radio('Engineer', positions, horizontal=True)
+            st.markdown("---")
+            user_position = st.radio('Position', positions, horizontal=True)
+            st.markdown("---")
             user_department = st.radio('Department', departments, horizontal=True)
+            st.markdown("---")
             user_access_level = st.radio('Access level',
                                          ('performer', 'admin', 'supervisor'), horizontal=True)
+            st.markdown("---")
             user_start_date = st.date_input('Start Date', datetime.date.today())
+            st.markdown("---")
 
             if st.button('Create New User', use_container_width=True):
                 reply = create_appl_user(
@@ -324,9 +329,9 @@ def manage_users():
         with users_tab2:
             list_appl_users = get_appl_emails()
             employee_to_edit = st.selectbox('Select User', list_appl_users)
-
-            edit_move = st.radio('What to do?', ('Edit', 'Move to Former Users'), horizontal=True,
-                                 label_visibility="collapsed")
+            st.markdown("---")
+            edit_move = st.radio('Action', ('Edit', 'Move to Former Users'), horizontal=True)
+            st.markdown("---")
 
             if edit_move == 'Edit':
                 appl_user = get_appl_user_data(employee_to_edit)
@@ -335,8 +340,11 @@ def manage_users():
                     position_ind = positions.index(appl_user.position)
                 except:
                     position_ind = 0
+
+
                 position = st.radio('Position', positions,
                                     key='edit_position', horizontal=True, index=position_ind)
+                st.markdown("---")
 
                 try:
                     department_ind = departments.index(appl_user.department)
@@ -344,6 +352,7 @@ def manage_users():
                     department_ind = 0
                 department = st.radio('Department', departments,
                                       key='edit_department', horizontal=True, index=department_ind)
+                st.markdown("---")
 
                 access_tuple = ('performer', 'admin', 'supervisor', 'prohibited')
                 try:
@@ -353,13 +362,14 @@ def manage_users():
 
                 access_level = st.radio('Access level', access_tuple, horizontal=True,
                                         key='edit_access_level', index=access_ind)
+                st.markdown("---")
                 try:
                     date_from_db = appl_user.start_date
                 except:
                     date_from_db = datetime.date.today()
 
                 start_date = st.date_input('Start Date', date_from_db, key='start_date')
-
+                st.markdown("---")
                 if st.button("Update in DB", use_container_width=True):
                     reply = update_users_in_db(employee_to_edit, position, department,
                                                start_date, access_level)
