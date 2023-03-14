@@ -213,7 +213,6 @@ def get_sets(email):
 
 @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_own_tasks(proj_set):
-    sleep(request_sleep)
     try:
         with engine.connect() as connection:
             stmt = select(Assignment).where(Assignment.project == proj_set[0], Assignment.set_draw == proj_set[1])
@@ -223,10 +222,11 @@ def get_own_tasks(proj_set):
         return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
 
-@st.cache_data(ttl=120, show_spinner='Getting Table Names...')
-def get_tab_names():
-    con = sqlite3.connect("database.db")
-    cursor = con.cursor()
-    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-    tablist = [i[0] for i in cursor.fetchall()]
-    return tablist
+def get_sets_for_project(project):
+    try:
+        with Session(engine) as session:
+            stmt = select(Set_draw).where(Set_draw.project == project)
+            return session.exec(stmt).all()
+    except Exception as e:
+        # return "🔧 Connection to DB is failed"
+        return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"

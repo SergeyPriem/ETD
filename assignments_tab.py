@@ -5,7 +5,7 @@ import streamlit as st
 
 from models import Assignment
 from pre_sets import specialities
-from projects_db import get_projects_names, get_table
+from projects_db import get_projects_names, get_table, get_sets_for_project
 
 
 def assignments_content():
@@ -30,11 +30,7 @@ def add_assignment(ass_content):
     with ass_content:
         project = st.selectbox('Select the Project', get_projects_names())
         set_of_dr = st.multiselect('Select the Set Of Drawings / Unit',
-                                   options=(1, 2, 3, 4, 5, 'Colored text, using the syntax :red[text to be colored], '
-                                                           'where color needs to be replaced with any of the following '
-                                                           'supported colors: blue, green, orange, red, violet', 7, 8,
-                                            9,
-                                            10))
+                                   options=get_sets_for_project(project))
 
         speciality = st.multiselect("Speciality", specialities)
         stage = st.radio('Stage', ('Detail Design', 'Basic Design', 'Feasibility Study',
