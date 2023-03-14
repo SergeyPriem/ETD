@@ -152,6 +152,8 @@ def create_appl_user(company_email, position, department, access_level, start_da
     sleep(request_sleep)
     if '@' not in company_email or len(company_email) < 12:
         return f'Wrong e-mail {company_email}'
+    if company_email in get_appl_emails():
+        return f'{company_email} already exist'
     else:
         print(company_email, position, department, access_level)
         with Session(engine) as session:
