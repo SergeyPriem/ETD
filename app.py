@@ -93,6 +93,7 @@ def home_content():
                     reporter("Password should be at least 3 symbols")
                     st.stop()
                 else:
+
                     login_status = check_user(email, password)
 
                     if login_status is True:

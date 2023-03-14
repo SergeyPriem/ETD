@@ -31,7 +31,7 @@ class Users(SQLModel, table=True):
     valid_time: str = Field(default_factory=datetime.datetime.now, nullable=True)
     vert_menu: int = Field(nullable=False)
     delay_set: int = Field(nullable=False)
-    hashed_pass: bytes
+    hashed_pass: str = Field(nullable=False)
 
 class Contact(SQLModel, table=True):
     __table_args__ = {'extend_existing': True}

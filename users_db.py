@@ -65,7 +65,8 @@ def check_user(email, password):
         with Session(engine) as session:
             stmt = select(Users.hashed_pass).where(Users.company_email == email)
             hashed_password = session.exec(stmt).one()
-            valid_pass = bcrypt.checkpw(password.encode(), hashed_password)
+            hashed_password = hashed_password.encode('utf-8')
+            valid_pass = bcrypt.checkpw(password.encode('utf-8'), hashed_password)
             return valid_pass
     except Exception as e:
         # return "🔧 Connection to DB is failed"
@@ -124,8 +125,8 @@ def create_user(name, surname, phone, telegram, company_email, password):
     if company_email in get_appl_emails():
         if company_email in get_registered_emails():
             return "Users already registered!"
-        hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
-        # valid_pass = bcrypt.checkpw(password.encode(), hashed_password)
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt(10))
+        hashed_password = hashed_password.decode('utf-8')
         with Session(engine) as session:
             new_user = Users(
                 name=name,
@@ -255,7 +256,7 @@ def update_user_reg_data(upd_phone, upd_telegram, email, upd_pass_2):
         hero = results.one()
         hero.phone = upd_phone
         hero.telegram = upd_telegram
-        hero.hashed_pass = bcrypt.hashpw(upd_pass_2.encode(), bcrypt.gensalt())
+        hero.hashed_pass = bcrypt.hashpw(upd_pass_2.encode('utf-8'), bcrypt.gensalt())
         try:
             session.add(hero)
             session.commit()
