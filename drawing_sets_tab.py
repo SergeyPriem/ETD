@@ -41,6 +41,7 @@ def drawing_sets():
 
         edit_df = st.experimental_data_editor(df, use_container_width=True, height=200,
                                               num_rows='fixed', key='sets', disabled=False)
+        st.markdown("---")
         edited_num = len(edit_df[edit_df.preview == True])
 
         if edited_num == 1:
@@ -61,8 +62,10 @@ def drawing_sets():
             else:
                 sets_tasks = sets_tasks[(sets_tasks.in_out == 'Исходящие') | (sets_tasks.in_out == 'Out')]
 
+
+
             with task_col:
-                task_head = st.subheader(f"Available Tasks for :red[{proj_set[0]}: {proj_set[1]}]")
+                st.subheader(f"Available Assignments for :red[{proj_set[0]}: {proj_set[1]}]")
 
             with quant_col:
                 st.write("")
@@ -70,7 +73,9 @@ def drawing_sets():
                 st.write(f'Quantity: {len(sets_tasks)}')
 
             sets_tasks = sets_tasks.sort_values(by=['speciality', 'date'], ascending=[True, False])
-            st.write(sets_tasks)
+            st.write(sets_tasks[['stage','in_out', 'speciality', 'date', 'description', 'link', 'source', 'comments',
+                                 'backup_copy', 'log', 'added_by']])
+            st.markdown("---")
 
             aval_spec = list(sets_tasks.speciality.drop_duplicates())
 
@@ -86,7 +91,7 @@ def drawing_sets():
             not_aval_df = not_aval_df.set_index('speciality')
 
             if in_out_radio == "In":
-                st.subheader("Not available Tasks for Specialities. Here you can create request for assignments")
+                st.subheader("Not available Assignments for Specialities. Here you can create request for assignments")
                 not_aval_col, empty_col, but_col, request_col = st.columns([4, 1, 3, 10])
                 with not_aval_col:
                     request_df = st.experimental_data_editor(not_aval_df, use_container_width=True, height=600,
