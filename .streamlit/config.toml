@@ -3,3 +3,5 @@ base="dark"
 textColor="#C9C9C9"
 
 
+[runner]
+fastReruns = true
