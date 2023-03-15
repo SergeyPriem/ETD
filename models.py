@@ -33,6 +33,7 @@ class Users(SQLModel, table=True):
     delay_set: int = Field(nullable=False)
     hashed_pass: str = Field(nullable=False)
 
+
 class Contact(SQLModel, table=True):
     __table_args__ = {'extend_existing': True}
     id: int | None = Field(default=None, primary_key=True)
@@ -46,6 +47,7 @@ class Contact(SQLModel, table=True):
     birthday: str = Field(nullable=True)
     expat: str = Field(nullable=True)
     office: str = Field(nullable=True)
+
 
 class Visit_log(SQLModel, table=True):
     __table_args__ = {'extend_existing': True}
@@ -112,6 +114,3 @@ class Set_draw(SQLModel, table=True):
 # engine = create_engine(sqlite_url, echo=True)
 
 SQLModel.metadata.create_all(engine)
-
-
-
