@@ -283,6 +283,7 @@ def phone_directory():
     with phone_content:
         st.title(':orange[Phone Directory]')
         st.text("📞 Find a Colleague Contact")
+        st.text("📞 UNDER DEVELOPMENT")
         name_col, pos_col, dept_col, email_col = st.columns(4, gap="medium")
         with name_col:
             name = st.text_input("Name or Surname")
@@ -292,10 +293,10 @@ def phone_directory():
             dept = st.text_input("Department")
         with email_col:
             email = st.text_input("E-mail")
-        df = get_phones()
-        # df=df.set_index('id')
-        # edited_df = st.experimental_data_editor(df, use_container_width=True)
-        st.write(df)
+        # df = get_phones()
+        # # df=df.set_index('id')
+        # # edited_df = st.experimental_data_editor(df, use_container_width=True)
+        # st.write(df)
 
 def manage_users():
     users_1, users_content, users_2 = st.columns([1, 2, 1])
