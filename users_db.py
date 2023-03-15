@@ -212,7 +212,6 @@ def get_logged_rights(email):
 
 @st.cache_data(show_spinner="Fetching data from API...")
 def get_phones():
-    sleep(request_sleep)
     try:
         with engine.connect() as connection:
             stmt = select(Contact)
