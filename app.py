@@ -294,8 +294,8 @@ def phone_directory():
             email = st.text_input("E-mail")
         df = get_phones()
         # df=df.set_index('id')
-        edited_df = st.experimental_data_editor(df, use_container_width=True)
-
+        # edited_df = st.experimental_data_editor(df, use_container_width=True)
+        st.write(df)
 
 def manage_users():
     users_1, users_content, users_2 = st.columns([1, 2, 1])
