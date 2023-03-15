@@ -4,8 +4,8 @@ import pandas as pd
 import streamlit as st
 
 from models import Assignment
-from pre_sets import specialities
-from projects_db import get_projects_names, get_table, get_sets_for_project
+from pre_sets import specialities, reporter
+from projects_db import get_projects_names, get_table, get_sets_for_project, add_in_to_db, add_out_to_db
 
 
 def assignments_content():
@@ -28,38 +28,72 @@ def assignments_content():
 
 def add_assignment(ass_content):
     with ass_content:
-        project = st.selectbox('Select the Project', get_projects_names())
-        set_of_dr = st.multiselect('Select the Set Of Drawings / Unit',
-                                   options=get_sets_for_project(project))
+        left_col, right_col = st.columns(2)
+        project = left_col.selectbox('Select the Project', get_projects_names())
+        set_of_dr = right_col.multiselect('Select the Set Of Drawings / Unit',
+                                          options=get_sets_for_project(project))
 
-        speciality = st.multiselect("Speciality", specialities)
-        stage = st.radio('Stage', ('Detail Design', 'Basic Design', 'Feasibility Study',
-                                   'Adaptation', 'As-built'), horizontal=True)
-        proj_col1, proj_col2, proj_col3 = st.columns(3, gap="small")
-        with proj_col1:
-            direction = st.radio('Direction', ('IN', 'OUT'), horizontal=True)
-        with proj_col2:
-            date = st.date_input('Date')
-        with proj_col3:
-            st.text('')
-            st.text('')
-            anti_task = st.checkbox('Non-Assignment')
+        speciality = left_col.multiselect("Speciality", specialities)
+        description = right_col.text_input('Description of Assignment')
 
-        description = st.text_input('Description of Assignment')
-        path = st.text_input('Path')
+        col_31, col_32, col_33, col_34 = st.columns([1, 1, 1, 3])
+        direction = col_31.radio('Direction', ('IN', 'OUT'), horizontal=True)
+        col_32.write('')
+        col_32.write('')
+        date = col_33.date_input('Date')
+        non_assign = col_32.checkbox('Non-Assignment')
+        stage = col_34.radio('Stage', ('Detail Design', 'Basic Design', 'Feasibility Study',
+                                       'Adaptation', 'As-built'), horizontal=True)
+        left_col2, right_col2 = st.columns(2)
+        link = left_col2.text_input('Path')
+        comments = left_col2.text_input('Comments')
 
-        received = st.text_area('Received by:', value='Received by paper')
+        source = right_col2.text_area('Received by:', value='Received by paper', height=127)
 
-        if st.button('Preview'):
-            st.markdown(f"""
+        if non_assign:
+            description = "Non-assignment"
+            link = "Non-assignment"
+            comments = "Non-assignment"
+
+        if left_col2.checkbox('Preview'):
+            right_col2.write("")
+            right_col2.write("")
+            left_col2.markdown(f"""
             Project: **:blue[{project}]**
             <br>
+            Speciality: **:blue[{speciality}]**
+            <br>
+            Stage: **:blue[{stage}]**
+            <br>
+            In or Out: **:blue[{direction}]**
+            <br>
+            Non-Assignment: **:blue[{non_assign}]**
+            """, unsafe_allow_html=True)
+            right_col2.markdown(f"""
             Set of Drawings / Unit: **:blue[{set_of_dr}]**
             <br>
-            Speciality: **:blue[{speciality}]**
+            Date: **:blue[{date}]**
+            <br>
+            Description: **:blue[{description}]**
+            <br>
+            Path: **:blue[{link}]**
+            <br>
+            Received by: **:blue[{source}]**
             """, unsafe_allow_html=True)
+
             if st.button('Add to DataBase'):
-                st.write('DONE!')
+                if direction == "IN":
+                    for single_set in set_of_dr:
+                        reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date, description,
+                                             link, source, 'log', comments)
+                        # reporter(reply, 10)
+                        st.text(reply)
+                else:
+                    for single_spec in speciality:
+                        reply = add_out_to_db(project, set_of_dr[0], stage, direction, single_spec, date, description,
+                                              link, source, comments)
+                        # reporter(reply, 10)
+                        st.text(reply)
 
 
 def view_assignments(ass_tab2):
@@ -102,14 +136,18 @@ def view_assignments(ass_tab2):
         dir_val = dir_col.radio("In-Out", real_dir, horizontal=True)
         df_orig = df_orig[df_orig.in_out == dir_val]
 
+        df_temp = df_orig.copy()
+        df_temp.project = df_temp.project.str.upper()
+        df_temp.set_draw = df_temp.set_draw.str.upper()
+
         if len(id_val):
             df_orig = df_orig[df_orig.index == int(id_val)]
         else:
             if not st.session_state.spec_disable:
                 df_orig = df_orig.loc[df_orig.speciality == spec_val]
             if proj_val:
-                df_orig = df_orig.loc[df_orig.project.str.contains(proj_val.upper())]
+                df_orig = df_orig.loc[df_temp.project.str.contains(proj_val.upper())]
             if set_val:
-                df_orig = df_orig.loc[(df_orig.set_draw.str.contains(set_val.upper()))]
+                df_orig = df_orig.loc[df_temp.set_draw.str.contains(set_val.upper())]
         st.write(f"{len(df_orig)} records found")
         st.experimental_data_editor(df_orig, use_container_width=True)

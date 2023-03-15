@@ -2,6 +2,7 @@
 
 import streamlit as st
 import time
+from pathlib import Path
 
 positions = ('Trainee', 'III cat.', 'II cat.', 'I cat.', 'Lead', 'Group Head', 'Senior')
 departments = ('UzLITI Engineering', 'En-Solut', 'En-Concept', 'En-Smart', 'Remote')
@@ -62,6 +63,8 @@ def reporter(text: str, duration=st.session_state.delay) -> None: #: int = st.se
 
     placeholder.empty()
 
+
+BACKUP_FOLDER: Path = Path('//uz-fs/Uzle/Work/Отдел ЭЛ/Архив заданий/')
 
 # @st.cache_data
 # def add_logo():

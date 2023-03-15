@@ -18,7 +18,8 @@ from users_db import get_appl_emails, check_user, create_user, add_to_log, get_l
     create_appl_user, get_appl_user_data, update_users_in_db, move_to_former, get_registered_emails, get_settings, \
     update_user_reg_data
 
-st.set_page_config(layout="wide", page_icon=':coffee:', page_title='ET Department', initial_sidebar_state='auto')
+st.set_page_config(layout="wide", page_icon=Image.open("images/lamp.jpg"),
+                   page_title='ET Department', initial_sidebar_state='auto')
 
 # from streamlit_profiler import Profiler
 #
@@ -69,7 +70,6 @@ def home_content():
         st.title(':orange[Electrical Department]')
         st.header('Welcome!')
         st.text("The Site is designed to help you in everyday routines")
-
 
         login_tab, reg_tab, change_tab = st.tabs([log_in_out, 'Registration', 'Update Registration Data'])
         with login_tab:
@@ -282,18 +282,18 @@ def phone_directory():
         st.empty()
     with phone_content:
         st.title(':orange[Phone Directory]')
-        # st.header('Welcome!')
         st.text("📞 Find a Colleague Contact")
-        name_col, surmname_col, dept_col, email_col = st.columns(4, gap="medium")
+        name_col, pos_col, dept_col, email_col = st.columns(4, gap="medium")
         with name_col:
-            name = st.text_input("Name")
-        with surmname_col:
-            surname = st.text_input("Surame")
+            name = st.text_input("Name or Surname")
+        with pos_col:
+            position = st.text_input("Position")
         with dept_col:
             dept = st.text_input("Department")
         with email_col:
             email = st.text_input("E-mail")
         df = get_phones()
+        df=df.set_index('long_name')
         edited_df = st.experimental_data_editor(df, use_container_width=True)
 
 
@@ -340,7 +340,6 @@ def manage_users():
                     position_ind = positions.index(appl_user.position)
                 except:
                     position_ind = 0
-
 
                 position = st.radio('Position', positions,
                                     key='edit_position', horizontal=True, index=position_ind)
@@ -459,7 +458,7 @@ if selected == "Just for fun":
     just_for_fun()
     emoji_content()
 
-if selected == "Phones":
+if selected == "Phone Directory":
     phone_directory()
 
 if selected == "Manage Users":

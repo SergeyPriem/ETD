@@ -1,15 +1,32 @@
 # -*- coding: utf-8 -*-
 
-import sqlite3
 from time import sleep
-
+from pathlib import Path
 import pandas as pd
 import streamlit as st
 from sqlmodel import select, Session, or_
-
 from database import engine
 from models import Project, Set_draw, Assignment
-from pre_sets import request_sleep
+from pre_sets import request_sleep, BACKUP_FOLDER
+
+
+def create_backup_string(source_link, backup_folder, task_num):
+    # source_link = Path(source_link)
+    # backup_link: Path = Path(backup_folder, task_num)
+    # s_link: Path = Path(source_link)
+    # head = "xcopy /e /r /f /-y "
+    # tail = f'"{s_link}/*.*" "{backup_link}/"'.replace("/", "\\")
+    # backup_string = f'{head} {tail}'
+    # return str(backup_link), backup_string
+
+    ###########################################################
+    if source_link !="Non-assignment":
+        head = "xcopy /e /r /f /-y "
+        tail = f'"{source_link}\\*.*" "{backup_folder}\\{task_num}"'  # .replace("/", "\\")
+        backup_string = f'{head} {tail}'
+        return str(f'{backup_folder}\\{task_num}'), backup_string
+    else:
+        return "Non-assignment", "Non-assignment"
 
 
 @st.cache_data(ttl=60, show_spinner="Getting Data from DB...")
@@ -85,7 +102,7 @@ def create_set(proj_short, set_name, stage, coordinator, performer, status, set_
             current_status=status,
             start_date=set_start_date,
             notes=notes
-            )
+        )
         try:
             session.add(new_sod)
             session.commit()
@@ -225,8 +242,75 @@ def get_own_tasks(proj_set):
 def get_sets_for_project(project):
     try:
         with Session(engine) as session:
-            stmt = select(Set_draw).where(Set_draw.project == project)
+            stmt = select(Set_draw.set_name).where(Set_draw.project == project)
             return session.exec(stmt).all()
     except Exception as e:
         # return "🔧 Connection to DB is failed"
         return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+
+
+def add_in_to_db(project, set_draw, stage, in_out, speciality, date, description, link, source, log, comments):
+    with Session(engine) as session:
+        new_ass = Assignment(
+            project=project,
+            set_draw=set_draw,
+            stage=stage,
+            in_out=in_out,
+            speciality=speciality,
+            date=date,
+            description=description,
+            link=link,
+            backup_copy='NA',
+            source=source,
+            log=log,
+            comments=comments,
+            added_by=st.session_state.user
+        )
+        try:
+            session.add(new_ass)
+            session.commit()
+            session.refresh(new_ass)
+            result = create_backup_string(link, BACKUP_FOLDER, str(new_ass.id))
+            new_ass.backup_copy = result[0]
+            session.add(new_ass)
+            session.commit()
+            session.refresh(new_ass)
+
+        except Exception as e:
+            return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+
+        return f"""
+        New Assignment for {new_ass.set_draw} is added to DataBase  
+        Backup string:  
+        {result[1]}
+        """
+
+
+def add_out_to_db(project, set_draw, stage, in_out, speciality, date, description, link, source, comments):
+    with Session(engine) as session:
+        new_ass = Assignment(
+            project=project,
+            set_draw=set_draw,
+            stage=stage,
+            in_out=in_out,
+            speciality=speciality,
+            date=date,
+            description=description,
+            link=link,
+            backup_copy='NA',
+            source=source,
+            log='NA',
+            comments=comments,
+            added_by=st.session_state.user
+        )
+        try:
+            session.add(new_ass)
+            session.commit()
+            session.refresh(new_ass)
+
+        except Exception as e:
+            return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+
+        return f"""
+        New Assignment for {new_ass.set_draw} -> {speciality} is added to DataBase  
+        """

@@ -162,5 +162,3 @@ def manage_sets():
                     reporter(reply)
                 else:
                     reporter("No selection to Edit :((")
-
-
