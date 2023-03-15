@@ -432,8 +432,8 @@ if st.session_state.logged:
             selected = option_menu("ET Department", get_menus()[0], icons=get_menus()[1],
                                    menu_icon="bi bi-plug", default_index=0)
     else:
-        selected = option_menu(None, get_menus()[0], icons=get_menus()[1],
-                               menu_icon=None, default_index=0, orientation='horizontal')
+        selected = option_menu("ET Department", get_menus()[0], icons=get_menus()[1],
+                               menu_icon="bi bi-plug", default_index=0, orientation='horizontal')
 else:
     home_content()
 
