@@ -214,8 +214,8 @@ def get_logged_rights(email):
 def get_phones():
     try:
         with engine.connect() as connection:
-            stmt = select(Contact)
-            return pd.read_sql_query(stmt, connection)
+            # stmt = select(Contact)
+            return pd.read_sql_query('SELECT * FROM contact', connection)
     except Exception as e:
         return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
