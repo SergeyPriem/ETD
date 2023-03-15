@@ -33,8 +33,9 @@ def add_assignment(ass_content):
         set_of_dr = right_col.multiselect('Select the Set Of Drawings / Unit',
                                           options=get_sets_for_project(project))
         with st.form(key="add_ass"):
-            speciality = left_col.multiselect("Speciality", specialities)
-            description = right_col.text_input('Description of Assignment')
+            left_col2, right_col2 = st.columns(2)
+            speciality = left_col2.multiselect("Speciality", specialities)
+            description = right_col2.text_input('Description of Assignment')
 
             col_31, col_32, col_33, col_34 = st.columns([1, 1, 1, 3])
             direction = col_31.radio('Direction', ('IN', 'OUT'), horizontal=True)
@@ -44,7 +45,7 @@ def add_assignment(ass_content):
             non_assign = col_32.checkbox('Non-Assignment')
             stage = col_34.radio('Stage', ('Detail Design', 'Basic Design', 'Feasibility Study',
                                            'Adaptation', 'As-built'), horizontal=True)
-            left_col2, right_col2 = st.columns(2)
+
             link = left_col2.text_input('Path')
             comments = left_col2.text_input('Comments')
 
