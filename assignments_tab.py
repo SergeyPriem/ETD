@@ -45,11 +45,11 @@ def add_assignment(ass_content):
             non_assign = col_32.checkbox('Non-Assignment')
             stage = col_34.radio('Stage', ('Detail Design', 'Basic Design', 'Feasibility Study',
                                            'Adaptation', 'As-built'), horizontal=True)
-            source = right_col2.text_area('Received by:', value='Received by paper', height=127)
 
             left_col3, right_col3 = st.columns(2)
             link = left_col3.text_input('Path')
             comments = left_col3.text_input('Comments')
+            source = right_col3.text_area('Received by:', value='Received by paper', height=127)
 
 
             ass_submitted = st.form_submit_button("Add Assignment")
