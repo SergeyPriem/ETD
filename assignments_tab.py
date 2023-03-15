@@ -32,56 +32,60 @@ def add_assignment(ass_content):
         project = left_col.selectbox('Select the Project', get_projects_names())
         set_of_dr = right_col.multiselect('Select the Set Of Drawings / Unit',
                                           options=get_sets_for_project(project))
+        with st.form(key="add_ass"):
+            speciality = left_col.multiselect("Speciality", specialities)
+            description = right_col.text_input('Description of Assignment')
 
-        speciality = left_col.multiselect("Speciality", specialities)
-        description = right_col.text_input('Description of Assignment')
+            col_31, col_32, col_33, col_34 = st.columns([1, 1, 1, 3])
+            direction = col_31.radio('Direction', ('IN', 'OUT'), horizontal=True)
+            col_32.write('')
+            col_32.write('')
+            date = col_33.date_input('Date')
+            non_assign = col_32.checkbox('Non-Assignment')
+            stage = col_34.radio('Stage', ('Detail Design', 'Basic Design', 'Feasibility Study',
+                                           'Adaptation', 'As-built'), horizontal=True)
+            left_col2, right_col2 = st.columns(2)
+            link = left_col2.text_input('Path')
+            comments = left_col2.text_input('Comments')
 
-        col_31, col_32, col_33, col_34 = st.columns([1, 1, 1, 3])
-        direction = col_31.radio('Direction', ('IN', 'OUT'), horizontal=True)
-        col_32.write('')
-        col_32.write('')
-        date = col_33.date_input('Date')
-        non_assign = col_32.checkbox('Non-Assignment')
-        stage = col_34.radio('Stage', ('Detail Design', 'Basic Design', 'Feasibility Study',
-                                       'Adaptation', 'As-built'), horizontal=True)
-        left_col2, right_col2 = st.columns(2)
-        link = left_col2.text_input('Path')
-        comments = left_col2.text_input('Comments')
+            source = right_col2.text_area('Received by:', value='Received by paper', height=127)
 
-        source = right_col2.text_area('Received by:', value='Received by paper', height=127)
+            ass_submitted = st.form_submit_button("Add Assignment")
 
-        if non_assign:
-            description = "Non-assignment"
-            link = "Non-assignment"
-            comments = "Non-assignment"
 
-        if left_col2.checkbox('Preview'):
-            right_col2.write("")
-            right_col2.write("")
-            left_col2.markdown(f"""
-            Project: **:blue[{project}]**
-            <br>
-            Speciality: **:blue[{speciality}]**
-            <br>
-            Stage: **:blue[{stage}]**
-            <br>
-            In or Out: **:blue[{direction}]**
-            <br>
-            Non-Assignment: **:blue[{non_assign}]**
-            """, unsafe_allow_html=True)
-            right_col2.markdown(f"""
-            Set of Drawings / Unit: **:blue[{set_of_dr}]**
-            <br>
-            Date: **:blue[{date}]**
-            <br>
-            Description: **:blue[{description}]**
-            <br>
-            Path: **:blue[{link}]**
-            <br>
-            Received by: **:blue[{source}]**
-            """, unsafe_allow_html=True)
+            if ass_submitted:
+                if non_assign:
+                    description = "Non-assignment"
+                    link = "Non-assignment"
+                    comments = "Non-assignment"
 
-            if st.button('Add to DataBase'):
+                if left_col2.checkbox('Preview'):
+                    right_col2.write("")
+                    right_col2.write("")
+                    left_col2.markdown(f"""
+                    Project: **:blue[{project}]**
+                    <br>
+                    Speciality: **:blue[{speciality}]**
+                    <br>
+                    Stage: **:blue[{stage}]**
+                    <br>
+                    In or Out: **:blue[{direction}]**
+                    <br>
+                    Non-Assignment: **:blue[{non_assign}]**
+                    """, unsafe_allow_html=True)
+                    right_col2.markdown(f"""
+                    Set of Drawings / Unit: **:blue[{set_of_dr}]**
+                    <br>
+                    Date: **:blue[{date}]**
+                    <br>
+                    Description: **:blue[{description}]**
+                    <br>
+                    Path: **:blue[{link}]**
+                    <br>
+                    Received by: **:blue[{source}]**
+                    """, unsafe_allow_html=True)
+
+            # if st.button('Add to DataBase'):
                 if direction == "IN":
                     for single_set in set_of_dr:
                         reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date, description,
