@@ -41,11 +41,11 @@ def drawing_sets():
 
         edit_df = st.experimental_data_editor(df, use_container_width=True, height=200,
                                               num_rows='fixed', key='sets', disabled=False)
-        st.markdown("---")
+
         edited_num = len(edit_df[edit_df.preview == True])
 
         if edited_num == 1:
-            # st.write(edited_num)
+            st.markdown("---")
             proj_set = (edit_df[edit_df.preview]['project'].values[0], edit_df[edit_df.preview]['set_name'].values[0])
             task_col, in_out_col, quant_col = st.columns([9, 2, 2])
 
