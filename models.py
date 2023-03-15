@@ -37,9 +37,9 @@ class Users(SQLModel, table=True):
 class Contact(SQLModel, table=True):
     __table_args__ = {'extend_existing': True}
     id: int | None = Field(default=None, primary_key=True)
-    long_name: str = Field(nullable=False)
-    position: str = Field(nullable=False)
-    department: str = Field(nullable=False)
+    long_name: str = Field(nullable=True)
+    position: str = Field(nullable=True)
+    department: str = Field(nullable=True)
     phone: str = Field(nullable=True)
     cellphone: str = Field(nullable=True)
     home_phone: str = Field(nullable=True)
