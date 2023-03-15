@@ -1,25 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from time import sleep
-from pathlib import Path
 import pandas as pd
 import streamlit as st
 from sqlmodel import select, Session, or_
 from database import engine
 from models import Project, Set_draw, Assignment
-from pre_sets import request_sleep, BACKUP_FOLDER
+from pre_sets import BACKUP_FOLDER
 
 
 def create_backup_string(source_link, backup_folder, task_num):
-    # source_link = Path(source_link)
-    # backup_link: Path = Path(backup_folder, task_num)
-    # s_link: Path = Path(source_link)
-    # head = "xcopy /e /r /f /-y "
-    # tail = f'"{s_link}/*.*" "{backup_link}/"'.replace("/", "\\")
-    # backup_string = f'{head} {tail}'
-    # return str(backup_link), backup_string
-
-    ###########################################################
     if source_link !="Non-assignment":
         head = "xcopy /e /r /f /-y "
         tail = f'"{source_link}\\*.*" "{backup_folder}\\{task_num}"'  # .replace("/", "\\")
@@ -31,7 +20,6 @@ def create_backup_string(source_link, backup_folder, task_num):
 
 @st.cache_data(ttl=60, show_spinner="Getting Data from DB...")
 def get_table(table):
-    sleep(request_sleep)
     try:
         with engine.connect() as connection:
             stmt = select(table)
@@ -44,7 +32,6 @@ def get_table(table):
 
 @st.cache_data(ttl=360, show_spinner="Deleting Table Row...")
 def delete_table_row(Table, row_id: int):
-    sleep(request_sleep)
     with Session(engine) as session:
         del_row = session.get(Table, row_id)
         if not del_row:
@@ -57,7 +44,6 @@ def delete_table_row(Table, row_id: int):
 @st.cache_data(ttl=360, show_spinner="Creating Project...")
 def create_project(proj_short, proj_full, client, proj_man, responsible_el, proj_status, proj_tech_ass,
                    proj_tech_conditions, proj_surveys, proj_mdr, proj_notes):
-    sleep(request_sleep)
     if len(proj_short) < 3:
         return f"Wrong Project's short name: {proj_short}"
     if proj_short in get_projects_names():
@@ -87,7 +73,6 @@ def create_project(proj_short, proj_full, client, proj_man, responsible_el, proj
 
 @st.cache_data(ttl=360, show_spinner="Creating Drawing Set...")
 def create_set(proj_short, set_name, stage, coordinator, performer, status, set_start_date, notes):
-    sleep(request_sleep)
     if len(set_name) < 2:
         return f"Wrong Set / Unit name: {set_name}"
     if proj_short in get_projects_names() and set_name in get_sets_names(proj_short):
@@ -114,7 +99,6 @@ def create_set(proj_short, set_name, stage, coordinator, performer, status, set_
 
 @st.cache_data(ttl=360, show_spinner="Getting Projects List...")
 def get_projects_names():
-    sleep(request_sleep)
     try:
         with Session(engine) as session:
             stmt = select(Project.short_name)
@@ -126,7 +110,6 @@ def get_projects_names():
 
 @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_sets_names(selected_project):
-    sleep(request_sleep)
     try:
         with Session(engine) as session:
             stmt = select(Set_draw.set_name).where(Set_draw.project == selected_project)
@@ -139,7 +122,6 @@ def get_sets_names(selected_project):
 
 @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_sets_to_edit(selected_project, selected_set):
-    sleep(request_sleep)
     try:
         with engine.connect() as connection:
             stmt = select(Set_draw).where(Set_draw.project == selected_project, Set_draw.set_name == selected_set)
@@ -151,7 +133,6 @@ def get_sets_to_edit(selected_project, selected_set):
 
 @st.cache_data(ttl=120, show_spinner='Updating Projects...')
 def update_projects(edited_proj_df):
-    sleep(request_sleep)
     for ind, row in edited_proj_df.iterrows():
         if row.edit:
             if row.to_del:
@@ -184,7 +165,6 @@ def update_projects(edited_proj_df):
 
 @st.cache_data(ttl=120, show_spinner='Updating Sets / Units Data...')
 def update_sets(edited_set_df):
-    sleep(request_sleep)
     for ind, row in edited_set_df.iterrows():
         if row.edit:
             if row.to_del:
@@ -215,7 +195,6 @@ def update_sets(edited_set_df):
 
 @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_sets(email):
-    sleep(request_sleep)
     try:
         with engine.connect() as connection:
             if email:
