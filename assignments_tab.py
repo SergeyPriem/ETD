@@ -30,9 +30,10 @@ def add_assignment(ass_content):
     with ass_content:
         left_col, right_col = st.columns(2)
         project = left_col.selectbox('Select the Project', get_projects_names())
-        set_of_dr = right_col.multiselect('Select the Set Of Drawings / Unit',
-                                          options=get_sets_for_project(project))
         with st.form(key="add_ass"):
+            set_of_dr = right_col.multiselect('Select the Set Of Drawings / Unit',
+                                              options=get_sets_for_project(project))
+
             left_col2, right_col2 = st.columns(2)
             speciality = left_col2.multiselect("Speciality", specialities)
             description = right_col2.text_input('Description of Assignment')
