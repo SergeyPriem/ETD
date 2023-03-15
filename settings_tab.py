@@ -23,14 +23,14 @@ def settings_content():
                                                         options=[1,2,3,4], value=st.session_state.delay)
 
         with centr_col:
-            menu_position = st.radio('Location of menu', ("Horizontal", "Vertical", ),
+            menu_position = st.radio('Location of menu', ("Top", "Left", ),
                                      index=st.session_state.vert_menu, horizontal=True)
 
         with right_col:
             st.write('')
             st.write('')
             if st.button("Apply"):
-                if menu_position == 'Vertical':
+                if menu_position == 'Left':
                     st.session_state.vert_menu = 1
                 else:
                     st.session_state.vert_menu = 0
