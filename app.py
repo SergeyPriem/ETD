@@ -293,7 +293,7 @@ def phone_directory():
         with email_col:
             email = st.text_input("E-mail")
         df = get_phones()
-        # df=df.set_index('id')
+        df=df.set_index('id')
         # edited_df = st.experimental_data_editor(df, use_container_width=True)
         st.write(df)
 

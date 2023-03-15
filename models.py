@@ -36,14 +36,16 @@ class Users(SQLModel, table=True):
 class Contact(SQLModel, table=True):
     __table_args__ = {'extend_existing': True}
     id: int | None = Field(default=None, primary_key=True)
-    name: str = Field(nullable=False)
-    surname: str = Field(nullable=False)
-    branch: str = Field(nullable=True)
+    long_name: str = Field(nullable=False)
+    position: str = Field(nullable=False)
     department: str = Field(nullable=False)
-    position: str = Field(nullable=True)
     phone: str = Field(nullable=True)
-    int_phone: str = Field(nullable=True)
-    company_email: str = Field(nullable=True)
+    cellphone: str = Field(nullable=True)
+    home_phone: str = Field(nullable=True)
+    email: str = Field(nullable=True)
+    birthday: str = Field(nullable=True)
+    expat: str = Field(nullable=True)
+    office: str = Field(nullable=True)
 
 class Visit_log(SQLModel, table=True):
     __table_args__ = {'extend_existing': True}
