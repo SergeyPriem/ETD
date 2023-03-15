@@ -215,7 +215,7 @@ def get_phones():
     try:
         with engine.connect() as connection:
             # stmt = select(Contact)
-            return pd.read_sql_query('SELECT * FROM contact', connection)
+            return pd.read_sql('SELECT * FROM contact', con=connection)
     except Exception as e:
         return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
