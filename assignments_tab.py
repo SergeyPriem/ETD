@@ -28,10 +28,10 @@ def assignments_content():
 
 def add_assignment(ass_content):
     with ass_content:
-        left_col, right_col = st.columns(2)
-        project = left_col.selectbox('Select the Project', get_projects_names())
+        # left_col, right_col = st.columns(2)
+        project = st.selectbox('Select the Project', get_projects_names())
         with st.form(key="add_ass"):
-            set_of_dr = right_col.multiselect('Select the Set Of Drawings / Unit',
+            set_of_dr = st.multiselect('Select the Set Of Drawings / Unit',
                                               options=get_sets_for_project(project))
 
             left_col2, right_col2 = st.columns(2)
