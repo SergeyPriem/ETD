@@ -9,7 +9,7 @@ from pre_sets import BACKUP_FOLDER
 
 
 def create_backup_string(source_link, backup_folder, task_num):
-    if source_link !="Non-assignment":
+    if source_link != "Non-assignment":
         head = "xcopy /e /r /f /-y "
         tail = f'"{source_link}\\*.*" "{backup_folder}\\{task_num}"'  # .replace("/", "\\")
         backup_string = f'{head} {tail}'
@@ -218,6 +218,7 @@ def get_own_tasks(proj_set):
         return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
 
+@st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_sets_for_project(project):
     try:
         with Session(engine) as session:
