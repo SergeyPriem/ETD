@@ -32,19 +32,19 @@ def transmittals_content():
         # Clear all those elements:
         placeholder.empty()
 
-# import libraries
+        # import libraries
 
 
-# Set up tkinter
-root = tk.Tk()
-root.withdraw()
+        # Set up tkinter
+        root = tk.Tk()
+        root.withdraw()
 
-# Make folder picker dialog appear on top of other windows
-root.wm_attributes('-topmost', 1)
+        # Make folder picker dialog appear on top of other windows
+        root.wm_attributes('-topmost', 1)
 
-# Folder picker button
-st.title('Folder Picker')
-st.write('Please select a folder:')
-clicked = st.button('Folder Picker')
-if clicked:
-    dirname = st.text_input('Selected folder:', filedialog.askdirectory(master=root)) #master=root
+        # Folder picker button
+        st.title('Folder Picker')
+        st.write('Please select a folder:')
+        clicked = st.button('Folder Picker')
+        if clicked:
+            dirname = st.text_input('Selected folder:', filedialog.askdirectory(master=root)) #master=root
