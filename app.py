@@ -131,9 +131,11 @@ def home_content():
                 st.text('Answered')
                 st.text('Pending')
 
-        if not st.session_state.user:
-            with reg_tab:
 
+        with reg_tab:
+            if st.session_state.user:
+                st.subheader("Already Logged ")
+            else:
                 company_email = st.selectbox("Select Your Company Email", get_appl_emails(),
                                              disabled=st.session_state.user, key='reg_email')
                 st.write("Not in list? Send the request from your e-mail to sergey.priemshiy@uzliti-en.com")
