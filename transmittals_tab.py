@@ -47,4 +47,4 @@ st.title('Folder Picker')
 st.write('Please select a folder:')
 clicked = st.button('Folder Picker')
 if clicked:
-    dirname = st.text_input('Selected folder:', filedialog.askdirectory(master=root))
+    dirname = st.text_input('Selected folder:', filedialog.askdirectory()) #master=root
