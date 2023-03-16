@@ -36,6 +36,9 @@ if 'delay' not in st.session_state:
 if "preview_proj_stat" not in st.session_state:
     st.session_state.preview_proj_stat = False
 
+if "logged" not in st.session_state:
+    st.session_state.logged = False
+
 if 'rights' not in st.session_state:
     st.session_state.rights = 'basic'
 
@@ -49,7 +52,7 @@ if 'vert_menu' not in st.session_state:
     st.session_state.vert_menu = 1
 
 if 'user' not in st.session_state:
-    st.session_state.user = False
+    st.session_state.user = None
 
 if st.session_state.user:
     log_in_out = 'Log Out'
@@ -75,15 +78,15 @@ def home_content():
 
             with plaho.container():
                 if isinstance(registered_emails, list):
-                    email = st.selectbox("Company Email", registered_emails, disabled=st.session_state.user)
+                    email = st.selectbox("Company Email", registered_emails, disabled=st.session_state.logged)
                 else:
                     reporter("Can't get users list")
                 # st.write(registered_emails)
                 st.write("Not in list? Register first 👆")
-                password = st.text_input('Password', type='password', disabled=st.session_state.user)
-                login_but = login_col.button('Log In', disabled=st.session_state.user, use_container_width=True)
+                password = st.text_input('Password', type='password', disabled=st.session_state.logged)
+                login_but = login_col.button('Log In', disabled=st.session_state.logged, use_container_width=True)
 
-            logout_but = logout_col.button('Log Out', disabled=not st.session_state.user, use_container_width=True)
+            logout_but = logout_col.button('Log Out', disabled=not st.session_state.logged, use_container_width=True)
 
             if login_but:
                 if len(password) < 3:
@@ -94,6 +97,7 @@ def home_content():
                     login_status = check_user(email, password)
 
                     if login_status is True:
+                        st.session_state.logged = True
                         st.session_state.user = email
                         st.session_state.rights = get_logged_rights(email)
                         reply = add_to_log(email)
@@ -103,18 +107,19 @@ def home_content():
                             reporter(reply)
                         st.experimental_rerun()
                     else:
+                        st.session_state.logged = False
                         st.session_state.rights = 'basic'
                         st.session_state.user = None
                         reporter("Wrong Password")
                         st.stop()
                 #
             if logout_but:
-                st.session_state.user = False
+                st.session_state.logged = False
                 reporter("Bye! Bye! Bye! ")
                 st.session_state.rights = 'basic'
                 st.experimental_rerun()
 
-            if st.session_state.user:
+            if st.session_state.logged:
                 plaho.empty()
                 st.markdown("---")
                 st.subheader(":orange[Your Statistics]")
@@ -128,25 +133,21 @@ def home_content():
                 st.text('Answered')
                 st.text('Pending')
 
-
         with reg_tab:
 
-            if st.session_state.user:
-                st.subheader("Already Registered and Logged :)")
-
             company_email = st.selectbox("Select Your Company Email", get_appl_emails(),
-                                         disabled=st.session_state.user, key='reg_email')
+                                         disabled=st.session_state.logged, key='reg_email')
             st.write("Not in list? Send the request from your e-mail to sergey.priemshiy@uzliti-en.com")
-            name = st.text_input('Your Name', disabled=st.session_state.user)
-            surname = st.text_input('Your Surame', disabled=st.session_state.user)
-            phone = st.text_input('Your personal Phone', disabled=st.session_state.user)
-            telegram = st.text_input('Your personal Telegram', disabled=st.session_state.user)
+            name = st.text_input('Your Name', disabled=st.session_state.logged)
+            surname = st.text_input('Your Surame', disabled=st.session_state.logged)
+            phone = st.text_input('Your personal Phone', disabled=st.session_state.logged)
+            telegram = st.text_input('Your personal Telegram', disabled=st.session_state.logged)
             reg_pass_1 = st.text_input('Password', type='password', key='reg_pass_1',
-                                       disabled=st.session_state.user)
+                                       disabled=st.session_state.logged)
             reg_pass_2 = st.text_input('Repeat Password', type='password', key='reg_pass_2',
-                                       disabled=st.session_state.user)
+                                       disabled=st.session_state.logged)
 
-            data_chb = st.checkbox('Data is Correct', disabled=st.session_state.user)
+            data_chb = st.checkbox('Data is Correct', disabled=st.session_state.logged)
 
             if data_chb:
                 if company_email in registered_emails:
@@ -203,22 +204,23 @@ def home_content():
                     else:
                         reply = create_user(name, surname, phone, telegram, company_email, reg_pass_2)
                         reporter(reply)
-
         with change_tab:
             if 'user' not in st.session_state:
                 st.session_state.user = None
-
             if st.session_state.user:
-                upd_phone = st.text_input('Updated personal Phone', disabled=not st.session_state.user)
-                upd_telegram = st.text_input('Updated personal Telegram', disabled=not st.session_state.user)
+                upd_phone = st.text_input('Updated personal Phone', disabled=not st.session_state.logged)
+                upd_telegram = st.text_input('Updated personal Telegram', disabled=not st.session_state.logged)
                 upd_pass_1 = st.text_input('Updated Password', type='password', key='upd_pass_1',
-                                           disabled=not st.session_state.user)
+                                           disabled=not st.session_state.logged)
                 upd_pass_2 = st.text_input('Repeat Updated Password', type='password', key='upd_pass_2',
-                                           disabled=not st.session_state.user)
+                                           disabled=not st.session_state.logged)
 
-                upd_data_chb = st.checkbox('Updated Data is Correct', disabled=not st.session_state.user)
+                upd_data_chb = st.checkbox('Updated Data is Correct', disabled=not st.session_state.logged)
 
                 if upd_data_chb:
+                    # if company_email in registered_emails:
+                    #     reporter(f'User {company_email} is already in DataBase')
+                    #     st.stop()
 
                     if len(upd_pass_1) < 3 or upd_pass_1 != upd_pass_1:
                         st.warning("""- Password should be at least 3 symbols
@@ -419,7 +421,7 @@ def get_menus():
 
 selected = None
 
-if st.session_state.user:
+if st.session_state.logged:
     st.session_state.vert_menu = int(get_settings(st.session_state.user)[0])
     st.session_state.delay = int(get_settings(st.session_state.user)[1])
 
