@@ -21,10 +21,10 @@ from users_db import get_appl_emails, check_user, create_user, add_to_log, get_l
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_e.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
 
-# from streamlit_profiler import Profiler
-#
-# pf = Profiler()
-# pf.start()
+from streamlit_profiler import Profiler
+
+pf = Profiler()
+pf.start()
 
 appearance_settings()
 
@@ -475,4 +475,4 @@ if selected == "Lessons Learned":
 if selected == "Settings":
     settings_content()
 
-# pf.stop()
+pf.stop()
