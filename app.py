@@ -117,6 +117,7 @@ def home_content():
                 st.session_state.logged = False
                 reporter("Bye! Bye! Bye! ")
                 st.session_state.rights = 'basic'
+                st.session_state.user = None
                 st.experimental_rerun()
 
             if st.session_state.logged:
