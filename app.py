@@ -49,7 +49,7 @@ if 'vert_menu' not in st.session_state:
     st.session_state.vert_menu = 1
 
 if 'user' not in st.session_state:
-    st.session_state.user = None
+    st.session_state.user = False
 
 if st.session_state.user:
     log_in_out = 'Log Out'
@@ -94,7 +94,6 @@ def home_content():
                     login_status = check_user(email, password)
 
                     if login_status is True:
-                        st.session_state.user = True
                         st.session_state.user = email
                         st.session_state.rights = get_logged_rights(email)
                         reply = add_to_log(email)
@@ -104,7 +103,6 @@ def home_content():
                             reporter(reply)
                         st.experimental_rerun()
                     else:
-                        st.session_state.user = False
                         st.session_state.rights = 'basic'
                         st.session_state.user = None
                         reporter("Wrong Password")
@@ -114,7 +112,6 @@ def home_content():
                 st.session_state.user = False
                 reporter("Bye! Bye! Bye! ")
                 st.session_state.rights = 'basic'
-                st.session_state.user = None
                 st.experimental_rerun()
 
             if st.session_state.user:
