@@ -2,8 +2,8 @@
 
 from time import sleep
 import streamlit as st
-import tkinter as tk
-from tkinter import filedialog
+#import tkinter as tk
+#from tkinter import filedialog
 import tk
 def transmittals_content():
     tr_empty1, tr_content, tr_empty2 = st.columns([1,9,1])
