@@ -136,7 +136,7 @@ def home_content():
 
         with reg_tab:
             if st.session_state.logged:
-                st.subheader("registered & Logged 😎")
+                st.subheader("Registered & Logged 😎")
             else:
                 company_email = st.selectbox("Select Your Company Email", get_appl_emails(),
                                              disabled=st.session_state.logged, key='reg_email')
