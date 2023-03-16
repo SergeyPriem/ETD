@@ -18,7 +18,7 @@ from users_db import get_appl_emails, check_user, create_user, add_to_log, get_l
     create_appl_user, get_appl_user_data, update_users_in_db, move_to_former, get_registered_emails, get_settings, \
     update_user_reg_data
 
-st.set_page_config(layout="wide", page_icon=Image.open("images/lamp.jpg"),
+st.set_page_config(layout="wide", page_icon=Image.open("images/small_e.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
 
 # from streamlit_profiler import Profiler
@@ -427,13 +427,13 @@ if st.session_state.logged:
 
     if st.session_state.vert_menu == 1:
         with st.sidebar:
-            image = Image.open("images/lamp.jpg")
+            image = Image.open("images/etd.jpg")
             st.image(image, use_column_width=True)
             selected = option_menu("ET Department", get_menus()[0], icons=get_menus()[1],
                                    menu_icon="bi bi-plug", default_index=0)
     else:
-        selected = option_menu("ET Department", get_menus()[0], icons=get_menus()[1],
-                               menu_icon="bi bi-plug", default_index=0, orientation='horizontal')
+        selected = option_menu(None, get_menus()[0], icons=get_menus()[1],
+                               menu_icon=None, default_index=0, orientation='horizontal')
 else:
     home_content()
 
