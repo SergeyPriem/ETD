@@ -47,4 +47,4 @@ def transmittals_content():
         st.write('Please select a folder:')
         clicked = st.button('Folder Picker')
         if clicked:
-            dirname = st.text_input('Selected folder:', filedialog.askdirectory(master=root)) #master=root
+            dirname = st.text_input('Selected folder:', filedialog.askdirectory(title="select")) #master=root
