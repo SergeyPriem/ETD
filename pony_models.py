@@ -95,6 +95,7 @@ class Speciality(db.Entity):
 
 
 # db.bind(provider='sqlite', filename='DBB.sqlite', create_db=True)
+
 db.bind(
     provider='mysql',
     host=st.secrets["db_host"],

@@ -10,7 +10,7 @@ from pony_projects import create_project, get_projects_names, get_table, update_
     get_sets_to_edit, update_sets
 from pony_users import get_appl_emails
 
-
+st.cache_data(ttl=600)
 def manage_projects():
     empty_proj_1, content_proj, empty_proj_2 = st.columns([1, 9, 1])
     with empty_proj_1:
@@ -102,6 +102,7 @@ def manage_projects():
             st.write(df)
 
 
+st.cache_data(ttl=600)
 def manage_sets():
     empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
     with empty_sets_1:

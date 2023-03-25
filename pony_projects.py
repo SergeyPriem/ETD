@@ -5,12 +5,12 @@ from pony_models import Project, SOD, ApplUser, Assignment, Users, Speciality
 import pandas as pd
 from datetime import date, datetime
 import streamlit as st
-# from pre_sets import BACKUP_FOLDER
+from pre_sets import BACKUP_FOLDER
 
 set_sql_debug(True)
 
 
-# @st.cache_data(ttl=360, show_spinner="Deleting Table Row...")
+@st.cache_data(ttl=360, show_spinner="Deleting Table Row...")
 def delete_table_row(Table, row_id):
     with db_session:
         try:
@@ -22,7 +22,7 @@ def delete_table_row(Table, row_id):
         except Exception as e:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
-
+@st.cache_data(ttl=120, show_spinner='Creating Backup String...')
 def create_backup_string(source_link, backup_folder, task_num):
     if source_link != "Non-assignment":
         head = "xcopy /e /r /f /-y "
@@ -42,7 +42,7 @@ def tab_to_df(tab):
     return users_df
 
 
-# @st.cache_data(ttl=360, show_spinner="Creating Project...")
+@st.cache_data(ttl=360, show_spinner="Creating Project...")
 def create_project(proj_short, proj_full, client, proj_man, responsible_el, proj_status, proj_tech_ass,
                    proj_tech_conditions, proj_surveys, proj_mdr, proj_notes):
     if len(proj_short) < 3:
@@ -68,7 +68,7 @@ def create_project(proj_short, proj_full, client, proj_man, responsible_el, proj
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
         return f'New Project {new_project.short_name} is added to DataBase'
 
-
+@st.cache_data(ttl=120, show_spinner='Getting Projects...')
 def get_projects_names():
     try:
         with db_session:
@@ -77,7 +77,7 @@ def get_projects_names():
     except Exception as e:
         return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
-
+@st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_sets_for_project(proj):
     try:
         with db_session:
@@ -89,7 +89,7 @@ def get_sets_for_project(proj):
 
 # print(get_sets_for_project('BGPP'))
 
-# @st.cache_data(ttl=60, show_spinner="Getting Data from DB...")
+@st.cache_data(ttl=60, show_spinner="Getting Data from DB...")
 def get_table(tabname):
     with db_session:
         try:
@@ -98,6 +98,8 @@ def get_table(tabname):
         except Exception as e:
             return f"🔧 {type(e).name} {getattr(e, 'args', None)}"
 
+
+@st.cache_data(ttl=60, show_spinner='Getting Assignments...')
 def get_assignments():
     with db_session:
         try:
@@ -149,7 +151,7 @@ print(get_assignments())
 # print(create_project('M-55', 'БГПЗ. Инфраструктура 55', 'sgcoc', 'Сим Александр', 'sergey.priemshiy@uzliti-en.com', '44', '', '', '', '', ''))
 
 
-# @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
+@st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_sets_names(selected_project):
     try:
         with db_session:
@@ -162,7 +164,7 @@ def get_sets_names(selected_project):
 # print(get_sets_names('BGPP'))
 
 
-# @st.cache_data(ttl=360, show_spinner="Creating Drawing Set...")
+@st.cache_data(ttl=360, show_spinner="Creating Drawing Set...")
 def create_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_date: date, coordinator=None,
                performer=None, notes='') -> str:
     """
@@ -203,7 +205,7 @@ def create_sod(proj_short: str, set_name: str, stage: str, status: str, set_star
 #                  set_start_date=date(2023, 5, 12)))
 
 
-# @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
+@st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_sets_to_edit(selected_project, selected_set):
     try:
         with db_session:
@@ -235,8 +237,7 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
 
             new_ass_id = max(n.id for n in Assignment)
 
-            result = create_backup_string(link, r'//uz-fs/Uzle/Work/Отдел ЭЛ/Архив заданий/',
-                                          new_ass_id)  # str(new_ass.id)
+            result = create_backup_string(link, BACKUP_FOLDER, new_ass_id)
             new_ass.backup_copy = result[0]
             return f"""
             New Assignment for {(new_ass.set_id.project_id.short_name)}: {(new_ass.set_id.set_name)} is added to DataBase
@@ -255,7 +256,7 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
 #                    "source", datetime.now(), datetime.now(), 'comment'))
 
 
-# @st.cache_data(ttl=120, show_spinner='Updating Projects...')
+@st.cache_data(ttl=120, show_spinner='Updating Projects...')
 def update_projects(edited_proj_df):
     for ind, row in edited_proj_df.iterrows():
         if row.edit:
@@ -280,7 +281,7 @@ def update_projects(edited_proj_df):
     return "Updated Successfully"
 
 
-# @st.cache_data(ttl=120, show_spinner='Updating Sets / Units Data...')
+@st.cache_data(ttl=120, show_spinner='Updating Sets / Units Data...')
 def update_sets(edited_set_df):
     for ind, row in edited_set_df.iterrows():
         if row.edit:
@@ -305,7 +306,7 @@ def update_sets(edited_set_df):
     return "Updated Successfully"
 
 
-# @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
+@st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_sets(email):
     with db_session:
         try:
@@ -321,7 +322,7 @@ def get_sets(email):
 # print(get_sets(None))
 
 
-# @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
+@st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_own_tasks(proj_set):
     try:
         with db_session:
@@ -337,7 +338,7 @@ def get_own_tasks(proj_set):
 
 # print(get_own_tasks(['BGPP', "Прачечная"]))
 
-
+@st.cache_data(ttl=120, show_spinner='Adding to DataBase...')
 def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, description, link, source, comment):
     with db_session:
         try:

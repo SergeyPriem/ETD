@@ -62,7 +62,7 @@ if st.session_state.user:
 else:
     log_in_out = 'Log In'
 
-
+st.cache_data(ttl=600)
 def home_content():
     empty1, content, empty2 = st.columns([2, 2, 2])
     with empty1:
@@ -295,7 +295,7 @@ def home_content():
             else:
                 st.write('You should Log In first')
 
-
+st.cache_data(ttl=600)
 def phone_directory():
     phone_1, phone_content, phone_2 = st.columns([1, 9, 1])
     with phone_1:
@@ -319,7 +319,7 @@ def phone_directory():
         # # df=df.set_index('id')
         # # edited_df = st.experimental_data_editor(df, use_container_width=True)
         # st.write(df)
-
+st.cache_data(ttl=600)
 def manage_users():
     users_1, users_content, users_2 = st.columns([1, 2, 1])
     with users_1:
@@ -421,7 +421,7 @@ super_icons = ["bi bi-briefcase", "bi bi-person-lines-fill"]
 short_menu = ["Home"]
 short_icons = ['house']
 
-
+st.cache_data(ttl=600)
 def get_menus():
     if st.session_state.rights == "basic":
         menu = [*short_menu]
