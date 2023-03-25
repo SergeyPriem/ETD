@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import smtplib
 import streamlit as st
 from email.mime.multipart import MIMEMultipart

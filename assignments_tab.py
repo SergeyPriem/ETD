@@ -2,10 +2,10 @@
 
 import pandas as pd
 import streamlit as st
-
-from models import Assignment
+from pony_models import Assignment
 from pre_sets import specialities, reporter
-from projects_db import get_projects_names, get_table, get_sets_for_project, add_in_to_db, add_out_to_db
+from pony_projects import get_projects_names, get_table, get_sets_for_project, add_in_to_db, add_out_to_db, \
+    get_assignments
 
 
 def assignments_content():
@@ -32,7 +32,7 @@ def add_assignment(ass_content):
         project = st.selectbox('Select the Project', get_projects_names())
         with st.form(key="add_ass"):
             set_of_dr = st.multiselect('Select the Set Of Drawings / Unit',
-                                              options=get_sets_for_project(project))
+                                       options=get_sets_for_project(project))
 
             left_col2, right_col2 = st.columns(2)
             speciality = left_col2.multiselect("Speciality", specialities)
@@ -52,9 +52,7 @@ def add_assignment(ass_content):
             comments = left_col3.text_input('Comments')
             source = right_col3.text_area('Received by:', value='Received by paper', height=127)
 
-
             ass_submitted = st.form_submit_button("Add Assignment")
-
 
             if ass_submitted:
                 if non_assign:
@@ -88,11 +86,11 @@ def add_assignment(ass_content):
                     Received by: **:blue[{source}]**
                     """, unsafe_allow_html=True)
 
-            # if st.button('Add to DataBase'):
+                # if st.button('Add to DataBase'):
                 if direction == "IN":
                     for single_set in set_of_dr:
                         reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date, description,
-                                             link, source, 'log', comments)
+                                             link, source, comments)
                         # reporter(reply, 10)
                         st.text(reply)
                 else:
@@ -105,17 +103,16 @@ def add_assignment(ass_content):
 
 def view_assignments(ass_tab2):
     with ass_tab2:
-        df = get_table(Assignment)
+        df = get_assignments()
         df_orig = pd.DataFrame()
         if isinstance(df, pd.DataFrame):
-            df_orig = df.copy()
-            df_orig = df_orig.set_index('id')
+            df_orig = df.copy().set_index('id')
         else:
             st.warning(df)
             st.stop()
 
         df.project = df.project.str.upper()
-        df.set_draw = df.set_draw.str.upper()
+        df.unit = df.unit.str.upper()
 
         id_col, proj_col, set_col, dir_col, check_col, spec_col = st.columns([2, 3, 4, 4, 3, 4], gap='medium')
 
@@ -145,7 +142,7 @@ def view_assignments(ass_tab2):
 
         df_temp = df_orig.copy()
         df_temp.project = df_temp.project.str.upper()
-        df_temp.set_draw = df_temp.set_draw.str.upper()
+        df_temp.unit = df_temp.unit.str.upper()
 
         if len(id_val):
             df_orig = df_orig[df_orig.index == int(id_val)]
@@ -155,6 +152,6 @@ def view_assignments(ass_tab2):
             if proj_val:
                 df_orig = df_orig.loc[df_temp.project.str.contains(proj_val.upper())]
             if set_val:
-                df_orig = df_orig.loc[df_temp.set_draw.str.contains(set_val.upper())]
+                df_orig = df_orig.loc[df_temp.unit.str.contains(set_val.upper())]
         st.write(f"{len(df_orig)} records found")
         st.experimental_data_editor(df_orig, use_container_width=True)

@@ -2,6 +2,8 @@
 
 import datetime
 import random
+
+import pony.orm.core
 import streamlit as st
 from PIL import Image
 from streamlit_option_menu import option_menu
@@ -14,9 +16,10 @@ from pre_sets import appearance_settings, reporter, positions, departments
 from send_emails import send_mail
 from settings_tab import settings_content
 from transmittals_tab import transmittals_content
-from users_db import get_appl_emails, check_user, create_user, add_to_log, get_logged_rights, get_phones, \
+from pony_users import get_appl_emails, check_user, create_user, add_to_log, get_logged_rights, \
     create_appl_user, get_appl_user_data, update_users_in_db, move_to_former, get_registered_emails, get_settings, \
     update_user_reg_data
+from pony.orm import *
 
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_e.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
@@ -77,10 +80,11 @@ def home_content():
             login_col, logout_col = st.columns(2)
 
             with plaho.container():
-                if isinstance(registered_emails, list):
+                if isinstance(registered_emails, pony.orm.core.QueryResult):
                     email = st.selectbox("Company Email", registered_emails, disabled=st.session_state.logged)
                 else:
                     reporter("Can't get users list")
+                    st.stop()
                 # st.write(registered_emails)
                 st.write("Not in list? Register first 👆")
                 password = st.text_input('Password', type='password', disabled=st.session_state.logged)
@@ -105,6 +109,7 @@ def home_content():
                             reporter(f"Welcome on board! Now You can use SideBar")
                         else:
                             reporter(reply)
+
                         st.experimental_rerun()
                     else:
                         st.session_state.logged = False
@@ -122,6 +127,12 @@ def home_content():
 
             if st.session_state.logged:
                 plaho.empty()
+
+                # if len(get_pending_ass(st.session_state.user)):
+                #     st.markdown("---")
+                #     st.subheader(":orange[Pending Assignments]")
+
+
                 st.markdown("---")
                 st.subheader(":orange[Your Statistics]")
                 st.write('Set of Drawings')
@@ -138,8 +149,15 @@ def home_content():
             if st.session_state.logged:
                 st.subheader("You are Registered & Logged In 😎")
             else:
-                company_email = st.selectbox("Select Your Company Email", get_appl_emails(),
-                                             disabled=st.session_state.logged, key='reg_email')
+                appl_emails = get_appl_emails()
+
+                if isinstance(appl_emails, pony.orm.core.QueryResult):
+                    company_email = st.selectbox("Select Your Company Email", appl_emails,
+                                                 disabled=st.session_state.logged, key='reg_email')
+                else:
+                    reporter(appl_emails)
+                    st.stop()
+
                 st.write("Not in list? Send the request from your e-mail to sergey.priemshiy@uzliti-en.com")
                 name = st.text_input('Your Name', disabled=st.session_state.logged)
                 surname = st.text_input('Your Surame', disabled=st.session_state.logged)

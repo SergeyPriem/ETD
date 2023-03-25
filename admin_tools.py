@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import datetime
-
+from pony.orm import *
 import pandas as pd
 import streamlit as st
-
-from models import Appl_user, Project, Assignment, Contact, Visit_log, Set_draw
+from pony_models import ApplUser, Project, Assignment, VisitLog, SOD
 from pre_sets import proj_statuses, reporter, stages, sod_statuses
-from projects_db import create_project, get_projects_names, get_table, update_projects, create_set, get_sets_names, \
+from pony_projects import create_project, get_projects_names, get_table, update_projects, create_sod, get_sets_names, \
     get_sets_to_edit, update_sets
-from users_db import get_appl_emails
+from pony_users import get_appl_emails
 
 
 def manage_projects():
@@ -96,7 +95,7 @@ def manage_projects():
         with viewer_tab:
             # tab_list = get_tab_names()
             tab_name = st.radio("Select the Table for view", (
-                Assignment, Appl_user, Contact, Project, Set_draw, Visit_log,), horizontal=True)
+                Assignment, ApplUser, Project, SOD, VisitLog,), horizontal=True)
 
             df = get_table(tab_name)
             st.info(f'Records Q-ty: {len(df)}')
@@ -128,7 +127,7 @@ def manage_sets():
             notes = st.text_area("Add Notes")
 
             if st.button("Create", key="create sod"):
-                reply = create_set(proj_short, set_name, stage, coordinator, performer, status,
+                reply = create_sod(proj_short, set_name, stage, coordinator, performer, status,
                                    set_start_date, notes)
                 reporter(reply)
 
@@ -139,10 +138,11 @@ def manage_sets():
 
             sets_list = get_sets_names(proj_for_sets_edit)
 
-            if not isinstance(sets_list, list):
+            if not isinstance(sets_list, pony.orm.core.QueryResult):
                 reporter(sets_list)
                 st.stop()
             else:
+                # st.write(type(sets_list))
                 set_to_edit = st.selectbox('Select Unit / Set of Drawings', sets_list)
 
             sets_df = get_sets_to_edit(proj_for_sets_edit, set_to_edit)
@@ -150,14 +150,13 @@ def manage_sets():
             if not isinstance(sets_df, pd.DataFrame):
                 st.warning(sets_df)
                 st.stop()
-            sets_df = sets_df.set_index('id')
+            # sets_df = sets_df.set_index('id')
             sets_df['to_del'] = False
             sets_df['edit'] = False
             edited_set_df = st.experimental_data_editor(sets_df, use_container_width=True)
 
             if st.button('Update in DataBase', key="update_set"):
-                len_edited = len(edited_set_df[edited_set_df.edit])
-                if len_edited:
+                if len(edited_set_df[edited_set_df.edit]):
                     reply = update_sets(edited_set_df)
                     reporter(reply)
                 else:

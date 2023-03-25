@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st
 
 from pre_sets import specialities, specialities_rus
-from projects_db import get_sets, get_own_tasks
+from pony_projects import get_sets, get_own_tasks
 
 
 def drawing_sets():
@@ -28,14 +28,14 @@ def drawing_sets():
 
         df = get_sets(user_email)
 
-        proj_list = df['project'].drop_duplicates()
+        proj_list = df['project_id'].drop_duplicates()
 
         proj_selected = st.selectbox("Project for Search", proj_list)
-        sets_list = df[df.project == proj_selected]['set_name']
+        sets_list = df[df.project_id == proj_selected]['set_name']
 
         sets_selected = st.multiselect("Set / Unit for Search", sets_list)
 
-        df = df[df.set_name.isin(sets_selected)].set_index("id")
+        df = df[df.set_name.isin(sets_selected)]#.set_index("project_id")
 
         df.insert(0, 'preview', False)
 
@@ -46,7 +46,7 @@ def drawing_sets():
 
         if edited_num == 1:
             st.markdown("---")
-            proj_set = (edit_df[edit_df.preview]['project'].values[0], edit_df[edit_df.preview]['set_name'].values[0])
+            proj_set = (edit_df[edit_df.preview]['project_id'].values[0], edit_df[edit_df.preview]['set_name'].values[0])
             task_col, in_out_col, quant_col = st.columns([9, 2, 2])
 
             with in_out_col:
@@ -55,7 +55,8 @@ def drawing_sets():
             # with reset_col:
             #     st.text('')
             #     reset_but = st.button('Reset')
-            sets_tasks = get_own_tasks(proj_set).set_index('id')
+            sets_tasks = get_own_tasks(proj_set)#.set_index('id')
+            #st.write(proj_set)
 
             if in_out_radio == "In":
                 sets_tasks = sets_tasks[(sets_tasks.in_out == 'Входящие') | (sets_tasks.in_out == 'In')]
@@ -73,8 +74,8 @@ def drawing_sets():
                 st.write(f'Quantity: {len(sets_tasks)}')
 
             sets_tasks = sets_tasks.sort_values(by=['speciality', 'date'], ascending=[True, False])
-            st.write(sets_tasks[['stage', 'speciality', 'date', 'description', 'link', 'source', 'comments',
-                                 'backup_copy', 'log', 'added_by']])
+            st.write(sets_tasks[['stage', 'speciality', 'date', 'description', 'link', 'source', 'comment',
+                                 'backup_copy', 'coord_log', 'perf_log', 'added_by']])
             st.markdown("---")
 
             aval_spec = list(sets_tasks.speciality.drop_duplicates())
@@ -107,11 +108,11 @@ def drawing_sets():
                             st.subheader("Draft of e-mail")
                             st.markdown("""<u>Тема:</u>""", unsafe_allow_html=True)
                             st.markdown(
-                                f"**Недостающие задания для {sets_tasks.project.values[0]}: {sets_tasks.set_draw.values[0]}**")
+                                f"**Недостающие задания для {proj_set[0]}: {proj_set[1]}**")
                             st.markdown("""<u>Тело:</u>""", unsafe_allow_html=True)
                             st.markdown(f"""
                             В ЭлектроОтделе сейчас в разработке комплект чертежей:  
-                            **{sets_tasks.project.values[0]}: {sets_tasks.set_draw.values[0]}**.  
+                            **{proj_set[0]}: {proj_set[1]}**.  
                             В настоящее время отсутствуют задания по специальностям: 
                             **{', '.join(request_df[request_df.request == True].index.values)}**.  
                             Просим сообщить о необходимости задания и его сроке выдачи.
@@ -119,11 +120,11 @@ def drawing_sets():
                             st.write('')
                             st.markdown("""<u>Subject:</u>""", unsafe_allow_html=True)
                             st.markdown(
-                                f"**Not available assignments for {sets_tasks.project.values[0]}: {sets_tasks.set_draw.values[0]}**")
+                                f"**Not available assignments for {proj_set[0]}: {proj_set[1]}**")
                             st.markdown("""<u>Body:</u>""", unsafe_allow_html=True)
                             st.markdown(f"""
                             Currently Electrical Department is developing:  
-                            **{sets_tasks.project.values[0]}: {sets_tasks.set_draw.values[0]}*.  
+                            **{proj_set[0]}: {proj_set[1]}**.  
                             For now we haven't assignments from: 
                             **{', '.join(request_df[request_df.request == True].index.values)}**.  
                             Kindly ask you to inform about a necessity of assignment and it's issue date.
