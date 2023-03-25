@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-
-import datetime
-import random
-
-import pony.orm.core
 import streamlit as st
 from PIL import Image
+st.set_page_config(layout="wide", page_icon=Image.open("images/small_e.jpg"),
+                   page_title='ET Department', initial_sidebar_state='auto')
+import datetime
+import random
+import pony.orm.core
 from streamlit_option_menu import option_menu
 from admin_tools import manage_projects, manage_sets
 from assignments_tab import assignments_content
@@ -21,8 +21,7 @@ from pony_users import get_appl_emails, check_user, create_user, add_to_log, get
     update_user_reg_data
 from pony.orm import *
 
-st.set_page_config(layout="wide", page_icon=Image.open("images/small_e.jpg"),
-                   page_title='ET Department', initial_sidebar_state='auto')
+
 
 # from streamlit_profiler import Profiler
 
