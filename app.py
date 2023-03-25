@@ -345,7 +345,7 @@ def manage_users():
 
             if st.button('Create New User', use_container_width=True):
                 reply = create_appl_user(
-                    user_email, user_position, user_department, user_access_level, user_start_date)
+                    user_email, user_position, user_department, user_access_level, "current", user_start_date)
 
                 reporter(reply)
 

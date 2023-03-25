@@ -31,14 +31,15 @@ def move_to_former(employee_to_edit, end_date):
         Access status: **:red[{hero.access_level}]**'''
 
 
-def create_appl_user(email, position, branch, access_level, status):
+def create_appl_user(email, position, branch, access_level, status, start_date):
     if '@' not in email or len(email) < 12:
         return f'Wrong e-mail {email}'
     if email in get_appl_emails():
         return f'User with email {email} already exist in DataBase'
     with db_session:
         try:
-            ApplUser(id=email, position=position, branch=branch, access_level=access_level, status=status)
+            ApplUser(id=email, position=position, branch=branch, access_level=access_level, status=status,
+                     start_date=start_date)
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
     return f"User {email} is added to Applied Users"
