@@ -77,7 +77,7 @@ def manage_projects():
                     st.warning(proj_df)
                     st.stop()
 
-                proj_df = proj_df.set_index('id')
+                # proj_df = proj_df.set_index('id')
                 proj_df = proj_df[proj_df.short_name.isin(proj_to_edit_list)]
                 proj_df['to_del'] = False
                 proj_df['edit'] = False
