@@ -270,7 +270,7 @@ def update_projects(edited_proj_df):
                     proj_for_upd.manager = row.manager
                     proj_for_upd.responsible_el = row.responsible_el
                     proj_for_upd.status = row.status
-                    proj_for_upd.assignments = row.assignments
+                    proj_for_upd.assignment = row.assignment
                     proj_for_upd.tech_conditions = row.tech_conditions
                     proj_for_upd.surveys = row.surveys
                     proj_for_upd.mdr = row.mdr
