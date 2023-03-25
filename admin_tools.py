@@ -24,25 +24,26 @@ def manage_projects():
 
         with proj_tab1:
             # st.subheader('Add New Project')
-            proj_short = st.text_input('Project Name - short')
-            proj_full = st.text_area('Project Name - full')
-            responsible_el = st.selectbox('Responsible Person', get_appl_emails())
-            proj_status = st.radio('Project Status', proj_statuses, horizontal=True)
-            client = st.text_input('Client')
-            proj_tech_ass = st.text_area('Link for Technical Assignment')
-            proj_tech_conditions = st.text_area('Link for Technical Conditions')
-            proj_surveys = st.text_area('Link for Technical Surveys')
-            proj_mdr = st.text_area('Link for MDR')
-            proj_man = st.text_input('Project Manager')
-            proj_notes = st.text_area('Notes')
-            proj_preview_col, proj_create_col = st.columns([1, 1])
-
+            with st.form("create_project", clear_on_submit=True):
+                proj_short = st.text_input('Project Name - short')
+                proj_full = st.text_area('Project Name - full')
+                responsible_el = st.selectbox('Responsible Person', get_appl_emails())
+                proj_status = st.radio('Project Status', proj_statuses, horizontal=True)
+                client = st.text_input('Client')
+                proj_tech_ass = st.text_area('Link for Technical Assignment')
+                proj_tech_conditions = st.text_area('Link for Technical Conditions')
+                proj_surveys = st.text_area('Link for Technical Surveys')
+                proj_mdr = st.text_area('Link for MDR')
+                proj_man = st.text_input('Project Manager')
+                proj_notes = st.text_area('Notes')
+                proj_preview_col, proj_create_col = st.columns([1, 1])
+                submitted = st.form_submit_button('Create Project')
             with proj_preview_col:
                 preview_checkbox = st.checkbox('Preview Project',
                                                value=st.session_state.preview_proj_stat)
-            with proj_create_col:
-                create_proj_button = st.button('Create Project', use_container_width=True,
-                                               disabled=not preview_checkbox)
+            # with proj_create_col:
+            #     create_proj_button = st.button('Create Project', use_container_width=True,
+            #                                    disabled=not preview_checkbox)
             if preview_checkbox:
                 st.write(f"""
                 Short Name: **:blue[{proj_short}]**
@@ -58,7 +59,7 @@ def manage_projects():
                 Notes: **:blue[{proj_notes}]**
                 """)
 
-            if create_proj_button:
+            if submitted:
                 reply = create_project(proj_short, proj_full, client, proj_man, responsible_el,
                                        proj_status, proj_tech_ass, proj_tech_conditions,
                                        proj_surveys, proj_mdr, proj_notes)
