@@ -39,7 +39,10 @@ def tab_to_df(tab):
     users_df = pd.DataFrame(users_dict)
     if 'id' in list(users_df.columns):
         users_df = users_df.set_index('id')
-    return users_df
+        if len(users_df)>0:
+            return users_df
+        else:
+            return "Empty Table"
 
 
 @st.cache_data(ttl=360, show_spinner="Creating Project...")
@@ -314,12 +317,14 @@ def get_sets(email):
                 sods = select(s for s in SOD if (s.coord_id == Users[email] or s.perf_id == Users[email]))[:]
             else:
                 sods = select(s for s in SOD)[:]
-            return tab_to_df(sods)
+
+            proj_list = select(s.project_id.short_name for s in SOD if (s.coord_id == Users[email] or s.perf_id == Users[email]))[:]
+            return tab_to_df(sods), proj_list
         except Exception as e:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
 
-# print(get_sets(None))
+print(get_sets(None))
 
 
 @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')

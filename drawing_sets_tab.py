@@ -25,9 +25,14 @@ def drawing_sets():
         else:
             user_email = None
 
-        df = get_sets(user_email)
+        sets = get_sets(user_email)
+        df = sets[0]
+        proj_list = sets[1]
 
-        proj_list = df['short_name'].drop_duplicates()
+        if isinstance(df, pd.DataFrame):
+            proj_list = df['short_name']#.drop_duplicates()
+        else:
+            st.write(df)
 
         proj_selected = st.selectbox("Project for Search", proj_list)
         sets_list = df[df.project_id == proj_selected]['set_name']
