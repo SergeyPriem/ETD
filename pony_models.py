@@ -3,7 +3,7 @@
 from datetime import date
 from datetime import datetime
 from pony.orm import *
-
+import streamlit as st
 db = Database()
 
 
@@ -94,6 +94,12 @@ class Speciality(db.Entity):
     assignments = Set(Assignment)
 
 
-db.bind(provider='sqlite', filename='DBB.sqlite', create_db=True)
+# db.bind(provider='sqlite', filename='DBB.sqlite', create_db=True)
+db.bind(
+    provider='mysql',
+    host=st.secrets["db_host"],
+    user=st.secrets["db_user"],
+    passwd=st.secrets["db_password"],
+    db=st.secrets["db_database"])
 
 db.generate_mapping(create_tables=True)
