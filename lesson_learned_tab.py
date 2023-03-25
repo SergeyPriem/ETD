@@ -2,7 +2,7 @@
 
 import streamlit as st
 
-
+st.cache_data(ttl=600)
 def lessons_content():
 
 

@@ -2,11 +2,10 @@
 
 import pandas as pd
 import streamlit as st
-
 from pre_sets import specialities, specialities_rus
 from pony_projects import get_sets, get_own_tasks
 
-
+st.cache_data(ttl=600)
 def drawing_sets():
     empty1, content, empty2 = st.columns([1, 30, 1])
     with empty1:
@@ -28,7 +27,7 @@ def drawing_sets():
 
         df = get_sets(user_email)
 
-        proj_list = df['project_id'].drop_duplicates()
+        proj_list = df['short_name'].drop_duplicates()
 
         proj_selected = st.selectbox("Project for Search", proj_list)
         sets_list = df[df.project_id == proj_selected]['set_name']
