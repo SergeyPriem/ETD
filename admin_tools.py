@@ -70,19 +70,18 @@ def manage_projects():
         with proj_tab2:
             proj_to_edit_list = st.multiselect('Select Projects to Edit', get_projects_names())
             if proj_to_edit_list:
-
                 proj_df = get_table(Project)
 
                 if not isinstance(proj_df, pd.DataFrame):
                     st.warning(proj_df)
                     st.stop()
 
-                # proj_df = proj_df.set_index('id')
+                proj_df = proj_df.set_index('short_name')
                 proj_df = proj_df[proj_df.short_name.isin(proj_to_edit_list)]
                 proj_df['to_del'] = False
                 proj_df['edit'] = False
 
-                st.write(proj_df)
+                # st.write(proj_df)
                 edited_proj_df = st.experimental_data_editor(proj_df)
 
                 if st.button("Update in DataBase", key="update_project"):
