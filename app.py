@@ -242,9 +242,9 @@ def home_content():
                     upd_pass_2 = st.text_input('Repeat Updated Password', type='password', key='upd_pass_2',
                                                disabled=not st.session_state.logged)
 
-                    upd_data_but = st.form_submit_button("Update Password")
+                    get_conf_code = st.form_submit_button("Get Confirmation Code")
 
-                if upd_data_but:
+                if get_conf_code:
                     if (len(upd_pass_1) < 3) or (upd_pass_1 != upd_pass_2):
                         st.warning("""❗ Password should be at least 3 symbols  
                         ❗ Password and Repeat Password should be the same""")
@@ -284,13 +284,13 @@ def home_content():
                             st.session_state.upd_code_sent = False
                             st.write("Confirmation code is not send. Refresh the page and try again")
 
-                pass_conf_but = None
+                update_pass = None
                 if st.session_state.upd_code_sent is True:
                     with st.form('pass_confirm'):
                         entered_upd_code = st.text_input("Confirmation Code from Email")
-                        pass_conf_but = st.form_submit_button("Confirm Code for Update")
+                        update_pass = st.form_submit_button("Update Password")
 
-                if pass_conf_but:
+                if update_pass:
                     if st.session_state.upd_conf_num != entered_upd_code:
                         reporter("Confirmation code is wrong, try again")
                         st.stop()
@@ -298,8 +298,8 @@ def home_content():
                         reply = update_user_reg_data(st.session_state.user, upd_pass_2)
                         reporter(reply)
                 else:
-                    st.write("After pressing 'Update Password' you will get Confirmation Code by e-mail.  "
-                             "Enter the Code and press 'Confirm Code for Update'")
+                    st.write("After pressing 'Get Confirmation Code' you will get Confirmation Code by e-mail")
+                    st.write("Enter the Code and press 'Update Password'")
 
 st.cache_data(ttl=600)
 def phone_directory():
