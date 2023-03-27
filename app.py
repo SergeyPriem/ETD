@@ -72,7 +72,7 @@ def home_content():
     with content:
         st.title(':orange[Electrical Department]')
         st.header('Welcome!')
-        st.subheader("st.session_state.logged=", st.session_state.logged)
+        # st.subheader("st.session_state.logged=", st.session_state.logged)
         st.text("The Site is designed to help you in everyday routines")
 
         login_tab, reg_tab, change_tab = st.tabs([log_in_out, 'Registration', 'Update Registration Data'])
