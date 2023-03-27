@@ -55,6 +55,7 @@ if 'vert_menu' not in st.session_state:
 if 'user' not in st.session_state:
     st.session_state.user = None
 
+st.write(st.session_state.user)
 if st.session_state.user:
     log_in_out = 'Log Out'
 else:
