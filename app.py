@@ -143,9 +143,13 @@ def home_content():
                     df = get_assignments() #st.session_state.user
                     if isinstance(df, pd.DataFrame):
                         df = df.set_index('id')
+                        # filter the assgnments by "IN" and fields coord_id,
+                        # perf_id not containing current  user email
                         df.insert(0, column='confirm', value=False)
                         st.experimental_data_editor(df)
-                        if st.button("Confirm Assignments"):
+                        for i in df.index(0):
+                            st.text(i)
+                        if st.button("Confirm Selected Assignments"):
                             st.info("Assignments Confirmed")
 
 
