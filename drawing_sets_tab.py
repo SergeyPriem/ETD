@@ -25,12 +25,18 @@ def drawing_sets():
         else:
             user_email = None
 
-        sets = get_sets(user_email)
-        df = sets[0]
-        proj_list = sets[1]
+        df = get_sets(user_email)
+
+
+        if not isinstance(df, pd.DataFrame):
+            st.write("No sets available in DataBase")
+            st.stop()
+
+
+        proj_list = df.project_id
 
         if isinstance(df, pd.DataFrame):
-            proj_list = df['short_name']#.drop_duplicates()
+            proj_list = df['project_id'].drop_duplicates()
         else:
             st.write(df)
 
@@ -115,10 +121,10 @@ def drawing_sets():
                                 f"**Недостающие задания для {proj_set[0]}: {proj_set[1]}**")
                             st.markdown("""<u>Тело:</u>""", unsafe_allow_html=True)
                             st.markdown(f"""
-                            В ЭлектроОтделе сейчас в разработке комплект чертежей:  
-                            **{proj_set[0]}: {proj_set[1]}**.  
-                            В настоящее время отсутствуют задания по специальностям: 
-                            **{', '.join(request_df[request_df.request == True].index.values)}**.  
+                            В ЭлектроОтделе сейчас в разработке комплект чертежей:
+                            **{proj_set[0]}: {proj_set[1]}**.
+                            В настоящее время отсутствуют задания по специальностям:
+                            **{', '.join(request_df[request_df.request == True].index.values)}**.
                             Просим сообщить о необходимости задания и его сроке выдачи.
                             """)
                             st.write('')
@@ -127,10 +133,10 @@ def drawing_sets():
                                 f"**Not available assignments for {proj_set[0]}: {proj_set[1]}**")
                             st.markdown("""<u>Body:</u>""", unsafe_allow_html=True)
                             st.markdown(f"""
-                            Currently Electrical Department is developing:  
-                            **{proj_set[0]}: {proj_set[1]}**.  
-                            For now we haven't assignments from: 
-                            **{', '.join(request_df[request_df.request == True].index.values)}**.  
+                            Currently Electrical Department is developing:
+                            **{proj_set[0]}: {proj_set[1]}**.
+                            For now we haven't assignments from:
+                            **{', '.join(request_df[request_df.request == True].index.values)}**.
                             Kindly ask you to inform about a necessity of assignment and it's issue date.
                             """)
                         else:

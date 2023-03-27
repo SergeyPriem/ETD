@@ -58,7 +58,7 @@ def get_registered_emails():
     with db_session:
         try:
             registered_emails = select(eml.id for eml in Users)[:]
-            return registered_emails
+            return list(registered_emails)
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
 

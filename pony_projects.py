@@ -29,7 +29,6 @@ def create_backup_string(source_link, backup_folder, task_num):
         tail = f'"{source_link}\\*.*" "{backup_folder}\\{task_num}"'.replace("/\\", "\\").replace("/", "\\")
         backup_string = f'{head} {tail}'
         return str(f'{backup_folder}\\{task_num}'.replace("/\\", "\\")).replace("/", "\\"), backup_string
-        # return backup_string.split('*.*" ')[1], backup_string
     else:
         return "Non-assignment", "Non-assignment"
 
@@ -90,7 +89,6 @@ def get_sets_for_project(proj):
         return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
 
-# print(get_sets_for_project('BGPP'))
 
 @st.cache_data(ttl=60, show_spinner="Getting Data from DB...")
 def get_table(tabname):
@@ -147,12 +145,6 @@ def get_assignments():
             return f"🔧 {type(e).name} {getattr(e, 'args', None)}"
 
 
-print(get_assignments())
-#
-# print(get_projects_names())
-
-# print(create_project('M-55', 'БГПЗ. Инфраструктура 55', 'sgcoc', 'Сим Александр', 'sergey.priemshiy@uzliti-en.com', '44', '', '', '', '', ''))
-
 
 @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_sets_names(selected_project):
@@ -162,10 +154,6 @@ def get_sets_names(selected_project):
             return sets_name_list
     except Exception as e:
         return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
-
-
-# print(get_sets_names('BGPP'))
-
 
 @st.cache_data(ttl=360, show_spinner="Creating Drawing Set...")
 def create_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_date: date, coordinator=None,
@@ -204,9 +192,6 @@ def create_sod(proj_short: str, set_name: str, stage: str, status: str, set_star
         return f"New Set '{new_sod.set_name}' for Project '{proj_short}' is added to DataBase"
 
 
-# print(create_sod(proj_short='BGPP', set_name="Прачечная", stage='Detail Design', status='0%',
-#                  set_start_date=date(2023, 5, 12)))
-
 
 @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_sets_to_edit(selected_project, selected_set):
@@ -217,7 +202,6 @@ def get_sets_to_edit(selected_project, selected_set):
     except Exception as e:
         return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
-#add_in_to_db(project, single_set, stage, direction, speciality[0], date, description, link, source, comments)
 def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, description, link, source, comment):
     with db_session:
         try:
@@ -232,8 +216,6 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
                 link=link,
                 backup_copy='NA',
                 source=source,
-                # coord_log=coord_log,
-                # perf_log=perf_log,
                 comment=comment,
                 added_by='sergey.priemshiy@uzliti-en.com',  # st.session_state.user
             )
@@ -247,16 +229,8 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
             Backup string:
             {result[1]}
             """
-
-        #
         except Exception as e:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
-
-
-
-#
-# print(add_in_to_db('1', 'DD', "In", "Telecom", date.today(), "description", r"\\uz-fs\Uzle\Work\Отдел ССБ\АНГЛ",
-#                    "source", datetime.now(), datetime.now(), 'comment'))
 
 
 @st.cache_data(ttl=120, show_spinner='Updating Projects...')
@@ -309,23 +283,23 @@ def update_sets(edited_set_df):
     return "Updated Successfully"
 
 
-@st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
+# @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_sets(email):
     with db_session:
         try:
             if email:
                 sods = select(s for s in SOD if (s.coord_id == Users[email] or s.perf_id == Users[email]))[:]
+                # proj_list = select(s.project_id.short_name for s in SOD
+                #                   if (s.coord_id == Users[email] or s.perf_id == Users[email]))[:]
             else:
                 sods = select(s for s in SOD)[:]
+                # proj_list = select(s.project_id.short_name for s in SOD)[:]
 
-            proj_list = select(s.project_id.short_name for s in SOD if (s.coord_id == Users[email] or s.perf_id == Users[email]))[:]
-            return tab_to_df(sods), proj_list
+
+
+            return tab_to_df(sods) #, proj_list
         except Exception as e:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
-
-
-print(get_sets(None))
-
 
 @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_own_tasks(proj_set):
@@ -341,7 +315,6 @@ def get_own_tasks(proj_set):
         return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
 
-# print(get_own_tasks(['BGPP', "Прачечная"]))
 
 @st.cache_data(ttl=120, show_spinner='Adding to DataBase...')
 def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, description, link, source, comment):

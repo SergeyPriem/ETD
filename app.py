@@ -80,7 +80,7 @@ def home_content():
             login_col, logout_col = st.columns(2)
 
             with plaho.container():
-                if isinstance(registered_emails, pony.orm.core.QueryResult):
+                if isinstance(registered_emails, list):
                     email = st.selectbox("Company Email", registered_emails, disabled=st.session_state.logged)
                 else:
                     reporter("Can't get users list")
