@@ -156,7 +156,7 @@ def home_content():
 
                 if company_email in registered_emails:
                     st.subheader("You are Registered 😎")
-
+                    st.stop()
 
                 else:
                     reporter(appl_emails)
