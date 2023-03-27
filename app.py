@@ -277,7 +277,7 @@ def home_content():
                         </html>
                     """
                     if not st.session_state.upd_code_sent:
-                        send_mail(receiver=company_email, cc_rec="sergey.priemshiy@uzliti-en.com",
+                        send_mail(receiver=st.session_state.user, cc_rec="sergey.priemshiy@uzliti-en.com",
                                   html=upd_html, subj="Confirmation of Data Update on ETD site")
                         st.session_state.upd_code_sent = True
 
