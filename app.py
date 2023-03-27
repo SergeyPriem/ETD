@@ -288,6 +288,8 @@ def home_content():
                             st.write("0")
                             pass_conf_but = st.form_submit_button("Confirm Code for Update")
 
+                        st.write(datetime.datetime.now())
+
                         if pass_conf_but:
                             # if company_email in registered_emails:
                             #     reporter(f'User {company_email} is already in DataBase')
