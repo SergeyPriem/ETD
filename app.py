@@ -298,7 +298,6 @@ def home_content():
                         else:
                             reply = update_user_reg_data(upd_phone, upd_telegram, st.session_state.user, upd_pass_2)
                             reporter(reply)
-
             else:
                 st.write('You should Log In first')
 
