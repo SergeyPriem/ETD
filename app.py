@@ -283,12 +283,12 @@ def home_content():
                                   html=upd_html, subj="Confirmation of Data Update on ETD site")
                         st.session_state.upd_code_sent = True
 
-                    entered_upd_code = st.text_input("Confirmation Code from Email")
-                    st.write("0")
-                    pass_conf = st.checkbox("Confirm Code for Update", value=False)
-                    st.write(pass_conf)
-                    if pass_conf:
-                        st.write(pass_conf)
+                    with st.form('pass_confirm'):
+                        entered_upd_code = st.text_input("Confirmation Code from Email")
+                        st.write("0")
+                        pass_conf_but = st.form_submit_button("Confirm Code for Update")
+
+                    if pass_conf_but:
                         # if company_email in registered_emails:
                         #     reporter(f'User {company_email} is already in DataBase')
                         #     st.stop()
