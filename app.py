@@ -153,6 +153,11 @@ def home_content():
                 if isinstance(appl_emails, pony.orm.core.QueryResult):
                     company_email = st.selectbox("Select Your Company Email", appl_emails,
                                                  disabled=st.session_state.logged, key='reg_email')
+
+                if company_email in registered_emails:
+                    st.subheader("You are Registered 😎")
+
+
                 else:
                     reporter(appl_emails)
                     st.stop()
