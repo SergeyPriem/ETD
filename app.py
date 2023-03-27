@@ -285,9 +285,10 @@ def home_content():
 
                     entered_upd_code = st.text_input("Confirmation Code from Email")
                     st.write("0")
-                    pass_conf_button = st.checkbox("Confirm Code for Update",value=False)
-
-                    if pass_conf_button:
+                    pass_conf = st.checkbox("Confirm Code for Update", value=False)
+                    st.write(pass_conf)
+                    if pass_conf:
+                        st.write(pass_conf)
                         # if company_email in registered_emails:
                         #     reporter(f'User {company_email} is already in DataBase')
                         #     st.stop()
