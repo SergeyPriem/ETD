@@ -276,10 +276,15 @@ def home_content():
                     """
 
                     if not st.session_state.upd_code_sent:
-                        send_mail(receiver=st.session_state.user, cc_rec="sergey.priemshiy@uzliti-en.com",
+                        email_sent = send_mail(receiver=st.session_state.user, cc_rec="sergey.priemshiy@uzliti-en.com",
                                   html=upd_html, subj="Confirmation of Data Update on ETD site")
-                        st.session_state.upd_code_sent = True
+                        if email_sent is True:
+                            st.session_state.upd_code_sent = True
+                        else:
+                            st.session_state.upd_code_sent = False
+                            st.write("Confirmation code is not send. Refresh the page and try again")
 
+                pass_conf_but = None
                 if st.session_state.upd_code_sent is True:
                     with st.form('pass_confirm'):
                         entered_upd_code = st.text_input("Confirmation Code from Email")
@@ -292,6 +297,8 @@ def home_content():
                     else:
                         reply = update_user_reg_data(st.session_state.user, upd_pass_2)
                         reporter(reply)
+                else:
+                    st.write("Enter Confirmation Code from e-mail and press 'Confirm Code for Update'")
 
 st.cache_data(ttl=600)
 def phone_directory():
