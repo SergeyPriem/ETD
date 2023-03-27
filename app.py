@@ -168,7 +168,7 @@ def home_content():
                     reg_pass_2 = st.text_input('Repeat Password', type='password', key='reg_pass_2',
                                                disabled=st.session_state.logged)
 
-                    data_chb = st.checkbox('Data is Correct', disabled=st.session_state.logged)
+                    # data_chb = st.checkbox('Data is Correct', disabled=st.session_state.logged)
 
                     reg_button = st.form_submit_button('Register')
 
