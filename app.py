@@ -60,7 +60,7 @@ if st.session_state.user:
 else:
     log_in_out = 'Log In'
 
-st.cache_data(ttl=600)
+# st.cache_data(ttl=600)
 
 
 def home_content():
