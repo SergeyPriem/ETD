@@ -246,7 +246,6 @@ def home_content():
                     upd_data_but = st.form_submit_button("Update Password")
 
                 if upd_data_but:
-
                     if (len(upd_pass_1) < 3) or (upd_pass_1 != upd_pass_1):
                         st.warning("""❗ Password should be at least 3 symbols
                         ❗ Password and Repeat Password should be the same""")
