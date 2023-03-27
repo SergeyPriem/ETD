@@ -158,18 +158,21 @@ def home_content():
                     st.stop()
 
                 st.write("Not in list? Send the request from your e-mail to sergey.priemshiy@uzliti-en.com")
-                name = st.text_input('Your Name', disabled=st.session_state.logged)
-                surname = st.text_input('Your Surame', disabled=st.session_state.logged)
-                phone = st.text_input('Your personal Phone', disabled=st.session_state.logged)
-                telegram = st.text_input('Your personal Telegram', disabled=st.session_state.logged)
-                reg_pass_1 = st.text_input('Password', type='password', key='reg_pass_1',
-                                           disabled=st.session_state.logged)
-                reg_pass_2 = st.text_input('Repeat Password', type='password', key='reg_pass_2',
-                                           disabled=st.session_state.logged)
+                with st.form("Reg_form"):
+                    name = st.text_input('Your Name', disabled=st.session_state.logged)
+                    surname = st.text_input('Your Surame', disabled=st.session_state.logged)
+                    phone = st.text_input('Your personal Phone', disabled=st.session_state.logged)
+                    telegram = st.text_input('Your personal Telegram', disabled=st.session_state.logged)
+                    reg_pass_1 = st.text_input('Password', type='password', key='reg_pass_1',
+                                               disabled=st.session_state.logged)
+                    reg_pass_2 = st.text_input('Repeat Password', type='password', key='reg_pass_2',
+                                               disabled=st.session_state.logged)
 
-                data_chb = st.checkbox('Data is Correct', disabled=st.session_state.logged)
+                    data_chb = st.checkbox('Data is Correct', disabled=st.session_state.logged)
 
-                if data_chb:
+                    reg_button = st.form_submit_button('Register')
+
+                if reg_button:
                     if company_email in registered_emails:
                         reporter(f'User {company_email} is already in DataBase')
                         st.stop()
