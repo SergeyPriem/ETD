@@ -202,7 +202,6 @@ def update_user_reg_data(upd_phone, upd_telegram, email, upd_pass_2):
             ha_pa = bcrypt.hashpw(upd_pass_2.encode('utf-8'), bcrypt.gensalt(10))
             ha_pa = ha_pa.decode('utf-8')
             hero.hashed_pass = ha_pa
-
             return f"Data for {hero.name} Updated"
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
