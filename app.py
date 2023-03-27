@@ -243,13 +243,13 @@ def home_content():
                     upd_pass_2 = st.text_input('Repeat Updated Password', type='password', key='upd_pass_2',
                                                disabled=not st.session_state.logged)
 
-                    upd_data_but = st.form_submit_button("Update Data")
+                    upd_data_but = st.form_submit_button("Update Password")
 
                 if upd_data_but:
 
                     if len(upd_pass_1) < 3 or upd_pass_1 != upd_pass_1:
-                        st.warning("""! Password should be at least 3 symbols
-                        - Password and Repeat Password should be the same""")
+                        st.warning("""❗ Password should be at least 3 symbols
+                        ❗ Password and Repeat Password should be the same""")
                         st.stop()
 
                     if 'upd_conf_num' not in st.session_state:
@@ -269,7 +269,7 @@ def home_content():
                             <p>
                                 Please confirm your registration by entering the confirmation code 
                                 <b>{st.session_state.upd_conf_num}</b> 
-                                at the <a href="https://design-energo.streamlit.app/">site</a> Update form
+                                at the <a href="https://e-design.streamlit.app/">site</a> Update form
                                 <hr>
                                 Best regards, Administration 😎
                             </p>
@@ -292,6 +292,7 @@ def home_content():
                             reporter("Confirmation code is wrong, try again")
                             st.stop()
                         else:
+                            st.write(st.session_state.user, upd_pass_2)
                             reply = update_user_reg_data(st.session_state.user, upd_pass_2)
                             reporter(reply)
 
