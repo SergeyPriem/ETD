@@ -105,8 +105,6 @@ def check_user(email, password):
 def get_appl_user_data(email):
     try:
         with db_session:
-            # stmt = select(ApplUser).where(ApplUser.email == email)
-            # appl_user = session.exec(stmt).one()
             return ApplUser[email]
     except Exception as e:
         return f"{type(e).__name__}{getattr(e, 'args', None)}"
@@ -178,11 +176,15 @@ def get_logged_rights(email):
 def get_settings(email):
     with db_session:
         try:
-            u_set = Users[email]
-            return u_set.vert_menu, u_set.delay_set
+            u = Users[email]
+            # u_set = select((u.vert_menu, u.delay_set) for u in Users if u.id == email).first()
+            # return u_set
+            return u.vert_menu, u.delay_set
         except Exception as e:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
+# print(get_settings('sergey.priemshiy@uzliti-en-com'))
+# print(Users['sergey.priemshiy@uzliti-en-com'])
 
 def update_settings(email, menu, delay):
     with db_session:
@@ -210,5 +212,3 @@ def update_user_reg_data(upd_phone, upd_telegram, email, upd_pass_2):
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
 
-# print(get_settings('sergey.priemshiy@uzliti-en.com'))
-# print(create_user("Сергей", "Приемший", "+998909598030", "+998909598030", 'sergey.priemshiy@uzliti-en.com', "Exdiibt3"))
