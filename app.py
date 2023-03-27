@@ -55,7 +55,6 @@ if 'vert_menu' not in st.session_state:
 if 'user' not in st.session_state:
     st.session_state['user'] = None
 
-st.write(st.session_state.user)
 if st.session_state.user:
     log_in_out = 'Log Out'
 else:
@@ -291,7 +290,6 @@ def home_content():
                         reporter("Confirmation code is wrong, try again")
                         st.stop()
                     else:
-                        st.write(st.session_state.user, upd_pass_2)
                         reply = update_user_reg_data(st.session_state.user, upd_pass_2)
                         reporter(reply)
 
