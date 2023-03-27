@@ -287,11 +287,15 @@ def home_content():
                         # if company_email in registered_emails:
                         #     reporter(f'User {company_email} is already in DataBase')
                         #     st.stop()
+                        st.write(1)
+                        st.write(st.session_state.user, upd_pass_2)
 
                         if st.session_state.upd_conf_num != entered_upd_code:
                             reporter("Confirmation code is wrong, try again")
+                            st.write(2)
                             st.stop()
                         else:
+                            st.write(3)
                             st.write(st.session_state.user, upd_pass_2)
                             reply = update_user_reg_data(st.session_state.user, upd_pass_2)
                             reporter(reply)
