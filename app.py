@@ -75,7 +75,7 @@ def home_content():
         # st.subheader("st.session_state.logged=", st.session_state.logged)
         st.text("The Site is designed to help you in everyday routines")
 
-        login_tab, reg_tab, change_tab = st.tabs([log_in_out, 'Registration', 'Update Registration Data'])
+        login_tab, reg_tab, change_tab = st.tabs([log_in_out, 'Registration', 'Change Password'])
         with login_tab:
             plaho = st.empty()
             login_col, logout_col = st.columns(2)
@@ -236,8 +236,8 @@ def home_content():
                 st.write('You should Log In first')
             else:
                 with st.form("UpData"):
-                    upd_phone = st.text_input('Updated personal Phone', disabled=not st.session_state.logged)
-                    upd_telegram = st.text_input('Updated personal Telegram', disabled=not st.session_state.logged)
+                    # upd_phone = st.text_input('Updated personal Phone', disabled=not st.session_state.logged)
+                    # upd_telegram = st.text_input('Updated personal Telegram', disabled=not st.session_state.logged)
                     upd_pass_1 = st.text_input('Updated Password', type='password', key='upd_pass_1',
                                                disabled=not st.session_state.logged)
                     upd_pass_2 = st.text_input('Repeat Updated Password', type='password', key='upd_pass_2',
@@ -248,7 +248,7 @@ def home_content():
                 if upd_data_but:
 
                     if len(upd_pass_1) < 3 or upd_pass_1 != upd_pass_1:
-                        st.warning("""- Password should be at least 3 symbols
+                        st.warning("""! Password should be at least 3 symbols
                         - Password and Repeat Password should be the same""")
                         st.stop()
 
@@ -292,7 +292,7 @@ def home_content():
                             reporter("Confirmation code is wrong, try again")
                             st.stop()
                         else:
-                            reply = update_user_reg_data(upd_phone, upd_telegram, st.session_state.user, upd_pass_2)
+                            reply = update_user_reg_data(st.session_state.user, upd_pass_2)
                             reporter(reply)
 
 

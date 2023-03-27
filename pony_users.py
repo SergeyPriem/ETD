@@ -191,17 +191,13 @@ def update_settings(email, menu, delay):
         return "Settings Updated"
 
 
-def update_user_reg_data(upd_phone, upd_telegram, email, upd_pass_2):
+def update_user_reg_data(email, upd_pass_2):
     with db_session:
         try:
             hero = Users[email]
-            if len(upd_phone) > 3:
-                hero.phone = upd_phone
-            if len(upd_telegram) >3:
-                hero.telegram = upd_telegram
             ha_pa = bcrypt.hashpw(upd_pass_2.encode('utf-8'), bcrypt.gensalt(10))
             ha_pa = ha_pa.decode('utf-8')
             hero.hashed_pass = ha_pa
-            return f"Data for {hero.name} Updated"
+            return f"Data for {hero.name} is Updated"
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
