@@ -53,7 +53,7 @@ if 'vert_menu' not in st.session_state:
     st.session_state.vert_menu = 1
 
 if 'user' not in st.session_state:
-    st.session_state.user = None
+    st.session_state['user'] = None
 
 st.write(st.session_state.user)
 if st.session_state.user:
