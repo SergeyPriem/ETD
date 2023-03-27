@@ -143,7 +143,7 @@ def home_content():
                 if isinstance(df, pd.DataFrame):
                     df
                 else:
-                    st.warning('No assignments')
+                    st.info('No assignments')
                 # st.text('Approved')
                 # st.text('Current')
                 st.markdown("---")
