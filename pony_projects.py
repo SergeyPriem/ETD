@@ -289,15 +289,10 @@ def get_sets(email):
         try:
             if email:
                 sods = select(s for s in SOD if (s.coord_id == Users[email] or s.perf_id == Users[email]))[:]
-                # proj_list = select(s.project_id.short_name for s in SOD
-                #                   if (s.coord_id == Users[email] or s.perf_id == Users[email]))[:]
             else:
                 sods = select(s for s in SOD)[:]
-                # proj_list = select(s.project_id.short_name for s in SOD)[:]
 
-
-
-            return tab_to_df(sods) #, proj_list
+            return tab_to_df(sods)
         except Exception as e:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 

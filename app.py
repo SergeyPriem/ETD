@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
+import pandas as pd
 import streamlit as st
 from PIL import Image
+
+from pony_projects import get_sets
 
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_e.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
@@ -135,6 +138,11 @@ def home_content():
                 st.subheader(":orange[Your Duties]")
                 st.write('New Assignments')
                 st.text('Confirm the Assignments')
+                df = get_sets(st.session_state.user)
+                if isinstance(df, pd.DataFrame):
+                    df
+                else:
+                    st.warning('No assignments')
                 # st.text('Approved')
                 # st.text('Current')
                 st.markdown("---")
