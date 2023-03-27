@@ -240,7 +240,7 @@ def home_content():
                 st.stop()
 
             else:
-                with st.form:
+                with st.form("UpData"):
                     upd_phone = st.text_input('Updated personal Phone', disabled=not st.session_state.logged)
                     upd_telegram = st.text_input('Updated personal Telegram', disabled=not st.session_state.logged)
                     upd_pass_1 = st.text_input('Updated Password', type='password', key='upd_pass_1',
