@@ -144,7 +144,6 @@ def home_content():
                     if isinstance(df, pd.DataFrame):
                         df = df.set_index('id')
                         df.insert(0, column='confirm', value=False)
-                        df = df.T
                         st.experimental_data_editor(df)
 
                     else:
