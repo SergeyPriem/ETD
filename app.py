@@ -154,12 +154,12 @@ def home_content():
                     company_email = st.selectbox("Select Your Company Email", appl_emails,
                                                  disabled=st.session_state.logged, key='reg_email')
 
-                if company_email in registered_emails:
-                    st.subheader("You are Registered 😎")
-                    st.stop()
-
                 else:
                     reporter(appl_emails)
+                    st.stop()
+
+                if company_email in registered_emails:
+                    st.subheader("You are Registered 😎")
                     st.stop()
 
                 st.write("Not in list? Send the request from your e-mail to sergey.priemshiy@uzliti-en.com")
