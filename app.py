@@ -147,8 +147,9 @@ def home_content():
                         # perf_id not containing current  user email
                         df.insert(0, column='confirm', value=False)
                         st.experimental_data_editor(df)
-                        for i in df[df.id==1]:
-                            st.text(i)
+                        for k, v in df.iterrows():
+                            for i in v:
+                                st.text(i)
                         if st.button("Confirm Selected Assignments"):
                             st.info("Assignments Confirmed")
 
