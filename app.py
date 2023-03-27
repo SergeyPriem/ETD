@@ -32,7 +32,7 @@ appearance_settings()
 registered_emails = get_registered_emails()
 
 if 'delay' not in st.session_state:
-    st.session_state.delay = 3
+    st.session_state.delay = 2
 
 if "preview_proj_stat" not in st.session_state:
     st.session_state.preview_proj_stat = False
@@ -73,8 +73,6 @@ def home_content():
     with content:
         st.title(':orange[Electrical Department]')
         st.header('Welcome!')
-        st.write(st.session_state.user)
-        # st.subheader("st.session_state.logged=", st.session_state.logged)
         st.text("The Site is designed to help you in everyday routines")
 
         login_tab, reg_tab, change_tab = st.tabs([log_in_out, 'Registration', 'Change Password'])
@@ -278,33 +276,35 @@ def home_content():
                           </body>
                         </html>
                     """
+
                     if not st.session_state.upd_code_sent:
                         send_mail(receiver=st.session_state.user, cc_rec="sergey.priemshiy@uzliti-en.com",
                                   html=upd_html, subj="Confirmation of Data Update on ETD site")
                         st.session_state.upd_code_sent = True
 
-                    with st.form('pass_confirm'):
-                        entered_upd_code = st.text_input("Confirmation Code from Email")
-                        st.write("0")
-                        pass_conf_but = st.form_submit_button("Confirm Code for Update")
+                    if st.session_state.upd_code_sent is True:
+                        with st.form('pass_confirm'):
+                            entered_upd_code = st.text_input("Confirmation Code from Email")
+                            st.write("0")
+                            pass_conf_but = st.form_submit_button("Confirm Code for Update")
 
-                    if pass_conf_but:
-                        # if company_email in registered_emails:
-                        #     reporter(f'User {company_email} is already in DataBase')
-                        #     st.stop()
-                        st.write(1)
-                        st.write(st.session_state.user, upd_pass_2)
-
-                        if st.session_state.upd_conf_num != entered_upd_code:
-                            reporter("Confirmation code is wrong, try again")
-                            st.write(2)
-                            st.stop()
-                        else:
-                            st.write(3)
+                        if pass_conf_but:
+                            # if company_email in registered_emails:
+                            #     reporter(f'User {company_email} is already in DataBase')
+                            #     st.stop()
+                            st.write(1)
                             st.write(st.session_state.user, upd_pass_2)
-                            reply = update_user_reg_data(st.session_state.user, upd_pass_2)
-                            reporter(reply)
-                    st.write(4)
+
+                            if st.session_state.upd_conf_num != entered_upd_code:
+                                reporter("Confirmation code is wrong, try again")
+                                st.write(2)
+                                st.stop()
+                            else:
+                                st.write(3)
+                                st.write(st.session_state.user, upd_pass_2)
+                                reply = update_user_reg_data(st.session_state.user, upd_pass_2)
+                                reporter(reply)
+                        st.write(4)
 
 
 st.cache_data(ttl=600)
