@@ -24,7 +24,7 @@ from pony_users import get_appl_emails, check_user, create_user, add_to_log, get
     create_appl_user, get_appl_user_data, update_users_in_db, move_to_former, get_registered_emails, get_settings, \
     update_user_reg_data
 from pony.orm import *
-from pony_projects import get_sets
+from pony_projects import get_assignments
 
 # from streamlit_profiler import Profiler
 
@@ -139,7 +139,7 @@ def home_content():
                 st.subheader(":orange[Your Duties]")
                 st.write('New Assignments')
                 st.text('Confirm the Assignments')
-                df = get_sets(st.session_state.user)
+                df = get_assignments(st.session_state.user)
                 if isinstance(df, pd.DataFrame):
                     df
                 else:

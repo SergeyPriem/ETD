@@ -89,8 +89,8 @@ class VisitLog(db.Entity):
 
 
 class Speciality(db.Entity):
-    id = PrimaryKey(str, 20, auto=True)
-    descr = Required(str, 30)
+    id = PrimaryKey(str, 20)
+    descr = Required(str, 100)
     assignments = Set(Assignment)
 
 

@@ -101,27 +101,49 @@ def get_table(tabname):
 
 
 @st.cache_data(ttl=60, show_spinner='Getting Assignments...')
-def get_assignments():
+def get_assignments(email=None):
     with db_session:
         try:
-            data = select(
-                (
-                    a.id,
-                    a.set_id.project_id.short_name,
-                    a.set_id.set_name,
-                    a.speciality.id,
-                    a.stage,
-                    a.in_out,
-                    a.date,
-                    a.description,
-                    a.link,
-                    a.backup_copy,
-                    a.source,
-                    a.coord_log,
-                    a.perf_log,
-                    a.comment,
-                    a.added_by
-                ) for a in Assignment)[:]
+            if email:
+                data = select(
+                    (
+                        a.id,
+                        a.set_id.project_id.short_name,
+                        a.set_id.set_name,
+                        a.speciality.id,
+                        a.stage,
+                        a.in_out,
+                        a.date,
+                        a.description,
+                        a.link,
+                        a.backup_copy,
+                        a.source,
+                        a.coord_log,
+                        a.perf_log,
+                        a.comment,
+                        a.added_by
+                    ) for a in Assignment if SOD[a.set_id].coord_id == Users[email] \
+                    or SOD[a.set_id].perf_id == Users[email])[:]
+
+            else:
+                data = select(
+                    (
+                        a.id,
+                        a.set_id.project_id.short_name,
+                        a.set_id.set_name,
+                        a.speciality.id,
+                        a.stage,
+                        a.in_out,
+                        a.date,
+                        a.description,
+                        a.link,
+                        a.backup_copy,
+                        a.source,
+                        a.coord_log,
+                        a.perf_log,
+                        a.comment,
+                        a.added_by
+                    ) for a in Assignment)[:]
 
             df = pd.DataFrame(data, columns=[
                 "id",
