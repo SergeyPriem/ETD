@@ -3,7 +3,7 @@ import pandas as pd
 import streamlit as st
 from PIL import Image
 
-from pony_projects import get_sets
+
 
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_e.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
@@ -24,6 +24,7 @@ from pony_users import get_appl_emails, check_user, create_user, add_to_log, get
     create_appl_user, get_appl_user_data, update_users_in_db, move_to_former, get_registered_emails, get_settings, \
     update_user_reg_data
 from pony.orm import *
+from pony_projects import get_sets
 
 # from streamlit_profiler import Profiler
 
