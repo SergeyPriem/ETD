@@ -236,20 +236,21 @@ def home_content():
         with change_tab:
             if 'user' not in st.session_state:
                 st.session_state.user = None
-            if st.session_state.user:
-                upd_phone = st.text_input('Updated personal Phone', disabled=not st.session_state.logged)
-                upd_telegram = st.text_input('Updated personal Telegram', disabled=not st.session_state.logged)
-                upd_pass_1 = st.text_input('Updated Password', type='password', key='upd_pass_1',
-                                           disabled=not st.session_state.logged)
-                upd_pass_2 = st.text_input('Repeat Updated Password', type='password', key='upd_pass_2',
-                                           disabled=not st.session_state.logged)
+                st.write('You should Log In first')
+                st.stop()
 
-                upd_data_chb = st.checkbox('Updated Data is Correct', disabled=not st.session_state.logged)
+            else:
+                with st.form:
+                    upd_phone = st.text_input('Updated personal Phone', disabled=not st.session_state.logged)
+                    upd_telegram = st.text_input('Updated personal Telegram', disabled=not st.session_state.logged)
+                    upd_pass_1 = st.text_input('Updated Password', type='password', key='upd_pass_1',
+                                               disabled=not st.session_state.logged)
+                    upd_pass_2 = st.text_input('Repeat Updated Password', type='password', key='upd_pass_2',
+                                               disabled=not st.session_state.logged)
 
-                if upd_data_chb:
-                    # if company_email in registered_emails:
-                    #     reporter(f'User {company_email} is already in DataBase')
-                    #     st.stop()
+                    upd_data_but = st.form_submit_button("Update Data")
+
+                if upd_data_but:
 
                     if len(upd_pass_1) < 3 or upd_pass_1 != upd_pass_1:
                         st.warning("""- Password should be at least 3 symbols
@@ -298,8 +299,6 @@ def home_content():
                         else:
                             reply = update_user_reg_data(upd_phone, upd_telegram, st.session_state.user, upd_pass_2)
                             reporter(reply)
-            else:
-                st.write('You should Log In first')
 
 
 st.cache_data(ttl=600)
