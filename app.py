@@ -157,12 +157,12 @@ def home_content():
                     reporter(appl_emails)
                     st.stop()
 
-                st.write("Not in list? Send the request from your e-mail to sergey.priemshiy@uzliti-en.com")
+
 
                 if company_email in registered_emails:
                     st.subheader("You are Registered 😎")
                 else:
-
+                    st.write("Not in list? Send the request from your e-mail to sergey.priemshiy@uzliti-en.com")
                     with st.form("Reg_form"):
                         name = st.text_input('Your Name', disabled=st.session_state.logged)
                         surname = st.text_input('Your Surame', disabled=st.session_state.logged)
