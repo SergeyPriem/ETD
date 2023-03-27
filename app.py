@@ -153,92 +153,90 @@ def home_content():
                 if isinstance(appl_emails, pony.orm.core.QueryResult):
                     company_email = st.selectbox("Select Your Company Email", appl_emails,
                                                  disabled=st.session_state.logged, key='reg_email')
-
                 else:
                     reporter(appl_emails)
                     st.stop()
 
+                st.write("Not in list? Send the request from your e-mail to sergey.priemshiy@uzliti-en.com")
+
                 if company_email in registered_emails:
                     st.subheader("You are Registered 😎")
-                    st.stop()
+                else:
 
-                st.write("Not in list? Send the request from your e-mail to sergey.priemshiy@uzliti-en.com")
-                with st.form("Reg_form"):
-                    name = st.text_input('Your Name', disabled=st.session_state.logged)
-                    surname = st.text_input('Your Surame', disabled=st.session_state.logged)
-                    phone = st.text_input('Your personal Phone', disabled=st.session_state.logged)
-                    telegram = st.text_input('Your personal Telegram', disabled=st.session_state.logged)
-                    reg_pass_1 = st.text_input('Password', type='password', key='reg_pass_1',
-                                               disabled=st.session_state.logged)
-                    reg_pass_2 = st.text_input('Repeat Password', type='password', key='reg_pass_2',
-                                               disabled=st.session_state.logged)
+                    with st.form("Reg_form"):
+                        name = st.text_input('Your Name', disabled=st.session_state.logged)
+                        surname = st.text_input('Your Surame', disabled=st.session_state.logged)
+                        phone = st.text_input('Your personal Phone', disabled=st.session_state.logged)
+                        telegram = st.text_input('Your personal Telegram', disabled=st.session_state.logged)
+                        reg_pass_1 = st.text_input('Password', type='password', key='reg_pass_1',
+                                                   disabled=st.session_state.logged)
+                        reg_pass_2 = st.text_input('Repeat Password', type='password', key='reg_pass_2',
+                                                   disabled=st.session_state.logged)
 
-                    # data_chb = st.checkbox('Data is Correct', disabled=st.session_state.logged)
+                        # data_chb = st.checkbox('Data is Correct', disabled=st.session_state.logged)
 
-                    reg_button = st.form_submit_button('Register')
+                        reg_button = st.form_submit_button('Register')
 
-                if reg_button:
-                    if company_email in registered_emails:
-                        reporter(f'User {company_email} is already in DataBase')
-                        st.stop()
-
-                    if len(reg_pass_2) < 3 or reg_pass_1 != reg_pass_2:
-                        st.warning("""- Password should be at least 3 symbols
-                        - Password and Repeat Password should be the same""")
-                        st.stop()
-                    if len(name) < 2 or len(surname) < 2:
-                        st.warning("exclamation-triangle-fill Too short Name or Surname")
-                        st.stop()
-
-                    if 'conf_num' not in st.session_state:
-                        st.session_state.conf_num = "".join(random.sample("123456789", 4))
-
-                    conf_html = f"""
-                        <html>
-                          <head></head>
-                          <body>
-                            <h3>
-                              Hello, Colleague!
-                              <hr>
-                            </h3>
-                            <h5>
-                              You got this message because you want to register on ETD site
-                            </h5>
-                            <p>
-                                Please confirm your registration by entering the confirmation code 
-                                <b>{st.session_state.conf_num}</b> 
-                                at the <a href="https://design-energo.streamlit.app/">site</a> registration form
-                                <hr>
-                                Best regards, Administration 😎
-                            </p>
-                          </body>
-                        </html>
-                    """
-                    if not st.session_state.code_sent:
-                        send_mail(receiver=company_email, cc_rec="sergey.priemshiy@uzliti-en.com",
-                                  html=conf_html, subj="Confirmation of ETD site registration")
-                        st.session_state.code_sent = True
-
-                    entered_code = st.text_input("Confirmation Code from Email")
-
-                    if st.button("Confirm Code"):
+                    if reg_button:
                         if company_email in registered_emails:
                             reporter(f'User {company_email} is already in DataBase')
                             st.stop()
 
-                        if st.session_state.conf_num != entered_code:
-                            reporter("Confirmation code is wrong, try again")
+                        if len(reg_pass_2) < 3 or reg_pass_1 != reg_pass_2:
+                            st.warning("""- Password should be at least 3 symbols
+                            - Password and Repeat Password should be the same""")
                             st.stop()
-                        else:
-                            reply = create_user(name, surname, phone, telegram, company_email, reg_pass_2)
-                            reporter(reply)
+                        if len(name) < 2 or len(surname) < 2:
+                            st.warning("exclamation-triangle-fill Too short Name or Surname")
+                            st.stop()
+
+                        if 'conf_num' not in st.session_state:
+                            st.session_state.conf_num = "".join(random.sample("123456789", 4))
+
+                        conf_html = f"""
+                            <html>
+                              <head></head>
+                              <body>
+                                <h3>
+                                  Hello, Colleague!
+                                  <hr>
+                                </h3>
+                                <h5>
+                                  You got this message because you want to register on ETD site
+                                </h5>
+                                <p>
+                                    Please confirm your registration by entering the confirmation code 
+                                    <b>{st.session_state.conf_num}</b> 
+                                    at the <a href="https://design-energo.streamlit.app/">site</a> registration form
+                                    <hr>
+                                    Best regards, Administration 😎
+                                </p>
+                              </body>
+                            </html>
+                        """
+                        if not st.session_state.code_sent:
+                            send_mail(receiver=company_email, cc_rec="sergey.priemshiy@uzliti-en.com",
+                                      html=conf_html, subj="Confirmation of ETD site registration")
+                            st.session_state.code_sent = True
+
+                        entered_code = st.text_input("Confirmation Code from Email")
+
+                        if st.button("Confirm Code"):
+                            if company_email in registered_emails:
+                                reporter(f'User {company_email} is already in DataBase')
+                                st.stop()
+
+                            if st.session_state.conf_num != entered_code:
+                                reporter("Confirmation code is wrong, try again")
+                                st.stop()
+                            else:
+                                reply = create_user(name, surname, phone, telegram, company_email, reg_pass_2)
+                                reporter(reply)
 
         with change_tab:
             if 'user' not in st.session_state:
                 st.session_state.user = None
                 st.write('You should Log In first')
-                st.stop()
-
             else:
                 with st.form("UpData"):
                     upd_phone = st.text_input('Updated personal Phone', disabled=not st.session_state.logged)
