@@ -69,6 +69,7 @@ else:
 
 def home_content():
     empty1, content, empty2 = st.columns([2, 2, 2])
+    empty21, content2, empty22 = st.columns([1, 10, 1])
     with empty1:
         st.empty()
     with empty2:
@@ -134,23 +135,28 @@ def home_content():
                 # if len(get_pending_ass(st.session_state.user)):
                 #     st.markdown("---")
                 #     st.subheader(":orange[Pending Assignments]")
+                with content2:
+                    st.markdown("---")
+                    st.subheader(":orange[Your Duties]")
+                    st.write('New Assignments')
+                    st.text('Confirm the Assignments')
+                    df = get_assignments() #st.session_state.user
+                    if isinstance(df, pd.DataFrame):
+                        df = df.set_index('id')
+                        df.insert(0, column='confirm', value=False)
+                        # df['confirm'] = False
+                        # df.confirm = False
+                        st.experimental_data_editor(df)
 
-                st.markdown("---")
-                st.subheader(":orange[Your Duties]")
-                st.write('New Assignments')
-                st.text('Confirm the Assignments')
-                df = get_assignments(st.session_state.user)
-                if isinstance(df, pd.DataFrame):
-                    df
-                else:
-                    st.info('No assignments')
-                # st.text('Approved')
-                # st.text('Current')
-                st.markdown("---")
-                st.write('Transmittals')
-                st.text('Confirm the Transmittals')
-                st.text('Answered')
-                st.text('Pending')
+                    else:
+                        st.info('No assignments')
+                    # st.text('Approved')
+                    # st.text('Current')
+                    st.markdown("---")
+                    st.write('Transmittals')
+                    st.text('Confirm the Transmittals')
+                    st.text('Answered')
+                    st.text('Pending')
 
         with reg_tab:
             if st.session_state.logged:

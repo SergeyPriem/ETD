@@ -62,11 +62,8 @@ def drawing_sets():
             with in_out_col:
                 in_out_radio = st.radio("Select Incoming / Outgoing", ('In', 'Out'), horizontal=True)
 
-            # with reset_col:
-            #     st.text('')
-            #     reset_but = st.button('Reset')
             sets_tasks = get_own_tasks(proj_set)#.set_index('id')
-            #st.write(proj_set)
+            st.write(sets_tasks)
 
             if in_out_radio == "In":
                 sets_tasks = sets_tasks[(sets_tasks.in_out == 'Входящие') | (sets_tasks.in_out == 'In')]

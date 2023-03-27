@@ -102,9 +102,11 @@ def get_table(tabname):
 
 @st.cache_data(ttl=60, show_spinner='Getting Assignments...')
 def get_assignments(email=None):
+    print(email)
     with db_session:
         try:
             if email:
+                pers_sets_list = select(sod.id for sod in SOD if (sod.coord_id == Users[email]) or (sod.perf_id == Users[email]))[:]
                 data = select(
                     (
                         a.id,
@@ -122,8 +124,7 @@ def get_assignments(email=None):
                         a.perf_log,
                         a.comment,
                         a.added_by
-                    ) for a in Assignment if SOD[a.set_id].coord_id == Users[email] \
-                    or SOD[a.set_id].perf_id == Users[email])[:]
+                    ) for a in Assignment if a.id in pers_sets_list)[:]
 
             else:
                 data = select(
@@ -160,7 +161,7 @@ def get_assignments(email=None):
                 "coord_log",
                 "perf_log",
                 "comment",
-                "added_by",
+                "added_by"
             ])
             return df
         except Exception as e:
