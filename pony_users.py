@@ -8,13 +8,13 @@ from pony.orm import *
 
 set_sql_debug(True)
 
-def ben(func):
-  def wrapper(*args):
-    start = time.time()
-    func(*args)
-    end = time.time()
-    print(f'Time spent: {round(end - start, 4)} s.')
-  return wrapper
+# def ben(func):
+#   def wrapper(*args):
+#     start = time.time()
+#     func(*args)
+#     end = time.time()
+#     print(f'Time spent: {round(end - start, 4)} s.')
+#   return wrapper
 
 def move_to_former(employee_to_edit, end_date):
     with db_session:
@@ -62,7 +62,6 @@ def get_registered_emails():
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
-print(get_registered_emails())
 
 def create_user(name, surname, phone, telegram, email, password):
     if email in get_appl_emails():
@@ -108,9 +107,6 @@ def get_appl_user_data(email):
             return ApplUser[email]
     except Exception as e:
         return f"{type(e).__name__}{getattr(e, 'args', None)}"
-
-
-# print(get_appl_user_data('sergey.priemshiy@uzliti-en.com'))
 
 
 def add_to_log(email):
@@ -183,8 +179,6 @@ def get_settings(email):
         except Exception as e:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
-# print(get_settings('sergey.priemshiy@uzliti-en-com'))
-# print(Users['sergey.priemshiy@uzliti-en-com'])
 
 def update_settings(email, menu, delay):
     with db_session:
@@ -210,5 +204,3 @@ def update_user_reg_data(upd_phone, upd_telegram, email, upd_pass_2):
             return f"Data for {hero.name} Updated"
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
-
-
