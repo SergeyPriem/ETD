@@ -298,7 +298,8 @@ def home_content():
                         reply = update_user_reg_data(st.session_state.user, upd_pass_2)
                         reporter(reply)
                 else:
-                    st.write("Enter Confirmation Code from e-mail and press 'Confirm Code for Update'")
+                    st.write("After pressing 'Update Password' you will get Confirmation Code by e-mail.  "
+                             "Enter the Code and press 'Confirm Code for Update'")
 
 st.cache_data(ttl=600)
 def phone_directory():
