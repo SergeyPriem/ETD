@@ -97,8 +97,11 @@ def manage_projects():
                 Assignment, ApplUser, Project, SOD, VisitLog,), horizontal=True)
 
             df = get_table(tab_name)
-            st.info(f'Records Q-ty: {len(df)}')
-            st.write(df)
+            if isinstance(df, pd.DataFrame):
+                st.info(f'Records Q-ty: {len(df)}')
+                st.write(df)
+            else:
+                st.warning('No records found')
 
 
 st.cache_data(ttl=600)
