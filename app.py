@@ -72,6 +72,7 @@ def home_content():
     with content:
         st.title(':orange[Electrical Department]')
         st.header('Welcome!')
+        st.subheader("st.session_state.logged=", st.session_state.logged)
         st.text("The Site is designed to help you in everyday routines")
 
         login_tab, reg_tab, change_tab = st.tabs([log_in_out, 'Registration', 'Update Registration Data'])
@@ -85,7 +86,6 @@ def home_content():
                 else:
                     reporter("Can't get users list")
                     st.stop()
-                # st.write(registered_emails)
                 st.write("Not in list? Register first 👆")
                 password = st.text_input('Password', type='password', disabled=st.session_state.logged)
                 login_but = login_col.button('Log In', disabled=st.session_state.logged, use_container_width=True)
@@ -156,8 +156,6 @@ def home_content():
                 else:
                     reporter(appl_emails)
                     st.stop()
-
-
 
                 if company_email in registered_emails:
                     st.subheader("You are Registered 😎")
@@ -234,8 +232,7 @@ def home_content():
                                 reporter(reply)
 
         with change_tab:
-            if 'user' not in st.session_state:
-                st.session_state.user = None
+            if not st.session_state.logged:
                 st.write('You should Log In first')
             else:
                 with st.form("UpData"):
