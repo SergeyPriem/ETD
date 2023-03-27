@@ -145,6 +145,9 @@ def home_content():
                         df = df.set_index('id')
                         df.insert(0, column='confirm', value=False)
                         st.experimental_data_editor(df)
+                        if st.button("Confirm Assignments"):
+                            st.info("Assignments Confirmed")
+
 
                     else:
                         st.info('No assignments')
