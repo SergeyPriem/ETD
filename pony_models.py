@@ -20,6 +20,7 @@ class Project(db.Entity):
     mdr = Optional(str, 250, nullable=True)  # link to MDR
     notes = Optional(str, 500, nullable=True)
     set_draws = Set('SOD')
+    transs = Set('Trans')
 
 
 class SOD(db.Entity):
@@ -53,6 +54,7 @@ class Users(db.Entity):
     sod_coord = Set(SOD, reverse='coord_id')
     sod_perf = Set(SOD, reverse='perf_id')
     visitlogs = Set('VisitLog')
+    transs = Set('Trans')
 
 
 class ApplUser(db.Entity):
@@ -92,6 +94,24 @@ class Speciality(db.Entity):
     id = PrimaryKey(str, 20)
     descr = Required(str, 100)
     assignments = Set(Assignment)
+
+
+class Trans(db.Entity):
+    in_trans = PrimaryKey(str, 50)
+    in_date = Required(date)
+    ans_required = Required(bool)
+    out_date = Optional(date)
+    out_trans = Optional(str, 50)
+    users = Required(Users)
+    author = Optional(str, 50, nullable=True)
+    project = Required(Project)
+    subj = Required(str, 50)
+    link = Optional(str, 150, nullable=True)
+    t_type = Required(str, 50)
+    notes = Optional(str, 500, nullable=True)
+    backup_copy = Optional(str, nullable=True)
+    added_by = Required(str)
+    status = Optional(str, 50, nullable=True)
 
 
 # db.bind(provider='sqlite', filename='DBB.sqlite', create_db=True)
