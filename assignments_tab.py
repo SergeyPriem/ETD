@@ -104,7 +104,7 @@ def view_assignments(ass_tab2):
     with ass_tab2:
         df = get_assignments('sergey.priemshiy@uzliti-en.com')
         df_orig = pd.DataFrame()
-        st.write(df)
+
         if isinstance(df, pd.DataFrame):
             df_orig = df.copy().set_index('id')
         else:
