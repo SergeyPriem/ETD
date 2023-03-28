@@ -300,7 +300,8 @@ def update_sets(edited_set_df):
                     set_to_edit.perf_id = Users[row.perf_id]
                     set_to_edit.revision = row.revision
                     set_to_edit.start_date = row.start_date
-                    set_to_edit.notes += "->" + row.notes
+                    if isinstance(row.notes, str):
+                        set_to_edit.notes += "->" + row.notes
                     set_to_edit.current_status = row.current_status
                 except Exception as e:
                     return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
