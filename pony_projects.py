@@ -360,3 +360,7 @@ def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, de
         except Exception as e:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
+
+def confirm_ass(id, user):
+    st.write(f"Assignment with ID {id} confirmed By user {user}")
+    print(f"Assignment with ID {id} confirmed By user {user}")

@@ -24,12 +24,16 @@ from pony_users import get_appl_emails, check_user, create_user, add_to_log, get
     create_appl_user, get_appl_user_data, update_users_in_db, move_to_former, get_registered_emails, get_settings, \
     update_user_reg_data
 from pony.orm import *
-from pony_projects import get_assignments
+from pony_projects import get_assignments, confirm_ass
+import streamlit.components.v1 as components
 
 # from streamlit_profiler import Profiler
 
 # pf = Profiler()
 # pf.start()
+
+with open('style.css') as style:
+    st.markdown(f"""<style>{style.read()}</style>""", unsafe_allow_html=True)
 
 appearance_settings()
 
@@ -66,7 +70,12 @@ else:
 
 # st.cache_data(ttl=600)
 
-
+def mail_to_name(mail):
+    head = mail.split("@")[0]
+    if "." in head:
+        return (" ".join(head.split('.'))).title()
+    else:
+        return head
 def home_content():
     empty1, content, empty2 = st.columns([2, 2, 2])
     empty21, content2, empty22 = st.columns([1, 20, 1])
@@ -137,32 +146,147 @@ def home_content():
                 #     st.subheader(":orange[Pending Assignments]")
                 with content2:
                     st.markdown("---")
-                    st.subheader(":orange[Your Duties]")
-                    st.write('New Assignments')
-                    st.text('Confirm the Assignments')
-                    df = get_assignments() #st.session_state.user
-                    if isinstance(df, pd.DataFrame):
-                        df = df.set_index('id')
-                        # filter the assgnments by "IN" and fields coord_id,
-                        # perf_id not containing current  user email
-                        df.insert(0, column='confirm', value=False)
-                        st.experimental_data_editor(df)
-                        for k, v in df.iterrows():
-                            for i in v:
-                                st.text(i)
-                        if st.button("Confirm Selected Assignments"):
-                            st.info("Assignments Confirmed")
+
+                    ass_col, blank_col, trans_col = st.columns([10,2,10])
+                    with ass_col:
+                        st.subheader(":orange[New Incoming Assignments]")
+                        df = get_assignments() #st.session_state.user
+                        css = """table {border-collapse: collapse;}"""
+                        if isinstance(df, pd.DataFrame):
+                            for ind, row in df.iterrows():
+                                name_surname = mail_to_name(row.added_by)
+                                st.markdown(f"""<h4>Assignment: {row.id}</h4>""",unsafe_allow_html=True)
+
+                                st.markdown("""<style> .nobord table, tr, td, ths {
+                                        border-style: hidden;
+                                  </style> """, unsafe_allow_html=True)
+
+                                st.markdown(f"""
+                                <table class="nobord">
+                                <tr>
+                                    <td>Project</td>
+                                    <td>{row.project}</td>
+                                </tr>
+                                <tr>
+                                    <td>Unit</td>
+                                    <td>{row.unit}</td>
+                                </tr>
+                                <tr>
+                                    <td>Speciality</td>
+                                    <td>{row.speciality}</td>
+                                </tr>
+                                <tr>
+                                    <td>Stage</td>
+                                    <td>{row.stage}</td>
+                                </tr>
+                                <tr>
+                                    <td>Issue Date</td>
+                                    <td>{row.date}</td>
+                                </tr>
+                                <tr>
+                                    <td>Description</td>
+                                    <td>{row.description}</td>
+                                </tr>
+                                <tr>
+                                    <td>Link</td>
+                                    <td>{row.link}</td>
+                                </tr>
+                                <tr>
+                                    <td>Backup Copy</td>
+                                    <td>{row.backup_copy}</td>
+                                </tr>
+                                <tr>
+                                    <td>Source</td>
+                                    <td>{row.source}</td>
+                                </tr>
+                                <tr>
+                                    <td>Comment</td>
+                                    <td>{row.comment}</td>
+                                </tr>
+                                <tr>
+                                    <td>Added By</td>
+                                    <td>{name_surname}</td>
+                                </tr>
+                                </table>
+                                <br>
+                                """, unsafe_allow_html=True)
+                                but_key = f"Confirm Assignment: {row.id}"
+                                st.button(label=but_key, key=but_key, type='primary', on_click=confirm_ass, args=(row.id, st.session_state.user))
+                                st.text("")
+                        else:
+                            st.info('No New Assignments')
+
+                    with trans_col:
+                        st.subheader(":orange[New Transmittals]")
+                        df = get_assignments()  # st.session_state.user
+
+                        if isinstance(df, pd.DataFrame):
+                            for ind, row in df.iterrows():
+                                name_surname = mail_to_name(row.added_by)
+                                st.markdown(f"""<h4>Transmittal: {row.id}</h4>""",unsafe_allow_html=True)
+
+                                st.markdown("""<style> .nobord table, tr, td, ths {
+                                        border-style: hidden;
+                                  </style> """, unsafe_allow_html=True)
+
+                                st.markdown(f"""
+                                <table class="nobord">
+                                <tr>
+                                    <td>Project</td>
+                                    <td>{row.project}</td>
+                                </tr>
+                                <tr>
+                                    <td>Unit</td>
+                                    <td>{row.unit}</td>
+                                </tr>
+                                <tr>
+                                    <td>Speciality</td>
+                                    <td>{row.speciality}</td>
+                                </tr>
+                                <tr>
+                                    <td>Stage</td>
+                                    <td>{row.stage}</td>
+                                </tr>
+                                <tr>
+                                    <td>Issue Date</td>
+                                    <td>{row.date}</td>
+                                </tr>
+                                <tr>
+                                    <td>Description</td>
+                                    <td>{row.description}</td>
+                                </tr>
+                                <tr>
+                                    <td>Link</td>
+                                    <td>{row.link}</td>
+                                </tr>
+                                <tr>
+                                    <td>Backup Copy</td>
+                                    <td>{row.backup_copy}</td>
+                                </tr>
+                                <tr>
+                                    <td>Source</td>
+                                    <td>{row.source}</td>
+                                </tr>
+                                <tr>
+                                    <td>Comment</td>
+                                    <td>{row.comment}</td>
+                                </tr>
+                                <tr>
+                                    <td>Added By</td>
+                                    <td>{name_surname}</td>
+                                </tr>
+                                </table>
+                                <br>
+                                """, unsafe_allow_html=True)
 
 
-                    else:
-                        st.info('No assignments')
-                    # st.text('Approved')
-                    # st.text('Current')
-                    st.markdown("---")
-                    st.write('Transmittals')
-                    st.text('Confirm the Transmittals')
-                    st.text('Answered')
-                    st.text('Pending')
+                                but_key = f"Add Reply for: {row.id}"
+                                st.button(label=but_key, key=but_key, type='primary', on_click=confirm_ass, args=(row.id, st.session_state.user))
+                                st.text("")
+                                st.markdown("""
+                                """)
+                        else:
+                            st.info('No New Transmittals')
 
         with reg_tab:
             if st.session_state.logged:
