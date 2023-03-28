@@ -230,36 +230,36 @@ def home_content():
                                 <table class="nobord">
                                 <tr>
                                     <td>Transmittal Number</td>
-                                    <td>{row.project}</td>
+                                    <td>{row.in_trans}</td>
                                 </tr>
                                 <tr>
                                     <td>Project</td>
-                                    <td>{row.description}</td>
+                                    <td>{row.project}</td>
                                 </tr>
                                 <tr>
                                     <td>Subject</td>
-                                    <td>{row.description}</td>
+                                    <td>{row.subj}</td>
                                 </tr>
 
                                 <tr>
                                     <td>Transmittal Date</td>
-                                    <td>{row.unit}</td>
+                                    <td>{row.in_date}</td>
                                 </tr>
                                 <tr>
                                     <td>Is reply required?</td>
-                                    <td>{row.speciality}</td>
+                                    <td>{"Yes" if row.ans_required else "No"}</td>
                                 </tr>
                                 <tr>
                                     <td>Previous Transmittal</td>
-                                    <td>{row.stage}</td>
+                                    <td>{row.out_trans}</td>
                                 </tr>
                                 <tr>
                                     <td>Responsible</td>
-                                    <td>{row.date}</td>
+                                    <td>{row.users}</td>
                                 </tr>
                                 <tr>
                                     <td>Author</td>
-                                    <td>{row.description}</td>
+                                    <td>{row.author}</td>
                                 </tr>
                                 <tr>
                                     <td>Link</td>
@@ -267,11 +267,11 @@ def home_content():
                                 </tr>
                                 <tr>
                                     <td>Type</td>
-                                    <td>{row.backup_copy}</td>
+                                    <td>{row.t_type}</td>
                                 </tr>
                                 <tr>
                                     <td>Notes</td>
-                                    <td>{row.source}</td>
+                                    <td>{row.notes}</td>
                                 </tr>
                                 <tr>
                                     <td>Added By</td>
