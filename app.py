@@ -488,22 +488,23 @@ def manage_users():
 
         users_tab1, users_tab2 = st.tabs(['Add Applied User', 'Edit User Details'])
         with users_tab1:
-            user_email = st.text_input('Email')
-            st.markdown("---")
-            user_position = st.radio('Position', positions, horizontal=True)
-            st.markdown("---")
-            user_department = st.radio('Department', departments, horizontal=True)
-            st.markdown("---")
-            user_access_level = st.radio('Access level',
-                                         ('performer', 'admin', 'supervisor'), horizontal=True)
-            st.markdown("---")
-            user_start_date = st.date_input('Start Date', datetime.date.today())
-            st.markdown("---")
+            with st.form("Add_appl_user"):
+                user_email = st.text_input('Email')
+                st.markdown("---")
+                user_position = st.radio('Position', positions, horizontal=True)
+                st.markdown("---")
+                user_department = st.radio('Department', departments, horizontal=True)
+                st.markdown("---")
+                user_access_level = st.radio('Access level',
+                                             ('performer', 'admin', 'supervisor'), horizontal=True)
+                st.markdown("---")
+                user_start_date = st.date_input('Start Date', datetime.date.today())
+                st.markdown("---")
+                create_appl_user_but = st.form_submit_button('Create New User', use_container_width=True)
 
-            if st.button('Create New User', use_container_width=True):
+            if create_appl_user_but:
                 reply = create_appl_user(
                     user_email, user_position, user_department, user_access_level, "current", user_start_date)
-
                 reporter(reply)
 
         with users_tab2:

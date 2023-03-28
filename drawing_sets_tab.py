@@ -6,6 +6,8 @@ from pre_sets import specialities, specialities_rus
 from pony_projects import get_sets, get_own_tasks
 
 st.cache_data(ttl=600)
+
+
 def drawing_sets():
     empty1, content, empty2 = st.columns([1, 30, 1])
     with empty1:
@@ -27,11 +29,9 @@ def drawing_sets():
 
         df = get_sets(user_email)
 
-
         if not isinstance(df, pd.DataFrame):
             st.write("No sets available in DataBase")
             st.stop()
-
 
         proj_list = df.project_id
 
@@ -45,7 +45,7 @@ def drawing_sets():
 
         sets_selected = st.multiselect("Set / Unit for Search", sets_list)
 
-        df = df[df.set_name.isin(sets_selected)]#.set_index("project_id")
+        df = df[df.set_name.isin(sets_selected)]  # .set_index("project_id")
 
         df.insert(0, 'preview', False)
 
@@ -56,21 +56,20 @@ def drawing_sets():
 
         if edited_num == 1:
             st.markdown("---")
-            proj_set = (edit_df[edit_df.preview]['project_id'].values[0], edit_df[edit_df.preview]['set_name'].values[0])
+            proj_set = (
+            edit_df[edit_df.preview]['project_id'].values[0], edit_df[edit_df.preview]['set_name'].values[0])
             task_col, in_out_col, quant_col = st.columns([9, 2, 2])
 
             with in_out_col:
                 in_out_radio = st.radio("Select Incoming / Outgoing", ('In', 'Out'), horizontal=True)
 
-            sets_tasks = get_own_tasks(proj_set)#.set_index('id')
+            sets_tasks = get_own_tasks(proj_set)  # .set_index('id')
             st.write(sets_tasks)
 
             if in_out_radio == "In":
                 sets_tasks = sets_tasks[(sets_tasks.in_out == 'Входящие') | (sets_tasks.in_out == 'In')]
             else:
                 sets_tasks = sets_tasks[(sets_tasks.in_out == 'Исходящие') | (sets_tasks.in_out == 'Out')]
-
-
 
             with task_col:
                 st.subheader(f"Available Assignments for :red[{proj_set[0]}: {proj_set[1]}:] {in_out_radio}")
