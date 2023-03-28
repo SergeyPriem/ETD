@@ -38,10 +38,11 @@ def tab_to_df(tab):
     users_df = pd.DataFrame(users_dict)
     if 'id' in list(users_df.columns):
         users_df = users_df.set_index('id')
-        if len(users_df)>0:
-            return users_df
-        else:
-            return "Empty Table"
+    if len(users_df)>0:
+        return users_df
+    else:
+        return "Empty Table"
+
 
 
 @st.cache_data(ttl=360, show_spinner="Creating Project...")
