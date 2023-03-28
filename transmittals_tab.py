@@ -6,7 +6,7 @@ from pony_projects import get_all_trans
 
 
 def transmittals_content():
-    tr_empty1, tr_content, tr_empty2 = st.columns([1,9,1])
+    tr_empty1, tr_content, tr_empty2 = st.columns([1,15,1])
     with tr_empty1:
         st.empty()
     with tr_empty2:
