@@ -4,11 +4,11 @@ import datetime
 from pony.orm import *
 import pandas as pd
 import streamlit as st
-from pony_models import ApplUser, Project, Assignment, VisitLog, SOD, Users
+from models import ApplUser, Project, Assignment, VisitLog, SOD, Users, Trans, Speciality
 from pre_sets import proj_statuses, reporter, stages, sod_statuses
-from pony_projects import create_project, get_projects_names, get_table, update_projects, create_sod, get_sets_names, \
+from projects import create_project, get_projects_names, get_table, update_projects, create_sod, get_sets_names, \
     get_sets_to_edit, update_sets
-from pony_users import get_appl_emails
+from users import get_appl_emails
 
 def manage_projects():
     empty_proj_1, content_proj, empty_proj_2 = st.columns([1, 9, 1])
@@ -94,7 +94,7 @@ def manage_projects():
         with viewer_tab:
             # tab_list = get_tab_names()
             tab_name = st.radio("Select the Table for view", (
-                Assignment, ApplUser, Project, SOD, Users, VisitLog,), horizontal=True)
+                Assignment, ApplUser, Project, SOD, Users, VisitLog, Trans, Speciality), horizontal=True)
 
             df = get_table(tab_name)
             if isinstance(df, pd.DataFrame):

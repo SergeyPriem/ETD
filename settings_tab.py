@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import streamlit as st
 
-from pony_users import update_settings
+from users import update_settings
 
 
 def settings_content():

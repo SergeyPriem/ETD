@@ -3,7 +3,7 @@ import datetime
 import time
 import streamlit as st
 import bcrypt
-from pony_models import ApplUser, Users, VisitLog
+from models import ApplUser, Users, VisitLog
 from pony.orm import *
 
 set_sql_debug(True)

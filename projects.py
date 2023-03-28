@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 
 from pony.orm import *
-from pony_models import Project, SOD, ApplUser, Assignment, Users, Speciality, Trans
+from models import Project, SOD, ApplUser, Assignment, Users, Speciality, Trans
 import pandas as pd
 from datetime import date, datetime
 import streamlit as st

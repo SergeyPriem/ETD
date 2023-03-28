@@ -3,7 +3,7 @@
 import pandas as pd
 import streamlit as st
 from pre_sets import specialities, specialities_rus
-from pony_projects import get_sets, get_own_tasks
+from projects import get_sets, get_own_tasks
 
 st.cache_data(ttl=600)
 

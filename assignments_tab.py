@@ -2,9 +2,9 @@
 
 import pandas as pd
 import streamlit as st
-from pony_models import Assignment
+from models import Assignment
 from pre_sets import specialities, reporter
-from pony_projects import get_projects_names, get_table, get_sets_for_project, add_in_to_db, add_out_to_db, \
+from projects import get_projects_names, get_table, get_sets_for_project, add_in_to_db, add_out_to_db, \
     get_assignments
 
 

@@ -2,7 +2,7 @@
 import pandas as pd
 import streamlit as st
 
-from pony_projects import get_trans
+from projects import get_trans
 
 
 def transmittals_content():
