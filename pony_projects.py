@@ -294,10 +294,10 @@ def update_sets(edited_set_df):
             with db_session:
                 try:
                     set_to_edit = select(s for s in SOD if (s.project_id == Project[row.project_id]
-                                                            and s.set_name == row.set_name))[0]
+                                                            and s.set_name == row.set_name)).first()
                     set_to_edit.stage = row.stage
-                    set_to_edit.coord_id = row.coord_id
-                    set_to_edit.perf_id = row.perf_id
+                    set_to_edit.coord_id = Users[row.coord_id]
+                    set_to_edit.perf_id = Users[row.perf_id]
                     set_to_edit.revision = row.revision
                     set_to_edit.start_date = row.start_date
                     set_to_edit.notes += "->" + row.notes
@@ -366,6 +366,10 @@ def confirm_ass(id, user):
     st.write(f"Assignment with ID {id} confirmed By user {user}")
     print(f"Assignment with ID {id} confirmed By user {user}")
 
+def confirm_trans(id, user):
+    st.write(f"Transmittal with ID {id} is replied {user}")
+    print(f"Transmittal with ID {id} is replied {user}")
+
 
 def get_trans(email=None):
     with db_session:
@@ -377,3 +381,4 @@ def get_trans(email=None):
             return tab_to_df(trans)
         except Exception as e:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+
