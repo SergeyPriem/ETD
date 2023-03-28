@@ -24,7 +24,7 @@ from users import get_appl_emails, check_user, create_user, add_to_log, get_logg
     create_appl_user, get_appl_user_data, update_users_in_db, move_to_former, get_registered_emails, get_settings, \
     update_user_reg_data
 from pony.orm import *
-from projects import get_assignments, confirm_ass, get_trans
+from projects import get_assignments, confirm_ass, get_trans, confirm_trans
 
 # from streamlit_profiler import Profiler
 
