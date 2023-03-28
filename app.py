@@ -282,8 +282,8 @@ def home_content():
                                 """, unsafe_allow_html=True)
 
 
-                                but_key = f"Add Reply for: {row.id}"
-                                st.button(label=but_key, key=but_key, type='primary', on_click=confirm_ass, args=(row.id, st.session_state.user))
+                                but_key = f"Add Reply for: {row.in_trans}"
+                                st.button(label=but_key, key=but_key, type='primary', on_click=confirm_ass, args=(row.in_trans, st.session_state.user))
                                 st.text("")
                                 st.markdown("""
                                 """)
