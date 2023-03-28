@@ -16,11 +16,11 @@ def transmittals_content():
     with tr_content:
         st.title(':orange[Transmittals]')
 
-        my_all = st.radio("Select the Option", ["My Sets", 'All Sets'], horizontal=True)
+        my_all_tr = st.radio("Select the Option", ["My Transmittals", 'All Transmittals'], horizontal=True)
 
-        st.subheader(my_all)
+        st.subheader(my_all_tr)
 
-        if my_all == "My Sets":
+        if my_all_tr == "My Transmittals":
             user_email = st.session_state.user
         else:
             user_email = None
