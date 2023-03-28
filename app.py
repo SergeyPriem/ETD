@@ -220,7 +220,7 @@ def home_content():
                         if isinstance(df, pd.DataFrame):
                             for ind, row in df.iterrows():
                                 name_surname = mail_to_name(row.added_by)
-                                st.markdown(f"""<h4>New Transmittal: {row.id}</h4>""",unsafe_allow_html=True)
+                                st.markdown(f"""<h4>New Transmittal: {row.in_trans}</h4>""",unsafe_allow_html=True)
 
                                 st.markdown("""<style> .nobord table, tr, td, ths {
                                         border-style: hidden;
