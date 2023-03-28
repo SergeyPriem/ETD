@@ -3,8 +3,6 @@ import pandas as pd
 import streamlit as st
 from PIL import Image
 
-
-
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_e.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
 import datetime
@@ -283,7 +281,8 @@ def home_content():
 
 
                                 but_key = f"Add Reply for: {row.in_trans}"
-                                st.button(label=but_key, key=but_key, type='primary', on_click=confirm_trans, args=(row.in_trans, st.session_state.user))
+                                st.button(label=but_key, key=but_key, type='primary', on_click=confirm_trans,
+                                          args=(row.in_trans, st.session_state.user))
                                 st.text("")
                                 st.markdown("""
                                 """)
