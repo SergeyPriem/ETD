@@ -16,7 +16,7 @@ def transmittals_content():
     with tr_content:
         st.title(':orange[Transmittals]')
         df = get_all_trans()
-        df
+        st.write(df)
         # if isinstance(df, pd.DataFrame):
         #     df
         # else:
