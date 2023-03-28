@@ -119,19 +119,21 @@ def manage_sets():
         with sets_create:
 
             st.subheader("Create Set of Drawings")
-            proj_short = st.selectbox('Select a Project', get_projects_names())
-            set_name = st.text_input("Enter the Name for new Set of Drawings / Unit")
-            stage = st.radio("Select the Stage", stages, horizontal=True)
-            colleagues = get_appl_emails()
-            coordinator = st.selectbox("Coordinator", colleagues)
-            performer = st.selectbox("Performer", colleagues)
-            set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
-            status = st.select_slider("Select the Current Status", sod_statuses, value='0%')
-            notes = st.text_area("Add Notes")
+            with st.form('new_sod'):
+                proj_short = st.selectbox('Select a Project', get_projects_names())
+                set_name = st.text_input("Enter the Name for new Set of Drawings / Unit")
+                stage = st.radio("Select the Stage", stages, horizontal=True)
+                colleagues = get_appl_emails()
+                coordinator = st.selectbox("Coordinator", colleagues)
+                performer = st.selectbox("Performer", colleagues)
+                set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
+                status = st.select_slider("Select the Current Status", sod_statuses, value='0%')
+                notes = st.text_area("Add Notes")
+                create_sod_but = st.form_submit_button("Create")
 
-            if st.button("Create", key="create sod"):
-                reply = create_sod(proj_short, set_name, stage, coordinator, performer, status,
-                                   set_start_date, notes)
+            if create_sod_but:
+                reply = create_sod(proj_short, set_name, stage, status, set_start_date, notes, coordinator, performer)
+                #create_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_date: date, notes='', coordinator=None, performer=None, )
                 reporter(reply)
 
         with sets_edit:
