@@ -25,7 +25,7 @@ from pony_users import get_appl_emails, check_user, create_user, add_to_log, get
     update_user_reg_data
 from pony.orm import *
 from pony_projects import get_assignments, confirm_ass
-import streamlit.components.v1 as components
+
 
 # from streamlit_profiler import Profiler
 
