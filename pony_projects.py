@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 
 from pony.orm import *
-from pony_models import Project, SOD, ApplUser, Assignment, Users, Speciality
+from pony_models import Project, SOD, ApplUser, Assignment, Users, Speciality, Trans
 import pandas as pd
 from datetime import date, datetime
 import streamlit as st
@@ -364,3 +364,12 @@ def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, de
 def confirm_ass(id, user):
     st.write(f"Assignment with ID {id} confirmed By user {user}")
     print(f"Assignment with ID {id} confirmed By user {user}")
+
+
+def get_all_trans():
+    with db_session:
+        try:
+            trans = select(t for t in Trans)[:]
+            return tab_to_df(trans)
+        except Exception as e:
+            return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"

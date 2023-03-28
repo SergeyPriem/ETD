@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
-
+import pandas as pd
 import streamlit as st
+
+from pony_projects import get_all_trans
+
 
 def transmittals_content():
     tr_empty1, tr_content, tr_empty2 = st.columns([1,9,1])
@@ -12,7 +15,12 @@ def transmittals_content():
 
     with tr_content:
         st.title(':orange[Transmittals]')
+        df = get_all_trans()
 
+        if isinstance(df, pd.DataFrame):
+            df
+        else:
+            st.write("Transmittals not Available")
         # placeholder = st.empty()
         # sleep(1)
         # # Replace the placeholder with some text:
