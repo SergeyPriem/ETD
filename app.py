@@ -24,8 +24,7 @@ from pony_users import get_appl_emails, check_user, create_user, add_to_log, get
     create_appl_user, get_appl_user_data, update_users_in_db, move_to_former, get_registered_emails, get_settings, \
     update_user_reg_data
 from pony.orm import *
-from pony_projects import get_assignments, confirm_ass
-
+from pony_projects import get_assignments, confirm_ass, get_trans
 
 # from streamlit_profiler import Profiler
 
@@ -216,12 +215,12 @@ def home_content():
 
                     with trans_col:
                         st.subheader(":orange[New Transmittals]")
-                        df = get_assignments()  # st.session_state.user
-
+                        df = get_trans(st.session_state.user)  # st.session_state.user
+                        df = df[df.status != "Closed"]
                         if isinstance(df, pd.DataFrame):
                             for ind, row in df.iterrows():
                                 name_surname = mail_to_name(row.added_by)
-                                st.markdown(f"""<h4>Transmittal: {row.id}</h4>""",unsafe_allow_html=True)
+                                st.markdown(f"""<h4>New Transmittal: {row.id}</h4>""",unsafe_allow_html=True)
 
                                 st.markdown("""<style> .nobord table, tr, td, ths {
                                         border-style: hidden;
@@ -230,27 +229,36 @@ def home_content():
                                 st.markdown(f"""
                                 <table class="nobord">
                                 <tr>
-                                    <td>Project</td>
+                                    <td>Transmittal Number</td>
                                     <td>{row.project}</td>
                                 </tr>
                                 <tr>
-                                    <td>Unit</td>
+                                    <td>Project</td>
+                                    <td>{row.description}</td>
+                                </tr>
+                                <tr>
+                                    <td>Subject</td>
+                                    <td>{row.description}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Transmittal Date</td>
                                     <td>{row.unit}</td>
                                 </tr>
                                 <tr>
-                                    <td>Speciality</td>
+                                    <td>Is reply required?</td>
                                     <td>{row.speciality}</td>
                                 </tr>
                                 <tr>
-                                    <td>Stage</td>
+                                    <td>Previous Transmittal</td>
                                     <td>{row.stage}</td>
                                 </tr>
                                 <tr>
-                                    <td>Issue Date</td>
+                                    <td>Responsible</td>
                                     <td>{row.date}</td>
                                 </tr>
                                 <tr>
-                                    <td>Description</td>
+                                    <td>Author</td>
                                     <td>{row.description}</td>
                                 </tr>
                                 <tr>
@@ -258,16 +266,12 @@ def home_content():
                                     <td>{row.link}</td>
                                 </tr>
                                 <tr>
-                                    <td>Backup Copy</td>
+                                    <td>Type</td>
                                     <td>{row.backup_copy}</td>
                                 </tr>
                                 <tr>
-                                    <td>Source</td>
+                                    <td>Notes</td>
                                     <td>{row.source}</td>
-                                </tr>
-                                <tr>
-                                    <td>Comment</td>
-                                    <td>{row.comment}</td>
                                 </tr>
                                 <tr>
                                     <td>Added By</td>
