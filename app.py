@@ -32,8 +32,6 @@ from pony_projects import get_assignments, confirm_ass
 # pf = Profiler()
 # pf.start()
 
-with open('style.css') as style:
-    st.markdown(f"""<style>{style.read()}</style>""", unsafe_allow_html=True)
 
 appearance_settings()
 
