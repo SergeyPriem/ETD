@@ -367,10 +367,13 @@ def confirm_ass(id, user):
     print(f"Assignment with ID {id} confirmed By user {user}")
 
 
-def get_all_trans():
+def get_trans(email=None):
     with db_session:
         try:
-            trans = select(t for t in Trans)[:]
+            if email:
+                trans = select(s for s in Trans if s.users == Users[email])[:]
+            else:
+                trans = select(t for t in Trans)[:]
             return tab_to_df(trans)
         except Exception as e:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"

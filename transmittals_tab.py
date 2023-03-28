@@ -2,7 +2,7 @@
 import pandas as pd
 import streamlit as st
 
-from pony_projects import get_all_trans
+from pony_projects import get_trans
 
 
 def transmittals_content():
@@ -15,7 +15,18 @@ def transmittals_content():
 
     with tr_content:
         st.title(':orange[Transmittals]')
-        df = get_all_trans()
+
+        my_all = st.radio("Select the Option", ["My Sets", 'All Sets'], horizontal=True)
+
+        st.subheader(my_all)
+
+        if my_all == "My Sets":
+            user_email = st.session_state.user
+        else:
+            user_email = None
+
+
+        df = get_trans(user_email)
         st.write(df)
         # if isinstance(df, pd.DataFrame):
         #     df
