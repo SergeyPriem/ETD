@@ -2,7 +2,8 @@
 import pandas as pd
 import streamlit as st
 
-from projects import get_trans
+from pre_sets import trans_types
+from projects import get_trans, get_proj_list
 
 
 def transmittals_content():
@@ -16,10 +17,41 @@ def transmittals_content():
     with tr_content:
         st.title(':orange[Transmittals]')
 
+
         add_trans_tab, view_trans_tab = st.tabs(['Add New Transmittal', 'View Existing Transmittals'])
-        my_all_tr = st.radio("Select the Option", ["My Transmittals", 'All Transmittals'], horizontal=True)
+
+        with add_trans_tab:
+            with st.form("add_trans"):
+                in_trans = st.text_input("Transmittal Number")
+                in_date = st.date_input("Transmittal Date")
+                out_trans = st.text_input("In reply to:")
+                ans_required = st.radio("Reply required", ('Yes', 'No'))
+                out_date = st.date_input("Due Date")
+                project = st.selectbox("Project", get_proj_list())
+                subj = st.text_input("Subject")
+                link = st.text_input("Link")
+                t_type = st.selectbox("Transmittal Type", trans_types)
+                notes = st.text_area('Notes')
+                add_trans_but = st.form_submit_button("Add Transmittal")
+
+            if add_trans_but:
+                st.info(
+                    in_trans,
+                    in_date,
+                    out_trans,
+                    ans_required,
+                    out_date,
+                    project,
+                    subj,
+                    link,
+                    t_type,
+                    notes,
+                    add_trans_but
+                )
+
 
         with view_trans_tab:
+            my_all_tr = st.radio("Select the Option", ["My Transmittals", 'All Transmittals'], horizontal=True)
             st.subheader(my_all_tr)
 
             if my_all_tr == "My Transmittals":
@@ -28,6 +60,7 @@ def transmittals_content():
                 user_email = None
 
             df = get_trans(user_email)
+
             if isinstance(df, pd.DataFrame):
                 if len(df)>0:
                     st.write(df)

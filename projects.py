@@ -383,3 +383,11 @@ def get_trans(email=None):
         except Exception as e:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
+@st.cache_data(ttl=1800)
+def get_proj_list():
+    with db_session:
+        try:
+            proj_list = select(p.short_name for p in Project)[:]
+            return proj_list
+        except Exception as e:
+            return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
