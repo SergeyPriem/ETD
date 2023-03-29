@@ -16,18 +16,24 @@ def transmittals_content():
     with tr_content:
         st.title(':orange[Transmittals]')
 
+        add_trans_tab, view_trans_tab = st.tabs(['Add New Transmittal', 'View Existing Transmittals'])
         my_all_tr = st.radio("Select the Option", ["My Transmittals", 'All Transmittals'], horizontal=True)
 
-        st.subheader(my_all_tr)
+        with view_trans_tab:
+            st.subheader(my_all_tr)
 
-        if my_all_tr == "My Transmittals":
-            user_email = st.session_state.user
-        else:
-            user_email = None
+            if my_all_tr == "My Transmittals":
+                user_email = st.session_state.user
+            else:
+                user_email = None
 
+            df = get_trans(user_email)
+            if isinstance(df, pd.DataFrame):
+                if len(df)>0:
+                    st.write(df)
+                else:
+                    st.info("No Tansmittals in DataBase")
 
-        df = get_trans(user_email)
-        st.write(df)
         # if isinstance(df, pd.DataFrame):
         #     df
         # else:
