@@ -39,7 +39,7 @@ def transmittals_content():
                 notes = rc.text_input('Notes')
                 in_date = lc.date_input("Transmittal Date")
                 author = lc.text_input('Originator of the Transmittal')
-                add_trans_but = lc.form_submit_button("Preview Filled Form")
+                add_trans_but = lc.form_submit_button("Preview Transmittal's Data")
 
             if add_trans_but:
                 # st.markdown(f"""
