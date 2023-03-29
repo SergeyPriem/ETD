@@ -381,6 +381,7 @@ def home_content():
                         else:
                             reply = create_user(name, surname, phone, telegram, company_email, reg_pass_2)
                             reporter(reply)
+                            st.experimental_rerun()
 
         with change_tab:
             if not st.session_state.logged:
