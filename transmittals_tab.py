@@ -98,27 +98,27 @@ def transmittals_content():
                 st.markdown(f"""
                             Project: **:blue[{project}]**
                             
-                            Transmittal Number:  **:blue{in_trans}]**
+                            Transmittal Number:  **:blue[{in_trans}]**
                             
-                            In reply to:  **:blue{out_trans}]**
+                            In reply to:  **:blue[{out_trans}]**
                             
-                            Transmittal Type:  **:blue{t_type}]**
+                            Transmittal Type:  **:blue[{t_type}]**
                             
-                            Subject:  **:blue{subj}]**
+                            Subject:  **:blue[{subj}]**
                             
-                            Link:  **:blue{link}]**
-                            Transmittal Date: **:blue{in_date}]**
+                            Link:  **:blue[{link}]**
+                            Transmittal Date: **:blue[{in_date}]**
                             
-                            Reply required:  **:blue{ans_required}]**
+                            Reply required:  **:blue[{ans_required}]**
                             
-                            Due Date:  **:blue{out_date}]**
+                            Due Date:  **:blue[{out_date}]**
                             
-                            Originator of the Transmittal:  **:blue{author}]**
+                            Originator of the Transmittal:  **:blue[{author}]**
                             
-                            Responsible Employee:  **:blue{responsible}]**
+                            Responsible Employee:  **:blue[{responsible}]**
                             
-                            Notes:  **:blue{notes}]**
-                                            """)
+                            Notes:  **:blue[{notes}]**
+                            """)
 
 
                 st.info(f"""
