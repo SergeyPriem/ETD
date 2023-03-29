@@ -107,6 +107,7 @@ def transmittals_content():
                             Subject:  **:blue[{subj}]**
                             
                             Link:  **:blue[{link}]**
+                            
                             Transmittal Date: **:blue[{in_date}]**
                             
                             Reply required:  **:blue[{ans_required}]**
