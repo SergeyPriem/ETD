@@ -33,7 +33,6 @@ def appearance_settings():
 if 'delay' not in st.session_state:
     st.session_state.delay = 3
 
-@st.cache_data
 def reporter(text: str, duration=st.session_state.delay) -> None:  #: int = st.session_state.delay
     placeholder = st.empty()
     if isinstance(text, str):
