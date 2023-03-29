@@ -2,8 +2,8 @@
 import pandas as pd
 import streamlit as st
 
-from pre_sets import trans_types
-from projects import get_trans, get_proj_list
+from pre_sets import trans_types, reporter
+from projects import get_trans, get_proj_list, add_new_trans
 from users import get_registered_emails
 
 
@@ -117,6 +117,7 @@ def transmittals_content():
                             
                             Notes: 
                             """)
+
                 r_prev.markdown(f"""
                             **:blue[{project}]**
                             
@@ -144,23 +145,9 @@ def transmittals_content():
                             """)
 
             if st.button('Add to DataBase'):
-                st.info('Added to DataBase')
-
-
-                # st.info(f"""
-                #      {in_trans,
-                #      in_date,
-                #      out_trans,
-                #      ans_required,
-                #      out_date,
-                #      project,
-                #      subj,
-                #      link,
-                #      t_type,
-                #      notes,
-                #      add_trans_but, responsible, author}
-                #      """
-                # )
+                reply = add_new_trans(project, in_trans, out_trans, t_type, subj, link, in_date, ans_required,
+                                      out_date, author, responsible, notes)
+                reporter(reply)
 
 
         with view_trans_tab:

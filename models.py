@@ -109,7 +109,7 @@ class Trans(db.Entity):
     link = Optional(str, 150, nullable=True)
     t_type = Required(str, 50)
     notes = Optional(str, 500, nullable=True)
-    backup_copy = Optional(str, nullable=True)
+    received = Optional(str, nullable=True)
     added_by = Required(str)
     status = Optional(str, 50, nullable=True)
 

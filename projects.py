@@ -391,3 +391,32 @@ def get_proj_list():
             return proj_list
         except Exception as e:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+
+
+def add_new_trans(project, in_trans, out_trans, t_type, subj, link, in_date, ans_required, out_date, author, responsible, notes):
+    with db_session:
+        try:
+
+            Trans(
+                project=Project[project],
+                in_trans=in_trans,
+                out_trans=out_trans,
+                t_type=t_type,
+                subj=subj,
+                link=link,
+                in_date=in_date,
+                ans_required=ans_required,
+                out_date=out_date,
+                author=author,
+                users=Users[responsible],
+                notes=notes,
+                received=""
+            )
+            return f"""
+            New Transmittal {in_trans} is added to DataBase  
+            """
+
+        except Exception as e:
+            return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+
+
