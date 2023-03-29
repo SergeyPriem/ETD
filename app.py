@@ -364,6 +364,8 @@ def home_content():
                                       html=conf_html, subj="Confirmation of ETD site registration"):
                                 st.session_state.code_sent = True
                                 st.info("Confirmation Code sent to Your Company Email")
+                            else:
+                                st.warning("Network problems...Try again later")
 
 
                     entered_code = st.text_input("Confirmation Code from Email")
