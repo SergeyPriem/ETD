@@ -91,56 +91,56 @@ def transmittals_content():
                 # </table>
                 # <br>
                 # """, unsafe_allow_html=True)
-                l_prev, r_prev = st.columns([2,10])
+                l_prev, r_prev = st.columns([1,8])
                 l_prev.markdown(f"""
-                            Project: **:blue[{project}]**
+                            Project:
                             
-                            Transmittal Number:  **:blue[{in_trans}]**
+                            Transmittal Number:
                             
-                            In reply to:  **:blue[{out_trans}]**
+                            In reply to:
                             
-                            Transmittal Type:  **:blue[{t_type}]**
+                            Transmittal Type:
                             
-                            Subject:  **:blue[{subj}]**
+                            Subject:
                             
-                            Link:  **:blue[{link}]**
+                            Link:
                             
-                            Transmittal Date: **:blue[{in_date}]**
+                            Transmittal Date:
                             
-                            Reply required:  **:blue[{ans_required}]**
+                            Reply required:
                             
-                            Due Date:  **:blue[{out_date}]**
+                            Due Date:
                             
-                            Originator of the Transmittal:  **:blue[{author}]**
+                            Originator of the Transmittal:
                             
-                            Responsible Employee:  **:blue[{responsible}]**
+                            Responsible Employee:
                             
-                            Notes:  **:blue[{notes}]** 
+                            Notes: 
                             """)
                 r_prev.markdown(f"""
-                            Project: **:blue[{project}]**
+                            **:blue[{project}]**
                             
-                            Transmittal Number:  **:blue[{in_trans}]**
+                            **:blue[{in_trans}]**
                             
-                            In reply to:  **:blue[{out_trans}]**
+                            **:blue[{out_trans}]**
                             
-                            Transmittal Type:  **:blue[{t_type}]**
+                            **:blue[{t_type}]**
                             
-                            Subject:  **:blue[{subj}]**
+                            **:blue[{subj}]**
                             
-                            Link:  **:blue[{link}]**
+                            **:blue[{link}]**
                             
-                            Transmittal Date: **:blue[{in_date}]**
+                            **:blue[{in_date}]**
                             
-                            Reply required:  **:blue[{ans_required}]**
+                            **:blue[{ans_required}]**
                             
-                            Due Date:  **:blue[{out_date}]**
+                            **:blue[{out_date}]**
                             
-                            Originator of the Transmittal:  **:blue[{author}]**
+                            **:blue[{author}]**
                             
-                            Responsible Employee:  **:blue[{responsible}]**
+                            **:blue[{responsible}]**
                             
-                            Notes:  **:blue[{notes}]** 
+                            **:blue[{notes}]** 
                             """)
 
 
