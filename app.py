@@ -136,9 +136,6 @@ def home_content():
             if st.session_state.logged:
                 plaho.empty()
 
-                # if len(get_pending_ass(st.session_state.user)):
-                #     st.markdown("---")
-                #     st.subheader(":orange[Pending Assignments]")
                 with content2:
                     st.markdown("---")
 
@@ -212,13 +209,13 @@ def home_content():
                             st.info('No New Tasks')
 
                     with trans_col:
-                        st.subheader(":orange[New Transmittals]")
+                        st.subheader(":orange[New Incoming Transmittals]")
                         df = get_trans(st.session_state.user)  # st.session_state.user
                         if isinstance(df, pd.DataFrame):
                             df = df.loc[df.status != "Closed"]
                             for ind, row in df.iterrows():
                                 name_surname = mail_to_name(row.added_by)
-                                st.markdown(f"""<h4>New Transmittal: {row.in_trans}</h4>""",unsafe_allow_html=True)
+                                st.markdown(f"""<h4>Transmittal: {row.in_trans}</h4>""",unsafe_allow_html=True)
 
                                 st.markdown("""<style> .nobord table, tr, td, ths {
                                         border-style: hidden;
