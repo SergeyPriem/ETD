@@ -360,9 +360,11 @@ def home_content():
                         """
 
                         if not st.session_state.code_sent:
-                            send_mail(receiver=company_email, cc_rec="sergey.priemshiy@uzliti-en.com",
-                                      html=conf_html, subj="Confirmation of ETD site registration")
-                            st.session_state.code_sent = True
+                            if send_mail(receiver=company_email, cc_rec="sergey.priemshiy@uzliti-en.com",
+                                      html=conf_html, subj="Confirmation of ETD site registration"):
+                                st.session_state.code_sent = True
+                                st.info("Confirmation Code sent to Your Company Email")
+
 
                     entered_code = st.text_input("Confirmation Code from Email")
 
