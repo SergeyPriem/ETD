@@ -118,11 +118,11 @@ def transmittals_content():
                             Notes: 
                             """)
                 r_prev.markdown(f"""
-                            **:blue[{project}]**
+                            **:orange[{project}]**
                             
                             **:blue[{in_trans}]**
                             
-                            **:blue[{out_trans}]**
+                            **:orange[{out_trans}]**
                             
                             **:blue[{t_type}]**
                             
