@@ -22,17 +22,18 @@ def transmittals_content():
 
         with add_trans_tab:
             with st.form("add_trans"):
-                in_trans = st.text_input("Transmittal Number")
-                in_date = st.date_input("Transmittal Date")
-                out_trans = st.text_input("In reply to:")
-                ans_required = st.radio("Reply required", ('Yes', 'No'))
-                out_date = st.date_input("Due Date")
-                project = st.selectbox("Project", get_proj_list())
-                subj = st.text_input("Subject")
-                link = st.text_input("Link")
-                t_type = st.selectbox("Transmittal Type", trans_types)
-                notes = st.text_area('Notes')
-                add_trans_but = st.form_submit_button("Add Transmittal")
+                left_col, center_col, right_col = st.columns(3, gap='medium')
+                project = left_col.selectbox("Project", get_proj_list())
+                in_trans = center_col.text_input("Transmittal Number")
+                in_date = right_col.date_input("Transmittal Date")
+                t_type = left_col.selectbox("Transmittal Type", trans_types)
+                ans_required = center_col.radio("Reply required", ('Yes', 'No'), horizontal=True)
+                out_date = right_col.date_input("Due Date")
+                out_trans = left_col.text_input("In reply to:")
+                subj = center_col.text_input("Subject")
+                link = right_col.text_input("Link")
+                notes = left_col.text_area('Notes')
+                add_trans_but = center_col.form_submit_button("Add Transmittal")
 
             if add_trans_but:
                 st.info(
