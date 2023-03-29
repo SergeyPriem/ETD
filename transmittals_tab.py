@@ -34,7 +34,7 @@ def transmittals_content():
                 subj = center_col.text_input("Subject")
                 link = right_col.text_input("Link")
                 notes = center_col.text_area('Notes')
-                add_trans_but = left_col.form_submit_button("Add Transmittal")
+                add_trans_but = st.form_submit_button("Add Transmittal")
 
             if add_trans_but:
                 st.info(
