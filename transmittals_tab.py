@@ -143,6 +143,9 @@ def transmittals_content():
                             **:blue[{notes}]** 
                             """)
 
+            if st.button('Add to DataBase'):
+                st.info('Added to DataBase')
+
 
                 # st.info(f"""
                 #      {in_trans,
