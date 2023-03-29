@@ -415,6 +415,8 @@ def add_new_trans(project, in_trans, out_trans, t_type, subj, link, in_date, ans
             return f"""
             New Transmittal {in_trans} is added to DataBase  
             """
+        except pony.orm.core.TransactionIntegrityError:
+            return f"""Transmittal {in_trans} already in DataBase"""
 
         except Exception as e:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
