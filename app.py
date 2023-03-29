@@ -214,8 +214,8 @@ def home_content():
                     with trans_col:
                         st.subheader(":orange[New Transmittals]")
                         df = get_trans(st.session_state.user)  # st.session_state.user
-                        df = df.loc[df.status != "Closed"]
                         if isinstance(df, pd.DataFrame):
+                            df = df.loc[df.status != "Closed"]
                             for ind, row in df.iterrows():
                                 name_surname = mail_to_name(row.added_by)
                                 st.markdown(f"""<h4>New Transmittal: {row.in_trans}</h4>""",unsafe_allow_html=True)
