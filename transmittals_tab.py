@@ -118,7 +118,7 @@ def transmittals_content():
                             Responsible Employee:  **:blue{responsible}]**
                             
                             Notes:  **:blue{notes}]**
-                """)
+                                            """)
 
 
                 st.info(f"""
