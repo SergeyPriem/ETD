@@ -24,19 +24,21 @@ def transmittals_content():
             with st.form("add_trans"):
                 lc, cc, rc = st.columns(3, gap='medium')
                 project = lc.selectbox("Project", get_proj_list())
-                t_type = lc.selectbox("Transmittal Type", trans_types)
+                t_type = lc.fadio("Transmittal Type", trans_types)
                 out_trans = rc.text_input("In reply to:")
                 in_trans = cc.text_input("Transmittal Number")
                 subj = cc.text_input("Subject")
                 ans_required = cc.radio("Reply required", ('Yes', 'No'), horizontal=True)
+                responsible = cc.selectbox("Responsible Employee")
                 cc.write("")
                 link = rc.text_input("Link")
                 out_date = rc.date_input("Due Date")
-                notes = cc.text_area('Notes')
+                notes = rc.text_input('Notes')
                 in_date = lc.date_input("Transmittal Date")
                 lc.write("")
                 lc.write("")
-                add_trans_but = lc.form_submit_button("Add Transmittal", use_container_width=True)
+                author = lc.text_input('Author of the Transmittal')
+                add_trans_but = lc.form_submit_button("Preview Filled Form")
 
             if add_trans_but:
                 st.info(f"""
@@ -50,7 +52,7 @@ def transmittals_content():
                      link,
                      t_type,
                      notes,
-                     add_trans_but}
+                     add_trans_but, responsible, author}
                      """
                 )
 
