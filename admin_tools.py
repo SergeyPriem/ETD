@@ -4,7 +4,7 @@ import datetime
 from pony.orm import *
 import pandas as pd
 import streamlit as st
-from models import ApplUser, Project, Assignment, VisitLog, SOD, Users, Trans, Speciality
+from models import ApplUser, Project, Task, VisitLog, SOD, Users, Trans, Speciality
 from pre_sets import proj_statuses, reporter, stages, sod_statuses
 from projects import create_project, get_projects_names, get_table, update_projects, create_sod, get_sets_names, \
     get_sets_to_edit, update_sets
@@ -29,7 +29,7 @@ def manage_projects():
                 responsible_el = st.selectbox('Responsible Person', get_appl_emails())
                 proj_status = st.radio('Project Status', proj_statuses, horizontal=True)
                 client = st.text_input('Client')
-                proj_tech_ass = st.text_area('Link for Technical Assignment')
+                proj_tech_ass = st.text_area('Link for Technical Task')
                 proj_tech_conditions = st.text_area('Link for Technical Conditions')
                 proj_surveys = st.text_area('Link for Technical Surveys')
                 proj_mdr = st.text_area('Link for MDR')
@@ -50,7 +50,7 @@ def manage_projects():
                 Responsible: **:blue[{responsible_el}]**
                 Status: **:blue[{proj_status}]**
                 Client: **:blue[{client}]**
-                Link for Technical Assignment: **:blue[{proj_tech_ass}]**
+                Link for Technical Task: **:blue[{proj_tech_ass}]**
                 Link for Technical Conditions: **:blue[{proj_tech_conditions}]**
                 Link for Technical Surveys: **:blue[{proj_surveys}]**
                 Link for MDR: **:blue[{proj_mdr}]**
@@ -94,7 +94,7 @@ def manage_projects():
         with viewer_tab:
             # tab_list = get_tab_names()
             tab_name = st.radio("Select the Table for view", (
-                Assignment, ApplUser, Project, SOD, Users, VisitLog, Trans, Speciality), horizontal=True)
+                Task, ApplUser, Project, SOD, Users, VisitLog, Trans, Speciality), horizontal=True)
 
             df = get_table(tab_name)
             if isinstance(df, pd.DataFrame):

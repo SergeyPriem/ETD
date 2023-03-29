@@ -144,13 +144,13 @@ def home_content():
 
                     ass_col, blank_col, trans_col = st.columns([10,2,10])
                     with ass_col:
-                        st.subheader(":orange[New Incoming Assignments]")
+                        st.subheader(":orange[New Incoming Tasks]")
                         df = get_assignments() #st.session_state.user
                         css = """table {border-collapse: collapse;}"""
                         if isinstance(df, pd.DataFrame):
                             for ind, row in df.iterrows():
                                 name_surname = mail_to_name(row.added_by)
-                                st.markdown(f"""<h4>Assignment: {row.id}</h4>""",unsafe_allow_html=True)
+                                st.markdown(f"""<h4>Task: {row.id}</h4>""",unsafe_allow_html=True)
 
                                 st.markdown("""<style> .nobord table, tr, td, ths {
                                         border-style: hidden;
@@ -205,11 +205,11 @@ def home_content():
                                 </table>
                                 <br>
                                 """, unsafe_allow_html=True)
-                                but_key = f"Confirm Assignment: {row.id}"
+                                but_key = f"Confirm Task: {row.id}"
                                 st.button(label=but_key, key=but_key, type='primary', on_click=confirm_ass, args=(row.id, st.session_state.user))
                                 st.text("")
                         else:
-                            st.info('No New Assignments')
+                            st.info('No New Tasks')
 
                     with trans_col:
                         st.subheader(":orange[New Transmittals]")
@@ -569,7 +569,7 @@ def manage_users():
                     reporter(reply)
 
 
-performer_menu = ["Drawing Sets", "Transmittals", "Assignments", 'Phone Directory', 'Just for fun',
+performer_menu = ["Drawing Sets", "Transmittals", "Tasks", 'Phone Directory', 'Just for fun',
                   'Lessons Learned', 'Settings']
 
 performer_icons = ['bi bi-file-earmark-spreadsheet-fill', 'bi bi-file-arrow-down',
@@ -637,7 +637,7 @@ if selected == "Manage Sets":
 if selected == "Transmittals":
     transmittals_content()
 
-if selected == "Assignments":
+if selected == "Tasks":
     assignments_content()
 
 if selected == "Drawing Sets":

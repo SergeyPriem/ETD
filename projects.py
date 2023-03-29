@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 
 from pony.orm import *
-from models import Project, SOD, ApplUser, Assignment, Users, Speciality, Trans
+from models import Project, SOD, ApplUser, Task, Users, Speciality, Trans
 import pandas as pd
 from datetime import date, datetime
 import streamlit as st
@@ -125,7 +125,7 @@ def get_assignments(email=None):
                         a.perf_log,
                         a.comment,
                         a.added_by
-                    ) for a in Assignment if a.id in pers_sets_list)[:]
+                    ) for a in Task if a.id in pers_sets_list)[:]
 
             else:
                 data = select(
@@ -145,7 +145,7 @@ def get_assignments(email=None):
                         a.perf_log,
                         a.comment,
                         a.added_by
-                    ) for a in Assignment)[:]
+                    ) for a in Task)[:]
 
             df = pd.DataFrame(data, columns=[
                 "id",
@@ -230,7 +230,7 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
     with db_session:
         try:
             set_draw = select(sod for sod in SOD).filter(project_id=proj_name, set_name=sod_name).first()
-            new_ass = Assignment(
+            new_ass = Task(
                 set_id=int(set_draw.id),  # should be an instance of SOD
                 stage=stage,
                 in_out=in_out,
@@ -244,12 +244,12 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
                 added_by='sergey.priemshiy@uzliti-en.com',  # st.session_state.user
             )
 
-            new_ass_id = max(n.id for n in Assignment)
+            new_ass_id = max(n.id for n in Task)
 
             result = create_backup_string(link, BACKUP_FOLDER, new_ass_id)
             new_ass.backup_copy = result[0]
             return f"""
-            New Assignment for {(new_ass.set_id.project_id.short_name)}: {(new_ass.set_id.set_name)} is added to DataBase
+            New Task for {(new_ass.set_id.project_id.short_name)}: {(new_ass.set_id.set_name)} is added to DataBase
             Backup string:
             {result[1]}
             """
@@ -325,10 +325,10 @@ def get_sets(email):
 def get_own_tasks(proj_set):
     try:
         with db_session:
-            # stmt = select(Assignment).where(Assignment.project == proj_set[0], Assignment.set_draw == proj_set[1])
+            # stmt = select(Task).where(Task.project == proj_set[0], Task.set_draw == proj_set[1])
             sods = select(s.id for s in SOD if s.project_id == Project[proj_set[0]])[:]
-            tasks = select(ass for ass in Assignment if (ass.set_id.set_name == proj_set[1]
-                                                         and int(ass.set_id) in sods))[:]
+            tasks = select(ass for ass in Task if (ass.set_id.set_name == proj_set[1]
+                                                   and int(ass.set_id) in sods))[:]
             return tab_to_df(tasks)
             # return tasks
     except Exception as e:
@@ -342,7 +342,7 @@ def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, de
         try:
             set_draw_id = int(select(sod.id for sod in SOD if (sod.project_id == Project[proj_name]
                                                                and sod.set_name == SOD.get(set_name=sod_name).id)))
-            Assignment(
+            Task(
                 set_id=set_draw_id,  # should be an instance of SOD
                 stage=stage,
                 in_out=in_out,
@@ -356,7 +356,7 @@ def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, de
                 added_by=st.session_state.user
             )
             return f"""
-            New Assignment for {set_draw_id} -> {speciality} is added to DataBase  
+            New Task for {set_draw_id} -> {speciality} is added to DataBase  
             """
 
         except Exception as e:
@@ -364,8 +364,8 @@ def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, de
 
 
 def confirm_ass(id, user):
-    st.write(f"Assignment with ID {id} confirmed By user {user}")
-    print(f"Assignment with ID {id} confirmed By user {user}")
+    st.write(f"Task with ID {id} confirmed By user {user}")
+    print(f"Task with ID {id} confirmed By user {user}")
 
 def confirm_trans(id, user):
     st.write(f"Transmittal with ID {id} is replied {user}")

@@ -16,7 +16,7 @@ def assignments_content():
     with ass_content:
         st.title(':orange[Assignments]')
 
-        ass_tab1, ass_tab2 = st.tabs(['Add Assignment', 'View Assignments'])
+        ass_tab1, ass_tab2 = st.tabs(['Add Task', 'View Assignments'])
 
         with ass_tab1:
             add_assignment(ass_tab1)
@@ -35,14 +35,14 @@ def add_assignment(ass_content):
 
             left_col2, right_col2 = st.columns(2)
             speciality = left_col2.multiselect("Speciality", specialities)
-            description = right_col2.text_input('Description of Assignment')
+            description = right_col2.text_input('Description of Task')
 
             col_31, col_32, col_33, col_34 = st.columns([1, 1, 1, 3])
             direction = col_31.radio('Direction', ('IN', 'OUT'), horizontal=True)
             col_32.write('')
             col_32.write('')
             date = col_33.date_input('Date')
-            non_assign = col_32.checkbox('Non-Assignment')
+            non_assign = col_32.checkbox('Non-Task')
             stage = col_34.radio('Stage', ('Detail Design', 'Basic Design', 'Feasibility Study',
                                            'Adaptation', 'As-built'), horizontal=True)
 
@@ -51,7 +51,7 @@ def add_assignment(ass_content):
             comments = left_col3.text_input('Comments')
             source = right_col3.text_area('Received by:', value='Received by paper', height=127)
 
-            ass_submitted = st.form_submit_button("Add Assignment")
+            ass_submitted = st.form_submit_button("Add Task")
 
             if ass_submitted:
                 if non_assign:
@@ -71,7 +71,7 @@ def add_assignment(ass_content):
                     <br>
                     In or Out: **:blue[{direction}]**
                     <br>
-                    Non-Assignment: **:blue[{non_assign}]**
+                    Non-Task: **:blue[{non_assign}]**
                     """, unsafe_allow_html=True)
                     right_col2.markdown(f"""
                     Set of Drawings / Unit: **:blue[{set_of_dr}]**

@@ -38,7 +38,7 @@ class SOD(db.Entity):
     trans_date = Optional(str, nullable=True)
     notes = Optional(str, 500, nullable=True)
     aux = Optional(str, 200, nullable=True)
-    assignments = Set('Assignment')
+    assignments = Set('Task')
 
 
 class Users(db.Entity):
@@ -67,7 +67,7 @@ class ApplUser(db.Entity):
     end_date = Optional(date)
 
 
-class Assignment(db.Entity):
+class Task(db.Entity):
     id = PrimaryKey(int, size=8, auto=True)
     stage = Optional(str,25)
     in_out = Required(str, 10)
@@ -93,7 +93,7 @@ class VisitLog(db.Entity):
 class Speciality(db.Entity):
     id = PrimaryKey(str, 20)
     descr = Required(str, 100)
-    assignments = Set(Assignment)
+    assignments = Set(Task)
 
 
 class Trans(db.Entity):
