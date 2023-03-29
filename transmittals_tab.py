@@ -99,7 +99,6 @@ def transmittals_content():
                 reply = add_new_trans(project, in_trans, out_trans, t_type, subj, link, in_date, ans_required,
                                       out_date, author, responsible, notes)
                 reporter(reply)
-                st.write("END")
 
 
         with view_trans_tab:
