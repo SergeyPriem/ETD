@@ -45,55 +45,79 @@ def transmittals_content():
                 st.markdown("""<style> .nobord table, tr, td, ths {
                         border-style: hidden;
                   </style> """, unsafe_allow_html=True)
+                # st.markdown(f"""
+                # <table class="nobord">
+                # <tr>
+                #     <td>Project</td>
+                #     <td>{project}</td>
+                #     <td></td>
+                #     <td>Transmittal Number</td>
+                #     <td>{in_trans}</td>
+                #     <td></td>
+                #     <td>In reply to</td>
+                #     <td>{out_trans}</td>
+                # </tr>
+                #
+                # <tr>
+                #     <td>Transmittal Type</td>
+                #     <td>{t_type}</td>
+                #     <td></td>
+                #     <td>Subject</td>
+                #     <td>{subj}</td>
+                #     <td></td>
+                #     <td>Link</td>
+                #     <td>{link}</td>
+                # </tr>
+                #
+                # <tr>
+                #     <td>Transmittal Date</td>
+                #     <td>{in_date}</td>
+                #     <td></td>
+                #     <td>Reply required</td>
+                #     <td>{ans_required}</td>
+                #     <td></td>
+                #     <td>Due Date</td>
+                #     <td>{out_date}</td>
+                # </tr>
+                #
+                # <tr>
+                #     <td>Originator of the Transmittal</td>
+                #     <td>{author}</td>
+                #     <td></td>
+                #     <td>Responsible Employee</td>
+                #     <td>{responsible}</td>
+                #     <td></td>
+                #     <td>Notes</td>
+                #     <td>{notes}</td>
+                # </tr>
+                #
+                # </table>
+                # <br>
+                # """, unsafe_allow_html=True)
+
                 st.markdown(f"""
-                <table class="nobord">
-                <tr>
-                    <td>Project</td>
-                    <td>{project}</td>
-                    <td></td>
-                    <td>Transmittal Number</td>
-                    <td>{in_trans}</td>
-                    <td></td>
-                    <td>In reply to</td>
-                    <td>{out_trans}</td>
-                </tr>
-
-                <tr>
-                    <td>Transmittal Type</td>
-                    <td>{t_type}</td>
-                    <td></td>
-                    <td>Subject</td>
-                    <td>{subj}</td>
-                    <td></td>
-                    <td>Link</td>
-                    <td>{link}</td>
-                </tr>
-                
-                <tr>
-                    <td>Transmittal Date</td>
-                    <td>{in_date}</td>
-                    <td></td>
-                    <td>Reply required</td>
-                    <td>{ans_required}</td>
-                    <td></td>
-                    <td>Due Date</td>
-                    <td>{out_date}</td>
-                </tr>
-
-                <tr>
-                    <td>Originator of the Transmittal</td>
-                    <td>{author}</td>
-                    <td></td>
-                    <td>Responsible Employee</td>
-                    <td>{responsible}</td>
-                    <td></td>
-                    <td>Notes</td>
-                    <td>{notes}</td>
-                </tr>
-
-                </table>
-                <br>
-                """, unsafe_allow_html=True)
+                            Project {project}
+                            
+                            Transmittal Number: {in_trans}
+                            
+                            In reply to: {out_trans}
+                            
+                            Transmittal Type: {t_type}
+                            
+                            Subject: {subj}
+                            
+                            Link: {link}
+                            Transmittal Date: {in_date}
+                            
+                            Reply required: {ans_required}
+                            
+                            Due Date: {out_date}
+                            Originator of the Transmittal: {author}
+                            
+                            Responsible Employee: {responsible}
+                            
+                            Notes: {notes}
+                """)
 
 
                 st.info(f"""
