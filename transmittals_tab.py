@@ -111,7 +111,7 @@ def transmittals_content():
                             
                             Due Date:
                             
-                            Originator of the Transmittal:
+                            Originator:
                             
                             Responsible Employee:
                             
