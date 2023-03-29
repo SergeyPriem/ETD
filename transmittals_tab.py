@@ -25,6 +25,7 @@ def transmittals_content():
             with st.form("add_trans"):
                 lc, cc, rc = st.columns(3, gap='medium')
                 project = lc.selectbox("Project", get_proj_list())
+                lc.write("")
                 t_type = lc.radio("Transmittal Type", trans_types, horizontal=True)
                 out_trans = rc.text_input("In reply to:")
                 in_trans = cc.text_input("Transmittal Number")
