@@ -318,10 +318,10 @@ def home_content():
 
                         # data_chb = st.checkbox('Data is Correct', disabled=st.session_state.logged)
 
-                        reg_button = st.form_submit_button('Register')
+                        get_reg_code = st.form_submit_button('Get Confirmation Code')
 
                     # conf_html = ""
-                    if reg_button:
+                    if get_reg_code:
                         if company_email in registered_emails:
                             reporter(f'User {company_email} is already in DataBase')
                             st.stop()
@@ -370,7 +370,7 @@ def home_content():
 
                     entered_code = st.text_input("Confirmation Code from Email")
 
-                    if st.button("Confirm Code"):
+                    if st.button("Register"):
                         if company_email in registered_emails:
                             reporter(f'User {company_email} is already in DataBase')
                             st.stop()
