@@ -36,8 +36,6 @@ def transmittals_content():
                 out_date = rc.date_input("Due Date")
                 notes = rc.text_input('Notes')
                 in_date = lc.date_input("Transmittal Date")
-                lc.write("")
-                lc.write("")
                 author = lc.text_input('Author of the Transmittal')
                 add_trans_but = lc.form_submit_button("Preview Filled Form")
 
