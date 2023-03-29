@@ -357,24 +357,25 @@ def home_content():
                               </body>
                             </html>
                         """
-                        if not st.session_state.code_sent:
-                            send_mail(receiver=company_email, cc_rec="sergey.priemshiy@uzliti-en.com",
-                                      html=conf_html, subj="Confirmation of ETD site registration")
-                            st.session_state.code_sent = True
 
-                        entered_code = st.text_input("Confirmation Code from Email")
+                    if not st.session_state.code_sent:
+                        send_mail(receiver=company_email, cc_rec="sergey.priemshiy@uzliti-en.com",
+                                  html=conf_html, subj="Confirmation of ETD site registration")
+                        st.session_state.code_sent = True
 
-                        if st.button("Confirm Code"):
-                            if company_email in registered_emails:
-                                reporter(f'User {company_email} is already in DataBase')
-                                st.stop()
+                    entered_code = st.text_input("Confirmation Code from Email")
 
-                            if st.session_state.conf_num != entered_code:
-                                reporter("Confirmation code is wrong, try again")
-                                st.stop()
-                            else:
-                                reply = create_user(name, surname, phone, telegram, company_email, reg_pass_2)
-                                reporter(reply)
+                    if st.button("Confirm Code"):
+                        if company_email in registered_emails:
+                            reporter(f'User {company_email} is already in DataBase')
+                            st.stop()
+
+                        if st.session_state.conf_num != entered_code:
+                            reporter("Confirmation code is wrong, try again")
+                            st.stop()
+                        else:
+                            reply = create_user(name, surname, phone, telegram, company_email, reg_pass_2)
+                            reporter(reply)
 
         with change_tab:
             if not st.session_state.logged:
