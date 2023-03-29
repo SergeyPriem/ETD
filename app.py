@@ -330,33 +330,33 @@ def home_content():
                             - Password and Repeat Password should be the same""")
                             st.stop()
                         if len(name) < 2 or len(surname) < 2:
-                            st.warning("exclamation-triangle-fill Too short Name or Surname")
+                            st.warning("! Too short Name or Surname")
                             st.stop()
 
                         if 'conf_num' not in st.session_state:
                             st.session_state.conf_num = "".join(random.sample("123456789", 4))
 
-                        conf_html = f"""
-                            <html>
-                              <head></head>
-                              <body>
-                                <h3>
-                                  Hello, Colleague!
-                                  <hr>
-                                </h3>
-                                <h5>
-                                  You got this message because you want to register on ETD site
-                                </h5>
-                                <p>
-                                    Please confirm your registration by entering the confirmation code 
-                                    <b>{st.session_state.conf_num}</b> 
-                                    at the <a href="https://design-energo.streamlit.app/">site</a> registration form
-                                    <hr>
-                                    Best regards, Administration 😎
-                                </p>
-                              </body>
-                            </html>
-                        """
+                    conf_html = f"""
+                        <html>
+                          <head></head>
+                          <body>
+                            <h3>
+                              Hello, Colleague!
+                              <hr>
+                            </h3>
+                            <h5>
+                              You got this message because you want to register on ETD site
+                            </h5>
+                            <p>
+                                Please confirm your registration by entering the confirmation code 
+                                <b>{st.session_state.conf_num}</b> 
+                                at the <a href="https://design-energo.streamlit.app/">site</a> registration form
+                                <hr>
+                                Best regards, Administration 😎
+                            </p>
+                          </body>
+                        </html>
+                    """
 
                     if not st.session_state.code_sent:
                         send_mail(receiver=company_email, cc_rec="sergey.priemshiy@uzliti-en.com",
