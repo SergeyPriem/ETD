@@ -28,13 +28,15 @@ def transmittals_content():
                 in_date = right_col.date_input("Transmittal Date")
                 t_type = left_col.selectbox("Transmittal Type", trans_types)
                 ans_required = center_col.radio("Reply required", ('Yes', 'No'), horizontal=True)
-                center_col.text("")
+                center_col.write("")
                 out_date = right_col.date_input("Due Date")
                 out_trans = left_col.text_input("In reply to:")
                 subj = center_col.text_input("Subject")
                 link = right_col.text_input("Link")
                 notes = center_col.text_area('Notes')
-                add_trans_but = left_col.form_submit_button("Add Transmittal")
+                left_col.write("")
+                left_col.write("")
+                add_trans_but = left_col.form_submit_button("Add Transmittal", use_container_width=True)
 
             if add_trans_but:
                 st.info(
