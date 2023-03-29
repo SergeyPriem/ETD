@@ -22,21 +22,21 @@ def transmittals_content():
 
         with add_trans_tab:
             with st.form("add_trans"):
-                left_col, center_col, right_col = st.columns(3, gap='medium')
-                project = left_col.selectbox("Project", get_proj_list())
-                in_trans = center_col.text_input("Transmittal Number")
-                in_date = right_col.date_input("Transmittal Date")
-                t_type = left_col.selectbox("Transmittal Type", trans_types)
-                ans_required = center_col.radio("Reply required", ('Yes', 'No'), horizontal=True)
-                center_col.write("")
-                out_date = right_col.date_input("Due Date")
-                out_trans = left_col.text_input("In reply to:")
-                subj = center_col.text_input("Subject")
-                link = right_col.text_input("Link")
-                notes = center_col.text_area('Notes')
-                left_col.write("")
-                left_col.write("")
-                add_trans_but = left_col.form_submit_button("Add Transmittal", use_container_width=True)
+                lc, cc, rc = st.columns(3, gap='medium')
+                project = lc.selectbox("Project", get_proj_list())
+                t_type = lc.selectbox("Transmittal Type", trans_types)
+                out_trans = lc.text_input("In reply to:")
+                in_trans = cc.text_input("Transmittal Number")
+                subj = cc.text_input("Subject")
+                ans_required = cc.radio("Reply required", ('Yes', 'No'), horizontal=True)
+                cc.write("")
+                in_date = rc.date_input("Transmittal Date")
+                out_date = rc.date_input("Due Date")
+                link = rc.text_input("Link")
+                notes = cc.text_area('Notes')
+                lc.write("")
+                lc.write("")
+                add_trans_but = lc.form_submit_button("Add Transmittal", use_container_width=True)
 
             if add_trans_but:
                 st.info(f"""
