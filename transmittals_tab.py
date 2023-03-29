@@ -31,6 +31,7 @@ def transmittals_content():
                 in_trans = cc.text_input("Transmittal Number")
                 subj = cc.text_input("Subject")
                 ans_required = cc.radio("Reply required", ('Yes', 'No'), horizontal=True)
+                cc.write("")
                 responsible = cc.selectbox("Responsible Employee", get_registered_emails())
                 cc.write("")
                 link = rc.text_input("Link")
