@@ -10,7 +10,7 @@ import random
 import pony.orm.core
 from streamlit_option_menu import option_menu
 from admin_tools import manage_projects, manage_sets
-from assignments_tab import assignments_content
+from tasks_tab import tasks_content
 from drawing_sets_tab import drawing_sets
 from just_for_fun_tab import just_for_fun, emoji_content
 from lesson_learned_tab import lessons_content
@@ -638,7 +638,7 @@ if selected == "Transmittals":
     transmittals_content()
 
 if selected == "Tasks":
-    assignments_content()
+    tasks_content()
 
 if selected == "Drawing Sets":
     drawing_sets()

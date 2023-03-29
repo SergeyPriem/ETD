@@ -7,25 +7,25 @@ from projects import get_projects_names, get_sets_for_project, add_in_to_db, add
     get_assignments
 
 
-def assignments_content():
+def tasks_content():
     ass_1, ass_content, ass_2 = st.columns([1, 9, 1])
     with ass_1:
         st.empty()
     with ass_2:
         st.empty()
     with ass_content:
-        st.title(':orange[Assignments]')
+        st.title(':orange[Tasks]')
 
-        ass_tab1, ass_tab2 = st.tabs(['Add Task', 'View Assignments'])
+        ass_tab1, ass_tab2 = st.tabs(['Add Task', 'View Tasks'])
 
         with ass_tab1:
-            add_assignment(ass_tab1)
+            add_task(ass_tab1)
 
         with ass_tab2:
-            view_assignments(ass_tab2)
+            view_tasks(ass_tab2)
 
 
-def add_assignment(ass_content):
+def add_task(ass_content):
     with ass_content:
         # left_col, right_col = st.columns(2)
         project = st.selectbox('Select the Project', get_projects_names())
@@ -100,7 +100,7 @@ def add_assignment(ass_content):
                         st.text(reply)
 
 
-def view_assignments(ass_tab2):
+def view_tasks(ass_tab2):
     with ass_tab2:
         df = get_assignments('sergey.priemshiy@uzliti-en.com')
         df_orig = pd.DataFrame()
