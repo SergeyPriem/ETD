@@ -96,7 +96,7 @@ def transmittals_content():
                 # """, unsafe_allow_html=True)
 
                 st.markdown(f"""
-                            Project: **:blue[{project}]**
+                            Project: > > **:blue[{project}]**
                             
                             Transmittal Number:  **:blue[{in_trans}]**
                             
