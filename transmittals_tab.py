@@ -42,9 +42,6 @@ def transmittals_content():
                 add_trans_but = lc.form_submit_button("Preview Filled Form")
 
             if add_trans_but:
-                st.markdown("""<style> .nobord table, tr, td, ths {
-                        border-style: hidden;
-                  </style> """, unsafe_allow_html=True)
                 # st.markdown(f"""
                 # <table class="nobord">
                 # <tr>
@@ -94,8 +91,33 @@ def transmittals_content():
                 # </table>
                 # <br>
                 # """, unsafe_allow_html=True)
-
-                st.markdown(f"""
+                l_prev, r_prev = st.columns([2,10])
+                l_prev.markdown(f"""
+                            Project: **:blue[{project}]**
+                            
+                            Transmittal Number:  **:blue[{in_trans}]**
+                            
+                            In reply to:  **:blue[{out_trans}]**
+                            
+                            Transmittal Type:  **:blue[{t_type}]**
+                            
+                            Subject:  **:blue[{subj}]**
+                            
+                            Link:  **:blue[{link}]**
+                            
+                            Transmittal Date: **:blue[{in_date}]**
+                            
+                            Reply required:  **:blue[{ans_required}]**
+                            
+                            Due Date:  **:blue[{out_date}]**
+                            
+                            Originator of the Transmittal:  **:blue[{author}]**
+                            
+                            Responsible Employee:  **:blue[{responsible}]**
+                            
+                            Notes:  **:blue[{notes}]** 
+                            """)
+                r_prev.markdown(f"""
                             Project: **:blue[{project}]**
                             
                             Transmittal Number:  **:blue[{in_trans}]**
@@ -122,20 +144,20 @@ def transmittals_content():
                             """)
 
 
-                st.info(f"""
-                     {in_trans,
-                     in_date,
-                     out_trans,
-                     ans_required,
-                     out_date,
-                     project,
-                     subj,
-                     link,
-                     t_type,
-                     notes,
-                     add_trans_but, responsible, author}
-                     """
-                )
+                # st.info(f"""
+                #      {in_trans,
+                #      in_date,
+                #      out_trans,
+                #      ans_required,
+                #      out_date,
+                #      project,
+                #      subj,
+                #      link,
+                #      t_type,
+                #      notes,
+                #      add_trans_but, responsible, author}
+                #      """
+                # )
 
 
         with view_trans_tab:
