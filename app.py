@@ -319,7 +319,7 @@ def home_content():
                         # data_chb = st.checkbox('Data is Correct', disabled=st.session_state.logged)
 
                         reg_button = st.form_submit_button('Register')
-
+                    conf_html = ""
                     if reg_button:
                         if company_email in registered_emails:
                             reporter(f'User {company_email} is already in DataBase')
