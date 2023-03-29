@@ -98,7 +98,7 @@ def transmittals_content():
             if st.button('Add to DataBase'):
                 reply = add_new_trans(project, in_trans, out_trans, t_type, subj, link, in_date, ans_required,
                                       out_date, author, responsible, notes)
-                reporter(reply)
+                #reporter(reply)
                 st.info(reply)
 
 
