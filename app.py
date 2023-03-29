@@ -319,7 +319,8 @@ def home_content():
                         # data_chb = st.checkbox('Data is Correct', disabled=st.session_state.logged)
 
                         reg_button = st.form_submit_button('Register')
-                    conf_html = ""
+
+                    # conf_html = ""
                     if reg_button:
                         if company_email in registered_emails:
                             reporter(f'User {company_email} is already in DataBase')
@@ -336,32 +337,32 @@ def home_content():
                         if 'conf_num' not in st.session_state:
                             st.session_state.conf_num = "".join(random.sample("123456789", 4))
 
-                            conf_html = f"""
-                                <html>
-                                  <head></head>
-                                  <body>
-                                    <h3>
-                                      Hello, Colleague!
-                                      <hr>
-                                    </h3>
-                                    <h5>
-                                      You got this message because you want to register on ETD site
-                                    </h5>
-                                    <p>
-                                        Please confirm your registration by entering the confirmation code 
-                                        <b>{st.session_state.conf_num}</b> 
-                                        at the <a href="https://design-energo.streamlit.app/">site</a> registration form
-                                        <hr>
-                                        Best regards, Administration 😎
-                                    </p>
-                                  </body>
-                                </html>
-                            """
+                        conf_html = f"""
+                            <html>
+                              <head></head>
+                              <body>
+                                <h3>
+                                  Hello, Colleague!
+                                  <hr>
+                                </h3>
+                                <h5>
+                                  You got this message because you want to register on ETD site
+                                </h5>
+                                <p>
+                                    Please confirm your registration by entering the confirmation code 
+                                    <b>{st.session_state.conf_num}</b> 
+                                    at the <a href="https://design-energo.streamlit.app/">site</a> registration form
+                                    <hr>
+                                    Best regards, Administration 😎
+                                </p>
+                              </body>
+                            </html>
+                        """
 
-                    if not st.session_state.code_sent:
-                        send_mail(receiver=company_email, cc_rec="sergey.priemshiy@uzliti-en.com",
-                                  html=conf_html, subj="Confirmation of ETD site registration")
-                        st.session_state.code_sent = True
+                        if not st.session_state.code_sent:
+                            send_mail(receiver=company_email, cc_rec="sergey.priemshiy@uzliti-en.com",
+                                      html=conf_html, subj="Confirmation of ETD site registration")
+                            st.session_state.code_sent = True
 
                     entered_code = st.text_input("Confirmation Code from Email")
 
