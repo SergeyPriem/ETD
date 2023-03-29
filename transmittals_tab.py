@@ -42,55 +42,6 @@ def transmittals_content():
                 add_trans_but = lc.form_submit_button("Preview Transmittal's Data")
 
             if add_trans_but:
-                # st.markdown(f"""
-                # <table class="nobord">
-                # <tr>
-                #     <td>Project</td>
-                #     <td>{project}</td>
-                #     <td></td>
-                #     <td>Transmittal Number</td>
-                #     <td>{in_trans}</td>
-                #     <td></td>
-                #     <td>In reply to</td>
-                #     <td>{out_trans}</td>
-                # </tr>
-                #
-                # <tr>
-                #     <td>Transmittal Type</td>
-                #     <td>{t_type}</td>
-                #     <td></td>
-                #     <td>Subject</td>
-                #     <td>{subj}</td>
-                #     <td></td>
-                #     <td>Link</td>
-                #     <td>{link}</td>
-                # </tr>
-                #
-                # <tr>
-                #     <td>Transmittal Date</td>
-                #     <td>{in_date}</td>
-                #     <td></td>
-                #     <td>Reply required</td>
-                #     <td>{ans_required}</td>
-                #     <td></td>
-                #     <td>Due Date</td>
-                #     <td>{out_date}</td>
-                # </tr>
-                #
-                # <tr>
-                #     <td>Originator of the Transmittal</td>
-                #     <td>{author}</td>
-                #     <td></td>
-                #     <td>Responsible Employee</td>
-                #     <td>{responsible}</td>
-                #     <td></td>
-                #     <td>Notes</td>
-                #     <td>{notes}</td>
-                # </tr>
-                #
-                # </table>
-                # <br>
-                # """, unsafe_allow_html=True)
                 l_prev, r_prev = st.columns([1,8])
                 l_prev.markdown(f"""
                             Project:
@@ -148,6 +99,7 @@ def transmittals_content():
                 reply = add_new_trans(project, in_trans, out_trans, t_type, subj, link, in_date, ans_required,
                                       out_date, author, responsible, notes)
                 reporter(reply)
+                st.write("END")
 
 
         with view_trans_tab:
