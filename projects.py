@@ -396,7 +396,6 @@ def get_proj_list():
 def add_new_trans(project, in_trans, out_trans, t_type, subj, link, in_date, ans_required, out_date, author, responsible, notes):
     with db_session:
         try:
-
             Trans(
                 project=Project[project],
                 in_trans=in_trans,
@@ -410,7 +409,8 @@ def add_new_trans(project, in_trans, out_trans, t_type, subj, link, in_date, ans
                 author=author,
                 users=Users[responsible],
                 notes=notes,
-                received=""
+                received="",
+                added_by=st.session_state.user
             )
             return f"""
             New Transmittal {in_trans} is added to DataBase  
