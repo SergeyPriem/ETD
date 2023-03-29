@@ -39,18 +39,19 @@ def transmittals_content():
                 add_trans_but = left_col.form_submit_button("Add Transmittal", use_container_width=True)
 
             if add_trans_but:
-                st.info(
-                    in_trans,
-                    in_date,
-                    out_trans,
-                    ans_required,
-                    out_date,
-                    project,
-                    subj,
-                    link,
-                    t_type,
-                    notes,
-                    add_trans_but
+                st.info(f"""
+                     {in_trans,
+                     in_date,
+                     out_trans,
+                     ans_required,
+                     out_date,
+                     project,
+                     subj,
+                     link,
+                     t_type,
+                     notes,
+                     add_trans_but}
+                     """
                 )
 
 
