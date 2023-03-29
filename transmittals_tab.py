@@ -25,9 +25,9 @@ def transmittals_content():
             with st.form("add_trans"):
                 lc, cc, rc = st.columns(3, gap='medium')
                 project = lc.selectbox("Project", get_proj_list())
-                lc.write("")
                 t_type = lc.radio("Transmittal Type", trans_types, horizontal=True)
-                out_trans = rc.text_input("In reply to:")
+                lc.write("")
+                out_trans = rc.text_input("In reply to")
                 in_trans = cc.text_input("Transmittal Number")
                 subj = cc.text_input("Subject")
                 ans_required = cc.radio("Reply required", ('Yes', 'No'), horizontal=True)
@@ -38,10 +38,64 @@ def transmittals_content():
                 out_date = rc.date_input("Due Date")
                 notes = rc.text_input('Notes')
                 in_date = lc.date_input("Transmittal Date")
-                author = lc.text_input('Author of the Transmittal')
+                author = lc.text_input('Originator of the Transmittal')
                 add_trans_but = lc.form_submit_button("Preview Filled Form")
 
             if add_trans_but:
+                st.markdown("""<style> .nobord table, tr, td, ths {
+                        border-style: hidden;
+                  </style> """, unsafe_allow_html=True)
+                st.markdown(f"""
+                <table class="nobord">
+                <tr>
+                    <td>Project</td>
+                    <td>{project}</td>
+                    <td></td>
+                    <td>Transmittal Number</td>
+                    <td>{in_trans}</td>
+                    <td></td>
+                    <td>In reply to</td>
+                    <td>{out_trans}</td>
+                </tr>
+
+                <tr>
+                    <td>Transmittal Type</td>
+                    <td>{t_type}</td>
+                    <td></td>
+                    <td>Subject</td>
+                    <td>{subj}</td>
+                    <td></td>
+                    <td>Link</td>
+                    <td>{link}</td>
+                </tr>
+                
+                <tr>
+                    <td>Transmittal Date</td>
+                    <td>{in_date}</td>
+                    <td></td>
+                    <td>Reply required</td>
+                    <td>{ans_required}</td>
+                    <td></td>
+                    <td>Due Date</td>
+                    <td>{out_date}</td>
+                </tr>
+
+                <tr>
+                    <td>Originator of the Transmittal</td>
+                    <td>{author}</td>
+                    <td></td>
+                    <td>Responsible Employee</td>
+                    <td>{responsible}</td>
+                    <td></td>
+                    <td>Notes</td>
+                    <td>{notes}</td>
+                </tr>
+
+                </table>
+                <br>
+                """, unsafe_allow_html=True)
+
+
                 st.info(f"""
                      {in_trans,
                      in_date,
