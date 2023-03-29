@@ -396,6 +396,9 @@ def get_proj_list():
 def add_new_trans(project, in_trans, out_trans, t_type, subj, link, in_date, ans_required, out_date, author, responsible, notes):
     with db_session:
         try:
+            if in_trans in select(p.in_trans for p in Trans)[:]:
+                return f"""Transmittal {in_trans} already in DataBase"""
+
             Trans(
                 project=Project[project],
                 in_trans=in_trans,
@@ -415,8 +418,6 @@ def add_new_trans(project, in_trans, out_trans, t_type, subj, link, in_date, ans
             return f"""
             New Transmittal {in_trans} is added to DataBase  
             """
-        except pony.orm.core.TransactionIntegrityError:
-            return f"""Transmittal {in_trans} already in DataBase"""
 
         except Exception as e:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
