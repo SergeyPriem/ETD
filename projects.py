@@ -368,7 +368,7 @@ def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, de
 def confirm_ass(task_id, user, proj, sod):
     with db_session:
         try:
-            heroes = select((p.coord_id, p.perf_id) for p in SOD if p.id == task_id)
+            heroes = select((p.coord_id, p.perf_id) for p in SOD if p.project_id == Project[proj] and p.set_name == sod)
             if user == heroes[0]:
                 Task[task_id].coord_log = date.today()
             if user == heroes[1]:
