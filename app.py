@@ -65,8 +65,7 @@ appearance_settings()
 registered_emails = get_registered_emails()
 
 
-# st.cache_data(ttl=600)
-
+@st.cache_data(ttl=600)
 def home_content():
     empty1, content, empty2 = st.columns([2, 2, 2])
     empty21, content2, empty22 = st.columns([1, 20, 1])
@@ -453,7 +452,7 @@ def home_content():
                     st.write("After pressing 'Get Confirmation Code' you will get Confirmation Code by e-mail")
                     st.write("Enter the Code and press 'Update Password'")
 
-st.cache_data(ttl=600)
+@st.cache_data(ttl=600)
 def phone_directory():
     phone_1, phone_content, phone_2 = st.columns([1, 9, 1])
     with phone_1:
@@ -479,9 +478,7 @@ def phone_directory():
         # st.write(df)
 
 
-st.cache_data(ttl=600)
-
-
+@st.cache_data(ttl=600)
 def manage_users():
     users_1, users_content, users_2 = st.columns([1, 2, 1])
     with users_1:
@@ -584,9 +581,7 @@ super_icons = ["bi bi-briefcase", "bi bi-person-lines-fill"]
 short_menu = ["Home"]
 short_icons = ['house']
 
-st.cache_data(ttl=600)
-
-
+@st.cache_data(ttl=600)
 def get_menus():
     if st.session_state.rights == "basic":
         menu = [*short_menu]
