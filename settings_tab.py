@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import streamlit as st
-from app import home_content
+
 from users import update_settings
 
 
 def settings_content():
-    empty1_set, content_set, empty2_set = st.columns([1, 10, 1])
+    empty1_set, content_set, empty2_set = st.columns([1, 30, 1])
     with empty1_set:
         st.empty()
     with empty2_set:
@@ -18,23 +18,29 @@ def settings_content():
 
         st.markdown("---")
         with st.form('adjust_settings'):
-            st.session_state.delay = st.select_slider('Time delay for info messages',
-                                                      options=[0,1,2,3,4], value=st.session_state.delay)
+            left_col, empty_col, centr_col, right_col = st.columns([7,3, 3,5], gap='medium')
 
-            menu_position = st.radio('Location of menu', ("Top", "Left", ),
+            st.session_state.delay = left_col.select_slider('Time delay for info messages',
+                                                            options=[1,2,3,4], value=st.session_state.delay)
+
+            with centr_col:
+                menu_position = st.radio('Location of menu', ("Top", "Left", ),
                                          index=st.session_state.vert_menu, horizontal=True)
 
-            appl_set_but = st.form_submit_button('Apply')
+            with right_col:
+                st.write('')
+                st.write('')
 
-        if appl_set_but:
-            if menu_position == 'Left':
-                st.session_state.vert_menu = 1
-            else:
-                st.session_state.vert_menu = 0
-            update_settings(st.session_state.user, st.session_state.vert_menu, st.session_state.delay)
-            # save preferences to DB
-            st.experimental_rerun()
-            home_content()
+            appl_set_but = right_col.form_submit_button('Apply')
+
+            if appl_set_but:
+                if menu_position == 'Left':
+                    st.session_state.vert_menu = 1
+                else:
+                    st.session_state.vert_menu = 0
+                update_settings(st.session_state.user, st.session_state.vert_menu, st.session_state.delay)
+                # save preferences to DB
+                st.experimental_rerun()
 
 
 
