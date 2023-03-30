@@ -74,7 +74,11 @@ def home_content():
         st.empty()
     with content:
         st.title(':orange[Electrical Department]')
-        st.header('Welcome!')
+        if 'user' not in st.session_state:
+            st.header('Welcome!')
+        else:
+            st.header(f'Welcome, {mail_to_name(st.session_state.user)}!')
+
         st.text("The Site is designed to help you in everyday routines")
 
         login_tab, reg_tab, change_tab = st.tabs([log_in_out, 'Registration', 'Change Password'])
@@ -107,11 +111,14 @@ def home_content():
                         st.session_state.user = email
                         st.session_state.rights = get_logged_rights(email)
                         reply = add_to_log(email)
-                        # if reply == "OK":
-                        #     st.write(f"Welcome on board! Now You can use SideBar") ##reporter
-                        # else:
-                        st.info(reply)
-                        st.experimental_rerun()
+
+                        if 'ERROR' in reply.upper():
+                            st.warning(f"""Please sent error below to sergey.priemshiy@uzliti-en.com  
+                                    or by telegram +998909598030:  
+                                    {reply}""")
+                            st.stop()
+                        else:
+                            st.experimental_rerun()
                     else:
                         st.session_state.logged = False
                         st.session_state.rights = 'basic'
