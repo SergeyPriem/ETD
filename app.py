@@ -205,7 +205,8 @@ def home_content():
                                 """, unsafe_allow_html=True)
                                 but_key = f"Confirm Task: {row.id}"
                                 task_id = row.id
-                                if st.button(label=but_key, key=but_key, type='primary', on_click=confirm_ass, args=(row.id, st.session_state.user)):
+                                if st.button(label=but_key, key=but_key, type='primary', on_click=confirm_ass, args=(
+                                        row.id, st.session_state.user, row.project, row.unit)):
                                     st.info(f"Task {task_id} confirmed!!")
                         else:
                             st.info('No New Tasks')

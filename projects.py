@@ -365,8 +365,18 @@ def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, de
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
 
-def confirm_ass(id, user):
-    pass
+def confirm_ass(task_id, user, proj, sod):
+    with db_session:
+        try:
+            heroes = select((p.coord_id, p.perf_id) for p in SOD if p.id == task_id)
+            if user == heroes[0]:
+                Task[task_id].coord_log = date.today()
+            if user == heroes[1]:
+                Task[task_id].coord_log = date.today()
+        except Exception as e:
+            st.warning(f"🔧 {type(e).__name__} {getattr(e, 'args', None)}")
+            return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+
     # st.info(f"Task with ID {id} confirmed By user {user}")
     # print(f"Task with ID {id} confirmed By user {user}")
 
