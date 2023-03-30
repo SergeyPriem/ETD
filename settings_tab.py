@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import streamlit as st
-
 from app import home_content
 from users import update_settings
 
@@ -34,6 +33,7 @@ def settings_content():
                 st.session_state.vert_menu = 0
             update_settings(st.session_state.user, st.session_state.vert_menu, st.session_state.delay)
             # save preferences to DB
+            st.experimental_rerun()
             home_content()
 
 
