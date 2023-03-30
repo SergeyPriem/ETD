@@ -372,9 +372,11 @@ def confirm_ass(task_id, user, proj, sod):
                     p.project_id == Project[proj] and p.set_name == sod))[:]
             st.warning((Project[proj], sod))
             st.warning(heroes)
-            if user == heroes[0]:
-                Task[task_id].coord_log = date.today()
-            if user == heroes[1]:
+            if user == heroes[0].id:
+                st.warning('0')
+                #Task[task_id].coord_log = date.today()
+            if user == heroes[1].id:
+                st.warning('1')
                 Task[task_id].coord_log = date.today()
         except Exception as e:
             st.warning(f"🔧 {type(e).__name__} {getattr(e, 'args', None)}")
