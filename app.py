@@ -110,7 +110,7 @@ def home_content():
                         # if reply == "OK":
                         #     st.write(f"Welcome on board! Now You can use SideBar") ##reporter
                         # else:
-                        st.write(reply)
+                        st.info(reply)
 
                         #st.experimental_rerun()
                     else:
