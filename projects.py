@@ -104,7 +104,7 @@ def get_table(tabname):
 
 @st.cache_data(ttl=60, show_spinner='Getting Assignments...')
 def get_assignments(email=None):
-    print(email)
+    # print(email)
     with db_session:
         try:
             if email:
@@ -148,6 +148,52 @@ def get_assignments(email=None):
                         a.comment,
                         a.added_by
                     ) for a in Task)[:]
+
+            df = pd.DataFrame(data, columns=[
+                "id",
+                "project",
+                "unit",
+                "speciality",
+                "stage",
+                "in_out",
+                "date",
+                "description",
+                "link",
+                "backup_copy",
+                "source",
+                "coord_log",
+                "perf_log",
+                "comment",
+                "added_by"
+            ])
+            return df
+        except Exception as e:
+            return f"🔧 {type(e).name} {getattr(e, 'args', None)}"
+def get_pers_assignments(email):
+    # print(email)
+    with db_session:
+        try:
+            pers_sets_list = select(
+                sod.id for sod in SOD if (sod.coord_id == Users[email]) or (sod.perf_id == Users[email]))[:]
+            data = select(
+                (
+                    a.id,
+                    a.set_id.project_id.short_name,
+                    a.set_id.set_name,
+                    a.speciality.id,
+                    a.stage,
+                    a.in_out,
+                    a.date,
+                    a.description,
+                    a.link,
+                    a.backup_copy,
+                    a.source,
+                    a.coord_log,
+                    a.perf_log,
+                    a.comment,
+                    a.added_by
+                ) for a in Task if (a.id in pers_sets_list and not a.coord_log))[:]
+
 
             df = pd.DataFrame(data, columns=[
                 "id",
