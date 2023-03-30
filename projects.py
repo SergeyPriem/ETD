@@ -374,7 +374,7 @@ def confirm_ass(task_id, user, proj, sod):
             st.warning(heroes)
             if user == heroes[0].id:
                 st.warning('0')
-                #Task[task_id].coord_log = date.today()
+                Task[task_id].coord_log = date.today()
             if user == heroes[1].id:
                 st.warning('1')
                 Task[task_id].coord_log = date.today()
