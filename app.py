@@ -5,34 +5,6 @@ from PIL import Image
 
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_e.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
-import datetime
-import random
-import pony.orm.core
-from streamlit_option_menu import option_menu
-from admin_tools import manage_projects, manage_sets
-from tasks_tab import tasks_content
-from drawing_sets_tab import drawing_sets
-from just_for_fun_tab import just_for_fun, emoji_content
-from lesson_learned_tab import lessons_content
-from pre_sets import appearance_settings, reporter, positions, departments, mail_to_name
-from send_emails import send_mail
-from settings_tab import settings_content
-from transmittals_tab import transmittals_content
-from users import get_appl_emails, check_user, create_user, add_to_log, get_logged_rights, \
-    create_appl_user, get_appl_user_data, update_users_in_db, move_to_former, get_registered_emails, get_settings, \
-    update_user_reg_data
-from pony.orm import *
-from projects import get_assignments, confirm_ass, get_trans, confirm_trans
-
-# from streamlit_profiler import Profiler
-
-# pf = Profiler()
-# pf.start()
-
-
-appearance_settings()
-
-registered_emails = get_registered_emails()
 
 if 'delay' not in st.session_state:
     st.session_state.delay = 2
@@ -62,6 +34,36 @@ if st.session_state.user:
     log_in_out = 'Log Out'
 else:
     log_in_out = 'Log In'
+
+import datetime
+import random
+import pony.orm.core
+from streamlit_option_menu import option_menu
+from admin_tools import manage_projects, manage_sets
+from tasks_tab import tasks_content
+from drawing_sets_tab import drawing_sets
+from just_for_fun_tab import just_for_fun, emoji_content
+from lesson_learned_tab import lessons_content
+from pre_sets import appearance_settings, reporter, positions, departments, mail_to_name
+from send_emails import send_mail
+from settings_tab import settings_content
+from transmittals_tab import transmittals_content
+from users import get_appl_emails, check_user, create_user, add_to_log, get_logged_rights, \
+    create_appl_user, get_appl_user_data, update_users_in_db, move_to_former, get_registered_emails, get_settings, \
+    update_user_reg_data
+from pony.orm import *
+from projects import get_assignments, confirm_ass, get_trans, confirm_trans
+
+# from streamlit_profiler import Profiler
+
+# pf = Profiler()
+# pf.start()
+
+
+appearance_settings()
+
+registered_emails = get_registered_emails()
+
 
 # st.cache_data(ttl=600)
 
