@@ -113,10 +113,10 @@ def home_content():
                         st.session_state.user = email
                         st.session_state.rights = get_logged_rights(email)
                         reply = add_to_log(email)
-                        if reply == "OK":
-                            reporter(f"Welcome on board! Now You can use SideBar")
-                        else:
-                            reporter(reply)
+                        # if reply == "OK":
+                        #     st.write(f"Welcome on board! Now You can use SideBar") ##reporter
+                        # else:
+                        st.write(reply)
 
                         st.experimental_rerun()
                     else:
