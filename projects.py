@@ -169,6 +169,8 @@ def get_assignments(email=None):
             return df
         except Exception as e:
             return f"🔧 {type(e).name} {getattr(e, 'args', None)}"
+
+
 def get_pers_assignments(email):
     # print(email)
     with db_session:
@@ -193,7 +195,6 @@ def get_pers_assignments(email):
                     a.comment,
                     a.added_by
                 ) for a in Task if (a.id in pers_sets_list and not a.coord_log))[:]
-
 
             df = pd.DataFrame(data, columns=[
                 "id",
