@@ -31,7 +31,7 @@ def settings_content():
                 st.write('')
                 st.write('')
 
-            appl_set_but = st.form_submit_button('Apply')
+            appl_set_but = right_col.form_submit_button('Apply')
 
             if appl_set_but:
                 if menu_position == 'Left':

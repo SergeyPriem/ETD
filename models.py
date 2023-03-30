@@ -117,16 +117,17 @@ class Trans(db.Entity):
 
 # db.bind(provider='sqlite', filename='DBB.sqlite', create_db=True)
 #
-@st.cache_resource
-def get_db():
+# @st.cache_resource
+# def get_db():
     db.bind(
         provider='mysql',
         host=st.secrets["db_host"],
         user=st.secrets["db_user"],
         passwd=st.secrets["db_password"],
-        db=st.secrets["db_database"])
+        db=st.secrets["db_database"]
+    )
 
 
-get_db()
+# get_db()
 
 db.generate_mapping(create_tables=True)
