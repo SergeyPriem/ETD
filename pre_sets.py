@@ -64,11 +64,14 @@ def reporter(text: str, duration=st.session_state.delay) -> None:  #: int = st.s
     placeholder.empty()
 
 def mail_to_name(mail):
-    head = mail.split("@")[0]
-    if "." in head:
-        return (" ".join(head.split('.'))).title()
-    else:
-        return head
+    try:
+        head = mail.split("@")[0]
+        if "." in head:
+            return (" ".join(head.split('.'))).title()
+        else:
+            return head
+    except AttributeError:
+        return "!!!"
 
 BACKUP_FOLDER: Path = Path('//uz-fs/Uzle/Work/Отдел ЭЛ/Архив заданий/')
 
