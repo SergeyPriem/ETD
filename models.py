@@ -117,7 +117,7 @@ class Trans(db.Entity):
 
 # db.bind(provider='sqlite', filename='DBB.sqlite', create_db=True)
 #
-# @st.cache_resource
+@st.cache_resource
 def get_db():
     return db.bind(
         provider='mysql',
