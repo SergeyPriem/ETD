@@ -19,9 +19,8 @@ def settings_content():
 
         st.markdown("---")
         with st.form('adjust_settings'):
-
             st.session_state.delay = st.select_slider('Time delay for info messages',
-                                                      options=[1,2,3,4], value=st.session_state.delay)
+                                                      options=[0,1,2,3,4], value=st.session_state.delay)
 
             menu_position = st.radio('Location of menu', ("Top", "Left", ),
                                          index=st.session_state.vert_menu, horizontal=True)
