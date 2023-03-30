@@ -6,6 +6,8 @@ import bcrypt
 from models import ApplUser, Users, VisitLog
 from pony.orm import *
 
+from pre_sets import mail_to_name
+
 set_sql_debug(True)
 
 # def ben(func):
@@ -115,7 +117,7 @@ def add_to_log(email):
             logger = VisitLog(login_time=datetime.datetime.now(), users=email)
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
-    return f"Hello, {logger.users.id.split('@')[0]}. Do your best and forget the rest 😎"
+    return f"Hello, {mail_to_name(logger.users.id)}. Do your best and forget the rest 😎"
 
 
 def update_user_data(employee_to_edit, user_tab):

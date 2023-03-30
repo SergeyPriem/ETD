@@ -14,7 +14,7 @@ from tasks_tab import tasks_content
 from drawing_sets_tab import drawing_sets
 from just_for_fun_tab import just_for_fun, emoji_content
 from lesson_learned_tab import lessons_content
-from pre_sets import appearance_settings, reporter, positions, departments
+from pre_sets import appearance_settings, reporter, positions, departments, mail_to_name
 from send_emails import send_mail
 from settings_tab import settings_content
 from transmittals_tab import transmittals_content
@@ -65,12 +65,6 @@ else:
 
 # st.cache_data(ttl=600)
 
-def mail_to_name(mail):
-    head = mail.split("@")[0]
-    if "." in head:
-        return (" ".join(head.split('.'))).title()
-    else:
-        return head
 def home_content():
     empty1, content, empty2 = st.columns([2, 2, 2])
     empty21, content2, empty22 = st.columns([1, 20, 1])
