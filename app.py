@@ -204,8 +204,8 @@ def home_content():
                                 <br>
                                 """, unsafe_allow_html=True)
                                 but_key = f"Confirm Task: {row.id}"
-                                st.button(label=but_key, key=but_key, type='primary', on_click=confirm_ass, args=(row.id, st.session_state.user))
-                                st.text("")
+                                if st.button(label=but_key, key=but_key, type='primary', on_click=confirm_ass, args=(row.id, st.session_state.user)):
+                                    st.text(f"{but_key} clicked!")
                         else:
                             st.info('No New Tasks')
 
