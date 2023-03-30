@@ -4,6 +4,7 @@ from datetime import date
 from datetime import datetime
 from pony.orm import *
 import streamlit as st
+
 db = Database()
 
 
@@ -69,7 +70,7 @@ class ApplUser(db.Entity):
 
 class Task(db.Entity):
     id = PrimaryKey(int, size=8, auto=True)
-    stage = Optional(str,25)
+    stage = Optional(str, 25)
     in_out = Required(str, 10)
     date = Required(date)
     description = Required(str, 250)
@@ -116,11 +117,16 @@ class Trans(db.Entity):
 
 # db.bind(provider='sqlite', filename='DBB.sqlite', create_db=True)
 #
-db.bind(
-    provider='mysql',
-    host=st.secrets["db_host"],
-    user=st.secrets["db_user"],
-    passwd=st.secrets["db_password"],
-    db=st.secrets["db_database"])
+@st.cache_resource
+def get_db():
+    return db.bind(
+        provider='mysql',
+        host=st.secrets["db_host"],
+        user=st.secrets["db_user"],
+        passwd=st.secrets["db_password"],
+        db=st.secrets["db_database"])
+
+
+get_db()
 
 db.generate_mapping(create_tables=True)
