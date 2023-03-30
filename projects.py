@@ -368,7 +368,7 @@ def confirm_ass(id, user):
     print(f"Task with ID {id} confirmed By user {user}")
 
 def confirm_trans(id, user):
-    st.write(f"Transmittal with ID {id} is replied {user}")
+    #st.write(f"Transmittal with ID {id} is replied {user}")
     print(f"Transmittal with ID {id} is replied {user}")
 
 
