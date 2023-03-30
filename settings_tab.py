@@ -28,14 +28,14 @@ def settings_content():
 
             appl_set_but = st.form_submit_button('Apply')
 
-            if appl_set_but:
-                if menu_position == 'Left':
-                    st.session_state.vert_menu = 1
-                else:
-                    st.session_state.vert_menu = 0
-                update_settings(st.session_state.user, st.session_state.vert_menu, st.session_state.delay)
-                # save preferences to DB
-                home_content()
+        if appl_set_but:
+            if menu_position == 'Left':
+                st.session_state.vert_menu = 1
+            else:
+                st.session_state.vert_menu = 0
+            update_settings(st.session_state.user, st.session_state.vert_menu, st.session_state.delay)
+            # save preferences to DB
+            home_content()
 
 
 
