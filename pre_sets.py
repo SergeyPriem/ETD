@@ -71,7 +71,7 @@ def mail_to_name(mail):
         else:
             return head
     except AttributeError:
-        return "!!!"
+        return "Colleague"
 
 BACKUP_FOLDER: Path = Path('//uz-fs/Uzle/Work/Отдел ЭЛ/Архив заданий/')
 
