@@ -119,7 +119,7 @@ class Trans(db.Entity):
 #
 @st.cache_resource
 def get_db():
-    return db.bind(
+    db.bind(
         provider='mysql',
         host=st.secrets["db_host"],
         user=st.secrets["db_user"],
