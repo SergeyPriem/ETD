@@ -366,8 +366,9 @@ def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, de
 
 
 def confirm_ass(id, user):
-    st.info(f"Task with ID {id} confirmed By user {user}")
-    print(f"Task with ID {id} confirmed By user {user}")
+    pass
+    # st.info(f"Task with ID {id} confirmed By user {user}")
+    # print(f"Task with ID {id} confirmed By user {user}")
 
 
 def confirm_trans(id, user):
