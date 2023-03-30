@@ -118,7 +118,7 @@ def home_content():
                         # else:
                         st.write(reply)
 
-                        st.experimental_rerun()
+                        #st.experimental_rerun()
                     else:
                         st.session_state.logged = False
                         st.session_state.rights = 'basic'
