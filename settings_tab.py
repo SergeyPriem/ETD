@@ -17,19 +17,23 @@ def settings_content():
         st.text('This page is intended to make some adjustments for more comfortable use of Application')
 
         st.markdown("---")
-        left_col, empty_col, centr_col, right_col = st.columns([7,3, 3,5], gap='medium')
+        with st.form('adjust_settings'):
+            left_col, empty_col, centr_col, right_col = st.columns([7,3, 3,5], gap='medium')
 
-        st.session_state.delay = left_col.select_slider('Time delay for info messages',
-                                                        options=[1,2,3,4], value=st.session_state.delay)
+            st.session_state.delay = left_col.select_slider('Time delay for info messages',
+                                                            options=[1,2,3,4], value=st.session_state.delay)
 
-        with centr_col:
-            menu_position = st.radio('Location of menu', ("Top", "Left", ),
-                                     index=st.session_state.vert_menu, horizontal=True)
+            with centr_col:
+                menu_position = st.radio('Location of menu', ("Top", "Left", ),
+                                         index=st.session_state.vert_menu, horizontal=True)
 
-        with right_col:
-            st.write('')
-            st.write('')
-            if st.button("Apply"):
+            with right_col:
+                st.write('')
+                st.write('')
+
+            appl_set_but = st.form_submit_button('Apply')
+
+            if appl_set_but:
                 if menu_position == 'Left':
                     st.session_state.vert_menu = 1
                 else:
