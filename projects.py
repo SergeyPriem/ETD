@@ -22,6 +22,7 @@ def delete_table_row(Table, row_id):
         except Exception as e:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
+
 @st.cache_data(ttl=120, show_spinner='Creating Backup String...')
 def create_backup_string(source_link, backup_folder, task_num):
     if source_link != "Non-assignment":
@@ -38,11 +39,10 @@ def tab_to_df(tab):
     users_df = pd.DataFrame(users_dict)
     if 'id' in list(users_df.columns):
         users_df = users_df.set_index('id')
-    if len(users_df)>0:
+    if len(users_df) > 0:
         return users_df
     else:
         return "Empty Table"
-
 
 
 @st.cache_data(ttl=360, show_spinner="Creating Project...")
@@ -71,6 +71,7 @@ def create_project(proj_short, proj_full, client, proj_man, responsible_el, proj
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
         return f'New Project {new_project.short_name} is added to DataBase'
 
+
 @st.cache_data(ttl=120, show_spinner='Getting Projects...')
 def get_projects_names():
     try:
@@ -80,6 +81,7 @@ def get_projects_names():
     except Exception as e:
         return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
+
 @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_sets_for_project(proj):
     try:
@@ -88,7 +90,6 @@ def get_sets_for_project(proj):
             return list(sets_list)
     except Exception as e:
         return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
-
 
 
 @st.cache_data(ttl=60, show_spinner="Getting Data from DB...")
@@ -107,7 +108,8 @@ def get_assignments(email=None):
     with db_session:
         try:
             if email:
-                pers_sets_list = select(sod.id for sod in SOD if (sod.coord_id == Users[email]) or (sod.perf_id == Users[email]))[:]
+                pers_sets_list = select(
+                    sod.id for sod in SOD if (sod.coord_id == Users[email]) or (sod.perf_id == Users[email]))[:]
                 data = select(
                     (
                         a.id,
@@ -169,7 +171,6 @@ def get_assignments(email=None):
             return f"🔧 {type(e).name} {getattr(e, 'args', None)}"
 
 
-
 @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_sets_names(selected_project):
     try:
@@ -178,6 +179,7 @@ def get_sets_names(selected_project):
             return sets_name_list
     except Exception as e:
         return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+
 
 @st.cache_data(ttl=360, show_spinner="Creating Drawing Set...")
 def create_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_date: date, coordinator=None,
@@ -216,7 +218,6 @@ def create_sod(proj_short: str, set_name: str, stage: str, status: str, set_star
         return f"New Set '{new_sod.set_name}' for Project '{proj_short}' is added to DataBase"
 
 
-
 @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_sets_to_edit(selected_project, selected_set):
     try:
@@ -225,6 +226,7 @@ def get_sets_to_edit(selected_project, selected_set):
             return tab_to_df(table)
     except Exception as e:
         return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+
 
 def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, description, link, source, comment):
     with db_session:
@@ -321,6 +323,7 @@ def get_sets(email):
         except Exception as e:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
+
 @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_own_tasks(proj_set):
     try:
@@ -333,7 +336,6 @@ def get_own_tasks(proj_set):
             # return tasks
     except Exception as e:
         return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
-
 
 
 @st.cache_data(ttl=120, show_spinner='Adding to DataBase...')
@@ -367,9 +369,11 @@ def confirm_ass(id, user):
     st.info(f"Task with ID {id} confirmed By user {user}")
     print(f"Task with ID {id} confirmed By user {user}")
 
+
 def confirm_trans(id, user):
-    #st.write(f"Transmittal with ID {id} is replied {user}")
-    print(f"Transmittal with ID {id} is replied {user}")
+    pass
+    # #st.write(f"Transmittal with ID {id} is replied {user}")
+    # print(f"Transmittal with ID {id} is replied {user}")
 
 
 def get_trans(email=None):
@@ -383,6 +387,7 @@ def get_trans(email=None):
         except Exception as e:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
+
 @st.cache_data(ttl=1800)
 def get_proj_list():
     with db_session:
@@ -393,7 +398,8 @@ def get_proj_list():
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
 
-def add_new_trans(project, in_trans, out_trans, t_type, subj, link, in_date, ans_required, out_date, author, responsible, notes):
+def add_new_trans(project, in_trans, out_trans, t_type, subj, link, in_date, ans_required, out_date, author,
+                  responsible, notes):
     with db_session:
         try:
             if in_trans in select(p.in_trans for p in Trans)[:]:
@@ -421,5 +427,3 @@ def add_new_trans(project, in_trans, out_trans, t_type, subj, link, in_date, ans
 
         except Exception as e:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
-
-
