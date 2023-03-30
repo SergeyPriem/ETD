@@ -370,7 +370,7 @@ def confirm_ass(task_id, user, proj, sod):
         try:
             heroes = select((p.coord_id, p.perf_id) for p in SOD if (
                     p.project_id == Project[proj] and p.set_name == sod))[:]
-            st.warning(Project[proj], sod)
+            st.warning((Project[proj], sod))
             st.warning(heroes)
             if user == heroes[0]:
                 Task[task_id].coord_log = date.today()
