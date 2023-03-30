@@ -111,8 +111,7 @@ def home_content():
                         #     st.write(f"Welcome on board! Now You can use SideBar") ##reporter
                         # else:
                         st.info(reply)
-
-                        #st.experimental_rerun()
+                        st.experimental_rerun()
                     else:
                         st.session_state.logged = False
                         st.session_state.rights = 'basic'
