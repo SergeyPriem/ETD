@@ -556,7 +556,7 @@ def manage_users():
 
                 if upd_user_but:
                     reply = update_users_in_db(employee_to_edit, position, department, start_date, access_level)
-                    reporter(reply)
+                    reporter(reply, 3)
 
             if edit_move == 'Move to Former Users':
                 end_date = st.date_input('End Date', key='end_date')
