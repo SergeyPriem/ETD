@@ -52,7 +52,7 @@ from users import get_appl_emails, check_user, create_user, add_to_log, get_logg
     create_appl_user, get_appl_user_data, update_users_in_db, move_to_former, get_registered_emails, get_settings, \
     update_user_reg_data
 from pony.orm import *
-from projects import get_tasks, confirm_task, get_trans, confirm_trans
+from projects import confirm_task, get_trans, confirm_trans, get_pers_tasks
 
 # from streamlit_profiler import Profiler
 
@@ -143,7 +143,7 @@ def home_content():
                     ass_col, blank_col, trans_col = st.columns([10,2,10])
                     with ass_col:
                         st.subheader(":orange[New Incoming Tasks]")
-                        df = get_tasks()  #st.session_state.user
+                        df = get_pers_tasks(st.session_state.user)  #st.session_state.user
                         css = """table {border-collapse: collapse;}"""
                         if isinstance(df, pd.DataFrame):
                             for ind, row in df.iterrows():
