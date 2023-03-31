@@ -522,7 +522,7 @@ def manage_users():
 
                     position = st.radio('Position', positions,
                                         key='edit_position', horizontal=True, index=position_ind)
-
+                    st.markdown("---")
                     try:
                         department_ind = departments.index(appl_user.department)
                     except:
@@ -530,6 +530,7 @@ def manage_users():
 
                     department = st.radio('Department', departments,
                                           key='edit_department', horizontal=True, index=department_ind)
+                    st.markdown("---")
 
                     access_tuple = ('performer', 'admin', 'supervisor', 'prohibited')
                     try:
@@ -539,6 +540,8 @@ def manage_users():
 
                     access_level = st.radio('Access level', access_tuple, horizontal=True,
                                             key='edit_access_level', index=access_ind)
+                    st.markdown("---")
+
                     try:
                         date_from_db = appl_user.start_date
                     except:
