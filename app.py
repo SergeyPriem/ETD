@@ -145,7 +145,7 @@ def home_content():
                         st.subheader(":orange[New Incoming Tasks]")
                         df = get_pers_tasks(st.session_state.user)
 
-                        if isinstance(df, pd.DataFrame):
+                        if isinstance(df, pd.DataFrame) and len(df) > 0:
                             for ind, row in df.iterrows():
                                 name_surname = mail_to_name(row.added_by)
                                 st.markdown(f"""<h4>Task: {row.id}</h4>""",unsafe_allow_html=True)
@@ -210,13 +210,13 @@ def home_content():
                                         row.id, st.session_state.user, row.project, row.unit)):
                                     st.info(f"Task {task_id} confirmed!!")
                                 st.text("")
-                            if len(df)==0:
-                                st.text('No New Tasks')
+                        else:
+                            st.info('No New Tasks')
 
                     with trans_col:
                         st.subheader(":orange[New Incoming Transmittals]")
                         df = get_trans(st.session_state.user)  # st.session_state.user
-                        if isinstance(df, pd.DataFrame):
+                        if isinstance(df, pd.DataFrame) and len(df) > 0:
                             df = df.loc[df.status != "Closed"]
                             for ind, row in df.iterrows():
                                 name_surname = mail_to_name(row.added_by)
