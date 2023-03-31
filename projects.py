@@ -171,8 +171,12 @@ def get_tasks(email=None):
             return f"🔧 {type(e).name} {getattr(e, 'args', None)}"
 
 
-def get_pers_tasks(email):
-    # print(email)
+def get_pers_tasks(email: str) -> pd.DataFrame:
+    """
+    Returns coordinator's or performer's tasks which is not confirmed
+    :param email
+    :return: DataFrame
+    """
     with db_session:
         try:
             data = left_join(

@@ -143,8 +143,7 @@ def home_content():
                     ass_col, blank_col, trans_col = st.columns([10,2,10])
                     with ass_col:
                         st.subheader(":orange[New Incoming Tasks]")
-                        df = get_pers_tasks(st.session_state.user)  #st.session_state.user
-                        # css = """table {border-collapse: collapse;}"""
+                        df = get_pers_tasks(st.session_state.user)
 
                         if isinstance(df, pd.DataFrame):
                             for ind, row in df.iterrows():
