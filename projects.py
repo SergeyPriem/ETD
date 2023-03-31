@@ -178,8 +178,8 @@ def get_pers_tasks(email):
             data = left_join(
                 (
                     t.id,
-                    t.set_id.project_id.short_name,
-                    t.set_id.set_name,
+                    s.project_id.short_name,
+                    s.set_name,
                     t.speciality.id,
                     t.stage,
                     t.in_out,
@@ -191,11 +191,11 @@ def get_pers_tasks(email):
                     t.coord_log,
                     t.perf_log,
                     t.comment,
-                    t.added_by
+                    t.added_by,
                 )
                 for t in Task
                 for s in t.set_id
-                if (s.coord_id == Users[email] or s.perf_id == Users[email]) and t.coord_log is None)[:]  # and not t.coord_log
+                if (s.coord_id == Users[email] or s.perf_id == Users[email]) and t.coord_log)[:]
 
             df = pd.DataFrame(data, columns=[
                 "id",
