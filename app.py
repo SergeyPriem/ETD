@@ -50,7 +50,7 @@ from settings_tab import settings_content
 from transmittals_tab import transmittals_content
 from users import get_appl_emails, check_user, create_user, add_to_log, get_logged_rights, \
     create_appl_user, get_user_data, update_users_in_db, move_to_former, get_registered_emails, get_settings, \
-    update_user_reg_data
+    update_user_reg_data, get_all_emails
 from pony.orm import *
 from projects import confirm_task, get_trans, confirm_trans, get_pers_tasks
 
@@ -510,7 +510,7 @@ def manage_users():
                 reporter(reply)
 
         with users_tab2:
-            list_appl_users = get_appl_emails()
+            list_appl_users = get_all_emails()
             employee_to_edit = st.selectbox('Select User', list_appl_users)
             edit_move = st.radio('Action', ('Edit', 'Move to Former Users'), horizontal=True)
 
