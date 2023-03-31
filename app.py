@@ -555,8 +555,7 @@ def manage_users():
                     upd_user_but = st.form_submit_button("Update in DB", use_container_width=True)
 
                 if upd_user_but:
-                    reply = update_users_in_db(employee_to_edit, position, department,
-                                               start_date, access_level)
+                    reply = update_users_in_db(employee_to_edit, position, department, start_date, access_level)
                     reporter(reply)
 
             if edit_move == 'Move to Former Users':

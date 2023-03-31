@@ -172,12 +172,12 @@ def update_user_data(employee_to_edit, user_tab):
                                   args=(employee_to_edit, position, department, start_date, end_date, access_level))
 
 
-def update_users_in_db(email, position, department, start_date, access_level):
+def update_users_in_db(email, position, branch, start_date, access_level):
     with db_session:
         try:
             hero = Users[email]
             hero.position = position
-            hero.branch = department
+            hero.branch = branch
             hero.start_date = start_date
             hero.access_level = access_level
             hero.status = 'current'
@@ -185,10 +185,10 @@ def update_users_in_db(email, position, department, start_date, access_level):
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
-        return f"""Updated Data for Users with e-mail **{hero.email}**  
-                   Position: **:blue[{hero.position}]**  
-                   Branch: **:blue[{hero.branch}]**  
-                   Access level: **:blue[{hero.access_level}]**  
+        return f"""Updated Data for Users with e-mail **{email}**  
+                   Position: **:blue[{position}]**  
+                   Branch: **:blue[{branch}]**  
+                   Access level: **:blue[{access_level}]**  
                    Status: **:blue[{hero.status}]**"""
 
 
