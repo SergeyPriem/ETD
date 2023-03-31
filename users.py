@@ -3,7 +3,7 @@ import datetime
 import time
 import streamlit as st
 import bcrypt
-from models import ApplUser, Users, VisitLog
+from models import Users, VisitLog
 from pony.orm import *
 
 from pre_sets import mail_to_name
@@ -76,7 +76,10 @@ def get_appl_emails():
 def get_registered_emails():
     with db_session:
         try:
-            registered_emails = select(eml.id for eml in Users if len(eml.hashed_pass) > 0)[:]
+            registered_emails = select(
+                eml.id for eml in Users
+                if len(eml.hashed_pass) > 0 and eml.status == 'current')[:]
+
             return registered_emails
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
@@ -161,7 +164,7 @@ def update_user_data(employee_to_edit, user_tab):
 def update_users_in_db(email, position, department, start_date, access_level):
     with db_session:
         try:
-            hero = ApplUser[email]
+            hero = Users[email]
             hero.position = position
             hero.branch = department
             hero.start_date = start_date
@@ -181,7 +184,7 @@ def update_users_in_db(email, position, department, start_date, access_level):
 def get_logged_rights(email):
     with db_session:
         try:
-            hero = ApplUser[email]
+            hero = Users[email]
             return hero.access_level
         except Exception as e:
             # return "🔧 Connection to DB is failed"
