@@ -176,9 +176,9 @@ def get_pers_tasks(email):
     with db_session:
         try:
 
-            pers_sets_list = select(
-                sod.id for sod in SOD if (sod.coord_id == Users[email]) or (sod.perf_id == Users[email]))[:]
-
+            # pers_sets_list = select(
+            #     sod.id for sod in SOD if (sod.coord_id == Users[email]) or (sod.perf_id == Users[email]))[:]
+            #
             data = left_join(
                 (
                     t.id,
@@ -196,9 +196,10 @@ def get_pers_tasks(email):
                     t.perf_log,
                     t.comment,
                     t.added_by
-                ) for t in Task
+                )
+                for t in Task
                 for s in t.set_id
-                if (s.coord_id == Users[email] or (s.perf_id == Users[email])))[:]  # and not t.coord_log
+                if s.coord_id == Users[email] or s.perf_id == Users[email])[:]  # and not t.coord_log
             # data = select(
             #     (
             #         a.id,
