@@ -495,9 +495,12 @@ def manage_users():
             with st.form("Add_new_user"):
                 user_email = st.text_input('Email')
                 user_position = st.radio('Position', positions, horizontal=True)
+                st.markdown("---")
                 user_department = st.radio('Department', departments, horizontal=True)
+                st.markdown("---")
                 user_access_level = st.radio('Access level',
                                              ('performer', 'admin', 'supervisor'), horizontal=True)
+                st.markdown("---")
                 user_start_date = st.date_input('Start Date', datetime.date.today())
                 create_appl_user_but = st.form_submit_button('Create New User', use_container_width=True)
 
