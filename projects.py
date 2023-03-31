@@ -175,10 +175,6 @@ def get_pers_tasks(email):
     # print(email)
     with db_session:
         try:
-
-            # pers_sets_list = select(
-            #     sod.id for sod in SOD if (sod.coord_id == Users[email]) or (sod.perf_id == Users[email]))[:]
-            #
             data = left_join(
                 (
                     t.id,
@@ -199,25 +195,7 @@ def get_pers_tasks(email):
                 )
                 for t in Task
                 for s in t.set_id
-                if s.coord_id == Users[email] or s.perf_id == Users[email])[:]  # and not t.coord_log
-            # data = select(
-            #     (
-            #         a.id,
-            #         a.set_id.project_id.short_name,
-            #         a.set_id.set_name,
-            #         a.speciality.id,
-            #         a.stage,
-            #         a.in_out,
-            #         a.date,
-            #         a.description,
-            #         a.link,
-            #         a.backup_copy,
-            #         a.source,
-            #         a.coord_log,
-            #         a.perf_log,
-            #         a.comment,
-            #         a.added_by
-            #     ) for a in Task if (a.id in pers_sets_list and not a.coord_log))[:]
+                if (s.coord_id == Users[email] or s.perf_id == Users[email]) and not (t.coord_log is None))[:]  # and not t.coord_log
 
             df = pd.DataFrame(data, columns=[
                 "id",
@@ -238,7 +216,7 @@ def get_pers_tasks(email):
             ])
             return df
         except Exception as e:
-            return f"🔧 {type(e).name} {getattr(e, 'args', None)}"
+            return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
 
 @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
