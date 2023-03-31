@@ -14,7 +14,7 @@ class Project(db.Entity):
     client = Optional(str, 50, nullable=True)
     manager = Optional(str, 50, nullable=True)
     responsible_el = Optional('Users')
-    status = Optional(str, 30)
+    status = Optional(str, 30, nullable=True)
     assignment = Optional(str, 250, nullable=True)  # Contract Document
     tech_conditions = Optional(str, 250, nullable=True)
     surveys = Optional(str, 250, nullable=True)
@@ -22,6 +22,7 @@ class Project(db.Entity):
     notes = Optional(str, 500, nullable=True)
     set_draws = Set('SOD')
     orders = Set('Message')
+    transs = Set('Trans')
 
 
 class SOD(db.Entity):
@@ -63,6 +64,8 @@ class Users(db.Entity):
     end_date = Optional(date)
     tg_id = Optional(str, 15, nullable=True)
     orders = Set('Message')
+    transs = Set('Trans', reverse='responsible')
+    trans_add = Set('Trans', reverse='users')
 
 
 class Task(db.Entity):
@@ -80,23 +83,6 @@ class Task(db.Entity):
     added_by = Required(str, 50)
     speciality = Required('Speciality')
     s_o_d = Required(SOD)
-
-class Trans(db.Entity):
-    in_trans = PrimaryKey(str, 50)
-    in_date = Required(date)
-    ans_required = Required(bool)
-    out_date = Optional(date)
-    out_trans = Optional(str, 50)
-    users = Required(Users)
-    author = Optional(str, 50, nullable=True)
-    project = Required(Project)
-    subj = Required(str, 50)
-    link = Optional(str, 150, nullable=True)
-    t_type = Required(str, 50)
-    notes = Optional(str, 500, nullable=True)
-    received = Optional(str, nullable=True)
-    added_by = Required(str)
-    status = Optional(str, 50, nullable=True)
 
 
 class VisitLog(db.Entity):
@@ -126,6 +112,26 @@ class Message(db.Entity):
     last_remind = Optional(date)
     notes = Optional(str, 500)
     archieve = Optional(str, 300)
+
+
+class Trans(db.Entity):
+    in_trans = PrimaryKey(str, 50, auto=True)
+    in_date = Required(date)
+    ans_required = Required(bool)
+    project = Required(Project)
+    responsible = Required(Users, reverse='transs')
+    author = Required(str, 50)
+    out_date = Optional(date)
+    out_trans = Optional(str, 50, nullable=True)
+    subj = Optional(str, nullable=True)
+    link = Optional(str, 200, nullable=True)
+    t_type = Required(str, 50)
+    notes = Optional(str, 500, nullable=True)
+    received = Optional(str, 250, nullable=True)
+    users = Required(Users, reverse='trans_add')
+    status = Optional(str, 50, nullable=True)
+
+
 
 set_sql_debug(True)
 

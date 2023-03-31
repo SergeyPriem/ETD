@@ -255,7 +255,7 @@ def home_content():
                                 </tr>
                                 <tr>
                                     <td>Responsible</td>
-                                    <td>{row.users}</td>
+                                    <td>{row.responsible}</td>
                                 </tr>
                                 <tr>
                                     <td>Author</td>
