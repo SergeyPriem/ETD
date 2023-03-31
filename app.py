@@ -480,7 +480,7 @@ def phone_directory():
         # st.write(df)
 
 
-@st.cache_data(ttl=600)
+# @st.cache_data(ttl=600)
 def manage_users():
     users_1, users_content, users_2 = st.columns([1, 2, 1])
     with users_1:
@@ -490,7 +490,7 @@ def manage_users():
     with users_content:
         st.title(':orange[Manage Users]')
 
-        users_tab1, users_tab2 = st.tabs(['Add Applied User', 'Edit User Details'])
+        users_tab1, users_tab2 = st.tabs(['Add New User', 'Edit User Details'])
         with users_tab1:
             with st.form("Add_appl_user"):
                 user_email = st.text_input('Email')
