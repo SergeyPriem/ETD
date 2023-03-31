@@ -64,6 +64,7 @@ appearance_settings()
 
 registered_emails = get_registered_emails()
 
+
 # st.write(registered_emails)
 # @st.cache_data(ttl=600, suppress_st_warning=True)
 def home_content():
@@ -140,7 +141,7 @@ def home_content():
                 with content2:
                     st.markdown("---")
 
-                    ass_col, blank_col, trans_col = st.columns([10,2,10])
+                    ass_col, blank_col, trans_col = st.columns([10, 2, 10])
                     with ass_col:
                         df = get_pers_tasks(st.session_state.user)
 
@@ -148,7 +149,7 @@ def home_content():
                             st.subheader(":orange[New Incoming Tasks]")
                             for ind, row in df.iterrows():
                                 name_surname = mail_to_name(row.added_by)
-                                st.markdown(f"""<h4>Task: {row.id}</h4>""",unsafe_allow_html=True)
+                                st.markdown(f"""<h4>Task: {row.id}</h4>""", unsafe_allow_html=True)
 
                                 st.markdown("""<style> .nobord table, tr, td, ths {
                                         border-style: hidden;
@@ -220,7 +221,7 @@ def home_content():
                             df = df.loc[df.status != "Closed"]
                             for ind, row in df.iterrows():
                                 name_surname = mail_to_name(row.added_by)
-                                st.markdown(f"""<h4>Transmittal: {row.in_trans}</h4>""",unsafe_allow_html=True)
+                                st.markdown(f"""<h4>Transmittal: {row.in_trans}</h4>""", unsafe_allow_html=True)
 
                                 st.markdown("""<style> .nobord table, tr, td, ths {
                                         border-style: hidden;
@@ -280,7 +281,6 @@ def home_content():
                                 </table>
                                 <br>
                                 """, unsafe_allow_html=True)
-
 
                                 but_key = f"Add Reply for: {row.in_trans}"
                                 st.button(label=but_key, key=but_key, type='primary', on_click=confirm_trans,
@@ -361,12 +361,11 @@ def home_content():
 
                         if not st.session_state.code_sent:
                             if send_mail(receiver=company_email, cc_rec="sergey.priemshiy@uzliti-en.com",
-                                      html=conf_html, subj="Confirmation of ETD site registration"):
+                                         html=conf_html, subj="Confirmation of ETD site registration"):
                                 st.session_state.code_sent = True
                                 st.info("Confirmation Code sent to Your Company Email")
                             else:
                                 st.warning("Network problems...Try again later")
-
 
                     entered_code = st.text_input("Confirmation Code from Email")
 
@@ -430,7 +429,7 @@ def home_content():
 
                     if not st.session_state.upd_code_sent:
                         email_sent = send_mail(receiver=st.session_state.user, cc_rec="sergey.priemshiy@uzliti-en.com",
-                                  html=upd_html, subj="Confirmation of Data Update on ETD site")
+                                               html=upd_html, subj="Confirmation of Data Update on ETD site")
                         if email_sent is True:
                             st.session_state.upd_code_sent = True
                         else:
@@ -453,6 +452,7 @@ def home_content():
                 else:
                     st.write("After pressing 'Get Confirmation Code' you will get Confirmation Code by e-mail")
                     st.write("Enter the Code and press 'Update Password'")
+
 
 @st.cache_data(ttl=600)
 def phone_directory():
@@ -492,18 +492,13 @@ def manage_users():
 
         users_tab1, users_tab2 = st.tabs(['Add New User', 'Edit User Details'])
         with users_tab1:
-            with st.form("Add_appl_user"):
+            with st.form("Add_new_user"):
                 user_email = st.text_input('Email')
-                st.markdown("---")
                 user_position = st.radio('Position', positions, horizontal=True)
-                st.markdown("---")
                 user_department = st.radio('Department', departments, horizontal=True)
-                st.markdown("---")
                 user_access_level = st.radio('Access level',
                                              ('performer', 'admin', 'supervisor'), horizontal=True)
-                st.markdown("---")
                 user_start_date = st.date_input('Start Date', datetime.date.today())
-                st.markdown("---")
                 create_appl_user_but = st.form_submit_button('Create New User', use_container_width=True)
 
             if create_appl_user_but:
@@ -514,47 +509,46 @@ def manage_users():
         with users_tab2:
             list_appl_users = get_appl_emails()
             employee_to_edit = st.selectbox('Select User', list_appl_users)
-            st.markdown("---")
             edit_move = st.radio('Action', ('Edit', 'Move to Former Users'), horizontal=True)
-            st.markdown("---")
 
             if edit_move == 'Edit':
-                appl_user = get_user_data(employee_to_edit)
+                with st.form('upd_exist_user'):
+                    appl_user = get_user_data(employee_to_edit)
 
-                try:
-                    position_ind = positions.index(appl_user.position)
-                except:
-                    position_ind = 0
+                    try:
+                        position_ind = positions.index(appl_user.position)
+                    except:
+                        position_ind = 0
 
-                position = st.radio('Position', positions,
-                                    key='edit_position', horizontal=True, index=position_ind)
-                st.markdown("---")
+                    position = st.radio('Position', positions,
+                                        key='edit_position', horizontal=True, index=position_ind)
 
-                try:
-                    department_ind = departments.index(appl_user.department)
-                except:
-                    department_ind = 0
-                department = st.radio('Department', departments,
-                                      key='edit_department', horizontal=True, index=department_ind)
-                st.markdown("---")
+                    try:
+                        department_ind = departments.index(appl_user.department)
+                    except:
+                        department_ind = 0
 
-                access_tuple = ('performer', 'admin', 'supervisor', 'prohibited')
-                try:
-                    access_ind = access_tuple.index(appl_user.access_level)
-                except Exception:
-                    access_ind = 0
+                    department = st.radio('Department', departments,
+                                          key='edit_department', horizontal=True, index=department_ind)
 
-                access_level = st.radio('Access level', access_tuple, horizontal=True,
-                                        key='edit_access_level', index=access_ind)
-                st.markdown("---")
-                try:
-                    date_from_db = appl_user.start_date
-                except:
-                    date_from_db = datetime.date.today()
+                    access_tuple = ('performer', 'admin', 'supervisor', 'prohibited')
+                    try:
+                        access_ind = access_tuple.index(appl_user.access_level)
+                    except Exception:
+                        access_ind = 0
 
-                start_date = st.date_input('Start Date', date_from_db, key='start_date')
-                st.markdown("---")
-                if st.button("Update in DB", use_container_width=True):
+                    access_level = st.radio('Access level', access_tuple, horizontal=True,
+                                            key='edit_access_level', index=access_ind)
+                    try:
+                        date_from_db = appl_user.start_date
+                    except:
+                        date_from_db = datetime.date.today()
+
+                    start_date = st.date_input('Start Date', date_from_db, key='start_date')
+
+                    upd_user_but = st.form_submit_button("Update in DB", use_container_width=True)
+
+                if upd_user_but:
                     reply = update_users_in_db(employee_to_edit, position, department,
                                                start_date, access_level)
                     reporter(reply)
@@ -582,6 +576,7 @@ super_icons = ["bi bi-briefcase", "bi bi-person-lines-fill"]
 
 short_menu = ["Home"]
 short_icons = ['house']
+
 
 @st.cache_data(ttl=600)
 def get_menus():
