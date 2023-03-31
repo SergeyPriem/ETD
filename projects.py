@@ -423,13 +423,9 @@ def confirm_task(task_id, user, proj, sod):
         try:
             heroes = select((p.coord_id, p.perf_id) for p in SOD if (
                     p.project_id == Project[proj] and p.set_name == sod)).first()
-            st.warning((Project[proj], sod))
-            st.warning(heroes)
             if user == heroes[0].id:
-                st.warning('0')
                 Task[task_id].coord_log = datetime.now()
             if user == heroes[1].id:
-                st.warning('1')
                 Task[task_id].coord_log = datetime.now()
         except Exception as e:
             st.warning(f"🔧 {type(e).__name__} {getattr(e, 'args', None)}")
