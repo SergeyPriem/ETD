@@ -19,17 +19,17 @@ set_sql_debug(True)
 #     print(f'Time spent: {round(end - start, 4)} s.')
 #   return wrapper
 
-def move_to_former(employee_to_edit, end_date):
+def move_to_former(email, end_date):
     with db_session:
         try:
-            hero = Users[employee_to_edit]
+            hero = Users[email]
             hero.access_level = 'prohibited'
             hero.status = 'former'
             hero.end_date = end_date
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
-        return f'''**{hero.email}** moved to Former Users
+        return f'''**{email}** moved to Former Users
         by date **{end_date}**.
         Access status: **:red[{hero.access_level}]**'''
 
