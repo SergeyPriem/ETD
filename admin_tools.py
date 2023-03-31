@@ -99,7 +99,8 @@ def manage_projects():
             df = get_table(tab_name)
             if isinstance(df, pd.DataFrame):
                 st.info(f'Records Q-ty: {len(df)}')
-                st.write(df)
+                # st.write(df)
+                st.experimental_data_editor(df, use_container_width=True)
             else:
                 st.warning('No records found')
 
