@@ -210,7 +210,7 @@ def home_content():
                                         row.id, st.session_state.user, row.project, row.unit)):
                                     st.info(f"Task {task_id} confirmed!!")
                             if len(df)==0:
-                                st.info('No New Tasks')
+                                st.text('No New Tasks')
 
                     with trans_col:
                         st.subheader(":orange[New Incoming Transmittals]")
