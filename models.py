@@ -77,8 +77,8 @@ class Task(db.Entity):
     link = Required(str, 250)
     backup_copy = Optional(str, 250)
     source = Required(str, 250)
-    coord_log = Optional(datetime)
-    perf_log = Optional(datetime)
+    coord_log = Optional(str, 250, nullable=True)
+    perf_log = Optional(str, 250, nullable=True)
     comment = Optional(str, 500, nullable=True)
     added_by = Required(str, 50)
     speciality = Required('Speciality')
@@ -115,19 +115,18 @@ class Trans(db.Entity):
     status = Optional(str, 50, nullable=True)
 
 
+set_sql_debug(True)
+
+
 # db.bind(provider='sqlite', filename='DBB.sqlite', create_db=True)
-#
-# @st.cache_resource
-# def get_db():
-    db.bind(
-        provider='mysql',
-        host=st.secrets["db_host"],
-        user=st.secrets["db_user"],
-        passwd=st.secrets["db_password"],
-        db=st.secrets["db_database"]
-    )
 
+db.bind(
+    provider='mysql',
+    host=st.secrets["db_host"],
+    user=st.secrets["db_user"],
+    passwd=st.secrets["db_password"],
+    db=st.secrets["db_database"]
+)
 
-# get_db()
 
 db.generate_mapping(create_tables=True)

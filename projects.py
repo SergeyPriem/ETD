@@ -203,6 +203,7 @@ def get_pers_tasks(email: str) -> pd.DataFrame:
                 if ((s.coord_id == Users[email] and not email in t.coord_log)
                     or s.perf_id == Users[email]) and not email in t.perf_log)[:]
 
+
             df = pd.DataFrame(data, columns=[
                 "id",
                 "project",
