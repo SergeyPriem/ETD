@@ -144,7 +144,8 @@ def home_content():
                     with ass_col:
                         st.subheader(":orange[New Incoming Tasks]")
                         df = get_pers_tasks(st.session_state.user)  #st.session_state.user
-                        css = """table {border-collapse: collapse;}"""
+                        # css = """table {border-collapse: collapse;}"""
+
                         if isinstance(df, pd.DataFrame):
                             for ind, row in df.iterrows():
                                 name_surname = mail_to_name(row.added_by)
@@ -208,8 +209,8 @@ def home_content():
                                 if st.button(label=but_key, key=but_key, type='primary', on_click=confirm_task, args=(
                                         row.id, st.session_state.user, row.project, row.unit)):
                                     st.info(f"Task {task_id} confirmed!!")
-                        else:
-                            st.info('No New Tasks')
+                            if len(df)==0:
+                                st.info('No New Tasks')
 
                     with trans_col:
                         st.subheader(":orange[New Incoming Transmittals]")
