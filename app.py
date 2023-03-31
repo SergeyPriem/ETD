@@ -203,6 +203,7 @@ def home_content():
                                 </table>
                                 <br>
                                 """, unsafe_allow_html=True)
+
                                 but_key = f"Confirm Task: {row.id}"
                                 task_id = row.id
                                 if st.button(label=but_key, key=but_key, type='primary', on_click=confirm_task, args=(
