@@ -229,7 +229,7 @@ def get_sets_names(selected_project):
     try:
         with db_session:
             sets_name_list = select(s.set_name for s in SOD if s.project_id == Project[selected_project])[:]  #
-            return sets_name_list
+            return list(sets_name_list)
     except Exception as e:
         return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
