@@ -178,18 +178,6 @@ def get_pers_tasks(email: str) -> pd.DataFrame:
     :return: DataFrame
     """
 
-    heroes = select(
-        (p.coord_id, p.perf_id)
-        for p in SOD
-        if (p.project_id == Project[proj] and p.set_name == sod)
-    ).first()
-
-    if email == heroes[0].id:
-        Task[task_id].coord_log = datetime.now()
-
-    if email == heroes[1].id:
-        Task[task_id].coord_log = datetime.now()
-
     with db_session:
         try:
             data = left_join(
@@ -213,7 +201,7 @@ def get_pers_tasks(email: str) -> pd.DataFrame:
                 for t in Task
                 for s in t.set_id
                 if ((s.coord_id == Users[email] and not t.coord_log)
-                    or s.perf_id == Users[email]) and not t.зука_log)[:]
+                    or s.perf_id == Users[email]) and not t.perf_log)[:]
 
             df = pd.DataFrame(data, columns=[
                 "id",
