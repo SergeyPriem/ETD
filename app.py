@@ -211,7 +211,7 @@ def home_content():
                                     st.info(f"Task {task_id} confirmed!!")
                                 st.text("")
                         else:
-                            st.info('No New Tasks')
+                            st.text('No New Tasks')
 
                     with trans_col:
                         st.subheader(":orange[New Incoming Transmittals]")
@@ -287,7 +287,7 @@ def home_content():
                                           args=(row.in_trans, st.session_state.user))
                                 st.text("")
                         else:
-                            st.info('No New Transmittals')
+                            st.text('No New Transmittals')
 
         with reg_tab:
             if st.session_state.logged:
