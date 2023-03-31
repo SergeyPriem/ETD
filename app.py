@@ -285,8 +285,7 @@ def home_content():
                                 st.button(label=but_key, key=but_key, type='primary', on_click=confirm_trans,
                                           args=(row.in_trans, st.session_state.user))
                                 st.text("")
-                                st.markdown("""
-                                """)
+                                st.markdown("""---""")
                         else:
                             st.info('No New Transmittals')
 
