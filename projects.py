@@ -203,7 +203,6 @@ def get_pers_tasks(email: str) -> pd.DataFrame:
                 if ((s.coord_id == Users[email] and not email in t.coord_log)
                     or s.perf_id == Users[email]) and not email in t.perf_log)[:]
 
-
             df = pd.DataFrame(data, columns=[
                 "id",
                 "project",
@@ -432,13 +431,15 @@ def confirm_task(task_id, user, proj, sod):
                 (p.coord_id, p.perf_id)
                 for p in SOD
                 if (p.project_id == Project[proj] and p.set_name == sod)
-                ).first()
+            ).first()
             st.write(heroes)
             if user == heroes[0].id:
-                Task[task_id].coord_log += f"*{user}*{datetime.now()}*\n"
+                Task[task_id].coord_log = str(
+                    Task[task_id].coord_log.replace('None', '')) + f"*{user}*{datetime.now()}*\n"
 
             if user == heroes[1].id:
-                Task[task_id].perf_log += f"*{user}*{datetime.now()}*\n"
+                Task[task_id].perf_log = str(
+                    Task[task_id].coord_log.replace('None', '')) + f"*{user}*{datetime.now()}*\n"
 
         except Exception as e:
             st.warning(f"🔧 {type(e).__name__} {getattr(e, 'args', None)}")
