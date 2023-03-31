@@ -142,10 +142,10 @@ def home_content():
 
                     ass_col, blank_col, trans_col = st.columns([10,2,10])
                     with ass_col:
-                        st.subheader(":orange[New Incoming Tasks]")
                         df = get_pers_tasks(st.session_state.user)
 
                         if isinstance(df, pd.DataFrame) and len(df) > 0:
+                            st.subheader(":orange[New Incoming Tasks]")
                             for ind, row in df.iterrows():
                                 name_surname = mail_to_name(row.added_by)
                                 st.markdown(f"""<h4>Task: {row.id}</h4>""",unsafe_allow_html=True)
@@ -214,9 +214,9 @@ def home_content():
                             st.text('No New Tasks')
 
                     with trans_col:
-                        st.subheader(":orange[New Incoming Transmittals]")
                         df = get_trans(st.session_state.user)  # st.session_state.user
                         if isinstance(df, pd.DataFrame) and len(df) > 0:
+                            st.subheader(":orange[New Incoming Transmittals]")
                             df = df.loc[df.status != "Closed"]
                             for ind, row in df.iterrows():
                                 name_surname = mail_to_name(row.added_by)
