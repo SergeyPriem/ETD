@@ -8,7 +8,7 @@ from models import Project, Task, VisitLog, SOD, Users, Trans, Speciality
 from pre_sets import proj_statuses, reporter, stages, sod_statuses
 from projects import create_project, get_projects_names, get_table, update_projects, create_sod, get_sets_names, \
     get_sets_to_edit, update_sets
-from users import get_appl_emails, get_registered_emails
+from users import get_appl_emails, get_registered_emails, get_allowed_emails
 
 
 def manage_projects():
@@ -27,7 +27,7 @@ def manage_projects():
             with st.form("create_project", clear_on_submit=True):
                 proj_short = st.text_input('Project Name - short')
                 proj_full = st.text_area('Project Name - full')
-                responsible_el = st.selectbox('Responsible Person', get_registered_emails())
+                responsible_el = st.selectbox('Responsible Person', get_allowed_emails())
                 proj_status = st.radio('Project Status', proj_statuses, horizontal=True)
                 client = st.text_input('Client')
                 proj_tech_ass = st.text_area('Link for Technical Task')
@@ -41,9 +41,7 @@ def manage_projects():
             with proj_preview_col:
                 preview_checkbox = st.checkbox('Preview Project',
                                                value=st.session_state.preview_proj_stat)
-            # with proj_create_col:
-            #     create_proj_button = st.button('Create Project', use_container_width=True,
-            #                                    disabled=not preview_checkbox)
+
             if preview_checkbox:
                 st.write(f"""
                 Short Name: **:blue[{proj_short}]**
@@ -135,7 +133,6 @@ def manage_sets():
 
             if create_sod_but:
                 reply = create_sod(proj_short, set_name, stage, status, set_start_date, notes, coordinator, performer)
-                #create_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_date: date, notes='', coordinator=None, performer=None, )
                 reporter(reply)
 
         with sets_edit:
@@ -145,11 +142,10 @@ def manage_sets():
 
             sets_list = get_sets_names(proj_for_sets_edit)
 
-            if not isinstance(sets_list, pony.orm.core.QueryResult):
+            if not isinstance(sets_list, list):
                 reporter(sets_list)
                 st.stop()
             else:
-                # st.write(type(sets_list))
                 set_to_edit = st.selectbox('Select Unit / Set of Drawings', sets_list)
 
             sets_df = get_sets_to_edit(proj_for_sets_edit, set_to_edit)

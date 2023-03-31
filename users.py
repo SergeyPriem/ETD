@@ -84,6 +84,17 @@ def get_registered_emails():
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
+def get_allowed_emails():
+    with db_session:
+        try:
+            registered_emails = select(
+                eml.id for eml in Users
+                if eml.status == 'current')[:]
+
+            return list(registered_emails)
+        except Exception as e:
+            return f"{type(e).__name__}{getattr(e, 'args', None)}"
+
 
 def create_user(name, surname, phone, telegram, email, password):
     if email in get_appl_emails():
