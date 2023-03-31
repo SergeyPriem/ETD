@@ -36,33 +36,34 @@ def manage_projects():
                 proj_man = st.text_input('Project Manager')
                 proj_notes = st.text_area('Notes')
                 proj_preview_col, proj_create_col = st.columns([1, 1])
-                submitted = st.form_submit_button('Create Project')
+                proj_prev_but = st.form_submit_button('Preview Data')
+
             with proj_preview_col:
-                preview_checkbox = st.checkbox('Preview Project',
-                                               value=st.session_state.preview_proj_stat)
+                # preview_checkbox = st.checkbox('Preview Project',
+                #                                value=st.session_state.preview_proj_stat)
 
-            if preview_checkbox:
-                st.write(f"""
-                Short Name: **:blue[{proj_short}]**
-                Full Name: **:blue[{proj_full}]**
-                Responsible: **:blue[{responsible_el}]**
-                Status: **:blue[{proj_status}]**
-                Client: **:blue[{client}]**
-                Link for Technical Task: **:blue[{proj_tech_ass}]**
-                Link for Technical Conditions: **:blue[{proj_tech_conditions}]**
-                Link for Technical Surveys: **:blue[{proj_surveys}]**
-                Link for MDR: **:blue[{proj_mdr}]**
-                Project Manager: **:blue[{proj_man}]**
-                Notes: **:blue[{proj_notes}]**
-                """)
+                if proj_prev_but:
+                    st.write(f"""
+                    Short Name: **:blue[{proj_short}]**  
+                    Full Name: **:blue[{proj_full}]**  
+                    Responsible: **:blue[{responsible_el}]**  
+                    Status: **:blue[{proj_status}]**  
+                    Client: **:blue[{client}]**  
+                    Link for Technical Task: **:blue[{proj_tech_ass}]**  
+                    Link for Technical Conditions: **:blue[{proj_tech_conditions}]**  
+                    Link for Technical Surveys: **:blue[{proj_surveys}]**  
+                    Link for MDR: **:blue[{proj_mdr}]**  
+                    Project Manager: **:blue[{proj_man}]**  
+                    Notes: **:blue[{proj_notes}]**  
+                    """)
 
-            if submitted:
+            if st.button("Create Project"):
                 reply = create_project(proj_short, proj_full, client, proj_man, responsible_el,
                                        proj_status, proj_tech_ass, proj_tech_conditions,
                                        proj_surveys, proj_mdr, proj_notes)
 
                 reporter(reply)
-                st.session_state.preview_proj_stat = False
+                # st.session_state.preview_proj_stat = False
 
         with proj_tab2:
             proj_to_edit_list = st.multiselect('Select Projects to Edit', get_projects_names())
