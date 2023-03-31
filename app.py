@@ -209,6 +209,7 @@ def home_content():
                                 if st.button(label=but_key, key=but_key, type='primary', on_click=confirm_task, args=(
                                         row.id, st.session_state.user, row.project, row.unit)):
                                     st.info(f"Task {task_id} confirmed!!")
+                                st.text("")
                             if len(df)==0:
                                 st.text('No New Tasks')
 
@@ -285,7 +286,6 @@ def home_content():
                                 st.button(label=but_key, key=but_key, type='primary', on_click=confirm_trans,
                                           args=(row.in_trans, st.session_state.user))
                                 st.text("")
-                                st.markdown("""---""")
                         else:
                             st.info('No New Transmittals')
 
