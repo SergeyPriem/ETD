@@ -14,7 +14,7 @@ stages = ('Detail Design', 'Basic Design', 'Feed', 'Feasibility Study', 'Adaptat
 sod_statuses = (
     '0%', "Cancelled", '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '99%', "Squad Check", "Issued",
     'Approved by Client')
-proj_statuses = ('current', 'perspective', 'complete', 'final stage', 'cancelled', 'suspended')
+proj_statuses = ('current', 'perspective', 'completed', 'final stage', 'cancelled', 'suspended')
 
 trans_stat = ("Open", "Closed", "For Info", "Not Enough Data", "In Progress")
 

@@ -23,7 +23,7 @@ def manage_projects():
 
         with proj_tab1:
             # st.subheader('Add New Project')
-            with st.form("create_project", clear_on_submit=True):
+            with st.form("create_project", clear_on_submit=False):
                 proj_short = st.text_input('Project Name - short')
                 proj_full = st.text_area('Project Name - full')
                 responsible_el = st.selectbox('Responsible Person', get_allowed_emails())

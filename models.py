@@ -9,7 +9,7 @@ db = Database()
 
 
 class Project(db.Entity):
-    short_name = PrimaryKey(str, 30)
+    short_name = PrimaryKey(str, 150)
     full_name = Optional(str, 200, unique=True)
     client = Optional(str, 50, nullable=True)
     manager = Optional(str, 50, nullable=True)
