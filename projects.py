@@ -435,11 +435,11 @@ def confirm_task(task_id, user, proj, sod):
             st.write(heroes)
             if user == heroes[0].id:
                 Task[task_id].coord_log = str(
-                    Task[task_id].coord_log.replace('None', '')) + f"*{user}*{datetime.now()}*\n"
+                    Task[task_id].coord_log).replace('None', '') + f"*{user}*{datetime.now()}*\n"
 
             if user == heroes[1].id:
                 Task[task_id].perf_log = str(
-                    Task[task_id].coord_log.replace('None', '')) + f"*{user}*{datetime.now()}*\n"
+                    Task[task_id].coord_log).replace('None', '') + f"*{user}*{datetime.now()}*\n"
 
         except Exception as e:
             st.warning(f"🔧 {type(e).__name__} {getattr(e, 'args', None)}")
