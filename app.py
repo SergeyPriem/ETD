@@ -49,7 +49,7 @@ from send_emails import send_mail
 from settings_tab import settings_content
 from transmittals_tab import transmittals_content
 from users import get_appl_emails, check_user, create_user, add_to_log, get_logged_rights, \
-    create_appl_user, get_appl_user_data, update_users_in_db, move_to_former, get_registered_emails, get_settings, \
+    create_appl_user, get_user_data, update_users_in_db, move_to_former, get_registered_emails, get_settings, \
     update_user_reg_data
 from pony.orm import *
 from projects import confirm_task, get_trans, confirm_trans, get_pers_tasks
@@ -519,7 +519,7 @@ def manage_users():
             st.markdown("---")
 
             if edit_move == 'Edit':
-                appl_user = get_appl_user_data(employee_to_edit)
+                appl_user = get_user_data(employee_to_edit)
 
                 try:
                     position_ind = positions.index(appl_user.position)

@@ -10,6 +10,7 @@ from pre_sets import mail_to_name
 
 set_sql_debug(True)
 
+
 # def ben(func):
 #   def wrapper(*args):
 #     start = time.time()
@@ -21,7 +22,7 @@ set_sql_debug(True)
 def move_to_former(employee_to_edit, end_date):
     with db_session:
         try:
-            hero = ApplUser[employee_to_edit]
+            hero = Users[employee_to_edit]
             hero.access_level = 'prohibited'
             hero.status = 'former'
             hero.end_date = end_date
@@ -33,34 +34,50 @@ def move_to_former(employee_to_edit, end_date):
         Access status: **:red[{hero.access_level}]**'''
 
 
+@st.cache_data(ttl=600)
+def get_all_emails():
+    with db_session:
+        try:
+            return select(e.id for e in Users)[:]
+        except Exception as e:
+            return f"{type(e).__name__}{getattr(e, 'args', None)}"
+
+
 def create_appl_user(email, position, branch, access_level, status, start_date):
     if '@' not in email or len(email) < 12:
         return f'Wrong e-mail {email}'
-    if email in get_appl_emails():
+    if email in get_all_emails():
         return f'User with email {email} already exist in DataBase'
     with db_session:
         try:
-            ApplUser(id=email, position=position, branch=branch, access_level=access_level, status=status,
-                     start_date=start_date)
+            Users(id=email, position=position, branch=branch, access_level=access_level, status=status,
+                  start_date=start_date)
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
     return f"User {email} is added to Applied Users"
 
+
 # @ben
 def get_appl_emails():
+    """
+    emails available for registration
+    :return: list of emails
+    """
     with db_session:
         try:
-            appl_emails = select(u.id for u in ApplUser)[:]
+            # appl_emails = select(u.id for u in ApplUser)[:]  ###
+            appl_emails = select(eml.id for eml in Users if len(eml.hashed_pass) == 0)[:]  ###
             return appl_emails
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
+
 
 @st.cache_data(ttl=1800)
 def get_registered_emails():
     with db_session:
         try:
-            registered_emails = select(eml.id for eml in Users)[:]
-            return list(registered_emails)
+            registered_emails = select(eml.id for eml in Users if len(eml.hashed_pass) > 0)[:]
+            return registered_emails
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
@@ -103,10 +120,10 @@ def check_user(email, password):
         return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
 
-def get_appl_user_data(email):
+def get_user_data(email):
     try:
         with db_session:
-            return ApplUser[email]
+            return Users[email]
     except Exception as e:
         return f"{type(e).__name__}{getattr(e, 'args', None)}"
 

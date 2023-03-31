@@ -21,7 +21,7 @@ class Project(db.Entity):
     mdr = Optional(str, 250, nullable=True)  # link to MDR
     notes = Optional(str, 500, nullable=True)
     set_draws = Set('SOD')
-    transs = Set('Trans')
+    orders = Set('Message')
 
 
 class SOD(db.Entity):
@@ -30,24 +30,26 @@ class SOD(db.Entity):
     set_name = Required(str, 100)
     coord_id = Optional('Users', reverse='sod_coord')
     perf_id = Optional('Users', reverse='sod_perf')
-    stage = Optional(str, nullable=True)
-    revision = Optional(str, nullable=True)
+    stage = Optional(str, 100, nullable=True)
+    revision = Optional(str, 10, nullable=True)
     start_date = Optional(date, default=lambda: date.today())
-    current_status = Optional(str)
-    request_date = Optional(str, nullable=True)
-    trans_num = Optional(str, nullable=True)
-    trans_date = Optional(str, nullable=True)
+    current_status = Optional(str, nullable=True)
+    request_date = Optional(date, nullable=True)
+    trans_num = Optional(str, 250, nullable=True)
+    trans_date = Optional(date)
     notes = Optional(str, 500, nullable=True)
     aux = Optional(str, 200, nullable=True)
-    assignments = Set('Task')
+    assigs = Set('Task')
 
 
 class Users(db.Entity):
     id = PrimaryKey(str, 50)
-    name = Optional(str)
-    surname = Optional(str)
-    phone = Optional(str)
-    telegram = Optional(str)
+    name = Optional(str, 30, nullable=True)
+    surname = Optional(str, 50, nullable=True)
+    position = Optional(str, 50, nullable=True)
+    branch = Optional(str, 50, nullable=True)
+    phone = Optional(str, 13, nullable=True)
+    telegram = Optional(str, 13, nullable=True)
     vert_menu = Optional(int, size=8)
     delay_set = Optional(int, size=8)
     hashed_pass = Optional(str, 60)
@@ -55,47 +57,29 @@ class Users(db.Entity):
     sod_coord = Set(SOD, reverse='coord_id')
     sod_perf = Set(SOD, reverse='perf_id')
     visitlogs = Set('VisitLog')
-    transs = Set('Trans')
-
-
-class ApplUser(db.Entity):
-    id = PrimaryKey(str, 50)
-    position = Required(str, 50)
-    branch = Required(str, 50)
     access_level = Required(str, 20)
     status = Required(str, 20)
     start_date = Optional(date)
     end_date = Optional(date)
+    tg_id = Optional(str, 15, nullable=True)
+    orders = Set('Message')
 
 
 class Task(db.Entity):
     id = PrimaryKey(int, size=8, auto=True)
-    stage = Optional(str, 25)
-    in_out = Required(str, 10)
+    stage = Optional(str, 15)
+    in_out = Required(str, 3)
     date = Required(date)
     description = Required(str, 250)
     link = Required(str, 250)
     backup_copy = Optional(str, 250)
     source = Required(str, 250)
-    coord_log = Optional(str, 250, nullable=True)
-    perf_log = Optional(str, 250, nullable=True)
-    comment = Optional(str, 500, nullable=True)
+    coord_log = Optional(datetime)
+    perf_log = Optional(datetime)
+    comment = Optional(str, 500)
     added_by = Required(str, 50)
     speciality = Required('Speciality')
-    set_id = Required(SOD)
-
-
-class VisitLog(db.Entity):
-    id = PrimaryKey(int, size=16, auto=True)
-    login_time = Required(datetime)
-    users = Required(Users)
-
-
-class Speciality(db.Entity):
-    id = PrimaryKey(str, 20)
-    descr = Required(str, 100)
-    assignments = Set(Task)
-
+    s_o_d = Required(SOD)
 
 class Trans(db.Entity):
     in_trans = PrimaryKey(str, 50)
@@ -114,6 +98,34 @@ class Trans(db.Entity):
     added_by = Required(str)
     status = Optional(str, 50, nullable=True)
 
+
+class VisitLog(db.Entity):
+    id = PrimaryKey(int, size=16, auto=True)
+    login_time = Required(datetime)
+    users = Required(Users)
+
+
+class Speciality(db.Entity):
+    id = PrimaryKey(str, 20, auto=True)
+    descr = Required(str, 50)
+    tasks = Set(Task)
+
+
+class Message(db.Entity):
+    id = PrimaryKey(int, auto=True)
+    start_date = Required(date)
+    end_date = Optional(date)
+    users = Required(Users)
+    urgency = Required(str, 20)
+    project = Required(Project)
+    descr = Required(str, 500)
+    source = Optional(str, 500)
+    link = Optional(str, 300)
+    status = Optional(str, 30)
+    reminder = Optional(bool)
+    last_remind = Optional(date)
+    notes = Optional(str, 500)
+    archieve = Optional(str, 300)
 
 set_sql_debug(True)
 
