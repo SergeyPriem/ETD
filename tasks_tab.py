@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st
 from pre_sets import specialities
 from projects import get_projects_names, get_sets_for_project, add_in_to_db, add_out_to_db, \
-    get_assignments
+    get_tasks
 
 
 def tasks_content():
@@ -102,7 +102,7 @@ def add_task(ass_content):
 
 def view_tasks(ass_tab2):
     with ass_tab2:
-        df = get_assignments('sergey.priemshiy@uzliti-en.com')
+        df = get_tasks('sergey.priemshiy@uzliti-en.com')
         df_orig = pd.DataFrame()
 
         if isinstance(df, pd.DataFrame):

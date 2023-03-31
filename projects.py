@@ -103,7 +103,7 @@ def get_table(tabname):
 
 
 @st.cache_data(ttl=60, show_spinner='Getting Assignments...')
-def get_assignments(email=None):
+def get_tasks(email=None):
     # print(email)
     with db_session:
         try:
@@ -171,7 +171,7 @@ def get_assignments(email=None):
             return f"🔧 {type(e).name} {getattr(e, 'args', None)}"
 
 
-def get_pers_assignments(email):
+def get_pers_tasks(email):
     # print(email)
     with db_session:
         try:
@@ -376,9 +376,13 @@ def get_own_tasks(proj_set):
     try:
         with db_session:
             # stmt = select(Task).where(Task.project == proj_set[0], Task.set_draw == proj_set[1])
-            sods = select(s.id for s in SOD if s.project_id == Project[proj_set[0]])[:]
-            tasks = select(ass for ass in Task if (ass.set_id.set_name == proj_set[1]
-                                                   and int(ass.set_id) in sods))[:]
+            # sods = select(s.id for s in SOD if s.project_id == Project[proj_set[0]])[:]
+            # tasks = select(t for t in Task if (t.set_id.set_name == proj_set[1]
+            #                                        and int(t.set_id) in sods))[:]
+            tasks = left_join(
+                t for t in Task
+                for s in t.set_id
+                if t.set_id.set_name == proj_set[1] and s.project_id == Project[proj_set[0]])[:]
             return tab_to_df(tasks)
             # return tasks
     except Exception as e:
