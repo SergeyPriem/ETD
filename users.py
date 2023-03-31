@@ -80,7 +80,7 @@ def get_registered_emails():
                 eml.id for eml in Users
                 if len(eml.hashed_pass) > 0 and eml.status == 'current')[:]
 
-            return registered_emails
+            return list(registered_emails)
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
 

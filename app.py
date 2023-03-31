@@ -64,7 +64,7 @@ appearance_settings()
 
 registered_emails = get_registered_emails()
 
-st.write(registered_emails)
+# st.write(registered_emails)
 # @st.cache_data(ttl=600, suppress_st_warning=True)
 def home_content():
     empty1, content, empty2 = st.columns([2, 2, 2])
