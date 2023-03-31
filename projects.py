@@ -432,12 +432,12 @@ def confirm_task(task_id, user, proj, sod):
                 for p in SOD
                 if (p.project_id == Project[proj] and p.set_name == sod)
                 ).first()
-
+            st.write(heroes)
             if user == heroes[0].id:
                 Task[task_id].coord_log = datetime.now()
 
             if user == heroes[1].id:
-                Task[task_id].coord_log = datetime.now()
+                Task[task_id].perf_log = datetime.now()
 
         except Exception as e:
             st.warning(f"🔧 {type(e).__name__} {getattr(e, 'args', None)}")
