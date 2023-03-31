@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 
 from pony.orm import *
-from models import Project, SOD, ApplUser, Task, Users, Speciality, Trans
+from models import Project, SOD, Task, Users, Speciality, Trans
 import pandas as pd
 from datetime import date, datetime
 import streamlit as st
@@ -99,8 +99,7 @@ def get_table(tabname):
             table = select(u for u in tabname)[:]
             return tab_to_df(table)
         except Exception as e:
-            return f"🔧 {type(e).name} {getattr(e, 'args', None)}"
-
+            return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
 @st.cache_data(ttl=60, show_spinner='Getting Assignments...')
 def get_tasks(email=None):
@@ -168,7 +167,7 @@ def get_tasks(email=None):
             ])
             return df
         except Exception as e:
-            return f"🔧 {type(e).name} {getattr(e, 'args', None)}"
+            return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
 
 def get_pers_tasks(email: str) -> pd.DataFrame:

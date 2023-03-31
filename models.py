@@ -132,9 +132,7 @@ class Trans(db.Entity):
     status = Optional(str, 50, nullable=True)
 
 
-
 set_sql_debug(True)
-
 
 # db.bind(provider='sqlite', filename='DBB.sqlite', create_db=True)
 
@@ -145,6 +143,5 @@ db.bind(
     passwd=st.secrets["db_password"],
     db=st.secrets["db_database"]
 )
-
 
 db.generate_mapping(create_tables=True)
