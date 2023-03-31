@@ -52,7 +52,7 @@ from users import get_appl_emails, check_user, create_user, add_to_log, get_logg
     create_appl_user, get_appl_user_data, update_users_in_db, move_to_former, get_registered_emails, get_settings, \
     update_user_reg_data
 from pony.orm import *
-from projects import get_tasks, confirm_ass, get_trans, confirm_trans
+from projects import get_tasks, confirm_task, get_trans, confirm_trans
 
 # from streamlit_profiler import Profiler
 
@@ -205,7 +205,7 @@ def home_content():
                                 """, unsafe_allow_html=True)
                                 but_key = f"Confirm Task: {row.id}"
                                 task_id = row.id
-                                if st.button(label=but_key, key=but_key, type='primary', on_click=confirm_ass, args=(
+                                if st.button(label=but_key, key=but_key, type='primary', on_click=confirm_task, args=(
                                         row.id, st.session_state.user, row.project, row.unit)):
                                     st.info(f"Task {task_id} confirmed!!")
                         else:

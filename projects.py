@@ -175,26 +175,48 @@ def get_pers_tasks(email):
     # print(email)
     with db_session:
         try:
+
             pers_sets_list = select(
                 sod.id for sod in SOD if (sod.coord_id == Users[email]) or (sod.perf_id == Users[email]))[:]
-            data = select(
+
+            data = left_join(
                 (
-                    a.id,
-                    a.set_id.project_id.short_name,
-                    a.set_id.set_name,
-                    a.speciality.id,
-                    a.stage,
-                    a.in_out,
-                    a.date,
-                    a.description,
-                    a.link,
-                    a.backup_copy,
-                    a.source,
-                    a.coord_log,
-                    a.perf_log,
-                    a.comment,
-                    a.added_by
-                ) for a in Task if (a.id in pers_sets_list and not a.coord_log))[:]
+                    t.id,
+                    t.set_id.project_id.short_name,
+                    t.set_id.set_name,
+                    t.speciality.id,
+                    t.stage,
+                    t.in_out,
+                    t.date,
+                    t.description,
+                    t.link,
+                    t.backup_copy,
+                    t.source,
+                    t.coord_log,
+                    t.perf_log,
+                    t.comment,
+                    t.added_by
+                ) for t in Task
+                for s in t.set_id
+                if (s.coord_id == Users[email] or (s.perf_id == Users[email])))[:]  # and not t.coord_log
+            # data = select(
+            #     (
+            #         a.id,
+            #         a.set_id.project_id.short_name,
+            #         a.set_id.set_name,
+            #         a.speciality.id,
+            #         a.stage,
+            #         a.in_out,
+            #         a.date,
+            #         a.description,
+            #         a.link,
+            #         a.backup_copy,
+            #         a.source,
+            #         a.coord_log,
+            #         a.perf_log,
+            #         a.comment,
+            #         a.added_by
+            #     ) for a in Task if (a.id in pers_sets_list and not a.coord_log))[:]
 
             df = pd.DataFrame(data, columns=[
                 "id",
@@ -383,8 +405,9 @@ def get_own_tasks(proj_set):
                 t for t in Task
                 for s in t.set_id
                 if t.set_id.set_name == proj_set[1] and s.project_id == Project[proj_set[0]])[:]
+
             return tab_to_df(tasks)
-            # return tasks
+
     except Exception as e:
         return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
@@ -416,7 +439,7 @@ def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, de
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
 
-def confirm_ass(task_id, user, proj, sod):
+def confirm_task(task_id, user, proj, sod):
     with db_session:
         try:
             heroes = select((p.coord_id, p.perf_id) for p in SOD if (
