@@ -195,7 +195,7 @@ def get_pers_tasks(email):
                 )
                 for t in Task
                 for s in t.set_id
-                if (s.coord_id == Users[email] or s.perf_id == Users[email]) and t.coord_log)[:]
+                if (s.coord_id == Users[email] or s.perf_id == Users[email]) and not t.coord_log)[:]
 
             df = pd.DataFrame(data, columns=[
                 "id",
