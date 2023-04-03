@@ -15,20 +15,20 @@ class Project(db.Entity):
     manager = Optional(str, 50, nullable=True)
     responsible_el = Optional('Users')
     status = Optional(str, 30, nullable=True)
-    assignment = Optional(str, 250, nullable=True)  # Contract Document
-    tech_conditions = Optional(str, 250, nullable=True)
-    surveys = Optional(str, 250, nullable=True)
+    assignment = Optional(str, 1000, nullable=True)  # Contract Document
+    tech_conditions = Optional(str, 1000, nullable=True)
+    surveys = Optional(str, 1000, nullable=True)
     mdr = Optional(str, 250, nullable=True)  # link to MDR
-    notes = Optional(str, 500, nullable=True)
+    notes = Optional(str, 1000, nullable=True)
     set_draws = Set('SOD')
     orders = Set('Message')
     transs = Set('Trans')
 
 
 class SOD(db.Entity):
-    id = PrimaryKey(int, size=8, auto=True)
+    id = PrimaryKey(int, size=16, auto=True)
     project_id = Required(Project)
-    set_name = Required(str, 100)
+    set_name = Required(str, 200)
     coord_id = Optional('Users', reverse='sod_coord')
     perf_id = Optional('Users', reverse='sod_perf')
     stage = Optional(str, 100, nullable=True)
@@ -38,7 +38,7 @@ class SOD(db.Entity):
     request_date = Optional(date, nullable=True)
     trans_num = Optional(str, 250, nullable=True)
     trans_date = Optional(date)
-    notes = Optional(str, 500, nullable=True)
+    notes = Optional(str, 1500, nullable=True)
     aux = Optional(str, 200, nullable=True)
     assigs = Set('Task')
 
@@ -69,7 +69,7 @@ class Users(db.Entity):
 
 
 class Task(db.Entity):
-    id = PrimaryKey(int, size=8, auto=True)
+    id = PrimaryKey(int, size=24, auto=True)
     stage = Optional(str, 15)
     in_out = Required(str, 3)
     date = Required(date)
@@ -86,7 +86,7 @@ class Task(db.Entity):
 
 
 class VisitLog(db.Entity):
-    id = PrimaryKey(int, size=16, auto=True)
+    id = PrimaryKey(int, size=32, auto=True)
     login_time = Required(datetime)
     users = Required(Users)
 
