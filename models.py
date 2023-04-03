@@ -76,7 +76,7 @@ class Task(db.Entity):
     description = Required(str, 250)
     link = Required(str, 250)
     backup_copy = Optional(str, 250)
-    source = Required(str, 250)
+    source = Required(str, 2500)
     coord_log = Optional(datetime)
     perf_log = Optional(datetime)
     comment = Optional(str, 500)

@@ -72,7 +72,7 @@ def get_appl_emails():
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
 
-@st.cache_data(ttl=1800)
+# @st.cache_data(ttl=1800)
 def get_registered_emails():
     with db_session:
         try:
