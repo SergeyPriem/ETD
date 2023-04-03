@@ -84,6 +84,7 @@ def get_registered_emails():
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
+
 def get_allowed_emails():
     with db_session:
         try:
@@ -120,26 +121,25 @@ def create_user(name, surname, phone, telegram, email, password):
     else:
         return "Failed to create. Ask admin to add you to DataBase"
 
+
 def register_user(name, surname, phone, telegram, email, password):
     if email in get_registered_emails():
         return f"User with email {email} already registered!"
-        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt(10))
-        hashed_password = hashed_password.decode('utf-8')
-        with db_session:
-            try:
-                user_to_reg = Users[email]
-                user_to_reg.name=name
-                user_to_reg.surname=surname
-                user_to_reg.phone=phone
-                user_to_reg.telegram=telegram
-                user_to_reg.hashed_pass=hashed_password
-                user_to_reg.vert_menu=1
-                user_to_reg.delay_set=1
-            except Exception as e:
-                return f"{type(e).__name__}{getattr(e, 'args', None)}"
-        return f"New User {new_user.name} {new_user.surname} Registered Successfully"
-    else:
-        return "Failed to register"
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt(10))
+    hashed_password = hashed_password.decode('utf-8')
+    with db_session:
+        try:
+            user_to_reg = Users[email]
+            user_to_reg.name = name
+            user_to_reg.surname = surname
+            user_to_reg.phone = phone
+            user_to_reg.telegram = telegram
+            user_to_reg.hashed_pass = hashed_password
+            user_to_reg.vert_menu = 1
+            user_to_reg.delay_set = 1
+            return f"New User {user_to_reg.name} {user_to_reg.surname} Registered Successfully"
+        except Exception as e:
+            return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
 
 def check_user(email, password):
