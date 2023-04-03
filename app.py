@@ -50,7 +50,7 @@ from settings_tab import settings_content
 from transmittals_tab import transmittals_content
 from users import get_appl_emails, check_user, create_user, add_to_log, get_logged_rights, \
     create_appl_user, get_user_data, update_users_in_db, move_to_former, get_registered_emails, get_settings, \
-    update_user_reg_data, get_all_emails
+    update_user_reg_data, get_all_emails, register_user
 from pony.orm import *
 from projects import confirm_task, get_trans, confirm_trans, get_pers_tasks
 
@@ -378,7 +378,7 @@ def home_content():
                             reporter("Confirmation code is wrong, try again")
                             st.stop()
                         else:
-                            reply = create_user(name, surname, phone, telegram, company_email, reg_pass_2)
+                            reply = register_user(name, surname, phone, telegram, company_email, reg_pass_2)
                             if 'ERROR' in reply.upper():
                                 st.write('Error')
                             else:
