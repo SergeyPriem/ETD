@@ -140,7 +140,9 @@ def home_content():
             </style>
             """, unsafe_allow_html=True)
 
-        login_tab, reg_tab, change_tab = st.tabs([log_in_out, 'Registration', 'Change Password'])
+        tabs_left, tabs_center, tabs_right = st.columns([2,4,2])
+        with tabs_center:
+            login_tab, reg_tab, change_tab = st.tabs([log_in_out, 'Registration', 'Change Password'])
         with login_tab:
             plaho = st.empty()
             login_col, logout_col = st.columns(2)
@@ -426,7 +428,7 @@ def home_content():
 
                     entered_code = st.text_input("Confirmation Code from Email")
 
-                    if st.button("Register"):
+                    if st.button("Register", use_container_width=True):
                         if company_email in registered_emails:
                             reporter(f'User {company_email} is already in DataBase')
                             st.stop()
@@ -454,7 +456,7 @@ def home_content():
                     upd_pass_2 = st.text_input('Repeat Updated Password', type='password', key='upd_pass_2',
                                                disabled=not st.session_state.logged)
 
-                    get_conf_code = st.form_submit_button("Get Confirmation Code")
+                    get_conf_code = st.form_submit_button("Get Confirmation Code", use_container_width=True)
 
                 if get_conf_code:
                     if (len(upd_pass_1) < 3) or (upd_pass_1 != upd_pass_2):
