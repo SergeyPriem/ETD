@@ -85,6 +85,20 @@ def get_registered_emails():
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
 
+def get_registered_names():
+    with db_session:
+        try:
+            registered_emails = select(
+                eml.id for eml in Users
+                if len(eml.hashed_pass) > 0 and eml.status == 'current')[:]
+
+            registered_names = [e.split("@")[0] for e in registered_emails]
+
+            return list(registered_names)
+        except Exception as e:
+            return f"{type(e).__name__}{getattr(e, 'args', None)}"
+
+
 def get_allowed_emails():
     with db_session:
         try:
@@ -93,6 +107,20 @@ def get_allowed_emails():
                 if eml.status == 'current')[:]
 
             return list(registered_emails)
+        except Exception as e:
+            return f"{type(e).__name__}{getattr(e, 'args', None)}"
+
+
+def get_allowed_names():
+    with db_session:
+        try:
+            allowed_emails = select(
+                u.id for u in Users
+                if u.status == 'current')[:]
+
+            # all_names = [e[0]+" "+e[1] for e in allowed_names if e[0]]
+            allowed_names = [e.split("@")[0] for e in allowed_emails]
+            return allowed_names
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
@@ -255,3 +283,7 @@ def update_user_reg_data(email, upd_pass_2):
             return f"Data for {hero.name} is Updated"
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
+
+
+def get_registered_names():
+    pass

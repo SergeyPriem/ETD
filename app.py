@@ -31,9 +31,9 @@ if 'user' not in st.session_state:
     st.session_state['user'] = None
 
 if st.session_state.user:
-    log_in_out = '__Log Out__'
+    log_in_out = 'Log Out'
 else:
-    log_in_out = '__Log In__'
+    log_in_out = 'Log In'
 
 import datetime
 import random
@@ -50,7 +50,7 @@ from settings_tab import settings_content
 from transmittals_tab import transmittals_content
 from users import get_appl_emails, check_user, create_user, add_to_log, get_logged_rights, \
     create_appl_user, get_user_data, update_users_in_db, move_to_former, get_registered_emails, get_settings, \
-    update_user_reg_data, get_all_emails, register_user
+    update_user_reg_data, get_all_emails, register_user, get_registered_names
 from pony.orm import *
 from projects import confirm_task, get_trans, confirm_trans, get_pers_tasks
 
@@ -62,9 +62,9 @@ from projects import confirm_task, get_trans, confirm_trans, get_pers_tasks
 
 appearance_settings()
 
-registered_emails = get_registered_emails()
+# registered_emails = get_registered_emails()
 
-# registered_names = get_registered_names()
+registered_names = get_registered_names()
 
 
 # st.write(registered_emails)
@@ -143,7 +143,7 @@ def home_content():
             """, unsafe_allow_html=True)
 
 
-        login_tab, reg_tab, change_tab = st.tabs([log_in_out, '__Registration__', '__Change Password__'])
+        login_tab, reg_tab, change_tab = st.tabs([log_in_out, 'Registration', 'Change Password'])
         with login_tab:
             plaho = st.empty()
             login_col, logout_col = st.columns(2)
