@@ -68,6 +68,28 @@ registered_emails = get_registered_emails()
 # st.write(registered_emails)
 # @st.cache_data(ttl=600, suppress_st_warning=True)
 def home_content():
+    st.markdown(
+        """
+        <style>
+            div[data-testid="column"]:nth-of-type(1)
+            {
+                border:1px solid yellow;
+            } 
+
+            div[data-testid="column"]:nth-of-type(2)
+            {
+                border:1px solid blue;
+                text-align: right;
+            } 
+
+            div[data-testid="column"]:nth-of-type(3)
+            {
+                border:1px solid blue;
+                text-align: left;
+            } 
+        </style>
+        """, unsafe_allow_html=True
+    )
     empty1, content, empty2 = st.columns([2, 2, 2])
     empty21, content2, empty22 = st.columns([1, 20, 1])
     with empty1:
