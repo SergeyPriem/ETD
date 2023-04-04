@@ -299,5 +299,3 @@ def update_user_reg_data(email, upd_pass_2):
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
 
-def get_registered_names():
-    pass
