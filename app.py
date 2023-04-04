@@ -86,14 +86,6 @@ def home_content():
             } 
         </style>
         """, unsafe_allow_html=True)
-    st.markdown("""
-        <style>
-            div[data-baseweb="tab-list"]:nth-of-type(1)
-            {
-                text-align: center;
-            } 
-        </style>
-        """, unsafe_allow_html=True)
 
     # st.markdown(
     #     """
@@ -131,6 +123,22 @@ def home_content():
             st.header(f'Welcome, {mail_to_name(st.session_state.user)}!')
 
         st.text("The Site is designed to help you in everyday routines")
+        st.markdown("""
+            <style>
+                div[data-baseweb="tab-list"]:nth-of-type(1)
+                {
+                    text-align: center;
+                } 
+                div[data-baseweb="tab-list"]:nth-of-type(2)
+                {
+                    text-align: center;
+                } 
+                div[data-baseweb="tab-list"]:nth-of-type(3)
+                {
+                    text-align: center;
+                } 
+            </style>
+            """, unsafe_allow_html=True)
 
         login_tab, reg_tab, change_tab = st.tabs([log_in_out, 'Registration', 'Change Password'])
         with login_tab:
