@@ -68,8 +68,7 @@ registered_emails = get_registered_emails()
 # st.write(registered_emails)
 # @st.cache_data(ttl=600, suppress_st_warning=True)
 def home_content():
-    st.markdown(
-        """
+    st.markdown("""
         <style>
             div[data-testid="column"]:nth-of-type(1)
             {
@@ -86,8 +85,16 @@ def home_content():
                 text-align: center;
             } 
         </style>
-        """, unsafe_allow_html=True
-    )
+        """, unsafe_allow_html=True)
+    st.markdown("""
+        <style>
+            div[data-baseweb="tab-list"]:nth-of-type(1)
+            {
+                text-align: center;
+            } 
+        </style>
+        """, unsafe_allow_html=True)
+
     # st.markdown(
     #     """
     #     <style>
