@@ -72,6 +72,20 @@ def get_appl_emails():
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
 
+def get_appl_names():
+    """
+    emails available for registration
+    :return: list of emails
+    """
+    with db_session:
+        try:
+            # appl_emails = select(u.id for u in ApplUser)[:]  ###
+            appl_emails = select(eml.id for eml in Users if len(eml.hashed_pass) == 0)[:]  ###
+            return [e.split("@")[0] for e in appl_emails]
+        except Exception as e:
+            return f"{type(e).__name__}{getattr(e, 'args', None)}"
+
+
 # @st.cache_data(ttl=1800)
 def get_registered_emails():
     with db_session:
