@@ -71,7 +71,7 @@ class Users(db.Entity):
 class Task(db.Entity):
     id = PrimaryKey(int, size=24, auto=True)
     stage = Optional(str, 15)
-    in_out = Required(str, 3)
+    in_out = Required(str, 10)
     date = Required(date)
     description = Required(str, 250)
     link = Required(str, 250)

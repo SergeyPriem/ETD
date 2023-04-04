@@ -3,7 +3,7 @@ import pandas as pd
 import streamlit as st
 from PIL import Image
 
-st.set_page_config(layout="wide", page_icon=Image.open("images/small_e.jpg"),
+st.set_page_config(layout="centered", page_icon=Image.open("images/small_e.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
 
 if 'delay' not in st.session_state:
