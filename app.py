@@ -79,7 +79,7 @@ def home_content():
             div[data-testid="column"]:nth-of-type(2)
             {
                 border:1px solid blue;
-                text-align: right;
+                text-align: center;
             } 
 
             div[data-testid="column"]:nth-of-type(3)
