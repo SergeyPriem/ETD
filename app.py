@@ -109,7 +109,7 @@ def home_content():
     #     </style>
     #     """, unsafe_allow_html=True
     # )
-    empty1, content, empty2 = st.columns([5, 2, 5])
+    empty1, content, empty2 = st.columns([5, 3, 5])
     empty21, content2, empty22 = st.columns([1, 20, 1])
     with empty1:
         st.empty()
