@@ -7,7 +7,7 @@ from models import Project, Task, VisitLog, SOD, Users, Trans, Speciality
 from pre_sets import proj_statuses, reporter, stages, sod_statuses
 from projects import create_project, get_projects_names, get_table, update_projects, create_sod, get_sets_names, \
     get_sets_to_edit, update_sets
-from users import get_appl_emails, get_allowed_emails
+from users import get_allowed_names, get_appl_names
 
 
 def manage_projects():
@@ -26,7 +26,7 @@ def manage_projects():
             with st.form("create_project", clear_on_submit=False):
                 proj_short = st.text_input('Project Name - short')
                 proj_full = st.text_area('Project Name - full')
-                responsible_el = st.selectbox('Responsible Person', get_allowed_emails())
+                responsible_el = st.selectbox('Responsible Person', get_allowed_names())
                 proj_status = st.radio('Project Status', proj_statuses, horizontal=True)
                 client = st.text_input('Client')
                 proj_tech_ass = st.text_area('Link for Technical Task')
@@ -123,7 +123,7 @@ def manage_sets():
                 proj_short = st.selectbox('Select a Project', get_projects_names())
                 set_name = st.text_input("Enter the Name for new Set of Drawings / Unit")
                 stage = st.radio("Select the Stage", stages, horizontal=True)
-                colleagues = get_appl_emails()
+                colleagues = get_appl_names()
                 coordinator = st.selectbox("Coordinator", colleagues)
                 performer = st.selectbox("Performer", colleagues)
                 set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")

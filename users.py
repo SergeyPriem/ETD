@@ -1,6 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
 import datetime
-import time
 import streamlit as st
 import bcrypt
 from models import Users, VisitLog
@@ -19,23 +18,23 @@ set_sql_debug(True)
 #     print(f'Time spent: {round(end - start, 4)} s.')
 #   return wrapper
 
-def move_to_former(email, end_date):
+def move_to_former(u_name, end_date):
     with db_session:
         try:
-            hero = Users[email]
+            hero = Users[u_name]
             hero.access_level = 'prohibited'
             hero.status = 'former'
             hero.end_date = end_date
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
-        return f'''**{email}** moved to Former Users
+        return f'''**{u_name}** moved to Former Users
         by date **{end_date}**.
         Access status: **:red[{hero.access_level}]**'''
 
 
 @st.cache_data(ttl=600)
-def get_all_emails():
+def get_all_names():
     with db_session:
         try:
             return select(e.id for e in Users)[:]
@@ -46,11 +45,12 @@ def get_all_emails():
 def create_appl_user(email, position, branch, access_level, status, start_date):
     if '@' not in email or len(email) < 12:
         return f'Wrong e-mail {email}'
-    if email in get_all_emails():
-        return f'User with email {email} already exist in DataBase'
+    u_name, u_tail = email.split("@")
+    if u_name in get_all_names():
+        return f'User with name {u_name} already exist in DataBase'
     with db_session:
         try:
-            Users(id=email, position=position, branch=branch, access_level=access_level, status=status,
+            Users(id=u_name, tail=u_tail, position=position, branch=branch, access_level=access_level, status=status,
                   start_date=start_date)
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
@@ -58,55 +58,96 @@ def create_appl_user(email, position, branch, access_level, status, start_date):
 
 
 # @ben
-def get_appl_emails():
+# def get_appl_emails():
+#     """
+#     emails available for registration
+#     :return: list of emails
+#     """
+#     with db_session:
+#         try:
+#             # appl_emails = select(u.id for u in ApplUser)[:]  ###
+#             appl_emails = select(eml.id for eml in Users if len(eml.hashed_pass) == 0)[:]  ###
+#             return appl_emails
+#         except Exception as e:
+#             return f"{type(e).__name__}{getattr(e, 'args', None)}"
+
+
+def get_appl_names():
     """
-    emails available for registration
-    :return: list of emails
+    u_names available for registration
+    :return: list of u_names
     """
     with db_session:
         try:
-            # appl_emails = select(u.id for u in ApplUser)[:]  ###
-            appl_emails = select(eml.id for eml in Users if len(eml.hashed_pass) == 0)[:]  ###
-            return appl_emails
+            appl_names = select(eml.id for eml in Users if len(eml.hashed_pass) == 0)[:]  ###
+            return appl_names
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
 
 # @st.cache_data(ttl=1800)
-def get_registered_emails():
+# def get_registered_emails():
+#     with db_session:
+#         try:
+#             registered_emails = select(
+#                 eml.id for eml in Users
+#                 if len(eml.hashed_pass) > 0 and eml.status == 'current')[:]
+#
+#             return list(registered_emails)
+#         except Exception as e:
+#             return f"{type(e).__name__}{getattr(e, 'args', None)}"
+
+
+def get_registered_names():
     with db_session:
         try:
-            registered_emails = select(
+            registered_names = select(
                 eml.id for eml in Users
                 if len(eml.hashed_pass) > 0 and eml.status == 'current')[:]
 
-            return list(registered_emails)
+            # registered_names = [e.split("@")[0] for e in registered_emails]
+
+            return registered_names
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
 
-def get_allowed_emails():
+# def get_allowed_emails():
+#     with db_session:
+#         try:
+#             registered_emails = select(
+#                 eml.id for eml in Users
+#                 if eml.status == 'current')[:]
+#
+#             return list(registered_emails)
+#         except Exception as e:
+#             return f"{type(e).__name__}{getattr(e, 'args', None)}"
+#
+
+def get_allowed_names():
     with db_session:
         try:
-            registered_emails = select(
-                eml.id for eml in Users
-                if eml.status == 'current')[:]
+            allowed_names = select(
+                u.id for u in Users
+                if u.status == 'current')[:]
 
-            return list(registered_emails)
+            return allowed_names
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
 
 def create_user(name, surname, phone, telegram, email, password):
-    if email in get_appl_emails():
-        if email in get_registered_emails():
-            return f"User with email {email} already registered!"
+    u_name, u_tail = email.split("@")
+    if u_name in get_appl_names():
+        if u_name in get_registered_names():
+            return f"User with email {u_name} already registered!"
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt(10))
         hashed_password = hashed_password.decode('utf-8')
         with db_session:
             try:
                 new_user = Users(
-                    id=email,
+                    id=u_name,
+                    tail=u_tail,
                     name=name,
                     surname=surname,
                     phone=phone,
@@ -122,14 +163,14 @@ def create_user(name, surname, phone, telegram, email, password):
         return "Failed to create. Ask admin to add you to DataBase"
 
 
-def register_user(name, surname, phone, telegram, email, password):
-    if email in get_registered_emails():
-        return f"User with email {email} already registered!"
+def register_user(name, surname, phone, telegram, u_name, password):
+    if u_name in get_registered_names():
+        return f"User with email {u_name} already registered!"
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt(10))
     hashed_password = hashed_password.decode('utf-8')
     with db_session:
         try:
-            user_to_reg = Users[email]
+            user_to_reg = Users[u_name]
             user_to_reg.name = name
             user_to_reg.surname = surname
             user_to_reg.phone = phone
@@ -142,10 +183,10 @@ def register_user(name, surname, phone, telegram, email, password):
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
 
-def check_user(email, password):
+def check_user(u_name, password):
     try:
         with db_session:
-            hero = Users[email]
+            hero = Users[u_name]
             hashed_password = hero.hashed_pass
             hashed_password = hashed_password.encode('utf-8')
             valid_pass = bcrypt.checkpw(password.encode('utf-8'), hashed_password)
@@ -155,18 +196,18 @@ def check_user(email, password):
         return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
 
-def get_user_data(email):
+def get_user_data(u_name):
     try:
         with db_session:
-            return Users[email]
+            return Users[u_name]
     except Exception as e:
         return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
 
-def add_to_log(email):
+def add_to_log(u_name):
     with db_session:
         try:
-            logger = VisitLog(login_time=datetime.datetime.now(), users=email)
+            logger = VisitLog(login_time=datetime.datetime.now(), users=u_name)
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
     return f"Hello, {mail_to_name(logger.users.id)}. Do your best and forget the rest 😎"
@@ -193,10 +234,10 @@ def update_user_data(employee_to_edit, user_tab):
                                   args=(employee_to_edit, position, department, start_date, end_date, access_level))
 
 
-def update_users_in_db(email, position, branch, start_date, access_level):
+def update_users_in_db(u_name, position, branch, start_date, access_level):
     with db_session:
         try:
-            hero = Users[email]
+            hero = Users[u_name]
             hero.position = position
             hero.branch = branch
             hero.start_date = start_date
@@ -206,38 +247,36 @@ def update_users_in_db(email, position, branch, start_date, access_level):
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
-        return f"""Updated Data for Users with e-mail **{email}**  
+        return f"""Updated Data for Users with e-mail **{u_name}**  
                    Position: **:blue[{position}]**  
                    Branch: **:blue[{branch}]**  
                    Access level: **:blue[{access_level}]**  
                    Status: **:blue[{hero.status}]**"""
 
 
-def get_logged_rights(email):
+def get_logged_rights(u_name):
     with db_session:
         try:
-            hero = Users[email]
+            hero = Users[u_name]
             return hero.access_level
         except Exception as e:
             # return "🔧 Connection to DB is failed"
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
 
-def get_settings(email):
+def get_settings(u_name):
     with db_session:
         try:
-            u = Users[email]
-            # u_set = select((u.vert_menu, u.delay_set) for u in Users if u.id == email).first()
-            # return u_set
+            u = Users[u_name]
             return u.vert_menu, u.delay_set
         except Exception as e:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
 
-def update_settings(email, menu, delay):
+def update_settings(u_name, menu, delay):
     with db_session:
         try:
-            hero = Users[email]
+            hero = Users[u_name]
             hero.vert_menu = menu
             hero.delay_set = delay
         except Exception as e:
@@ -245,13 +284,15 @@ def update_settings(email, menu, delay):
         return "Settings Updated"
 
 
-def update_user_reg_data(email, upd_pass_2):
+def update_user_reg_data(u_name, upd_pass_2):
     with db_session:
         try:
-            hero = Users[email]
+            hero = Users[u_name]
             ha_pa = bcrypt.hashpw(upd_pass_2.encode('utf-8'), bcrypt.gensalt(10))
             ha_pa = ha_pa.decode('utf-8')
             hero.hashed_pass = ha_pa
             return f"Data for {hero.name} is Updated"
         except Exception as e:
             return f"{type(e).__name__}{getattr(e, 'args', None)}"
+
+
