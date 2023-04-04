@@ -45,6 +45,7 @@ class SOD(db.Entity):
 
 class Users(db.Entity):
     id = PrimaryKey(str, 50)
+    tail=Required(str,40)
     name = Optional(str, 30, nullable=True)
     surname = Optional(str, 50, nullable=True)
     position = Optional(str, 50, nullable=True)
