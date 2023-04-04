@@ -31,9 +31,9 @@ if 'user' not in st.session_state:
     st.session_state['user'] = None
 
 if st.session_state.user:
-    log_in_out = 'Log Out'
+    log_in_out = '__Log Out__'
 else:
-    log_in_out = 'Log In'
+    log_in_out = '__Log In__'
 
 import datetime
 import random
@@ -63,6 +63,8 @@ from projects import confirm_task, get_trans, confirm_trans, get_pers_tasks
 appearance_settings()
 
 registered_emails = get_registered_emails()
+
+# registered_names = get_registered_names()
 
 
 # st.write(registered_emails)
@@ -141,7 +143,7 @@ def home_content():
             """, unsafe_allow_html=True)
 
 
-        login_tab, reg_tab, change_tab = st.tabs([log_in_out, 'Registration', 'Change Password'])
+        login_tab, reg_tab, change_tab = st.tabs([log_in_out, '__Registration__', '__Change Password__'])
         with login_tab:
             plaho = st.empty()
             login_col, logout_col = st.columns(2)
@@ -376,7 +378,7 @@ def home_content():
 
                         # data_chb = st.checkbox('Data is Correct', disabled=st.session_state.logged)
 
-                        get_reg_code = st.form_submit_button('Get Confirmation Code')
+                        get_reg_code = st.form_submit_button('Get Confirmation Code', use_container_width=True)
 
                     # conf_html = ""
                     if get_reg_code:
@@ -501,7 +503,7 @@ def home_content():
                 if st.session_state.upd_code_sent is True:
                     with st.form('pass_confirm'):
                         entered_upd_code = st.text_input("Confirmation Code from Email")
-                        update_pass = st.form_submit_button("Update Password")
+                        update_pass = st.form_submit_button("Update Password", use_container_width=True)
 
                 if update_pass:
                     if st.session_state.upd_conf_num != entered_upd_code:
