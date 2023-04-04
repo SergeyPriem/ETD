@@ -73,19 +73,19 @@ def home_content():
         <style>
             div[data-testid="column"]:nth-of-type(1)
             {
-                border:1px solid yellow;
+                border:1px solid red;
             } 
 
             div[data-testid="column"]:nth-of-type(2)
             {
-                border:1px solid blue;
+                border:1px solid green;
                 text-align: center;
             } 
 
             div[data-testid="column"]:nth-of-type(3)
             {
                 border:1px solid blue;
-                text-align: left;
+                text-align: center;
             } 
         </style>
         """, unsafe_allow_html=True
