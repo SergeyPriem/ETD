@@ -73,23 +73,43 @@ def home_content():
         <style>
             div[data-testid="column"]:nth-of-type(1)
             {
-                border:1px solid red;
+                text-align: center;
             } 
 
             div[data-testid="column"]:nth-of-type(2)
             {
-                border:1px solid green;
                 text-align: center;
             } 
 
             div[data-testid="column"]:nth-of-type(3)
             {
-                border:1px solid blue;
                 text-align: center;
             } 
         </style>
         """, unsafe_allow_html=True
     )
+    # st.markdown(
+    #     """
+    #     <style>
+    #         div[data-testid="column"]:nth-of-type(1)
+    #         {
+    #             border:1px solid red;
+    #         }
+    #
+    #         div[data-testid="column"]:nth-of-type(2)
+    #         {
+    #             border:1px solid green;
+    #             text-align: center;
+    #         }
+    #
+    #         div[data-testid="column"]:nth-of-type(3)
+    #         {
+    #             border:1px solid blue;
+    #             text-align: center;
+    #         }
+    #     </style>
+    #     """, unsafe_allow_html=True
+    # )
     empty1, content, empty2 = st.columns(3)
     empty21, content2, empty22 = st.columns([1, 20, 1])
     with empty1:
