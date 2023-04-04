@@ -31,9 +31,9 @@ if 'user' not in st.session_state:
     st.session_state['user'] = None
 
 if st.session_state.user:
-    log_in_out = '__Log Out__'
+    log_in_out = 'Log Out'
 else:
-    log_in_out = '__Log In__'
+    log_in_out = 'Log In'
 
 import datetime
 import random
@@ -48,9 +48,9 @@ from pre_sets import appearance_settings, reporter, positions, departments, mail
 from send_emails import send_mail
 from settings_tab import settings_content
 from transmittals_tab import transmittals_content
-from users import get_appl_emails, check_user, create_user, add_to_log, get_logged_rights, \
-    create_appl_user, get_user_data, update_users_in_db, move_to_former, get_registered_emails, get_settings, \
-    update_user_reg_data, get_all_emails, register_user
+from users import check_user, add_to_log, get_logged_rights, \
+    create_appl_user, get_user_data, update_users_in_db, move_to_former, get_settings, \
+    update_user_reg_data, get_all_names, register_user, get_registered_names, get_appl_names
 from pony.orm import *
 from projects import confirm_task, get_trans, confirm_trans, get_pers_tasks
 
@@ -62,9 +62,9 @@ from projects import confirm_task, get_trans, confirm_trans, get_pers_tasks
 
 appearance_settings()
 
-registered_emails = get_registered_emails()
+# registered_emails = get_registered_emails()
 
-# registered_names = get_registered_names()
+registered_names = get_registered_names() #with current status
 
 
 # st.write(registered_emails)
@@ -143,14 +143,14 @@ def home_content():
             """, unsafe_allow_html=True)
 
 
-        login_tab, reg_tab, change_tab = st.tabs([log_in_out, '__Registration__', '__Change Password__'])
+        login_tab, reg_tab, change_tab = st.tabs([log_in_out, 'Registration', 'Change Password'])
         with login_tab:
             plaho = st.empty()
             login_col, logout_col = st.columns(2)
 
             with plaho.container():
-                if isinstance(registered_emails, list):
-                    email = st.selectbox("Company Email", registered_emails, disabled=st.session_state.logged)
+                if isinstance(registered_names, list):
+                    u_name = st.selectbox("Company Email", registered_names, disabled=st.session_state.logged)
                 else:
                     reporter("Can't get users list")
                     st.stop()
@@ -166,13 +166,13 @@ def home_content():
                     st.stop()
                 else:
 
-                    login_status = check_user(email, password)
+                    login_status = check_user(u_name, password)
 
                     if login_status is True:
                         st.session_state.logged = True
-                        st.session_state.user = email
-                        st.session_state.rights = get_logged_rights(email)
-                        reply = add_to_log(email)
+                        st.session_state.user = u_name
+                        st.session_state.rights = get_logged_rights(u_name)
+                        reply = add_to_log(u_name)
 
                         if 'ERROR' in reply.upper():
                             st.warning(f"""Please sent error below to sergey.priemshiy@uzliti-en.com  
@@ -353,16 +353,16 @@ def home_content():
             if st.session_state.logged:
                 st.subheader("You are Registered & Logged In 😎")
             else:
-                appl_emails = get_appl_emails()
+                appl_names = get_appl_names()
 
-                if isinstance(appl_emails, pony.orm.core.QueryResult):
-                    company_email = st.selectbox("Select Your Company Email", appl_emails,
-                                                 disabled=st.session_state.logged, key='reg_email')
+                if isinstance(appl_names, pony.orm.core.QueryResult):
+                    u_name = st.selectbox("Select Your Company Email Head", appl_names,
+                                          disabled=st.session_state.logged, key='reg_email')
                 else:
-                    reporter(appl_emails)
+                    reporter(appl_names)
                     st.stop()
 
-                if company_email in registered_emails:
+                if u_name in registered_names:
                     st.subheader("You are Registered 😎")
                 else:
                     st.write("Not in list? Send the request from your e-mail to sergey.priemshiy@uzliti-en.com")
@@ -382,8 +382,8 @@ def home_content():
 
                     # conf_html = ""
                     if get_reg_code:
-                        if company_email in registered_emails:
-                            reporter(f'User {company_email} is already in DataBase')
+                        if u_name in registered_names:
+                            reporter(f'User {u_name} is already in DataBase')
                             st.stop()
 
                         if len(reg_pass_2) < 3 or reg_pass_1 != reg_pass_2:
@@ -420,7 +420,7 @@ def home_content():
                         """
 
                         if not st.session_state.code_sent:
-                            if send_mail(receiver=company_email, cc_rec="sergey.priemshiy@uzliti-en.com",
+                            if send_mail(receiver=u_name, cc_rec="sergey.priemshiy@uzliti-en.com",
                                          html=conf_html, subj="Confirmation of ETD site registration"):
                                 st.session_state.code_sent = True
                                 st.info("Confirmation Code sent to Your Company Email")
@@ -430,15 +430,15 @@ def home_content():
                     entered_code = st.text_input("Confirmation Code from Email")
 
                     if st.button("Register", use_container_width=True):
-                        if company_email in registered_emails:
-                            reporter(f'User {company_email} is already in DataBase')
+                        if u_name in registered_names:
+                            reporter(f'User {u_name} is already in DataBase')
                             st.stop()
 
                         if st.session_state.conf_num != entered_code:
                             reporter("Confirmation code is wrong, try again")
                             st.stop()
                         else:
-                            reply = register_user(name, surname, phone, telegram, company_email, reg_pass_2)
+                            reply = register_user(name, surname, phone, telegram, u_name, reg_pass_2)
                             if 'ERROR' in reply.upper():
                                 st.write('Error')
                             else:
@@ -573,7 +573,7 @@ def manage_users():
                 reporter(reply)
 
         with users_tab2:
-            list_appl_users = get_all_emails()
+            list_appl_users = get_all_names()
             employee_to_edit = st.selectbox('Select User', list_appl_users)
             edit_move = st.radio('Action', ('Edit', 'Move to Former Users'), horizontal=True)
 
