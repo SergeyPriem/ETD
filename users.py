@@ -108,10 +108,10 @@ def get_user_data(email):
         return err_handler(e)
 
 
-def get_logged_rights(email):
+def get_logged_rights(login):
     with db_session:
         try:
-            hero = Users[email]
+            hero = Users.get(login=login)
             return hero.access_level
         except Exception as e:
             # return "🔧 Connection to DB is failed"
@@ -166,10 +166,10 @@ def register_user(name, surname, phone, telegram, login, password):
             return err_handler(e)
 
 
-def check_user(email, password):
+def check_user(login, password):
     try:
         with db_session:
-            hero = Users[email]
+            hero = Users.get(login=login)
             hashed_password = hero.hashed_pass
             hashed_password = hashed_password.encode('utf-8')
             valid_pass = bcrypt.checkpw(password.encode('utf-8'), hashed_password)

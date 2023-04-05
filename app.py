@@ -148,7 +148,7 @@ def home_content():
 
             with plaho.container():
                 if isinstance(registered_logins, list):
-                    email = st.selectbox("Company Email", registered_logins, disabled=st.session_state.logged)
+                    login = st.selectbox("Company Email", registered_logins, disabled=st.session_state.logged)
                 else:
                     reporter("Can't get users list")
                     st.stop()
@@ -164,16 +164,16 @@ def home_content():
                     st.stop()
                 else:
 
-                    login_status = check_user(email, password)
-
+                    login_status = check_user(login, password)
+                    st.write(login_status) ###
                     if login_status is True:
                         st.session_state.logged = True
-                        st.session_state.user = email
-                        st.session_state.rights = get_logged_rights(email)
-                        reply = add_to_log(email)
+                        st.session_state.user = login
+                        st.session_state.rights = get_logged_rights(login)
+                        reply = add_to_log(login)
 
                         if 'ERROR' in reply.upper():
-                            st.warning(f"""Please sent error below to sergey.priemshiy@uzliti-en.com  
+                            st.write(f"""Please sent error below to sergey.priemshiy@uzliti-en.com  
                                     or by telegram +998909598030:  
                                     {reply}""")
                             st.stop()
