@@ -100,10 +100,10 @@ def get_logins_for_current():
 #     else:
 #         return "Failed to create. Ask admin to add you to DataBase"
 
-def get_user_data(email):
+def get_user_data(login):
     try:
         with db_session:
-            return Users[email]
+            return Users.get(login=login)
     except Exception as e:
         return err_handler(e)
 
@@ -118,10 +118,10 @@ def get_logged_rights(login):
             return err_handler(e)
 
 
-def get_settings(email):
+def get_settings(login):
     with db_session:
         try:
-            u = Users[email]
+            u = Users.get(login=login)
             # u_set = select((u.vert_menu, u.delay_set) for u in Users if u.id == email).first()
             # return u_set
             return u.vert_menu, u.delay_set
@@ -212,10 +212,10 @@ def update_user_data(employee_to_edit, user_tab):
                                   args=(employee_to_edit, position, department, start_date, end_date, access_level))
 
 
-def update_users_in_db(email, position, branch, start_date, access_level):
+def update_users_in_db(login, position, branch, start_date, access_level):
     with db_session:
         try:
-            hero = Users[email]
+            hero = Users.get(login=login)
             hero.position = position
             hero.branch = branch
             hero.start_date = start_date
@@ -225,7 +225,7 @@ def update_users_in_db(email, position, branch, start_date, access_level):
         except Exception as e:
             return err_handler(e)
 
-        return f"""Updated Data for Users with e-mail **{email}**  
+        return f"""Updated Data for Users with Login **{login}**  
                    Position: **:blue[{position}]**  
                    Branch: **:blue[{branch}]**  
                    Access level: **:blue[{access_level}]**  
@@ -233,10 +233,10 @@ def update_users_in_db(email, position, branch, start_date, access_level):
 
 
 
-def update_settings(email, menu, delay):
+def update_settings(login, menu, delay):
     with db_session:
         try:
-            hero = Users[email]
+            hero = Users.get(login=login)
             hero.vert_menu = menu
             hero.delay_set = delay
         except Exception as e:
@@ -244,17 +244,17 @@ def update_settings(email, menu, delay):
         return "Settings Updated"
 
 
-def update_user_reg_data(email, upd_pass_2):
+def update_user_reg_data(login, upd_pass_2):
     with db_session:
         try:
-            hero = Users[email]
+            hero = Users.get(login=login)
             ha_pa = bcrypt.hashpw(upd_pass_2.encode('utf-8'), bcrypt.gensalt(10))
             ha_pa = ha_pa.decode('utf-8')
             hero.hashed_pass = ha_pa
-            return f"Data for {hero.name} is Updated"
+            return f"Data for {login} is Updated"
         except Exception as e:
             return err_handler(e)
 
 
-def get_registered_logins():
-    return None
+# def get_registered_logins():
+#     return None
