@@ -352,15 +352,15 @@ def home_content():
                 st.subheader("You are Registered & Logged In 😎")
             else:
                 appl_logins = get_appl_logins()
-
-                if isinstance(appl_logins, pony.orm.core.QueryResult):
-                    company_email = st.selectbox("Select Your Company Email", appl_logins,
-                                                 disabled=st.session_state.logged, key='reg_email')
+                st.write()
+                if isinstance(appl_logins, list):
+                    login = st.selectbox("Select Your Login", appl_logins,
+                                         disabled=st.session_state.logged, key='reg_email')
                 else:
                     reporter(appl_logins)
                     st.stop()
 
-                if company_email in registered_logins:
+                if login in registered_logins:
                     st.subheader("You are Registered 😎")
                 else:
                     st.write("Not in list? Send the request from your e-mail to sergey.priemshiy@uzliti-en.com")
@@ -380,8 +380,8 @@ def home_content():
 
                     # conf_html = ""
                     if get_reg_code:
-                        if company_email in registered_logins:
-                            reporter(f'User {company_email} is already in DataBase')
+                        if login in registered_logins:
+                            reporter(f'User {login} is already in DataBase')
                             st.stop()
 
                         if len(reg_pass_2) < 3 or reg_pass_1 != reg_pass_2:
@@ -418,7 +418,7 @@ def home_content():
                         """
 
                         if not st.session_state.code_sent:
-                            if send_mail(receiver=company_email, cc_rec="sergey.priemshiy@uzliti-en.com",
+                            if send_mail(receiver=login, cc_rec="sergey.priemshiy@uzliti-en.com",
                                          html=conf_html, subj="Confirmation of ETD site registration"):
                                 st.session_state.code_sent = True
                                 st.info("Confirmation Code sent to Your Company Email")
@@ -428,15 +428,15 @@ def home_content():
                     entered_code = st.text_input("Confirmation Code from Email")
 
                     if st.button("Register", use_container_width=True):
-                        if company_email in registered_logins:
-                            reporter(f'User {company_email} is already in DataBase')
+                        if login in registered_logins:
+                            reporter(f'User {login} is already in DataBase')
                             st.stop()
 
                         if st.session_state.conf_num != entered_code:
                             reporter("Confirmation code is wrong, try again")
                             st.stop()
                         else:
-                            reply = register_user(name, surname, phone, telegram, company_email, reg_pass_2)
+                            reply = register_user(name, surname, phone, telegram, login, reg_pass_2)
                             if 'ERROR' in reply.upper():
                                 st.write('Error')
                             else:

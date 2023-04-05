@@ -46,7 +46,7 @@ def get_appl_logins():
         try:
             # appl_emails = select(u.id for u in ApplUser)[:]  ###
             appl_logins = select(u.login for u in Users if len(u.hashed_pass) == 0)[:]  ###
-            return appl_logins
+            return list(appl_logins)
         except Exception as e:
             return err_handler(e)
 
