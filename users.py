@@ -181,10 +181,10 @@ def check_user(login, password):
 
 
 
-def add_to_log(email):
+def add_to_log(login):
     with db_session:
         try:
-            logger = VisitLog(login_time=datetime.datetime.now(), users=email)
+            logger = VisitLog(login_time=datetime.datetime.now(), users=Users.get(login=login))
         except Exception as e:
             return err_handler(e)
     return f"Hello, {mail_to_name(logger.users.id)}. Do your best and forget the rest 😎"
