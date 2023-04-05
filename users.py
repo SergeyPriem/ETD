@@ -253,3 +253,7 @@ def update_user_reg_data(email, upd_pass_2):
             return f"Data for {hero.name} is Updated"
         except Exception as e:
             return err_handler(e)
+
+
+def get_registered_logins():
+    return None
