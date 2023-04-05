@@ -145,14 +145,14 @@ def create_appl_user(email, position, branch, access_level, status, start_date):
     return f"User {email} is added to Applied Users"
 
 
-def register_user(name, surname, phone, telegram, email, password):
-    if email in get_registered_logins():
-        return f"User with email {email} already registered!"
+def register_user(name, surname, phone, telegram, login, password):
+    if login in get_logins_for_current():
+        return f"User with email {login} already registered!"
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt(10))
     hashed_password = hashed_password.decode('utf-8')
     with db_session:
         try:
-            user_to_reg = Users[email]
+            user_to_reg = Users[login]
             user_to_reg.name = name
             user_to_reg.surname = surname
             user_to_reg.phone = phone
