@@ -48,9 +48,9 @@ from pre_sets import appearance_settings, reporter, positions, departments, mail
 from send_emails import send_mail
 from settings_tab import settings_content
 from transmittals_tab import transmittals_content
-from users import get_appl_emails, check_user, add_to_log, get_logged_rights, \
+from users import check_user, add_to_log, get_logged_rights, \
     create_appl_user, get_user_data, update_users_in_db, move_to_former, get_settings, \
-    update_user_reg_data, get_all_emails, register_user, get_appl_logins
+    update_user_reg_data, get_all_emails, register_user, get_appl_logins, get_logins_for_registered
 from pony.orm import *
 from projects import confirm_task, get_trans, confirm_trans, get_pers_tasks
 
@@ -62,10 +62,10 @@ from projects import confirm_task, get_trans, confirm_trans, get_pers_tasks
 
 appearance_settings()
 
-registered_emails = get_registered_emails()
+registered_logins = get_logins_for_registered()
 
 
-# st.write(registered_emails)
+# st.write(registered_logins)
 # @st.cache_data(ttl=600, suppress_st_warning=True)
 def home_content():
     st.markdown("""
@@ -147,8 +147,8 @@ def home_content():
             login_col, logout_col = st.columns(2)
 
             with plaho.container():
-                if isinstance(registered_emails, list):
-                    email = st.selectbox("Company Email", registered_emails, disabled=st.session_state.logged)
+                if isinstance(registered_logins, list):
+                    email = st.selectbox("Company Email", registered_logins, disabled=st.session_state.logged)
                 else:
                     reporter("Can't get users list")
                     st.stop()
@@ -360,7 +360,7 @@ def home_content():
                     reporter(appl_logins)
                     st.stop()
 
-                if company_email in registered_emails:
+                if company_email in registered_logins:
                     st.subheader("You are Registered 😎")
                 else:
                     st.write("Not in list? Send the request from your e-mail to sergey.priemshiy@uzliti-en.com")
@@ -380,7 +380,7 @@ def home_content():
 
                     # conf_html = ""
                     if get_reg_code:
-                        if company_email in registered_emails:
+                        if company_email in registered_logins:
                             reporter(f'User {company_email} is already in DataBase')
                             st.stop()
 
@@ -428,7 +428,7 @@ def home_content():
                     entered_code = st.text_input("Confirmation Code from Email")
 
                     if st.button("Register", use_container_width=True):
-                        if company_email in registered_emails:
+                        if company_email in registered_logins:
                             reporter(f'User {company_email} is already in DataBase')
                             st.stop()
 

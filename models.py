@@ -8,8 +8,10 @@ import streamlit as st
 db = Database()
 
 
+
 class Project(db.Entity):
-    short_name = PrimaryKey(str, 150)
+    id = PrimaryKey(int, size=16, auto=True)
+    short_name = Required(str, 150)
     full_name = Optional(str, 200, unique=True)
     client = Optional(str, 50, nullable=True)
     manager = Optional(str, 50, nullable=True)
@@ -33,20 +35,23 @@ class SOD(db.Entity):
     perf_id = Optional('Users', reverse='sod_perf')
     stage = Optional(str, 100, nullable=True)
     revision = Optional(str, 10, nullable=True)
-    start_date = Optional(date, default=lambda: date.today())
+    start_date = Optional(date, nullable=True)
     current_status = Optional(str, nullable=True)
     request_date = Optional(date, nullable=True)
     trans_num = Optional(str, 250, nullable=True)
-    trans_date = Optional(date)
+    trans_date = Optional(date, nullable=True)
     notes = Optional(str, 1500, nullable=True)
     aux = Optional(str, 200, nullable=True)
     assigs = Set('Task')
 
 
 class Users(db.Entity):
-    id = PrimaryKey(str, 50)
+    id = PrimaryKey(int, size=24, auto=True)
+    login = Required(str, 30)
+    email = Required(str, 60)
     name = Optional(str, 30, nullable=True)
     surname = Optional(str, 50, nullable=True)
+    patronymic = Optional(str,50)
     position = Optional(str, 50, nullable=True)
     branch = Optional(str, 50, nullable=True)
     phone = Optional(str, 13, nullable=True)
@@ -60,8 +65,8 @@ class Users(db.Entity):
     visitlogs = Set('VisitLog')
     access_level = Required(str, 20)
     status = Required(str, 20)
-    start_date = Optional(date)
-    end_date = Optional(date)
+    start_date = Optional(date, nullable=True)
+    end_date = Optional(date, nullable=True)
     tg_id = Optional(str, 15, nullable=True)
     orders = Set('Message')
     transs = Set('Trans', reverse='responsible')
@@ -74,11 +79,11 @@ class Task(db.Entity):
     in_out = Required(str, 10)
     date = Required(date)
     description = Required(str, 250)
-    link = Required(str, 250)
+    link = Required(str, 500)
     backup_copy = Optional(str, 250)
     source = Required(str, 2500)
-    coord_log = Optional(datetime)
-    perf_log = Optional(datetime)
+    coord_log = Optional(str, 500, nullable=True)
+    perf_log = Optional(str, 500, nullable=True)
     comment = Optional(str, 500)
     added_by = Required(str, 50)
     speciality = Required('Speciality')
@@ -92,13 +97,14 @@ class VisitLog(db.Entity):
 
 
 class Speciality(db.Entity):
-    id = PrimaryKey(str, 20, auto=True)
-    descr = Required(str, 50)
+    id = PrimaryKey(int, size=8, auto=True)
+    abbrev = Required(str, 20, auto=True)
+    descr = Optional(str, 50)
     tasks = Set(Task)
 
 
 class Message(db.Entity):
-    id = PrimaryKey(int, auto=True)
+    id = PrimaryKey(int, size=32, auto=True)
     start_date = Required(date)
     end_date = Optional(date)
     users = Required(Users)
@@ -109,19 +115,20 @@ class Message(db.Entity):
     link = Optional(str, 300)
     status = Optional(str, 30)
     reminder = Optional(bool)
-    last_remind = Optional(date)
+    last_remind = Optional(date, nullable=True)
     notes = Optional(str, 500)
     archieve = Optional(str, 300)
 
 
 class Trans(db.Entity):
-    in_trans = PrimaryKey(str, 50, auto=True)
+    id = PrimaryKey(int, size=24, auto=True)
+    in_trans = Required(str, 50, auto=True)
     in_date = Required(date)
     ans_required = Required(bool)
     project = Required(Project)
     responsible = Required(Users, reverse='transs')
     author = Required(str, 50)
-    out_date = Optional(date)
+    out_date = Optional(date, nullable=True)
     out_trans = Optional(str, 50, nullable=True)
     subj = Optional(str, nullable=True)
     link = Optional(str, 200, nullable=True)
@@ -130,7 +137,6 @@ class Trans(db.Entity):
     received = Optional(str, 250, nullable=True)
     users = Required(Users, reverse='trans_add')
     status = Optional(str, 50, nullable=True)
-
 
 set_sql_debug(True)
 
