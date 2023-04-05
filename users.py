@@ -153,7 +153,7 @@ def register_user(name, surname, phone, telegram, login, password):
     hashed_password = hashed_password.decode('utf-8')
     with db_session:
         try:
-            user_to_reg = Users[login]
+            user_to_reg = Users.get(login=login) #Users[login]
             user_to_reg.name = name
             user_to_reg.surname = surname
             user_to_reg.phone = phone
