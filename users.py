@@ -146,6 +146,7 @@ def create_appl_user(email, position, branch, access_level, status, start_date):
 
 
 def register_user(name, surname, phone, telegram, login, password):
+
     if login in get_logins_for_registered():
         return f"User with email {login} already registered!"
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt(10))
