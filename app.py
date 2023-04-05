@@ -165,7 +165,7 @@ def home_content():
                 else:
 
                     login_status = check_user(login, password)
-                    st.write(login_status) ###
+
                     if login_status is True:
                         st.session_state.logged = True
                         st.session_state.user = login
@@ -352,7 +352,7 @@ def home_content():
                 st.subheader("You are Registered & Logged In 😎")
             else:
                 appl_logins = get_appl_logins()
-                st.write()
+
                 if isinstance(appl_logins, list):
                     login = st.selectbox("Select Your Login", appl_logins,
                                          disabled=st.session_state.logged, key='reg_email')
