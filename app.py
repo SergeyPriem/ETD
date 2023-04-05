@@ -48,9 +48,9 @@ from pre_sets import appearance_settings, reporter, positions, departments, mail
 from send_emails import send_mail
 from settings_tab import settings_content
 from transmittals_tab import transmittals_content
-from users import get_appl_emails, check_user, create_user, add_to_log, get_logged_rights, \
-    create_appl_user, get_user_data, update_users_in_db, move_to_former, get_registered_emails, get_settings, \
-    update_user_reg_data, get_all_emails, register_user
+from users import get_appl_emails, check_user, add_to_log, get_logged_rights, \
+    create_appl_user, get_user_data, update_users_in_db, move_to_former, get_settings, \
+    update_user_reg_data, get_all_emails, register_user, get_appl_logins
 from pony.orm import *
 from projects import confirm_task, get_trans, confirm_trans, get_pers_tasks
 
@@ -351,13 +351,13 @@ def home_content():
             if st.session_state.logged:
                 st.subheader("You are Registered & Logged In 😎")
             else:
-                appl_emails = get_appl_emails()
+                appl_logins = get_appl_logins()
 
-                if isinstance(appl_emails, pony.orm.core.QueryResult):
-                    company_email = st.selectbox("Select Your Company Email", appl_emails,
+                if isinstance(appl_logins, pony.orm.core.QueryResult):
+                    company_email = st.selectbox("Select Your Company Email", appl_logins,
                                                  disabled=st.session_state.logged, key='reg_email')
                 else:
-                    reporter(appl_emails)
+                    reporter(appl_logins)
                     st.stop()
 
                 if company_email in registered_emails:
