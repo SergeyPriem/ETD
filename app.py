@@ -148,7 +148,7 @@ def home_content():
 
             with plaho.container():
                 if isinstance(registered_logins, list):
-                    login = st.selectbox("Company Email", registered_logins, disabled=st.session_state.logged)
+                    login = st.selectbox("Select Your Login", registered_logins, disabled=st.session_state.logged)
                 else:
                     reporter("Can't get users list")
                     st.stop()
