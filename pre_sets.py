@@ -20,9 +20,9 @@ sod_revisions = ('R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7', 'R8', 'R9', 'R10', 'R
 
 proj_statuses = ('current', 'perspective', 'completed', 'final stage', 'cancelled', 'suspended')
 
-trans_stat = ("Open", "Closed", "For Info", "Not Enough Data", "In Progress")
+trans_stat = ("Open", "Closed", "For Info", "Not Enough Data", "In Progress", "Issued Docs")
 
-trans_types = ('Comments', "Letter", 'Vendor Docs', 'TBE', 'FCN')
+trans_types = ('Comments', "Letter", 'Vendor Docs', 'TBE', 'FCN', 'Design Docs')
 @st.cache_data
 def appearance_settings():
     hide_menu_style = """

@@ -93,7 +93,7 @@ def get_sets_for_project(proj):
         return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
 
-@st.cache_data(ttl=60, show_spinner="Getting Data from DB...")
+# @st.cache_data(ttl=60, show_spinner="Getting Data from DB...")
 def get_table(table_name):
     with db_session:
         try:
