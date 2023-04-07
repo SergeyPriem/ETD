@@ -188,19 +188,19 @@ def manage_sets():
                     trans_date = st.date_input(key='new_trans_date')
                     notes = st.text_input(placeholder=sets_tuple[10],key='new_notes')
 
-            set_upd_but = st.form_submit_button("Update in DB")
+                set_upd_but = st.form_submit_button("Update in DB")
 
-            if set_upd_but:
-                st.write(
-                    coord,
-                    perf,
-                    rev,
-                    status,
-                    req_date,
-                    trans_num,
-                    trans_date,
-                    notes,
-                )
+                if set_upd_but:
+                    st.write(
+                        coord,
+                        perf,
+                        rev,
+                        status,
+                        req_date,
+                        trans_num,
+                        trans_date,
+                        notes,
+                    )
 
 
             # if st.button('Update in DataBase', key="update_set"):
