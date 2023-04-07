@@ -262,8 +262,8 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
                 project_id=Project.get(short_name=proj_short),
                 set_name=set_name,
                 stage=stage,
-                coord_id=Users.get(login=coordinator).id,
-                perf_id=Users.get(login=performer).id,
+                coord_id=Users.get(login=coordinator).login,
+                perf_id=Users.get(login=performer).login,
                 current_status=status,
                 start_date=set_start_date,
                 notes=notes
