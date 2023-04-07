@@ -33,6 +33,8 @@ def drawing_sets():
             st.write("No sets available in DataBase")
             st.stop()
 
+        st.write(df)
+
         proj_list = df.project_id
 
         if isinstance(df, pd.DataFrame):
