@@ -282,7 +282,9 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
 def get_sets_to_edit(selected_project, selected_set):
     try:
         with db_session:
-            table = select(e for e in SOD if (e.project_id == Project[selected_project] and e.set_name == selected_set))
+            table = select(
+                e for e in SOD
+                if (e.project_id == Project.get(short_name=selected_project) and e.set_name == selected_set))
             return tab_to_df(table)
     except Exception as e:
         return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
