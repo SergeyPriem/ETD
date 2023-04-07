@@ -38,6 +38,13 @@ def get_all_emails():
         except Exception as e:
             return err_handler(e)
 
+def get_all_logins():
+    with db_session:
+        try:
+            return list(select(u.login for u in Users))
+        except Exception as e:
+            return err_handler(e)
+
 
 def get_appl_logins():
     """

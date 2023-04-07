@@ -7,7 +7,7 @@ from models import Project, Task, VisitLog, SOD, Users, Trans, Speciality
 from pre_sets import proj_statuses, reporter, stages, sod_statuses
 from projects import create_project, get_projects_names, get_table, update_projects, add_sod, get_sets_names, \
     get_set_to_edit, update_sets
-from users import get_logins_for_current
+from users import get_logins_for_current, get_all_logins
 
 
 def get_list_index(a_list: list, elem: str) -> int:
@@ -161,17 +161,17 @@ def manage_sets():
                 st.warning(sets_tuple)
                 st.stop()
             # sets_df = sets_df.set_index('id')
-
+            all_logins = get_all_logins()
             st.write(sets_tuple)
             with st.form('upd_set_detail'):
                 left_sod, center_sod, right_sod = st.columns(3)
                 with left_sod:
-                    coord = st.selectbox("Coordinator:",
-                                         st.session_state.registered_logins,
-                                         index=get_list_index(st.session_state.registered_logins, sets_tuple[2]))
-                    perf = st.selectbox("Performer:",
-                                        st.session_state.registered_logins,
-                                        index=get_list_index(st.session_state.registered_logins, sets_tuple[3]))
+                    coord = st.selectbox("Coordinator:", all_logins,
+                                         index=get_list_index(all_logins, sets_tuple[2]))
+
+                    perf = st.selectbox("Performer:", all_logins,
+                                        index=get_list_index(all_logins, sets_tuple[3]))
+
                     rev = st.text_input(f"Change revision {sets_tuple[5]} to:")
                     status = st.selectbox('Status:', sod_statuses,
                                           index=get_list_index(sod_statuses, sets_tuple[6]))
