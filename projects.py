@@ -201,8 +201,8 @@ def get_pers_tasks(email: str) -> pd.DataFrame:
                 )
                 for t in Task
                 for s in t.set_id
-                if ((s.coord_id == Users[email] and not email in t.coord_log)
-                    or s.perf_id == Users[email]) and not email in t.perf_log)[:]
+                if ((s.coord_id == Users[email] and email not in t.coord_log)
+                    or s.perf_id == Users[email]) and email not in t.perf_log)[:]
 
             df = pd.DataFrame(data, columns=[
                 "id",
@@ -230,14 +230,17 @@ def get_pers_tasks(email: str) -> pd.DataFrame:
 def get_sets_names(selected_project):
     with db_session:
         try:
-            sets_name_list = select(s.set_name for s in SOD if s.project_id == Project[selected_project])[:]  #
+            sets_name_list = select(
+                s.set_name for s in SOD
+                if s.project_id == Project.get(short_name=selected_project)
+            )
             return list(sets_name_list)
         except Exception as e:
-            return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+            return err_handler(e)
 
 
 def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_date: date, coordinator=None,
-            performer=None, notes='') -> str:
+               performer=None, notes=None) -> str:
     """
     :param proj_short:
     :param set_name:
@@ -261,15 +264,17 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
                 project_id=Project.get(short_name=proj_short),
                 set_name=set_name,
                 stage=stage,
+                revision='R1',
                 coord_id=Users.get(login=coordinator).id,
                 perf_id=Users.get(login=performer).id,
                 current_status=status,
                 start_date=set_start_date,
                 notes=notes
             )
+            return f"New Set '{set_name}' for Project '{proj_short}' is added to DataBase"
         except Exception as e:
-            return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
-        return f"New Set '{set_name}' for Project '{proj_short}' is added to DataBase"
+            return err_handler(e)
+
 
 
 @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
@@ -305,12 +310,12 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
             result = create_backup_string(link, BACKUP_FOLDER, new_ass_id)
             new_ass.backup_copy = result[0]
             return f"""
-            New Task for {(new_ass.set_id.project_id.short_name)}: {(new_ass.set_id.set_name)} is added to DataBase
+            New Task for {new_ass.set_id.project_id.short_name}: {new_ass.set_id.set_name} is added to DataBase
             Backup string:
             {result[1]}
             """
         except Exception as e:
-            return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+            return err_handler(e)
 
 
 @st.cache_data(ttl=120, show_spinner='Updating Projects...')
@@ -334,7 +339,7 @@ def update_projects(edited_proj_df):
                     proj_for_upd.mdr = row.mdr
                     proj_for_upd.notes = row.notes
                 except Exception as e:
-                    return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+                    return err_handler(e)
     return "Updated Successfully"
 
 
@@ -360,7 +365,7 @@ def update_sets(edited_set_df):
                         set_to_edit.notes += "->" + row.notes
                     set_to_edit.current_status = row.current_status
                 except Exception as e:
-                    return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+                    return err_handler(e)
     return "Updated Successfully"
 
 
@@ -375,7 +380,7 @@ def get_sets(email):
 
             return tab_to_df(sods)
         except Exception as e:
-            return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+            return err_handler(e)
 
 
 @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
@@ -394,7 +399,7 @@ def get_own_tasks(proj_set):
             return tab_to_df(tasks)
 
     except Exception as e:
-        return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+        return err_handler(e)
 
 
 @st.cache_data(ttl=120, show_spinner='Adding to DataBase...')
@@ -421,7 +426,7 @@ def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, de
             """
 
         except Exception as e:
-            return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+            return err_handler(e)
 
 
 def confirm_task(task_id, user, proj, sod):
@@ -441,8 +446,7 @@ def confirm_task(task_id, user, proj, sod):
                     Task[task_id].perf_log).replace('None', '') + f"*{user}*{str(datetime.now())[:-10]}* "
 
         except Exception as e:
-            st.warning(f"🔧 {type(e).__name__} {getattr(e, 'args', None)}")
-            return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+            return err_handler(e)
 
     # st.info(f"Task with ID {id} confirmed By user {user}")
     # print(f"Task with ID {id} confirmed By user {user}")
@@ -463,7 +467,7 @@ def get_trans(email=None):
                 trans = select(t for t in Trans)[:]
             return tab_to_df(trans)
         except Exception as e:
-            return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+            return err_handler(e)
 
 
 @st.cache_data(ttl=1800)
@@ -473,7 +477,7 @@ def get_proj_list():
             proj_list = select(p.short_name for p in Project)[:]
             return proj_list
         except Exception as e:
-            return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+            return err_handler(e)
 
 
 def add_new_trans(project, in_trans, out_trans, t_type, subj, link, in_date, ans_required, out_date, author,
@@ -504,4 +508,4 @@ def add_new_trans(project, in_trans, out_trans, t_type, subj, link, in_date, ans
             """
 
         except Exception as e:
-            return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+            return err_handler(e)
