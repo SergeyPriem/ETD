@@ -159,8 +159,10 @@ def manage_sets():
             with st.form('upd_set_detail'):
                 left_sod, center_sod, right_sod = st.columns(3)
                 with left_sod:
-                    coord = st.selectbox(f"Coordinator {sets_tuple[2]} to:", st.session_state.registered_logins[71])
-                    perf = st.selectbox(f"Performer {sets_tuple[3]} to:", st.session_state.registered_logins[71])
+                    coord = st.selectbox(f"Coordinator {sets_tuple[2]} to:",
+                                         st.session_state.registered_logins, index=71)
+                    perf = st.selectbox(f"Performer {sets_tuple[3]} to:",
+                                        st.session_state.registered_logins, index=71)
                     rev = st.text_input(f"Change revision {sets_tuple[5]} to:")
                     status = st.text_input('new_status')
 
