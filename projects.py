@@ -6,6 +6,7 @@ import pandas as pd
 from datetime import date, datetime
 import streamlit as st
 from pre_sets import BACKUP_FOLDER
+from users import err_handler
 
 set_sql_debug(True)
 
@@ -54,7 +55,7 @@ def create_project(proj_short, proj_full, client, proj_man, responsible_el, proj
         return f'Project {proj_short} is already in DataBase'
     with db_session:
         try:
-            new_project = Project(
+            Project(
                 short_name=proj_short,
                 full_name=proj_full,
                 client=client,
@@ -67,9 +68,10 @@ def create_project(proj_short, proj_full, client, proj_man, responsible_el, proj
                 mdr=proj_mdr,
                 notes=proj_notes
             )
+            return f'New Project {proj_short} is added to DataBase'
         except Exception as e:
-            return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
-        return f'New Project {new_project.short_name} is added to DataBase'
+            return err_handler(e)
+
 
 
 @st.cache_data(ttl=120, show_spinner='Getting Projects...')

@@ -67,6 +67,7 @@ def manage_projects():
 
         with proj_tab2:
             proj_to_edit_list = st.multiselect('Select Projects to Edit', get_projects_names())
+
             if proj_to_edit_list:
                 proj_df = get_table(Project)
 
