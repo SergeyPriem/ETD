@@ -73,7 +73,6 @@ def create_project(proj_short, proj_full, client, proj_man, responsible_el, proj
             return err_handler(e)
 
 
-
 @st.cache_data(ttl=120, show_spinner='Getting Projects...')
 def get_projects_names():
     try:
@@ -102,6 +101,7 @@ def get_table(tabname):
             return tab_to_df(table)
         except Exception as e:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+
 
 @st.cache_data(ttl=60, show_spinner='Getting Assignments...')
 def get_tasks(email=None):
@@ -238,7 +238,7 @@ def get_sets_names(selected_project):
 
 @st.cache_data(ttl=360, show_spinner="Creating Drawing Set...")
 def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_date: date, coordinator=None,
-               performer=None, notes='') -> str:
+            performer=None, notes='') -> str:
     """
     :param proj_short:
     :param set_name:
@@ -262,8 +262,8 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
                 project_id=Project.get(short_name=proj_short),
                 set_name=set_name,
                 stage=stage,
-                coord_id=Users.get(login=coordinator).login,
-                perf_id=Users.get(login=performer).login,
+                coord_id=Users.get(login=coordinator).id,
+                perf_id=Users.get(login=performer).id,
                 current_status=status,
                 start_date=set_start_date,
                 notes=notes
