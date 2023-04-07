@@ -1,6 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
 import datetime
-import time
 import streamlit as st
 import bcrypt
 from models import Users, VisitLog
@@ -10,8 +9,10 @@ from pre_sets import mail_to_name
 
 set_sql_debug(True)
 
+
 def err_handler(e):
     return f"{type(e).__name__}{getattr(e, 'args', None)}"
+
 
 def move_to_former(email, end_date):
     with db_session:
@@ -26,6 +27,7 @@ def move_to_former(email, end_date):
         return f'''**{email}** moved to Former Users
         by date **{end_date}**.
         Access status: **:red[{hero.access_level}]**'''
+
 
 ### GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET #################
 @st.cache_data(ttl=600)
@@ -128,7 +130,6 @@ def get_settings(login):
             return err_handler(e)
 
 
-
 ##### CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE #################
 def create_appl_user(email, position, branch, access_level, status, start_date):
     if '@' not in email or len(email) < 12:
@@ -145,14 +146,13 @@ def create_appl_user(email, position, branch, access_level, status, start_date):
 
 
 def register_user(name, surname, phone, telegram, login, password):
-
     if login in st.session_state.registered_logins:
         return f"User with email {login} already registered!"
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt(10))
     hashed_password = hashed_password.decode('utf-8')
     with db_session:
         try:
-            user_to_reg = Users.get(login=login) #Users[login]
+            user_to_reg = Users.get(login=login)  # Users[login]
             user_to_reg.name = name
             user_to_reg.surname = surname
             user_to_reg.phone = phone
@@ -176,8 +176,6 @@ def check_user(login, password):
     except Exception as e:
         # return "🔧 Connection to DB is failed"
         return err_handler(e)
-
-
 
 
 def add_to_log(login):
@@ -231,7 +229,6 @@ def update_users_in_db(login, position, branch, start_date, access_level):
                    Status: **:blue[{hero.status}]**"""
 
 
-
 def update_settings(login, menu, delay):
     with db_session:
         try:
@@ -253,7 +250,6 @@ def update_user_reg_data(login, upd_pass_2):
             return f"Data for {login} is Updated"
         except Exception as e:
             return err_handler(e)
-
 
 # def get_registered_logins():
 #     return None

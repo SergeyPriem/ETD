@@ -8,16 +8,14 @@ from users import get_logins_for_registered
 
 
 def transmittals_content():
-    tr_empty1, tr_content, tr_empty2 = st.columns([1,15,1])
+    tr_empty1, tr_content, tr_empty2 = st.columns([1, 15, 1])
     with tr_empty1:
         st.empty()
     with tr_empty2:
         st.empty()
 
-
     with tr_content:
         st.title(':orange[Transmittals]')
-
 
         add_trans_tab, view_trans_tab = st.tabs(['Add New Transmittal', 'View Existing Transmittals'])
 
@@ -42,7 +40,7 @@ def transmittals_content():
                 add_trans_but = lc.form_submit_button("Preview Transmittal's Data")
 
             if add_trans_but:
-                l_prev, r_prev = st.columns([1,8])
+                l_prev, r_prev = st.columns([1, 8])
                 l_prev.markdown(f"""
                             Project:
                             
@@ -98,9 +96,8 @@ def transmittals_content():
             if st.button('Add to DataBase'):
                 reply = add_new_trans(project, in_trans, out_trans, t_type, subj, link, in_date, ans_required,
                                       out_date, author, responsible, notes)
-                #reporter(reply)
+                # reporter(reply)
                 st.info(reply)
-
 
         with view_trans_tab:
             my_all_tr = st.radio("Select the Option", ["My Transmittals", 'All Transmittals'], horizontal=True)
@@ -114,7 +111,7 @@ def transmittals_content():
             df = get_trans(user_email)
 
             if isinstance(df, pd.DataFrame):
-                if len(df)>0:
+                if len(df) > 0:
                     st.write(df)
                 else:
                     st.info("No Tansmittals in DataBase")
@@ -140,5 +137,3 @@ def transmittals_content():
         # placeholder.empty()
         #
         # # import libraries
-
-
