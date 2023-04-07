@@ -237,7 +237,7 @@ def get_sets_names(selected_project):
 
 
 @st.cache_data(ttl=360, show_spinner="Creating Drawing Set...")
-def create_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_date: date, coordinator=None,
+def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_date: date, coordinator=None,
                performer=None, notes='') -> str:
     """
     :param proj_short:
@@ -258,19 +258,19 @@ def create_sod(proj_short: str, set_name: str, stage: str, status: str, set_star
         return f"Set of Drawings '{set_name}' for Project '{proj_short}' is already in DataBase"
     with db_session:
         try:
-            new_sod = SOD(
+            SOD(
                 project_id=Project.get(short_name=proj_short),
                 set_name=set_name,
                 stage=stage,
-                coord_id=Users.get(login=coordinator),
-                perf_id=Users.get(login=performer),
+                coord_id=coordinator, #Users.get(login=coordinator),
+                perf_id=performer, #Users.get(login=performer),
                 current_status=status,
                 start_date=set_start_date,
                 notes=notes
             )
         except Exception as e:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
-        return f"New Set '{new_sod.set_name}' for Project '{proj_short}' is added to DataBase"
+        return f"New Set '{set_name}' for Project '{proj_short}' is added to DataBase"
 
 
 @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')

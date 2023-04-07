@@ -5,7 +5,7 @@ import pandas as pd
 import streamlit as st
 from models import Project, Task, VisitLog, SOD, Users, Trans, Speciality
 from pre_sets import proj_statuses, reporter, stages, sod_statuses
-from projects import create_project, get_projects_names, get_table, update_projects, create_sod, get_sets_names, \
+from projects import create_project, get_projects_names, get_table, update_projects, add_sod, get_sets_names, \
     get_sets_to_edit, update_sets
 from users import get_logins_for_current
 
@@ -121,21 +121,19 @@ def manage_sets():
 
             st.subheader("Create Set of Drawings")
 
-            colleagues = st.session_state.registered_logins
-
             with st.form('new_sod'):
                 proj_short = st.selectbox('Select a Project', get_projects_names())
                 set_name = st.text_input("Enter the Name for new Set of Drawings / Unit")
                 stage = st.radio("Select the Stage", stages, horizontal=True)
-                coordinator = st.selectbox("Coordinator", colleagues)
-                performer = st.selectbox("Performer", colleagues)
+                coordinator = st.selectbox("Coordinator", st.session_state.registered_logins)
+                performer = st.selectbox("Performer", st.session_state.registered_logins)
                 set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
                 status = st.select_slider("Select the Current Status", sod_statuses, value='0%')
                 notes = st.text_area("Add Notes")
                 create_sod_but = st.form_submit_button("Create",use_container_width=True)
 
             if create_sod_but:
-                reply = create_sod(proj_short, set_name, stage, status, set_start_date, notes, coordinator, performer)
+                reply = add_sod(proj_short, set_name, stage, status, set_start_date, notes, coordinator, performer)
                 reporter(reply)
 
         with sets_edit:
