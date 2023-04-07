@@ -178,9 +178,9 @@ def manage_sets():
                     st.write(sets_tuple[9])
                     st.write(sets_tuple[10])
 
-                with cur_values:
-                    coord = st.selectbox(st.session_state.reg_logins, key='coordinator')
-                    perf = st.selectbox(st.session_state.reg_logins, key='performer')
+                with new_values:
+                    coord = st.selectbox(st.session_state.registered_logins, key='coordinator')
+                    perf = st.selectbox(st.session_state.registered_logins, key='performer')
                     rev = st.text_input(key='new_revision')
                     status = st.text_input(key='new_status')
                     req_date = st.date_input(key='new_request_date')
