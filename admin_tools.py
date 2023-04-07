@@ -179,13 +179,13 @@ def manage_sets():
                     st.write(sets_tuple[10])
 
                 with new_values:
-                    coord = st.selectbox("new_coord", st.session_state.registered_logins, label_visibility='collapsed')
-                    perf = st.selectbox('new_perf', st.session_state.registered_logins, label_visibility='collapsed')
-                    rev = st.text_input('new_revision', label_visibility='collapsed')
-                    status = st.text_input('new_status', label_visibility='collapsed')
-                    req_date = st.date_input('new_request_date', label_visibility='collapsed')
-                    trans_num = st.text_input('new_trans_num', label_visibility='collapsed')
-                    trans_date = st.date_input('new_trans_date', label_visibility='collapsed')
+                    coord = st.selectbox(f"Change Coordinator {sets_tuple[2]} to:", st.session_state.registered_logins)
+                    perf = st.selectbox(f"Change Performer {sets_tuple[3]} to:", st.session_state.registered_logins)
+                    rev = st.text_input(f"Change revision {sets_tuple[5]} to:")
+                    status = st.text_input('new_status')
+                    req_date = st.date_input('new_request_date')
+                    trans_num = st.text_input('new_trans_num')
+                    trans_date = st.date_input('new_trans_date')
                     notes = st.text_input('Notes', placeholder=sets_tuple[10], label_visibility='collapsed')
 
                 set_upd_but = st.form_submit_button("Update in DB")
