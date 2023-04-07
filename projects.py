@@ -228,12 +228,12 @@ def get_pers_tasks(email: str) -> pd.DataFrame:
 
 @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_sets_names(selected_project):
-    try:
-        with db_session:
+    with db_session:
+        try:
             sets_name_list = select(s.set_name for s in SOD if s.project_id == Project[selected_project])[:]  #
             return list(sets_name_list)
-    except Exception as e:
-        return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+        except Exception as e:
+            return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
 
 @st.cache_data(ttl=360, show_spinner="Creating Drawing Set...")
@@ -262,8 +262,8 @@ def create_sod(proj_short: str, set_name: str, stage: str, status: str, set_star
                 project_id=Project.get(short_name=proj_short),
                 set_name=set_name,
                 stage=stage,
-                coord_id=Users.get(login=coordinator).id,
-                perf_id=Users.get(login=performer).id,
+                coord_id=Users.get(login=coordinator),
+                perf_id=Users.get(login=performer),
                 current_status=status,
                 start_date=set_start_date,
                 notes=notes
