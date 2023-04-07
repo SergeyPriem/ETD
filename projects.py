@@ -278,7 +278,6 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
 
 
 
-@st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_set_to_edit(selected_project, selected_set):
     with db_session:
         try:
