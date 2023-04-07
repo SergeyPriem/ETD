@@ -132,7 +132,7 @@ def manage_sets():
                 set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
                 status = st.select_slider("Select the Current Status", sod_statuses, value='0%')
                 notes = st.text_area("Add Notes")
-                create_sod_but = st.form_submit_button("Create")
+                create_sod_but = st.form_submit_button("Create",use_container_width=True)
 
             if create_sod_but:
                 reply = create_sod(proj_short, set_name, stage, status, set_start_date, notes, coordinator, performer)
