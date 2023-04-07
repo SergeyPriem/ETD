@@ -60,7 +60,7 @@ def create_project(proj_short, proj_full, client, proj_man, responsible_el, proj
                 full_name=proj_full,
                 client=client,
                 manager=proj_man,
-                responsible_el=responsible_el,
+                responsible_el=Users.get(login=responsible_el),
                 status=proj_status,
                 assignment=proj_tech_ass,
                 tech_conditions=proj_tech_conditions,
