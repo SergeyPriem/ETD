@@ -258,7 +258,7 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
         return f"Wrong Set / Unit name: {set_name}"
     if proj_short in get_projects_names() and set_name in get_sets_names(proj_short):
         return f"Set of Drawings '{set_name}' for Project '{proj_short}' is already in DataBase"
-    st.write((proj_short, set_name, stage, status, set_start_date, coordinator, performer, notes))
+
     with db_session:
         try:
             SOD(

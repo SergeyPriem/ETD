@@ -138,11 +138,10 @@ def manage_sets():
 
         with sets_edit:
             st.subheader('Edit Existing Set of Drawings')
-            proj_for_sets_edit = st.selectbox('Select Projects for Edited Unit / Set',
-                                              get_projects_names(), )
+            proj_for_sets_edit = st.selectbox('Select Projects for Edited Unit / Set', get_projects_names(),)
 
             sets_list = get_sets_names(proj_for_sets_edit)
-
+            st.write(sets_list)
             if not isinstance(sets_list, list):
                 reporter(sets_list)
                 st.stop()
