@@ -179,14 +179,14 @@ def manage_sets():
                     st.write(sets_tuple[10])
 
                 with new_values:
-                    coord = st.selectbox(st.session_state.registered_logins, key='coordinator')
-                    perf = st.selectbox(st.session_state.registered_logins, key='performer')
-                    rev = st.text_input(key='new_revision')
-                    status = st.text_input(key='new_status')
-                    req_date = st.date_input(key='new_request_date')
-                    trans_num = st.text_input(key='new_trans_num')
-                    trans_date = st.date_input(key='new_trans_date')
-                    notes = st.text_input(placeholder=sets_tuple[10],key='new_notes')
+                    coord = st.selectbox("new_coord", st.session_state.registered_logins, label_visibility='collapsed')
+                    perf = st.selectbox('new_perf', st.session_state.registered_logins, label_visibility='collapsed')
+                    rev = st.text_input('new_revision', label_visibility='collapsed')
+                    status = st.text_input('new_status', label_visibility='collapsed')
+                    req_date = st.date_input('new_request_date', label_visibility='collapsed')
+                    trans_num = st.text_input('new_trans_num', label_visibility='collapsed')
+                    trans_date = st.date_input('new_trans_date', label_visibility='collapsed')
+                    notes = st.text_input(placeholder=sets_tuple[10], key='new_notes', label_visibility='collapsed')
 
                 set_upd_but = st.form_submit_button("Update in DB")
 
