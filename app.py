@@ -363,7 +363,7 @@ def home_content():
                     reporter(appl_logins)
                     st.stop()
 
-                if login in registered_logins:
+                if login in st.session_state.registered_logins:
                     st.subheader("You are Registered 😎")
                 else:
                     st.write("Not in list? Send the request from your e-mail to sergey.priemshiy@uzliti-en.com")
@@ -383,7 +383,7 @@ def home_content():
 
                     # conf_html = ""
                     if get_reg_code:
-                        if login in registered_logins:
+                        if login in st.session_state.registered_logins:
                             reporter(f'User {login} is already in DataBase')
                             st.stop()
 
@@ -431,7 +431,7 @@ def home_content():
                     entered_code = st.text_input("Confirmation Code from Email")
 
                     if st.button("Register", use_container_width=True):
-                        if login in registered_logins:
+                        if login in st.session_state.registered_logins:
                             reporter(f'User {login} is already in DataBase')
                             st.stop()
 
