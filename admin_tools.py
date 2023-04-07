@@ -157,36 +157,28 @@ def manage_sets():
 
             st.write(sets_tuple)
             with st.form('upd_set_detail'):
-                headers, cur_values, new_values = st.columns(3)
-                with headers:
-                    st.write('Coordinator')
-                    st.write('Performer')
-                    st.write('Revision')
-                    st.write('Status')
-                    st.write('request_date')
-                    st.write('trans_num')
-                    st.write('trans_date')
-                    st.write('notes')
-
-                with cur_values:
-                    st.write(sets_tuple[2])
-                    st.write(sets_tuple[3])
-                    st.write(sets_tuple[5])
-                    st.write(sets_tuple[6])
-                    st.write(sets_tuple[7])
-                    st.write(sets_tuple[8])
-                    st.write(sets_tuple[9])
-                    st.write(sets_tuple[10])
-
-                with new_values:
-                    coord = st.selectbox(f"Change Coordinator {sets_tuple[2]} to:", st.session_state.registered_logins)
-                    perf = st.selectbox(f"Change Performer {sets_tuple[3]} to:", st.session_state.registered_logins)
+                left_sod, center_sod, right_sod = st.columns(3)
+                with left_sod:
+                    coord = st.selectbox(f"Coordinator {sets_tuple[2]} to:", st.session_state.registered_logins[71])
+                    perf = st.selectbox(f"Performer {sets_tuple[3]} to:", st.session_state.registered_logins[71])
                     rev = st.text_input(f"Change revision {sets_tuple[5]} to:")
                     status = st.text_input('new_status')
-                    req_date = st.date_input('new_request_date')
-                    trans_num = st.text_input('new_trans_num')
-                    trans_date = st.date_input('new_trans_date')
-                    notes = st.text_input('Notes', placeholder=sets_tuple[10], label_visibility='collapsed')
+
+                with center_sod:
+                    # st.write(sets_tuple[2])
+                    # st.write(sets_tuple[3])
+                    # st.write(sets_tuple[5])
+                    # st.write(sets_tuple[6])
+                    # st.write(sets_tuple[7])
+                    # st.write(sets_tuple[8])
+                    # st.write(sets_tuple[9])
+                    # st.write(sets_tuple[10])
+
+                with right_sod:
+                    req_date = st.date_input('New Request Date')
+                    trans_num = st.text_input('New Transmittal Number')
+                    trans_date = st.date_input('New Transmittal Date')
+                    notes = st.text_input('Notes')
 
                 set_upd_but = st.form_submit_button("Update in DB")
 
