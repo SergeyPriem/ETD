@@ -164,7 +164,7 @@ def manage_sets():
                     rev = st.text_input(f"Change revision {sets_tuple[5]} to:")
                     status = st.text_input('new_status')
 
-                with center_sod:
+                # with center_sod:
                     # st.write(sets_tuple[2])
                     # st.write(sets_tuple[3])
                     # st.write(sets_tuple[5])
