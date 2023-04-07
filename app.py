@@ -62,11 +62,17 @@ from projects import confirm_task, get_trans, confirm_trans, get_pers_tasks
 
 appearance_settings()
 
-registered_logins = get_logins_for_registered()
+if 'registered_logins' not in st.session_state:
+
+    reg_logins = get_logins_for_registered()
+
+    if isinstance(reg_logins, list):
+        st.session_state.registered_logins = reg_logins
+    else:
+        reporter("Can't get users list")
+        st.stop()
 
 
-# st.write(registered_logins)
-# @st.cache_data(ttl=600, suppress_st_warning=True)
 def home_content():
     st.markdown("""
         <style>
@@ -147,11 +153,8 @@ def home_content():
             login_col, logout_col = st.columns(2)
 
             with plaho.container():
-                if isinstance(registered_logins, list):
-                    login = st.selectbox("Select Your Login", registered_logins, disabled=st.session_state.logged)
-                else:
-                    reporter("Can't get users list")
-                    st.stop()
+
+                login = st.selectbox("Select Your Login", st.session_state.registered_logins, disabled=st.session_state.logged)
                 st.write("Not in list? Register first 👆")
                 password = st.text_input('Password', type='password', disabled=st.session_state.logged)
                 login_but = login_col.button('Log In', disabled=st.session_state.logged, use_container_width=True)

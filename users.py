@@ -58,7 +58,6 @@ def get_logins_for_registered():
             exist_logins = select(
                 eml.login for eml in Users
                 if len(eml.hashed_pass) > 0 and eml.status == 'current')[:]
-
             return list(exist_logins)
         except Exception as e:
             return err_handler(e)
@@ -147,7 +146,7 @@ def create_appl_user(email, position, branch, access_level, status, start_date):
 
 def register_user(name, surname, phone, telegram, login, password):
 
-    if login in get_logins_for_registered():
+    if login in st.session_state.registered_logins:
         return f"User with email {login} already registered!"
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt(10))
     hashed_password = hashed_password.decode('utf-8')

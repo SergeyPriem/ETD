@@ -7,7 +7,7 @@ from models import Project, Task, VisitLog, SOD, Users, Trans, Speciality
 from pre_sets import proj_statuses, reporter, stages, sod_statuses
 from projects import create_project, get_projects_names, get_table, update_projects, create_sod, get_sets_names, \
     get_sets_to_edit, update_sets
-from users import get_appl_logins, get_logins_for_current, get_logins_for_registered
+from users import get_logins_for_current
 
 
 def manage_projects():
@@ -120,11 +120,13 @@ def manage_sets():
         with sets_create:
 
             st.subheader("Create Set of Drawings")
+
+            colleagues = st.session_state.registered_logins
+
             with st.form('new_sod'):
                 proj_short = st.selectbox('Select a Project', get_projects_names())
                 set_name = st.text_input("Enter the Name for new Set of Drawings / Unit")
                 stage = st.radio("Select the Stage", stages, horizontal=True)
-                colleagues = get_logins_for_registered()
                 coordinator = st.selectbox("Coordinator", colleagues)
                 performer = st.selectbox("Performer", colleagues)
                 set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
