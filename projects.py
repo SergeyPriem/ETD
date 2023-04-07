@@ -279,15 +279,15 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
 
 
 @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
-def get_sets_to_edit(selected_project, selected_set):
+def get_set_to_edit(selected_project, selected_set):
     with db_session:
         try:
             data = select(
                 (
                     s.id,
                     s.project_id,
-                    Users[s.coord_id].login,
-                    Users[s.perf_id].login,
+                    s.coord_id.login,
+                    s.perf_id.login,
                     s.stage,
                     s.revision,
                     s.current_status,

@@ -6,7 +6,7 @@ import streamlit as st
 from models import Project, Task, VisitLog, SOD, Users, Trans, Speciality
 from pre_sets import proj_statuses, reporter, stages, sod_statuses
 from projects import create_project, get_projects_names, get_table, update_projects, add_sod, get_sets_names, \
-    get_sets_to_edit, update_sets
+    get_set_to_edit, update_sets
 from users import get_logins_for_current
 
 
@@ -148,7 +148,7 @@ def manage_sets():
                 reporter(sets_list)
                 st.stop()
 
-            sets_tuple = get_sets_to_edit(proj_for_sets_edit, set_to_edit)
+            sets_tuple = get_set_to_edit(proj_for_sets_edit, set_to_edit)
 
             if not isinstance(sets_tuple, tuple):
                 st.warning(sets_tuple)
