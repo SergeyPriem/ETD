@@ -8,7 +8,6 @@ import streamlit as st
 db = Database()
 
 
-
 class Project(db.Entity):
     id = PrimaryKey(int, size=16, auto=True)
     short_name = Required(str, 150)
@@ -51,7 +50,7 @@ class Users(db.Entity):
     email = Required(str, 60)
     name = Optional(str, 30, nullable=True)
     surname = Optional(str, 50, nullable=True)
-    patronymic = Optional(str,50)
+    patronymic = Optional(str, 50)
     position = Optional(str, 50, nullable=True)
     branch = Optional(str, 50, nullable=True)
     phone = Optional(str, 13, nullable=True)
@@ -137,6 +136,7 @@ class Trans(db.Entity):
     received = Optional(str, 250, nullable=True)
     users = Required(Users, reverse='trans_add')
     status = Optional(str, 50, nullable=True)
+
 
 set_sql_debug(True)
 
