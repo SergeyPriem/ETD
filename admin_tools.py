@@ -187,10 +187,9 @@ def manage_sets():
                     # st.write(sets_tuple[10])
 
                 with right_sod:
-                    req_date = st.date_input('New Request Date')
                     trans_num = st.text_input('New Transmittal Number')
                     trans_date = st.date_input('New Transmittal Date')
-                    notes = st.text_input('Notes')
+                    notes = st.text_area('Notes', value=sets_tuple[10], height=120)
 
                 set_upd_but = st.form_submit_button("Update in DB")
 
@@ -200,7 +199,6 @@ def manage_sets():
                         perf,
                         rev,
                         status,
-                        req_date,
                         trans_num,
                         trans_date,
                         notes,
