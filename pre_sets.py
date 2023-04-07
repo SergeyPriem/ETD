@@ -14,11 +14,15 @@ stages = ('Detail Design', 'Basic Design', 'Feed', 'Feasibility Study', 'Adaptat
 sod_statuses = (
     '0%', "Cancelled", '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '99%', "Squad Check", "Issued",
     'Approved by Client')
+
+sod_revisions = ('R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7', 'R8', 'R9', 'R10', 'R11', 'R12',
+                 'A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11', 'A12')
+
 proj_statuses = ('current', 'perspective', 'completed', 'final stage', 'cancelled', 'suspended')
 
 trans_stat = ("Open", "Closed", "For Info", "Not Enough Data", "In Progress")
 
-trans_types = ('Comments', "Letter", 'Vendor Docs', 'TBE')
+trans_types = ('Comments', "Letter", 'Vendor Docs', 'TBE', 'FCN')
 @st.cache_data
 def appearance_settings():
     hide_menu_style = """

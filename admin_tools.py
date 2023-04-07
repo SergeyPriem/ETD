@@ -4,7 +4,7 @@ import datetime
 import pandas as pd
 import streamlit as st
 from models import Project, Task, VisitLog, SOD, Users, Trans, Speciality
-from pre_sets import proj_statuses, reporter, stages, sod_statuses
+from pre_sets import proj_statuses, reporter, stages, sod_statuses, sod_revisions
 from projects import create_project, get_projects_names, get_table, update_projects, add_sod, get_sets_names, \
     get_set_to_edit, update_sets
 from users import get_logins_for_current, get_all_logins
@@ -164,34 +164,27 @@ def manage_sets():
             all_logins = get_all_logins()
             st.write(sets_tuple)
             with st.form('upd_set_detail'):
-                left_sod, center_sod, right_sod = st.columns(3)
+                st.subheader(f"Update Information for Selected Unit / Set of Drawings")
+                left_sod, center_sod, right_sod = st.columns([5, 1, 5])
                 with left_sod:
-                    coord = st.selectbox("Coordinator:", all_logins,
+                    coord = st.selectbox("Coordinator", all_logins,
                                          index=get_list_index(all_logins, sets_tuple[2]))
 
-                    perf = st.selectbox("Performer:", all_logins,
+                    perf = st.selectbox("Performer", all_logins,
                                         index=get_list_index(all_logins, sets_tuple[3]))
 
-                    rev = st.text_input(f"Change revision {sets_tuple[5]} to:")
-                    status = st.selectbox('Status:', sod_statuses,
-                                          index=get_list_index(sod_statuses, sets_tuple[6]))
+                    rev = st.selectbox("Revision", sod_revisions,
+                                       index=get_list_index(sod_revisions, sets_tuple[5]))
 
-                # with center_sod:
-                    # st.write(sets_tuple[2])
-                    # st.write(sets_tuple[3])
-                    # st.write(sets_tuple[5])
-                    # st.write(sets_tuple[6])
-                    # st.write(sets_tuple[7])
-                    # st.write(sets_tuple[8])
-                    # st.write(sets_tuple[9])
-                    # st.write(sets_tuple[10])
+                    status = st.selectbox('Status', sod_statuses,
+                                          index=get_list_index(sod_statuses, sets_tuple[6]))
 
                 with right_sod:
                     trans_num = st.text_input('New Transmittal Number')
                     trans_date = st.date_input('New Transmittal Date')
                     notes = st.text_area('Notes', value=sets_tuple[10], height=120)
 
-                set_upd_but = st.form_submit_button("Update in DB")
+                set_upd_but = st.form_submit_button("Update in DB", use_container_width=True)
 
                 if set_upd_but:
                     st.write(
