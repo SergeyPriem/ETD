@@ -259,7 +259,7 @@ def create_sod(proj_short: str, set_name: str, stage: str, status: str, set_star
     with db_session:
         try:
             new_sod = SOD(
-                project_id=proj_short,
+                project_id=Project.get(short_name=proj_short),
                 set_name=set_name,
                 stage=stage,
                 coord_id=Users[coordinator],
