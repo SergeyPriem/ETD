@@ -10,6 +10,13 @@ from projects import create_project, get_projects_names, get_table, update_proje
 from users import get_logins_for_current
 
 
+def get_list_index(a_list: list, elem: str) -> int:
+    try:
+        ind = a_list.index(elem)
+        return ind
+    except:
+        return 0
+
 def manage_projects():
     empty_proj_1, content_proj, empty_proj_2 = st.columns([1, 9, 1])
     with empty_proj_1:
@@ -159,12 +166,15 @@ def manage_sets():
             with st.form('upd_set_detail'):
                 left_sod, center_sod, right_sod = st.columns(3)
                 with left_sod:
-                    coord = st.selectbox(f"Coordinator {sets_tuple[2]} to:",
-                                         st.session_state.registered_logins, index=71)
-                    perf = st.selectbox(f"Performer {sets_tuple[3]} to:",
-                                        st.session_state.registered_logins, index=71)
+                    coord = st.selectbox("Coordinator:",
+                                         st.session_state.registered_logins,
+                                         index=get_list_index(st.session_state.registered_logins, sets_tuple[2]))
+                    perf = st.selectbox("Performer:",
+                                        st.session_state.registered_logins,
+                                        index=get_list_index(st.session_state.registered_logins, sets_tuple[3]))
                     rev = st.text_input(f"Change revision {sets_tuple[5]} to:")
-                    status = st.text_input('new_status')
+                    status = st.selectbox('Status:', sod_statuses,
+                                          index=get_list_index(sod_statuses, sets_tuple[6]))
 
                 # with center_sod:
                     # st.write(sets_tuple[2])
