@@ -236,7 +236,6 @@ def get_sets_names(selected_project):
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
 
-@st.cache_data(ttl=360, show_spinner="Creating Drawing Set...")
 def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_date: date, coordinator=None,
             performer=None, notes='') -> str:
     """
