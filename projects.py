@@ -395,11 +395,11 @@ def update_sets(edited_set_df):
 
 
 # @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
-def get_sets(email):
+def get_sets(login):
     with db_session:
         try:
-            if email:
-                sods = select(s for s in SOD if (s.coord_id == Users[email] or s.perf_id == Users[email]))[:]
+            if login:
+                sods = select(s for s in SOD if (s.coord_id == Users.get(login=login) or s.perf_id == Users.get(login=login)))[:]
             else:
                 sods = select(s for s in SOD)[:]
 

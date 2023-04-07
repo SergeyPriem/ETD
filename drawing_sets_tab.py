@@ -23,11 +23,11 @@ def drawing_sets():
         st.subheader(my_all)
 
         if my_all == "My Sets":
-            user_email = st.session_state.user
+            user_login = st.session_state.user
         else:
-            user_email = None
+            user_login = None
 
-        df = get_sets(user_email)
+        df = get_sets(user_login)
 
         if not isinstance(df, pd.DataFrame):
             st.write("No sets available in DataBase")
