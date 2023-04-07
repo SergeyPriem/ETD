@@ -186,7 +186,7 @@ def manage_sets():
                     req_date = st.date_input('new_request_date', label_visibility='collapsed')
                     trans_num = st.text_input('new_trans_num', label_visibility='collapsed')
                     trans_date = st.date_input('new_trans_date', label_visibility='collapsed')
-                    notes = st.text_input(placeholder=sets_tuple[10], key='new_notes', label_visibility='collapsed')
+                    notes = st.text_input('Notes', placeholder=sets_tuple[10], label_visibility='collapsed')
 
                 set_upd_but = st.form_submit_button("Update in DB")
 
