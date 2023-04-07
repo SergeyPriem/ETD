@@ -148,19 +148,17 @@ def manage_sets():
                 reporter(sets_list)
                 st.stop()
 
-            sets_df = get_sets_to_edit(proj_for_sets_edit, set_to_edit)
+            sets_tuple = get_sets_to_edit(proj_for_sets_edit, set_to_edit)
 
-            if not isinstance(sets_df, pd.DataFrame):
-                st.warning(sets_df)
+            if not isinstance(sets_tuple, tuple):
+                st.warning(sets_tuple)
                 st.stop()
             # sets_df = sets_df.set_index('id')
-            sets_df['to_del'] = False
-            sets_df['edit'] = False
-            edited_set_df = st.experimental_data_editor(sets_df, use_container_width=True)
 
-            if st.button('Update in DataBase', key="update_set"):
-                if len(edited_set_df[edited_set_df.edit]):
-                    reply = update_sets(edited_set_df)
-                    reporter(reply)
-                else:
-                    reporter("No selection to Edit :((")
+            st.write(sets_tuple)
+            # if st.button('Update in DataBase', key="update_set"):
+            #     if len(edited_set_df[edited_set_df.edit]):
+            #         reply = update_sets(edited_set_df)
+            #         reporter(reply)
+            #     else:
+            #         reporter("No selection to Edit :((")

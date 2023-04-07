@@ -94,10 +94,10 @@ def get_sets_for_project(proj):
 
 
 @st.cache_data(ttl=60, show_spinner="Getting Data from DB...")
-def get_table(tabname):
+def get_table(table_name):
     with db_session:
         try:
-            table = select(u for u in tabname)[:]
+            table = select(u for u in table_name)[:]
             return tab_to_df(table)
         except Exception as e:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
@@ -280,14 +280,37 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
 
 @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_sets_to_edit(selected_project, selected_set):
-    try:
-        with db_session:
-            table = select(
-                e for e in SOD
-                if (e.project_id == Project.get(short_name=selected_project) and e.set_name == selected_set))
-            return tab_to_df(table)
-    except Exception as e:
-        return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+    with db_session:
+        try:
+            data = select(
+                (
+                    s.id,
+                    s.project_id,
+                    Users[s.coord_id].login,
+                    Users[s.perf_id].login,
+                    s.stage,
+                    s.revision,
+                    s.current_status,
+                    s.request_date,
+                    s.trans_num,
+                    s.trans_date,
+                    s.notes,
+                )
+                for s in SOD
+                if (s.project_id == Project.get(short_name=selected_project) and s.set_name == selected_set)
+            ).first()
+            return data
+        except Exception as e:
+            return err_handler(e)
+
+    # try:
+    #     with db_session:
+    #         table = select(
+    #             e for e in SOD
+    #             if (e.project_id == Project.get(short_name=selected_project) and e.set_name == selected_set))
+    #         return tab_to_df(table)
+    # except Exception as e:
+    #     return err_handler(e)
 
 
 def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, description, link, source, comment):
