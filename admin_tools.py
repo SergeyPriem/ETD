@@ -156,6 +156,53 @@ def manage_sets():
             # sets_df = sets_df.set_index('id')
 
             st.write(sets_tuple)
+            with st.form('upd_set_detail'):
+                headers, cur_values, new_values = st.columns(3)
+                with headers:
+                    st.write('Coordinator')
+                    st.write('Performer')
+                    st.write('Revision')
+                    st.write('Status')
+                    st.write('request_date')
+                    st.write('trans_num')
+                    st.write('trans_date')
+                    st.write('notes')
+
+                with cur_values:
+                    st.write(sets_tuple[2])
+                    st.write(sets_tuple[3])
+                    st.write(sets_tuple[5])
+                    st.write(sets_tuple[6])
+                    st.write(sets_tuple[7])
+                    st.write(sets_tuple[8])
+                    st.write(sets_tuple[9])
+                    st.write(sets_tuple[10])
+
+                with cur_values:
+                    coord = st.selectbox(st.session_state.reg_logins, key='coordinator')
+                    perf = st.selectbox(st.session_state.reg_logins, key='performer')
+                    rev = st.text_input(key='new_revision')
+                    status = st.text_input(key='new_status')
+                    req_date = st.date_input(key='new_request_date')
+                    trans_num = st.text_input(key='new_trans_num')
+                    trans_date = st.date_input(key='new_trans_date')
+                    notes = st.text_input(placeholder=sets_tuple[10],key='new_notes')
+
+                set_upd_but = st.form_submit_button("Update in DB")
+
+            if set_upd_but:
+                st.write(
+                    coord,
+                    perf,
+                    rev,
+                    status,
+                    req_date,
+                    trans_num,
+                    trans_date,
+                    notes,
+                )
+
+
             # if st.button('Update in DataBase', key="update_set"):
             #     if len(edited_set_df[edited_set_df.edit]):
             #         reply = update_sets(edited_set_df)
