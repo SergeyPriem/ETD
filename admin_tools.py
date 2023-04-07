@@ -133,7 +133,7 @@ def manage_sets():
                 create_sod_but = st.form_submit_button("Create",use_container_width=True)
 
             if create_sod_but:
-                reply = add_sod(proj_short, set_name, stage, status, set_start_date, notes, coordinator, performer)
+                reply = add_sod(proj_short, set_name, stage, status, set_start_date, coordinator, performer, notes)
                 reporter(reply)
 
         with sets_edit:
