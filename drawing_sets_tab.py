@@ -9,6 +9,26 @@ st.cache_data(ttl=600)
 
 
 def drawing_sets():
+
+    st.markdown("""
+        <style>
+            div[data-testid="column"]:nth-of-type(1)
+            {
+                text-align: center;
+            } 
+
+            div[data-testid="column"]:nth-of-type(2)
+            {
+                text-align: center;
+            } 
+
+            div[data-testid="column"]:nth-of-type(3)
+            {
+                text-align: center;
+            } 
+        </style>
+        """, unsafe_allow_html=True)
+
     empty1, content, empty2 = st.columns([1, 30, 1])
     with empty1:
         st.empty()
@@ -18,12 +38,12 @@ def drawing_sets():
     with content:
         st.title(':orange[Drawing Sets]')
 
-        my_all = st.radio("Select the Option", ["My Sets", 'All Sets'], horizontal=True)
+        my_all = st.radio("Select the Option", ["My Units", 'All Units'], horizontal=True)
 
         ds_left, ds_rigth = st.columns(2)
         ds_left.subheader(my_all)
 
-        if my_all == "My Sets":
+        if my_all == "My Units":
             user_login = st.session_state.user
         else:
             user_login = None
@@ -31,12 +51,11 @@ def drawing_sets():
         df = get_sets(user_login)
 
         if not isinstance(df, pd.DataFrame):
-            st.write("No sets available in DataBase")
+            st.write("No Units available in DataBase")
             st.stop()
 
         ds_rigth.write('')
-        ds_rigth.write('')
-        units_ch_b = ds_rigth.checkbox("Show Units/ Sets Table")
+        units_ch_b = ds_rigth.checkbox("Show Units Table")
 
         if units_ch_b:
             df.set_index('id', inplace=True)
