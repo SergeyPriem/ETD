@@ -400,6 +400,7 @@ def get_sets(login):
             if login:
                 sods = select(
                     (
+                        s.id,
                         s.project_id.short_name,
                         s.set_name,
                         s.coord_id.login,
@@ -417,6 +418,7 @@ def get_sets(login):
             else:
                 sods = select(
                     (
+                        s.id,
                         s.project_id.short_name,
                         s.set_name,
                         s.coord_id.login,
@@ -432,6 +434,7 @@ def get_sets(login):
                     for s in SOD)[:]
 
             df = pd.DataFrame(sods, columns=[
+                "id",
                 "project",
                 "unit",
                 "coordinator",
