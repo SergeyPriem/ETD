@@ -59,15 +59,21 @@ def drawing_sets():
 
         if edited_num == 1:
             st.markdown("---")
-            proj_set = (
-            edit_df[edit_df.preview]['project'].values[0], edit_df[edit_df.preview]['unit'].values[0])
+            set_id = edit_df[edit_df.preview]['id']
             task_col, in_out_col, quant_col = st.columns([9, 2, 2])
 
             with in_out_col:
                 in_out_radio = st.radio("Select Incoming / Outgoing", ('In', 'Out'), horizontal=True)
 
-            units_tasks = get_own_tasks(proj_set)  # .set_index('id')
+            units_tasks = get_own_tasks(set_id)  # .set_index('id')
+
             st.write(units_tasks)
+
+            if not isinstance(units_tasks, pd.DataFrame):
+                st.stop()
+
+            if len(units_tasks) == 0:
+                st.warning('No Tasks Available')
 
             if in_out_radio == "In":
                 units_tasks = units_tasks[(units_tasks.in_out == 'Входящие') | (units_tasks.in_out == 'In')]
@@ -75,7 +81,7 @@ def drawing_sets():
                 units_tasks = units_tasks[(units_tasks.in_out == 'Исходящие') | (units_tasks.in_out == 'Out')]
 
             with task_col:
-                st.subheader(f"Available Assignments for :red[{proj_set[0]}: {proj_set[1]}:] {in_out_radio}")
+                st.subheader(f"Available Assignments for :red[{set_id[0]}: {set_id[1]}:] {in_out_radio}")
 
             with quant_col:
                 st.write("")
@@ -84,7 +90,7 @@ def drawing_sets():
 
             units_tasks = units_tasks.sort_values(by=['speciality', 'date'], ascending=[True, False])
             st.write(units_tasks[['stage', 'speciality', 'date', 'description', 'link', 'source', 'comment',
-                                 'backup_copy', 'coord_log', 'perf_log', 'added_by']])
+                                  'backup_copy', 'coord_log', 'perf_log', 'added_by']])
             st.markdown("---")
 
             aval_spec = list(units_tasks.speciality.drop_duplicates())
@@ -117,11 +123,11 @@ def drawing_sets():
                             st.subheader("Draft of e-mail")
                             st.markdown("""<u>Тема:</u>""", unsafe_allow_html=True)
                             st.markdown(
-                                f"**Недостающие задания для {proj_set[0]}: {proj_set[1]}**")
+                                f"**Недостающие задания для {set_id[0]}: {set_id[1]}**")
                             st.markdown("""<u>Тело:</u>""", unsafe_allow_html=True)
                             st.markdown(f"""
                             В ЭлектроОтделе сейчас в разработке комплект чертежей:
-                            **{proj_set[0]}: {proj_set[1]}**.
+                            **{set_id[0]}: {set_id[1]}**.
                             В настоящее время отсутствуют задания по специальностям:
                             **{', '.join(request_df[request_df.request == True].index.values)}**.
                             Просим сообщить о необходимости задания и его сроке выдачи.
@@ -129,11 +135,11 @@ def drawing_sets():
                             st.write('')
                             st.markdown("""<u>Subject:</u>""", unsafe_allow_html=True)
                             st.markdown(
-                                f"**Not available assignments for {proj_set[0]}: {proj_set[1]}**")
+                                f"**Not available assignments for {set_id[0]}: {set_id[1]}**")
                             st.markdown("""<u>Body:</u>""", unsafe_allow_html=True)
                             st.markdown(f"""
                             Currently Electrical Department is developing:
-                            **{proj_set[0]}: {proj_set[1]}**.
+                            **{set_id[0]}: {set_id[1]}**.
                             For now we haven't assignments from:
                             **{', '.join(request_df[request_df.request == True].index.values)}**.
                             Kindly ask you to inform about a necessity of assignment and it's issue date.

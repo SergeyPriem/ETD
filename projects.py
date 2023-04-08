@@ -454,17 +454,16 @@ def get_sets(login):
 
 
 @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
-def get_own_tasks(proj_set):
+def get_own_tasks(set_id):
     try:
         with db_session:
             # stmt = select(Task).where(Task.project == proj_set[0], Task.set_draw == proj_set[1])
             # sods = select(s.id for s in SOD if s.project_id == Project[proj_set[0]])[:]
             # tasks = select(t for t in Task if (t.set_id.set_name == proj_set[1]
             #                                        and int(t.set_id) in sods))[:]
-            tasks = left_join(
+            tasks = select(
                 t for t in Task
-                for s in t.set_id
-                if t.set_id.set_name == proj_set[1] and s.project_id == Project.get(short_name=proj_set[0]))[:]
+                if t.set_id == set_id)[:]
 
             return tab_to_df(tasks)
 
