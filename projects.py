@@ -240,7 +240,7 @@ def get_sets_names(selected_project):
 
 
 def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_date: date, coordinator=None,
-               performer=None, notes=None) -> str:
+            performer=None, notes=None) -> str:
     """
     :param proj_short:
     :param set_name:
@@ -275,7 +275,6 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
             return f"New Set '{set_name}' for Project '{proj_short}' is added to DataBase"
         except Exception as e:
             return err_handler(e)
-
 
 
 def get_set_to_edit(selected_project, selected_set):
@@ -432,7 +431,22 @@ def get_sets(login):
                     )
                     for s in SOD)
 
-            return tab_to_df(sods)
+            df = pd.DataFrame(sods, columns=[
+                "id",
+                "project",
+                "unit",
+                "coordinator",
+                "performer",
+                "stage",
+                "revision",
+                "start_date",
+                "status",
+                "transmittal",
+                "trans_date",
+                "notes"
+            ])
+
+            return df
         except Exception as e:
             return err_handler(e)
 
