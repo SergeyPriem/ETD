@@ -34,7 +34,7 @@ def move_to_former(email, end_date):
 def get_all_emails():
     with db_session:
         try:
-            return select(e.id for e in Users)[:]
+            return select(e.email for e in Users)[:]
         except Exception as e:
             return err_handler(e)
 
@@ -145,8 +145,8 @@ def create_appl_user(email, position, branch, access_level, status, start_date):
         return f'User with email {email} already exist in DataBase'
     with db_session:
         try:
-            Users(id=email, position=position, branch=branch, access_level=access_level, status=status,
-                  start_date=start_date)
+            Users(email=email, login=email.split("@")[0], position=position, branch=branch,
+                  access_level=access_level, status=status, start_date=start_date)
         except Exception as e:
             return err_handler(e)
     return f"User {email} is added to Applied Users"
