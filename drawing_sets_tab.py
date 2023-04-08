@@ -67,7 +67,7 @@ def drawing_sets():
 
             units_tasks = get_own_tasks(int(set_id.values[0]))  # .set_index('id')
 
-            st.write(units_tasks)
+            st.write(type(units_tasks))
 
             if not isinstance(units_tasks, pd.DataFrame):
                 st.stop()
