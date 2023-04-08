@@ -432,7 +432,6 @@ def get_sets(login):
                     for s in SOD)[:]
 
             df = pd.DataFrame(sods, columns=[
-                "id",
                 "project",
                 "unit",
                 "coordinator",
