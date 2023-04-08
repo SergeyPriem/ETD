@@ -55,7 +55,7 @@ def drawing_sets():
         edit_df = st.experimental_data_editor(df, use_container_width=True, height=200,
                                               num_rows='fixed', key='sets', disabled=False)
 
-        edited_num = len(edit_df[edit_df.preview is True])
+        edited_num = len(edit_df[edit_df.preview])
 
         if edited_num == 1:
 
@@ -123,7 +123,7 @@ def drawing_sets():
 
                 with request_col:
                     if request_but:
-                        if len(request_df[request_df.request is True].index):
+                        if len(request_df[request_df.request].index):
                             st.subheader("Draft of e-mail")
                             st.markdown("""<u>Тема:</u>""", unsafe_allow_html=True)
                             st.markdown(
