@@ -55,26 +55,29 @@ def drawing_sets():
         edit_df = st.experimental_data_editor(df, use_container_width=True, height=200,
                                               num_rows='fixed', key='sets', disabled=False)
 
-        edited_num = len(edit_df[edit_df.preview == True])
+        edited_num = len(edit_df[edit_df.preview is True])
 
         if edited_num == 1:
-            st.markdown("---")
+
             set_id = edit_df[edit_df.preview]['id']
-            task_col, in_out_col, quant_col = st.columns([9, 2, 2])
 
-            with in_out_col:
-                in_out_radio = st.radio("Select Incoming / Outgoing", ('In', 'Out'), horizontal=True)
-
-            units_tasks = get_own_tasks(int(set_id.values[0]))  # .set_index('id')
+            units_tasks = get_own_tasks(int(set_id.values[0]))
 
             if units_tasks == "Empty Table":
-                st.warning('No Tasks Available')
+                st.warning('No Tasks Available for selected Unit')
                 st.stop()
 
             st.write(units_tasks)
 
             if not isinstance(units_tasks, pd.DataFrame):
                 st.stop()
+
+            task_col, in_out_col, quant_col = st.columns([9, 2, 2])
+
+            with in_out_col:
+                in_out_radio = st.radio("Select Incoming / Outgoing", ('In', 'Out'), horizontal=True)
+
+            st.markdown("---")
 
             if in_out_radio == "In":
                 units_tasks = units_tasks[(units_tasks.in_out == 'Входящие') | (units_tasks.in_out == 'In')]
@@ -120,7 +123,7 @@ def drawing_sets():
 
                 with request_col:
                     if request_but:
-                        if len(request_df[request_df.request == True].index):
+                        if len(request_df[request_df.request is True].index):
                             st.subheader("Draft of e-mail")
                             st.markdown("""<u>Тема:</u>""", unsafe_allow_html=True)
                             st.markdown(
