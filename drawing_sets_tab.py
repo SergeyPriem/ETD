@@ -39,9 +39,9 @@ def drawing_sets():
 
         ds_left, lc, ds_center, cr, ds_rigth = st.columns([6, 5, 6, 4, 4])
         ds_center.text('')
+
         my_all = ds_center.radio("Select the Option", ["My Units", 'All Units'],
                                  horizontal=True, label_visibility='collapsed')
-        ds_left.subheader(my_all)
 
         if my_all == "My Units":
             user_login = st.session_state.user
@@ -54,6 +54,10 @@ def drawing_sets():
             st.write("No Units available in DataBase")
             st.stop()
 
+        proj_list = df.project
+
+        ds_left.subheader(f"{my_all}: {len(proj_list)}")
+
         ds_rigth.text('')
         units_ch_b = ds_rigth.checkbox("Show Units Table")
 
@@ -61,7 +65,6 @@ def drawing_sets():
             df.set_index('id', inplace=True)
             st.experimental_data_editor(df, use_container_width=True)
 
-        proj_list = df.project
 
         if isinstance(df, pd.DataFrame):
             proj_list = df['project'].drop_duplicates()
