@@ -298,7 +298,7 @@ def home_content():
                                 </tr>
                                 <tr>
                                     <td>Subject</td>
-                                    <td>{row.subj}</td>
+                                    <td>{row.subject}</td>
                                 </tr>
 
                                 <tr>
@@ -327,7 +327,7 @@ def home_content():
                                 </tr>
                                 <tr>
                                     <td>Type</td>
-                                    <td>{row.t_type}</td>
+                                    <td>{row.trans_type}</td>
                                 </tr>
                                 <tr>
                                     <td>Notes</td>
