@@ -31,6 +31,7 @@ def drawing_sets():
 
         if not isinstance(df, pd.DataFrame):
             st.write("No sets available in DataBase")
+            st.write(df)
             st.stop()
 
         st.write(df)

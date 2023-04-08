@@ -429,7 +429,7 @@ def get_sets(login):
                         s.trans_date,
                         s.notes
                     )
-                    for s in SOD)
+                    for s in SOD)[:]
 
             df = pd.DataFrame(sods, columns=[
                 "id",
