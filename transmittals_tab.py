@@ -2,7 +2,7 @@
 import pandas as pd
 import streamlit as st
 
-from pre_sets import trans_types, reporter
+from pre_sets import trans_types
 from projects import get_trans, get_proj_list, add_new_trans
 from users import get_logins_for_registered
 
@@ -25,18 +25,19 @@ def transmittals_content():
                 project = lc.selectbox("Project", get_proj_list())
                 t_type = lc.radio("Transmittal Type", trans_types, horizontal=True)
                 lc.write("")
-                out_trans = rc.text_input("In reply to")
-                in_trans = cc.text_input("Transmittal Number")
+                ref_trans = rc.text_input("In reply to")
+                trans_num = cc.text_input("Transmittal Number")
                 subj = cc.text_input("Subject")
                 ans_required = cc.radio("Reply required", ('Yes', 'No'), horizontal=True)
                 cc.write("")
                 responsible = cc.selectbox("Responsible Employee", get_logins_for_registered())
                 cc.write("")
                 link = rc.text_input("Link")
-                out_date = rc.date_input("Due Date")
+                reply_date = rc.date_input("Due Date")
                 notes = rc.text_input('Notes')
-                in_date = lc.date_input("Transmittal Date")
+                trans_date = lc.date_input("Transmittal Date")
                 author = lc.text_input('Originator of the Transmittal')
+
                 add_trans_but = lc.form_submit_button("Preview Transmittal's Data")
 
             if add_trans_but:
@@ -70,9 +71,9 @@ def transmittals_content():
                 r_prev.markdown(f"""
                             **:blue[{project}]**
                             
-                            **:blue[{in_trans}]**
+                            **:blue[{trans_num}]**
                             
-                            **:blue[{out_trans}]**
+                            **:blue[{ref_trans}]**
                             
                             **:blue[{t_type}]**
                             
@@ -80,11 +81,11 @@ def transmittals_content():
                             
                             **:blue[{link}]**
                             
-                            **:blue[{in_date}]**
+                            **:blue[{trans_date}]**
                             
                             **:blue[{ans_required}]**
                             
-                            **:blue[{out_date}]**
+                            **:blue[{reply_date}]**
                             
                             **:blue[{author}]**
                             
@@ -94,14 +95,13 @@ def transmittals_content():
                             """)
 
             if st.button('Add to DataBase'):
-                reply = add_new_trans(project, in_trans, out_trans, t_type, subj, link, in_date, ans_required,
-                                      out_date, author, responsible, notes)
+                reply = add_new_trans(project, trans_num, ref_trans, t_type, subj, link, trans_date, ans_required,
+                                      reply_date, author, responsible, notes)
                 # reporter(reply)
                 st.info(reply)
 
         with view_trans_tab:
             my_all_tr = st.radio("Select the Option", ["My Transmittals", 'All Transmittals'], horizontal=True)
-
 
             if my_all_tr == "My Transmittals":
                 user_email = st.session_state.user
@@ -123,24 +123,3 @@ def transmittals_content():
                     st.stop()
 
 
-        # if isinstance(df, pd.DataFrame):
-        #     df
-        # else:
-        #     st.write("Transmittals not Available")
-        # placeholder = st.empty()
-        # sleep(1)
-        # # Replace the placeholder with some text:
-        # placeholder.text("Hello")
-        # sleep(1)
-        # # Replace the text with a chart:
-        # placeholder.line_chart({"data": [1, 5, 2, 6]})
-        # sleep(1)
-        # # Replace the chart with several elements:
-        # with placeholder.container():
-        #     st.write("This is one element")
-        #     st.write("This is another")
-        # sleep(1)
-        # # Clear all those elements:
-        # placeholder.empty()
-        #
-        # # import libraries
