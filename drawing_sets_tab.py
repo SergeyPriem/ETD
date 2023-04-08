@@ -34,7 +34,9 @@ def drawing_sets():
             st.write("No sets available in DataBase")
             st.stop()
 
-        if ds_rigth.checkbox("Show Units' Table"):
+        units_ch_b = ds_rigth.checkbox("Show Units' Table")
+
+        if units_ch_b:
             df.set_index('id', inplace=True)
 
         st.experimental_data_editor(df, use_container_width=True)
