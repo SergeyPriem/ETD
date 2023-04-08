@@ -294,7 +294,7 @@ def home_content():
                                 </tr>
                                 <tr>
                                     <td>Project</td>
-                                    <td>{row.project.short_name}</td>
+                                    <td>{row.project}</td>
                                 </tr>
                                 <tr>
                                     <td>Subject</td>
@@ -335,7 +335,7 @@ def home_content():
                                 </tr>
                                 <tr>
                                     <td>Added By</td>
-                                    <td>{row.users.login}</td>
+                                    <td>{row.users}</td>
                                 </tr>
                                 </table>
                                 <br>
