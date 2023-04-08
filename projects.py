@@ -547,7 +547,7 @@ def get_trans(login=None):
                      t.t_type,
                      t.notes,
                      t.received,
-                     t.users,
+                     t.users.login,
                      t.status
                      )
                     for t in Trans
@@ -569,7 +569,7 @@ def get_trans(login=None):
                      t.t_type,
                      t.notes,
                      t.received,
-                     t.users,
+                     t.users.login,
                      t.status
                      )
                     for t in Trans)[:]
