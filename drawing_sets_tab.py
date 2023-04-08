@@ -37,7 +37,7 @@ def drawing_sets():
     with content:
         st.title(':orange[Drawing Sets]')
 
-        ds_left, lc, ds_center, cr, ds_rigth = st.columns([3, 3, 2, 2, 2])
+        ds_left, lc, ds_center, cr, ds_rigth = st.columns([3, 2, 3, 2, 2])
         my_all = ds_center.radio("Select the Option", ["My Units", 'All Units'],
                                  horizontal=True, label_visibility='collapsed')
         ds_left.subheader(my_all)
