@@ -608,7 +608,7 @@ def get_proj_list():
             return err_handler(e)
 
 
-def add_new_trans(project, in_trans, out_trans, t_type, subj, link, in_date, ans_required, out_date, author,
+def add_new_trans(project, in_trans, out_trans, t_type, subj, link, trans_date, ans_required, out_date, author,
                   responsible, notes):
     with db_session:
         try:
@@ -616,17 +616,17 @@ def add_new_trans(project, in_trans, out_trans, t_type, subj, link, in_date, ans
                 return f"""Transmittal {in_trans} already in DataBase"""
 
             Trans(
-                project=Project[project],
-                in_trans=in_trans,
-                out_trans=out_trans,
+                project=Project.get(short_name=project),
+                trans_num=in_trans,
+                ref_trans=out_trans,
                 t_type=t_type,
                 subj=subj,
                 link=link,
-                in_date=in_date,
+                trans_date=trans_date,
                 ans_required=ans_required,
-                out_date=out_date,
+                ref_date=out_date,
                 author=author,
-                users=Users[responsible],
+                users=Users.get(login=responsible),
                 notes=notes,
                 received="",
                 added_by=st.session_state.user
