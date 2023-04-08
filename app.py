@@ -341,9 +341,9 @@ def home_content():
                                 <br>
                                 """, unsafe_allow_html=True)
 
-                                but_key = f"Add Reply for: {row.in_trans}"
+                                but_key = f"Add Reply for: {row.trans_num}"
                                 st.button(label=but_key, key=but_key, type='primary', on_click=confirm_trans,
-                                          args=(row.in_trans, st.session_state.user))
+                                          args=(row.trans_num, st.session_state.user))
                                 st.text("")
                         else:
                             st.text('No New Transmittals')
