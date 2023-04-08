@@ -461,7 +461,7 @@ def get_own_tasks(proj_set):
             tasks = left_join(
                 t for t in Task
                 for s in t.set_id
-                if t.set_id.set_name == proj_set[1] and s.project_id == Project[proj_set[0]])[:]
+                if t.set_id.set_name == proj_set[1] and s.project_id == Project.get(short_name=proj_set[0]))[:]
 
             return tab_to_df(tasks)
 
