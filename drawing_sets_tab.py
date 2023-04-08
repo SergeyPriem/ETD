@@ -65,7 +65,7 @@ def drawing_sets():
             with in_out_col:
                 in_out_radio = st.radio("Select Incoming / Outgoing", ('In', 'Out'), horizontal=True)
 
-            units_tasks = get_own_tasks(set_id)  # .set_index('id')
+            units_tasks = get_own_tasks(set_id.values[0])  # .set_index('id')
 
             st.write(units_tasks)
 
