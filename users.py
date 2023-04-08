@@ -147,9 +147,10 @@ def create_appl_user(email, position, branch, access_level, status, start_date):
         try:
             Users(email=email, login=email.split("@")[0], position=position, branch=branch,
                   access_level=access_level, status=status, start_date=start_date)
+            return f"User {email} is added to Applied Users"
         except Exception as e:
             return err_handler(e)
-    return f"User {email} is added to Applied Users"
+
 
 
 def register_user(name, surname, phone, telegram, login, password):
