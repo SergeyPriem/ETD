@@ -36,15 +36,15 @@ def drawing_sets():
 
         st.write(df)
 
-        proj_list = df.project_id
+        proj_list = df.project
 
         if isinstance(df, pd.DataFrame):
-            proj_list = df['project_id'].drop_duplicates()
+            proj_list = df['project'].drop_duplicates()
         else:
             st.write(df)
 
         proj_selected = st.selectbox("Project for Search", proj_list)
-        sets_list = df[df.project_id == proj_selected]['set_name']
+        sets_list = df[df.project == proj_selected]['set_name']
 
         sets_selected = st.multiselect("Set / Unit for Search", sets_list)
 
