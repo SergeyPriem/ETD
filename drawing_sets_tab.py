@@ -31,10 +31,11 @@ def drawing_sets():
 
         if not isinstance(df, pd.DataFrame):
             st.write("No sets available in DataBase")
-            st.write(df)
             st.stop()
 
-        st.write(df)
+        if st.button("Show Units' Table"):
+            df.set_index('id', inplace=True)
+            st.experimental_data_editor(df, use_container_width=True)
 
         proj_list = df.project
 
