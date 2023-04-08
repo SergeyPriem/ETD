@@ -20,7 +20,8 @@ def drawing_sets():
 
         my_all = st.radio("Select the Option", ["My Sets", 'All Sets'], horizontal=True)
 
-        st.subheader(my_all)
+        ds_left, ds_rigth = st.columns(2)
+        ds_left.subheader(my_all)
 
         if my_all == "My Sets":
             user_login = st.session_state.user
@@ -33,9 +34,10 @@ def drawing_sets():
             st.write("No sets available in DataBase")
             st.stop()
 
-        if st.button("Show Units' Table"):
+        if ds_rigth.checkbox("Show Units' Table"):
             df.set_index('id', inplace=True)
-            st.experimental_data_editor(df, use_container_width=True)
+
+        st.experimental_data_editor(df, use_container_width=True)
 
         proj_list = df.project
 
