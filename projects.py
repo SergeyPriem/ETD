@@ -593,9 +593,7 @@ def get_trans(login=None):
                  "added_by",
                  "status",
             ])
-
-
-            return tab_to_df(trans)
+            return df
         except Exception as e:
             return err_handler(e)
 
