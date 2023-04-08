@@ -67,13 +67,14 @@ def drawing_sets():
 
             units_tasks = get_own_tasks(int(set_id.values[0]))  # .set_index('id')
 
-            st.write(type(units_tasks))
+            if units_tasks == "Empty Table":
+                st.warning('No Tasks Available')
+                st.stop()
+
+            st.write(units_tasks)
 
             if not isinstance(units_tasks, pd.DataFrame):
                 st.stop()
-
-            if len(units_tasks) == 0:
-                st.warning('No Tasks Available')
 
             if in_out_radio == "In":
                 units_tasks = units_tasks[(units_tasks.in_out == 'Входящие') | (units_tasks.in_out == 'In')]
