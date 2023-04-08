@@ -34,6 +34,8 @@ def drawing_sets():
             st.write("No sets available in DataBase")
             st.stop()
 
+        ds_rigth.write('')
+        ds_rigth.write('')
         units_ch_b = ds_rigth.checkbox("Show Units/ Sets Table")
 
         if units_ch_b:
