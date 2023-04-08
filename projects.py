@@ -399,9 +399,38 @@ def get_sets(login):
     with db_session:
         try:
             if login:
-                sods = select(s for s in SOD if (s.coord_id == Users.get(login=login) or s.perf_id == Users.get(login=login)))[:]
+                sods = select(
+                    (
+                        s.project_id.short_name,
+                        s.set_name,
+                        s.coord_id.login,
+                        s.perf_id.login,
+                        s.stage,
+                        s.revision,
+                        s.start_date,
+                        s.current_status,
+                        s.trans_num,
+                        s.trans_date,
+                        s.notes
+                    )
+                    for s in SOD
+                    if (s.coord_id == Users.get(login=login) or s.perf_id == Users.get(login=login)))[:]
             else:
-                sods = select(s for s in SOD)[:]
+                sods = select(
+                    (
+                        s.project_id.short_name,
+                        s.set_name,
+                        s.coord_id.login,
+                        s.perf_id.login,
+                        s.stage,
+                        s.revision,
+                        s.start_date,
+                        s.current_status,
+                        s.trans_num,
+                        s.trans_date,
+                        s.notes
+                    )
+                    for s in SOD)
 
             return tab_to_df(sods)
         except Exception as e:
