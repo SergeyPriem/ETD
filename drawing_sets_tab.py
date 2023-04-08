@@ -48,7 +48,7 @@ def drawing_sets():
 
         sets_selected = st.multiselect("Set / Unit for Search", sets_list)
 
-        df = df[df.set_name.isin(sets_selected)]  # .set_index("project_id")
+        df = df[df.unit.isin(sets_selected)]  # .set_index("project_id")
 
         df.insert(0, 'preview', False)
 
