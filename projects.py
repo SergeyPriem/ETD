@@ -463,7 +463,7 @@ def get_own_tasks(set_id):
             #                                        and int(t.set_id) in sods))[:]
             tasks = select(
                 t for t in Task
-                if t.s_o_d == set_id)[:]
+                if t.s_o_d == SOD[set_id])[:]
 
             return tab_to_df(tasks)
 
