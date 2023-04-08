@@ -44,11 +44,11 @@ def drawing_sets():
             st.write(df)
 
         proj_selected = st.selectbox("Project for Search", proj_list)
-        sets_list = df[df.project == proj_selected]['set_name']
+        units_list = df[df.project == proj_selected]['unit']
 
-        sets_selected = st.multiselect("Set / Unit for Search", sets_list)
+        units_selected = st.multiselect("Set / Unit for Search", units_list)
 
-        df = df[df.unit.isin(sets_selected)]  # .set_index("project_id")
+        df = df[df.unit.isin(units_selected)]  # .set_index("project_id")
 
         df.insert(0, 'preview', False)
 
@@ -60,19 +60,19 @@ def drawing_sets():
         if edited_num == 1:
             st.markdown("---")
             proj_set = (
-            edit_df[edit_df.preview]['project_id'].values[0], edit_df[edit_df.preview]['set_name'].values[0])
+            edit_df[edit_df.preview]['project'].values[0], edit_df[edit_df.preview]['unit'].values[0])
             task_col, in_out_col, quant_col = st.columns([9, 2, 2])
 
             with in_out_col:
                 in_out_radio = st.radio("Select Incoming / Outgoing", ('In', 'Out'), horizontal=True)
 
-            sets_tasks = get_own_tasks(proj_set)  # .set_index('id')
-            st.write(sets_tasks)
+            units_tasks = get_own_tasks(proj_set)  # .set_index('id')
+            st.write(units_tasks)
 
             if in_out_radio == "In":
-                sets_tasks = sets_tasks[(sets_tasks.in_out == 'Входящие') | (sets_tasks.in_out == 'In')]
+                units_tasks = units_tasks[(units_tasks.in_out == 'Входящие') | (units_tasks.in_out == 'In')]
             else:
-                sets_tasks = sets_tasks[(sets_tasks.in_out == 'Исходящие') | (sets_tasks.in_out == 'Out')]
+                units_tasks = units_tasks[(units_tasks.in_out == 'Исходящие') | (units_tasks.in_out == 'Out')]
 
             with task_col:
                 st.subheader(f"Available Assignments for :red[{proj_set[0]}: {proj_set[1]}:] {in_out_radio}")
@@ -80,14 +80,14 @@ def drawing_sets():
             with quant_col:
                 st.write("")
                 st.write("")
-                st.write(f'Quantity: {len(sets_tasks)}')
+                st.write(f'Quantity: {len(units_tasks)}')
 
-            sets_tasks = sets_tasks.sort_values(by=['speciality', 'date'], ascending=[True, False])
-            st.write(sets_tasks[['stage', 'speciality', 'date', 'description', 'link', 'source', 'comment',
+            units_tasks = units_tasks.sort_values(by=['speciality', 'date'], ascending=[True, False])
+            st.write(units_tasks[['stage', 'speciality', 'date', 'description', 'link', 'source', 'comment',
                                  'backup_copy', 'coord_log', 'perf_log', 'added_by']])
             st.markdown("---")
 
-            aval_spec = list(sets_tasks.speciality.drop_duplicates())
+            aval_spec = list(units_tasks.speciality.drop_duplicates())
 
             spec_dual = (*specialities, *specialities_rus)
             not_aval_spec = []
