@@ -38,9 +38,9 @@ def drawing_sets():
     with content:
         st.title(':orange[Drawing Sets]')
 
-        my_all = st.radio("Select the Option", ["My Units", 'All Units'], horizontal=True)
 
         ds_left, ds_rigth = st.columns(2)
+        my_all = ds_rigth.radio("Select the Option", ["My Units", 'All Units'], horizontal=True)
         ds_left.subheader(my_all)
 
         if my_all == "My Units":
@@ -54,7 +54,6 @@ def drawing_sets():
             st.write("No Units available in DataBase")
             st.stop()
 
-        ds_rigth.write('')
         units_ch_b = ds_rigth.checkbox("Show Units Table")
 
         if units_ch_b:
