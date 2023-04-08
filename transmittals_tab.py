@@ -101,7 +101,7 @@ def transmittals_content():
 
         with view_trans_tab:
             my_all_tr = st.radio("Select the Option", ["My Transmittals", 'All Transmittals'], horizontal=True)
-            st.subheader(my_all_tr)
+
 
             if my_all_tr == "My Transmittals":
                 user_email = st.session_state.user
@@ -115,6 +115,9 @@ def transmittals_content():
                     st.write(df)
                 else:
                     st.info("No Tansmittals in DataBase")
+                    st.stop()
+
+            st.subheader(f"{my_all_tr}: {len(df)}")
 
         # if isinstance(df, pd.DataFrame):
         #     df

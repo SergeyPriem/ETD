@@ -527,13 +527,74 @@ def confirm_trans(id, user):
     # print(f"Transmittal with ID {id} is replied {user}")
 
 
-def get_trans(email=None):
+def get_trans(login=None):
     with db_session:
         try:
-            if email:
-                trans = select(s for s in Trans if s.users == Users[email])[:]
+            if login:
+                trans = select(
+                    (t.id,
+                     t.trans_num,
+                     t.trans_date,
+                     t.in_out,
+                     t.ans_required,
+                     t.project.short_name,
+                     t.responsible.login,
+                     t.author,
+                     t.ref_trans,
+                     t.ref_date,
+                     t.subj,
+                     t.link,
+                     t.t_type,
+                     t.notes,
+                     t.received,
+                     t.users,
+                     t.status
+                     )
+                    for t in Trans
+                    if t.responsible == Users.get(login=login))[:]
             else:
-                trans = select(t for t in Trans)[:]
+                trans = select(
+                    (t.id,
+                     t.trans_num,
+                     t.trans_date,
+                     t.in_out,
+                     t.ans_required,
+                     t.project.short_name,
+                     t.responsible.login,
+                     t.author,
+                     t.ref_trans,
+                     t.ref_date,
+                     t.subj,
+                     t.link,
+                     t.t_type,
+                     t.notes,
+                     t.received,
+                     t.users,
+                     t.status
+                     )
+                    for t in Trans)[:]
+
+            df = pd.DataFrame(trans, columns=[
+                 "id",
+                 "trans_num",
+                 "trans_date",
+                 "in_out",
+                 "ans_required",
+                 "project",
+                 "responsible",
+                 "author",
+                 "ref_trans",
+                 "ref_date",
+                 "subject",
+                 "link",
+                 "trans_type",
+                 "notes",
+                 "received",
+                 "added_by",
+                 "status",
+            ])
+
+
             return tab_to_df(trans)
         except Exception as e:
             return err_handler(e)

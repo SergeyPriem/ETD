@@ -38,6 +38,7 @@ def get_all_emails():
         except Exception as e:
             return err_handler(e)
 
+
 def get_all_logins():
     with db_session:
         try:
@@ -150,7 +151,6 @@ def create_appl_user(email, position, branch, access_level, status, start_date):
             return f"User {email} is added to Applied Users"
         except Exception as e:
             return err_handler(e)
-
 
 
 def register_user(name, surname, phone, telegram, login, password):
