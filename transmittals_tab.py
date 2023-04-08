@@ -110,14 +110,18 @@ def transmittals_content():
 
             df = get_trans(user_email)
 
+            # if df == "Empty Table":
+            #     st.wtite("No Available Transmittals")
+            #     st.stop()
+            #
             if isinstance(df, pd.DataFrame):
                 if len(df) > 0:
+                    st.subheader(f"{my_all_tr}: {len(df)}")
                     st.write(df)
                 else:
                     st.info("No Tansmittals in DataBase")
                     st.stop()
 
-            st.subheader(f"{my_all_tr}: {len(df)}")
 
         # if isinstance(df, pd.DataFrame):
         #     df
