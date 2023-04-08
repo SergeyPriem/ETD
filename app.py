@@ -279,8 +279,8 @@ def home_content():
                             st.subheader(":orange[New Incoming Transmittals]")
                             df = df.loc[df.status != "Closed"]
                             for ind, row in df.iterrows():
-                                name_surname = mail_to_name(row.added_by)
-                                st.markdown(f"""<h4>Transmittal: {row.in_trans}</h4>""", unsafe_allow_html=True)
+                                # name_surname = mail_to_name(row.added_by)
+                                st.markdown(f"""<h4>Transmittal: {row.trans_num}</h4>""", unsafe_allow_html=True)
 
                                 st.markdown("""<style> .nobord table, tr, td, ths {
                                         border-style: hidden;
@@ -290,11 +290,11 @@ def home_content():
                                 <table class="nobord">
                                 <tr>
                                     <td>Transmittal Number</td>
-                                    <td>{row.in_trans}</td>
+                                    <td>{row.trans_num}</td>
                                 </tr>
                                 <tr>
                                     <td>Project</td>
-                                    <td>{row.project}</td>
+                                    <td>{row.project.short_name}</td>
                                 </tr>
                                 <tr>
                                     <td>Subject</td>
@@ -303,7 +303,7 @@ def home_content():
 
                                 <tr>
                                     <td>Transmittal Date</td>
-                                    <td>{row.in_date}</td>
+                                    <td>{row.trans_date}</td>
                                 </tr>
                                 <tr>
                                     <td>Is reply required?</td>
@@ -311,7 +311,7 @@ def home_content():
                                 </tr>
                                 <tr>
                                     <td>Previous Transmittal</td>
-                                    <td>{row.out_trans}</td>
+                                    <td>{row.ref_trans}</td>
                                 </tr>
                                 <tr>
                                     <td>Responsible</td>
@@ -335,7 +335,7 @@ def home_content():
                                 </tr>
                                 <tr>
                                     <td>Added By</td>
-                                    <td>{name_surname}</td>
+                                    <td>{row.users.login}</td>
                                 </tr>
                                 </table>
                                 <br>
