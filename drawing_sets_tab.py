@@ -109,12 +109,12 @@ def drawing_sets():
             #     st.warning('No Tasks Available for selected Unit')
             #     st.stop()
 
-            st.experimental_data_editor(units_tasks, use_container_width=True)
+            # st.experimental_data_editor(units_tasks, use_container_width=True)
 
             if not isinstance(units_tasks, pd.DataFrame):
                 st.stop()
 
-            st.divider()
+            # st.divider()
 
             task_col, in_out_col, quant_col = st.columns([9, 2, 2])
 
