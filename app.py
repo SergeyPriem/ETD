@@ -212,7 +212,7 @@ def home_content():
 
                                 st.markdown("""<style> .nobord table, tr, td, ths {
                                         border-style: hidden;
-                                        text-align: left;
+                                        text-align: center;
                                   </style> """, unsafe_allow_html=True)
 
                                 st.markdown(f"""
@@ -285,7 +285,7 @@ def home_content():
 
                                 st.markdown("""<style> .nobord table, tr, td, ths {
                                         border-style: hidden;
-                                        text-align: left;
+                                        text-align: center;
                                   </style> """, unsafe_allow_html=True)
 
                                 st.markdown(f"""
