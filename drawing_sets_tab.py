@@ -102,7 +102,7 @@ def drawing_sets():
             set_id = edit_df.loc[edit_df.view_tasks].index
 
             st.write(set_id) ###
-            st.write(f"Project: {proj_selected}. Unit: {units_selected[0]}")
+            st.subheader(f"Project: :red[{proj_selected}]. Unit: :red[{units_selected[0]}]")
 
             units_tasks = get_own_tasks(int(set_id.values[0])) #.values[0]
 
