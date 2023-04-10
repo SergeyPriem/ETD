@@ -21,7 +21,7 @@ def transmittals_content():
 
         with add_trans_tab:
             with st.form("add_trans"):
-                lc, cc, rc = st.columns(3, gap='medium')
+                lc, cc, rc = st.columns([4, 3, 3], gap='medium')
                 project = lc.selectbox("Project", get_proj_list())
                 t_type = lc.radio("Transmittal Type", trans_types, horizontal=True)
                 lc.write("")

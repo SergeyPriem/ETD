@@ -88,16 +88,16 @@ def drawing_sets():
 
         df = df[df.unit.isin(units_selected)]  # .set_index("project_id")
 
-        df.insert(0, 'preview', False)
+        df.insert(0, 'view_tasks', False)
 
         edit_df = st.experimental_data_editor(df, use_container_width=True, height=200,
                                               num_rows='fixed', key='sets', disabled=False)
 
-        edited_num = len(edit_df[edit_df.preview])
+        edited_num = len(edit_df[edit_df.view_tasks])
 
         if edited_num == 1:
 
-            set_id = edit_df[edit_df.preview]['id']
+            set_id = edit_df[edit_df.view_tasks]['id']
 
             units_tasks = get_own_tasks(int(set_id.values[0]))
 
