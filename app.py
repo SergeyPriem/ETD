@@ -289,8 +289,8 @@ def home_content():
                                                         margin-left: auto;
                                                         margin-right: auto;
                                                     }
-                                                  </style> """, unsafe_allow_html=True
-                                            )
+                                                  </style>
+                                                  """, unsafe_allow_html=True)
 
                                 st.markdown(f"""
                                 <table class="nobord">
