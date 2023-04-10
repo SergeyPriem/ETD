@@ -453,7 +453,7 @@ def get_sets(login):
             return err_handler(e)
 
 
-@st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
+# @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_own_tasks(set_id):
     try:
         with db_session:
