@@ -97,7 +97,7 @@ def drawing_sets():
 
         if edited_num == 1:
 
-            set_id = edit_df[edit_df.view_tasks]['id']
+            set_id = edit_df.loc[edit_df.view_tasks, 'id']
 
             units_tasks = get_own_tasks(int(set_id.values[0]))
 
