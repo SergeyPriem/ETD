@@ -101,7 +101,6 @@ def drawing_sets():
 
             set_id = edit_df.loc[edit_df.view_tasks].index
 
-            st.write(set_id) ###
             st.subheader(f"Project: :red[{proj_selected}]. Unit: :red[{units_selected[0]}]")
 
             units_tasks = get_own_tasks(int(set_id.values[0])) #.values[0]
@@ -115,14 +114,12 @@ def drawing_sets():
             if not isinstance(units_tasks, pd.DataFrame):
                 st.stop()
 
-            task_col, in_out_col, quant_col = st.columns([9, 2, 2])
-
             st.divider()
+
+            task_col, in_out_col, quant_col = st.columns([9, 2, 2])
 
             with in_out_col:
                 in_out_radio = st.radio("Select Incoming / Outgoing", ('In', 'Out'), horizontal=True)
-
-            st.divider()
 
             if in_out_radio == "In":
                 units_tasks = units_tasks[(units_tasks.in_out == 'Входящие') | (units_tasks.in_out == 'In')]
@@ -163,7 +160,6 @@ def drawing_sets():
                 with not_aval_col:
                     request_df = st.experimental_data_editor(not_aval_df, use_container_width=True, height=600,
                                                              num_rows='fixed', key='tasks', disabled=False)
-                    # st.write(request_df)
 
                 with but_col:
                     request_but = st.button('Create Request')
