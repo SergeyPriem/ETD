@@ -22,7 +22,7 @@ def tasks_content():
             add_task(ass_tab1)
 
         with ass_tab2:
-            own_all = st.radio('Select', ("Own", "All"))
+            own_all = st.radio('Select', ("Own", "All"), horizontal=True, label_visibility='collapsed')
             view_tasks(ass_tab2, own_all)
 
 
@@ -136,13 +136,12 @@ def view_tasks(ass_tab2, own_all):
         else:
             st.session_state.spec_disable = False
 
-        real_dir = set(df.in_out)
         id_val = id_col.text_input('ID')
         proj_val = proj_col.text_input('Project')
         set_val = set_col.text_input('Set of Drawings / Unit')
         spec_val = spec_col.selectbox("Speciality", real_spec, disabled=st.session_state.spec_disable)
 
-        dir_val = dir_col.radio("In-Out", real_dir, horizontal=True)
+        dir_val = dir_col.radio("In-Out", ('In', 'Out'), horizontal=True)
         df_orig = df_orig[df_orig.in_out == dir_val]
 
         df_temp = df_orig.copy()
