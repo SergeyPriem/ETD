@@ -73,7 +73,7 @@ def create_project(proj_short, proj_full, client, proj_man, responsible_el, proj
             return err_handler(e)
 
 
-@st.cache_data(ttl=120, show_spinner='Getting Projects...')
+# @st.cache_data(ttl=120, show_spinner='Getting Projects...')
 def get_projects_names():
     try:
         with db_session:
@@ -457,10 +457,7 @@ def get_sets(login):
 def get_own_tasks(set_id):
     try:
         with db_session:
-            # stmt = select(Task).where(Task.project == proj_set[0], Task.set_draw == proj_set[1])
-            # sods = select(s.id for s in SOD if s.project_id == Project[proj_set[0]])[:]
-            # tasks = select(t for t in Task if (t.set_id.set_name == proj_set[1]
-            #                                        and int(t.set_id) in sods))[:]
+
             tasks = select(
                 (
                     t.id,
@@ -505,7 +502,7 @@ def get_own_tasks(set_id):
         return err_handler(e)
 
 
-@st.cache_data(ttl=120, show_spinner='Adding to DataBase...')
+# @st.cache_data(ttl=120, show_spinner='Adding to DataBase...')
 def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, description, link, source, comment):
     with db_session:
         try:
