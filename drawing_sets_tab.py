@@ -37,7 +37,7 @@ def drawing_sets():
     with content:
         st.title(':orange[Drawing Sets]')
 
-        ds_left, lc, ds_center, cr, ds_rigth = st.columns([5,5,4,5,5])
+        ds_left, lc, ds_center, cr, ds_rigth = st.columns([5,6,4,5,5])
         ds_center.text('')
 
         # st.markdown("""
