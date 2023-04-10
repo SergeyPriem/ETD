@@ -83,11 +83,11 @@ def get_projects_names():
         return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
 
-@st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
+# @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_sets_for_project(proj):
     try:
         with db_session:
-            sets_list = select(sod.set_name for sod in SOD if sod.project_id == Project[proj])
+            sets_list = select(sod.set_name for sod in SOD if sod.project_id == Project.get(short_name=proj))
             return list(sets_list)
     except Exception as e:
         return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
