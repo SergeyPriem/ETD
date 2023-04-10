@@ -367,7 +367,7 @@ def update_projects(edited_proj_df):
     return "Updated Successfully"
 
 
-@st.cache_data(ttl=120, show_spinner='Updating Sets / Units Data...')
+# @st.cache_data(ttl=120, show_spinner='Updating Sets / Units Data...')
 def update_sets(edited_set_df):
     for ind, row in edited_set_df.iterrows():
         if row.edit:
