@@ -284,9 +284,10 @@ def home_content():
                                 st.markdown(f"""<h4>Transmittal: {row.trans_num}</h4>""", unsafe_allow_html=True)
 
                                 st.markdown("""<style>
-                                                .css-1kkwjed e16nr0p34 {
+                                                .nobord table, tr, td, th {
                                                         border-style: hidden;
                                                         margin: auto;
+                                                    }
                                                   </style> """, unsafe_allow_html=True
                                             )
 
