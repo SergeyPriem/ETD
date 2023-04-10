@@ -210,10 +210,15 @@ def home_content():
                                 name_surname = mail_to_name(row.added_by)
                                 st.markdown(f"""<h4>Task: {row.id}</h4>""", unsafe_allow_html=True)
 
-                                st.markdown("""<style> .nobord table, tr, td, ths {
-                                        border-style: hidden;
-                                        text-align: center;
-                                  </style> """, unsafe_allow_html=True)
+                                st.markdown("""<style>
+                                                .nobord {
+                                                        border-style: hidden;
+                                                        margin-left: auto;
+                                                        margin-right: auto;
+                                                        text-align: left;
+                                                    }
+                                                  </style>
+                                                  """, unsafe_allow_html=True)
 
                                 st.markdown(f"""
                                 <table class="nobord">
