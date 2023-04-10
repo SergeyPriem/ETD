@@ -16,7 +16,7 @@ def tasks_content():
     with ass_content:
         st.title(':orange[Tasks]')
 
-        ass_tab1, ass_tab2 = st.tabs(['Add Task', 'View Tasks'])
+        ass_tab1, ass_tab2 = st.tabs(['Add New Task', 'View Existing Tasks'])
 
         with ass_tab1:
             add_task(ass_tab1)
