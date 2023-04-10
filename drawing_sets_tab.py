@@ -105,16 +105,14 @@ def drawing_sets():
 
             units_tasks = get_own_tasks(int(set_id.values[0])) #.values[0]
 
-            # if units_tasks == "Empty Table":
-            #     st.warning('No Tasks Available for selected Unit')
-            #     st.stop()
+            if isinstance(units_tasks, str):
+                if units_tasks == "Empty Table":
+                    st.warning('No Tasks Available for selected Unit')
+                    st.stop()
 
-            # st.experimental_data_editor(units_tasks, use_container_width=True)
 
             if not isinstance(units_tasks, pd.DataFrame):
                 st.stop()
-
-            # st.divider()
 
             task_col, in_out_col, quant_col = st.columns([9, 2, 2])
 
@@ -193,3 +191,6 @@ def drawing_sets():
                             """)
                         else:
                             st.warning("Select specialities for request")
+
+        if edited_num > 1:
+            st.info("Please select only one row for preview")
