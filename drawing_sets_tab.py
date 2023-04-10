@@ -102,6 +102,7 @@ def drawing_sets():
             set_id = edit_df.loc[edit_df.view_tasks].index
 
             st.write(set_id) ###
+            st.write(f"Project: {proj_selected}. Unit: {units_selected[0]}")
 
             units_tasks = get_own_tasks(int(set_id.values[0])) #.values[0]
 
@@ -109,7 +110,7 @@ def drawing_sets():
             #     st.warning('No Tasks Available for selected Unit')
             #     st.stop()
 
-            st.write(units_tasks)
+            st.experimental_data_editor(units_tasks, use_container_width=True)
 
             if not isinstance(units_tasks, pd.DataFrame):
                 st.stop()
