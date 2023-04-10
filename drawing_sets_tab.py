@@ -37,7 +37,7 @@ def drawing_sets():
     with content:
         st.title(':orange[Drawing Sets]')
 
-        ds_left, lc, ds_center, cr, ds_rigth = st.columns([5,6,4,5,5])
+        ds_left, lc, ds_center, cr, ds_rigth = st.columns([5, 6, 4, 5, 5])
         ds_center.text('')
 
         # st.markdown("""
@@ -75,7 +75,6 @@ def drawing_sets():
             df.set_index('id', inplace=True)
             st.experimental_data_editor(df, use_container_width=True)
 
-
         if isinstance(df, pd.DataFrame):
             proj_list = df['project'].drop_duplicates()
         else:
@@ -103,13 +102,12 @@ def drawing_sets():
 
             st.subheader(f"Project: :red[{proj_selected}]. Unit: :red[{units_selected[0]}]")
 
-            units_tasks = get_own_tasks(int(set_id.values[0])) #.values[0]
+            units_tasks = get_own_tasks(int(set_id.values[0]))  # .values[0]
 
             if isinstance(units_tasks, str):
                 if units_tasks == "Empty Table":
                     st.warning('No Tasks Available for selected Unit')
                     st.stop()
-
 
             if not isinstance(units_tasks, pd.DataFrame):
                 st.stop()
@@ -167,12 +165,12 @@ def drawing_sets():
                         if len(request_df[request_df.request].index):
                             st.subheader("Draft of e-mail")
                             st.markdown("""<u>Тема:</u>""", unsafe_allow_html=True)
-                            st.markdown(
-                                f"**Недостающие задания для {set_id[0]}: {set_id[1]}**")
+                            #{proj_selected}]. Unit: :red[{units_selected[0]}]")
+                            st.markdown(f"**Недостающие задания для {proj_selected}: {units_selected[0]}**")
                             st.markdown("""<u>Тело:</u>""", unsafe_allow_html=True)
                             st.markdown(f"""
                             В ЭлектроОтделе сейчас в разработке комплект чертежей:
-                            **{set_id[0]}: {set_id[1]}**.
+                            **{proj_selected}: {units_selected[0]}**.
                             В настоящее время отсутствуют задания по специальностям:
                             **{', '.join(request_df[request_df.request == True].index.values)}**.
                             Просим сообщить о необходимости задания и его сроке выдачи.
@@ -180,11 +178,11 @@ def drawing_sets():
                             st.write('')
                             st.markdown("""<u>Subject:</u>""", unsafe_allow_html=True)
                             st.markdown(
-                                f"**Not available assignments for {set_id[0]}: {set_id[1]}**")
+                                f"**Not available assignments for {proj_selected}: {units_selected[0]}**")
                             st.markdown("""<u>Body:</u>""", unsafe_allow_html=True)
                             st.markdown(f"""
                             Currently Electrical Department is developing:
-                            **{set_id[0]}: {set_id[1]}**.
+                            **{proj_selected}: {units_selected[0]}**.
                             For now we haven't assignments from:
                             **{', '.join(request_df[request_df.request == True].index.values)}**.
                             Kindly ask you to inform about a necessity of assignment and it's issue date.
