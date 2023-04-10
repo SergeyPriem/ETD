@@ -117,10 +117,12 @@ def drawing_sets():
 
             task_col, in_out_col, quant_col = st.columns([9, 2, 2])
 
+            st.divider()
+
             with in_out_col:
                 in_out_radio = st.radio("Select Incoming / Outgoing", ('In', 'Out'), horizontal=True)
 
-            st.markdown("---")
+            st.divider()
 
             if in_out_radio == "In":
                 units_tasks = units_tasks[(units_tasks.in_out == 'Входящие') | (units_tasks.in_out == 'In')]
@@ -129,7 +131,7 @@ def drawing_sets():
 
             with task_col:
                 # st.subheader(f"Available Assignments for :red[{set_id[0]}: {set_id[1]}:] {in_out_radio}")
-                st.subheader(f"Available Assignments for :{in_out_radio}")
+                st.subheader(f"Available Assignments")
 
             with quant_col:
                 st.write("")
@@ -137,9 +139,10 @@ def drawing_sets():
                 st.write(f'Quantity: {len(units_tasks)}')
 
             units_tasks = units_tasks.sort_values(by=['speciality', 'date'], ascending=[True, False])
-            st.write(units_tasks[['stage', 'speciality', 'date', 'description', 'link', 'source', 'comment',
-                                  'backup_copy', 'coord_log', 'perf_log', 'added_by']])
-            st.markdown("---")
+            st.experimental_data_editor(units_tasks[['stage', 'speciality', 'date', 'description', 'link', 'source',
+                                                     'comment', 'backup_copy', 'coord_log', 'perf_log', 'added_by']],
+                                        use_container_width=True)
+            st.divider()
 
             aval_spec = list(units_tasks.speciality.drop_duplicates())
 
