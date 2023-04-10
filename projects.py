@@ -462,10 +462,44 @@ def get_own_tasks(set_id):
             # tasks = select(t for t in Task if (t.set_id.set_name == proj_set[1]
             #                                        and int(t.set_id) in sods))[:]
             tasks = select(
-                t for t in Task
+                (
+                    t.id,
+                    t.stage,
+                    t.speciality.abbrev,
+                    t.in_out,
+                    t.date,
+                    t.description,
+                    t.link,
+                    t.source,
+                    t.backup_copy,
+                    t.coord_log,
+                    t.perf_log,
+                    t.comment,
+                    t.added_by,
+                    t.s_o_d,
+                 )
+                for t in Task
                 if t.s_o_d == SOD[set_id])[:]
 
-            return tab_to_df(tasks)
+            df = pd.DataFrame(tasks, columns=[
+                "id",
+                "stage",
+                "speciality",
+                "in_out",
+                "date",
+                "description",
+                "link",
+                "source",
+                "backup_copy",
+                "coord_log",
+                "perf_log",
+                "comment",
+                "added_by",
+                "s_o_d",
+
+            ])
+
+            return df
 
     except Exception as e:
         return err_handler(e)
