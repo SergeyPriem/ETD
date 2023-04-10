@@ -528,7 +528,7 @@ def home_content():
                     st.write("Enter the Code and press 'Update Password'")
 
 
-@st.cache_data(ttl=600)
+# @st.cache_data(ttl=600)
 def phone_directory():
     phone_1, phone_content, phone_2 = st.columns([1, 9, 1])
     with phone_1:
