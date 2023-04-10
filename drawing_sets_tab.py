@@ -42,7 +42,7 @@ def drawing_sets():
 
         st.markdown("""
             <style>
-                .expand-trigger{
+                .element-container_css-qvoliw_e1tzin5v2{
                     margin-left: auto;
                     margin-right: auto;
                 }
