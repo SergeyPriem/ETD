@@ -101,9 +101,9 @@ def drawing_sets():
 
             units_tasks = get_own_tasks(int(set_id.values[0]))
 
-            if units_tasks == "Empty Table":
-                st.warning('No Tasks Available for selected Unit')
-                st.stop()
+            # if units_tasks == "Empty Table":
+            #     st.warning('No Tasks Available for selected Unit')
+            #     st.stop()
 
             st.write(units_tasks)
 
