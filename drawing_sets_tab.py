@@ -37,9 +37,19 @@ def drawing_sets():
     with content:
         st.title(':orange[Drawing Sets]')
 
-        ds_left, lc, ds_center, cr, ds_rigth = st.columns([6, 5, 6, 4, 4])
+        ds_left, lc, ds_center, cr, ds_rigth = st.columns(5)
         ds_center.text('')
 
+        st.markdown("""
+            <style>
+                .expand-trigger{
+                    margin-left: auto;
+                    margin-right: auto;
+                }
+            </style>
+            """, unsafe_allow_html=True)
+
+        # expand-trigger
         my_all = ds_center.radio("Select the Option", ["My Units", 'All Units'],
                                  horizontal=True, label_visibility='collapsed')
 
