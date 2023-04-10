@@ -286,7 +286,8 @@ def home_content():
                                 st.markdown("""<style>
                                                 .nobord table, tr, td, th {
                                                         border-style: hidden;
-                                                        margin: auto;
+                                                        margin-left: auto;
+                                                        margin-right: auto;
                                                     }
                                                   </style> """, unsafe_allow_html=True
                                             )
