@@ -114,42 +114,42 @@ def get_tasks(user=None):
                     sod.id for sod in SOD if (sod.coord_id == db_user) or (sod.perf_id == db_user))[:]
                 data = select(
                     (
-                        a.id,
-                        a.set_id.project_id.short_name,
-                        a.set_id.set_name,
-                        a.speciality.id,
-                        a.stage,
-                        a.in_out,
-                        a.date,
-                        a.description,
-                        a.link,
-                        a.backup_copy,
-                        a.source,
-                        a.coord_log,
-                        a.perf_log,
-                        a.comment,
-                        a.added_by
-                    ) for a in Task if a.id in pers_sets_list)[:]
+                        t.id,
+                        t.s_o_d.project_id.short_name,
+                        t.s_o_d.set_name,
+                        t.speciality.id,
+                        t.stage,
+                        t.in_out,
+                        t.date,
+                        t.description,
+                        t.link,
+                        t.backup_copy,
+                        t.source,
+                        t.coord_log,
+                        t.perf_log,
+                        t.comment,
+                        t.added_by
+                    ) for t in Task if t.id in pers_sets_list)[:]
 
             else:
                 data = select(
                     (
-                        a.id,
-                        a.set_id.project_id.short_name,
-                        a.set_id.set_name,
-                        a.speciality.id,
-                        a.stage,
-                        a.in_out,
-                        a.date,
-                        a.description,
-                        a.link,
-                        a.backup_copy,
-                        a.source,
-                        a.coord_log,
-                        a.perf_log,
-                        a.comment,
-                        a.added_by
-                    ) for a in Task)[:]
+                        t.id,
+                        t.set_id.project_id.short_name,
+                        t.set_id.set_name,
+                        t.speciality.id,
+                        t.stage,
+                        t.in_out,
+                        t.date,
+                        t.description,
+                        t.link,
+                        t.backup_copy,
+                        t.source,
+                        t.coord_log,
+                        t.perf_log,
+                        t.comment,
+                        t.added_by
+                    ) for t in Task)[:]
 
             df = pd.DataFrame(data, columns=[
                 "id",
