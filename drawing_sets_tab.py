@@ -37,17 +37,17 @@ def drawing_sets():
     with content:
         st.title(':orange[Drawing Sets]')
 
-        ds_left, lc, ds_center, cr, ds_rigth = st.columns(5)
+        ds_left, lc, ds_center, cr, ds_rigth = st.columns([5,5,4,5,5])
         ds_center.text('')
 
-        st.markdown("""
-            <style>
-                .element-container_css-qvoliw_e1tzin5v2{
-                    margin-left: auto;
-                    margin-right: auto;
-                }
-            </style>
-            """, unsafe_allow_html=True)
+        # st.markdown("""
+        #     <style>
+        #         .element-container_css-qvoliw_e1tzin5v2{
+        #             margin-left: auto;
+        #             margin-right: auto;
+        #         }
+        #     </style>
+        #     """, unsafe_allow_html=True)
 
         # expand-trigger
         my_all = ds_center.radio("Select the Option", ["My Units", 'All Units'],
