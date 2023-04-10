@@ -88,7 +88,9 @@ def drawing_sets():
 
         df = df[df.unit.isin(units_selected)]  # .set_index("project_id")
 
-        df.insert(0, 'view_tasks', False)
+        df.set_index('id', inplace=True)
+
+        df.insert(1, 'view_tasks', False)
 
         edit_df = st.experimental_data_editor(df, use_container_width=True, height=200,
                                               num_rows='fixed', key='sets', disabled=False)
