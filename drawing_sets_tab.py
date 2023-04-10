@@ -99,7 +99,7 @@ def drawing_sets():
 
             set_id = edit_df.loc[edit_df.view_tasks].index
 
-            units_tasks = get_own_tasks(int(set_id.values[0]))
+            units_tasks = get_own_tasks(int(set_id)) #.values[0]
 
             # if units_tasks == "Empty Table":
             #     st.warning('No Tasks Available for selected Unit')
