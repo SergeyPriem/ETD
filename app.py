@@ -288,6 +288,7 @@ def home_content():
                                                         border-style: hidden;
                                                         margin-left: auto;
                                                         margin-right: auto;
+                                                        text-align: left;
                                                     }
                                                   </style>
                                                   """, unsafe_allow_html=True)
