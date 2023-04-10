@@ -102,7 +102,7 @@ def add_task(ass_content):
 
 def view_tasks(ass_tab2):
     with ass_tab2:
-        df = get_tasks('sergey.priemshiy@uzliti-en.com')
+        df = get_tasks(st.session_state.user)
         df_orig = pd.DataFrame()
 
         if isinstance(df, pd.DataFrame):

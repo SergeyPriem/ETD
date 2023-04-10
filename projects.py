@@ -103,14 +103,15 @@ def get_table(table_name):
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
 
-@st.cache_data(ttl=60, show_spinner='Getting Assignments...')
-def get_tasks(email=None):
+# @st.cache_data(ttl=60, show_spinner='Getting Assignments...')
+def get_tasks(user=None):
     # print(email)
     with db_session:
         try:
-            if email:
+            if user:
+                db_user = Users.get(login=user)
                 pers_sets_list = select(
-                    sod.id for sod in SOD if (sod.coord_id == Users[email]) or (sod.perf_id == Users[email]))[:]
+                    sod.id for sod in SOD if (sod.coord_id == db_user) or (sod.perf_id == db_user))[:]
                 data = select(
                     (
                         a.id,
