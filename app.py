@@ -283,10 +283,12 @@ def home_content():
                                 # name_surname = mail_to_name(row.added_by)
                                 st.markdown(f"""<h4>Transmittal: {row.trans_num}</h4>""", unsafe_allow_html=True)
 
-                                st.markdown("""<style> .nobord table, tr, td, ths {
-                                        border-style: hidden;
-                                        margin: auto;
-                                  </style> """, unsafe_allow_html=True)
+                                st.markdown("""<style>
+                                                .nobord table, tr, td, th {
+                                                        border-style: hidden;
+                                                        margin: auto;
+                                                  </style> """, unsafe_allow_html=True
+                                            )
 
                                 st.markdown(f"""
                                 <table class="nobord">
