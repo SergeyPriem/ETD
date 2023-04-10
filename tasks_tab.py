@@ -22,7 +22,8 @@ def tasks_content():
             add_task(ass_tab1)
 
         with ass_tab2:
-            view_tasks(ass_tab2)
+            own_all = st.radio('Select', ("Own", "All"))
+            view_tasks(ass_tab2, own_all)
 
 
 def add_task(ass_content):
@@ -100,9 +101,13 @@ def add_task(ass_content):
                         st.text(reply)
 
 
-def view_tasks(ass_tab2):
+def view_tasks(ass_tab2, own_all):
     with ass_tab2:
-        df = get_tasks(st.session_state.user)
+        if own_all=='Own':
+            df = get_tasks(st.session_state.user)
+        else:
+            df = get_tasks()
+
         df_orig = pd.DataFrame()
 
         if isinstance(df, pd.DataFrame):
