@@ -135,8 +135,8 @@ def get_tasks(user=None):
                 data = select(
                     (
                         t.id,
-                        t.set_id.project_id.short_name,
-                        t.set_id.set_name,
+                        t.s_o_d.project_id.short_name,
+                        t.s_o_d.set_name,
                         t.speciality.abbrev,
                         t.stage,
                         t.in_out,
