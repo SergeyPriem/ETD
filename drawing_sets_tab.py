@@ -125,7 +125,8 @@ def drawing_sets():
                 units_tasks = units_tasks[(units_tasks.in_out == 'Исходящие') | (units_tasks.in_out == 'Out')]
 
             with task_col:
-                st.subheader(f"Available Assignments for :red[{set_id[0]}: {set_id[1]}:] {in_out_radio}")
+                # st.subheader(f"Available Assignments for :red[{set_id[0]}: {set_id[1]}:] {in_out_radio}")
+                st.subheader(f"Available Assignments for :{in_out_radio}")
 
             with quant_col:
                 st.write("")
