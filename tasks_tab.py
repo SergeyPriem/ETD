@@ -46,8 +46,7 @@ def tasks_content():
 
 
 def add_task(ass_content):
-    if 'task_preview' not in st.session_state:
-        st.session_state.task_preview = False
+
 
     with ass_content:
         # left_col, right_col = st.columns(2)

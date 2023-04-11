@@ -35,6 +35,9 @@ if st.session_state.user:
 else:
     log_in_out = 'Log In'
 
+if 'task_preview' not in st.session_state:
+    st.session_state.task_preview = False
+
 import datetime
 import random
 from streamlit_option_menu import option_menu
