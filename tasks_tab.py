@@ -96,9 +96,8 @@ def add_task(ass_content):
             """, unsafe_allow_html=True)
 
         reply = ''
-
-        if st.button('Add Task'):
-
+        st.text('')
+        if st.button('Add Task', type='primary'):
             if direction == "IN":
                 for single_set in set_of_dr:
                     reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date, description,
