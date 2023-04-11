@@ -65,53 +65,56 @@ def add_task(ass_content):
 
             st.write("")
             # right_col2.write("")
-            st.markdown("""<style>
-                            .task_preview table, tr {
-                                    border-style: hidden;
-                                    margin: auto;
-                                }
+            pr_l, pr_c, pr_r = st.columns(3)
 
-                            .task_preview td {
-                                    border-style: hidden;
-                                    text-align: left;
-                                }
-                              </style>
-                              """, unsafe_allow_html=True)
+            with pr_c:
+                st.markdown("""<style>
+                                .task_preview table, tr {
+                                        border-style: hidden;
+                                        margin: auto;
+                                    }
+    
+                                .task_preview td {
+                                        border-style: hidden;
+                                        text-align: left;
+                                    }
+                                  </style>
+                                  """, unsafe_allow_html=True)
 
-            st.markdown(f"""
-            <table class="task_preview">
-                <tr>
-                    <td>Project:</td><td style="color: #1569C7;"><b>{project}</b></td>
-                </tr>
-                <tr>
-                    <td>Unit:</td><td style="color: #1569C7;"><b>{set_of_dr}</b></td>
-                </tr>
-                <tr>
-                    <td>Speciality:</td><td style="color: #1569C7;"><b>{speciality}</b></td>
-                </tr>
-                <tr>
-                    <td>Stage:</td><td style="color: #1569C7;"><b>{stage}</b></td>
-                </tr>
-                <tr>
-                    <td>In or Out:</td><td style="color: #1569C7;"><b>{direction}</b></td>
-                </tr>
-                <tr>
-                    <td>Date:</td><td style="color: #1569C7;"><b>{date}</b></td>
-                </tr>
-                <tr>
-                    <td>Description:</td><td style="color: #1569C7;"><b>{description}</b></td>
-                </tr>
-                <tr>
-                    <td>Path:</td><td style="color: #1569C7;"><b>{link}</b></td>
-                </tr>
-                <tr>
-                    <td>Received by:</td><td style="color: #1569C7;"><b>{source}</b></td>
-                </tr>
-                <tr>
-                    <td>Non-Task:</td><td style="color: #1569C7;"><b>{non_assign}</b></td>
-                </tr>
-            </table>
-            """, unsafe_allow_html=True)
+                st.markdown(f"""
+                <table class="task_preview">
+                    <tr>
+                        <td>Project:</td><td style="color: #1569C7;"><b>{project}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Unit:</td><td style="color: #1569C7;"><b>{set_of_dr}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Speciality:</td><td style="color: #1569C7;"><b>{speciality}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Stage:</td><td style="color: #1569C7;"><b>{stage}</b></td>
+                    </tr>
+                    <tr>
+                        <td>In or Out:</td><td style="color: #1569C7;"><b>{direction}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Date:</td><td style="color: #1569C7;"><b>{date}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Description:</td><td style="color: #1569C7;"><b>{description}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Path:</td><td style="color: #1569C7;"><b>{link}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Received by:</td><td style="color: #1569C7;"><b>{source}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Non-Task:</td><td style="color: #1569C7;"><b>{non_assign}</b></td>
+                    </tr>
+                </table>
+                """, unsafe_allow_html=True)
 
         if st.session_state.task_preview:
             reply = ''
