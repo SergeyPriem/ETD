@@ -64,7 +64,7 @@ def add_task(ass_content):
                 # right_col2.write("")
                 st.markdown(f"""
                 <tr>
-                    <td>Project:</td><td>**:blue[{project}]**</td>
+                    <td>Project:</td><td style="color: blue;"><b>{project}</b></td>
                 </tr>
                 Project: <p style="margin-left: 50px;">**:blue[{project}]**</p>
                 <br>
