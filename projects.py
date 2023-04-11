@@ -315,10 +315,10 @@ def get_set_to_edit(selected_project, selected_set):
 def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, description, link, source, comment):
     with db_session:
         try:
-            set_draw = select(sod.id for sod in SOD).filter(project_id=Project.get(short_name=proj_name).id,
+            set_draw = select(sod for sod in SOD).filter(project_id=Project.get(short_name=proj_name).id,
                                                             set_name=sod_name).first()
             new_ass = Task(
-                s_o_d=set_draw,  # should be an instance of SOD
+                s_o_d=set_draw.id,  # should be an instance of SOD
                 stage=stage,
                 in_out=in_out,
                 speciality=Speciality.get(abbrev=speciality),
