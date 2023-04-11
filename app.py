@@ -94,28 +94,6 @@ def home_content():
         </style>
         """, unsafe_allow_html=True)
 
-    # st.markdown(
-    #     """
-    #     <style>
-    #         div[data-testid="column"]:nth-of-type(1)
-    #         {
-    #             border:1px solid red;
-    #         }
-    #
-    #         div[data-testid="column"]:nth-of-type(2)
-    #         {
-    #             border:1px solid green;
-    #             text-align: center;
-    #         }
-    #
-    #         div[data-testid="column"]:nth-of-type(3)
-    #         {
-    #             border:1px solid blue;
-    #             text-align: center;
-    #         }
-    #     </style>
-    #     """, unsafe_allow_html=True
-    # )
     empty1, content, empty2 = st.columns([5, 3, 5])
     empty21, content2, empty22 = st.columns([1, 20, 1])
     with empty1:
@@ -532,7 +510,7 @@ def home_content():
 
 
 # @st.cache_data(ttl=600)
-def phone_directory():
+def etap_py():
     phone_1, phone_content, phone_2 = st.columns([1, 9, 1])
     with phone_1:
         st.empty()
@@ -643,15 +621,15 @@ def manage_users():
                     reporter(reply)
 
 
-performer_menu = ["Drawing Sets", "Transmittals", "Tasks", 'Phone Directory', 'Just for fun',
+performer_menu = ["Drawing Sets", "Transmittals", "Tasks", 'EtapPy', 'Just for fun',
                   'Lessons Learned', 'Settings']
 
 performer_icons = ['bi bi-file-earmark-spreadsheet-fill', 'bi bi-file-arrow-down',
-                   'bi bi-file-check', 'bi bi-telephone', 'bi bi-info-circle', 'bi bi-pen', 'bi bi-gear',
+                   'bi bi-file-check', 'bi bi-diagram-3', 'bi bi-info-circle', 'bi bi-pen', 'bi bi-gear',
                    ]
 
 admin_menu = ["Manage Sets"]
-admin_icons = ['bi bi-kanban']
+admin_icons = ['bi bi-bar-chart-steps']
 
 super_menu = ["Manage Projects", "Manage Users"]
 super_icons = ["bi bi-briefcase", "bi bi-person-lines-fill"]
@@ -720,8 +698,8 @@ if selected == "Just for fun":
     just_for_fun()
     emoji_content()
 
-if selected == "Phone Directory":
-    phone_directory()
+if selected == "EtapPy":
+    etap_py()
 
 if selected == "Manage Users":
     manage_users()
