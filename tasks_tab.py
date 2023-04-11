@@ -6,8 +6,7 @@ from pre_sets import specialities
 from projects import get_projects_names, get_sets_for_project, add_in_to_db, add_out_to_db, \
     get_tasks
 
-if 'task_preview' not in st.session_state:
-    st.session_state.task_preview = False
+
 
 def tasks_content():
     ass_1, ass_content, ass_2 = st.columns([1, 9, 1])
@@ -29,6 +28,10 @@ def tasks_content():
 
 
 def add_task(ass_content):
+
+    if 'task_preview' not in st.session_state:
+        st.session_state.task_preview = False
+
     with ass_content:
         # left_col, right_col = st.columns(2)
         project = st.selectbox('Select the Project', get_projects_names())
