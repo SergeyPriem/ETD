@@ -72,20 +72,27 @@ def add_task(ass_content):
                 <tr>
                     <td>Speciality:</td><td style="color: #1569C7;"><b>{speciality}</b></td>
                 </tr>
-                Stage: **:blue[{stage}]**
-                <br>
-                In or Out: **:blue[{direction}]**
-                <br>
-                Date: **:blue[{date}]**
-                <br>
-                Description: **:blue[{description}]**
-                <br>
-                Path: **:blue[{link}]**
-                <br>
-                Received by: **:blue[{source}]**
-                <br>
-                Non-Task: **:blue[{non_assign}]**
-                
+                <tr>
+                    <td>Stage:</td><td style="color: #1569C7;"><b>{stage}</b></td>
+                </tr>
+                <tr>
+                    <td>In or Out:</td><td style="color: #1569C7;"><b>{direction}</b></td>
+                </tr>
+                <tr>
+                    <td>Date:</td><td style="color: #1569C7;"><b>{date}</b></td>
+                </tr>
+                <tr>
+                    <td>Description:</td><td style="color: #1569C7;"><b>{description}</b></td>
+                </tr>
+                <tr>
+                    <td>Path:</td><td style="color: #1569C7;"><b>{link}</b></td>
+                </tr>
+                <tr>
+                    <td>Received by:</td><td style="color: #1569C7;"><b>{source}</b></td>
+                </tr>
+                <tr>
+                    <td>Non-Task:</td><td style="color: #1569C7;"><b>{non_assign}</b></td>
+                </tr>
                 """, unsafe_allow_html=True)
 
                 reply = ''
