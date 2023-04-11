@@ -66,12 +66,12 @@ def add_task(ass_content):
                 <tr>
                     <td>Project:</td><td style="color: #1569C7;"><b>{project}</b></td>
                 </tr>
-                Project: <p style="margin-left: 50px;">**:blue[{project}]**</p>
-                <br>
-                Set of Drawings / Unit: <p style="margin-left: 50px;">**:blue[{set_of_dr}]**</p>
-                <br>
-                Speciality: **:blue[{speciality}]**
-                <br>
+                <tr>
+                    <td>Unit:</td><td style="color: #1569C7;"><b>{set_of_dr}</b></td>
+                </tr>
+                <tr>
+                    <td>Speciality:</td><td style="color: #1569C7;"><b>{speciality}</b></td>
+                </tr>
                 Stage: **:blue[{stage}]**
                 <br>
                 In or Out: **:blue[{direction}]**
