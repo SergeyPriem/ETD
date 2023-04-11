@@ -51,7 +51,7 @@ def add_task(ass_content):
     with ass_content:
         # left_col, right_col = st.columns(2)
         project = st.selectbox('Select the Project', get_projects_names())
-        pr_l, pr_c, pr_r = st.columns([1, 2, 1])
+
         with st.form(key="add_ass"):
             set_of_dr = st.multiselect('Select the Set Of Drawings / Unit',
                                        options=get_sets_for_project(project))
@@ -76,6 +76,7 @@ def add_task(ass_content):
 
             ass_preview = st.form_submit_button("Preview Task", use_container_width=True)
 
+        pr_l, pr_c, pr_r = st.columns([1, 2, 1])
         if ass_preview:
             st.session_state.task_preview = True
             if non_assign:
@@ -84,8 +85,6 @@ def add_task(ass_content):
                 comments = "Non-assignment"
 
             st.write("")
-            # right_col2.write("")
-
 
             with pr_c:
                 st.markdown("""<style>
@@ -135,13 +134,15 @@ def add_task(ass_content):
                     </tr>
                 </table>
                 """, unsafe_allow_html=True)
-        st.text(st.session_state.task_preview)
+
+        st.info(st.session_state.task_preview)
+
         if st.session_state.task_preview:
             st.text('')
             if pr_c.button('Add Task', type='primary', use_container_width=True):
                 reporter("after button", 3)
                 reporter(direction, 3)
-                st.stop()
+
                 if direction == "IN":
                     reporter('direction In',3)
                     for single_set in set_of_dr:
