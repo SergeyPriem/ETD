@@ -145,7 +145,6 @@ def add_task(ass_content):
                         reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date, description,
                                              link, source, comments)
                         if '<*>' in reply:
-                            st.text('<*>')
                             rep1, rep2 = reply.split('<*>')
                             st.write(rep1)
                             st.info(rep2)
