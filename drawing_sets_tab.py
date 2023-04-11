@@ -72,7 +72,8 @@ def drawing_sets():
         units_ch_b = ds_rigth.checkbox("Show Units Table")
 
         if units_ch_b:
-            df.set_index('id', inplace=True)
+            if 'id' in df.columns:
+                df.set_index('id', inplace=True)
             st.experimental_data_editor(df, use_container_width=True)
 
         if isinstance(df, pd.DataFrame):
@@ -85,7 +86,7 @@ def drawing_sets():
 
         units_selected = st.multiselect("Set / Unit for Search", units_list)
 
-        df = df[df.unit.isin(units_selected)]  # .set_index("project_id")
+        df = df[df.unit.isin(units_selected)]
 
         if "id" in df.columns:
             df.set_index('id', inplace=True)

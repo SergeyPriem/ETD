@@ -85,7 +85,7 @@ def add_task(ass_content):
 
             st.write("")
             # right_col2.write("")
-            pr_l, pr_c, pr_r = st.columns(3)
+            pr_l, pr_c, pr_r = st.columns([1, 2, 1])
 
             with pr_c:
                 st.markdown("""<style>
