@@ -273,7 +273,7 @@ def home_content():
                                 but_key = f"Confirm Task: {row.id}"
                                 task_id = row.id
                                 if st.button(label=but_key, key=but_key, type='primary', on_click=confirm_task, args=(
-                                        row.id, st.session_state.user, row.project, row.unit), use_container_width=True):
+                                        row.id, st.session_state.user, row.project, row.unit)):
                                     st.info(f"Task {task_id} confirmed!!")
                                 st.text("")
                         else:
@@ -355,7 +355,7 @@ def home_content():
 
                                 but_key = f"Add Reply for: {row.trans_num}"
                                 st.button(label=but_key, key=but_key, type='primary', on_click=confirm_trans,
-                                          args=(row.trans_num, st.session_state.user), use_container_width=True)
+                                          args=(row.trans_num, st.session_state.user))
                                 st.text("")
                         else:
                             st.text('No New Transmittals')
