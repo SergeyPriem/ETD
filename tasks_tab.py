@@ -156,13 +156,10 @@ def add_task(ass_content):
                     for single_spec in speciality:
                         reply = add_out_to_db(project, set_of_dr[0], stage, direction, single_spec, date, description,
                                               link, source, comments)
-                        if '<*>' in reply:
-                            st.text('<*>')
-                            rep1, rep2 = reply.split('<*>')
-                            st.write(rep1)
-                            st.info(rep2)
-                        else:
+                        if 'ERROR' in reply.upper():
                             st.warning(reply)
+                        else:
+                            st.info(reply)
 
 
 def view_tasks(ass_tab2, my_all):
