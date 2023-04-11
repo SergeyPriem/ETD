@@ -2,7 +2,7 @@
 
 import pandas as pd
 import streamlit as st
-from pre_sets import specialities
+from pre_sets import specialities, reporter
 from projects import get_projects_names, get_sets_for_project, add_in_to_db, add_out_to_db, \
     get_tasks
 
@@ -139,10 +139,10 @@ def add_task(ass_content):
         if st.session_state.task_preview:
             st.text('')
             if pr_c.button('Add Task', type='primary', use_container_width=True):
-                st.info("after button")
-                st.info(direction)
+                reporter("after button", 3)
+                reporter(direction, 3)
                 if direction == "IN":
-                    st.text('direction In')
+                    reporter('direction In',3)
                     for single_set in set_of_dr:
                         reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date, description,
                                              link, source, comments)
@@ -153,7 +153,6 @@ def add_task(ass_content):
                             st.info(rep2)
                         else:
                             st.warning(reply)
-
 
                 else:
                     st.text('direction Else')
