@@ -51,6 +51,7 @@ def add_task(ass_content):
     with ass_content:
         # left_col, right_col = st.columns(2)
         project = st.selectbox('Select the Project', get_projects_names())
+        pr_l, pr_c, pr_r = st.columns([1, 2, 1])
         with st.form(key="add_ass"):
             set_of_dr = st.multiselect('Select the Set Of Drawings / Unit',
                                        options=get_sets_for_project(project))
@@ -84,7 +85,7 @@ def add_task(ass_content):
 
             st.write("")
             # right_col2.write("")
-            pr_l, pr_c, pr_r = st.columns([1, 2, 1])
+
 
             with pr_c:
                 st.markdown("""<style>
