@@ -66,10 +66,14 @@ def add_task(ass_content):
             st.write("")
             # right_col2.write("")
             st.markdown("""<style>
-                            .task_preview td {
+                            .task_preview table {
                                     border-style: hidden;
                                     margin-left: auto;
                                     margin-right: auto;
+                                }
+
+                            .task_preview td {
+                                    border-style: hidden;
                                     text-align: left;
                                 }
                               </style>
