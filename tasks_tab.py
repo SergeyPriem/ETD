@@ -167,6 +167,7 @@ def add_task(ass_content):
                         else:
                             st.warning(reply)
 
+            st.write("we are here")
             st.session_state.task_preview = False
 
 
