@@ -137,27 +137,37 @@ def add_task(ass_content):
                 """, unsafe_allow_html=True)
         st.text(st.session_state.task_preview)
         if st.session_state.task_preview:
-            reply = ''
             st.text('')
             if pr_c.button('Add Task', type='primary', use_container_width=True):
+                st.info("after button")
+                st.info(direction)
                 if direction == "IN":
                     st.text('direction In')
                     for single_set in set_of_dr:
                         reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date, description,
                                              link, source, comments)
+                        if '<*>' in reply:
+                            st.text('<*>')
+                            rep1, rep2 = reply.split('<*>')
+                            st.write(rep1)
+                            st.info(rep2)
+                        else:
+                            st.warning(reply)
+
+
                 else:
                     st.text('direction Else')
                     for single_spec in speciality:
                         reply = add_out_to_db(project, set_of_dr[0], stage, direction, single_spec, date, description,
                                               link, source, comments)
+                        if '<*>' in reply:
+                            st.text('<*>')
+                            rep1, rep2 = reply.split('<*>')
+                            st.write(rep1)
+                            st.info(rep2)
+                        else:
+                            st.warning(reply)
 
-                if '<*>' in reply:
-                    st.text('<*>')
-                    rep1, rep2 = reply.split('<*>')
-                    st.write(rep1)
-                    st.info(rep2)
-                else:
-                    st.warning(reply)
             st.session_state.task_preview = False
 
 
