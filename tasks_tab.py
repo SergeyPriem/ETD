@@ -54,48 +54,48 @@ def add_task(ass_content):
 
             ass_submitted = st.form_submit_button("Preview Task")
 
-            if ass_submitted:
-                if non_assign:
-                    description = "Non-assignment"
-                    link = "Non-assignment"
-                    comments = "Non-assignment"
+        if ass_submitted:
+            if non_assign:
+                description = "Non-assignment"
+                link = "Non-assignment"
+                comments = "Non-assignment"
 
-                st.write("")
-                # right_col2.write("")
-                st.markdown(f"""
-                <tr>
-                    <td>Project:</td><td style="color: #1569C7;"><b>{project}</b></td>
-                </tr>
-                <tr>
-                    <td>Unit:</td><td style="color: #1569C7;"><b>{set_of_dr}</b></td>
-                </tr>
-                <tr>
-                    <td>Speciality:</td><td style="color: #1569C7;"><b>{speciality}</b></td>
-                </tr>
-                <tr>
-                    <td>Stage:</td><td style="color: #1569C7;"><b>{stage}</b></td>
-                </tr>
-                <tr>
-                    <td>In or Out:</td><td style="color: #1569C7;"><b>{direction}</b></td>
-                </tr>
-                <tr>
-                    <td>Date:</td><td style="color: #1569C7;"><b>{date}</b></td>
-                </tr>
-                <tr>
-                    <td>Description:</td><td style="color: #1569C7;"><b>{description}</b></td>
-                </tr>
-                <tr>
-                    <td>Path:</td><td style="color: #1569C7;"><b>{link}</b></td>
-                </tr>
-                <tr>
-                    <td>Received by:</td><td style="color: #1569C7;"><b>{source}</b></td>
-                </tr>
-                <tr>
-                    <td>Non-Task:</td><td style="color: #1569C7;"><b>{non_assign}</b></td>
-                </tr>
-                """, unsafe_allow_html=True)
+            st.write("")
+            # right_col2.write("")
+            st.markdown(f"""
+            <tr>
+                <td>Project:</td><td style="color: #1569C7;"><b>{project}</b></td>
+            </tr>
+            <tr>
+                <td>Unit:</td><td style="color: #1569C7;"><b>{set_of_dr}</b></td>
+            </tr>
+            <tr>
+                <td>Speciality:</td><td style="color: #1569C7;"><b>{speciality}</b></td>
+            </tr>
+            <tr>
+                <td>Stage:</td><td style="color: #1569C7;"><b>{stage}</b></td>
+            </tr>
+            <tr>
+                <td>In or Out:</td><td style="color: #1569C7;"><b>{direction}</b></td>
+            </tr>
+            <tr>
+                <td>Date:</td><td style="color: #1569C7;"><b>{date}</b></td>
+            </tr>
+            <tr>
+                <td>Description:</td><td style="color: #1569C7;"><b>{description}</b></td>
+            </tr>
+            <tr>
+                <td>Path:</td><td style="color: #1569C7;"><b>{link}</b></td>
+            </tr>
+            <tr>
+                <td>Received by:</td><td style="color: #1569C7;"><b>{source}</b></td>
+            </tr>
+            <tr>
+                <td>Non-Task:</td><td style="color: #1569C7;"><b>{non_assign}</b></td>
+            </tr>
+            """, unsafe_allow_html=True)
 
-                reply = ''
+        reply = ''
 
         if st.button('Add Task'):
 
