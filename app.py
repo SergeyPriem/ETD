@@ -211,7 +211,7 @@ def home_content():
                                 st.markdown(f"""<h4>Task: {row.id}</h4>""", unsafe_allow_html=True)
 
                                 st.markdown("""<style>
-                                                .nobord {
+                                                .nobord td {
                                                         border-style: hidden;
                                                         margin-left: auto;
                                                         margin-right: auto;
