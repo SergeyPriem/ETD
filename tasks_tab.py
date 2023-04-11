@@ -88,23 +88,23 @@ def add_task(ass_content):
 
                 reply = ''
 
-            if st.button('Add Task'):
+        if st.button('Add Task'):
 
-                if direction == "IN":
-                    for single_set in set_of_dr:
-                        reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date, description,
-                                             link, source, comments)
-                else:
-                    for single_spec in speciality:
-                        reply = add_out_to_db(project, set_of_dr[0], stage, direction, single_spec, date, description,
-                                              link, source, comments)
+            if direction == "IN":
+                for single_set in set_of_dr:
+                    reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date, description,
+                                         link, source, comments)
+            else:
+                for single_spec in speciality:
+                    reply = add_out_to_db(project, set_of_dr[0], stage, direction, single_spec, date, description,
+                                          link, source, comments)
 
-                if '<*>' in reply:
-                    rep1, rep2 = reply.split('<*>')
-                    st.write(rep1)
-                    st.info(rep2)
-                else:
-                    st.warning(reply)
+            if '<*>' in reply:
+                rep1, rep2 = reply.split('<*>')
+                st.write(rep1)
+                st.info(rep2)
+            else:
+                st.warning(reply)
 
 
 def view_tasks(ass_tab2, own_all):
