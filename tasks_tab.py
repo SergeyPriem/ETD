@@ -141,7 +141,6 @@ def add_task(ass_content):
                 st.session_state.task_preview = False
 
                 if direction == "IN":
-                    reporter('direction In', 3)
                     for single_set in set_of_dr:
                         reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date, description,
                                              link, source, comments)
@@ -154,7 +153,6 @@ def add_task(ass_content):
                             st.warning(reply)
 
                 else:
-                    st.text('direction Else')
                     for single_spec in speciality:
                         reply = add_out_to_db(project, set_of_dr[0], stage, direction, single_spec, date, description,
                                               link, source, comments)

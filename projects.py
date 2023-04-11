@@ -358,10 +358,10 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
 def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, description, link, source, comment):
     with db_session:
         try:
-            set_draw_id = select(sod.id for sod in SOD if (sod.project_id == Project.get(short_name=proj_name).id
-                                                           and sod.set_name == sod_name)).first()
+            set_draw = select(sod for sod in SOD).filter(project_id=Project.get(short_name=proj_name).id,
+                                                         set_name=sod_name).first()
             Task(
-                s_o_d=set_draw_id,  # should be an instance of SOD
+                s_o_d=set_draw.id,  # should be an instance of SOD
                 stage=stage,
                 in_out=in_out,
                 speciality=Speciality.get(abbrev=speciality),
@@ -374,7 +374,7 @@ def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, de
                 added_by=st.session_state.user
             )
             return f"""
-            New Task for {set_draw_id} -> {speciality} is added to DataBase  
+            New Task for {sod_name} -> {speciality} is added to DataBase  
             """
         except Exception as e:
             return err_handler(e)
