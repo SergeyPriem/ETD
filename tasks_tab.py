@@ -141,6 +141,7 @@ def add_task(ass_content):
             if pr_c.button('Add Task', type='primary', use_container_width=True):
                 reporter("after button", 3)
                 reporter(direction, 3)
+                st.stop()
                 if direction == "IN":
                     reporter('direction In',3)
                     for single_set in set_of_dr:
