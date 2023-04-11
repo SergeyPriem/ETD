@@ -9,6 +9,27 @@ from projects import get_projects_names, get_sets_for_project, add_in_to_db, add
 
 
 def tasks_content():
+
+    st.markdown("""
+        <style>
+            div[data-testid="column"]:nth-of-type(1)
+            {
+                text-align: center;
+            } 
+
+            div[data-testid="column"]:nth-of-type(2)
+            {
+                text-align: center;
+            } 
+
+            div[data-testid="column"]:nth-of-type(3)
+            {
+                text-align: center;
+            } 
+        </style>
+        """, unsafe_allow_html=True)
+
+
     ass_1, ass_content, ass_2 = st.columns([1, 9, 1])
     with ass_1:
         st.empty()
@@ -28,6 +49,7 @@ def tasks_content():
 
 
 def add_task(ass_content):
+
 
     if 'task_preview' not in st.session_state:
         st.session_state.task_preview = False
