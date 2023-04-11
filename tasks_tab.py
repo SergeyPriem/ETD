@@ -6,6 +6,8 @@ from pre_sets import specialities
 from projects import get_projects_names, get_sets_for_project, add_in_to_db, add_out_to_db, \
     get_tasks
 
+if 'task_preview' not in st.session_state:
+    st.session_state.task_preview = False
 
 def tasks_content():
     ass_1, ass_content, ass_2 = st.columns([1, 9, 1])
@@ -52,9 +54,10 @@ def add_task(ass_content):
             comments = left_col3.text_input('Comments')
             source = right_col3.text_area('Received by:', value='Received by paper', height=127)
 
-            ass_submitted = st.form_submit_button("Preview Task")
+            ass_preview = st.form_submit_button("Preview Task")
 
-        if ass_submitted:
+        if ass_preview:
+            st.session_state.task_preview = True
             if non_assign:
                 description = "Non-assignment"
                 link = "Non-assignment"
@@ -95,24 +98,26 @@ def add_task(ass_content):
             </tr>
             """, unsafe_allow_html=True)
 
-        reply = ''
-        st.text('')
-        if st.button('Add Task', type='primary'):
-            if direction == "IN":
-                for single_set in set_of_dr:
-                    reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date, description,
-                                         link, source, comments)
-            else:
-                for single_spec in speciality:
-                    reply = add_out_to_db(project, set_of_dr[0], stage, direction, single_spec, date, description,
-                                          link, source, comments)
+        if st.session_state.task_preview:
+            reply = ''
+            st.text('')
+            if st.button('Add Task', type='primary'):
+                if direction == "IN":
+                    for single_set in set_of_dr:
+                        reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date, description,
+                                             link, source, comments)
+                else:
+                    for single_spec in speciality:
+                        reply = add_out_to_db(project, set_of_dr[0], stage, direction, single_spec, date, description,
+                                              link, source, comments)
 
-            if '<*>' in reply:
-                rep1, rep2 = reply.split('<*>')
-                st.write(rep1)
-                st.info(rep2)
-            else:
-                st.warning(reply)
+                if '<*>' in reply:
+                    rep1, rep2 = reply.split('<*>')
+                    st.write(rep1)
+                    st.info(rep2)
+                else:
+                    st.warning(reply)
+            st.session_state.task_preview = False
 
 
 def view_tasks(ass_tab2, own_all):
