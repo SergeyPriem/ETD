@@ -52,7 +52,7 @@ def add_task(ass_content):
             comments = left_col3.text_input('Comments')
             source = right_col3.text_area('Received by:', value='Received by paper', height=127)
 
-            ass_submitted = st.form_submit_button("Add Task")
+            ass_submitted = st.form_submit_button("Preview Task")
 
             if ass_submitted:
                 if non_assign:
@@ -87,6 +87,8 @@ def add_task(ass_content):
                     """, unsafe_allow_html=True)
 
                 reply = ''
+
+            if st.button('Add Task'):
 
                 if direction == "IN":
                     for single_set in set_of_dr:
