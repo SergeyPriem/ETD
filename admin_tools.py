@@ -130,13 +130,13 @@ def manage_sets():
 
             with st.form('new_sod'):
                 proj_short = st.selectbox('Select a Project', get_projects_names())
-                set_name = st.text_input("Enter the Name for new Set of Drawings / Unit")
+                set_name = st.text_input("Enter the Name for new Set of Drawings / Unit").strip()
                 stage = st.radio("Select the Stage", stages, horizontal=True)
                 coordinator = st.selectbox("Coordinator", st.session_state.registered_logins)
                 performer = st.selectbox("Performer", st.session_state.registered_logins)
                 set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
                 status = st.select_slider("Select the Current Status", sod_statuses, value='0%')
-                notes = st.text_area("Add Notes")
+                notes = st.text_area("Add Notes").strip()
                 create_sod_but = st.form_submit_button("Create",use_container_width=True)
 
             if create_sod_but:
@@ -163,8 +163,9 @@ def manage_sets():
             # sets_df = sets_df.set_index('id')
             all_logins = get_all_logins()
             st.write(sets_tuple)
+
             with st.form('upd_set_detail'):
-                st.subheader(f"Update Information for Selected Unit / Set of Drawings")
+                st.subheader(f'Update Information for Selected Unit / Set of Drawings')
                 left_sod, center_sod, right_sod = st.columns([5, 1, 5])
                 with left_sod:
                     coord = st.selectbox("Coordinator", all_logins,
@@ -198,9 +199,3 @@ def manage_sets():
                     )
 
 
-            # if st.button('Update in DataBase', key="update_set"):
-            #     if len(edited_set_df[edited_set_df.edit]):
-            #         reply = update_sets(edited_set_df)
-            #         reporter(reply)
-            #     else:
-            #         reporter("No selection to Edit :((")
