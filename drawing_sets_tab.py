@@ -87,7 +87,8 @@ def drawing_sets():
 
         df = df[df.unit.isin(units_selected)]  # .set_index("project_id")
 
-        df.set_index('id', inplace=True)
+        if "id" in df.columns:
+            df.set_index('id', inplace=True)
 
         df.insert(1, 'view_tasks', False)
 

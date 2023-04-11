@@ -7,9 +7,7 @@ from projects import get_projects_names, get_sets_for_project, add_in_to_db, add
     get_tasks
 
 
-
 def tasks_content():
-
     st.markdown("""
         <style>
             div[data-testid="column"]:nth-of-type(1)
@@ -29,7 +27,6 @@ def tasks_content():
         </style>
         """, unsafe_allow_html=True)
 
-
     ass_1, ass_content, ass_2 = st.columns([1, 9, 1])
     with ass_1:
         st.empty()
@@ -44,13 +41,11 @@ def tasks_content():
             add_task(ass_tab1)
 
         with ass_tab2:
-            own_all = st.radio('Select', ("Own", "All"), horizontal=True, label_visibility='collapsed')
+            own_all = st.radio('Select', ("My", "All"), horizontal=True, label_visibility='collapsed')
             view_tasks(ass_tab2, own_all)
 
 
 def add_task(ass_content):
-
-
     if 'task_preview' not in st.session_state:
         st.session_state.task_preview = False
 
@@ -163,9 +158,9 @@ def add_task(ass_content):
             st.session_state.task_preview = False
 
 
-def view_tasks(ass_tab2, own_all):
+def view_tasks(ass_tab2, my_all):
     with ass_tab2:
-        if own_all == 'Own':
+        if my_all == 'My':
             df = get_tasks(st.session_state.user)
         else:
             df = get_tasks()
