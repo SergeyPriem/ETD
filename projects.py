@@ -315,19 +315,20 @@ def get_set_to_edit(selected_project, selected_set):
 def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, description, link, source, comment):
     with db_session:
         try:
-            set_draw = select(sod for sod in SOD).filter(project_id=proj_name, set_name=sod_name).first()
+            set_draw = select(sod.id for sod in SOD).filter(project_id=Project.get(short_name=proj_name),
+                                                            set_name=sod_name).first()
             new_ass = Task(
-                set_id=int(set_draw.id),  # should be an instance of SOD
+                s_o_d=set_draw,  # should be an instance of SOD
                 stage=stage,
                 in_out=in_out,
-                speciality=Speciality[speciality],
+                speciality=Speciality.get(abbrev=speciality),
                 date=issue_date,
                 description=description,
                 link=link,
                 backup_copy='NA',
                 source=source,
                 comment=comment,
-                added_by='sergey.priemshiy@uzliti-en.com',  # st.session_state.user
+                added_by=st.session_state.user,
             )
 
             new_ass_id = max(n.id for n in Task)
@@ -335,7 +336,7 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
             result = create_backup_string(link, BACKUP_FOLDER, new_ass_id)
             new_ass.backup_copy = result[0]
             return f"""
-            New Task for {new_ass.set_id.project_id.short_name}: {new_ass.set_id.set_name} is added to DataBase
+            New Task for {new_ass.s_o_d.project_id.short_name}: {new_ass.s_o_d.set_name} is added to DataBase
             Backup string:
             {result[1]}
             """
