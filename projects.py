@@ -316,7 +316,7 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
     with db_session:
         try:
             set_draw = select(sod for sod in SOD).filter(project_id=Project.get(short_name=proj_name).id,
-                                                            set_name=sod_name).first()
+                                                         set_name=sod_name).first()
             new_ass = Task(
                 s_o_d=set_draw.id,  # should be an instance of SOD
                 stage=stage,
@@ -333,11 +333,21 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
 
             new_ass_id = max(n.id for n in Task)
 
+            if SOD[set_draw.id].coord_id.login == st.session_state.user:
+                Task[new_ass_id].coord_log = str(
+                    Task[new_ass_id].coord_log).replace('None', '') + \
+                                             f"*{st.session_state.user}*{str(datetime.now())[:-10]}* "
+
+            if SOD[set_draw.id].perf_id.login == st.session_state.user:
+                Task[new_ass_id].perf_log = str(
+                    Task[new_ass_id].perf_log).replace('None', '') + \
+                                            f"*{st.session_state.user}*{str(datetime.now())[:-10]}* "
+
             result = create_backup_string(link, BACKUP_FOLDER, new_ass_id)
             new_ass.backup_copy = result[0]
             return f"""
-            New Task for {new_ass.s_o_d.project_id.short_name}: {new_ass.s_o_d.set_name} is added to DataBase
-            Backup string:
+            New Task for {new_ass.s_o_d.project_id.short_name}: {new_ass.s_o_d.set_name} is added to DataBase  
+            Backup string:<*>
             {result[1]}
             """
         except Exception as e:
@@ -476,7 +486,7 @@ def get_own_tasks(set_id):
                     t.comment,
                     t.added_by,
                     t.s_o_d,
-                 )
+                )
                 for t in Task
                 if t.s_o_d == SOD[set_id])[:]
 
@@ -608,23 +618,23 @@ def get_trans(login=None):
                     for t in Trans)[:]
 
             df = pd.DataFrame(trans, columns=[
-                 "id",
-                 "trans_num",
-                 "trans_date",
-                 "in_out",
-                 "ans_required",
-                 "project",
-                 "responsible",
-                 "author",
-                 "ref_trans",
-                 "ref_date",
-                 "subject",
-                 "link",
-                 "trans_type",
-                 "notes",
-                 "received",
-                 "added_by",
-                 "status",
+                "id",
+                "trans_num",
+                "trans_date",
+                "in_out",
+                "ans_required",
+                "project",
+                "responsible",
+                "author",
+                "ref_trans",
+                "ref_date",
+                "subject",
+                "link",
+                "trans_type",
+                "notes",
+                "received",
+                "added_by",
+                "status",
             ])
             return df
         except Exception as e:

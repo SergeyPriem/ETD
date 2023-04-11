@@ -86,24 +86,28 @@ def add_task(ass_content):
                     Received by: **:blue[{source}]**
                     """, unsafe_allow_html=True)
 
-                # if st.button('Add to DataBase'):
+                reply = ''
+
                 if direction == "IN":
                     for single_set in set_of_dr:
                         reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date, description,
                                              link, source, comments)
-                        # reporter(reply, 10)
-                        st.text(reply)
                 else:
                     for single_spec in speciality:
                         reply = add_out_to_db(project, set_of_dr[0], stage, direction, single_spec, date, description,
                                               link, source, comments)
-                        # reporter(reply, 10)
-                        st.text(reply)
+
+                if '<*>' in reply:
+                    rep1, rep2 = reply.split('<*>')
+                    st.write(rep1)
+                    st.info(rep2)
+                else:
+                    st.warning(reply)
 
 
 def view_tasks(ass_tab2, own_all):
     with ass_tab2:
-        if own_all=='Own':
+        if own_all == 'Own':
             df = get_tasks(st.session_state.user)
         else:
             df = get_tasks()
