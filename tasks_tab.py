@@ -166,9 +166,9 @@ def add_task(ass_content):
                             st.info(rep2)
                         else:
                             st.warning(reply)
-
+                st.session_state.task_preview = False
             st.write("we are here")
-            st.session_state.task_preview = False
+
 
 
 def view_tasks(ass_tab2, my_all):
