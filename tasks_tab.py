@@ -46,8 +46,6 @@ def tasks_content():
 
 
 def add_task(ass_content):
-
-
     with ass_content:
         # left_col, right_col = st.columns(2)
         project = st.selectbox('Select the Project', get_projects_names())
@@ -135,16 +133,15 @@ def add_task(ass_content):
                 </table>
                 """, unsafe_allow_html=True)
 
-        st.info(st.session_state.task_preview)
-
         if st.session_state.task_preview:
             st.text('')
+
             if pr_c.button('Add Task', type='primary', use_container_width=True):
-                reporter("after button", 3)
-                reporter(direction, 3)
+
+                st.session_state.task_preview = False
 
                 if direction == "IN":
-                    reporter('direction In',3)
+                    reporter('direction In', 3)
                     for single_set in set_of_dr:
                         reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date, description,
                                              link, source, comments)
@@ -168,9 +165,6 @@ def add_task(ass_content):
                             st.info(rep2)
                         else:
                             st.warning(reply)
-                st.session_state.task_preview = False
-            st.write("we are here")
-
 
 
 def view_tasks(ass_tab2, my_all):
