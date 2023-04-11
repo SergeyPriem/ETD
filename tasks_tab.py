@@ -66,7 +66,7 @@ def add_task(ass_content):
             st.write("")
             # right_col2.write("")
             st.markdown("""<style>
-                            .task_preview {
+                            .task_preview tr, td {
                                     border-style: hidden;
                                     margin-left: auto;
                                     margin-right: auto;
@@ -113,7 +113,7 @@ def add_task(ass_content):
         if st.session_state.task_preview:
             reply = ''
             st.text('')
-            if st.button('Add Task', type='primary'):
+            if st.button('Add Task', type='primary', use_container_width=True):
                 if direction == "IN":
                     for single_set in set_of_dr:
                         reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date, description,
