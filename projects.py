@@ -354,7 +354,31 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
             return err_handler(e)
 
 
-@st.cache_data(ttl=120, show_spinner='Updating Projects...')
+def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, description, link, source, comment):
+    with db_session:
+        try:
+            set_draw_id = select(sod.id for sod in SOD if (sod.project_id == Project.get(short_name=proj_name).id
+                                                           and sod.set_name == sod_name)).first()
+            Task(
+                s_o_d=set_draw_id,  # should be an instance of SOD
+                stage=stage,
+                in_out=in_out,
+                speciality=Speciality.get(abbrev=speciality),
+                date=issue_date,
+                description=description,
+                link=link,
+                backup_copy='NA',
+                source=source,
+                comment=comment,
+                added_by=st.session_state.user
+            )
+            return f"""
+            New Task for {set_draw_id} -> {speciality} is added to DataBase  
+            """
+        except Exception as e:
+            return err_handler(e)
+
+# @st.cache_data(ttl=120, show_spinner='Updating Projects...')
 def update_projects(edited_proj_df):
     for ind, row in edited_proj_df.iterrows():
         if row.edit:
@@ -513,32 +537,6 @@ def get_own_tasks(set_id):
     except Exception as e:
         return err_handler(e)
 
-
-# @st.cache_data(ttl=120, show_spinner='Adding to DataBase...')
-def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, description, link, source, comment):
-    with db_session:
-        try:
-            set_draw_id = int(select(sod.id for sod in SOD if (sod.project_id == Project[proj_name]
-                                                               and sod.set_name == SOD.get(set_name=sod_name).id)))
-            Task(
-                set_id=set_draw_id,  # should be an instance of SOD
-                stage=stage,
-                in_out=in_out,
-                speciality=speciality,
-                date=issue_date,
-                description=description,
-                link=link,
-                backup_copy='NA',
-                source=source,
-                comment=comment,
-                added_by=st.session_state.user
-            )
-            return f"""
-            New Task for {set_draw_id} -> {speciality} is added to DataBase  
-            """
-
-        except Exception as e:
-            return err_handler(e)
 
 
 def confirm_task(task_id, user, proj, sod):
