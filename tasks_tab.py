@@ -66,7 +66,7 @@ def add_task(ass_content):
             st.write("")
             # right_col2.write("")
             st.markdown("""<style>
-                            .nobord {
+                            .task_preview {
                                     border-style: hidden;
                                     margin-left: auto;
                                     margin-right: auto;
