@@ -68,8 +68,7 @@ def add_task(ass_content):
             st.markdown("""<style>
                             .task_preview table {
                                     border-style: hidden;
-                                    margin-left: auto;
-                                    margin-right: auto;
+                                    margin: auto;
                                 }
 
                             .task_preview td {
