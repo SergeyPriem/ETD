@@ -63,6 +63,9 @@ def add_task(ass_content):
                 st.write("")
                 # right_col2.write("")
                 st.markdown(f"""
+                <tr>
+                    <td>Project:</td><td>**:blue[{project}]**</td>
+                </tr>
                 Project: <p style="margin-left: 50px;">**:blue[{project}]**</p>
                 <br>
                 Set of Drawings / Unit: <p style="margin-left: 50px;">**:blue[{set_of_dr}]**</p>
