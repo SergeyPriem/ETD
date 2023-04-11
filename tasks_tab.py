@@ -60,21 +60,18 @@ def add_task(ass_content):
                     link = "Non-assignment"
                     comments = "Non-assignment"
 
-                right_col2.write("")
-                right_col2.write("")
-                left_col2.markdown(f"""
+                st.write("")
+                # right_col2.write("")
+                st.markdown(f"""
                 Project: **:blue[{project}]**
+                <br>
+                Set of Drawings / Unit: **:blue[{set_of_dr}]**
                 <br>
                 Speciality: **:blue[{speciality}]**
                 <br>
                 Stage: **:blue[{stage}]**
                 <br>
                 In or Out: **:blue[{direction}]**
-                <br>
-                Non-Task: **:blue[{non_assign}]**
-                """, unsafe_allow_html=True)
-                right_col2.markdown(f"""
-                Set of Drawings / Unit: **:blue[{set_of_dr}]**
                 <br>
                 Date: **:blue[{date}]**
                 <br>
@@ -83,6 +80,9 @@ def add_task(ass_content):
                 Path: **:blue[{link}]**
                 <br>
                 Received by: **:blue[{source}]**
+                <br>
+                Non-Task: **:blue[{non_assign}]**
+                
                 """, unsafe_allow_html=True)
 
                 reply = ''
