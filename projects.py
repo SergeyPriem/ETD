@@ -96,7 +96,7 @@ def get_table(table_name):
         except Exception as e:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
-
+@st.cache_data(300, show_spinner='Getting Data from DB...')
 def get_tasks(user=None):
     # print(email)
     with db_session:
@@ -298,15 +298,6 @@ def get_set_to_edit(selected_project, selected_set):
             return data
         except Exception as e:
             return err_handler(e)
-
-    # try:
-    #     with db_session:
-    #         table = select(
-    #             e for e in SOD
-    #             if (e.project_id == Project.get(short_name=selected_project) and e.set_name == selected_set))
-    #         return tab_to_df(table)
-    # except Exception as e:
-    #     return err_handler(e)
 
 
 def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, description, link, source, comment):
