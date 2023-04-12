@@ -96,7 +96,7 @@ def get_table(table_name):
         except Exception as e:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
-@st.cache_data(300, show_spinner='Getting Data from DB...')
+@st.cache_data(ttl=300, show_spinner='Getting Data from DB...')
 def get_tasks(user=None):
     # print(email)
     with db_session:
