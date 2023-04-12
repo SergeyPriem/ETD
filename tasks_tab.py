@@ -175,6 +175,9 @@ def add_task(ass_content):
                         else:
                             st.info(reply)
 
+                if st.button("Next",use_container_width=True):
+                    st.experimental_rerun()
+
 
 def view_tasks(ass_tab2, my_all):
     with ass_tab2:
