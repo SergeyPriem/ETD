@@ -175,7 +175,7 @@ def add_task(ass_content):
                         else:
                             st.info(reply)
 
-                if st.button("Next",use_container_width=True):
+                if st.button("N E X T"):
                     st.experimental_rerun()
 
 
