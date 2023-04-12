@@ -103,8 +103,10 @@ def get_tasks(user=None):
         try:
             if user:
                 db_user = Users.get(login=user)
-                pers_sets_list = select(
-                    sod.id for sod in SOD if (sod.coord_id == db_user) or (sod.perf_id == db_user))[:]
+
+                # pers_sets_list = select(
+                #     sod.id for sod in SOD if (sod.coord_id == db_user) or (sod.perf_id == db_user))[:]
+
                 data = select(
                     (
                         t.id,
@@ -122,7 +124,10 @@ def get_tasks(user=None):
                         t.perf_log,
                         t.comment,
                         t.added_by
-                    ) for t in Task if t.s_o_d.id in pers_sets_list)[:]
+                    )
+                    for t in Task
+                    for s in t.s_o_d
+                    if s.coord_id == db_user or s.perf_id == db_user)[:]
 
             else:
                 data = select(
