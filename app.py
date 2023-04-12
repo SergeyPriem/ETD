@@ -24,41 +24,40 @@ from users import check_user, add_to_log, get_logged_rights, \
     update_user_reg_data, get_all_emails, register_user, get_appl_logins, get_logins_for_registered
 from projects import confirm_task, get_trans, confirm_trans, get_pers_tasks, get_projects_names
 
-if 'delay' not in st.session_state:
-    st.session_state.delay = 2
 
-if "preview_proj_stat" not in st.session_state:
-    st.session_state.preview_proj_stat = False
+def create_states():
+    if 'delay' not in st.session_state:
+        st.session_state.delay = 2
 
-if "logged" not in st.session_state:
-    st.session_state.logged = False
+    if "preview_proj_stat" not in st.session_state:
+        st.session_state.preview_proj_stat = False
 
-if 'rights' not in st.session_state:
-    st.session_state.rights = 'basic'
+    if "logged" not in st.session_state:
+        st.session_state.logged = False
 
-if 'code_sent' not in st.session_state:
-    st.session_state.code_sent = False
+    if 'rights' not in st.session_state:
+        st.session_state.rights = 'basic'
 
-if 'upd_code_sent' not in st.session_state:
-    st.session_state.upd_code_sent = False
+    if 'code_sent' not in st.session_state:
+        st.session_state.code_sent = False
 
-if 'vert_menu' not in st.session_state:
-    st.session_state.vert_menu = 1
+    if 'upd_code_sent' not in st.session_state:
+        st.session_state.upd_code_sent = False
 
-if 'user' not in st.session_state:
-    st.session_state['user'] = None
+    if 'vert_menu' not in st.session_state:
+        st.session_state.vert_menu = 1
 
-if st.session_state.user:
-    log_in_out = 'Log Out'
-else:
-    log_in_out = 'Log In'
+    if 'user' not in st.session_state:
+        st.session_state['user'] = None
 
-if 'task_preview' not in st.session_state:
-    st.session_state.task_preview = False
+    if 'task_preview' not in st.session_state:
+        st.session_state.task_preview = False
 
-if 'proj_names' not in st.session_state:
-    st.session_state.proj_names = get_projects_names()
+    if 'proj_names' not in st.session_state:
+        st.session_state.proj_names = get_projects_names()
 
+
+create_states()
 # from streamlit_profiler import Profiler
 
 # pf = Profiler()
@@ -67,10 +66,13 @@ if 'proj_names' not in st.session_state:
 
 appearance_settings()
 
+if st.session_state.user:
+    log_in_out = 'Log Out'
+else:
+    log_in_out = 'Log In'
+
 if 'registered_logins' not in st.session_state:
-
     reg_logins = get_logins_for_registered()
-
     if isinstance(reg_logins, list):
         st.session_state.registered_logins = reg_logins
     else:
@@ -348,6 +350,7 @@ def home_content():
         with reg_tab:
             if st.session_state.logged:
                 st.subheader("You are Registered & Logged In 😎")
+                st.info(st.session_state.rights)
             else:
                 appl_logins = get_appl_logins()
 
@@ -654,14 +657,17 @@ def get_menus():
         menu = [*short_menu]
         icons = [*short_icons]
         return menu, icons
+
     if st.session_state.rights == "performer":
         menu = [*short_menu, *performer_menu]
         icons = [*short_icons, *performer_icons]
         return menu, icons
+
     if st.session_state.rights == "admin":
         menu = [*short_menu, *performer_menu, *admin_menu]
         icons = [*short_icons, *performer_icons, *admin_icons]
         return menu, icons
+
     if st.session_state.rights == "supervisor":
         menu = [*short_menu, *performer_menu, *admin_menu, *super_menu]
         icons = [*short_icons, *performer_icons, *admin_icons, *super_icons]
