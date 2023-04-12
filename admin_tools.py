@@ -5,8 +5,7 @@ import pandas as pd
 import streamlit as st
 from models import Project, Task, VisitLog, SOD, Users, Trans, Speciality
 from pre_sets import proj_statuses, reporter, stages, sod_statuses, sod_revisions
-from projects import create_project, get_projects_names, get_table, update_projects, add_sod, get_sets_names, \
-    get_set_to_edit, update_sets
+from projects import create_project, get_table, update_projects, add_sod, get_sets_names, get_set_to_edit
 from users import get_logins_for_current, get_all_logins
 
 
@@ -73,7 +72,7 @@ def manage_projects():
                 # st.session_state.preview_proj_stat = False
 
         with proj_tab2:
-            proj_to_edit_list = st.multiselect('Select Projects to Edit', get_projects_names())
+            proj_to_edit_list = st.multiselect('Select Projects to Edit', st.session_state.proj_names)
 
             if proj_to_edit_list:
                 proj_df = get_table(Project)
@@ -129,7 +128,7 @@ def manage_sets():
             st.subheader("Create Set of Drawings")
 
             with st.form('new_sod'):
-                proj_short = st.selectbox('Select a Project', get_projects_names())
+                proj_short = st.selectbox('Select a Project', st.session_state.proj_names)
                 set_name = st.text_input("Enter the Name for new Set of Drawings / Unit").strip()
                 stage = st.radio("Select the Stage", stages, horizontal=True)
                 coordinator = st.selectbox("Coordinator", st.session_state.registered_logins)
@@ -145,7 +144,7 @@ def manage_sets():
 
         with sets_edit:
             st.subheader('Edit Existing Set of Drawings')
-            proj_for_sets_edit = st.selectbox('Select Projects for Edited Unit / Set', get_projects_names(),)
+            proj_for_sets_edit = st.selectbox('Select Projects for Edited Unit / Set', st.session_state.proj_names,)
 
             sets_list = get_sets_names(proj_for_sets_edit)
             # st.write(sets_list)

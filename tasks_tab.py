@@ -3,8 +3,7 @@
 import pandas as pd
 import streamlit as st
 from pre_sets import specialities, reporter
-from projects import get_projects_names, get_sets_for_project, add_in_to_db, add_out_to_db, \
-    get_tasks
+from projects import get_sets_for_project, add_in_to_db, add_out_to_db, get_tasks
 
 
 def tasks_content():
@@ -51,7 +50,7 @@ def add_task(ass_content):
         plaho = st.empty()
 
         with plaho.container():
-            project = st.selectbox('Select the Project', get_projects_names())
+            project = st.selectbox('Select the Project', st.session_state.proj_names)
 
             with st.form(key="add_ass"):
                 set_of_dr = st.multiselect('Select the Set Of Drawings / Unit',

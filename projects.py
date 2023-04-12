@@ -641,16 +641,6 @@ def get_trans(login=None):
             return err_handler(e)
 
 
-@st.cache_data(ttl=1800)
-def get_proj_list():
-    with db_session:
-        try:
-            proj_list = select(p.short_name for p in Project)[:]
-            return proj_list
-        except Exception as e:
-            return err_handler(e)
-
-
 def add_new_trans(project, in_trans, out_trans, t_type, subj, link, trans_date, ans_required, out_date, author,
                   responsible, notes):
     with db_session:

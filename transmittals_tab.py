@@ -3,7 +3,7 @@ import pandas as pd
 import streamlit as st
 
 from pre_sets import trans_types
-from projects import get_trans, get_proj_list, add_new_trans
+from projects import get_trans, add_new_trans
 from users import get_logins_for_registered
 
 
@@ -22,7 +22,7 @@ def transmittals_content():
         with add_trans_tab:
             with st.form("add_trans"):
                 lc, cc, rc = st.columns([5, 4, 4], gap='medium')
-                project = lc.selectbox("Project", get_proj_list())
+                project = lc.selectbox("Project", st.session_state.proj_names)
                 t_type = lc.radio("Transmittal Type", trans_types, horizontal=True)
                 lc.write("")
                 ref_trans = rc.text_input("In reply to")
