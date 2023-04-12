@@ -40,8 +40,8 @@ def tasks_content():
             add_task(ass_tab1)
 
         with ass_tab2:
-            own_all = st.radio('Select', ("My", "All"), horizontal=True, label_visibility='collapsed')
-            view_tasks(ass_tab2, own_all)
+            my_all = st.radio('Select', ("My", "All"), horizontal=True, label_visibility='collapsed')
+            view_tasks(ass_tab2, my_all)
 
 
 def add_task(ass_content):
