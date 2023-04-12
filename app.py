@@ -350,7 +350,6 @@ def home_content():
         with reg_tab:
             if st.session_state.logged:
                 st.subheader("You are Registered & Logged In 😎")
-                st.info(st.session_state.rights)
             else:
                 appl_logins = get_appl_logins()
 
@@ -651,7 +650,7 @@ short_menu = ["Home"]
 short_icons = ['house']
 
 
-@st.cache_data(ttl=600)
+# @st.cache_data(ttl=600)
 def get_menus():
     if st.session_state.rights == "basic":
         menu = [*short_menu]
@@ -686,6 +685,9 @@ if st.session_state.logged:
             st.image(image, use_column_width=True)
             selected = option_menu("ET Department", get_menus()[0], icons=get_menus()[1],
                                    menu_icon="bi bi-plug", default_index=0)
+
+            st.info(st.session_state.rights)
+
     else:
         selected = option_menu(None, get_menus()[0], icons=get_menus()[1],
                                menu_icon=None, default_index=0, orientation='horizontal')
