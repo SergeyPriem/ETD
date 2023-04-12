@@ -533,10 +533,11 @@ def confirm_task(task_id, user, proj, sod):
     with db_session:
         try:
             heroes = select(
-                (p.coord_id, p.perf_id)
-                for p in SOD
-                if (p.project_id == Project[proj] and p.set_name == sod)
+                (s.coord_id, s.perf_id)
+                for s in SOD
+                if (s.project_id == Project.get(short_name=proj) and s.set_name == sod)
             ).first()
+
             if user == heroes[0].id:
                 Task[task_id].coord_log = str(
                     Task[task_id].coord_log).replace('None', '') + f"*{user}*{str(datetime.now())[:-10]}* "
