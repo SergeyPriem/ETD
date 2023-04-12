@@ -148,34 +148,36 @@ def add_task(ass_content):
 
                 st.session_state.task_preview = False
 
-                if direction == "IN":
-                    for single_set in set_of_dr:
-                        # reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date, description,
-                        #                      link, source, comments)
-                        st.write((project, single_set, stage, direction, speciality[0], date, description,
-                                  link, source, comments))
-                        reply = "Added <*> Successfully"
+                with plaho.container():
+                    if direction == "IN":
+                        for single_set in set_of_dr:
+                            # reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date, description,
+                            #                      link, source, comments)
+                            st.write((project, single_set, stage, direction, speciality[0], date, description,
+                                      link, source, comments))
+                            reply = "Added <*> Successfully"
 
-                        if '<*>' in reply:
-                            rep1, rep2 = reply.split('<*>')
-                            st.write(rep1)
-                            st.info(rep2)
-                        else:
-                            st.warning(reply)
+                            if '<*>' in reply:
+                                rep1, rep2 = reply.split('<*>')
+                                st.write(rep1)
+                                st.info(rep2)
+                            else:
+                                st.warning(reply)
 
-                else:
-                    for single_spec in speciality:
-                        # reply = add_out_to_db(project, set_of_dr[0], stage, direction, single_spec, date, description,
-                        #                       link, source, comments)
-                        st.write((project, set_of_dr[0], stage, direction, single_spec, date, description,
-                                  link, source, comments))
-                        reply = "Added <*> Successfully"
-                        if 'ERROR' in reply.upper():
-                            st.warning(reply)
-                        else:
-                            st.info(reply)
+                    else:
+                        for single_spec in speciality:
+                            # reply = add_out_to_db(project, set_of_dr[0], stage, direction, single_spec, date, description,
+                            #                       link, source, comments)
+                            st.write((project, set_of_dr[0], stage, direction, single_spec, date, description,
+                                      link, source, comments))
+                            reply = "Added <*> Successfully"
+                            if 'ERROR' in reply.upper():
+                                st.warning(reply)
+                            else:
+                                st.info(reply)
 
                 if st.button("N E X T"):
+                    plaho.empty()
                     st.experimental_rerun()
 
 
