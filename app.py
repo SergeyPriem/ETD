@@ -260,7 +260,7 @@ def home_content():
                                 but_key = f"Confirm Task: {row.id}"
                                 task_id = row.id
                                 if st.button(label=but_key, key=but_key, type='primary', on_click=confirm_task, args=(
-                                        row.id)):
+                                        (row.id,))):
                                     st.info(f"Task {task_id} confirmed!!")
                                 st.text("")
                         else:
