@@ -517,18 +517,18 @@ def etap_py():
     with phone_2:
         st.empty()
     with phone_content:
-        st.title(':orange[Phone Directory]')
-        st.text("📞 Find a Colleague Contact")
-        st.text("📞 UNDER DEVELOPMENT")
-        name_col, pos_col, dept_col, email_col = st.columns(4, gap="medium")
-        with name_col:
-            name = st.text_input("Name or Surname")
-        with pos_col:
-            position = st.text_input("Position")
-        with dept_col:
-            dept = st.text_input("Department")
-        with email_col:
-            email = st.text_input("E-mail")
+        st.title(':orange[Create SLD from Load List]')
+        # st.text("📞 Find a Colleague Contact")
+        # st.text("📞 UNDER DEVELOPMENT")
+        # name_col, pos_col, dept_col, email_col = st.columns(4, gap="medium")
+        # with name_col:
+        #     name = st.text_input("Name or Surname")
+        # with pos_col:
+        #     position = st.text_input("Position")
+        # with dept_col:
+        #     dept = st.text_input("Department")
+        # with email_col:
+        #     email = st.text_input("E-mail")
         # df = get_phones()
         # # df=df.set_index('id')
         # # edited_df = st.experimental_data_editor(df, use_container_width=True)

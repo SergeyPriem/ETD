@@ -48,95 +48,100 @@ def tasks_content():
 def add_task(ass_content):
     with ass_content:
         # left_col, right_col = st.columns(2)
-        project = st.selectbox('Select the Project', get_projects_names())
+        plaho = st.empty()
 
-        with st.form(key="add_ass"):
-            set_of_dr = st.multiselect('Select the Set Of Drawings / Unit',
-                                       options=get_sets_for_project(project))
+        with plaho.container():
+            project = st.selectbox('Select the Project', get_projects_names())
 
-            left_col2, right_col2 = st.columns(2)
-            speciality = left_col2.multiselect("Speciality", specialities)
-            description = right_col2.text_input('Description of Task')
+            with st.form(key="add_ass"):
+                set_of_dr = st.multiselect('Select the Set Of Drawings / Unit',
+                                           options=get_sets_for_project(project))
 
-            col_31, col_32, col_33, col_34 = st.columns([1, 1, 1, 3])
-            direction = col_31.radio('Direction', ('IN', 'OUT'), horizontal=True)
-            col_32.write('')
-            col_32.write('')
-            date = col_33.date_input('Date')
-            non_assign = col_32.checkbox('Non-Task')
-            stage = col_34.radio('Stage', ('Detail Design', 'Basic Design', 'Feasibility Study',
-                                           'Adaptation', 'As-built'), horizontal=True)
+                left_col2, right_col2 = st.columns(2)
+                speciality = left_col2.multiselect("Speciality", specialities)
+                description = right_col2.text_input('Description of Task')
 
-            left_col3, right_col3 = st.columns(2)
-            link = left_col3.text_input('Path')
-            comments = left_col3.text_input('Comments')
-            source = right_col3.text_area('Received by:', value='Received by paper', height=127)
+                col_31, col_32, col_33, col_34 = st.columns([1, 1, 1, 3])
+                direction = col_31.radio('Direction', ('IN', 'OUT'), horizontal=True)
+                col_32.write('')
+                col_32.write('')
+                date = col_33.date_input('Date')
+                non_assign = col_32.checkbox('Non-Task')
+                stage = col_34.radio('Stage', ('Detail Design', 'Basic Design', 'Feasibility Study',
+                                               'Adaptation', 'As-built'), horizontal=True)
 
-            ass_preview = st.form_submit_button("Preview Task", use_container_width=True)
+                left_col3, right_col3 = st.columns(2)
+                link = left_col3.text_input('Path')
+                comments = left_col3.text_input('Comments')
+                source = right_col3.text_area('Received by:', value='Received by paper', height=127)
 
-        pr_l, pr_c, pr_r = st.columns([1, 2, 1])
-        if ass_preview:
-            st.session_state.task_preview = True
-            if non_assign:
-                description = "Non-assignment"
-                link = "Non-assignment"
-                comments = "Non-assignment"
+                ass_preview = st.form_submit_button("Preview Task", use_container_width=True)
 
-            st.write("")
+            pr_l, pr_c, pr_r = st.columns([1, 2, 1])
+            if ass_preview:
+                st.session_state.task_preview = True
+                if non_assign:
+                    description = "Non-assignment"
+                    link = "Non-assignment"
+                    comments = "Non-assignment"
 
-            with pr_c:
-                st.markdown("""<style>
-                                .task_preview table, tr {
-                                        border-style: hidden;
-                                        margin: auto;
-                                    }
-    
-                                .task_preview td {
-                                        border-style: hidden;
-                                        text-align: left;
-                                    }
-                                  </style>
-                                  """, unsafe_allow_html=True)
+                st.write("")
 
-                st.markdown(f"""
-                <table class="task_preview">
-                    <tr>
-                        <td>Project:</td><td style="color: #1569C7;"><b>{project}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Unit:</td><td style="color: #1569C7;"><b>{set_of_dr}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Speciality:</td><td style="color: #1569C7;"><b>{speciality}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Stage:</td><td style="color: #1569C7;"><b>{stage}</b></td>
-                    </tr>
-                    <tr>
-                        <td>In or Out:</td><td style="color: #1569C7;"><b>{direction}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Date:</td><td style="color: #1569C7;"><b>{date}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Description:</td><td style="color: #1569C7;"><b>{description}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Path:</td><td style="color: #1569C7;"><b>{link}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Received by:</td><td style="color: #1569C7;"><b>{source}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Non-Task:</td><td style="color: #1569C7;"><b>{non_assign}</b></td>
-                    </tr>
-                </table>
-                """, unsafe_allow_html=True)
+                with pr_c:
+                    st.markdown("""<style>
+                                    .task_preview table, tr {
+                                            border-style: hidden;
+                                            margin: auto;
+                                        }
+        
+                                    .task_preview td {
+                                            border-style: hidden;
+                                            text-align: left;
+                                        }
+                                      </style>
+                                      """, unsafe_allow_html=True)
 
-        if st.session_state.task_preview:
-            st.text('')
+                    st.markdown(f"""
+                    <table class="task_preview">
+                        <tr>
+                            <td>Project:</td><td style="color: #1569C7;"><b>{project}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Unit:</td><td style="color: #1569C7;"><b>{set_of_dr}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Speciality:</td><td style="color: #1569C7;"><b>{speciality}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Stage:</td><td style="color: #1569C7;"><b>{stage}</b></td>
+                        </tr>
+                        <tr>
+                            <td>In or Out:</td><td style="color: #1569C7;"><b>{direction}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Date:</td><td style="color: #1569C7;"><b>{date}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Description:</td><td style="color: #1569C7;"><b>{description}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Path:</td><td style="color: #1569C7;"><b>{link}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Received by:</td><td style="color: #1569C7;"><b>{source}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Non-Task:</td><td style="color: #1569C7;"><b>{non_assign}</b></td>
+                        </tr>
+                    </table>
+                    """, unsafe_allow_html=True)
+
+            if st.session_state.task_preview:
+                st.text('')
 
             if pr_c.button('Add Task', type='primary', use_container_width=True):
+
+                plaho.empty()
 
                 st.session_state.task_preview = False
 
