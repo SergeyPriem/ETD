@@ -195,8 +195,8 @@ def get_pers_tasks(login: str) -> pd.DataFrame:
                 )
                 for t in Task
                 for s in t.set_id
-                if (s.coord_id == Users.get(login=login) and login not in t.coord_log)
-                or (s.perf_id == Users.get(login=login) and login not in t.perf_log))[:]
+                if (s.coord_id == Users.get(login=login) and (login not in t.coord_log))
+                or ((s.perf_id == Users.get(login=login)) and (login not in t.perf_log)))[:]
 
             df = pd.DataFrame(data, columns=[
                 "id",
