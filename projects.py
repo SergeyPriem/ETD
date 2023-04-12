@@ -166,12 +166,12 @@ def get_tasks(user=None):
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
 
-def get_pers_tasks(login: str) -> pd.DataFrame:
+def get_pers_tasks() -> pd.DataFrame:
     """
     Returns coordinator's or performer's tasks which is not confirmed
-    :param login
     :return: DataFrame
     """
+    login = st.session_state.user
 
     with db_session:
         try:

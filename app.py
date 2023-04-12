@@ -189,7 +189,7 @@ def home_content():
 
                     ass_col, blank_col, trans_col = st.columns([10, 2, 10])
                     with ass_col:
-                        df = get_pers_tasks(st.session_state.user)
+                        df = get_pers_tasks()
 
                         if isinstance(df, pd.DataFrame) and len(df) > 0:
                             st.subheader(":orange[New Incoming Tasks]")
@@ -260,7 +260,7 @@ def home_content():
                                 but_key = f"Confirm Task: {row.id}"
                                 task_id = row.id
                                 if st.button(label=but_key, key=but_key, type='primary', on_click=confirm_task, args=(
-                                        row.id, st.session_state.user, row.project, row.unit)):
+                                        row.id)):
                                     st.info(f"Task {task_id} confirmed!!")
                                 st.text("")
                         else:
