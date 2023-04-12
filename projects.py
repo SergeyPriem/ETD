@@ -122,7 +122,7 @@ def get_tasks(user=None):
                         t.perf_log,
                         t.comment,
                         t.added_by
-                    ) for t in Task if t.s_o_d in pers_sets_list)[:]
+                    ) for t in Task if t.s_o_d.id in pers_sets_list)[:]
 
             else:
                 data = select(
