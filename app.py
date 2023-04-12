@@ -416,7 +416,13 @@ def home_content():
                         """
 
                         if not st.session_state.code_sent:
-                            if send_mail(receiver=login, cc_rec="sergey.priemshiy@uzliti-en.com",
+                            user = get_user_data(login)
+
+                            if ("ERROR" in user) or ("@" not in user.email):
+                                st.warning("Can't get User's email")
+                                st.stop()
+
+                            if send_mail(receiver=user.email, cc_rec="sergey.priemshiy@uzliti-en.com",
                                          html=conf_html, subj="Confirmation of ETD site registration"):
                                 st.session_state.code_sent = True
                                 st.info("Confirmation Code sent to Your Company Email")
