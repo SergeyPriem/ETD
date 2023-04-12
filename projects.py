@@ -195,8 +195,8 @@ def get_pers_tasks(login: str) -> pd.DataFrame:
                 )
                 for t in Task
                 for s in t.s_o_d
-                if (s.coord_id == Users.get(login=login) and (login not in t.coord_log))
-                or ((s.perf_id == Users.get(login=login)) and (login not in t.perf_log)))[:]
+                if (s.coord_id == Users.get(login=login) and (login not in t.coord_log) and "confirmed" not in t.coord_log)
+                or ((s.perf_id == Users.get(login=login)) and (login not in t.perf_log) and "confirmed" not in t.perf_log))[:]
 
             df = pd.DataFrame(data, columns=[
                 "id",
@@ -529,20 +529,19 @@ def get_own_tasks(set_id):
         return err_handler(e)
 
 
-def confirm_task(task_id, user, proj, sod):
+def confirm_task(task_id):
+    user = st.session_state.user
     with db_session:
         try:
-            heroes = select(
-                (s.coord_id, s.perf_id)
-                for s in SOD
-                if (s.project_id == Project.get(short_name=proj) and s.set_name == sod)
-            ).first()
 
-            if user == heroes[0].id:
+            sod = Task[task_id].s_o_d
+            coord, perform = sod.coord_id, sod.perf_id
+
+            if user == coord.login:
                 Task[task_id].coord_log = str(
                     Task[task_id].coord_log).replace('None', '') + f"*{user}*{str(datetime.now())[:-10]}* "
 
-            if user == heroes[1].id:
+            if user == perform.login:
                 Task[task_id].perf_log = str(
                     Task[task_id].perf_log).replace('None', '') + f"*{user}*{str(datetime.now())[:-10]}* "
 
