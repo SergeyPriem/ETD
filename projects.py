@@ -196,7 +196,7 @@ def get_pers_tasks(login: str) -> pd.DataFrame:
                 for t in Task
                 for s in t.set_id
                 if (s.coord_id == Users.get(login=login) and login not in t.coord_log)
-                    or (s.perf_id == Users.get(login=login) and login not in t.perf_log))[:]
+                or (s.perf_id == Users.get(login=login) and login not in t.perf_log))[:]
 
             df = pd.DataFrame(data, columns=[
                 "id",
@@ -372,6 +372,7 @@ def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, de
         except Exception as e:
             return err_handler(e)
 
+
 def update_projects(edited_proj_df):
     for ind, row in edited_proj_df.iterrows():
         if row.edit:
@@ -526,7 +527,6 @@ def get_own_tasks(set_id):
 
     except Exception as e:
         return err_handler(e)
-
 
 
 def confirm_task(task_id, user, proj, sod):
