@@ -82,7 +82,6 @@ def add_task(ass_content):
             if ass_preview:
                 st.session_state.task_preview = True
 
-
                 st.write("")
 
                 with pr_c:
@@ -151,8 +150,12 @@ def add_task(ass_content):
 
                 if direction == "IN":
                     for single_set in set_of_dr:
-                        reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date, description,
-                                             link, source, comments)
+                        # reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date, description,
+                        #                      link, source, comments)
+                        st.write((project, single_set, stage, direction, speciality[0], date, description,
+                                  link, source, comments))
+                        reply = "Added <*> Successfully"
+
                         if '<*>' in reply:
                             rep1, rep2 = reply.split('<*>')
                             st.write(rep1)
@@ -162,8 +165,11 @@ def add_task(ass_content):
 
                 else:
                     for single_spec in speciality:
-                        reply = add_out_to_db(project, set_of_dr[0], stage, direction, single_spec, date, description,
-                                              link, source, comments)
+                        # reply = add_out_to_db(project, set_of_dr[0], stage, direction, single_spec, date, description,
+                        #                       link, source, comments)
+                        st.write((project, set_of_dr[0], stage, direction, single_spec, date, description,
+                                  link, source, comments))
+                        reply = "Added <*> Successfully"
                         if 'ERROR' in reply.upper():
                             st.warning(reply)
                         else:
