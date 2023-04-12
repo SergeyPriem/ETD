@@ -5,8 +5,6 @@ import streamlit as st
 from pre_sets import specialities, specialities_rus
 from projects import get_sets, get_own_tasks
 
-st.cache_data(ttl=600)
-
 
 def drawing_sets():
     st.markdown("""
@@ -167,7 +165,7 @@ def drawing_sets():
                         if len(request_df[request_df.request].index):
                             st.subheader("Draft of e-mail")
                             st.markdown("""<u>Тема:</u>""", unsafe_allow_html=True)
-                            #{proj_selected}]. Unit: :red[{units_selected[0]}]")
+                            # {proj_selected}]. Unit: :red[{units_selected[0]}]")
                             st.markdown(f"**Недостающие задания для {proj_selected}: {units_selected[0]}**")
                             st.markdown("""<u>Тело:</u>""", unsafe_allow_html=True)
                             st.markdown(f"""

@@ -11,7 +11,6 @@ from users import err_handler
 set_sql_debug(True)
 
 
-@st.cache_data(ttl=360, show_spinner="Deleting Table Row...")
 def delete_table_row(Table, row_id):
     with db_session:
         try:
@@ -24,7 +23,6 @@ def delete_table_row(Table, row_id):
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
 
-@st.cache_data(ttl=120, show_spinner='Creating Backup String...')
 def create_backup_string(source_link, backup_folder, task_num):
     if source_link != "Non-assignment":
         head = "xcopy /e /r /f /-y "
@@ -46,7 +44,6 @@ def tab_to_df(tab):
         return "Empty Table"
 
 
-@st.cache_data(ttl=360, show_spinner="Creating Project...")
 def create_project(proj_short, proj_full, client, proj_man, responsible_el, proj_status, proj_tech_ass,
                    proj_tech_conditions, proj_surveys, proj_mdr, proj_notes):
     if len(proj_short) < 3:
@@ -73,7 +70,6 @@ def create_project(proj_short, proj_full, client, proj_man, responsible_el, proj
             return err_handler(e)
 
 
-# @st.cache_data(ttl=120, show_spinner='Getting Projects...')
 def get_projects_names():
     try:
         with db_session:
@@ -83,7 +79,6 @@ def get_projects_names():
         return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
 
-# @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_sets_for_project(proj):
     try:
         with db_session:
@@ -93,7 +88,6 @@ def get_sets_for_project(proj):
         return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
 
-# @st.cache_data(ttl=60, show_spinner="Getting Data from DB...")
 def get_table(table_name):
     with db_session:
         try:
@@ -103,7 +97,6 @@ def get_table(table_name):
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
 
-# @st.cache_data(ttl=60, show_spinner='Getting Assignments...')
 def get_tasks(user=None):
     # print(email)
     with db_session:
@@ -227,7 +220,6 @@ def get_pers_tasks(email: str) -> pd.DataFrame:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
 
-@st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_sets_names(selected_project):
     with db_session:
         try:
@@ -380,7 +372,6 @@ def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, de
         except Exception as e:
             return err_handler(e)
 
-# @st.cache_data(ttl=120, show_spinner='Updating Projects...')
 def update_projects(edited_proj_df):
     for ind, row in edited_proj_df.iterrows():
         if row.edit:
@@ -405,7 +396,6 @@ def update_projects(edited_proj_df):
     return "Updated Successfully"
 
 
-# @st.cache_data(ttl=120, show_spinner='Updating Sets / Units Data...')
 def update_sets(edited_set_df):
     for ind, row in edited_set_df.iterrows():
         if row.edit:
@@ -431,7 +421,6 @@ def update_sets(edited_set_df):
     return "Updated Successfully"
 
 
-# @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_sets(login):
     with db_session:
         try:
@@ -491,7 +480,6 @@ def get_sets(login):
             return err_handler(e)
 
 
-# @st.cache_data(ttl=120, show_spinner='Getting Sets / Units Data...')
 def get_own_tasks(set_id):
     try:
         with db_session:

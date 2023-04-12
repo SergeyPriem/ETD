@@ -23,7 +23,7 @@ proj_statuses = ('current', 'perspective', 'completed', 'final stage', 'cancelle
 trans_stat = ("Open", "Closed", "For Info", "Not Enough Data", "In Progress", "Issued Docs")
 
 trans_types = ('Comments', "Letter", 'Vendor Docs', 'TBE', 'FCN', 'Design Docs')
-@st.cache_data
+
 def appearance_settings():
     hide_menu_style = """
             <style>

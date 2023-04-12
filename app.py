@@ -521,7 +521,6 @@ def home_content():
                     st.write("Enter the Code and press 'Update Password'")
 
 
-# @st.cache_data(ttl=600)
 def etap_py():
     phone_1, phone_content, phone_2 = st.columns([1, 9, 1])
     with phone_1:
@@ -547,7 +546,6 @@ def etap_py():
         # st.write(df)
 
 
-# @st.cache_data(ttl=600)
 def manage_users():
     users_1, users_content, users_2 = st.columns([1, 2, 1])
     with users_1:
@@ -650,7 +648,6 @@ short_menu = ["Home"]
 short_icons = ['house']
 
 
-# @st.cache_data(ttl=600)
 def get_menus():
     if st.session_state.rights == "basic":
         menu = [*short_menu]
