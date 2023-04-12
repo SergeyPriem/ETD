@@ -78,6 +78,7 @@ def add_task(ass_content):
                 ass_preview = st.form_submit_button("Preview Task", use_container_width=True)
 
             pr_l, pr_c, pr_r = st.columns([1, 2, 1])
+
             if ass_preview:
                 st.session_state.task_preview = True
                 if non_assign:
@@ -139,31 +140,31 @@ def add_task(ass_content):
             if st.session_state.task_preview:
                 st.text('')
 
-            if pr_c.button('Add Task', type='primary', use_container_width=True):
+                if pr_c.button('Add Task', type='primary', use_container_width=True):
 
-                plaho.empty()
+                    plaho.empty()
 
-                st.session_state.task_preview = False
+                    st.session_state.task_preview = False
 
-                if direction == "IN":
-                    for single_set in set_of_dr:
-                        reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date, description,
-                                             link, source, comments)
-                        if '<*>' in reply:
-                            rep1, rep2 = reply.split('<*>')
-                            st.write(rep1)
-                            st.info(rep2)
-                        else:
-                            st.warning(reply)
+                    if direction == "IN":
+                        for single_set in set_of_dr:
+                            reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date, description,
+                                                 link, source, comments)
+                            if '<*>' in reply:
+                                rep1, rep2 = reply.split('<*>')
+                                st.write(rep1)
+                                st.info(rep2)
+                            else:
+                                st.warning(reply)
 
-                else:
-                    for single_spec in speciality:
-                        reply = add_out_to_db(project, set_of_dr[0], stage, direction, single_spec, date, description,
-                                              link, source, comments)
-                        if 'ERROR' in reply.upper():
-                            st.warning(reply)
-                        else:
-                            st.info(reply)
+                    else:
+                        for single_spec in speciality:
+                            reply = add_out_to_db(project, set_of_dr[0], stage, direction, single_spec, date, description,
+                                                  link, source, comments)
+                            if 'ERROR' in reply.upper():
+                                st.warning(reply)
+                            else:
+                                st.info(reply)
 
 
 def view_tasks(ass_tab2, my_all):
