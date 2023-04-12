@@ -418,7 +418,7 @@ def home_content():
                         if not st.session_state.code_sent:
                             user = get_user_data(login)
 
-                            if ("ERROR" in user) or ("@" not in user.email):
+                            if "@" not in user.email:
                                 st.warning("Can't get User's email")
                                 st.stop()
 
