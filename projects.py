@@ -96,6 +96,7 @@ def get_table(table_name):
         except Exception as e:
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
+
 @st.cache_data(ttl=300, show_spinner='Getting Data from DB...')
 def get_tasks(user=None):
     # print(email)
@@ -200,8 +201,10 @@ def get_pers_tasks() -> pd.DataFrame:
                 )
                 for t in Task
                 for s in t.s_o_d
-                if (s.coord_id == Users.get(login=login) and (login not in t.coord_log) and "confirmed" not in t.coord_log)
-                or ((s.perf_id == Users.get(login=login)) and (login not in t.perf_log) and "confirmed" not in t.perf_log))[:]
+                if
+                (s.coord_id == Users.get(login=login) and (login not in t.coord_log) and "confirmed" not in t.coord_log)
+                or ((s.perf_id == Users.get(login=login)) and (
+                            login not in t.perf_log) and "confirmed" not in t.perf_log))[:]
 
             df = pd.DataFrame(data, columns=[
                 "id",
