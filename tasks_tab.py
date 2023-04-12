@@ -61,7 +61,7 @@ def add_task(ass_content):
                 description = right_col2.text_input('Description of Task')
 
                 col_31, col_32, col_33, col_34 = st.columns([1, 1, 1, 3])
-                direction = col_31.radio('Direction', ('IN', 'OUT'), horizontal=True)
+                direction = col_31.radio('Direction', ('In', 'Out'), horizontal=True)
                 col_32.write('')
                 col_32.write('')
                 date = col_33.date_input('Date')
@@ -148,7 +148,7 @@ def add_task(ass_content):
                 st.session_state.task_preview = False
 
                 with plaho.container():
-                    if direction == "IN":
+                    if direction == "In":
                         for single_set in set_of_dr:
                             reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date, description,
                                                  link, source, comments)
@@ -237,5 +237,6 @@ def view_tasks(ass_tab2, my_all):
                 df_orig = df_orig.loc[df_temp.project.str.contains(proj_val.upper())]
             if set_val:
                 df_orig = df_orig.loc[df_temp.unit.str.contains(set_val.upper())]
+
         st.write(f"{len(df_orig)} records found")
         st.experimental_data_editor(df_orig, use_container_width=True)

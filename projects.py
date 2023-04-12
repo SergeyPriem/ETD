@@ -166,10 +166,10 @@ def get_tasks(user=None):
             return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 
 
-def get_pers_tasks(email: str) -> pd.DataFrame:
+def get_pers_tasks(login: str) -> pd.DataFrame:
     """
     Returns coordinator's or performer's tasks which is not confirmed
-    :param email
+    :param login
     :return: DataFrame
     """
 
@@ -195,8 +195,8 @@ def get_pers_tasks(email: str) -> pd.DataFrame:
                 )
                 for t in Task
                 for s in t.set_id
-                if ((s.coord_id == Users[email] and email not in t.coord_log)
-                    or s.perf_id == Users[email]) and email not in t.perf_log)[:]
+                if (s.coord_id == Users.get(login=login) and login not in t.coord_log)
+                    or s.perf_id == Users.get(login=login) and login not in t.perf_log)[:]
 
             df = pd.DataFrame(data, columns=[
                 "id",

@@ -6,7 +6,6 @@ from PIL import Image
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_e.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
 
-
 import datetime
 import random
 from streamlit_option_menu import option_menu
@@ -131,15 +130,16 @@ def home_content():
             </style>
             """, unsafe_allow_html=True)
 
-
         login_tab, reg_tab, change_tab = st.tabs([log_in_out, 'Registration', 'Change Password'])
+
         with login_tab:
             plaho = st.empty()
             login_col, logout_col = st.columns(2)
 
             with plaho.container():
 
-                login = st.selectbox("Select Your Login", st.session_state.registered_logins, disabled=st.session_state.logged)
+                login = st.selectbox("Select Your Login", st.session_state.registered_logins,
+                                     disabled=st.session_state.logged)
                 st.write("Not in list? Register first 👆")
                 password = st.text_input('Password', type='password', disabled=st.session_state.logged)
                 login_but = login_col.button('Log In', disabled=st.session_state.logged, use_container_width=True)
