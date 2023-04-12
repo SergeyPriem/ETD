@@ -176,9 +176,9 @@ def add_task(ass_content):
                             else:
                                 st.info(reply)
 
-                    if st.button("N E X T"):
-                        plaho.empty()
-                        st.experimental_rerun()
+                if st.button("N E X T"):
+                    plaho.empty()
+                    st.experimental_rerun()
 
 
 def view_tasks(ass_tab2, my_all):
