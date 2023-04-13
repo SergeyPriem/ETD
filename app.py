@@ -94,10 +94,10 @@ def update_trans_status(trans_num, trans_col):
         comment = st.text_area('Comments')
         out_note = f"{out_num} by {out_date}: {comment}"
         conf_but = st.form_submit_button('Update')
-        st.session_state.trans_status = (trans_num, status, out_note)
+        # st.session_state.trans_status = (trans_num, status, out_note)
 
         if conf_but:
-            # st.session_state.trans_status = (trans_num, status, out_note)
+            st.session_state.trans_status = (trans_num, status, out_note)
             st.header(trans_num)
 
 st.write(st.session_state.trans_status)
