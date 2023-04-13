@@ -343,7 +343,11 @@ def home_content():
                                 but_key1 = f"Confirm receiving: {row.trans_num}"
                                 but_key2 = f"Close: {row.trans_num}"
 
-                                if st.session_state.user not in row.received:
+                                if row.received:
+                                    if st.session_state.user not in row.received:
+                                        st.button(label=but_key1, key=but_key1, type='secondary', on_click=confirm_trans,
+                                                  args=(row.trans_num))
+                                else:
                                     st.button(label=but_key1, key=but_key1, type='secondary', on_click=confirm_trans,
                                               args=(row.trans_num))
 
