@@ -205,7 +205,7 @@ def get_pers_tasks() -> pd.DataFrame:
                 if
                 (s.coord_id == Users.get(login=login) and (login not in t.coord_log) and "confirmed" not in t.coord_log)
                 or ((s.perf_id == Users.get(login=login)) and (
-                            login not in t.perf_log) and "confirmed" not in t.perf_log))[:]
+                        login not in t.perf_log) and "confirmed" not in t.perf_log))[:]
 
             df = pd.DataFrame(data, columns=[
                 "id",
@@ -564,8 +564,17 @@ def confirm_trans(trans_num):
         except Exception as e:
             return err_handler(e)
 
-def close_trans(trans_num, trans_col):
-    transmittal_close(trans_col)
+
+def write_trans_close(trans_num, out_note):
+    with db_session:
+        try:
+            trans = Trans.get(trans_num=trans_num)
+
+            trans.status = 'Closed'
+            trans.notes = trans.notes + ">>" + str(out_note)
+            return 'CLOSED'
+        except Exception as e:
+            return err_handler(e)
 
 
 def get_trans(login=None):

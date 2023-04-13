@@ -21,7 +21,8 @@ from transmittals_tab import transmittals_content
 from users import check_user, add_to_log, get_logged_rights, \
     create_appl_user, get_user_data, update_users_in_db, move_to_former, get_settings, \
     update_user_reg_data, get_all_emails, register_user, get_appl_logins, get_logins_for_registered
-from projects import confirm_task, get_trans, confirm_trans, get_pers_tasks, get_projects_names, close_trans
+from projects import confirm_task, get_trans, confirm_trans, get_pers_tasks, get_projects_names, close_trans, \
+    write_trans_close
 
 
 def create_states():
@@ -78,6 +79,18 @@ if 'registered_logins' not in st.session_state:
         reporter("Can't get users list")
         st.stop()
 
+
+def transmittal_close_form(trans_num, trans_col):
+    trans_col.header('Close Transmittal')
+    with trans_col.form('confirm_trans'):
+        out_num = st.text_input('Number of reply Transmittal')
+        out_date = st.date_input('Date of reply Transmittal')
+        comment = st.text_area('Comments')
+        conf_but = st.form_submit_button('Close')
+        out_note = f"{out_num} by {out_date}: {comment}"
+
+        if conf_but:
+            st.info(write_trans_close(trans_num, out_note))
 
 def home_content():
     st.markdown("""
@@ -347,7 +360,7 @@ def home_content():
                                     st.button(label=but_key1, key=but_key1, type='secondary', on_click=confirm_trans,
                                               args=((row.trans_num,)))
 
-                                st.button(label=but_key2, key=but_key2, type='primary', on_click=close_trans,
+                                st.button(label=but_key2, key=but_key2, type='primary', on_click=transmittal_close_form,
                                           args=((row.trans_num, trans_col)))
                                 st.text("")
                         else:
