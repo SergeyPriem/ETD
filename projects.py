@@ -669,10 +669,10 @@ def add_new_trans(project, trans_num, out_trans, t_type, subj, link, trans_date,
                 ans_required=ans_required,
                 ref_date=out_date,
                 author=author,
-                users=Users.get(login=responsible),
+                responsible=Users.get(login=responsible),
                 notes=notes,
                 received="-",
-                added_by=st.session_state.user,
+                users=Users.get(st.session_state.user),
                 status=status
             )
             return f"""
