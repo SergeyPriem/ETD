@@ -351,9 +351,8 @@ def home_content():
                                     <td>Added By</td>
                                     <td>{row.added_by}</td>
                                 </tr>
-                                </table>
                                 <tr>
-                                    <td>Added By</td>
+                                    <td>Status</td>
                                     <td>{row.status}</td>
                                 </tr>
                                 </table>
