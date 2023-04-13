@@ -87,8 +87,8 @@ def transmittal_status_form(trans_num, trans_col):
         out_date = st.date_input('Date of reply Transmittal')
         status = st.radio("Transmittal Status", trans_stat)
         comment = st.text_area('Comments')
-        conf_but = st.form_submit_button('Update')
         out_note = f"{out_num} by {out_date}: {comment}"
+        conf_but = st.form_submit_button('Update')
 
         if conf_but:
             st.write((trans_num, status, out_note),3)
