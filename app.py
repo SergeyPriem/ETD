@@ -82,14 +82,16 @@ if 'registered_logins' not in st.session_state:
 
 def update_trans_status(trans_num, trans_col):
     st.header("BLD")
-    # trans_col.subheader(f'Close Transmittal {trans_num}')
-    # with trans_col.form('confirm_trans'):
-    #     out_num = st.text_input('Number of reply Transmittal')
-    #     out_date = st.date_input('Date of reply Transmittal')
-    #     status = st.radio("Transmittal Status", trans_stat)
-    #     comment = st.text_area('Comments')
-    #     out_note = f"{out_num} by {out_date}: {comment}"
-    #     conf_but = st.form_submit_button('Update')
+    trans_col.subheader(f'Close Transmittal {trans_num}')
+    with trans_col.form('confirm_trans'):
+        out_num = st.text_input('Number of reply Transmittal')
+        out_date = st.date_input('Date of reply Transmittal')
+        status = st.radio("Transmittal Status", trans_stat)
+        comment = st.text_area('Comments')
+        out_note = f"{out_num} by {out_date}: {comment}"
+        conf_but = st.form_submit_button('Update')
+
+    st.header("BLD-2")
     #
     # if conf_but:
     #     st.write("WHAT A HELL")
