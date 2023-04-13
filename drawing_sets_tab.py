@@ -84,7 +84,7 @@ def drawing_sets():
 
         unit_selected = st.selectbox("Unit for Search", units_list)
 
-        unit_id = df.loc[df.unit == unit_selected, 'id']
+        unit_id = df.loc[df.unit == unit_selected, 'id'].values[0]
 
         st.write(unit_id)
 
