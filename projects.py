@@ -519,7 +519,6 @@ def get_own_tasks(set_id):
                 "comment",
                 "added_by",
                 "s_o_d",
-
             ])
 
             return df

@@ -98,7 +98,7 @@ def form_for_trans():
             comment = st.text_area('Comments')
             out_note = f"{out_num} by {out_date}: {comment}"
             st.divider()
-            conf_but = st.form_submit_button('Update', use_container_width=True)
+            conf_but = st.form_submit_button('Update', type='primary', use_container_width=True)
 
         if conf_but:
             st.session_state.trans_status = (st.session_state.trans_status, status, out_note)
@@ -106,6 +106,11 @@ def form_for_trans():
             reporter(reply, 2)
             st.session_state.trans_status = None
             st.experimental_rerun()
+
+        if st.button('Reset', use_container_width=True):
+            st.session_state.trans_status = None
+            st.experimental_rerun()
+
 
 
 def home_content():
