@@ -144,44 +144,45 @@ def drawing_sets():
         not_aval_df['request'] = False
         not_aval_df = not_aval_df.set_index('speciality')
 
-        req_checkbox = st.checkbox('Create Draft not available Tasks')
+        req_checkbox = st.checkbox('Create Draft for not available Tasks')
 
-        if in_out_radio == "In" and req_checkbox:
-            st.subheader("Not available Tasks for Specialities. Here you can create request for assignments")
-            not_aval_col, empty_col, but_col, request_col = st.columns([4, 1, 3, 10])
-            with not_aval_col:
-                request_df = st.experimental_data_editor(not_aval_df, use_container_width=True, height=600,
-                                                         num_rows='fixed', key='tasks', disabled=False)
+        if in_out_radio == "In":
+            if req_checkbox:
+                st.subheader("Not available Tasks for Specialities. Here you can create request for assignments")
+                not_aval_col, empty_col, but_col, request_col = st.columns([4, 1, 3, 10])
+                with not_aval_col:
+                    request_df = st.experimental_data_editor(not_aval_df, use_container_width=True, height=600,
+                                                             num_rows='fixed', key='tasks', disabled=False)
 
-            with but_col:
-                request_but = st.button('Create Request')
+                with but_col:
+                    request_but = st.button('Create Request')
 
-            with request_col:
-                if request_but:
-                    if len(request_df[request_df.request].index):
-                        st.subheader("Draft of e-mail")
-                        st.markdown("""<u>Тема:</u>""", unsafe_allow_html=True)
-                        # {proj_selected}]. Unit: :red[{units_selected[0]}]")
-                        st.markdown(f"**Недостающие задания для {proj_selected}: {unit_selected[0]}**")
-                        st.markdown("""<u>Тело:</u>""", unsafe_allow_html=True)
-                        st.markdown(f"""
-                        В ЭлектроОтделе сейчас в разработке комплект чертежей:
-                        **{proj_selected}: {unit_selected[0]}**.
-                        В настоящее время отсутствуют задания по специальностям:
-                        **{', '.join(request_df[request_df.request == True].index.values)}**.
-                        Просим сообщить о необходимости задания и его сроке выдачи.
-                        """)
-                        st.write('')
-                        st.markdown("""<u>Subject:</u>""", unsafe_allow_html=True)
-                        st.markdown(
-                            f"**Not available assignments for {proj_selected}: {unit_selected[0]}**")
-                        st.markdown("""<u>Body:</u>""", unsafe_allow_html=True)
-                        st.markdown(f"""
-                        Currently Electrical Department is developing:
-                        **{proj_selected}: {unit_selected[0]}**.
-                        For now we haven't assignments from:
-                        **{', '.join(request_df[request_df.request == True].index.values)}**.
-                        Kindly ask you to inform about a necessity of assignment and it's issue date.
-                        """)
-                    else:
-                        st.warning("Select specialities for request")
+                with request_col:
+                    if request_but:
+                        if len(request_df[request_df.request].index):
+                            st.subheader("Draft of e-mail")
+                            st.markdown("""<u>Тема:</u>""", unsafe_allow_html=True)
+                            # {proj_selected}]. Unit: :red[{units_selected[0]}]")
+                            st.markdown(f"**Недостающие задания для {proj_selected}: {unit_selected[0]}**")
+                            st.markdown("""<u>Тело:</u>""", unsafe_allow_html=True)
+                            st.markdown(f"""
+                            В ЭлектроОтделе сейчас в разработке комплект чертежей:
+                            **{proj_selected}: {unit_selected[0]}**.
+                            В настоящее время отсутствуют задания по специальностям:
+                            **{', '.join(request_df[request_df.request == True].index.values)}**.
+                            Просим сообщить о необходимости задания и его сроке выдачи.
+                            """)
+                            st.write('')
+                            st.markdown("""<u>Subject:</u>""", unsafe_allow_html=True)
+                            st.markdown(
+                                f"**Not available assignments for {proj_selected}: {unit_selected[0]}**")
+                            st.markdown("""<u>Body:</u>""", unsafe_allow_html=True)
+                            st.markdown(f"""
+                            Currently Electrical Department is developing:
+                            **{proj_selected}: {unit_selected[0]}**.
+                            For now we haven't assignments from:
+                            **{', '.join(request_df[request_df.request == True].index.values)}**.
+                            Kindly ask you to inform about a necessity of assignment and it's issue date.
+                            """)
+                        else:
+                            st.warning("Select specialities for request")
