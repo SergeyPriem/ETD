@@ -558,7 +558,7 @@ def confirm_trans(trans_num):
 
             tr = Trans.get(trans_num=trans_num)
             prev_record = tr.received.replace('-', '')
-            tr.received = f"{prev_record}>> *{user}*{str(datetime.now())[:-10]}* "
+            tr.received = f"{prev_record} >> {user}*{str(datetime.now())[:-10]}"
 
         except Exception as e:
             return err_handler(e)
@@ -578,7 +578,8 @@ def trans_status_to_db():
                 new_notes = " >>" + str(out_note)
 
             if st.session_state.user not in trans.received:
-                trans.received = f"{trans.received}>> *{st.session_state.user}*{str(datetime.now())[:-10]}* "
+                trans.received = f"{trans.received.replace('-', '')} >>\
+                 {st.session_state.user}*{str(datetime.now())[:-10]}"
 
             trans.notes = new_notes
             trans.status = status

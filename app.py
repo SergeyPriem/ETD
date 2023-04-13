@@ -100,7 +100,7 @@ def form_for_trans():
             out_note = f"{out_num} by {out_date}: {comment}"
 
             st.header("CuCA")
-            conf_but = st.form_submit_button('Update')
+            conf_but = st.form_submit_button('Update', use_container_width=True)
 
         if conf_but:
             st.session_state.trans_status = (st.session_state.trans_status, status, out_note)
