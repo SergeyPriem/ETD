@@ -93,12 +93,13 @@ def update_trans_status(trans_num, trans_col):
 
     st.header("BLD-2")
     #
-    # if conf_but:
-    #     st.write("WHAT A HELL")
-    #     st.write(trans_num, status, out_note)
-    #     st.stop()
-    #     # reply = trans_status_to_db(trans_num, status, out_note)
-    #     # reporter(reply, 3)
+    if conf_but:
+        st.header("BLD-3")
+        st.write("WHAT A HELL")
+        st.write(trans_num, status, out_note)
+        st.stop()
+        # reply = trans_status_to_db(trans_num, status, out_note)
+        # reporter(reply, 3)
 
 def home_content():
     st.markdown("""
