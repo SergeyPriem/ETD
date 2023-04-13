@@ -97,7 +97,7 @@ def update_trans_status(trans_num, trans_col):
         st.header("CuCA")
         conf_but = st.form_submit_button('Update')
         # st.session_state.trans_status = (trans_num, status, out_note)
-        st.stop()
+
     if conf_but:
         st.session_state.trans_status = (trans_num, status, out_note)
         st.header(trans_num)
