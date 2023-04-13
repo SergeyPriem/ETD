@@ -70,7 +70,7 @@ def drawing_sets():
             st.write(df)
             st.stop()
 
-        ds_left.subheader(f"{my_all}: {len(proj_list)}")
+        ds_left.subheader(f"{my_all}: {len(df)}")
 
         ds_rigth.text('')
         units_ch_b = ds_rigth.checkbox("Show Units Table")
@@ -90,7 +90,7 @@ def drawing_sets():
         unit_id = df.loc[df.unit == unit_selected].index.values[0]
 
         st.divider()
-        st.write(unit_id)
+        st.write('Details for Drawing Set')
         st.experimental_data_editor(df.loc[df.unit == unit_selected], use_container_width=True)
         st.divider()
 
