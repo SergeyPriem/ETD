@@ -105,6 +105,7 @@ if st.session_state.trans_status:
         reply = trans_status_to_db()
         reporter(reply, 2)
         st.session_state.trans_status = None
+        st.experimental_rerun()
 
 
 def home_content():
