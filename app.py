@@ -92,7 +92,7 @@ def transmittal_close_form(trans_num, trans_col):
         if conf_but:
             st.info((trans_num, out_note))
             reply = write_trans_close(trans_num, out_note)
-            st.info(reply)
+            reporter(reply, 3)
 
 def home_content():
     st.markdown("""
