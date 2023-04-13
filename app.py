@@ -90,7 +90,9 @@ def transmittal_close_form(trans_num, trans_col):
         out_note = f"{out_num} by {out_date}: {comment}"
 
         if conf_but:
-            st.info(write_trans_close(trans_num, out_note))
+            st.info((trans_num, out_note))
+            reply = write_trans_close(trans_num, out_note)
+            st.info(reply)
 
 def home_content():
     st.markdown("""
