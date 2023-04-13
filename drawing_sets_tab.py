@@ -80,16 +80,18 @@ def drawing_sets():
         if units_ch_b:
             st.experimental_data_editor(df, use_container_width=True)
 
-        proj_selected = st.selectbox("Project for Search", proj_list)
+        proj_col, unit_col = st.columns(2, gap='medium')
+
+        proj_selected = proj_col.selectbox("Project for Search", proj_list)
         units_list = df[df.project == proj_selected]['unit']
 
-        unit_selected = st.selectbox("Unit for Search", units_list)
+        unit_selected = unit_col.selectbox("Unit for Search", units_list)
 
         unit_id = df.loc[df.unit == unit_selected].index
 
         st.divider()
 
-        st.write(df.loc[df.unit == unit_selected])
+        st.experimental_data_editor(df.loc[df.unit == unit_selected], use_container_width=True)
         st.divider()
 
         st.subheader(f"Project: :red[{proj_selected}]. Unit: :red[{unit_selected}]")
