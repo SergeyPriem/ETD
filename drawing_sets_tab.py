@@ -86,20 +86,6 @@ def drawing_sets():
 
         unit_id = df.loc[df.unit == unit_selected, 'id'].values[0]
 
-        st.write(unit_id)
-
-        # if "id" in df.columns:
-        #     df.set_index('id', inplace=True)
-        #
-        # df.insert(1, 'view_tasks', False)
-
-        # edit_df = st.experimental_data_editor(df, use_container_width=True, height=200,
-        #                                       num_rows='fixed', key='sets', disabled=False)
-
-        # edited_num = len(edit_df[edit_df.view_tasks])
-
-        # set_id = edit_df.loc[edit_df.view_tasks].index
-
         st.subheader(f"Project: :red[{proj_selected}]. Unit: :red[{unit_selected}]")
 
         units_tasks = get_own_tasks(unit_id)  # .values[0]
