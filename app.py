@@ -352,6 +352,11 @@ def home_content():
                                     <td>{row.added_by}</td>
                                 </tr>
                                 </table>
+                                <tr>
+                                    <td>Added By</td>
+                                    <td>{row.status}</td>
+                                </tr>
+                                </table>
                                 <br>
                                 """, unsafe_allow_html=True)
 
