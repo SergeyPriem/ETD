@@ -566,6 +566,7 @@ def confirm_trans(trans_num):
 
 def write_trans_close(trans_num, status, out_note):
     with db_session:
+        print(trans_num, status, out_note)
         try:
             trans = Trans.get(trans_num=trans_num)
             trans.status = status
