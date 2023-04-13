@@ -346,13 +346,13 @@ def home_content():
                                 if row.received:
                                     if st.session_state.user not in row.received:
                                         st.button(label=but_key1, key=but_key1, type='secondary', on_click=confirm_trans,
-                                                  args=(row.trans_num))
+                                                  args=((row.trans_num,)))
                                 else:
                                     st.button(label=but_key1, key=but_key1, type='secondary', on_click=confirm_trans,
-                                              args=(row.trans_num))
+                                              args=((row.trans_num,)))
 
                                 st.button(label=but_key2, key=but_key2, type='primary', on_click=close_trans,
-                                          args=(row.trans_num))
+                                          args=((row.trans_num,)))
                                 st.text("")
                         else:
                             st.text('No New Transmittals')
