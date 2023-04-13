@@ -84,111 +84,111 @@ def drawing_sets():
 
         unit_selected = st.selectbox("Unit for Search", units_list)
 
-        df = df[df.unit == unit_selected]
+        unit_id = df.loc[df.unit == unit_selected, 'id']
+
+        st.write(unit_id)
 
         # if "id" in df.columns:
         #     df.set_index('id', inplace=True)
         #
         # df.insert(1, 'view_tasks', False)
 
-        edit_df = st.experimental_data_editor(df, use_container_width=True, height=200,
-                                              num_rows='fixed', key='sets', disabled=False)
+        # edit_df = st.experimental_data_editor(df, use_container_width=True, height=200,
+        #                                       num_rows='fixed', key='sets', disabled=False)
 
-        edited_num = len(edit_df[edit_df.view_tasks])
+        # edited_num = len(edit_df[edit_df.view_tasks])
 
-        if edited_num == 1:
+        # set_id = edit_df.loc[edit_df.view_tasks].index
 
-            set_id = edit_df.loc[edit_df.view_tasks].index
+        st.subheader(f"Project: :red[{proj_selected}]. Unit: :red[{unit_selected[0]}]")
 
-            st.subheader(f"Project: :red[{proj_selected}]. Unit: :red[{unit_selected[0]}]")
+        units_tasks = get_own_tasks(unit_id)  # .values[0]
 
-            units_tasks = get_own_tasks(int(set_id.values[0]))  # .values[0]
-
-            if isinstance(units_tasks, str):
-                if units_tasks == "Empty Table":
-                    st.warning('No Tasks Available for selected Unit')
-                    st.stop()
-
-            if not isinstance(units_tasks, pd.DataFrame):
+        if isinstance(units_tasks, str):
+            if units_tasks == "Empty Table":
+                st.warning('No Tasks Available for selected Unit')
                 st.stop()
 
-            task_col, in_out_col, quant_col = st.columns([9, 2, 2])
+        if not isinstance(units_tasks, pd.DataFrame):
+            st.stop()
 
-            with in_out_col:
-                in_out_radio = st.radio("Select Incoming / Outgoing", ('In', 'Out'), horizontal=True)
+        task_col, in_out_col, quant_col = st.columns([9, 2, 2])
 
-            if in_out_radio == "In":
-                units_tasks = units_tasks[(units_tasks.in_out == 'Входящие') | (units_tasks.in_out == 'In')]
-            else:
-                units_tasks = units_tasks[(units_tasks.in_out == 'Исходящие') | (units_tasks.in_out == 'Out')]
+        with in_out_col:
+            in_out_radio = st.radio("Select Incoming / Outgoing", ('In', 'Out'), horizontal=True)
 
-            with task_col:
-                # st.subheader(f"Available Assignments for :red[{set_id[0]}: {set_id[1]}:] {in_out_radio}")
-                st.subheader(f"Available Assignments")
+        if in_out_radio == "In":
+            units_tasks = units_tasks[(units_tasks.in_out == 'Входящие') | (units_tasks.in_out == 'In')]
+        else:
+            units_tasks = units_tasks[(units_tasks.in_out == 'Исходящие') | (units_tasks.in_out == 'Out')]
 
-            with quant_col:
-                st.write("")
-                st.write("")
-                st.write(f'Quantity: {len(units_tasks)}')
+        with task_col:
+            # st.subheader(f"Available Assignments for :red[{set_id[0]}: {set_id[1]}:] {in_out_radio}")
+            st.subheader(f"Available Assignments")
 
-            units_tasks = units_tasks.sort_values(by=['speciality', 'date'], ascending=[True, False])
-            st.experimental_data_editor(units_tasks[['stage', 'speciality', 'date', 'description', 'link', 'source',
-                                                     'comment', 'backup_copy', 'coord_log', 'perf_log', 'added_by']],
-                                        use_container_width=True)
-            st.divider()
+        with quant_col:
+            st.write("")
+            st.write("")
+            st.write(f'Quantity: {len(units_tasks)}')
 
-            aval_spec = list(units_tasks.speciality.drop_duplicates())
+        units_tasks = units_tasks.sort_values(by=['speciality', 'date'], ascending=[True, False])
+        st.experimental_data_editor(units_tasks[['stage', 'speciality', 'date', 'description', 'link', 'source',
+                                                 'comment', 'backup_copy', 'coord_log', 'perf_log', 'added_by']],
+                                    use_container_width=True)
+        st.divider()
 
-            spec_dual = (*specialities, *specialities_rus)
-            not_aval_spec = []
+        aval_spec = list(units_tasks.speciality.drop_duplicates())
 
-            for i in spec_dual:
-                if i not in aval_spec:
-                    not_aval_spec.append(i)
+        spec_dual = (*specialities, *specialities_rus)
+        not_aval_spec = []
 
-            not_aval_df = pd.DataFrame(not_aval_spec, columns=['speciality'])
-            not_aval_df['request'] = False
-            not_aval_df = not_aval_df.set_index('speciality')
+        for i in spec_dual:
+            if i not in aval_spec:
+                not_aval_spec.append(i)
 
-            if in_out_radio == "In":
-                st.subheader("Not available Assignments for Specialities. Here you can create request for assignments")
-                not_aval_col, empty_col, but_col, request_col = st.columns([4, 1, 3, 10])
-                with not_aval_col:
-                    request_df = st.experimental_data_editor(not_aval_df, use_container_width=True, height=600,
-                                                             num_rows='fixed', key='tasks', disabled=False)
+        not_aval_df = pd.DataFrame(not_aval_spec, columns=['speciality'])
+        not_aval_df['request'] = False
+        not_aval_df = not_aval_df.set_index('speciality')
 
-                with but_col:
-                    request_but = st.button('Create Request')
+        if in_out_radio == "In":
+            st.subheader("Not available Assignments for Specialities. Here you can create request for assignments")
+            not_aval_col, empty_col, but_col, request_col = st.columns([4, 1, 3, 10])
+            with not_aval_col:
+                request_df = st.experimental_data_editor(not_aval_df, use_container_width=True, height=600,
+                                                         num_rows='fixed', key='tasks', disabled=False)
 
-                with request_col:
-                    if request_but:
-                        if len(request_df[request_df.request].index):
-                            st.subheader("Draft of e-mail")
-                            st.markdown("""<u>Тема:</u>""", unsafe_allow_html=True)
-                            # {proj_selected}]. Unit: :red[{units_selected[0]}]")
-                            st.markdown(f"**Недостающие задания для {proj_selected}: {unit_selected[0]}**")
-                            st.markdown("""<u>Тело:</u>""", unsafe_allow_html=True)
-                            st.markdown(f"""
-                            В ЭлектроОтделе сейчас в разработке комплект чертежей:
-                            **{proj_selected}: {unit_selected[0]}**.
-                            В настоящее время отсутствуют задания по специальностям:
-                            **{', '.join(request_df[request_df.request == True].index.values)}**.
-                            Просим сообщить о необходимости задания и его сроке выдачи.
-                            """)
-                            st.write('')
-                            st.markdown("""<u>Subject:</u>""", unsafe_allow_html=True)
-                            st.markdown(
-                                f"**Not available assignments for {proj_selected}: {unit_selected[0]}**")
-                            st.markdown("""<u>Body:</u>""", unsafe_allow_html=True)
-                            st.markdown(f"""
-                            Currently Electrical Department is developing:
-                            **{proj_selected}: {unit_selected[0]}**.
-                            For now we haven't assignments from:
-                            **{', '.join(request_df[request_df.request == True].index.values)}**.
-                            Kindly ask you to inform about a necessity of assignment and it's issue date.
-                            """)
-                        else:
-                            st.warning("Select specialities for request")
+            with but_col:
+                request_but = st.button('Create Request')
+
+            with request_col:
+                if request_but:
+                    if len(request_df[request_df.request].index):
+                        st.subheader("Draft of e-mail")
+                        st.markdown("""<u>Тема:</u>""", unsafe_allow_html=True)
+                        # {proj_selected}]. Unit: :red[{units_selected[0]}]")
+                        st.markdown(f"**Недостающие задания для {proj_selected}: {unit_selected[0]}**")
+                        st.markdown("""<u>Тело:</u>""", unsafe_allow_html=True)
+                        st.markdown(f"""
+                        В ЭлектроОтделе сейчас в разработке комплект чертежей:
+                        **{proj_selected}: {unit_selected[0]}**.
+                        В настоящее время отсутствуют задания по специальностям:
+                        **{', '.join(request_df[request_df.request == True].index.values)}**.
+                        Просим сообщить о необходимости задания и его сроке выдачи.
+                        """)
+                        st.write('')
+                        st.markdown("""<u>Subject:</u>""", unsafe_allow_html=True)
+                        st.markdown(
+                            f"**Not available assignments for {proj_selected}: {unit_selected[0]}**")
+                        st.markdown("""<u>Body:</u>""", unsafe_allow_html=True)
+                        st.markdown(f"""
+                        Currently Electrical Department is developing:
+                        **{proj_selected}: {unit_selected[0]}**.
+                        For now we haven't assignments from:
+                        **{', '.join(request_df[request_df.request == True].index.values)}**.
+                        Kindly ask you to inform about a necessity of assignment and it's issue date.
+                        """)
+                    else:
+                        st.warning("Select specialities for request")
 
         if edited_num > 1:
             st.info("Please select only one row for preview")
