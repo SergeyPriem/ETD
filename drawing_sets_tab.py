@@ -90,13 +90,13 @@ def drawing_sets():
         unit_id = df.loc[df.unit == unit_selected].index
 
         st.divider()
-
+        st.write(unit_id)
         st.experimental_data_editor(df.loc[df.unit == unit_selected], use_container_width=True)
         st.divider()
 
         st.subheader(f"Project: :red[{proj_selected}]. Unit: :red[{unit_selected}]")
 
-        units_tasks = get_own_tasks(unit_id)  # .values[0]
+        units_tasks = get_own_tasks(unit_id)
 
         if isinstance(units_tasks, str):
             if units_tasks == "Empty Table":
