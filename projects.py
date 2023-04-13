@@ -651,16 +651,16 @@ def get_trans(login=None):
             return err_handler(e)
 
 
-def add_new_trans(project, in_trans, out_trans, t_type, subj, link, trans_date, ans_required, out_date, author,
+def add_new_trans(project, trans_num, out_trans, t_type, subj, link, trans_date, ans_required, out_date, author,
                   responsible, notes, status):
     with db_session:
         try:
-            if in_trans in select(p.in_trans for p in Trans)[:]:
-                return f"""Transmittal {in_trans} already in DataBase"""
+            if trans_num in select(p.trans_num for p in Trans)[:]:
+                return f"""Transmittal {trans_num} already in DataBase"""
 
             Trans(
                 project=Project.get(short_name=project),
-                trans_num=in_trans,
+                trans_num=trans_num,
                 ref_trans=out_trans,
                 t_type=t_type,
                 subj=subj,
@@ -676,7 +676,7 @@ def add_new_trans(project, in_trans, out_trans, t_type, subj, link, trans_date, 
                 status=status
             )
             return f"""
-            New Transmittal {in_trans} is added to DataBase  
+            New Transmittal {trans_num} is added to DataBase  
             """
 
         except Exception as e:
