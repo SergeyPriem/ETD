@@ -4,7 +4,7 @@ import streamlit as st
 
 from pre_sets import trans_types
 from projects import get_trans, add_new_trans
-from users import get_logins_for_registered
+from users import get_logins_for_registered, get_logins_for_current
 
 
 def transmittals_content():
@@ -30,7 +30,7 @@ def transmittals_content():
                 subj = cc.text_input("Subject")
                 ans_required = cc.radio("Reply required", ('Yes', 'No'), horizontal=True)
                 cc.write("")
-                responsible = cc.selectbox("Responsible Employee", get_logins_for_registered())
+                responsible = cc.selectbox("Responsible Employee", get_logins_for_current())
                 cc.write("")
                 link = rc.text_input("Link")
                 reply_date = rc.date_input("Due Date")
