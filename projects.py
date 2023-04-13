@@ -574,7 +574,7 @@ def write_trans_close(trans_num, status, out_note):
                 trans.notes = prev_notes + " >>" + str(out_note)
             else:
                 trans.notes = " >>" + str(out_note)
-            return 'CLOSED'
+            return 'Status Updated'
         except Exception as e:
             return err_handler(e)
 
