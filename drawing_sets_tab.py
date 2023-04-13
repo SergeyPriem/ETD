@@ -100,7 +100,7 @@ def drawing_sets():
 
         # set_id = edit_df.loc[edit_df.view_tasks].index
 
-        st.subheader(f"Project: :red[{proj_selected}]. Unit: :red[{unit_selected[0]}]")
+        st.subheader(f"Project: :red[{proj_selected}]. Unit: :red[{unit_selected}]")
 
         units_tasks = get_own_tasks(unit_id)  # .values[0]
 
@@ -190,5 +190,3 @@ def drawing_sets():
                     else:
                         st.warning("Select specialities for request")
 
-        if edited_num > 1:
-            st.info("Please select only one row for preview")
