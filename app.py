@@ -87,9 +87,10 @@ def update_trans_status(trans_num):
     st.session_state.trans_status = trans_num
 
 
-if st.session_state.trans_status:
-    big_plaho = st.empty()
-    with big_plaho.container():
+def form_for_trans():
+    empty1, content, empty2 = st.columns([5, 3, 5])
+
+    with content:
         with st.form('confirm_trans'):
             st.subheader(f'Close Transmittal {st.session_state.trans_status}')
             out_num = st.text_input('Number of reply Transmittal')
@@ -108,7 +109,6 @@ if st.session_state.trans_status:
             st.session_state.trans_status = None
             st.experimental_rerun()
 
-big_plaho = st.empty()
 
 def home_content():
     st.markdown("""
@@ -130,396 +130,318 @@ def home_content():
         </style>
         """, unsafe_allow_html=True)
 
-    with big_plaho.container():
-        empty1, content, empty2 = st.columns([5, 3, 5])
-        empty21, content2, empty22 = st.columns([1, 20, 1])
-        with empty1:
-            st.empty()
-        with empty2:
-            st.empty()
+    empty1, content, empty2 = st.columns([5, 3, 5])
+    empty21, content2, empty22 = st.columns([1, 20, 1])
+    with empty1:
+        st.empty()
+    with empty2:
+        st.empty()
 
-        with content:
-            st.title(':orange[Electrical Department]')
-            if 'user' not in st.session_state:
-                st.header('Welcome!')
-            else:
-                st.header(f'Welcome, {mail_to_name(st.session_state.user)}!')
+    with content:
+        st.title(':orange[Electrical Department]')
+        if 'user' not in st.session_state:
+            st.header('Welcome!')
+        else:
+            st.header(f'Welcome, {mail_to_name(st.session_state.user)}!')
 
-            st.text("The Site is designed to help you in everyday routines")
-            st.markdown("""
-                    <style>
-                        div[data-baseweb="tab-list"]:nth-of-type(1)
-                        {
-                            text-align: center;
-                        } 
-                        div[data-baseweb="tab-list"]:nth-of-type(2)
-                        {
-                            text-align: center;
-                        } 
-                        div[data-baseweb="tab-list"]:nth-of-type(3)
-                        {
-                            text-align: center;
-                        } 
-                    </style>
-                    """, unsafe_allow_html=True)
+        st.text("The Site is designed to help you in everyday routines")
+        st.markdown("""
+                <style>
+                    div[data-baseweb="tab-list"]:nth-of-type(1)
+                    {
+                        text-align: center;
+                    } 
+                    div[data-baseweb="tab-list"]:nth-of-type(2)
+                    {
+                        text-align: center;
+                    } 
+                    div[data-baseweb="tab-list"]:nth-of-type(3)
+                    {
+                        text-align: center;
+                    } 
+                </style>
+                """, unsafe_allow_html=True)
 
-            login_tab, reg_tab, change_tab = st.tabs([log_in_out, 'Registration', 'Change Password'])
+        login_tab, reg_tab, change_tab = st.tabs([log_in_out, 'Registration', 'Change Password'])
 
-            with login_tab:
-                plaho = st.empty()
-                login_col, logout_col = st.columns(2)
+        with login_tab:
+            plaho = st.empty()
+            login_col, logout_col = st.columns(2)
 
-                with plaho.container():
+            with plaho.container():
 
-                    login = st.selectbox("Select Your Login", st.session_state.registered_logins,
-                                         disabled=st.session_state.logged)
-                    st.write("Not in list? Register first 👆")
-                    password = st.text_input('Password', type='password', disabled=st.session_state.logged)
-                    login_but = login_col.button('Log In', disabled=st.session_state.logged, use_container_width=True)
+                login = st.selectbox("Select Your Login", st.session_state.registered_logins,
+                                     disabled=st.session_state.logged)
+                st.write("Not in list? Register first 👆")
+                password = st.text_input('Password', type='password', disabled=st.session_state.logged)
+                login_but = login_col.button('Log In', disabled=st.session_state.logged, use_container_width=True)
 
-                logout_but = logout_col.button('Log Out', disabled=not st.session_state.logged,
-                                               use_container_width=True)
+            logout_but = logout_col.button('Log Out', disabled=not st.session_state.logged,
+                                           use_container_width=True)
 
-                if login_but:
-                    if len(password) < 3:
-                        reporter("Password should be at least 3 symbols")
-                        st.stop()
-                    else:
+            if login_but:
+                if len(password) < 3:
+                    reporter("Password should be at least 3 symbols")
+                    st.stop()
+                else:
 
-                        login_status = check_user(login, password)
+                    login_status = check_user(login, password)
 
-                        if login_status is True:
-                            st.session_state.logged = True
-                            st.session_state.user = login
-                            st.session_state.rights = get_logged_rights(login)
-                            reply = add_to_log(login)
+                    if login_status is True:
+                        st.session_state.logged = True
+                        st.session_state.user = login
+                        st.session_state.rights = get_logged_rights(login)
+                        reply = add_to_log(login)
 
-                            if 'ERROR' in reply.upper():
-                                st.write(f"""Please sent error below to sergey.priemshiy@uzliti-en.com  
-                                            or by telegram +998909598030:  
-                                            {reply}""")
-                                st.stop()
-                            else:
-                                st.experimental_rerun()
+                        if 'ERROR' in reply.upper():
+                            st.write(f"""Please sent error below to sergey.priemshiy@uzliti-en.com  
+                                        or by telegram +998909598030:  
+                                        {reply}""")
+                            st.stop()
                         else:
-                            st.session_state.logged = False
-                            st.session_state.rights = 'basic'
-                            st.session_state.user = None
-                            reporter("Wrong Password")
-                            st.stop()
-                    #
-                if logout_but:
-                    st.session_state.logged = False
-                    st.session_state.user = None
-                    reporter("Bye! Bye! Bye! ")
-                    st.session_state.rights = 'basic'
-                    st.experimental_rerun()
-
-                if st.session_state.logged:
-                    plaho.empty()
-
-                    with content2:
-                        st.markdown("---")
-
-                        ass_col, blank_col, trans_col = st.columns([10, 2, 10])
-                        with ass_col:
-                            df = get_pers_tasks()
-
-                            if isinstance(df, pd.DataFrame) and len(df) > 0:
-                                st.subheader(":orange[New Incoming Tasks]")
-                                for ind, row in df.iterrows():
-                                    name_surname = mail_to_name(row.added_by)
-                                    st.markdown(f"""<h4>Task: {row.id}</h4>""", unsafe_allow_html=True)
-
-                                    st.markdown("""<style>
-                                                        .nobord td {
-                                                                border-style: hidden;
-                                                                margin-left: auto;
-                                                                margin-right: auto;
-                                                                text-align: left;
-                                                            }
-                                                          </style>
-                                                          """, unsafe_allow_html=True)
-
-                                    st.markdown(f"""
-                                        <table class="nobord">
-                                        <tr>
-                                            <td>Project</td>
-                                            <td>{row.project}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Unit</td>
-                                            <td>{row.unit}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Speciality</td>
-                                            <td>{row.speciality}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Stage</td>
-                                            <td>{row.stage}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Issue Date</td>
-                                            <td>{row.date}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Description</td>
-                                            <td>{row.description}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Link</td>
-                                            <td>{row.link}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Backup Copy</td>
-                                            <td>{row.backup_copy}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Source</td>
-                                            <td>{row.source}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Comment</td>
-                                            <td>{row.comment}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Added By</td>
-                                            <td>{name_surname}</td>
-                                        </tr>
-                                        </table>
-                                        <br>
-                                        """, unsafe_allow_html=True)
-
-                                    but_key1 = f"Confirm Task: {row.id}"
-                                    task_id = row.id
-                                    if st.button(label=but_key1, key=but_key1, type='primary', on_click=confirm_task,
-                                                 args=(
-                                                         (row.id,))):
-                                        st.info(f"Task {task_id} confirmed!!")
-                                    st.text("")
-                            else:
-                                st.text('No New Tasks')
-
-                        with trans_col:
-                            df = get_my_trans(st.session_state.user)  # st.session_state.user
-                            if isinstance(df, pd.DataFrame) and len(df) > 0:
-                                st.subheader(":orange[New Incoming Transmittals]")
-                                # df = df.loc[df.status != "Closed"]
-                                for ind, row in df.iterrows():
-                                    # name_surname = mail_to_name(row.added_by)
-                                    st.markdown(f"""<h4>Transmittal: {row.trans_num}</h4>""", unsafe_allow_html=True)
-
-                                    st.markdown("""<style>
-                                                        .nobord {
-                                                                border-style: hidden;
-                                                                margin-left: auto;
-                                                                margin-right: auto;
-                                                                text-align: left;
-                                                            }
-                                                          </style>
-                                                          """, unsafe_allow_html=True)
-
-                                    st.markdown(f"""
-                                        <table class="nobord">
-                                        <tr>
-                                            <td>Transmittal Number</td>
-                                            <td>{row.trans_num}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Project</td>
-                                            <td>{row.project}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Subject</td>
-                                            <td>{row.subject}</td>
-                                        </tr>
-        
-                                        <tr>
-                                            <td>Transmittal Date</td>
-                                            <td>{row.trans_date}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Is reply required?</td>
-                                            <td>{"Yes" if row.ans_required else "No"}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Previous Transmittal</td>
-                                            <td>{row.ref_trans}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Responsible</td>
-                                            <td>{row.responsible}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Author</td>
-                                            <td>{row.author}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Link</td>
-                                            <td>{row.link}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Type</td>
-                                            <td>{row.trans_type}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Notes</td>
-                                            <td>{row.notes}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Added By</td>
-                                            <td>{row.added_by}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Status</td>
-                                            <td>{row.status}</td>
-                                        </tr>
-                                        </table>
-                                        <br>
-                                        """, unsafe_allow_html=True)
-
-                                    but_key1 = f"Confirm receiving: {row.trans_num}"
-                                    but_key2 = f"Update Status for: {row.trans_num}"
-
-                                    if st.session_state.user not in row.received:
-                                        st.button(label=but_key1, key=but_key1, type='secondary',
-                                                  on_click=confirm_trans,
-                                                  args=((row.trans_num,)))
-
-                                    st.button(label=but_key2, key=but_key2, type='primary',
-                                              on_click=update_trans_status,
-                                              args=((row.trans_num,)))
-                                    st.text("")
-                            else:
-                                st.text('No New Transmittals')
-
-            with reg_tab:
-                if st.session_state.logged:
-                    st.subheader("You are Registered & Logged In 😎")
-                else:
-                    appl_logins = get_appl_logins()
-
-                    if isinstance(appl_logins, list):
-                        login = st.selectbox("Select Your Login", appl_logins,
-                                             disabled=st.session_state.logged, key='reg_email')
+                            st.experimental_rerun()
                     else:
-                        reporter(appl_logins)
+                        st.session_state.logged = False
+                        st.session_state.rights = 'basic'
+                        st.session_state.user = None
+                        reporter("Wrong Password")
                         st.stop()
+                #
+            if logout_but:
+                st.session_state.logged = False
+                st.session_state.user = None
+                reporter("Bye! Bye! Bye! ")
+                st.session_state.rights = 'basic'
+                st.experimental_rerun()
 
-                    if login in st.session_state.registered_logins:
-                        st.subheader("You are Registered 😎")
-                    else:
-                        st.write("Not in list? Send the request from your e-mail to sergey.priemshiy@uzliti-en.com")
-                        with st.form("Reg_form"):
-                            name = st.text_input('Your Name', disabled=st.session_state.logged)
-                            surname = st.text_input('Your Surame', disabled=st.session_state.logged)
-                            phone = st.text_input('Your personal Phone', disabled=st.session_state.logged)
-                            telegram = st.text_input('Your personal Telegram', disabled=st.session_state.logged)
-                            reg_pass_1 = st.text_input('Password', type='password', key='reg_pass_1',
-                                                       disabled=st.session_state.logged)
-                            reg_pass_2 = st.text_input('Repeat Password', type='password', key='reg_pass_2',
-                                                       disabled=st.session_state.logged)
+            if st.session_state.logged:
+                plaho.empty()
 
-                            # data_chb = st.checkbox('Data is Correct', disabled=st.session_state.logged)
+                with content2:
+                    st.markdown("---")
 
-                            get_reg_code = st.form_submit_button('Get Confirmation Code')
+                    ass_col, blank_col, trans_col = st.columns([10, 2, 10])
+                    with ass_col:
+                        df = get_pers_tasks()
 
-                        # conf_html = ""
-                        if get_reg_code:
-                            if login in st.session_state.registered_logins:
-                                reporter(f'User {login} is already in DataBase')
-                                st.stop()
+                        if isinstance(df, pd.DataFrame) and len(df) > 0:
+                            st.subheader(":orange[New Incoming Tasks]")
+                            for ind, row in df.iterrows():
+                                name_surname = mail_to_name(row.added_by)
+                                st.markdown(f"""<h4>Task: {row.id}</h4>""", unsafe_allow_html=True)
 
-                            if len(reg_pass_2) < 3 or reg_pass_1 != reg_pass_2:
-                                st.warning("""- Password should be at least 3 symbols
-                                    - Password and Repeat Password should be the same""")
-                                st.stop()
-                            if len(name) < 2 or len(surname) < 2:
-                                st.warning("! Too short Name or Surname")
-                                st.stop()
+                                st.markdown("""<style>
+                                                    .nobord td {
+                                                            border-style: hidden;
+                                                            margin-left: auto;
+                                                            margin-right: auto;
+                                                            text-align: left;
+                                                        }
+                                                      </style>
+                                                      """, unsafe_allow_html=True)
 
-                            if 'conf_num' not in st.session_state:
-                                st.session_state.conf_num = "".join(random.sample("123456789", 4))
+                                st.markdown(f"""
+                                    <table class="nobord">
+                                    <tr>
+                                        <td>Project</td>
+                                        <td>{row.project}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Unit</td>
+                                        <td>{row.unit}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Speciality</td>
+                                        <td>{row.speciality}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Stage</td>
+                                        <td>{row.stage}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Issue Date</td>
+                                        <td>{row.date}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Description</td>
+                                        <td>{row.description}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Link</td>
+                                        <td>{row.link}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Backup Copy</td>
+                                        <td>{row.backup_copy}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Source</td>
+                                        <td>{row.source}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Comment</td>
+                                        <td>{row.comment}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Added By</td>
+                                        <td>{name_surname}</td>
+                                    </tr>
+                                    </table>
+                                    <br>
+                                    """, unsafe_allow_html=True)
 
-                            conf_html = f"""
-                                    <html>
-                                      <head></head>
-                                      <body>
-                                        <h3>
-                                          Hello, Colleague!
-                                          <hr>
-                                        </h3>
-                                        <h5>
-                                          You got this message because you want to register on ETD site
-                                        </h5>
-                                        <p>
-                                            Please confirm your registration by entering the confirmation code 
-                                            <b>{st.session_state.conf_num}</b> 
-                                            at the <a href="https://design-energo.streamlit.app/">site</a> registration form
-                                            <hr>
-                                            Best regards, Administration 😎
-                                        </p>
-                                      </body>
-                                    </html>
-                                """
+                                but_key1 = f"Confirm Task: {row.id}"
+                                task_id = row.id
+                                if st.button(label=but_key1, key=but_key1, type='primary', on_click=confirm_task,
+                                             args=(
+                                                     (row.id,))):
+                                    st.info(f"Task {task_id} confirmed!!")
+                                st.text("")
+                        else:
+                            st.text('No New Tasks')
 
-                            if not st.session_state.code_sent:
-                                user = get_user_data(login)
+                    with trans_col:
+                        df = get_my_trans(st.session_state.user)  # st.session_state.user
+                        if isinstance(df, pd.DataFrame) and len(df) > 0:
+                            st.subheader(":orange[New Incoming Transmittals]")
+                            # df = df.loc[df.status != "Closed"]
+                            for ind, row in df.iterrows():
+                                # name_surname = mail_to_name(row.added_by)
+                                st.markdown(f"""<h4>Transmittal: {row.trans_num}</h4>""", unsafe_allow_html=True)
 
-                                if "@" not in user.email:
-                                    st.warning("Can't get User's email")
-                                    st.stop()
+                                st.markdown("""<style>
+                                                    .nobord {
+                                                            border-style: hidden;
+                                                            margin-left: auto;
+                                                            margin-right: auto;
+                                                            text-align: left;
+                                                        }
+                                                      </style>
+                                                      """, unsafe_allow_html=True)
 
-                                if send_mail(receiver=user.email, cc_rec="sergey.priemshiy@uzliti-en.com",
-                                             html=conf_html, subj="Confirmation of ETD site registration"):
-                                    st.session_state.code_sent = True
-                                    st.info("Confirmation Code sent to Your Company Email")
-                                else:
-                                    st.warning("Network problems...Try again later")
+                                st.markdown(f"""
+                                    <table class="nobord">
+                                    <tr>
+                                        <td>Transmittal Number</td>
+                                        <td>{row.trans_num}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Project</td>
+                                        <td>{row.project}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Subject</td>
+                                        <td>{row.subject}</td>
+                                    </tr>
+    
+                                    <tr>
+                                        <td>Transmittal Date</td>
+                                        <td>{row.trans_date}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Is reply required?</td>
+                                        <td>{"Yes" if row.ans_required else "No"}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Previous Transmittal</td>
+                                        <td>{row.ref_trans}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Responsible</td>
+                                        <td>{row.responsible}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Author</td>
+                                        <td>{row.author}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Link</td>
+                                        <td>{row.link}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Type</td>
+                                        <td>{row.trans_type}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Notes</td>
+                                        <td>{row.notes}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Added By</td>
+                                        <td>{row.added_by}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Status</td>
+                                        <td>{row.status}</td>
+                                    </tr>
+                                    </table>
+                                    <br>
+                                    """, unsafe_allow_html=True)
 
-                        entered_code = st.text_input("Confirmation Code from Email")
+                                but_key1 = f"Confirm receiving: {row.trans_num}"
+                                but_key2 = f"Update Status for: {row.trans_num}"
 
-                        if st.button("Register", use_container_width=True):
-                            if login in st.session_state.registered_logins:
-                                reporter(f'User {login} is already in DataBase')
-                                st.stop()
+                                if st.session_state.user not in row.received:
+                                    st.button(label=but_key1, key=but_key1, type='secondary',
+                                              on_click=confirm_trans,
+                                              args=((row.trans_num,)))
 
-                            if st.session_state.conf_num != entered_code:
-                                reporter("Confirmation code is wrong, try again")
-                                st.stop()
-                            else:
-                                reply = register_user(name, surname, phone, telegram, login, reg_pass_2)
-                                if 'ERROR' in reply.upper():
-                                    st.write('Error')
-                                else:
-                                    reporter(reply)
-                                    st.experimental_rerun()
+                                st.button(label=but_key2, key=but_key2, type='primary',
+                                          on_click=update_trans_status,
+                                          args=((row.trans_num,)))
+                                st.text("")
+                        else:
+                            st.text('No New Transmittals')
 
-            with change_tab:
-                if not st.session_state.logged:
-                    st.write('You should Log In first')
+        with reg_tab:
+            if st.session_state.logged:
+                st.subheader("You are Registered & Logged In 😎")
+            else:
+                appl_logins = get_appl_logins()
+
+                if isinstance(appl_logins, list):
+                    login = st.selectbox("Select Your Login", appl_logins,
+                                         disabled=st.session_state.logged, key='reg_email')
                 else:
-                    with st.form("UpData"):
-                        # upd_phone = st.text_input('Updated personal Phone', disabled=not st.session_state.logged)
-                        # upd_telegram = st.text_input('Updated personal Telegram', disabled=not st.session_state.logged)
-                        upd_pass_1 = st.text_input('Updated Password', type='password', key='upd_pass_1',
-                                                   disabled=not st.session_state.logged)
-                        upd_pass_2 = st.text_input('Repeat Updated Password', type='password', key='upd_pass_2',
-                                                   disabled=not st.session_state.logged)
+                    reporter(appl_logins)
+                    st.stop()
 
-                        get_conf_code = st.form_submit_button("Get Confirmation Code", use_container_width=True)
+                if login in st.session_state.registered_logins:
+                    st.subheader("You are Registered 😎")
+                else:
+                    st.write("Not in list? Send the request from your e-mail to sergey.priemshiy@uzliti-en.com")
+                    with st.form("Reg_form"):
+                        name = st.text_input('Your Name', disabled=st.session_state.logged)
+                        surname = st.text_input('Your Surame', disabled=st.session_state.logged)
+                        phone = st.text_input('Your personal Phone', disabled=st.session_state.logged)
+                        telegram = st.text_input('Your personal Telegram', disabled=st.session_state.logged)
+                        reg_pass_1 = st.text_input('Password', type='password', key='reg_pass_1',
+                                                   disabled=st.session_state.logged)
+                        reg_pass_2 = st.text_input('Repeat Password', type='password', key='reg_pass_2',
+                                                   disabled=st.session_state.logged)
 
-                    if get_conf_code:
-                        if (len(upd_pass_1) < 3) or (upd_pass_1 != upd_pass_2):
-                            st.warning("""❗ Password should be at least 3 symbols  
-                                ❗ Password and Repeat Password should be the same""")
+                        # data_chb = st.checkbox('Data is Correct', disabled=st.session_state.logged)
+
+                        get_reg_code = st.form_submit_button('Get Confirmation Code')
+
+                    # conf_html = ""
+                    if get_reg_code:
+                        if login in st.session_state.registered_logins:
+                            reporter(f'User {login} is already in DataBase')
                             st.stop()
 
-                        if 'upd_conf_num' not in st.session_state:
-                            st.session_state.upd_conf_num = "".join(random.sample("123456789", 4))
+                        if len(reg_pass_2) < 3 or reg_pass_1 != reg_pass_2:
+                            st.warning("""- Password should be at least 3 symbols
+                                - Password and Repeat Password should be the same""")
+                            st.stop()
+                        if len(name) < 2 or len(surname) < 2:
+                            st.warning("! Too short Name or Surname")
+                            st.stop()
 
-                        upd_html = f"""
+                        if 'conf_num' not in st.session_state:
+                            st.session_state.conf_num = "".join(random.sample("123456789", 4))
+
+                        conf_html = f"""
                                 <html>
                                   <head></head>
                                   <body>
@@ -528,12 +450,12 @@ def home_content():
                                       <hr>
                                     </h3>
                                     <h5>
-                                      You got this message because you want to update your data on ETD site
+                                      You got this message because you want to register on ETD site
                                     </h5>
                                     <p>
                                         Please confirm your registration by entering the confirmation code 
-                                        <b>{st.session_state.upd_conf_num}</b> 
-                                        at the <a href="https://e-design.streamlit.app/">site</a> Update form
+                                        <b>{st.session_state.conf_num}</b> 
+                                        at the <a href="https://design-energo.streamlit.app/">site</a> registration form
                                         <hr>
                                         Best regards, Administration 😎
                                     </p>
@@ -541,32 +463,109 @@ def home_content():
                                 </html>
                             """
 
-                        if not st.session_state.upd_code_sent:
-                            email_sent = send_mail(receiver=st.session_state.user,
-                                                   cc_rec="sergey.priemshiy@uzliti-en.com",
-                                                   html=upd_html, subj="Confirmation of Data Update on ETD site")
-                            if email_sent is True:
-                                st.session_state.upd_code_sent = True
+                        if not st.session_state.code_sent:
+                            user = get_user_data(login)
+
+                            if "@" not in user.email:
+                                st.warning("Can't get User's email")
+                                st.stop()
+
+                            if send_mail(receiver=user.email, cc_rec="sergey.priemshiy@uzliti-en.com",
+                                         html=conf_html, subj="Confirmation of ETD site registration"):
+                                st.session_state.code_sent = True
+                                st.info("Confirmation Code sent to Your Company Email")
                             else:
-                                st.session_state.upd_code_sent = False
-                                st.write("Confirmation code is not send. Refresh the page and try again")
+                                st.warning("Network problems...Try again later")
 
-                    update_pass = None
-                    if st.session_state.upd_code_sent is True:
-                        with st.form('pass_confirm'):
-                            entered_upd_code = st.text_input("Confirmation Code from Email")
-                            update_pass = st.form_submit_button("Update Password")
+                    entered_code = st.text_input("Confirmation Code from Email")
 
-                    if update_pass:
-                        if st.session_state.upd_conf_num != entered_upd_code:
+                    if st.button("Register", use_container_width=True):
+                        if login in st.session_state.registered_logins:
+                            reporter(f'User {login} is already in DataBase')
+                            st.stop()
+
+                        if st.session_state.conf_num != entered_code:
                             reporter("Confirmation code is wrong, try again")
                             st.stop()
                         else:
-                            reply = update_user_reg_data(st.session_state.user, upd_pass_2)
-                            reporter(reply)
+                            reply = register_user(name, surname, phone, telegram, login, reg_pass_2)
+                            if 'ERROR' in reply.upper():
+                                st.write('Error')
+                            else:
+                                reporter(reply)
+                                st.experimental_rerun()
+
+        with change_tab:
+            if not st.session_state.logged:
+                st.write('You should Log In first')
+            else:
+                with st.form("UpData"):
+                    # upd_phone = st.text_input('Updated personal Phone', disabled=not st.session_state.logged)
+                    # upd_telegram = st.text_input('Updated personal Telegram', disabled=not st.session_state.logged)
+                    upd_pass_1 = st.text_input('Updated Password', type='password', key='upd_pass_1',
+                                               disabled=not st.session_state.logged)
+                    upd_pass_2 = st.text_input('Repeat Updated Password', type='password', key='upd_pass_2',
+                                               disabled=not st.session_state.logged)
+
+                    get_conf_code = st.form_submit_button("Get Confirmation Code", use_container_width=True)
+
+                if get_conf_code:
+                    if (len(upd_pass_1) < 3) or (upd_pass_1 != upd_pass_2):
+                        st.warning("""❗ Password should be at least 3 symbols  
+                            ❗ Password and Repeat Password should be the same""")
+                        st.stop()
+
+                    if 'upd_conf_num' not in st.session_state:
+                        st.session_state.upd_conf_num = "".join(random.sample("123456789", 4))
+
+                    upd_html = f"""
+                            <html>
+                              <head></head>
+                              <body>
+                                <h3>
+                                  Hello, Colleague!
+                                  <hr>
+                                </h3>
+                                <h5>
+                                  You got this message because you want to update your data on ETD site
+                                </h5>
+                                <p>
+                                    Please confirm your registration by entering the confirmation code 
+                                    <b>{st.session_state.upd_conf_num}</b> 
+                                    at the <a href="https://e-design.streamlit.app/">site</a> Update form
+                                    <hr>
+                                    Best regards, Administration 😎
+                                </p>
+                              </body>
+                            </html>
+                        """
+
+                    if not st.session_state.upd_code_sent:
+                        email_sent = send_mail(receiver=st.session_state.user,
+                                               cc_rec="sergey.priemshiy@uzliti-en.com",
+                                               html=upd_html, subj="Confirmation of Data Update on ETD site")
+                        if email_sent is True:
+                            st.session_state.upd_code_sent = True
+                        else:
+                            st.session_state.upd_code_sent = False
+                            st.write("Confirmation code is not send. Refresh the page and try again")
+
+                update_pass = None
+                if st.session_state.upd_code_sent is True:
+                    with st.form('pass_confirm'):
+                        entered_upd_code = st.text_input("Confirmation Code from Email")
+                        update_pass = st.form_submit_button("Update Password")
+
+                if update_pass:
+                    if st.session_state.upd_conf_num != entered_upd_code:
+                        reporter("Confirmation code is wrong, try again")
+                        st.stop()
                     else:
-                        st.write("After pressing 'Get Confirmation Code' you will get Confirmation Code by e-mail")
-                        st.write("Enter the Code and press 'Update Password'")
+                        reply = update_user_reg_data(st.session_state.user, upd_pass_2)
+                        reporter(reply)
+                else:
+                    st.write("After pressing 'Get Confirmation Code' you will get Confirmation Code by e-mail")
+                    st.write("Enter the Code and press 'Update Password'")
 
 
 def etap_py():
@@ -740,7 +739,11 @@ else:
     home_content()
 
 if selected == "Home":
-    home_content()
+    if st.session_state.trans_status:
+        form_for_trans()
+    else:
+        home_content()
+
 
 if selected == "Manage Projects":
     manage_projects()
