@@ -84,8 +84,8 @@ if 'registered_logins' not in st.session_state:
 
 
 def update_trans_status(trans_num, trans_col):
-    trans_col.subheader(f'Close Transmittal {trans_num}')
-    with trans_col.form('confirm_trans'):
+    st.subheader(f'Close Transmittal {trans_num}')
+    with st.form('confirm_trans'):
         out_num = st.text_input('Number of reply Transmittal')
         out_date = st.date_input('Date of reply Transmittal')
         status = st.radio("Transmittal Status", trans_stat)
@@ -99,6 +99,7 @@ def update_trans_status(trans_num, trans_col):
             st.experimental_rerun()
 
 st.header('NO')
+st.write(st.session_state.trans_status)
 if st.session_state.trans_status:
     st.header("YES")
     reply = trans_status_to_db(st.session_state.trans_status)
