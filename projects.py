@@ -551,10 +551,16 @@ def confirm_task(task_id):
     # print(f"Task with ID {id} confirmed By user {user}")
 
 
-def confirm_trans(id, user):
-    pass
-    # #st.write(f"Transmittal with ID {id} is replied {user}")
-    # print(f"Transmittal with ID {id} is replied {user}")
+def confirm_trans(trans_num):
+    user = st.session_state.user
+    with db_session:
+        try:
+
+            tr = Trans.get(trans_num=trans_num)
+            tr.received = tr.received.replace('None') + f"*{user}*{str(datetime.now())[:-10]}* "
+
+        except Exception as e:
+            return err_handler(e)
 
 
 def get_trans(login=None):
@@ -581,7 +587,7 @@ def get_trans(login=None):
                      t.status
                      )
                     for t in Trans
-                    if t.responsible == Users.get(login=login))[:]
+                    if t.responsible == Users.get(login=login) and t.status != "Closed" and t.staus != "Issued Docs")[:]
             else:
                 trans = select(
                     (t.id,
