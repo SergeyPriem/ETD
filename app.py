@@ -89,17 +89,15 @@ def update_trans_status(trans_num):
 
 def form_for_trans():
     empty1, content, empty2 = st.columns([5, 3, 5])
-
     with content:
-        with st.form('confirm_trans'):
+        with st.form('confirm_trans', clear_on_submit=True):
             st.subheader(f'Close Transmittal {st.session_state.trans_status}')
             out_num = st.text_input('Number of reply Transmittal')
             out_date = st.date_input('Date of reply Transmittal')
             status = st.radio("Transmittal Status", trans_stat)
             comment = st.text_area('Comments')
             out_note = f"{out_num} by {out_date}: {comment}"
-
-            st.header("CuCA")
+            st.divider()
             conf_but = st.form_submit_button('Update', use_container_width=True)
 
         if conf_but:
