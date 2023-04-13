@@ -93,10 +93,10 @@ def update_trans_status(trans_num, trans_col):
         out_note = f"{out_num} by {out_date}: {comment}"
         conf_but = st.form_submit_button('Update')
 
-    if conf_but:
-        st.session_state.trans_status = (trans_num, status, out_note)
-        st.header(trans_num)
-        st.experimental_rerun()
+        if conf_but:
+            st.session_state.trans_status = (trans_num, status, out_note)
+            st.header(trans_num)
+            st.experimental_rerun()
 
 st.header('NO')
 if st.session_state.trans_status:
