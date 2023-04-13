@@ -101,7 +101,7 @@ if st.session_state.trans_status:
         conf_but = st.form_submit_button('Update')
 
     if conf_but:
-        reply = trans_status_to_db(st.session_state.trans_status)
+        reply = trans_status_to_db()
         reporter(reply, 2)
         st.session_state.trans_status = None
 
