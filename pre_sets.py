@@ -24,6 +24,7 @@ trans_stat = ("Open", "Closed", "For Info", "Not Enough Data", "In Progress", "I
 
 trans_types = ('Comments', "Letter", 'Vendor Docs', 'TBE', 'FCN', 'Design Docs')
 
+
 def appearance_settings():
     hide_menu_style = """
             <style>
@@ -36,6 +37,7 @@ def appearance_settings():
 
 if 'delay' not in st.session_state:
     st.session_state.delay = 3
+
 
 def reporter(text: str, duration=st.session_state.delay) -> None:  #: int = st.session_state.delay
     placeholder = st.empty()
@@ -67,6 +69,7 @@ def reporter(text: str, duration=st.session_state.delay) -> None:  #: int = st.s
 
     placeholder.empty()
 
+
 def mail_to_name(mail):
     try:
         head = mail.split("@")[0]
@@ -77,5 +80,5 @@ def mail_to_name(mail):
     except AttributeError:
         return "Colleague"
 
-BACKUP_FOLDER: Path = Path('//uz-fs/Uzle/Work/Отдел ЭЛ/Архив заданий/')
 
+BACKUP_FOLDER: Path = Path('//uz-fs/Uzle/Work/Отдел ЭЛ/Архив заданий/')
