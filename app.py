@@ -56,6 +56,9 @@ def create_states():
     if 'proj_names' not in st.session_state:
         st.session_state.proj_names = get_projects_names()
 
+    if 'trans_status' not in st.session_state:
+        st.session_state.trans_status = None
+
 
 create_states()
 # from streamlit_profiler import Profiler
@@ -81,7 +84,6 @@ if 'registered_logins' not in st.session_state:
 
 
 def update_trans_status(trans_num, trans_col):
-    st.header("BLD")
     trans_col.subheader(f'Close Transmittal {trans_num}')
     with trans_col.form('confirm_trans'):
         out_num = st.text_input('Number of reply Transmittal')
@@ -91,15 +93,14 @@ def update_trans_status(trans_num, trans_col):
         out_note = f"{out_num} by {out_date}: {comment}"
         conf_but = st.form_submit_button('Update')
 
-        st.header("BLD-2")
-        #
-        if conf_but:
-            st.header("BLD-3")
-            st.write("WHAT A HELL")
-            st.write(trans_num, status, out_note)
-            st.stop()
-            # reply = trans_status_to_db(trans_num, status, out_note)
-            # reporter(reply, 3)
+    if conf_but:
+        st.session_state.trans_status = (trans_num, status, out_note)
+
+
+if st.session_state.trans_status:
+    reply = trans_status_to_db(st.session_state.trans_status)
+    reporter(reply, 2)
+
 
 def home_content():
     st.markdown("""

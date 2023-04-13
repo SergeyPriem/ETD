@@ -564,7 +564,8 @@ def confirm_trans(trans_num):
             return err_handler(e)
 
 
-def trans_status_to_db(trans_num, status, out_note):
+def trans_status_to_db(trans_status):
+    trans_num, status, out_note = trans_status
     with db_session:
         try:
             trans = Trans.get(trans_num=trans_num)
