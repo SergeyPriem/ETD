@@ -85,9 +85,12 @@ if 'registered_logins' not in st.session_state:
         st.stop()
 
 
-def update_trans_status(trans_num, trans_col):
-    st.subheader(f'Close Transmittal {trans_num}')
+def update_trans_status(trans_num):
+    st.session_state.trans_status = trans_num
+
+if st.session_state.trans_status:
     with st.form('confirm_trans'):
+        st.subheader(f'Close Transmittal {st.session_state.trans_status}')
         out_num = st.text_input('Number of reply Transmittal')
         out_date = st.date_input('Date of reply Transmittal')
         status = st.radio("Transmittal Status", trans_stat)
@@ -96,18 +99,10 @@ def update_trans_status(trans_num, trans_col):
 
         st.header("CuCA")
         conf_but = st.form_submit_button('Update')
-        # st.session_state.trans_status = (trans_num, status, out_note)
 
     if conf_but:
-        st.session_state.trans_status = (trans_num, status, out_note)
-        st.header(trans_num)
-
-st.write(st.session_state.trans_status)
-
-if st.session_state.trans_status:
-    st.header("YES")
-    reply = trans_status_to_db(st.session_state.trans_status)
-    reporter(reply, 2)
+        reply = trans_status_to_db(st.session_state.trans_status)
+        reporter(reply, 2)
 
 
 def home_content():
@@ -385,7 +380,7 @@ def home_content():
 
                                 st.button(label=but_key2, key=but_key2, type='primary',
                                           on_click=update_trans_status,
-                                          args=((row.trans_num, trans_col)))
+                                          args=(row.trans_num))
                                 st.text("")
                         else:
                             st.text('No New Transmittals')
