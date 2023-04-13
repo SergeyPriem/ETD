@@ -570,7 +570,11 @@ def write_trans_close(trans_num, out_note):
             trans = Trans.get(trans_num=trans_num)
 
             trans.status = 'Closed'
-            trans.notes = trans.notes + ">>" + str(out_note)
+            prev_notes = trans.notes
+            if prev_notes:
+                trans.notes = prev_notes + " >>" + str(out_note)
+            else:
+                trans.notes = " >>" + str(out_note)
             return 'CLOSED'
         except Exception as e:
             return err_handler(e)
