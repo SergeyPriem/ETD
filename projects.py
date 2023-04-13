@@ -557,7 +557,8 @@ def confirm_trans(trans_num):
         try:
 
             tr = Trans.get(trans_num=trans_num)
-            tr.received = tr.received.replace('None') + f"*{user}*{str(datetime.now())[:-10]}* "
+            prev_record = tr.received.replace('-', '')
+            tr.received = prev_record + f"*{user}*{str(datetime.now())[:-10]}* "
 
         except Exception as e:
             return err_handler(e)
@@ -657,7 +658,7 @@ def add_new_trans(project, in_trans, out_trans, t_type, subj, link, trans_date, 
                 author=author,
                 users=Users.get(login=responsible),
                 notes=notes,
-                received="",
+                received="-",
                 added_by=st.session_state.user
             )
             return f"""
