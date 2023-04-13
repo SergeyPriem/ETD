@@ -603,7 +603,8 @@ def get_trans(login=None):
                      t.status
                      )
                     for t in Trans
-                    if t.responsible == Users.get(login=login) and t.status != "Closed")[:]
+                    if t.responsible == Users.get(login=login) and
+                    t.status != "Closed" and t.status != "Issued Docs")[:]
             else:
                 trans = select(
                     (t.id,
