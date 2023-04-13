@@ -21,7 +21,7 @@ from transmittals_tab import transmittals_content
 from users import check_user, add_to_log, get_logged_rights, \
     create_appl_user, get_user_data, update_users_in_db, move_to_former, get_settings, \
     update_user_reg_data, get_all_emails, register_user, get_appl_logins, get_logins_for_registered
-from projects import confirm_task, get_trans, confirm_trans, get_pers_tasks, get_projects_names
+from projects import confirm_task, get_trans, confirm_trans, get_pers_tasks, get_projects_names, close_trans
 
 
 def create_states():
