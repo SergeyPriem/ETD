@@ -579,7 +579,56 @@ def write_trans_close(trans_num, status, out_note):
             return err_handler(e)
 
 
-def get_trans(login=None):
+def get_my_trans(login):
+    with db_session:
+        try:
+            trans = select(
+                (t.id,
+                 t.trans_num,
+                 t.trans_date,
+                 t.in_out,
+                 t.ans_required,
+                 t.project.short_name,
+                 t.responsible.login,
+                 t.author,
+                 t.ref_trans,
+                 t.ref_date,
+                 t.subj,
+                 t.link,
+                 t.t_type,
+                 t.notes,
+                 t.received,
+                 t.users.login,
+                 t.status
+                 )
+                for t in Trans
+                if t.responsible == Users.get(login=login) and
+                t.status != "Closed" and t.status != "Issued Docs")[:]
+
+            df = pd.DataFrame(trans, columns=[
+                "id",
+                "trans_num",
+                "trans_date",
+                "in_out",
+                "ans_required",
+                "project",
+                "responsible",
+                "author",
+                "ref_trans",
+                "ref_date",
+                "subject",
+                "link",
+                "trans_type",
+                "notes",
+                "received",
+                "added_by",
+                "status",
+            ])
+            return df
+        except Exception as e:
+            return err_handler(e)
+
+def get_trans_for_preview(login=None):
     with db_session:
         try:
             if login:
@@ -603,8 +652,7 @@ def get_trans(login=None):
                      t.status
                      )
                     for t in Trans
-                    if t.responsible == Users.get(login=login) and
-                    t.status != "Closed" and t.status != "Issued Docs")[:]
+                    if t.responsible == Users.get(login=login))[:]
             else:
                 trans = select(
                     (t.id,

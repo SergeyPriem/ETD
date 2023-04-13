@@ -3,8 +3,8 @@ import pandas as pd
 import streamlit as st
 
 from pre_sets import trans_types
-from projects import get_trans, add_new_trans
-from users import get_logins_for_registered, get_logins_for_current
+from projects import add_new_trans, get_trans_for_preview
+from users import get_logins_for_current
 
 
 def transmittals_content():
@@ -15,6 +15,25 @@ def transmittals_content():
         st.empty()
 
     with tr_content:
+        st.markdown("""
+            <style>
+                div[data-testid="column"]:nth-of-type(1)
+                {
+                    text-align: center;
+                } 
+
+                div[data-testid="column"]:nth-of-type(2)
+                {
+                    text-align: center;
+                } 
+
+                div[data-testid="column"]:nth-of-type(3)
+                {
+                    text-align: center;
+                } 
+            </style>
+            """, unsafe_allow_html=True)
+
         st.title(':orange[Transmittals]')
 
         add_trans_tab, view_trans_tab = st.tabs(['Add New Transmittal', 'View Existing Transmittals'])
@@ -171,7 +190,7 @@ def transmittals_content():
             else:
                 user_email = None
 
-            df = get_trans(user_email)
+            df = get_trans_for_preview(user_email)
 
             # if df == "Empty Table":
             #     st.wtite("No Available Transmittals")
