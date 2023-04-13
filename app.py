@@ -348,7 +348,7 @@ def home_content():
                                               args=((row.trans_num,)))
 
                                 st.button(label=but_key2, key=but_key2, type='primary', on_click=close_trans,
-                                          args=((row.trans_num,)))
+                                          args=((row.trans_num, trans_col)))
                                 st.text("")
                         else:
                             st.text('No New Transmittals')

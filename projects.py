@@ -564,8 +564,8 @@ def confirm_trans(trans_num):
         except Exception as e:
             return err_handler(e)
 
-def close_trans(trans_num):
-    transmittal_close()
+def close_trans(trans_num, trans_col):
+    transmittal_close(trans_col)
 
 
 def get_trans(login=None):
