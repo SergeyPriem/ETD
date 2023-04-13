@@ -62,7 +62,13 @@ def drawing_sets():
             st.write("No Units available in DataBase")
             st.stop()
 
-        proj_list = df.project
+        proj_list = []
+
+        if isinstance(df, pd.DataFrame):
+            proj_list = df['project'].drop_duplicates()
+        else:
+            st.write(df)
+            st.stop()
 
         ds_left.subheader(f"{my_all}: {len(proj_list)}")
 
@@ -74,17 +80,16 @@ def drawing_sets():
                 df.set_index('id', inplace=True)
             st.experimental_data_editor(df, use_container_width=True)
 
-        if isinstance(df, pd.DataFrame):
-            proj_list = df['project'].drop_duplicates()
-        else:
-            st.write(df)
-
         proj_selected = st.selectbox("Project for Search", proj_list)
         units_list = df[df.project == proj_selected]['unit']
 
         unit_selected = st.selectbox("Unit for Search", units_list)
 
         unit_id = df.loc[df.unit == unit_selected, 'id'].values[0]
+
+        st.divider()
+
+        st.divider()
 
         st.subheader(f"Project: :red[{proj_selected}]. Unit: :red[{unit_selected}]")
 
@@ -175,4 +180,3 @@ def drawing_sets():
                         """)
                     else:
                         st.warning("Select specialities for request")
-
