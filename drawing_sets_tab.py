@@ -88,7 +88,8 @@ def drawing_sets():
         unit_id = df.loc[df.unit == unit_selected].index
 
         st.divider()
-        df.loc[df.unit == unit_selected]
+
+        st.write(df.loc[df.unit == unit_selected])
         st.divider()
 
         st.subheader(f"Project: :red[{proj_selected}]. Unit: :red[{unit_selected}]")
