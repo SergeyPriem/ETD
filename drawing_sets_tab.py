@@ -87,7 +87,7 @@ def drawing_sets():
 
         unit_selected = unit_col.selectbox("Unit for Search", units_list)
 
-        unit_id = int(df.loc[df.unit == unit_selected].index)
+        unit_id = df.loc[df.unit == unit_selected].index.values[0]
 
         st.divider()
         st.write(unit_id)
