@@ -91,15 +91,15 @@ def update_trans_status(trans_num, trans_col):
         out_note = f"{out_num} by {out_date}: {comment}"
         conf_but = st.form_submit_button('Update')
 
-    st.header("BLD-2")
-    #
-    if conf_but:
-        st.header("BLD-3")
-        st.write("WHAT A HELL")
-        st.write(trans_num, status, out_note)
-        st.stop()
-        # reply = trans_status_to_db(trans_num, status, out_note)
-        # reporter(reply, 3)
+        st.header("BLD-2")
+        #
+        if conf_but:
+            st.header("BLD-3")
+            st.write("WHAT A HELL")
+            st.write(trans_num, status, out_note)
+            st.stop()
+            # reply = trans_status_to_db(trans_num, status, out_note)
+            # reporter(reply, 3)
 
 def home_content():
     st.markdown("""
