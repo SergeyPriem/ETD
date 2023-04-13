@@ -97,7 +97,7 @@ def update_trans_status(trans_num, trans_col):
         st.session_state.trans_status = (trans_num, status, out_note)
         st.experimental_rerun()
 
-
+st.header('NO')
 if st.session_state.trans_status:
     st.header("YES")
     reply = trans_status_to_db(st.session_state.trans_status)
