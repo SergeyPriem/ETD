@@ -118,7 +118,7 @@ def drawing_sets():
 
         with task_col:
             # st.subheader(f"Available Assignments for :red[{set_id[0]}: {set_id[1]}:] {in_out_radio}")
-            st.subheader(f"Available Assignments")
+            st.subheader(f"Available Tasks")
 
         with quant_col:
             st.write("")
@@ -144,8 +144,10 @@ def drawing_sets():
         not_aval_df['request'] = False
         not_aval_df = not_aval_df.set_index('speciality')
 
-        if in_out_radio == "In":
-            st.subheader("Not available Assignments for Specialities. Here you can create request for assignments")
+        req_checkbox = st.checkbox('Create Draft not available Tasks')
+
+        if in_out_radio == "In" and req_checkbox:
+            st.subheader("Not available Tasks for Specialities. Here you can create request for assignments")
             not_aval_col, empty_col, but_col, request_col = st.columns([4, 1, 3, 10])
             with not_aval_col:
                 request_df = st.experimental_data_editor(not_aval_df, use_container_width=True, height=600,
