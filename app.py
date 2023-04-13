@@ -56,8 +56,7 @@ def create_states():
     if 'proj_names' not in st.session_state:
         st.session_state.proj_names = get_projects_names()
 
-    if 'trans_status' not in st.session_state:
-        st.session_state.trans_status = None
+
 
 
 create_states()
@@ -68,6 +67,9 @@ create_states()
 
 
 appearance_settings()
+
+if 'trans_status' not in st.session_state:
+    st.session_state.trans_status = None
 
 if st.session_state.user:
     log_in_out = 'Log Out'
@@ -96,7 +98,6 @@ def update_trans_status(trans_num, trans_col):
     if conf_but:
         st.session_state.trans_status = (trans_num, status, out_note)
         st.header(trans_num)
-        st.experimental_rerun()
 
 st.header('NO')
 st.write(st.session_state.trans_status)
