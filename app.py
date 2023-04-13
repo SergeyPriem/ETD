@@ -91,7 +91,7 @@ def transmittal_status_form(trans_num, trans_col):
         out_note = f"{out_num} by {out_date}: {comment}"
 
         if conf_but:
-            reporter((trans_num, status, out_note),3)
+            st.write((trans_num, status, out_note),3)
             reply = write_trans_close(trans_num, status, out_note)
             reporter(reply, 3)
 
