@@ -14,7 +14,7 @@ from tasks_tab import tasks_content
 from drawing_sets_tab import drawing_sets
 from just_for_fun_tab import just_for_fun, emoji_content
 from lesson_learned_tab import lessons_content
-from pre_sets import appearance_settings, reporter, positions, departments, mail_to_name
+from pre_sets import appearance_settings, reporter, positions, departments, mail_to_name, trans_stat
 from send_emails import send_mail
 from settings_tab import settings_content
 from transmittals_tab import transmittals_content
@@ -80,18 +80,18 @@ if 'registered_logins' not in st.session_state:
         st.stop()
 
 
-def transmittal_close_form(trans_num, trans_col):
+def transmittal_status_form(trans_num, trans_col):
     trans_col.subheader(f'Close Transmittal {trans_num}')
     with trans_col.form('confirm_trans'):
         out_num = st.text_input('Number of reply Transmittal')
         out_date = st.date_input('Date of reply Transmittal')
+        status = st.radio("Transmittal Status", trans_stat)
         comment = st.text_area('Comments')
-        conf_but = st.form_submit_button('Close')
+        conf_but = st.form_submit_button('Update')
         out_note = f"{out_num} by {out_date}: {comment}"
 
         if conf_but:
-            st.info((trans_num, out_note))
-            reply = write_trans_close(trans_num, out_note)
+            reply = write_trans_close(trans_num, status, out_note)
             reporter(reply, 3)
 
 def home_content():
@@ -356,13 +356,13 @@ def home_content():
                                 """, unsafe_allow_html=True)
 
                                 but_key1 = f"Confirm receiving: {row.trans_num}"
-                                but_key2 = f"Close: {row.trans_num}"
+                                but_key2 = f"Update Status for: {row.trans_num}"
 
                                 if st.session_state.user not in row.received:
                                     st.button(label=but_key1, key=but_key1, type='secondary', on_click=confirm_trans,
                                               args=((row.trans_num,)))
 
-                                st.button(label=but_key2, key=but_key2, type='primary', on_click=transmittal_close_form,
+                                st.button(label=but_key2, key=but_key2, type='primary', on_click=transmittal_status_form,
                                           args=((row.trans_num, trans_col)))
                                 st.text("")
                         else:

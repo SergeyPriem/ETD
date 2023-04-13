@@ -564,12 +564,11 @@ def confirm_trans(trans_num):
             return err_handler(e)
 
 
-def write_trans_close(trans_num, out_note):
+def write_trans_close(trans_num, status, out_note):
     with db_session:
         try:
             trans = Trans.get(trans_num=trans_num)
-
-            trans.status = 'Closed'
+            trans.status = status
             prev_notes = trans.notes
             if prev_notes:
                 trans.notes = prev_notes + " >>" + str(out_note)
@@ -604,7 +603,7 @@ def get_trans(login=None):
                      t.status
                      )
                     for t in Trans
-                    if t.responsible == Users.get(login=login) and t.status == "Open")[:]
+                    if t.responsible == Users.get(login=login) and t.status != "Closed")[:]
             else:
                 trans = select(
                     (t.id,
