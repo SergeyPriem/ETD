@@ -144,9 +144,8 @@ def drawing_sets():
         not_aval_df['request'] = False
         not_aval_df = not_aval_df.set_index('speciality')
 
-        req_checkbox = st.checkbox('Create Draft for not available Tasks')
-
         if in_out_radio == "In":
+            req_checkbox = st.checkbox('Create Draft for not available Tasks')
             if req_checkbox:
                 st.subheader("Not available Tasks for Specialities. Here you can create request for assignments")
                 not_aval_col, empty_col, but_col, request_col = st.columns([4, 1, 3, 10])
