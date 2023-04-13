@@ -103,6 +103,7 @@ if st.session_state.trans_status:
     if conf_but:
         reply = trans_status_to_db(st.session_state.trans_status)
         reporter(reply, 2)
+        st.session_state.trans_status = None
 
 
 def home_content():
