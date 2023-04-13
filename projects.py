@@ -564,17 +564,20 @@ def confirm_trans(trans_num):
             return err_handler(e)
 
 
-def write_trans_close(trans_num, status, out_note):
+def trans_status_to_db(trans_num, status, out_note):
     with db_session:
-        print(trans_num, status, out_note)
         try:
             trans = Trans.get(trans_num=trans_num)
-            trans.status = status
+
             prev_notes = trans.notes
+
             if prev_notes:
-                trans.notes = prev_notes + " >>" + str(out_note)
+                new_notes = prev_notes + " >>" + str(out_note)
             else:
-                trans.notes = " >>" + str(out_note)
+                new_notes = " >>" + str(out_note)
+
+            trans.notes = new_notes
+            trans.status = status
             return 'Status Updated'
         except Exception as e:
             return err_handler(e)

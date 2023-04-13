@@ -22,7 +22,7 @@ from users import check_user, add_to_log, get_logged_rights, \
     create_appl_user, get_user_data, update_users_in_db, move_to_former, get_settings, \
     update_user_reg_data, get_all_emails, register_user, get_appl_logins, get_logins_for_registered
 from projects import confirm_task, get_my_trans, confirm_trans, get_pers_tasks, get_projects_names, \
-    write_trans_close
+    trans_status_to_db
 
 
 def create_states():
@@ -80,7 +80,7 @@ if 'registered_logins' not in st.session_state:
         st.stop()
 
 
-def transmittal_status_form(trans_num, trans_col):
+def update_trans_status(trans_num, trans_col):
     trans_col.subheader(f'Close Transmittal {trans_num}')
     with trans_col.form('confirm_trans'):
         out_num = st.text_input('Number of reply Transmittal')
@@ -91,8 +91,8 @@ def transmittal_status_form(trans_num, trans_col):
         conf_but = st.form_submit_button('Update')
 
     if conf_but:
-        st.write((trans_num, status, out_note),3)
-        reply = write_trans_close(trans_num, status, out_note)
+        st.write("WHAT A HELL")
+        reply = trans_status_to_db(trans_num, status, out_note)
         reporter(reply, 3)
 
 def home_content():
@@ -364,11 +364,13 @@ def home_content():
                                 but_key2 = f"Update Status for: {row.trans_num}"
 
                                 if st.session_state.user not in row.received:
-                                    st.button(label=but_key1, key=but_key1, type='secondary', on_click=confirm_trans,
+                                    st.button(label=but_key1, key=but_key1, type='secondary',
+                                              on_click=confirm_trans,
                                               args=((row.trans_num,)))
 
-                                st.button(label=but_key2, key=but_key2, type='primary', on_click=transmittal_status_form,
-                                          args=((row.trans_num, trans_col)))
+                                st.button(label=but_key2, key=but_key2, type='primary',
+                                          on_click=update_trans_status,
+                                          args=(row.trans_num, trans_col))
                                 st.text("")
                         else:
                             st.text('No New Transmittals')
