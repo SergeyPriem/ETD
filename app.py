@@ -56,7 +56,8 @@ def create_states():
     if 'proj_names' not in st.session_state:
         st.session_state.proj_names = get_projects_names()
 
-
+    if 'trans_status' not in st.session_state:
+        st.session_state.trans_status = None
 
 
 create_states()
@@ -68,8 +69,7 @@ create_states()
 
 appearance_settings()
 
-if 'trans_status' not in st.session_state:
-    st.session_state.trans_status = None
+
 
 if st.session_state.user:
     log_in_out = 'Log Out'
@@ -380,7 +380,7 @@ def home_content():
 
                                 st.button(label=but_key2, key=but_key2, type='primary',
                                           on_click=update_trans_status,
-                                          args=(row.trans_num))
+                                          args=((row.trans_num,)))
                                 st.text("")
                         else:
                             st.text('No New Transmittals')
