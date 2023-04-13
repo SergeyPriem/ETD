@@ -90,10 +90,10 @@ def transmittal_status_form(trans_num, trans_col):
         out_note = f"{out_num} by {out_date}: {comment}"
         conf_but = st.form_submit_button('Update')
 
-        if conf_but:
-            st.write((trans_num, status, out_note),3)
-            reply = write_trans_close(trans_num, status, out_note)
-            reporter(reply, 3)
+    if conf_but:
+        st.write((trans_num, status, out_note),3)
+        reply = write_trans_close(trans_num, status, out_note)
+        reporter(reply, 3)
 
 def home_content():
     st.markdown("""
