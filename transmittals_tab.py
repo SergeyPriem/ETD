@@ -38,61 +38,116 @@ def transmittals_content():
                 trans_date = lc.date_input("Transmittal Date")
                 author = lc.text_input('Originator of the Transmittal')
 
-                add_trans_but = lc.form_submit_button("Preview Transmittal's Data")
+                add_trans_but = lc.form_submit_button("Preview Transmittal's Data", use_container_width=True)
 
             if add_trans_but:
                 l_prev, r_prev = st.columns([1, 8])
-                l_prev.markdown(f"""
-                            Project:
-                            
-                            Transmittal Number:
-                            
-                            In reply to:
-                            
-                            Transmittal Type:
-                            
-                            Subject:
-                            
-                            Link:
-                            
-                            Transmittal Date:
-                            
-                            Reply required:
-                            
-                            Due Date:
-                            
-                            Originator:
-                            
-                            Responsible Employee:
-                            
-                            Notes: 
-                            """)
 
-                r_prev.markdown(f"""
-                            **:blue[{project}]**
-                            
-                            **:blue[{trans_num}]**
-                            
-                            **:blue[{ref_trans}]**
-                            
-                            **:blue[{t_type}]**
-                            
-                            **:blue[{subj}]**
-                            
-                            **:blue[{link}]**
-                            
-                            **:blue[{trans_date}]**
-                            
-                            **:blue[{ans_required}]**
-                            
-                            **:blue[{reply_date}]**
-                            
-                            **:blue[{author}]**
-                            
-                            **:blue[{responsible}]**
-                            
-                            **:blue[{notes}]** 
-                            """)
+                st.markdown("""<style>
+                                .task_preview table, tr {
+                                        border-style: hidden;
+                                        margin: auto;
+                                    }
+
+                                .task_preview td {
+                                        border-style: hidden;
+                                        text-align: left;
+                                    }
+                                  </style>
+                                  """, unsafe_allow_html=True)
+
+                st.markdown(f"""
+                <table class="task_preview">
+                    <tr>
+                        <td>Project:</td><td style="color: #1569C7;"><b>{project}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Transmittal Number:</td><td style="color: #1569C7;"><b>{trans_num}</b></td>
+                    </tr>
+                    <tr>
+                        <td>In reply to:</td><td style="color: #1569C7;"><b>{ref_trans}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Transmittal Type:</td><td style="color: #1569C7;"><b>{t_type}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Subject:</td><td style="color: #1569C7;"><b>{subj}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Link:</td><td style="color: #1569C7;"><b>{link}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Transmittal Date:</td><td style="color: #1569C7;"><b>{trans_date}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Reply required:</td><td style="color: #1569C7;"><b>{ans_required}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Due Date:</td><td style="color: #1569C7;"><b>{reply_date}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Originator:</td><td style="color: #1569C7;"><b>{author}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Responsible Employee:</td><td style="color: #1569C7;"><b>{responsible}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Notes:</td><td style="color: #1569C7;"><b>{notes}</b></td>
+                    </tr>
+                </table>
+                """, unsafe_allow_html=True)
+
+                # l_prev.markdown(f"""
+                #             Project:
+                #
+                #             Transmittal Number:
+                #
+                #             In reply to:
+                #
+                #             Transmittal Type:
+                #
+                #             Subject:
+                #
+                #             Link:
+                #
+                #             Transmittal Date:
+                #
+                #             Reply required:
+                #
+                #             Due Date:
+                #
+                #             Originator:
+                #
+                #             Responsible Employee:
+                #
+                #             Notes:
+                #             """)
+                #
+                # r_prev.markdown(f"""
+                #             **:blue[{project}]**
+                #
+                #             **:blue[{trans_num}]**
+                #
+                #             **:blue[{ref_trans}]**
+                #
+                #             **:blue[{t_type}]**
+                #
+                #             **:blue[{subj}]**
+                #
+                #             **:blue[{link}]**
+                #
+                #             **:blue[{trans_date}]**
+                #
+                #             **:blue[{ans_required}]**
+                #
+                #             **:blue[{reply_date}]**
+                #
+                #             **:blue[{author}]**
+                #
+                #             **:blue[{responsible}]**
+                #
+                #             **:blue[{notes}]**
+                #             """)
             status = "Issued Docs" if t_type == "Design Docs" else "Open"
 
             if st.button('Add to DataBase'):
