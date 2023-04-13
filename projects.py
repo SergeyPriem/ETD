@@ -562,6 +562,9 @@ def confirm_trans(trans_num):
         except Exception as e:
             return err_handler(e)
 
+def close_trans(trans_num):
+    st.info(trans_num)
+
 
 def get_trans(login=None):
     with db_session:

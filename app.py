@@ -257,9 +257,9 @@ def home_content():
                                 <br>
                                 """, unsafe_allow_html=True)
 
-                                but_key = f"Confirm Task: {row.id}"
+                                but_key1 = f"Confirm Task: {row.id}"
                                 task_id = row.id
-                                if st.button(label=but_key, key=but_key, type='primary', on_click=confirm_task, args=(
+                                if st.button(label=but_key1, key=but_key1, type='primary', on_click=confirm_task, args=(
                                         (row.id,))):
                                     st.info(f"Task {task_id} confirmed!!")
                                 st.text("")
@@ -340,8 +340,14 @@ def home_content():
                                 <br>
                                 """, unsafe_allow_html=True)
 
-                                but_key = f"Add Reply for: {row.trans_num}"
-                                st.button(label=but_key, key=but_key, type='primary', on_click=confirm_trans,
+                                but_key1 = f"Confirm receiving: {row.trans_num}"
+                                but_key2 = f"Close: {row.trans_num}"
+
+                                if st.session_state.user not in row.received:
+                                    st.button(label=but_key1, key=but_key1, type='secondary', on_click=confirm_trans,
+                                              args=(row.trans_num))
+
+                                st.button(label=but_key2, key=but_key2, type='primary', on_click=close_trans,
                                           args=(row.trans_num))
                                 st.text("")
                         else:
