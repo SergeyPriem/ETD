@@ -6,7 +6,7 @@ import pandas as pd
 from datetime import date, datetime
 import streamlit as st
 from pre_sets import BACKUP_FOLDER
-from transmittals_tab import transmittals_content
+from trans_close import transmittal_close
 from users import err_handler
 
 set_sql_debug(True)
@@ -565,7 +565,7 @@ def confirm_trans(trans_num):
             return err_handler(e)
 
 def close_trans(trans_num):
-    transmittals_content()
+    transmittal_close()
 
 
 def get_trans(login=None):
