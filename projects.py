@@ -652,7 +652,7 @@ def get_trans(login=None):
 
 
 def add_new_trans(project, trans_num, out_trans, t_type, subj, link, trans_date, ans_required, out_date, author,
-                  responsible, notes, status):
+                  responsible, notes, status, in_out):
     with db_session:
         try:
             if trans_num in select(p.trans_num for p in Trans)[:]:
@@ -673,7 +673,8 @@ def add_new_trans(project, trans_num, out_trans, t_type, subj, link, trans_date,
                 notes=notes,
                 received="-",
                 users=Users.get(login=st.session_state.user),
-                status=status
+                status=status,
+                in_out=in_out
             )
             return f"""
             New Transmittal {trans_num} is added to DataBase  

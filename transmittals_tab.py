@@ -148,11 +148,18 @@ def transmittals_content():
                 #
                 #             **:blue[{notes}]**
                 #             """)
-            status = "Issued Docs" if t_type == "Design Docs" else "Open"
+
+            if t_type == "Design Docs":
+                status = "Issued Docs"
+                in_out = "Out"
+            else:
+                status = "Open"
+                in_out = "In"
+
 
             if st.button('Add to DataBase'):
                 reply = add_new_trans(project, trans_num, ref_trans, t_type, subj, link, trans_date, ans_required,
-                                      reply_date, author, responsible, notes, status)
+                                      reply_date, author, responsible, notes, status, in_out)
                 # reporter(reply)
                 st.info(reply)
 
