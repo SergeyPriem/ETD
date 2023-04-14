@@ -219,7 +219,7 @@ def edit_sets(proj_to_edit):
         with st.form('upd_set_detail'):
             st.subheader(f"Edit delails for Project: :red[{proj}] Unit: :red[{sets_tuple[5]}]")
             left_sod, center_sod, right_sod = st.columns([7, 1, 7])
-            left_sod.subheader(f'Update Information for Selected Unit / Set of Drawings')
+            left_sod.subheader('Update Information for Selected Unit')
             right_sod.write("")
             upd_trans_chb = right_sod.checkbox('Add Transmittal')
             with left_sod:
@@ -246,10 +246,9 @@ def edit_sets(proj_to_edit):
                 trans_date = st.date_input('New Transmittal Date')
                 notes = st.text_area("Notes (don't delete, just add to previous)", value=sets_tuple[4], height=120)
 
-            set_upd_but = st.form_submit_button("Update in DB", use_container_width=True)
+            set_upd_but = st.form_submit_button("Update in DB", use_container_width=True, type="primary")
 
         if set_upd_but:
-            st.write("OK")
             reply = update_sod(unit_id, coord, perf, rev, status, trans_num,
                                trans_date, notes, upd_trans_chb)
             reporter(reply)
