@@ -279,7 +279,7 @@ def edit_sets():
                 trans_num = st.selectbox('New Transmittal Number', trans_list)
                 trans_date = st.date_input('New Transmittal Date')
                 notes = st.text_area("Notes (don't delete, just add to previous)",
-                                     value=cur_sod.get('notes', '!!!'), height=130)
+                                     value=cur_sod.get('notes', '!!!'), height=125)
 
             set_upd_but = st.form_submit_button("Update in DB", use_container_width=True, type="primary")
 
