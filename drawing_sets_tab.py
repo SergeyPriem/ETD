@@ -9,7 +9,7 @@ from projects import get_sets, get_own_tasks, get_sets_names, get_set_to_edit, g
 from users import get_all_logins
 from pre_sets import reporter
 
-st.warning(st.session_state)
+st.warning(st.session_state.edit_sod)
 def edit_sets(proj_to_edit):
     sets_tuple, proj, unit_id = proj_to_edit
     empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
