@@ -38,7 +38,7 @@ def edit_sets():
             st.warning(sets_tuple)
             st.stop()
         all_logins = get_all_logins()
-        st.write(sets_tuple)
+        # st.write(sets_tuple)
 
 
         with st.form('upd_set_detail'):
@@ -158,8 +158,8 @@ def drawing_sets():
         st.experimental_data_editor(df.loc[df.unit == unit_selected][
                                         ['coordinator', 'performer', 'stage', 'revision', 'start_date', 'status',
                                     'transmittal', 'trans_date', 'notes']], use_container_width=True)
-        if st.button('Edit Details'):
-            edit_sets()
+    if st.button('Edit Details'):
+        edit_sets()
 
 
         st.divider()
