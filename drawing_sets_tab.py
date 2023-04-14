@@ -196,7 +196,7 @@ def drawing_sets():
                         else:
                             st.warning("Select specialities for request")
 
-st.warning(st.session_state.edit_sod)
+# st.warning(st.session_state.edit_sod)
 def edit_sets(proj_to_edit):
     st.warning("we are here")
     sets_tuple, proj, unit_id = proj_to_edit
