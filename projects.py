@@ -421,6 +421,24 @@ def update_sets(edited_set_df):
     return "Updated Successfully"
 
 
+def update_sod(s_o_d, coord, perf, rev, status, trans_num, trans_date, notes, upd_trans_chb):
+    with db_session:
+        try:
+            sod = SOD[s_o_d]
+
+            sod.coord_id = coord
+            sod.perf_if = perf
+            sod.revision = rev
+            sod.status = status
+            if upd_trans_chb:
+                sod.trans_num = trans_num
+                sod.trans_date = trans_date
+            sod.notes = notes
+            return "Updated 😎"
+        except Exception as e:
+            return err_handler(e)
+
+
 def get_sets(login):
     with db_session:
         try:
@@ -635,6 +653,7 @@ def get_my_trans(login):
             return df
         except Exception as e:
             return err_handler(e)
+
 
 def get_trans_for_preview(login=None):
     with db_session:

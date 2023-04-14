@@ -6,7 +6,7 @@ import streamlit as st
 from models import Project, Task, VisitLog, SOD, Users, Trans, Speciality
 from pre_sets import proj_statuses, reporter, stages, sod_statuses, sod_revisions
 from projects import create_project, get_table, update_projects, add_sod, get_sets_names, get_set_to_edit, \
-    get_trans_nums
+    get_trans_nums, update_sod
 from users import get_logins_for_current, get_all_logins
 
 
@@ -191,14 +191,15 @@ def manage_sets():
 
                     trans_num = st.selectbox('New Transmittal Number', trans_list)
                     trans_date = st.date_input('New Transmittal Date')
-                    notes = st.text_area('Notes', value=sets_tuple[10], height=120)
+                    notes = st.text_area("Notes (don't delete, just add to previous)", value=sets_tuple[10], height=120)
 
                 set_upd_but = st.form_submit_button("Update in DB", use_container_width=True)
 
             if set_upd_but:
                 st.write("OK")
-                # reply = update_sod(coord, perf, rev, status, trans_num, trans_date, notes)
-                # reporter(reply)
+                reply = update_sod(sets_tuple[0], coord, perf, rev, status, trans_num,
+                trans_date, notes, upd_trans_chb)
+                reporter(reply)
 
 
 
