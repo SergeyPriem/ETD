@@ -182,7 +182,7 @@ def manage_sets():
 
                 with right_sod:
 
-                    trans_list = get_trans_nums(proj_short)
+                    trans_list = get_trans_nums(proj_for_sets_edit)
 
                     if not isinstance(trans_list, list):
                         st.warning(trans_list)
