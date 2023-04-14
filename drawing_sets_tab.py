@@ -90,13 +90,18 @@ def drawing_sets():
 
         df_edit = df.loc[df.unit == unit_selected]
 
-        set_tuple = (df_edit.at['coordinator'], df_edit.at['performer'], df_edit.at['revision'],
-                     df_edit.at['status'], "testnote")#df_edit.at['notes'])
+        set_tuple = (df_edit.coordinator.values[0],
+                     df_edit.performer.values[0],
+                     df_edit.revision.values[0],
+                     df_edit.status.values[0],
+                     df_edit.notes.values[0],
+                     )
+
 
         st.write(set_tuple)
-        # if st.button('Edit Details'):
-        #     st.session_state.edit_sod = (set_tuple, proj_selected, unit_id)
-        #     st.experimental_rerun()
+        if st.button('Edit Details'):
+            st.session_state.edit_sod = (set_tuple, proj_selected, unit_id)
+            st.experimental_rerun()
 
         st.divider()
 
@@ -267,6 +272,6 @@ if 'edit_sod' in st.session_state:
     else:
         st.write("state problem")
         st.write(st.session_state.edit_sod)
-        # st.stop()
+        st.stop()
 
 
