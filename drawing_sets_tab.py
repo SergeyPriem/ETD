@@ -259,7 +259,7 @@ def edit_sets(proj_to_edit):
                 notes = st.text_area("Notes (don't delete, just add to previous)", value=sets_tuple[4], height=120)
 
             set_upd_but = st.form_submit_button("Update in DB", use_container_width=True)
-    st.stop()
+
     if set_upd_but:
         st.write("OK")
         reply = update_sod(unit_id, coord, perf, rev, status, trans_num,
