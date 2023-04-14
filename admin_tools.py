@@ -4,10 +4,9 @@ import datetime
 import pandas as pd
 import streamlit as st
 from models import Project, Task, VisitLog, SOD, Users, Trans, Speciality
-from pre_sets import proj_statuses, reporter, stages, sod_statuses, sod_revisions
-from projects import create_project, get_table, update_projects, add_sod, get_sets_names, get_set_to_edit, \
-    get_trans_nums, update_sod
-from users import get_logins_for_current, get_all_logins
+from pre_sets import proj_statuses, reporter, stages, sod_statuses
+from projects import create_project, get_table, update_projects, add_sod
+from users import get_logins_for_current
 
 
 def get_list_index(a_list: list, elem: str) -> int:
@@ -26,7 +25,7 @@ def manage_projects():
 
     with content_proj:
         st.title(':orange[Manage Projects]')
-        proj_tab1, proj_tab2, viewer_tab = st.tabs(['Create Project', 'Edit Existing Project', 'View Tables'])
+        proj_tab1, proj_tab2, create_sod, viewer_tab = st.tabs(['Create Project', 'Edit Existing Project', 'Create Unit / Set of Drawing', 'View Tables'])
 
         with proj_tab1:
             # st.subheader('Add New Project')
@@ -98,6 +97,9 @@ def manage_projects():
                     else:
                         reporter("No selection to Edit")
 
+        with create_sod:
+            create_sets()
+
         with viewer_tab:
             # tab_list = get_tab_names()
             tab_name = st.radio("Select the Table for view", (
@@ -113,7 +115,96 @@ def manage_projects():
 
 
 st.cache_data(ttl=600)
-def manage_sets():
+# def manage_sets():
+#     empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
+#     with empty_sets_1:
+#         st.empty()
+#     with empty_sets_2:
+#         st.empty()
+#
+#     with content_sets:
+#         st.title(':orange[Manage Drawings Sets]')
+#         sets_edit, sets_create = st.tabs(['Edit Existing Set of Drawings', 'Create Set of Drawings'])
+#         with sets_create:
+#
+#             st.subheader("Create Set of Drawings")
+#
+#             with st.form('new_sod'):
+#                 proj_short = st.selectbox('Select a Project', st.session_state.proj_names)
+#                 set_name = st.text_input("Enter the Name for new Set of Drawings / Unit").strip()
+#                 stage = st.radio("Select the Stage", stages, horizontal=True)
+#                 coordinator = st.selectbox("Coordinator", st.session_state.registered_logins)
+#                 performer = st.selectbox("Performer", st.session_state.registered_logins)
+#                 set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
+#                 status = st.select_slider("Select the Current Status", sod_statuses, value='0%')
+#                 notes = st.text_area("Add Notes").strip()
+#                 create_sod_but = st.form_submit_button("Create",use_container_width=True)
+#
+#             if create_sod_but:
+#                 reply = add_sod(proj_short, set_name, stage, status, set_start_date, coordinator, performer, notes)
+#                 reporter(reply)
+#
+#         with sets_edit:
+#             st.subheader('Edit Existing Set of Drawings')
+#             proj_for_sets_edit = st.selectbox('Select Projects for Edited Unit / Set', st.session_state.proj_names,)
+#
+#             sets_list = get_sets_names(proj_for_sets_edit)
+#
+#             if isinstance(sets_list, list):
+#                 set_to_edit = st.selectbox('Select Unit / Set of Drawings', sets_list)
+#             else:
+#                 reporter(sets_list)
+#                 st.stop()
+#
+#             sets_tuple = get_set_to_edit(proj_for_sets_edit, set_to_edit)
+#
+#             if not isinstance(sets_tuple, tuple):
+#                 st.warning(sets_tuple)
+#                 st.stop()
+#             all_logins = get_all_logins()
+#             st.write(sets_tuple)
+#
+#
+#             with st.form('upd_set_detail'):
+#                 left_sod, center_sod, right_sod = st.columns([7, 1, 7])
+#                 left_sod.subheader(f'Update Information for Selected Unit / Set of Drawings')
+#                 right_sod.write("")
+#                 upd_trans_chb = right_sod.checkbox('Add Transmittal')
+#                 with left_sod:
+#                     coord = st.selectbox("Coordinator", all_logins,
+#                                          index=get_list_index(all_logins, sets_tuple[2]))
+#
+#                     perf = st.selectbox("Performer", all_logins,
+#                                         index=get_list_index(all_logins, sets_tuple[3]))
+#
+#                     rev = st.selectbox("Revision", sod_revisions,
+#                                        index=get_list_index(sod_revisions, sets_tuple[5]))
+#
+#                     status = st.selectbox('Status', sod_statuses,
+#                                           index=get_list_index(sod_statuses, sets_tuple[6]))
+#
+#                 with right_sod:
+#
+#                     trans_list = get_trans_nums(proj_for_sets_edit)
+#
+#                     if not isinstance(trans_list, list):
+#                         st.warning(trans_list)
+#                         st.stop()
+#
+#                     trans_num = st.selectbox('New Transmittal Number', trans_list)
+#                     trans_date = st.date_input('New Transmittal Date')
+#                     notes = st.text_area("Notes (don't delete, just add to previous)", value=sets_tuple[10], height=120)
+#
+#                 set_upd_but = st.form_submit_button("Update in DB", use_container_width=True)
+#
+#             if set_upd_but:
+#                 st.write("OK")
+#                 reply = update_sod(sets_tuple[0], coord, perf, rev, status, trans_num,
+#                 trans_date, notes, upd_trans_chb)
+#                 reporter(reply)
+
+
+def create_sets():
     empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
     with empty_sets_1:
         st.empty()
@@ -121,85 +212,20 @@ def manage_sets():
         st.empty()
 
     with content_sets:
-        st.title(':orange[Manage Drawings Sets]')
-        sets_edit, sets_create = st.tabs(['Edit Existing Set of Drawings', 'Create Set of Drawings'])
-        with sets_create:
 
-            st.subheader("Create Set of Drawings")
+        st.subheader("Create Set of Drawings")
 
-            with st.form('new_sod'):
-                proj_short = st.selectbox('Select a Project', st.session_state.proj_names)
-                set_name = st.text_input("Enter the Name for new Set of Drawings / Unit").strip()
-                stage = st.radio("Select the Stage", stages, horizontal=True)
-                coordinator = st.selectbox("Coordinator", st.session_state.registered_logins)
-                performer = st.selectbox("Performer", st.session_state.registered_logins)
-                set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
-                status = st.select_slider("Select the Current Status", sod_statuses, value='0%')
-                notes = st.text_area("Add Notes").strip()
-                create_sod_but = st.form_submit_button("Create",use_container_width=True)
+        with st.form('new_sod'):
+            proj_short = st.selectbox('Select a Project', st.session_state.proj_names)
+            set_name = st.text_input("Enter the Name for new Set of Drawings / Unit").strip()
+            stage = st.radio("Select the Stage", stages, horizontal=True)
+            coordinator = st.selectbox("Coordinator", st.session_state.registered_logins)
+            performer = st.selectbox("Performer", st.session_state.registered_logins)
+            set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
+            status = st.select_slider("Select the Current Status", sod_statuses, value='0%')
+            notes = st.text_area("Add Notes").strip()
+            create_sod_but = st.form_submit_button("Create",use_container_width=True)
 
-            if create_sod_but:
-                reply = add_sod(proj_short, set_name, stage, status, set_start_date, coordinator, performer, notes)
-                reporter(reply)
-
-        with sets_edit:
-            st.subheader('Edit Existing Set of Drawings')
-            proj_for_sets_edit = st.selectbox('Select Projects for Edited Unit / Set', st.session_state.proj_names,)
-
-            sets_list = get_sets_names(proj_for_sets_edit)
-
-            if isinstance(sets_list, list):
-                set_to_edit = st.selectbox('Select Unit / Set of Drawings', sets_list)
-            else:
-                reporter(sets_list)
-                st.stop()
-
-            sets_tuple = get_set_to_edit(proj_for_sets_edit, set_to_edit)
-
-            if not isinstance(sets_tuple, tuple):
-                st.warning(sets_tuple)
-                st.stop()
-            all_logins = get_all_logins()
-            st.write(sets_tuple)
-
-
-            with st.form('upd_set_detail'):
-                left_sod, center_sod, right_sod = st.columns([7, 1, 7])
-                left_sod.subheader(f'Update Information for Selected Unit / Set of Drawings')
-                right_sod.write("")
-                upd_trans_chb = right_sod.checkbox('Add Transmittal')
-                with left_sod:
-                    coord = st.selectbox("Coordinator", all_logins,
-                                         index=get_list_index(all_logins, sets_tuple[2]))
-
-                    perf = st.selectbox("Performer", all_logins,
-                                        index=get_list_index(all_logins, sets_tuple[3]))
-
-                    rev = st.selectbox("Revision", sod_revisions,
-                                       index=get_list_index(sod_revisions, sets_tuple[5]))
-
-                    status = st.selectbox('Status', sod_statuses,
-                                          index=get_list_index(sod_statuses, sets_tuple[6]))
-
-                with right_sod:
-
-                    trans_list = get_trans_nums(proj_for_sets_edit)
-
-                    if not isinstance(trans_list, list):
-                        st.warning(trans_list)
-                        st.stop()
-
-                    trans_num = st.selectbox('New Transmittal Number', trans_list)
-                    trans_date = st.date_input('New Transmittal Date')
-                    notes = st.text_area("Notes (don't delete, just add to previous)", value=sets_tuple[10], height=120)
-
-                set_upd_but = st.form_submit_button("Update in DB", use_container_width=True)
-
-            if set_upd_but:
-                st.write("OK")
-                reply = update_sod(sets_tuple[0], coord, perf, rev, status, trans_num,
-                trans_date, notes, upd_trans_chb)
-                reporter(reply)
-
-
-
+        if create_sod_but:
+            reply = add_sod(proj_short, set_name, stage, status, set_start_date, coordinator, performer, notes)
+            reporter(reply)
