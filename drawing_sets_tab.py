@@ -104,32 +104,20 @@ def show_sets():
 
         df_edit = df.loc[df.unit == unit_selected]
 
-        set_tuple = (df_edit.coordinator.values[0],
-                     df_edit.performer.values[0],
-                     df_edit.revision.values[0],
-                     df_edit.status.values[0],
-                     df_edit.notes.values[0],
-                     unit_selected,
-                     )
-
-        # st.write(set_tuple)
-        # st.write((set_tuple, proj_selected, unit_id))
 
         if st.button('Edit Details'):
-            st.session_state.edit_sod = {
-                'coordinator': df_edit.coordinator.values[0],
-                'performer': df_edit.performer.values[0],
-                'revision': df_edit.revision.values[0],
-                'status': df_edit.status.values[0],
-                'notes': df_edit.notes.values[0],
-                'project': proj_selected,
-                'unit': unit_selected,
-                'my_all': my_all
-            }
 
-            # (set_tuple, proj_selected, unit_id, my_all)
+            st.session_state.edit_sod['coordinator'] = df_edit.coordinator.values[0]
+            st.session_state.edit_sod['performer'] = df_edit.performer.values[0]
+            st.session_state.edit_sod['revision'] = df_edit.revision.values[0]
+            st.session_state.edit_sod['status'] = df_edit.status.values[0]
+            st.session_state.edit_sod['notes'] = df_edit.notes.values[0]
+            st.session_state.edit_sod['project'] = proj_selected
+            st.session_state.edit_sod['unit'] = unit_selected
+            st.session_state.edit_sod['my_all'] = my_all
+            st.session_state.edit_sod['state'] = True
+
             st.experimental_rerun()
-            # edit_sets()
 
         st.divider()
 
@@ -224,17 +212,7 @@ def show_sets():
                             st.warning("Select specialities for request")
 
 
-# st.warning(st.session_state.edit_sod)
 def edit_sets():
-    # st.session_state.edit_sod = {
-    #     'coordinator': df_edit.coordinator.values[0],
-    #     'performer': df_edit.performer.values[0],
-    #     'revision': df_edit.revision.values[0],
-    #     'status': df_edit.status.values[0],
-    #     'notes': df_edit.notes.values[0],
-    #     'project': proj_selected,
-    #     'unit': unit_selected,
-    # }
 
     cur_sod = st.session_state.edit_sod
 
@@ -287,19 +265,17 @@ def edit_sets():
             reply = update_sod(cur_sod.get('unit', '!!!'), coord, perf, rev, status, trans_num,
                                trans_date, notes, upd_trans_chb)
             reporter(reply)
-            st.session_state.edit_sod = None
-            # show_sets()
+            st.session_state.edit_sod['state'] = False
             st.experimental_rerun()
 
         if st.button("Escape", use_container_width=True):
-            st.session_state.edit_sod = None
-            # show_sets()
+            st.session_state.edit_sod['state'] = False
             st.experimental_rerun()
 
 
 def drawing_sets():
     if 'edit_sod' in st.session_state:
-        if st.session_state.edit_sod:
+        if st.session_state.edit_sod['state']:
             edit_sets()
         else:
             show_sets()

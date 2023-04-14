@@ -61,10 +61,18 @@ def create_states():
         st.session_state.trans_status = None
 
     if 'edit_sod' not in st.session_state:
-        st.session_state.edit_sod = None
 
-    if 'sod_state' not in st.session_state:
-        st.session_state.sod_state = None
+        st.session_state.edit_sod = {
+            'coordinator': None,
+            'performer': None,
+            'revision': None,
+            'status': None,
+            'notes': None,
+            'project': None,
+            'unit': None,
+            'my_all': None,
+            'state': False
+        }
 
 
 
