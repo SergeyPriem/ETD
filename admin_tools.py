@@ -163,6 +163,8 @@ def manage_sets():
             all_logins = get_all_logins()
             st.write(sets_tuple)
 
+            upd_trans_chb = st.checkbox('Update Transmittal')
+
             with st.form('upd_set_detail'):
                 st.subheader(f'Update Information for Selected Unit / Set of Drawings')
                 left_sod, center_sod, right_sod = st.columns([5, 1, 5])
@@ -187,8 +189,8 @@ def manage_sets():
                         st.warning(trans_list)
                         st.stop()
 
-                    trans_num = st.selectbox('New Transmittal Number', trans_list)
-                    trans_date = st.date_input('New Transmittal Date')
+                    trans_num = st.selectbox('New Transmittal Number', trans_list, disabled=not upd_trans_chb)
+                    trans_date = st.date_input('New Transmittal Date', disabled=not upd_trans_chb)
                     notes = st.text_area('Notes', value=sets_tuple[10], height=120)
 
                 set_upd_but = st.form_submit_button("Update in DB", use_container_width=True)
