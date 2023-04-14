@@ -128,8 +128,8 @@ def show_sets():
             }
 
             # (set_tuple, proj_selected, unit_id, my_all)
-            # st.experimental_rerun()
-            edit_sets()
+            st.experimental_rerun()
+            # edit_sets()
 
         st.divider()
 
@@ -246,12 +246,7 @@ def edit_sets():
 
     with content_sets:
 
-        # if not isinstance(sets_tuple, tuple):
-        #     st.warning(sets_tuple)
-        #     st.stop()
-
         all_logins = get_all_logins()
-        # st.write(sets_tuple)
 
         with st.form('upd_set_detail'):
             st.subheader(f"Edit details for Project: :red[{cur_sod.get('project', '!!!')}]\
