@@ -431,7 +431,7 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, trans_date, notes, up
                 sod.coord_id = Users.get(login=coord)
                 sod.perf_id = Users.get(login=perf)
                 sod.revision = rev
-                sod.status = status
+                sod.current_status = status
                 if upd_trans_chb:
                     sod.trans_num = trans_num
                     sod.trans_date = trans_date
