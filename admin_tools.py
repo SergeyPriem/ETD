@@ -148,24 +148,22 @@ def manage_sets():
 
             sets_list = get_sets_names(proj_for_sets_edit)
 
+            if isinstance(sets_list, list):
+                set_to_edit = st.selectbox('Select Unit / Set of Drawings', sets_list)
+            else:
+                reporter(sets_list)
+                st.stop()
+
+            sets_tuple = get_set_to_edit(proj_for_sets_edit, set_to_edit)
+
+            if not isinstance(sets_tuple, tuple):
+                st.warning(sets_tuple)
+                st.stop()
+            all_logins = get_all_logins()
+            # st.write(sets_tuple)
 
 
             with st.form('upd_set_detail'):
-                if isinstance(sets_list, list):
-                    set_to_edit = st.selectbox('Select Unit / Set of Drawings', sets_list)
-                else:
-                    reporter(sets_list)
-                    st.stop()
-
-                sets_tuple = get_set_to_edit(proj_for_sets_edit, set_to_edit)
-
-                if not isinstance(sets_tuple, tuple):
-                    st.warning(sets_tuple)
-                    st.stop()
-                # sets_df = sets_df.set_index('id')
-                all_logins = get_all_logins()
-                st.write(sets_tuple)
-
                 left_sod, center_sod, right_sod = st.columns([7, 1, 7])
                 left_sod.subheader(f'Update Information for Selected Unit / Set of Drawings')
                 right_sod.write("")
