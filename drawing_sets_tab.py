@@ -93,9 +93,10 @@ def drawing_sets():
         set_tuple = (df_edit.at['coordinator'], df_edit.at['performer'], df_edit.at['revision'],
                      df_edit.at['status'], df_edit.at['notes'])
 
-        if st.button('Edit Details'):
-            st.session_state.edit_sod = (set_tuple, proj_selected, unit_id)
-            st.experimental_rerun()
+        st.write(set_tuple)
+        # if st.button('Edit Details'):
+        #     st.session_state.edit_sod = (set_tuple, proj_selected, unit_id)
+        #     st.experimental_rerun()
 
         st.divider()
 
