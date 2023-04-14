@@ -122,8 +122,7 @@ def manage_sets():
 
     with content_sets:
         st.title(':orange[Manage Drawings Sets]')
-        sets_create, sets_edit = st.tabs(['Create Set of Drawings',
-                                          'Edit Existing Set of Drawings'])
+        sets_edit, sets_create = st.tabs(['Edit Existing Set of Drawings', 'Create Set of Drawings'])
         with sets_create:
 
             st.subheader("Create Set of Drawings")
