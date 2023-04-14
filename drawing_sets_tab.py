@@ -292,12 +292,13 @@ def edit_sets():
                                trans_date, notes, upd_trans_chb)
             reporter(reply)
             st.session_state.edit_sod = None
-            show_sets()
+            # show_sets()
+            st.experimental_rerun()
 
         if st.button("Escape", use_container_width=True):
             st.session_state.edit_sod = None
-            show_sets()
-
+            # show_sets()
+            st.experimental_rerun()
 
 def drawing_sets():
     if 'edit_sod' in st.session_state:
