@@ -170,7 +170,7 @@ def drawing_sets():
         set_tuple = (df_edit.coord_id, df_edit.perf_id, df_edit.revision, df_edit.status)
 
         if st.button('Edit Details'):
-            edit_sets(set_tuple, proj_selected, unit_id)
+            st.session_state.edit_sod = (set_tuple, proj_selected, unit_id)
 
         st.divider()
 
