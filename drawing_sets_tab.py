@@ -99,6 +99,7 @@ def drawing_sets():
 
 
         st.write(set_tuple)
+
         if st.button('Edit Details'):
             st.session_state.edit_sod = (set_tuple, proj_selected, unit_id)
             st.experimental_rerun()
@@ -197,6 +198,7 @@ def drawing_sets():
 
 # st.warning(st.session_state.edit_sod)
 def edit_sets(proj_to_edit):
+    st.warning("we are here")
     sets_tuple, proj, unit_id = proj_to_edit
     empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
     with empty_sets_1:
