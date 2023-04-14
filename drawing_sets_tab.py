@@ -91,7 +91,7 @@ def drawing_sets():
         df_edit = df.loc[df.unit == unit_selected]
 
         set_tuple = (df_edit.at['coordinator'], df_edit.at['performer'], df_edit.at['revision'],
-                     df_edit.at['status'], df_edit.at['notes'])
+                     df_edit.at['status'], "testnote")#df_edit.at['notes'])
 
         st.write(set_tuple)
         # if st.button('Edit Details'):
