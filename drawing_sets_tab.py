@@ -94,6 +94,7 @@ def drawing_sets():
         st.experimental_data_editor(df.loc[df.unit == unit_selected][
                                         ['coordinator', 'performer', 'stage', 'revision', 'start_date', 'status',
                                     'transmittal', 'trans_date', 'notes']], use_container_width=True)
+        st.button('Edit Details')
         st.divider()
 
         st.subheader(f"Project: :red[{proj_selected}]. Unit: :red[{unit_selected}]")

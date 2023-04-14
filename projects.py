@@ -426,15 +426,19 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, trans_date, notes, up
         try:
             sod = SOD[s_o_d]
 
-            sod.coord_id = coord
-            sod.perf_if = perf
-            sod.revision = rev
-            sod.status = status
-            if upd_trans_chb:
-                sod.trans_num = trans_num
-                sod.trans_date = trans_date
-            sod.notes = notes
-            return "Updated 😎"
+            if (Users.get(login=st.session_state.user) in (sod.coord_id, sod.perf_id))\
+                    or Users.get(login=st.session_state.user).access_level == "supervisor":
+                sod.coord_id = coord
+                sod.perf_if = perf
+                sod.revision = rev
+                sod.status = status
+                if upd_trans_chb:
+                    sod.trans_num = trans_num
+                    sod.trans_date = trans_date
+                sod.notes = notes
+                return "Updated 😎"
+            else:
+                return "You haven't right to edit 😡"
         except Exception as e:
             return err_handler(e)
 
