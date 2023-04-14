@@ -6,6 +6,26 @@ from PIL import Image
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
 
+import datetime
+import random
+from streamlit_option_menu import option_menu
+from admin_tools import manage_projects
+from tasks_tab import tasks_content
+from drawing_sets_tab import drawing_sets
+from just_for_fun_tab import just_for_fun, emoji_content
+from lesson_learned_tab import lessons_content
+from pre_sets import appearance_settings, reporter, positions, departments, mail_to_name, trans_stat, stages, \
+    sod_statuses
+from send_emails import send_mail
+from settings_tab import settings_content
+from transmittals_tab import transmittals_content
+from users import check_user, add_to_log, get_logged_rights, \
+    create_appl_user, get_user_data, update_users_in_db, move_to_former, get_settings, \
+    update_user_reg_data, get_all_emails, register_user, get_appl_logins, get_logins_for_registered
+from projects import confirm_task, get_my_trans, confirm_trans, get_pers_tasks, get_projects_names, \
+    trans_status_to_db, add_sod
+
+
 def create_states():
     if 'delay' not in st.session_state:
         st.session_state.delay = 2
@@ -45,28 +65,6 @@ def create_states():
 
 
 create_states()
-
-import datetime
-import random
-from streamlit_option_menu import option_menu
-from admin_tools import manage_projects
-from tasks_tab import tasks_content
-from drawing_sets_tab import drawing_sets
-from just_for_fun_tab import just_for_fun, emoji_content
-from lesson_learned_tab import lessons_content
-from pre_sets import appearance_settings, reporter, positions, departments, mail_to_name, trans_stat, stages, \
-    sod_statuses
-from send_emails import send_mail
-from settings_tab import settings_content
-from transmittals_tab import transmittals_content
-from users import check_user, add_to_log, get_logged_rights, \
-    create_appl_user, get_user_data, update_users_in_db, move_to_former, get_settings, \
-    update_user_reg_data, get_all_emails, register_user, get_appl_logins, get_logins_for_registered
-from projects import confirm_task, get_my_trans, confirm_trans, get_pers_tasks, get_projects_names, \
-    trans_status_to_db, add_sod
-
-
-
 # from streamlit_profiler import Profiler
 
 # pf = Profiler()
