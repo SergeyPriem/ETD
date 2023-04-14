@@ -114,6 +114,7 @@ def show_sets():
             st.session_state.edit_sod['notes'] = df_edit.notes.values[0]
             st.session_state.edit_sod['project'] = proj_selected
             st.session_state.edit_sod['unit'] = unit_selected
+            st.session_state.edit_sod['unit_id'] = unit_id
             st.session_state.edit_sod['my_all'] = my_all
             st.session_state.edit_sod['state'] = True
 
@@ -262,7 +263,7 @@ def edit_sets():
             set_upd_but = st.form_submit_button("Update in DB", use_container_width=True, type="primary")
 
         if set_upd_but:
-            reply = update_sod(cur_sod.get('unit', '!!!'), coord, perf, rev, status, trans_num,
+            reply = update_sod(cur_sod.get('unit_id', '!!!'), coord, perf, rev, status, trans_num,
                                trans_date, notes, upd_trans_chb)
             reporter(reply)
             st.session_state.edit_sod['state'] = False

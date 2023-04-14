@@ -424,7 +424,7 @@ def update_sets(edited_set_df):
 def update_sod(s_o_d, coord, perf, rev, status, trans_num, trans_date, notes, upd_trans_chb):
     with db_session:
         try:
-            sod = SOD.get(set_name=s_o_d)
+            sod = SOD[s_o_d]
 
             if (Users.get(login=st.session_state.user) in (sod.coord_id, sod.perf_id))\
                     or Users.get(login=st.session_state.user).access_level == "supervisor":

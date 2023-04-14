@@ -69,6 +69,7 @@ def create_states():
             'notes': None,
             'project': None,
             'unit': None,
+            'unit_id': None,
             'my_all': None,
             'state': False
         }
