@@ -68,7 +68,7 @@ def edit_sets(proj_to_edit):
 
                 trans_num = st.selectbox('New Transmittal Number', trans_list)
                 trans_date = st.date_input('New Transmittal Date')
-                notes = st.text_area("Notes (don't delete, just add to previous)", value=sets_tuple[10], height=120)
+                notes = st.text_area("Notes (don't delete, just add to previous)", value=sets_tuple[4], height=120)
 
             set_upd_but = st.form_submit_button("Update in DB", use_container_width=True)
 
@@ -168,7 +168,8 @@ def drawing_sets():
                                          'transmittal', 'trans_date', 'notes']], use_container_width=True)
 
         df_edit = df.loc[df.unit == unit_selected]
-        set_tuple = (df_edit.at['coordinator'], df_edit.at['performer'], df_edit.at['revision'], df_edit.at['status'])
+        set_tuple = (df_edit.at['coordinator'], df_edit.at['performer'], df_edit.at['revision'],
+                     df_edit.at['status'], df_edit.at['notes'])
 
         if st.button('Edit Details'):
             st.session_state.edit_sod = (set_tuple, proj_selected, unit_id)
