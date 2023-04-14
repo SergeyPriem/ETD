@@ -201,7 +201,7 @@ def show_sets():
 def edit_sets(proj_to_edit):
 
     sets_tuple, proj, unit_id = proj_to_edit
-    empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
+    empty_sets_1, content_sets, empty_sets_2 = st.columns([3, 5, 3])
     with empty_sets_1:
         st.empty()
     with empty_sets_2:
