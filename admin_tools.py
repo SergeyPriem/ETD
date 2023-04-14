@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import datetime
+
 import pandas as pd
 import streamlit as st
 from models import Project, Task, VisitLog, SOD, Users, Trans, Speciality
-from pre_sets import proj_statuses, reporter, stages, sod_statuses
-from projects import create_project, get_table, update_projects, add_sod
+from pre_sets import proj_statuses, reporter
+from projects import create_project, get_table, update_projects
 from users import get_logins_for_current
 
 
@@ -16,6 +16,7 @@ def get_list_index(a_list: list, elem: str) -> int:
     except:
         return 0
 
+
 def manage_projects():
     empty_proj_1, content_proj, empty_proj_2 = st.columns([1, 9, 1])
     with empty_proj_1:
@@ -25,7 +26,7 @@ def manage_projects():
 
     with content_proj:
         st.title(':orange[Manage Projects]')
-        proj_tab1, proj_tab2, create_sod, viewer_tab = st.tabs(['Create Project', 'Edit Existing Project', 'Create Unit / Set of Drawing', 'View Tables'])
+        proj_tab1, proj_tab2, viewer_tab = st.tabs(['Create Project', 'Edit Existing Project', 'View Tables'])
 
         with proj_tab1:
             # st.subheader('Add New Project')
@@ -96,9 +97,6 @@ def manage_projects():
                         reporter(reply)
                     else:
                         reporter("No selection to Edit")
-
-        with create_sod:
-            create_sets()
 
         with viewer_tab:
             # tab_list = get_tab_names()
@@ -202,30 +200,3 @@ st.cache_data(ttl=600)
 #                 reply = update_sod(sets_tuple[0], coord, perf, rev, status, trans_num,
 #                 trans_date, notes, upd_trans_chb)
 #                 reporter(reply)
-
-
-def create_sets():
-    empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
-    with empty_sets_1:
-        st.empty()
-    with empty_sets_2:
-        st.empty()
-
-    with content_sets:
-
-        st.subheader("Create Set of Drawings")
-
-        with st.form('new_sod'):
-            proj_short = st.selectbox('Select a Project', st.session_state.proj_names)
-            set_name = st.text_input("Enter the Name for new Set of Drawings / Unit").strip()
-            stage = st.radio("Select the Stage", stages, horizontal=True)
-            coordinator = st.selectbox("Coordinator", st.session_state.registered_logins)
-            performer = st.selectbox("Performer", st.session_state.registered_logins)
-            set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
-            status = st.select_slider("Select the Current Status", sod_statuses, value='0%')
-            notes = st.text_area("Add Notes").strip()
-            create_sod_but = st.form_submit_button("Create",use_container_width=True)
-
-        if create_sod_but:
-            reply = add_sod(proj_short, set_name, stage, status, set_start_date, coordinator, performer, notes)
-            reporter(reply)

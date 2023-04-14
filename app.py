@@ -9,12 +9,13 @@ st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
 import datetime
 import random
 from streamlit_option_menu import option_menu
-from admin_tools import manage_projects, manage_sets
+from admin_tools import manage_projects
 from tasks_tab import tasks_content
 from drawing_sets_tab import drawing_sets
 from just_for_fun_tab import just_for_fun, emoji_content
 from lesson_learned_tab import lessons_content
-from pre_sets import appearance_settings, reporter, positions, departments, mail_to_name, trans_stat
+from pre_sets import appearance_settings, reporter, positions, departments, mail_to_name, trans_stat, stages, \
+    sod_statuses
 from send_emails import send_mail
 from settings_tab import settings_content
 from transmittals_tab import transmittals_content
@@ -22,7 +23,7 @@ from users import check_user, add_to_log, get_logged_rights, \
     create_appl_user, get_user_data, update_users_in_db, move_to_former, get_settings, \
     update_user_reg_data, get_all_emails, register_user, get_appl_logins, get_logins_for_registered
 from projects import confirm_task, get_my_trans, confirm_trans, get_pers_tasks, get_projects_names, \
-    trans_status_to_db
+    trans_status_to_db, add_sod
 
 
 def create_states():
@@ -111,6 +112,32 @@ def form_for_trans():
             st.session_state.trans_status = None
             st.experimental_rerun()
 
+
+def create_sets():
+    empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
+    with empty_sets_1:
+        st.empty()
+    with empty_sets_2:
+        st.empty()
+
+    with content_sets:
+
+        st.subheader("Create Set of Drawings")
+
+        with st.form('new_sod'):
+            proj_short = st.selectbox('Select a Project', st.session_state.proj_names)
+            set_name = st.text_input("Enter the Name for new Set of Drawings / Unit").strip()
+            stage = st.radio("Select the Stage", stages, horizontal=True)
+            coordinator = st.selectbox("Coordinator", st.session_state.registered_logins)
+            performer = st.selectbox("Performer", st.session_state.registered_logins)
+            set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
+            status = st.select_slider("Select the Current Status", sod_statuses, value='0%')
+            notes = st.text_area("Add Notes").strip()
+            create_sod_but = st.form_submit_button("Create",use_container_width=True)
+
+        if create_sod_but:
+            reply = add_sod(proj_short, set_name, stage, status, set_start_date, coordinator, performer, notes)
+            reporter(reply)
 
 
 def home_content():
@@ -688,7 +715,7 @@ performer_icons = ['bi bi-file-earmark-spreadsheet-fill', 'bi bi-file-arrow-down
                    'bi bi-file-check', 'bi bi-diagram-3', 'bi bi-info-circle', 'bi bi-pen', 'bi bi-gear',
                    ]
 
-admin_menu = ["Manage Sets"]
+admin_menu = ["Create new Set / Unit"]
 admin_icons = ['bi bi-bar-chart-steps']
 
 super_menu = ["Manage Projects", "Manage Users"]
@@ -751,8 +778,8 @@ if selected == "Home":
 if selected == "Manage Projects":
     manage_projects()
 
-if selected == "Manage Sets":
-    manage_sets()
+# if selected == "Create new Set / Unit":
+#     manage_sets()
 
 if selected == "Transmittals":
     transmittals_content()

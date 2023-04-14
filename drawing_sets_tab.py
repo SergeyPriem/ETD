@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st
 
 from admin_tools import get_list_index
-from pre_sets import specialities, specialities_rus, sod_revisions, sod_statuses
+from pre_sets import specialities, sod_revisions, sod_statuses
 from projects import get_sets, get_own_tasks, get_sets_names, get_set_to_edit, get_trans_nums, update_sod
 from users import get_all_logins
 from pre_sets import reporter
