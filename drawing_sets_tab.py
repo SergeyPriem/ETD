@@ -95,6 +95,7 @@ def show_sets():
                      df_edit.revision.values[0],
                      df_edit.status.values[0],
                      df_edit.notes.values[0],
+                     unit_selected,
                      )
 
         # st.write(set_tuple)
@@ -198,7 +199,7 @@ def show_sets():
 
 # st.warning(st.session_state.edit_sod)
 def edit_sets(proj_to_edit):
-    st.warning("we are here")
+
     sets_tuple, proj, unit_id = proj_to_edit
     empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
     with empty_sets_1:
@@ -208,20 +209,6 @@ def edit_sets(proj_to_edit):
 
     with content_sets:
 
-        #
-        # st.subheader('Edit Existing Set of Drawings')
-        # proj_for_sets_edit = st.selectbox('Select Projects for Edited Unit / Set', st.session_state.proj_names,)
-        #
-        # sets_list = get_sets_names(proj_for_sets_edit)
-        #
-        # if isinstance(sets_list, list):
-        #     set_to_edit = st.selectbox('Select Unit / Set of Drawings', sets_list)
-        # else:
-        #     reporter(sets_list)
-        #     st.stop()
-        #
-        # # sets_tuple = get_set_to_edit(proj_for_sets_edit, set_to_edit)
-        # sets_tuple = get_set_by_id(proj_for_sets_edit, set_to_edit)
 
         if not isinstance(sets_tuple, tuple):
             st.warning(sets_tuple)
@@ -230,6 +217,7 @@ def edit_sets(proj_to_edit):
         # st.write(sets_tuple)
 
         with st.form('upd_set_detail'):
+            st.info(f"Edit delails for Unit {sets_tuple[5]}")
             left_sod, center_sod, right_sod = st.columns([7, 1, 7])
             left_sod.subheader(f'Update Information for Selected Unit / Set of Drawings')
             right_sod.write("")
