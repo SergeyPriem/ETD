@@ -738,3 +738,14 @@ def add_new_trans(project, trans_num, out_trans, t_type, subj, link, trans_date,
 
         except Exception as e:
             return err_handler(e)
+
+
+def get_trans_nums(proj_short):
+    with db_session:
+        try:
+            proj_short = list(select(
+                tr.trans_num for tr in Trans if tr.project == Project.get(short_name=proj_short)
+            ))
+            return proj_short
+        except Exception as e:
+            return err_handler(e)

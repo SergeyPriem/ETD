@@ -5,7 +5,8 @@ import pandas as pd
 import streamlit as st
 from models import Project, Task, VisitLog, SOD, Users, Trans, Speciality
 from pre_sets import proj_statuses, reporter, stages, sod_statuses, sod_revisions
-from projects import create_project, get_table, update_projects, add_sod, get_sets_names, get_set_to_edit
+from projects import create_project, get_table, update_projects, add_sod, get_sets_names, get_set_to_edit, \
+    get_trans_nums
 from users import get_logins_for_current, get_all_logins
 
 
@@ -180,7 +181,14 @@ def manage_sets():
                                           index=get_list_index(sod_statuses, sets_tuple[6]))
 
                 with right_sod:
-                    trans_num = st.text_input('New Transmittal Number')
+
+                    trans_list = get_trans_nums(proj_short)
+
+                    if not isinstance(trans_list, list):
+                        st.warning(trans_list)
+                        st.stop()
+
+                    trans_num = st.selectbox('New Transmittal Number', trans_list)
                     trans_date = st.date_input('New Transmittal Date')
                     notes = st.text_area('Notes', value=sets_tuple[10], height=120)
 
