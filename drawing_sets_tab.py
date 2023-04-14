@@ -9,6 +9,7 @@ from projects import get_sets, get_own_tasks, get_sets_names, get_set_to_edit, g
 from users import get_all_logins
 from pre_sets import reporter
 
+
 def edit_sets(sets_tuple, proj, unit_id):
     empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
     with empty_sets_1:
@@ -39,7 +40,6 @@ def edit_sets(sets_tuple, proj, unit_id):
         all_logins = get_all_logins()
         # st.write(sets_tuple)
 
-
         with st.form('upd_set_detail'):
             left_sod, center_sod, right_sod = st.columns([7, 1, 7])
             left_sod.subheader(f'Update Information for Selected Unit / Set of Drawings')
@@ -59,7 +59,6 @@ def edit_sets(sets_tuple, proj, unit_id):
                                       index=get_list_index(sod_statuses, sets_tuple[3]))
 
             with right_sod:
-
                 trans_list = get_trans_nums(proj)
 
                 if not isinstance(trans_list, list):
@@ -75,12 +74,18 @@ def edit_sets(sets_tuple, proj, unit_id):
         if set_upd_but:
             st.write("OK")
             reply = update_sod(unit_id, coord, perf, rev, status, trans_num,
-            trans_date, notes, upd_trans_chb)
+                               trans_date, notes, upd_trans_chb)
             reporter(reply)
     st.session_state.edit_sod = None
 
-if st.session_state.edit_sod:
-    edit_sets(st.session_state.edit_sod)
+
+if 'edit_sod' in st.session_state:
+    if st.session_state.edit_sod:
+        edit_sets(st.session_state.edit_sod)
+    else:
+        st.write("state problem")
+        st.stop()
+
 
 def drawing_sets():
     st.markdown("""
@@ -159,14 +164,13 @@ def drawing_sets():
         st.write('Details for Drawing Set')
         st.experimental_data_editor(df.loc[df.unit == unit_selected][
                                         ['coordinator', 'performer', 'stage', 'revision', 'start_date', 'status',
-                                    'transmittal', 'trans_date', 'notes']], use_container_width=True)
+                                         'transmittal', 'trans_date', 'notes']], use_container_width=True)
 
         df_edit = df.loc[df.unit == unit_selected]
-        set_tuple=(df_edit.coord_id, df_edit.perf_id, df_edit.revision, df_edit.status)
+        set_tuple = (df_edit.coord_id, df_edit.perf_id, df_edit.revision, df_edit.status)
 
         if st.button('Edit Details'):
             edit_sets(set_tuple, proj_selected, unit_id)
-
 
         st.divider()
 
@@ -208,7 +212,7 @@ def drawing_sets():
 
         aval_spec = list(units_tasks.speciality.drop_duplicates())
 
-        spec_dual = specialities #(*specialities, *specialities_rus)
+        spec_dual = specialities  # (*specialities, *specialities_rus)
         not_aval_spec = []
 
         for i in spec_dual:
