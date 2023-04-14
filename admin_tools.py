@@ -160,14 +160,14 @@ def manage_sets():
                 st.warning(sets_tuple)
                 st.stop()
             all_logins = get_all_logins()
-            # st.write(sets_tuple)
+            st.write(sets_tuple)
 
 
             with st.form('upd_set_detail'):
                 left_sod, center_sod, right_sod = st.columns([7, 1, 7])
                 left_sod.subheader(f'Update Information for Selected Unit / Set of Drawings')
                 right_sod.write("")
-                upd_trans_chb = right_sod.checkbox('Update Transmittal')
+                upd_trans_chb = right_sod.checkbox('Add Transmittal')
                 with left_sod:
                     coord = st.selectbox("Coordinator", all_logins,
                                          index=get_list_index(all_logins, sets_tuple[2]))
@@ -195,25 +195,10 @@ def manage_sets():
 
                 set_upd_but = st.form_submit_button("Update in DB", use_container_width=True)
 
-                if set_upd_but:
-                    if upd_trans_chb:
-                        st.write(
-                            coord,
-                            perf,
-                            rev,
-                            status,
-                            trans_num,
-                            trans_date,
-                            notes,
-                        )
-                    else:
-                        st.write(
-                            coord,
-                            perf,
-                            rev,
-                            status,
-                            notes,
-                        )
+            if set_upd_but:
+                st.write("OK")
+                # reply = update_sod(coord, perf, rev, status, trans_num, trans_date, notes)
+                # reporter(reply)
 
 
 
