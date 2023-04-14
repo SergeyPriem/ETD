@@ -111,7 +111,7 @@ def form_for_trans():
             st.session_state.trans_status = None
             st.experimental_rerun()
 
-        if st.button('Reset', use_container_width=True):
+        if st.button('Escape', use_container_width=True):
             st.session_state.trans_status = None
             st.experimental_rerun()
 

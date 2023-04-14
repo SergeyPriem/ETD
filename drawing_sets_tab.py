@@ -260,13 +260,17 @@ def edit_sets(proj_to_edit):
 
             set_upd_but = st.form_submit_button("Update in DB", use_container_width=True)
 
-    if set_upd_but:
-        st.write("OK")
-        reply = update_sod(unit_id, coord, perf, rev, status, trans_num,
-                           trans_date, notes, upd_trans_chb)
-        reporter(reply)
-        st.session_state.edit_sod = None
-        st.experimental_rerun()
+        if set_upd_but:
+            st.write("OK")
+            reply = update_sod(unit_id, coord, perf, rev, status, trans_num,
+                               trans_date, notes, upd_trans_chb)
+            reporter(reply)
+            st.session_state.edit_sod = None
+            st.experimental_rerun()
+
+        if st.button("Escape", use_container_width=True):
+            st.session_state.edit_sod = None
+            st.experimental_rerun()
 
 def drawing_sets():
     if 'edit_sod' in st.session_state:
