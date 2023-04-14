@@ -9,7 +9,7 @@ from projects import get_sets, get_own_tasks, get_sets_names, get_set_to_edit, g
 from users import get_all_logins
 from pre_sets import reporter
 
-def edit_sets():
+def edit_sets(sets_tuple, proj, unit_id):
     empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
     with empty_sets_1:
         st.empty()
@@ -17,22 +17,21 @@ def edit_sets():
         st.empty()
 
     with content_sets:
-        # st.title(':orange[Manage Drawings Sets]')
-        # sets_edit, sets_create = st.tabs(['Edit Existing Set of Drawings', 'Create Set of Drawings'])
 
-
-        st.subheader('Edit Existing Set of Drawings')
-        proj_for_sets_edit = st.selectbox('Select Projects for Edited Unit / Set', st.session_state.proj_names,)
-
-        sets_list = get_sets_names(proj_for_sets_edit)
-
-        if isinstance(sets_list, list):
-            set_to_edit = st.selectbox('Select Unit / Set of Drawings', sets_list)
-        else:
-            reporter(sets_list)
-            st.stop()
-
-        sets_tuple = get_set_to_edit(proj_for_sets_edit, set_to_edit)
+        #
+        # st.subheader('Edit Existing Set of Drawings')
+        # proj_for_sets_edit = st.selectbox('Select Projects for Edited Unit / Set', st.session_state.proj_names,)
+        #
+        # sets_list = get_sets_names(proj_for_sets_edit)
+        #
+        # if isinstance(sets_list, list):
+        #     set_to_edit = st.selectbox('Select Unit / Set of Drawings', sets_list)
+        # else:
+        #     reporter(sets_list)
+        #     st.stop()
+        #
+        # # sets_tuple = get_set_to_edit(proj_for_sets_edit, set_to_edit)
+        # sets_tuple = get_set_by_id(proj_for_sets_edit, set_to_edit)
 
         if not isinstance(sets_tuple, tuple):
             st.warning(sets_tuple)
@@ -48,20 +47,20 @@ def edit_sets():
             upd_trans_chb = right_sod.checkbox('Add Transmittal')
             with left_sod:
                 coord = st.selectbox("Coordinator", all_logins,
-                                     index=get_list_index(all_logins, sets_tuple[2]))
+                                     index=get_list_index(all_logins, sets_tuple[0]))
 
                 perf = st.selectbox("Performer", all_logins,
-                                    index=get_list_index(all_logins, sets_tuple[3]))
+                                    index=get_list_index(all_logins, sets_tuple[1]))
 
                 rev = st.selectbox("Revision", sod_revisions,
-                                   index=get_list_index(sod_revisions, sets_tuple[5]))
+                                   index=get_list_index(sod_revisions, sets_tuple[2]))
 
                 status = st.selectbox('Status', sod_statuses,
-                                      index=get_list_index(sod_statuses, sets_tuple[6]))
+                                      index=get_list_index(sod_statuses, sets_tuple[3]))
 
             with right_sod:
 
-                trans_list = get_trans_nums(proj_for_sets_edit)
+                trans_list = get_trans_nums(proj)
 
                 if not isinstance(trans_list, list):
                     st.warning(trans_list)
@@ -75,10 +74,13 @@ def edit_sets():
 
         if set_upd_but:
             st.write("OK")
-            reply = update_sod(sets_tuple[0], coord, perf, rev, status, trans_num,
+            reply = update_sod(unit_id, coord, perf, rev, status, trans_num,
             trans_date, notes, upd_trans_chb)
             reporter(reply)
+    st.session_state.edit_sod = None
 
+if st.session_state.edit_sod:
+    edit_sets(st.session_state.edit_sod)
 
 def drawing_sets():
     st.markdown("""
@@ -158,8 +160,12 @@ def drawing_sets():
         st.experimental_data_editor(df.loc[df.unit == unit_selected][
                                         ['coordinator', 'performer', 'stage', 'revision', 'start_date', 'status',
                                     'transmittal', 'trans_date', 'notes']], use_container_width=True)
-    if st.button('Edit Details'):
-        edit_sets()
+
+        df_edit = df.loc[df.unit == unit_selected]
+        set_tuple=(df_edit.coord_id, df_edit.perf_id, df_edit.revision, df_edit.status)
+
+        if st.button('Edit Details'):
+            edit_sets(set_tuple, proj_selected, unit_id)
 
 
         st.divider()

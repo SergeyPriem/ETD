@@ -60,6 +60,9 @@ def create_states():
     if 'trans_status' not in st.session_state:
         st.session_state.trans_status = None
 
+    if 'edit_sod' not in st.session_state:
+        st.session_state.edit_sod = None
+
 
 create_states()
 # from streamlit_profiler import Profiler

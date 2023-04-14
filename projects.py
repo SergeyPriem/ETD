@@ -772,3 +772,30 @@ def get_trans_nums(proj_short):
             return proj_short
         except Exception as e:
             return err_handler(e)
+
+# def get_set_by_id(set_id):
+#     with db_session:
+#         sod = SOD[set_id]
+#
+#     with db_session:
+#         try:
+#             data = select(
+#                 (
+#                     s.id,
+#                     s.project_id,
+#                     s.coord_id.login,
+#                     s.perf_id.login,
+#                     s.stage,
+#                     s.revision,
+#                     s.current_status,
+#                     s.request_date,
+#                     s.trans_num,
+#                     s.trans_date,
+#                     s.notes,
+#                 )
+#                 for s in SOD
+#                 if (s.project_id == Project.get(short_name=selected_project) and s.set_name == selected_set)
+#             ).first()
+#             return data
+#         except Exception as e:
+#             return err_handler(e)
