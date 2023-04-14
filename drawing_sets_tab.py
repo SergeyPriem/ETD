@@ -253,8 +253,8 @@ def edit_sets():
             st.subheader(f"Project: :red[{cur_sod.get('project', '!!!')}]")
             st.subheader(f"Unit: :red[{cur_sod.get('unit', '!!!')}]")
             left_sod, center_sod, right_sod = st.columns([7, 1, 7])
-            left_sod.subheader("")  # ('Update Information for Selected Unit')
-            # right_sod.write("")
+            left_sod.subheader("")
+            left_sod.write("")
             upd_trans_chb = right_sod.checkbox('Add Transmittal')
             with left_sod:
                 coord = st.selectbox("Coordinator", all_logins,
