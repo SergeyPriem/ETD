@@ -249,7 +249,8 @@ def edit_sets():
         all_logins = get_all_logins()
 
         with st.form('upd_set_detail'):
-            st.subheader(f"Edit details for Project: :red[{cur_sod.get('project', '!!!')}]")
+            st.subheader("Edit Details")
+            st.subheader(f"Project: :red[{cur_sod.get('project', '!!!')}]")
             st.subheader(f"Unit: :red[{cur_sod.get('unit', '!!!')}]")
             left_sod, center_sod, right_sod = st.columns([7, 1, 7])
             left_sod.subheader("") #('Update Information for Selected Unit')
