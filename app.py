@@ -61,7 +61,6 @@ def create_states():
         st.session_state.trans_status = None
 
     if 'edit_sod' not in st.session_state:
-
         st.session_state.edit_sod = {
             'coordinator': None,
             'performer': None,
