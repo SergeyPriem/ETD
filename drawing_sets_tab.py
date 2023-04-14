@@ -89,6 +89,7 @@ def drawing_sets():
                                          'transmittal', 'trans_date', 'notes']], use_container_width=True)
 
         df_edit = df.loc[df.unit == unit_selected]
+
         set_tuple = (df_edit.at['coordinator'], df_edit.at['performer'], df_edit.at['revision'],
                      df_edit.at['status'], df_edit.at['notes'])
 
