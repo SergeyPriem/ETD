@@ -172,6 +172,7 @@ def drawing_sets():
 
         if st.button('Edit Details'):
             st.session_state.edit_sod = (set_tuple, proj_selected, unit_id)
+            st.experimental_rerun()
 
         st.divider()
 
