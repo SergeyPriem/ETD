@@ -3,7 +3,7 @@ import pandas as pd
 import streamlit as st
 from PIL import Image
 
-st.set_page_config(layout="wide", page_icon=Image.open("images/big_logo.jpg"),
+st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
 
 import datetime
@@ -728,7 +728,7 @@ if st.session_state.logged:
 
     if st.session_state.vert_menu == 1:
         with st.sidebar:
-            image = Image.open("images/etd.jpg")
+            image = Image.open("images/big_logo.jpg")
             st.image(image, use_column_width=True)
             selected = option_menu("ET Department", get_menus()[0], icons=get_menus()[1],
                                    menu_icon="bi bi-plug", default_index=0)
