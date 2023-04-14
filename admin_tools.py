@@ -198,14 +198,24 @@ def manage_sets():
                 set_upd_but = st.form_submit_button("Update in DB", use_container_width=True)
 
                 if set_upd_but:
-                    st.write(
-                        coord,
-                        perf,
-                        rev,
-                        status,
-                        trans_num,
-                        trans_date,
-                        notes,
-                    )
+                    if upd_trans_chb:
+                        st.write(
+                            coord,
+                            perf,
+                            rev,
+                            status,
+                            trans_num,
+                            trans_date,
+                            notes,
+                        )
+                    else:
+                        st.write(
+                            coord,
+                            perf,
+                            rev,
+                            status,
+                            notes,
+                        )
+
 
 
