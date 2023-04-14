@@ -267,6 +267,6 @@ if 'edit_sod' in st.session_state:
     else:
         st.write("state problem")
         st.write(st.session_state.edit_sod)
-        st.stop()
+        # st.stop()
 
 
