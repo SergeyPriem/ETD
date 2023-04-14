@@ -217,7 +217,7 @@ def edit_sets(proj_to_edit):
         # st.write(sets_tuple)
 
         with st.form('upd_set_detail'):
-            st.info(f"Edit delails for Unit {sets_tuple[5]}")
+            st.subheader(f"Edit delails for Project:{proj} Unit: {sets_tuple[5]}")
             left_sod, center_sod, right_sod = st.columns([7, 1, 7])
             left_sod.subheader(f'Update Information for Selected Unit / Set of Drawings')
             right_sod.write("")
