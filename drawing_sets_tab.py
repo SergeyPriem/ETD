@@ -196,7 +196,7 @@ def drawing_sets():
                         else:
                             st.warning("Select specialities for request")
 
-# st.warning(st.session_state.edit_sod)
+st.warning(st.session_state.edit_sod)
 def edit_sets(proj_to_edit):
     st.warning("we are here")
     sets_tuple, proj, unit_id = proj_to_edit
@@ -266,6 +266,7 @@ def edit_sets(proj_to_edit):
                            trans_date, notes, upd_trans_chb)
         reporter(reply)
         st.session_state.edit_sod = None
+        st.experimental_rerun()
 
 
 if 'edit_sod' in st.session_state:
