@@ -11,9 +11,9 @@ from pre_sets import reporter
 
 
 def show_sets():
-    if st.session_state.edit_sod:
-        cur_sod = st.session_state.edit_sod
+    if st.session_state.edit_sod['state']:
 
+        cur_sod = st.session_state.edit_sod
         proj = cur_sod.get('project', None)
         my_or_all = cur_sod.get('my_all', None)
         sod = cur_sod.get('project', None)
