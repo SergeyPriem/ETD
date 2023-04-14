@@ -9,7 +9,7 @@ from projects import get_sets, get_own_tasks, get_sets_names, get_set_to_edit, g
 from users import get_all_logins
 from pre_sets import reporter
 
-def drawing_sets():
+def show_sets():
     st.markdown("""
         <style>
             div[data-testid="column"]:nth-of-type(1)
@@ -269,13 +269,14 @@ def edit_sets(proj_to_edit):
         st.session_state.edit_sod = None
         st.experimental_rerun()
 
-
-if 'edit_sod' in st.session_state:
-    if st.session_state.edit_sod:
-        edit_sets(st.session_state.edit_sod)
-    else:
-        st.write("state problem")
-        st.write(st.session_state.edit_sod)
-        st.stop()
+def drawing_sets():
+    if 'edit_sod' in st.session_state:
+        if st.session_state.edit_sod:
+            edit_sets(st.session_state.edit_sod)
+        else:
+            show_sets()
+            # st.write("state problem")
+            # st.write(st.session_state.edit_sod)
+            # st.stop()
 
 
