@@ -3,7 +3,7 @@ import pandas as pd
 import streamlit as st
 from PIL import Image
 
-st.set_page_config(layout="wide", page_icon=Image.open("images/big_logo.png"),
+st.set_page_config(layout="wide", page_icon=Image.open("images/big_logo.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
 
 import datetime
