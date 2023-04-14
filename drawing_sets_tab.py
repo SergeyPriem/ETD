@@ -265,7 +265,7 @@ def edit_sets(proj_to_edit):
             reply = update_sod(unit_id, coord, perf, rev, status, trans_num,
                                trans_date, notes, upd_trans_chb)
             reporter(reply)
-    st.session_state.edit_sod = None
+            st.session_state.edit_sod = None
 
 
 if 'edit_sod' in st.session_state:
