@@ -163,12 +163,11 @@ def drawing_sets():
                         if len(request_df[request_df.request].index):
                             st.subheader("Draft of e-mail")
                             st.markdown("""<u>Тема:</u>""", unsafe_allow_html=True)
-                            # {proj_selected}]. Unit: :red[{units_selected[0]}]")
-                            st.markdown(f"**Недостающие задания для {proj_selected}: {unit_selected[0]}**")
+                            st.markdown(f"**Недостающие задания для {proj_selected}: {unit_selected}**")
                             st.markdown("""<u>Тело:</u>""", unsafe_allow_html=True)
                             st.markdown(f"""
                             В ЭлектроОтделе сейчас в разработке комплект чертежей:
-                            **{proj_selected}: {unit_selected[0]}**.
+                            **{proj_selected}: {unit_selected}**.
                             В настоящее время отсутствуют задания по специальностям:
                             **{', '.join(request_df[request_df.request == True].index.values)}**.
                             Просим сообщить о необходимости задания и его сроке выдачи.
@@ -176,11 +175,11 @@ def drawing_sets():
                             st.write('')
                             st.markdown("""<u>Subject:</u>""", unsafe_allow_html=True)
                             st.markdown(
-                                f"**Not available assignments for {proj_selected}: {unit_selected[0]}**")
+                                f"**Not available assignments for {proj_selected}: {unit_selected}**")
                             st.markdown("""<u>Body:</u>""", unsafe_allow_html=True)
                             st.markdown(f"""
                             Currently Electrical Department is developing:
-                            **{proj_selected}: {unit_selected[0]}**.
+                            **{proj_selected}: {unit_selected}**.
                             For now we haven't assignments from:
                             **{', '.join(request_df[request_df.request == True].index.values)}**.
                             Kindly ask you to inform about a necessity of assignment and it's issue date.
