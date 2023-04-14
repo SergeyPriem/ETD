@@ -9,7 +9,7 @@ from projects import get_sets, get_own_tasks, get_sets_names, get_set_to_edit, g
 from users import get_all_logins
 from pre_sets import reporter
 
-def show_sets():
+def show_sets(proj=None, sod=None, my_or_all=None):
     st.markdown("""
         <style>
             div[data-testid="column"]:nth-of-type(1)
@@ -42,6 +42,7 @@ def show_sets():
         ds_center.text('')
 
         my_all = ds_center.radio("Select the Option", ["My Units", 'All Units'],
+                                 index=get_list_index(["My Units", 'All Units'], my_or_all),
                                  horizontal=True, label_visibility='collapsed')
 
         if my_all == "My Units":
@@ -75,10 +76,10 @@ def show_sets():
 
         proj_col, unit_col = st.columns(2, gap='medium')
 
-        proj_selected = proj_col.selectbox("Project for Search", proj_list)
+        proj_selected = proj_col.selectbox("Project for Search", proj_list, index=get_list_index(proj_list, proj))
         units_list = df[df.project == proj_selected]['unit']
 
-        unit_selected = unit_col.selectbox("Unit for Search", units_list)
+        unit_selected = unit_col.selectbox("Unit for Search", units_list, index=get_list_index(units_list, sod))
 
         unit_id = df.loc[df.unit == unit_selected].index.values[0]
 
