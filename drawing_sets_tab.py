@@ -168,7 +168,7 @@ def drawing_sets():
                                          'transmittal', 'trans_date', 'notes']], use_container_width=True)
 
         df_edit = df.loc[df.unit == unit_selected]
-        set_tuple = (df_edit.coordinator, df_edit.performer, df_edit.revision, df_edit.status)
+        set_tuple = (df_edit.at['coordinator'], df_edit.at['performer'], df_edit.at['revision'], df_edit.at['status'])
 
         if st.button('Edit Details'):
             st.session_state.edit_sod = (set_tuple, proj_selected, unit_id)
