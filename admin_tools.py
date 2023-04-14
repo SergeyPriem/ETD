@@ -163,11 +163,12 @@ def manage_sets():
             all_logins = get_all_logins()
             st.write(sets_tuple)
 
-            upd_trans_chb = st.checkbox('Update Transmittal')
+
 
             with st.form('upd_set_detail'):
-                st.subheader(f'Update Information for Selected Unit / Set of Drawings')
-                left_sod, center_sod, right_sod = st.columns([5, 1, 5])
+                left_sod, center_sod, right_sod = st.columns([7, 1, 7])
+                left_sod.subheader(f'Update Information for Selected Unit / Set of Drawings')
+                upd_trans_chb = right_sod.checkbox('Update Transmittal')
                 with left_sod:
                     coord = st.selectbox("Coordinator", all_logins,
                                          index=get_list_index(all_logins, sets_tuple[2]))
