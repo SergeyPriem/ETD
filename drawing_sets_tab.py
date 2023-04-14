@@ -5,11 +5,24 @@ import streamlit as st
 
 from admin_tools import get_list_index
 from pre_sets import specialities, sod_revisions, sod_statuses
-from projects import get_sets, get_own_tasks, get_sets_names, get_set_to_edit, get_trans_nums, update_sod
+from projects import get_sets, get_own_tasks, get_trans_nums, update_sod
 from users import get_all_logins
 from pre_sets import reporter
 
-def show_sets(proj=None, sod=None, my_or_all=None):
+
+def show_sets():
+    if st.session_state.edit_sod:
+        cur_sod = st.session_state.edit_sod
+
+        proj = cur_sod.get('project', None)
+        my_or_all = cur_sod.get('my_all', None)
+        sod = cur_sod.get('project', None)
+
+    else:
+        proj = None
+        my_or_all = None
+        sod = None
+
     st.markdown("""
         <style>
             div[data-testid="column"]:nth-of-type(1)
@@ -103,8 +116,20 @@ def show_sets(proj=None, sod=None, my_or_all=None):
         # st.write((set_tuple, proj_selected, unit_id))
 
         if st.button('Edit Details'):
-            st.session_state.edit_sod = (set_tuple, proj_selected, unit_id)
-            st.experimental_rerun()
+            st.session_state.edit_sod = {
+                'coordinator': df_edit.coordinator.values[0],
+                'performer': df_edit.performer.values[0],
+                'revision': df_edit.revision.values[0],
+                'status': df_edit.status.values[0],
+                'notes': df_edit.notes.values[0],
+                'project': proj_selected,
+                'unit': unit_selected,
+                'my_all': my_all
+            }
+
+            # (set_tuple, proj_selected, unit_id, my_all)
+            # st.experimental_rerun()
+            edit_sets()
 
         st.divider()
 
@@ -198,10 +223,21 @@ def show_sets(proj=None, sod=None, my_or_all=None):
                         else:
                             st.warning("Select specialities for request")
 
-# st.warning(st.session_state.edit_sod)
-def edit_sets(proj_to_edit):
 
-    sets_tuple, proj, unit_id = proj_to_edit
+# st.warning(st.session_state.edit_sod)
+def edit_sets():
+    # st.session_state.edit_sod = {
+    #     'coordinator': df_edit.coordinator.values[0],
+    #     'performer': df_edit.performer.values[0],
+    #     'revision': df_edit.revision.values[0],
+    #     'status': df_edit.status.values[0],
+    #     'notes': df_edit.notes.values[0],
+    #     'project': proj_selected,
+    #     'unit': unit_selected,
+    # }
+
+    cur_sod = st.session_state.edit_sod
+
     empty_sets_1, content_sets, empty_sets_2 = st.columns([3, 5, 3])
     with empty_sets_1:
         st.empty()
@@ -210,34 +246,35 @@ def edit_sets(proj_to_edit):
 
     with content_sets:
 
+        # if not isinstance(sets_tuple, tuple):
+        #     st.warning(sets_tuple)
+        #     st.stop()
 
-        if not isinstance(sets_tuple, tuple):
-            st.warning(sets_tuple)
-            st.stop()
         all_logins = get_all_logins()
         # st.write(sets_tuple)
 
         with st.form('upd_set_detail'):
-            st.subheader(f"Edit delails for Project: :red[{proj}] Unit: :red[{sets_tuple[5]}]")
+            st.subheader(f"Edit details for Project: :red[{cur_sod.get('project', '!!!')}]\
+             Unit: :red[{cur_sod.get('unit', '!!!')}]")
             left_sod, center_sod, right_sod = st.columns([7, 1, 7])
             left_sod.subheader('Update Information for Selected Unit')
             right_sod.write("")
             upd_trans_chb = right_sod.checkbox('Add Transmittal')
             with left_sod:
                 coord = st.selectbox("Coordinator", all_logins,
-                                     index=get_list_index(all_logins, sets_tuple[0]))
+                                     index=get_list_index(all_logins, cur_sod.get('coordinator', '!!!')))
 
                 perf = st.selectbox("Performer", all_logins,
-                                    index=get_list_index(all_logins, sets_tuple[1]))
+                                    index=get_list_index(all_logins, cur_sod.get('performer', '!!!')))
 
                 rev = st.selectbox("Revision", sod_revisions,
-                                   index=get_list_index(sod_revisions, sets_tuple[2]))
+                                   index=get_list_index(sod_revisions, cur_sod.get('revision', '!!!')))
 
                 status = st.selectbox('Status', sod_statuses,
-                                      index=get_list_index(sod_statuses, sets_tuple[3]))
+                                      index=get_list_index(sod_statuses, cur_sod.get('status', '!!!')))
 
             with right_sod:
-                trans_list = get_trans_nums(proj)
+                trans_list = get_trans_nums(cur_sod.get('project', '!!!'))
 
                 if not isinstance(trans_list, list):
                     st.warning(trans_list)
@@ -245,29 +282,26 @@ def edit_sets(proj_to_edit):
 
                 trans_num = st.selectbox('New Transmittal Number', trans_list)
                 trans_date = st.date_input('New Transmittal Date')
-                notes = st.text_area("Notes (don't delete, just add to previous)", value=sets_tuple[4], height=120)
+                notes = st.text_area("Notes (don't delete, just add to previous)",
+                                     value=cur_sod.get('notes', '!!!'), height=120)
 
             set_upd_but = st.form_submit_button("Update in DB", use_container_width=True, type="primary")
 
         if set_upd_but:
-            reply = update_sod(unit_id, coord, perf, rev, status, trans_num,
+            reply = update_sod(cur_sod.get('unit', '!!!'), coord, perf, rev, status, trans_num,
                                trans_date, notes, upd_trans_chb)
             reporter(reply)
             st.session_state.edit_sod = None
-            st.experimental_rerun()
+            show_sets()
 
         if st.button("Escape", use_container_width=True):
             st.session_state.edit_sod = None
-            st.experimental_rerun()
+            show_sets()
+
 
 def drawing_sets():
     if 'edit_sod' in st.session_state:
         if st.session_state.edit_sod:
-            edit_sets(st.session_state.edit_sod)
+            edit_sets()
         else:
             show_sets()
-            # st.write("state problem")
-            # st.write(st.session_state.edit_sod)
-            # st.stop()
-
-
