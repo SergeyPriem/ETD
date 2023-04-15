@@ -809,6 +809,12 @@ def get_all():
             task = tab_to_df(select(u for u in Task)[:])
             trans = tab_to_df(select(u for u in Trans)[:])
             users = tab_to_df(select(u for u in Users)[:])
-            return proj, sod, task, trans, users
+            return {
+                'project': proj,
+                'sod': sod,
+                'task': task,
+                'trans': trans,
+                'users': users
+            }
         except Exception as e:
             return err_handler(e)

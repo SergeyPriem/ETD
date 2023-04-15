@@ -75,7 +75,6 @@ def create_states():
         }
 
 
-
 create_states()
 # from streamlit_profiler import Profiler
 
@@ -136,7 +135,6 @@ def create_sets():
         st.empty()
 
     with content_sets:
-
         st.subheader("Create Set of Drawings")
 
         with st.form('new_sod'):
@@ -148,7 +146,7 @@ def create_sets():
             set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
             status = st.select_slider("Select the Current Status", sod_statuses, value='0%')
             notes = st.text_area("Add Notes").strip()
-            create_sod_but = st.form_submit_button("Create",use_container_width=True)
+            create_sod_but = st.form_submit_button("Create", use_container_width=True)
 
         if create_sod_but:
             reply = add_sod(proj_short, set_name, stage, status, set_start_date, coordinator, performer, notes)
@@ -612,11 +610,16 @@ def home_content():
                     st.write("After pressing 'Get Confirmation Code' you will get Confirmation Code by e-mail")
                     st.write("Enter the Code and press 'Update Password'")
 
-project, sod, task, trans, users = get_all()
+
+if 'adb' not in st.session_state:
+    st.session_state.adb = get_all()
+
+
+# project, sod, task, trans, users = get_all()
 
 def etap_py():
     # project, sod, task, trans, users = get_all()
-
+    adb = st.session_state.adb
     phone_1, phone_content, phone_2 = st.columns([1, 9, 1])
     with phone_1:
         st.empty()
@@ -626,20 +629,19 @@ def etap_py():
         st.title(':orange[Create SLD from Load List]')
 
         if st.button('Show Projects'):
-            st.write(project)
+            st.write(adb['project'])
 
         if st.button('Show Units'):
-            st.write(sod)
+            st.write(adb['sod'])
 
         if st.button('Show Tasks'):
-            st.write(task)
+            st.write(adb['task'])
 
         if st.button('Show Transmittals'):
-            st.write(trans)
+            st.write(adb['trans'])
 
         if st.button('Show Users'):
-            st.write(users)
-
+            st.write(adb['users'])
 
         # st.text("📞 Find a Colleague Contact")
         # st.text("📞 UNDER DEVELOPMENT")
@@ -808,7 +810,6 @@ if selected == "Home":
         form_for_trans()
     else:
         home_content()
-
 
 if selected == "Manage Projects":
     manage_projects()
