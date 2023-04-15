@@ -612,9 +612,10 @@ def home_content():
                     st.write("After pressing 'Get Confirmation Code' you will get Confirmation Code by e-mail")
                     st.write("Enter the Code and press 'Update Password'")
 
+project, sod, task, trans, users = get_all()
 
 def etap_py():
-    project, sod, task, trans, users = get_all()
+    # project, sod, task, trans, users = get_all()
 
     phone_1, phone_content, phone_2 = st.columns([1, 9, 1])
     with phone_1:
