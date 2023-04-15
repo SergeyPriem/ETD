@@ -654,7 +654,7 @@ def etap_py():
 
         if st.button('Show Tasks'):
             start_time = datetime.now()
-            st.write(adb['task'])
+            st.write(st.session_state.adb['task'])
             st.text((datetime.now() - start_time))
 
         if st.button('Show Transmittals'):
