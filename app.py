@@ -3,8 +3,6 @@ import pandas as pd
 import streamlit as st
 from PIL import Image
 
-
-
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
 
@@ -26,6 +24,7 @@ from users import check_user, add_to_log, create_appl_user, update_users_in_db, 
 from projects import confirm_task, get_my_trans, confirm_trans, get_pers_tasks, trans_status_to_db, add_sod, \
     get_all, get_table
 from models import Task
+
 
 def create_states():
     if 'adb' not in st.session_state:
@@ -94,7 +93,6 @@ if 'registered_logins' not in st.session_state:
 
     users_df = st.session_state.adb['users']
     reg_logins = users_df.loc[(users_df.status == 'current') & (users_df.hashed_pass), 'login'].tolist()
-
 
     if isinstance(reg_logins, list):
         st.session_state.registered_logins = reg_logins
@@ -191,6 +189,10 @@ def home_content():
             st.header('Welcome!')
         else:
             st.header(f'Welcome, {mail_to_name(st.session_state.user)}!')
+            u_df = st.session_state.adb["users"]
+            u_df = u_df.loc[u_df.login == st.session_state.user]
+            username = f"{u_df.name.values[0]} {u_df.surname.values[0]}"
+            st.header(f'Welcome, {username}!')
 
         st.text("The Site is designed to help you in everyday routines")
         st.markdown("""
@@ -629,12 +631,10 @@ def home_content():
                     st.write("Enter the Code and press 'Update Password'")
 
 
-
 # project, sod, task, trans, users = get_all()
 
 def etap_py():
     from datetime import datetime
-
 
     # project, sod, task, trans, users = get_all()
     adb = st.session_state.adb
@@ -670,22 +670,6 @@ def etap_py():
             tr_df = get_table(Task)
             st.write(tr_df)
             st.text((datetime.now() - start_time))
-
-        # st.text("📞 Find a Colleague Contact")
-        # st.text("📞 UNDER DEVELOPMENT")
-        # name_col, pos_col, dept_col, email_col = st.columns(4, gap="medium")
-        # with name_col:
-        #     name = st.text_input("Name or Surname")
-        # with pos_col:
-        #     position = st.text_input("Position")
-        # with dept_col:
-        #     dept = st.text_input("Department")
-        # with email_col:
-        #     email = st.text_input("E-mail")
-        # df = get_phones()
-        # # df=df.set_index('id')
-        # # edited_df = st.experimental_data_editor(df, use_container_width=True)
-        # st.write(df)
 
 
 def manage_users():
