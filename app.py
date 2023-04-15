@@ -21,11 +21,10 @@ from pre_sets import appearance_settings, reporter, positions, departments, mail
 from send_emails import send_mail
 from settings_tab import settings_content
 from transmittals_tab import transmittals_content
-from users import check_user, add_to_log, get_logged_rights, \
-    create_appl_user, get_user_data, update_users_in_db, move_to_former, get_settings, \
-    update_user_reg_data, get_all_emails, register_user, get_appl_logins, get_logins_for_registered
-from projects import confirm_task, get_my_trans, confirm_trans, get_pers_tasks, get_projects_names, \
-    trans_status_to_db, add_sod, get_all, get_table
+from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, get_settings, \
+    update_user_reg_data, register_user
+from projects import confirm_task, get_my_trans, confirm_trans, get_pers_tasks, trans_status_to_db, add_sod, \
+    get_all, get_table
 from models import Task
 
 def create_states():
@@ -61,7 +60,7 @@ def create_states():
         st.session_state.task_preview = False
 
     if 'proj_names' not in st.session_state:
-        st.session_state.proj_names = st.session_state.adb['project'].short_name
+        st.session_state.proj_names = st.session_state.adb['project'].short_name.tolist()
 
     if 'trans_status' not in st.session_state:
         st.session_state.trans_status = None
@@ -744,10 +743,10 @@ def manage_users():
                                         key='edit_position', horizontal=True,
                                         index=get_list_index(positions, appl_user.position.values[0]))
                     st.markdown("---")
-                    try:
-                        department_ind = departments.index(appl_user.department)
-                    except:
-                        department_ind = 0
+                    # try:
+                    #     department_ind = departments.index(appl_user.department)
+                    # except:
+                    #     department_ind = 0
 
                     department = st.radio('Department', departments,
                                           key='edit_department', horizontal=True,
@@ -755,10 +754,10 @@ def manage_users():
                     st.markdown("---")
 
                     access_tuple = ('performer', 'admin', 'supervisor', 'prohibited')
-                    try:
-                        access_ind = access_tuple.index(appl_user.access_level)
-                    except Exception:
-                        access_ind = 0
+                    # try:
+                    #     access_ind = access_tuple.index(appl_user.access_level)
+                    # except Exception:
+                    #     access_ind = 0
 
                     access_level = st.radio('Access level', access_tuple, horizontal=True,
                                             key='edit_access_level',
