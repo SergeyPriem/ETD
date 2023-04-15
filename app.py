@@ -612,7 +612,9 @@ def home_content():
 
 
 if 'adb' not in st.session_state:
+    st.text("start loading db")
     st.session_state.adb = get_all()
+    st.text("db is loaded")
 
 
 # project, sod, task, trans, users = get_all()
