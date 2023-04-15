@@ -613,7 +613,9 @@ def home_content():
 
 if 'adb' not in st.session_state:
     st.text("start loading db")
-    st.session_state.adb = get_all()
+    with st.spinner('Loading from DB'):
+        st.session_state.adb = get_all()
+    st.success('Done!')
     st.text("db is loaded")
 
 
