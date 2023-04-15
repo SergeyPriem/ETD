@@ -3,7 +3,7 @@ import pandas as pd
 import streamlit as st
 from PIL import Image
 
-from models import Trans
+
 
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
@@ -26,7 +26,7 @@ from users import check_user, add_to_log, get_logged_rights, \
     update_user_reg_data, get_all_emails, register_user, get_appl_logins, get_logins_for_registered
 from projects import confirm_task, get_my_trans, confirm_trans, get_pers_tasks, get_projects_names, \
     trans_status_to_db, add_sod, get_all, get_table
-
+from models import Task
 
 def create_states():
     if 'delay' not in st.session_state:
@@ -644,7 +644,9 @@ def etap_py():
             st.write(adb['sod'])
 
         if st.button('Show Tasks'):
+            start_time = datetime.now()
             st.write(adb['task'])
+            st.text((datetime.now() - start_time))
 
         if st.button('Show Transmittals'):
             start_time = datetime.now()
@@ -654,9 +656,9 @@ def etap_py():
         if st.button('Show Users'):
             st.write(adb['users'])
 
-        if st.button("transmittals from DB"):
+        if st.button("Tasks from DB"):
             start_time = datetime.now()
-            tr_df = get_table(Trans)
+            tr_df = get_table(Task)
             st.write(tr_df)
             st.text((datetime.now() - start_time))
 
