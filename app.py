@@ -11,7 +11,7 @@ st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
 import datetime
 import random
 from streamlit_option_menu import option_menu
-from admin_tools import manage_projects
+from admin_tools import manage_projects, get_list_index
 from tasks_tab import tasks_content
 from drawing_sets_tab import drawing_sets
 from just_for_fun_tab import just_for_fun, emoji_content
@@ -244,7 +244,9 @@ def home_content():
                     if login_status is True:
                         st.session_state.logged = True
                         st.session_state.user = login
-                        st.session_state.rights = get_logged_rights(login)
+                        # st.session_state.rights = get_logged_rights(login)
+                        users_df = st.session_state.adb['users']
+                        st.session_state.rights = users_df.loc[users_df.login == login, 'access_level']
                         reply = add_to_log(login)
 
                         if 'ERROR' in reply.upper():
@@ -276,6 +278,8 @@ def home_content():
 
                     ass_col, blank_col, trans_col = st.columns([10, 2, 10])
                     with ass_col:
+                        # df = get_pers_tasks()
+
                         df = get_pers_tasks()
 
                         if isinstance(df, pd.DataFrame) and len(df) > 0:
@@ -451,7 +455,10 @@ def home_content():
             if st.session_state.logged:
                 st.subheader("You are Registered & Logged In 😎")
             else:
-                appl_logins = get_appl_logins()
+                # appl_logins = get_appl_logins()
+
+                users_df = st.session_state.adb['users']
+                appl_logins = users_df.loc[users_df.status == 'current']
 
                 if isinstance(appl_logins, list):
                     login = st.selectbox("Select Your Login", appl_logins,
@@ -518,9 +525,13 @@ def home_content():
                             """
 
                         if not st.session_state.code_sent:
-                            user = get_user_data(login)
+                            # user = get_user_data(login)
 
-                            if "@" not in user.email:
+                            user_df = st.session_state.adb['user']
+                            user = user_df.loc[users_df.login == login]
+
+                            # if "@" not in user.email:
+                            if "@" not in user.email.values[0]:
                                 st.warning("Can't get User's email")
                                 st.stop()
 
@@ -710,21 +721,28 @@ def manage_users():
                 reporter(reply)
 
         with users_tab2:
-            list_appl_users = get_all_emails()
+
+            # list_appl_users = get_all_emails()
+
+            users_df = st.session_state.adb['users']
+
+            list_appl_users = users_df.email.tolist()
+
             employee_to_edit = st.selectbox('Select User', list_appl_users)
             edit_move = st.radio('Action', ('Edit', 'Move to Former Users'), horizontal=True)
 
             if edit_move == 'Edit':
                 with st.form('upd_exist_user'):
-                    appl_user = get_user_data(employee_to_edit)
 
-                    try:
-                        position_ind = positions.index(appl_user.position)
-                    except:
-                        position_ind = 0
+                    # appl_user = get_user_data(employee_to_edit)
+
+                    users_df = st.session_state.adb['users']
+
+                    appl_user = users_df.loc[users_df.login == employee_to_edit]
 
                     position = st.radio('Position', positions,
-                                        key='edit_position', horizontal=True, index=position_ind)
+                                        key='edit_position', horizontal=True,
+                                        index=get_list_index(positions, appl_user.position.values[0]))
                     st.markdown("---")
                     try:
                         department_ind = departments.index(appl_user.department)
@@ -732,7 +750,8 @@ def manage_users():
                         department_ind = 0
 
                     department = st.radio('Department', departments,
-                                          key='edit_department', horizontal=True, index=department_ind)
+                                          key='edit_department', horizontal=True,
+                                          index=get_list_index(departments, appl_user.department.values[0]))
                     st.markdown("---")
 
                     access_tuple = ('performer', 'admin', 'supervisor', 'prohibited')
@@ -742,11 +761,12 @@ def manage_users():
                         access_ind = 0
 
                     access_level = st.radio('Access level', access_tuple, horizontal=True,
-                                            key='edit_access_level', index=access_ind)
+                                            key='edit_access_level',
+                                            index=get_list_index(access_tuple, appl_user.access_level.values[0]))
                     st.markdown("---")
 
                     try:
-                        date_from_db = appl_user.start_date
+                        date_from_db = appl_user.start_date.values[0]
                     except:
                         date_from_db = datetime.date.today()
 
