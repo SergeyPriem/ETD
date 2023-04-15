@@ -23,7 +23,7 @@ from users import check_user, add_to_log, get_logged_rights, \
     create_appl_user, get_user_data, update_users_in_db, move_to_former, get_settings, \
     update_user_reg_data, get_all_emails, register_user, get_appl_logins, get_logins_for_registered
 from projects import confirm_task, get_my_trans, confirm_trans, get_pers_tasks, get_projects_names, \
-    trans_status_to_db, add_sod
+    trans_status_to_db, add_sod, get_all
 
 
 def create_states():
@@ -614,6 +614,8 @@ def home_content():
 
 
 def etap_py():
+    project, sod, task, trans, users = get_all()
+
     phone_1, phone_content, phone_2 = st.columns([1, 9, 1])
     with phone_1:
         st.empty()
@@ -621,6 +623,23 @@ def etap_py():
         st.empty()
     with phone_content:
         st.title(':orange[Create SLD from Load List]')
+
+        if st.button('Show Projects'):
+            st.write(project)
+
+        if st.button('Show Units'):
+            st.write(sod)
+
+        if st.button('Show Tasks'):
+            st.write(task)
+
+        if st.button('Show Transmittals'):
+            st.write(trans)
+
+        if st.button('Show Users'):
+            st.write(users)
+
+
         # st.text("📞 Find a Colleague Contact")
         # st.text("📞 UNDER DEVELOPMENT")
         # name_col, pos_col, dept_col, email_col = st.columns(4, gap="medium")

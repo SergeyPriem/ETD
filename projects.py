@@ -799,3 +799,16 @@ def get_trans_nums(proj_short):
 #             return data
 #         except Exception as e:
 #             return err_handler(e)
+
+
+def get_all():
+    with db_session:
+        try:
+            proj = tab_to_df(select(u for u in Project)[:])
+            sod = tab_to_df(select(u for u in SOD)[:])
+            task = tab_to_df(select(u for u in Task)[:])
+            trans = tab_to_df(select(u for u in Trans)[:])
+            users = tab_to_df(select(u for u in Users)[:])
+            return proj, sod, task, trans, users
+        except Exception as e:
+            return err_handler(e)
