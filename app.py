@@ -238,9 +238,11 @@ def home_content():
                     if login_status is True:
                         st.session_state.logged = True
                         st.session_state.user = login
+
                         # st.session_state.rights = get_logged_rights(login)
+
                         users_df = st.session_state.adb['users']
-                        st.session_state.rights = users_df.loc[users_df.login == login, 'access_level']
+                        st.session_state.rights = users_df.loc[users_df.login == login, 'access_level'].values[0]
                         reply = add_to_log(login)
 
                         if 'ERROR' in reply.upper():
