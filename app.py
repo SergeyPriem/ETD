@@ -29,6 +29,13 @@ from projects import confirm_task, get_my_trans, confirm_trans, get_pers_tasks, 
 from models import Task
 
 def create_states():
+    if 'adb' not in st.session_state:
+        st.text("start loading db")
+        with st.spinner('Loading from DB'):
+            st.session_state.adb = get_all()
+        st.success('Done!')
+        st.text("db is loaded")
+
     if 'delay' not in st.session_state:
         st.session_state.delay = 2
 
@@ -57,7 +64,7 @@ def create_states():
         st.session_state.task_preview = False
 
     if 'proj_names' not in st.session_state:
-        st.session_state.proj_names = get_projects_names()
+        st.session_state.proj_names = st.session_state.adb['project'].short_name
 
     if 'trans_status' not in st.session_state:
         st.session_state.trans_status = None
@@ -92,7 +99,12 @@ else:
     log_in_out = 'Log In'
 
 if 'registered_logins' not in st.session_state:
-    reg_logins = get_logins_for_registered()
+    # reg_logins = get_logins_for_registered()
+
+    users_df = st.session_state.adb['users']
+    reg_logins = users_df.loc[(users_df.status == 'current') & users_df.hashed_pass]
+
+
     if isinstance(reg_logins, list):
         st.session_state.registered_logins = reg_logins
     else:
@@ -612,13 +624,6 @@ def home_content():
                     st.write("After pressing 'Get Confirmation Code' you will get Confirmation Code by e-mail")
                     st.write("Enter the Code and press 'Update Password'")
 
-
-if 'adb' not in st.session_state:
-    st.text("start loading db")
-    with st.spinner('Loading from DB'):
-        st.session_state.adb = get_all()
-    st.success('Done!')
-    st.text("db is loaded")
 
 
 # project, sod, task, trans, users = get_all()

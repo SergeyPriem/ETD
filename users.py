@@ -68,8 +68,8 @@ def get_logins_for_registered():
     with db_session:
         try:
             exist_logins = select(
-                eml.login for eml in Users
-                if len(eml.hashed_pass) > 0 and eml.status == 'current')[:]
+                u.login for u in Users
+                if len(u.hashed_pass) > 0 and u.status == 'current')[:]
             return list(exist_logins)
         except Exception as e:
             return err_handler(e)
