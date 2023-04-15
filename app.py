@@ -81,11 +81,6 @@ def create_states():
 
 
 create_states()
-# from streamlit_profiler import Profiler
-
-# pf = Profiler()
-# pf.start()
-
 
 appearance_settings()
 
@@ -750,7 +745,7 @@ def manage_users():
 
                     department = st.radio('Department', departments,
                                           key='edit_department', horizontal=True,
-                                          index=get_list_index(departments, appl_user.department.values[0]))
+                                          index=get_list_index(departments, appl_user.branch.values[0]))
                     st.markdown("---")
 
                     access_tuple = ('performer', 'admin', 'supervisor', 'prohibited')
