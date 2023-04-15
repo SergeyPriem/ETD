@@ -30,11 +30,8 @@ from models import Task
 
 def create_states():
     if 'adb' not in st.session_state:
-        st.text("start loading db")
         with st.spinner('Loading from DB'):
             st.session_state.adb = get_all()
-        st.success('Done!')
-        st.text("db is loaded")
 
     if 'delay' not in st.session_state:
         st.session_state.delay = 2
@@ -102,7 +99,7 @@ if 'registered_logins' not in st.session_state:
     # reg_logins = get_logins_for_registered()
 
     users_df = st.session_state.adb['users']
-    reg_logins = users_df.loc[(users_df.status == 'current') & users_df.hashed_pass]
+    reg_logins = users_df.loc[(users_df.status == 'current') & (users_df.hashed_pass), 'login'].tolist()
 
 
     if isinstance(reg_logins, list):
