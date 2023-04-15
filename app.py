@@ -3,6 +3,8 @@ import pandas as pd
 import streamlit as st
 from PIL import Image
 
+from models import Trans
+
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
 
@@ -23,7 +25,7 @@ from users import check_user, add_to_log, get_logged_rights, \
     create_appl_user, get_user_data, update_users_in_db, move_to_former, get_settings, \
     update_user_reg_data, get_all_emails, register_user, get_appl_logins, get_logins_for_registered
 from projects import confirm_task, get_my_trans, confirm_trans, get_pers_tasks, get_projects_names, \
-    trans_status_to_db, add_sod, get_all
+    trans_status_to_db, add_sod, get_all, get_table
 
 
 def create_states():
@@ -622,6 +624,9 @@ if 'adb' not in st.session_state:
 # project, sod, task, trans, users = get_all()
 
 def etap_py():
+    from datetime import datetime
+
+
     # project, sod, task, trans, users = get_all()
     adb = st.session_state.adb
     phone_1, phone_content, phone_2 = st.columns([1, 9, 1])
@@ -642,10 +647,18 @@ def etap_py():
             st.write(adb['task'])
 
         if st.button('Show Transmittals'):
+            start_time = datetime.now()
             st.write(adb['trans'])
+            st.text((datetime.now() - start_time))
 
         if st.button('Show Users'):
             st.write(adb['users'])
+
+        if st.button("transmittals from DB"):
+            start_time = datetime.now()
+            tr_df = get_table(Trans)
+            st.write(tr_df)
+            st.text((datetime.now() - start_time))
 
         # st.text("📞 Find a Colleague Contact")
         # st.text("📞 UNDER DEVELOPMENT")
