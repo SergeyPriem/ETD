@@ -26,7 +26,7 @@ def tasks_content():
         </style>
         """, unsafe_allow_html=True)
 
-    ass_1, ass_content, ass_2 = st.columns([1, 9, 1])
+    ass_1, ass_content, ass_2 = st.columns([1, 15, 1])
     with ass_1:
         st.empty()
     with ass_2:
@@ -214,6 +214,8 @@ def view_tasks(ass_tab2, my_all):
         if not isinstance(df, pd.DataFrame):
             st.warning(df)
             st.stop()
+        else:
+            df_orig = df.copy()
 
         df.project = df.project.str.upper()
         df.unit = df.unit.str.upper()
