@@ -159,7 +159,7 @@ def show_sets():
             st.write(f'Quantity: {len(units_tasks)}')
 
         units_tasks = units_tasks.sort_values(by=['speciality', 'date'], ascending=[True, False])
-        st.experimental_data_editor(units_tasks[['stage', 'speciality', 'date', 'description', 'link', 'source',
+        st.experimental_data_editor(units_tasks[['stage', 'abbrev', 'date', 'description', 'link', 'source',
                                                  'comment', 'backup_copy', 'coord_log', 'perf_log', 'added_by']],
                                     use_container_width=True)
         st.divider()
