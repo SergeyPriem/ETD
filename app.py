@@ -178,14 +178,14 @@ def home_content():
 
     empty1, content, empty2 = st.columns([5, 3, 5])
     empty21, content2, empty22 = st.columns([1, 20, 1])
-    with empty1:
-        st.empty()
-    with empty2:
-        st.empty()
 
     with content:
         st.title(':orange[Electrical Department]')
 
+        u_df = st.session_state.adb["users"]
+        u_df = u_df.loc[u_df.login == st.session_state.user]
+        username = f"{u_df.name.values[0]} {u_df.surname.values[0]}"
+        st.header(f'Welcome, {username}!')
 
         if st.session_state.logged:
             with content2:
@@ -439,13 +439,7 @@ def login_register():
     with reg_content:
         st.title(':orange[Electrical Department]')
 
-        if not st.session_state.user:
-            st.header('Welcome, Colleague!')
-        else:
-            u_df = st.session_state.adb["users"]
-            u_df = u_df.loc[u_df.login == st.session_state.user]
-            username = f"{u_df.name.values[0]} {u_df.surname.values[0]}"
-            st.header(f'Welcome, {username}!')
+        st.header('Welcome, Colleague!')
 
         st.text("The Site is designed to help you in everyday routines")
         login_tab, reg_tab = st.tabs([log_in_out, 'Registration'])

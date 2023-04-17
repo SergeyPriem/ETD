@@ -19,6 +19,7 @@ def settings_content():
         st.text('This page is intended to make some adjustments for more comfortable use of Application')
 
         st.markdown("---")
+
         with st.form('adjust_settings'):
 
             st.session_state.delay = st.select_slider('Time delay for info messages',
@@ -38,59 +39,54 @@ def settings_content():
             # save preferences to DB
             st.experimental_rerun()
 
-        if not st.session_state.logged:
-            st.write('You should Log In first')
-        else:
-            with st.form("UpData"):
-                # upd_phone = st.text_input('Updated personal Phone', disabled=not st.session_state.logged)
-                # upd_telegram = st.text_input('Updated personal Telegram', disabled=not st.session_state.logged)
-                upd_pass_1 = st.text_input('Updated Password', type='password', key='upd_pass_1',
-                                           disabled=not st.session_state.logged)
-                upd_pass_2 = st.text_input('Repeat Updated Password', type='password', key='upd_pass_2',
-                                           disabled=not st.session_state.logged)
+        with st.form("UpData"):
+            upd_pass_1 = st.text_input('Updated Password', type='password', key='upd_pass_1',
+                                       disabled=not st.session_state.logged)
+            upd_pass_2 = st.text_input('Repeat Updated Password', type='password', key='upd_pass_2',
+                                       disabled=not st.session_state.logged)
 
-                get_conf_code = st.form_submit_button("Get Confirmation Code", use_container_width=True)
+            get_conf_code = st.form_submit_button("Get Confirmation Code", use_container_width=True)
 
-            if get_conf_code:
-                if (len(upd_pass_1) < 3) or (upd_pass_1 != upd_pass_2):
-                    st.warning("""❗ Password should be at least 3 symbols  
-                        ❗ Password and Repeat Password should be the same""")
-                    st.stop()
+        if get_conf_code:
+            if (len(upd_pass_1) < 3) or (upd_pass_1 != upd_pass_2):
+                st.warning("""❗ Password should be at least 3 symbols  
+                    ❗ Password and Repeat Password should be the same""")
+                st.stop()
 
-                if 'upd_conf_num' not in st.session_state:
-                    st.session_state.upd_conf_num = "".join(random.sample("123456789", 4))
+            if 'upd_conf_num' not in st.session_state:
+                st.session_state.upd_conf_num = "".join(random.sample("123456789", 4))
 
-                upd_html = f"""
-                        <html>
-                          <head></head>
-                          <body>
-                            <h3>
-                              Hello, Colleague!
-                              <hr>
-                            </h3>
-                            <h5>
-                              You got this message because you want to update your data on ETD site
-                            </h5>
-                            <p>
-                                Please confirm your registration by entering the confirmation code 
-                                <b>{st.session_state.upd_conf_num}</b> 
-                                at the <a href="https://e-design.streamlit.app/">site</a> Update form
-                                <hr>
-                                Best regards, Administration 😎
-                            </p>
-                          </body>
-                        </html>
-                    """
+            upd_html = f"""
+                    <html>
+                      <head></head>
+                      <body>
+                        <h3>
+                          Hello, Colleague!
+                          <hr>
+                        </h3>
+                        <h5>
+                          You got this message because you want to update your data on ETD site
+                        </h5>
+                        <p>
+                            Please confirm your registration by entering the confirmation code 
+                            <b>{st.session_state.upd_conf_num}</b> 
+                            at the <a href="https://e-design.streamlit.app/">site</a> Update form
+                            <hr>
+                            Best regards, Administration 😎
+                        </p>
+                      </body>
+                    </html>
+                """
 
-                if not st.session_state.upd_code_sent:
-                    email_sent = send_mail(receiver=st.session_state.user,
-                                           cc_rec="sergey.priemshiy@uzliti-en.com",
-                                           html=upd_html, subj="Confirmation of Data Update on ETD site")
-                    if email_sent is True:
-                        st.session_state.upd_code_sent = True
-                    else:
-                        st.session_state.upd_code_sent = False
-                        st.write("Confirmation code is not send. Refresh the page and try again")
+            if not st.session_state.upd_code_sent:
+                email_sent = send_mail(receiver=st.session_state.user,
+                                       cc_rec="sergey.priemshiy@uzliti-en.com",
+                                       html=upd_html, subj="Confirmation of Data Update on ETD site")
+                if email_sent is True:
+                    st.session_state.upd_code_sent = True
+                else:
+                    st.session_state.upd_code_sent = False
+                    st.write("Confirmation code is not send. Refresh the page and try again")
 
             update_pass = None
             if st.session_state.upd_code_sent is True:
