@@ -194,8 +194,11 @@ def view_tasks(ass_tab2, my_all):
         df = df.set_index('s_o_d').join(sod_df[['project_id', 'set_name']])
         df = df.set_index('project_id').join(proj_df[['short_name']])
         df = df.set_index('speciality').join(spec_df[['abbrev']])
-
+        df.rename(columns={'abbrev': 'speciality', 'short_name': 'project'})
         df.set_index('task_id', inplace=True)
+
+        df = df[['project', 'set_name', 'stage', 'in_out', 'date', 'speciality', ' description', 'link',
+                 'backup_copy', 'source', 'coord_log', 'perf_log', 'comment', 'added_by']]
 
 
         users_df = st.session_state.adb['users']
