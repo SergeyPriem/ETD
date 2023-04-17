@@ -430,13 +430,13 @@ def login_register():
         </style>
         """, unsafe_allow_html=True)
 
-    empty1, content, empty2 = st.columns([5, 3, 5])
-    with empty1:
+    reg_left, reg_content, reg_right = st.columns([5, 3, 5])
+    with reg_left:
         st.empty()
-    with empty2:
+    with reg_right:
         st.empty()
 
-    with content:
+    with reg_content:
         st.title(':orange[Electrical Department]')
 
         if not st.session_state.user:
