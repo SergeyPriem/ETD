@@ -68,11 +68,11 @@ def show_sets():
             df = df[(df.coord_id == user_id) | (df.perf_id == user_id)]
 
 
-        df = df.set_index('project_id').join(proj_df['full_name'])
+        df = df.set_index('project_id').join(proj_df['short_name'])
 
 
 
-        # df.rename(columns={'short_name': 'project'}, inplace=True)
+        df.rename(columns={'short_name': 'project'}, inplace=True)
 
         st.write(df)
 
