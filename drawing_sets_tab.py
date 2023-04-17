@@ -293,7 +293,7 @@ def edit_sets():
                     sod_df.at[unit_id, 'trans_num'] = trans_num
                     sod_df.at[unit_id, 'trans_date'] = trans_date
                 sod_df.at[unit_id, 'notes'] = notes
-                st.write(sod_df)
+                st.write(sod_df[sod_df.index == unit_id])
                 reporter("wait for 30 s.", 30)
                 st.session_state.adb['sod'] = sod_df
 
