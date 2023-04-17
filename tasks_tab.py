@@ -197,7 +197,7 @@ def view_tasks(ass_tab2, my_all):
         df.rename(columns={'abbrev': 'speciality', 'short_name': 'project', 'set_name': 'unit'}, inplace=True)
         df.set_index('task_id', inplace=True)
 
-        df = df[['project', 'set_name', 'stage', 'in_out', 'date', 'speciality', 'description', 'link',
+        df = df[['project', 'unit', 'stage', 'in_out', 'date', 'speciality', 'description', 'link',
                  'backup_copy', 'source', 'coord_log', 'perf_log', 'comment', 'added_by']]
 
 
