@@ -88,7 +88,7 @@ def show_sets():
         units_ch_b = ds_rigth.checkbox("Show Units Table")
 
         if units_ch_b:
-            st.experimental_data_editor(df.set_index('set_id'), use_container_width=True)
+            st.experimental_data_editor(df.set_index('unit_id'), use_container_width=True)
 
         proj_col, unit_col = st.columns(2, gap='medium')
 
