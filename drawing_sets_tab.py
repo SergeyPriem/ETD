@@ -134,7 +134,7 @@ def show_sets():
 
         units_tasks.reset_index(inplace=True)
 
-        units_tasks.speciality = units_tasks.abbrev
+        units_tasks['speciality'] = units_tasks.abbrev
 
         if isinstance(units_tasks, str):
             if units_tasks == "Empty Table":
