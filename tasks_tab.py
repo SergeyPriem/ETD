@@ -150,7 +150,8 @@ def add_task(ass_content):
                 with plaho.container():
                     if direction == "In":
                         for single_set in set_of_dr:
-                            reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date, description,
+                            reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date,
+                                                 description,
                                                  link, source, comments)
 
                             # st.write((project, single_set, stage, direction, speciality[0], date, description,
@@ -166,7 +167,8 @@ def add_task(ass_content):
 
                     else:
                         for single_spec in speciality:
-                            reply = add_out_to_db(project, set_of_dr[0], stage, direction, single_spec, date, description,
+                            reply = add_out_to_db(project, set_of_dr[0], stage, direction, single_spec, date,
+                                                  description,
                                                   link, source, comments)
                             # st.write((project, set_of_dr[0], stage, direction, single_spec, date, description,
                             #           link, source, comments))
@@ -198,8 +200,7 @@ def view_tasks(ass_tab2, my_all):
         df.set_index('task_id', inplace=True)
 
         df = df[['project', 'unit', 'stage', 'in_out', 'date', 'speciality', 'description', 'link',
-                 'backup_copy', 'source', 'coord_log', 'perf_log', 'comment', 'added_by']]
-
+                 'backup_copy', 'source', 'coord_log', 'perf_log', 'comment', 'added_by', 'coord_id', 'perf_id']]
 
         users_df = st.session_state.adb['users']
         user_id = users_df[users_df.login == st.session_state.user].index
