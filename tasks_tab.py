@@ -196,9 +196,9 @@ def view_tasks(ass_tab2, my_all):
 
         df_orig = pd.DataFrame()
 
-        if isinstance(df, pd.DataFrame):
-            # df_orig = df.copy().set_index('id')
-        else:
+        if not isinstance(df, pd.DataFrame):
+        #     # df_orig = df.copy().set_index('id')
+        # else:
             st.warning(df)
             st.stop()
 
