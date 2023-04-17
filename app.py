@@ -261,7 +261,7 @@ def home_content():
                     st.session_state.rights = 'basic'
                     st.experimental_rerun()
 
-                st.experimental_rerun()
+                # st.experimental_rerun()
             else:
                 st.session_state.rights = 'basic'
                 st.session_state.user = None
@@ -824,8 +824,8 @@ if st.session_state.logged and st.session_state.user:
     else:
         selected = option_menu(None, get_menus()[0], icons=get_menus()[1],
                                menu_icon=None, default_index=0, orientation='horizontal')
-# else:
-#     home_content()
+else:
+    home_content()
 
 if selected == "Home":
     if st.session_state.trans_status:
