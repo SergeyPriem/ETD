@@ -183,10 +183,16 @@ def add_task(ass_content):
 
 def view_tasks(ass_tab2, my_all):
     with ass_tab2:
+
+        df = st.session_state.adb['task']
+        users_df = st.session_state.adb['users']
+        user_id = users_df.loc[users_df.login == st.session_state.user, 'id'].values[0]
+
         if my_all == 'My':
-            df = get_tasks(st.session_state.user)
-        else:
-            df = get_tasks()
+            # df = get_tasks(st.session_state.user)
+            df = df[(df.coord_id == user_id) | (df.perf_id == user_id)]
+        # else:
+        #     df = get_tasks()
 
         df_orig = pd.DataFrame()
 
