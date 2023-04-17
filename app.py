@@ -226,7 +226,7 @@ def home_content():
                                          disabled=st.session_state.logged)
                     st.write("Not in list? Register first 👆")
                     password = st.text_input('Password', type='password', disabled=st.session_state.logged)
-                    login_but = login_col.form_submit_button('Log In', disabled=st.session_state.logged,
+                    login_but = st.form_submit_button('Log In', disabled=st.session_state.logged,
                                                              use_container_width=True)
                     if login_but:
                         if len(password) < 3:
