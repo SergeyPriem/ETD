@@ -186,6 +186,329 @@ def home_content():
     with content:
         st.title(':orange[Electrical Department]')
 
+
+        if st.session_state.logged:
+            with content2:
+                st.markdown("---")
+
+                ass_col, blank_col, trans_col = st.columns([10, 2, 10])
+                with ass_col:
+                    # df = get_pers_tasks()
+
+                    df = get_pers_tasks()
+
+                    if isinstance(df, pd.DataFrame) and len(df) > 0:
+                        st.subheader(":orange[New Incoming Tasks]")
+                        for ind, row in df.iterrows():
+                            name_surname = mail_to_name(row.added_by)
+                            st.markdown(f"""<h4>Task: {row.id}</h4>""", unsafe_allow_html=True)
+
+                            st.markdown("""<style>
+                                                .nobord td {
+                                                        border-style: hidden;
+                                                        margin-left: auto;
+                                                        margin-right: auto;
+                                                        text-align: left;
+                                                    }
+                                                  </style>
+                                                  """, unsafe_allow_html=True)
+
+                            st.markdown(f"""
+                                <table class="nobord">
+                                <tr>
+                                    <td>Project</td>
+                                    <td>{row.project}</td>
+                                </tr>
+                                <tr>
+                                    <td>Unit</td>
+                                    <td>{row.unit}</td>
+                                </tr>
+                                <tr>
+                                    <td>Speciality</td>
+                                    <td>{row.speciality}</td>
+                                </tr>
+                                <tr>
+                                    <td>Stage</td>
+                                    <td>{row.stage}</td>
+                                </tr>
+                                <tr>
+                                    <td>Issue Date</td>
+                                    <td>{row.date}</td>
+                                </tr>
+                                <tr>
+                                    <td>Description</td>
+                                    <td>{row.description}</td>
+                                </tr>
+                                <tr>
+                                    <td>Link</td>
+                                    <td>{row.link}</td>
+                                </tr>
+                                <tr>
+                                    <td>Backup Copy</td>
+                                    <td>{row.backup_copy}</td>
+                                </tr>
+                                <tr>
+                                    <td>Source</td>
+                                    <td>{row.source}</td>
+                                </tr>
+                                <tr>
+                                    <td>Comment</td>
+                                    <td>{row.comment}</td>
+                                </tr>
+                                <tr>
+                                    <td>Added By</td>
+                                    <td>{name_surname}</td>
+                                </tr>
+                                </table>
+                                <br>
+                                """, unsafe_allow_html=True)
+
+                            but_key1 = f"Confirm Task: {row.id}"
+                            task_id = row.id
+                            if st.button(label=but_key1, key=but_key1, type='primary', on_click=confirm_task,
+                                         args=(
+                                                 (row.id,))):
+                                st.info(f"Task {task_id} confirmed!!")
+                            st.text("")
+                    else:
+                        st.text('No New Tasks')
+
+                with trans_col:
+                    df = get_my_trans(st.session_state.user)  # st.session_state.user
+                    if isinstance(df, pd.DataFrame) and len(df) > 0:
+                        st.subheader(":orange[New Incoming Transmittals]")
+                        # df = df.loc[df.status != "Closed"]
+                        for ind, row in df.iterrows():
+                            # name_surname = mail_to_name(row.added_by)
+                            st.markdown(f"""<h4>Transmittal: {row.trans_num}</h4>""", unsafe_allow_html=True)
+
+                            st.markdown("""<style>
+                                                .nobord {
+                                                        border-style: hidden;
+                                                        margin-left: auto;
+                                                        margin-right: auto;
+                                                        text-align: left;
+                                                    }
+                                                  </style>
+                                                  """, unsafe_allow_html=True)
+
+                            st.markdown(f"""
+                                <table class="nobord">
+                                <tr>
+                                    <td>Transmittal Number</td>
+                                    <td>{row.trans_num}</td>
+                                </tr>
+                                <tr>
+                                    <td>Project</td>
+                                    <td>{row.project}</td>
+                                </tr>
+                                <tr>
+                                    <td>Subject</td>
+                                    <td>{row.subject}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Transmittal Date</td>
+                                    <td>{row.trans_date}</td>
+                                </tr>
+                                <tr>
+                                    <td>Is reply required?</td>
+                                    <td>{"Yes" if row.ans_required else "No"}</td>
+                                </tr>
+                                <tr>
+                                    <td>Previous Transmittal</td>
+                                    <td>{row.ref_trans}</td>
+                                </tr>
+                                <tr>
+                                    <td>Responsible</td>
+                                    <td>{row.responsible}</td>
+                                </tr>
+                                <tr>
+                                    <td>Author</td>
+                                    <td>{row.author}</td>
+                                </tr>
+                                <tr>
+                                    <td>Link</td>
+                                    <td>{row.link}</td>
+                                </tr>
+                                <tr>
+                                    <td>Type</td>
+                                    <td>{row.trans_type}</td>
+                                </tr>
+                                <tr>
+                                    <td>Notes</td>
+                                    <td>{row.notes}</td>
+                                </tr>
+                                <tr>
+                                    <td>Added By</td>
+                                    <td>{row.added_by}</td>
+                                </tr>
+                                <tr>
+                                    <td>Status</td>
+                                    <td>{row.status}</td>
+                                </tr>
+                                </table>
+                                <br>
+                                """, unsafe_allow_html=True)
+
+                            but_key1 = f"Confirm receiving: {row.trans_num}"
+                            but_key2 = f"Update Status for: {row.trans_num}"
+
+                            if st.session_state.user not in row.received:
+                                st.button(label=but_key1, key=but_key1, type='secondary',
+                                          on_click=confirm_trans,
+                                          args=((row.trans_num,)))
+
+                            st.button(label=but_key2, key=but_key2, type='primary',
+                                      on_click=update_trans_status,
+                                      args=((row.trans_num,)))
+                            st.text("")
+                    else:
+                        st.text('No New Transmittals')
+
+
+        # with change_tab:
+        if not st.session_state.logged:
+            st.write('You should Log In first')
+        else:
+            with st.form("UpData"):
+                # upd_phone = st.text_input('Updated personal Phone', disabled=not st.session_state.logged)
+                # upd_telegram = st.text_input('Updated personal Telegram', disabled=not st.session_state.logged)
+                upd_pass_1 = st.text_input('Updated Password', type='password', key='upd_pass_1',
+                                           disabled=not st.session_state.logged)
+                upd_pass_2 = st.text_input('Repeat Updated Password', type='password', key='upd_pass_2',
+                                           disabled=not st.session_state.logged)
+
+                get_conf_code = st.form_submit_button("Get Confirmation Code", use_container_width=True)
+
+            if get_conf_code:
+                if (len(upd_pass_1) < 3) or (upd_pass_1 != upd_pass_2):
+                    st.warning("""❗ Password should be at least 3 symbols  
+                        ❗ Password and Repeat Password should be the same""")
+                    st.stop()
+
+                if 'upd_conf_num' not in st.session_state:
+                    st.session_state.upd_conf_num = "".join(random.sample("123456789", 4))
+
+                upd_html = f"""
+                        <html>
+                          <head></head>
+                          <body>
+                            <h3>
+                              Hello, Colleague!
+                              <hr>
+                            </h3>
+                            <h5>
+                              You got this message because you want to update your data on ETD site
+                            </h5>
+                            <p>
+                                Please confirm your registration by entering the confirmation code 
+                                <b>{st.session_state.upd_conf_num}</b> 
+                                at the <a href="https://e-design.streamlit.app/">site</a> Update form
+                                <hr>
+                                Best regards, Administration 😎
+                            </p>
+                          </body>
+                        </html>
+                    """
+
+                if not st.session_state.upd_code_sent:
+                    email_sent = send_mail(receiver=st.session_state.user,
+                                           cc_rec="sergey.priemshiy@uzliti-en.com",
+                                           html=upd_html, subj="Confirmation of Data Update on ETD site")
+                    if email_sent is True:
+                        st.session_state.upd_code_sent = True
+                    else:
+                        st.session_state.upd_code_sent = False
+                        st.write("Confirmation code is not send. Refresh the page and try again")
+
+            update_pass = None
+            if st.session_state.upd_code_sent is True:
+                with st.form('pass_confirm'):
+                    entered_upd_code = st.text_input("Confirmation Code from Email")
+                    update_pass = st.form_submit_button("Update Password")
+
+            if update_pass:
+                if st.session_state.upd_conf_num != entered_upd_code:
+                    reporter("Confirmation code is wrong, try again")
+                    st.stop()
+                else:
+                    reply = update_user_reg_data(st.session_state.user, upd_pass_2)
+                    reporter(reply)
+            else:
+                st.write("After pressing 'Get Confirmation Code' you will get Confirmation Code by e-mail")
+                st.write("Enter the Code and press 'Update Password'")
+
+
+# project, sod, task, trans, users = get_all()
+
+def etap_py():
+    from datetime import datetime
+
+    # project, sod, task, trans, users = get_all()
+    adb = st.session_state.adb
+    phone_1, phone_content, phone_2 = st.columns([1, 9, 1])
+    with phone_1:
+        st.empty()
+    with phone_2:
+        st.empty()
+    with phone_content:
+        st.title(':orange[Create SLD from Load List]')
+
+        if st.button('Show Projects'):
+            st.write(adb['project'])
+
+        if st.button('Show Units'):
+            st.write(adb['sod'])
+
+        if st.button('Show Tasks'):
+            start_time = datetime.now()
+            st.write(adb['task'])
+            st.text((datetime.now() - start_time))
+
+        if st.button('Show Transmittals'):
+            start_time = datetime.now()
+            st.write(adb['trans'])
+            st.text((datetime.now() - start_time))
+
+        if st.button('Show Users'):
+            st.write(adb['users'])
+
+        if st.button("Tasks from DB"):
+            start_time = datetime.now()
+            tr_df = get_table(Task)
+            st.write(tr_df)
+            st.text((datetime.now() - start_time))
+
+def login_register():
+    st.markdown("""
+        <style>
+            div[data-testid="column"]:nth-of-type(1)
+            {
+                text-align: center;
+            } 
+
+            div[data-testid="column"]:nth-of-type(2)
+            {
+                text-align: center;
+            } 
+
+            div[data-testid="column"]:nth-of-type(3)
+            {
+                text-align: center;
+            } 
+        </style>
+        """, unsafe_allow_html=True)
+
+    empty1, content, empty2 = st.columns([5, 3, 5])
+    with empty1:
+        st.empty()
+    with empty2:
+        st.empty()
+
+    with content:
+        st.title(':orange[Electrical Department]')
+
         if not st.session_state.user:
             st.header('Welcome, Colleague!')
         else:
@@ -194,31 +517,10 @@ def home_content():
             username = f"{u_df.name.values[0]} {u_df.surname.values[0]}"
             st.header(f'Welcome, {username}!')
 
-        st.markdown("""
-                <style>
-                    div[data-baseweb="tab-list"]:nth-of-type(1)
-                    {
-                        text-align: center;
-                    } 
-                    div[data-baseweb="tab-list"]:nth-of-type(2)
-                    {
-                        text-align: center;
-                    } 
-                    div[data-baseweb="tab-list"]:nth-of-type(3)
-                    {
-                        text-align: center;
-                    } 
-                </style>
-                """, unsafe_allow_html=True)
-
         st.text("The Site is designed to help you in everyday routines")
         login_tab, reg_tab, change_tab = st.tabs([log_in_out, 'Registration', 'Change Password'])
 
         with login_tab:
-            # plaho = st.empty()
-            # login_col, logout_col = st.columns(2)
-            login_status = False
-            # with plaho.container():
             with st.form('log_in'):
                 login = st.selectbox("Select Your Login", st.session_state.registered_logins,
                                      disabled=st.session_state.logged)
@@ -266,185 +568,6 @@ def home_content():
                 st.session_state.rights = 'basic'
                 st.session_state.user = None
                 st.stop()
-
-            if st.session_state.logged:
-                with content2:
-                    st.markdown("---")
-
-                    ass_col, blank_col, trans_col = st.columns([10, 2, 10])
-                    with ass_col:
-                        # df = get_pers_tasks()
-
-                        df = get_pers_tasks()
-
-                        if isinstance(df, pd.DataFrame) and len(df) > 0:
-                            st.subheader(":orange[New Incoming Tasks]")
-                            for ind, row in df.iterrows():
-                                name_surname = mail_to_name(row.added_by)
-                                st.markdown(f"""<h4>Task: {row.id}</h4>""", unsafe_allow_html=True)
-
-                                st.markdown("""<style>
-                                                    .nobord td {
-                                                            border-style: hidden;
-                                                            margin-left: auto;
-                                                            margin-right: auto;
-                                                            text-align: left;
-                                                        }
-                                                      </style>
-                                                      """, unsafe_allow_html=True)
-
-                                st.markdown(f"""
-                                    <table class="nobord">
-                                    <tr>
-                                        <td>Project</td>
-                                        <td>{row.project}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Unit</td>
-                                        <td>{row.unit}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Speciality</td>
-                                        <td>{row.speciality}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Stage</td>
-                                        <td>{row.stage}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Issue Date</td>
-                                        <td>{row.date}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Description</td>
-                                        <td>{row.description}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Link</td>
-                                        <td>{row.link}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Backup Copy</td>
-                                        <td>{row.backup_copy}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Source</td>
-                                        <td>{row.source}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Comment</td>
-                                        <td>{row.comment}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Added By</td>
-                                        <td>{name_surname}</td>
-                                    </tr>
-                                    </table>
-                                    <br>
-                                    """, unsafe_allow_html=True)
-
-                                but_key1 = f"Confirm Task: {row.id}"
-                                task_id = row.id
-                                if st.button(label=but_key1, key=but_key1, type='primary', on_click=confirm_task,
-                                             args=(
-                                                     (row.id,))):
-                                    st.info(f"Task {task_id} confirmed!!")
-                                st.text("")
-                        else:
-                            st.text('No New Tasks')
-
-                    with trans_col:
-                        df = get_my_trans(st.session_state.user)  # st.session_state.user
-                        if isinstance(df, pd.DataFrame) and len(df) > 0:
-                            st.subheader(":orange[New Incoming Transmittals]")
-                            # df = df.loc[df.status != "Closed"]
-                            for ind, row in df.iterrows():
-                                # name_surname = mail_to_name(row.added_by)
-                                st.markdown(f"""<h4>Transmittal: {row.trans_num}</h4>""", unsafe_allow_html=True)
-
-                                st.markdown("""<style>
-                                                    .nobord {
-                                                            border-style: hidden;
-                                                            margin-left: auto;
-                                                            margin-right: auto;
-                                                            text-align: left;
-                                                        }
-                                                      </style>
-                                                      """, unsafe_allow_html=True)
-
-                                st.markdown(f"""
-                                    <table class="nobord">
-                                    <tr>
-                                        <td>Transmittal Number</td>
-                                        <td>{row.trans_num}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Project</td>
-                                        <td>{row.project}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Subject</td>
-                                        <td>{row.subject}</td>
-                                    </tr>
-    
-                                    <tr>
-                                        <td>Transmittal Date</td>
-                                        <td>{row.trans_date}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Is reply required?</td>
-                                        <td>{"Yes" if row.ans_required else "No"}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Previous Transmittal</td>
-                                        <td>{row.ref_trans}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Responsible</td>
-                                        <td>{row.responsible}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Author</td>
-                                        <td>{row.author}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Link</td>
-                                        <td>{row.link}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Type</td>
-                                        <td>{row.trans_type}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Notes</td>
-                                        <td>{row.notes}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Added By</td>
-                                        <td>{row.added_by}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Status</td>
-                                        <td>{row.status}</td>
-                                    </tr>
-                                    </table>
-                                    <br>
-                                    """, unsafe_allow_html=True)
-
-                                but_key1 = f"Confirm receiving: {row.trans_num}"
-                                but_key2 = f"Update Status for: {row.trans_num}"
-
-                                if st.session_state.user not in row.received:
-                                    st.button(label=but_key1, key=but_key1, type='secondary',
-                                              on_click=confirm_trans,
-                                              args=((row.trans_num,)))
-
-                                st.button(label=but_key2, key=but_key2, type='primary',
-                                          on_click=update_trans_status,
-                                          args=((row.trans_num,)))
-                                st.text("")
-                        else:
-                            st.text('No New Transmittals')
 
         with reg_tab:
             if st.session_state.logged:
@@ -554,119 +677,6 @@ def home_content():
                             else:
                                 reporter(reply)
                                 st.experimental_rerun()
-
-        with change_tab:
-            if not st.session_state.logged:
-                st.write('You should Log In first')
-            else:
-                with st.form("UpData"):
-                    # upd_phone = st.text_input('Updated personal Phone', disabled=not st.session_state.logged)
-                    # upd_telegram = st.text_input('Updated personal Telegram', disabled=not st.session_state.logged)
-                    upd_pass_1 = st.text_input('Updated Password', type='password', key='upd_pass_1',
-                                               disabled=not st.session_state.logged)
-                    upd_pass_2 = st.text_input('Repeat Updated Password', type='password', key='upd_pass_2',
-                                               disabled=not st.session_state.logged)
-
-                    get_conf_code = st.form_submit_button("Get Confirmation Code", use_container_width=True)
-
-                if get_conf_code:
-                    if (len(upd_pass_1) < 3) or (upd_pass_1 != upd_pass_2):
-                        st.warning("""❗ Password should be at least 3 symbols  
-                            ❗ Password and Repeat Password should be the same""")
-                        st.stop()
-
-                    if 'upd_conf_num' not in st.session_state:
-                        st.session_state.upd_conf_num = "".join(random.sample("123456789", 4))
-
-                    upd_html = f"""
-                            <html>
-                              <head></head>
-                              <body>
-                                <h3>
-                                  Hello, Colleague!
-                                  <hr>
-                                </h3>
-                                <h5>
-                                  You got this message because you want to update your data on ETD site
-                                </h5>
-                                <p>
-                                    Please confirm your registration by entering the confirmation code 
-                                    <b>{st.session_state.upd_conf_num}</b> 
-                                    at the <a href="https://e-design.streamlit.app/">site</a> Update form
-                                    <hr>
-                                    Best regards, Administration 😎
-                                </p>
-                              </body>
-                            </html>
-                        """
-
-                    if not st.session_state.upd_code_sent:
-                        email_sent = send_mail(receiver=st.session_state.user,
-                                               cc_rec="sergey.priemshiy@uzliti-en.com",
-                                               html=upd_html, subj="Confirmation of Data Update on ETD site")
-                        if email_sent is True:
-                            st.session_state.upd_code_sent = True
-                        else:
-                            st.session_state.upd_code_sent = False
-                            st.write("Confirmation code is not send. Refresh the page and try again")
-
-                update_pass = None
-                if st.session_state.upd_code_sent is True:
-                    with st.form('pass_confirm'):
-                        entered_upd_code = st.text_input("Confirmation Code from Email")
-                        update_pass = st.form_submit_button("Update Password")
-
-                if update_pass:
-                    if st.session_state.upd_conf_num != entered_upd_code:
-                        reporter("Confirmation code is wrong, try again")
-                        st.stop()
-                    else:
-                        reply = update_user_reg_data(st.session_state.user, upd_pass_2)
-                        reporter(reply)
-                else:
-                    st.write("After pressing 'Get Confirmation Code' you will get Confirmation Code by e-mail")
-                    st.write("Enter the Code and press 'Update Password'")
-
-
-# project, sod, task, trans, users = get_all()
-
-def etap_py():
-    from datetime import datetime
-
-    # project, sod, task, trans, users = get_all()
-    adb = st.session_state.adb
-    phone_1, phone_content, phone_2 = st.columns([1, 9, 1])
-    with phone_1:
-        st.empty()
-    with phone_2:
-        st.empty()
-    with phone_content:
-        st.title(':orange[Create SLD from Load List]')
-
-        if st.button('Show Projects'):
-            st.write(adb['project'])
-
-        if st.button('Show Units'):
-            st.write(adb['sod'])
-
-        if st.button('Show Tasks'):
-            start_time = datetime.now()
-            st.write(adb['task'])
-            st.text((datetime.now() - start_time))
-
-        if st.button('Show Transmittals'):
-            start_time = datetime.now()
-            st.write(adb['trans'])
-            st.text((datetime.now() - start_time))
-
-        if st.button('Show Users'):
-            st.write(adb['users'])
-
-        if st.button("Tasks from DB"):
-            start_time = datetime.now()
-            tr_df = get_table(Task)
-            st.write(tr_df)
-            st.text((datetime.now() - start_time))
 
 
 def manage_users():
@@ -807,6 +817,10 @@ selected = None
 
 st.write(f"st.session_state.logged={st.session_state.logged}")
 st.write(f"st.session_state.user={st.session_state.user}")
+
+if not st.session_state.logged:
+    login_register()
+
 
 if st.session_state.logged and st.session_state.user:
     st.session_state.vert_menu = int(get_settings(st.session_state.user)[0])
