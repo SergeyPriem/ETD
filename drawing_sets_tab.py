@@ -104,9 +104,7 @@ def show_sets():
 
         df_edit = df.loc[df.unit == unit_selected]
 
-
         if st.button('Edit Details'):
-
             st.session_state.edit_sod['coordinator'] = df_edit.coordinator.values[0]
             st.session_state.edit_sod['performer'] = df_edit.performer.values[0]
             st.session_state.edit_sod['revision'] = df_edit.revision.values[0]
@@ -127,7 +125,11 @@ def show_sets():
         # units_tasks = get_own_tasks(unit_id) ###
         task_df = st.session_state.adb['task']
 
-        units_tasks = task_df[task_df.s_o_d == unit_id]#.tolist()
+        spec_df = st.session_state.adb['speciality']
+
+        units_tasks = task_df[task_df.s_o_d == unit_id]  # .tolist()
+
+        units_tasks.speciality = spec_df.loc[spec_df.id == units_tasks.speciality]
 
         if isinstance(units_tasks, str):
             if units_tasks == "Empty Table":
@@ -217,7 +219,6 @@ def show_sets():
 
 
 def edit_sets():
-
     cur_sod = st.session_state.edit_sod
 
     empty_sets_1, content_sets, empty_sets_2 = st.columns([3, 5, 3])
