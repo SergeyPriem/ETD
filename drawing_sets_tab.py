@@ -8,8 +8,6 @@ from pre_sets import specialities, sod_revisions, sod_statuses
 from projects import get_trans_nums, update_sod
 from pre_sets import reporter
 
-st.write(st.session_state.edit_sod)
-
 def show_sets():
     if st.session_state.edit_sod['project']:
 
@@ -327,6 +325,8 @@ def edit_sets():
 
         if st.button("Escape", use_container_width=True):
             st.session_state.edit_sod['state'] = False
+            st.session_state.edit_sod['unit'] = None
+            st.session_state.edit_sod['project'] = None
             st.experimental_rerun()
 
 
