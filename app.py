@@ -863,4 +863,7 @@ if selected == "Lessons Learned":
 if selected == "Settings":
     settings_content()
 
+if selected == "Create new Set / Unit":
+    settings_content()
+
 # pf.stop()
