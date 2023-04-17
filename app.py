@@ -215,35 +215,36 @@ def home_content():
         login_tab, reg_tab, change_tab = st.tabs([log_in_out, 'Registration', 'Change Password'])
 
         with login_tab:
-            plaho = st.empty()
+            # plaho = st.empty()
             # login_col, logout_col = st.columns(2)
             login_status = False
-            with plaho.container():
-                with st.form('log_in'):
-                    login = st.selectbox("Select Your Login", st.session_state.registered_logins,
-                                         disabled=st.session_state.logged)
-                    st.write("Not in list? Register first 👆")
-                    password = st.text_input('Password', type='password', disabled=st.session_state.logged)
-                    login_but = st.form_submit_button('Log In', disabled=st.session_state.logged,
-                                                             use_container_width=True)
-                    if login_but:
-                        if len(password) < 3:
-                            reporter("Password should be at least 3 symbols")
-                            st.stop()
-                        else:
-                            st.session_state.logged = check_user(login, password)
-                            if not st.session_state.logged:
-                                st.warning('Wrong Password')
+            # with plaho.container():
+            with st.form('log_in'):
+                login = st.selectbox("Select Your Login", st.session_state.registered_logins,
+                                     disabled=st.session_state.logged)
+                st.write("Not in list? Register first 👆")
+                password = st.text_input('Password', type='password', disabled=st.session_state.logged)
+                login_but = st.form_submit_button('Log In', disabled=st.session_state.logged,
+                                                         use_container_width=True)
+                if login_but:
+                    if len(password) < 3:
+                        reporter("Password should be at least 3 symbols")
+                        st.stop()
+                    else:
+                        st.session_state.logged = check_user(login, password)
+                        if not st.session_state.logged:
+                            st.warning('Wrong Password')
 
 
             if st.session_state.logged:
                 st.session_state.user = login
-                plaho.empty()
+                # plaho.empty()
                 # st.session_state.rights = get_logged_rights(login)
 
                 users_df = st.session_state.adb['users']
                 st.session_state.rights = users_df.loc[users_df.login == login, 'access_level'].values[0]
                 reply = add_to_log(login)
+
 
                 if 'ERROR' in reply.upper():
                     st.write(f"""Please sent error below to sergey.priemshiy@uzliti-en.com  
@@ -259,6 +260,8 @@ def home_content():
                     reporter("Bye! Bye! Bye!")
                     st.session_state.rights = 'basic'
                     st.experimental_rerun()
+
+                st.experimental_rerun()
             else:
                 st.session_state.rights = 'basic'
                 st.session_state.user = None
@@ -802,7 +805,10 @@ def get_menus():
 
 selected = None
 
-if st.session_state.logged:
+st.write(f"st.session_state.logged={st.session_state.logged}")
+st.write(f"st.session_state.user={st.session_state.user}")
+
+if st.session_state.logged and st.session_state.user:
     st.session_state.vert_menu = int(get_settings(st.session_state.user)[0])
     st.session_state.delay = int(get_settings(st.session_state.user)[1])
 
@@ -814,8 +820,6 @@ if st.session_state.logged:
                                    menu_icon="bi bi-plug", default_index=0)
 
             st.write(st.session_state.edit_sod)
-
-            # st.info(st.session_state.rights)
 
     else:
         selected = option_menu(None, get_menus()[0], icons=get_menus()[1],
