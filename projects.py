@@ -105,9 +105,6 @@ def get_tasks(user=None):
             if user:
                 db_user = Users.get(login=user)
 
-                # pers_sets_list = select(
-                #     sod.id for sod in SOD if (sod.coord_id == db_user) or (sod.perf_id == db_user))[:]
-
                 data = select(
                     (
                         t.id,
