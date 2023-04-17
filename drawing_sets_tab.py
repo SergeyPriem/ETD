@@ -70,7 +70,8 @@ def show_sets():
 
         df = df.set_index('project_id').join(proj_df['short_name'])
         df = df.set_index('coord_id').join(u_df['login'])
-        df = df.set_index('perf_id').join(u_df['login'])
+
+        df = df.set_index('perf_id').join(u_df['login'], lsuffix='_coord', rsuffix='_perf')
 
         st.write(df)
 
