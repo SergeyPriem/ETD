@@ -280,6 +280,9 @@ def edit_sets():
                 reporter("Updated!")
 
                 unit_id = st.session_state.edit_sod['unit_id']
+
+                st.write(f"unit_id={unit_id}")
+
                 sod_df = st.session_state.adb['sod']
 
                 sod_df.at[unit_id, 'coord_id'] = coord
