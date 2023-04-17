@@ -124,7 +124,11 @@ def show_sets():
 
         st.subheader(f"Project: :red[{proj_selected}]. Unit: :red[{unit_selected}]")
 
-        units_tasks = get_own_tasks(unit_id)
+        # units_tasks = get_own_tasks(unit_id) ###
+        task_df = st.session_state['task']
+
+        # task_df =
+        units_tasks = task_df[task_df.s_o_d==unit_id].tosting()
 
         if isinstance(units_tasks, str):
             if units_tasks == "Empty Table":
@@ -225,7 +229,8 @@ def edit_sets():
 
     with content_sets:
 
-        all_logins = get_all_logins()
+        # all_logins = get_all_logins()
+        all_logins = st.session_state.adb['users'].login.tolist()
 
         with st.form('upd_set_detail'):
             st.subheader("Edit Details")

@@ -184,7 +184,6 @@ def home_content():
         st.empty()
 
     with content:
-        st.write(st.session_state.user)
         st.title(':orange[Electrical Department]')
 
         if not st.session_state.user:
@@ -192,7 +191,6 @@ def home_content():
         else:
             u_df = st.session_state.adb["users"]
             u_df = u_df.loc[u_df.login == st.session_state.user]
-            # st.write(u_df)
             username = f"{u_df.name.values[0]} {u_df.surname.values[0]}"
             st.header(f'Welcome, {username}!')
 

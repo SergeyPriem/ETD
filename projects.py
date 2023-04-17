@@ -426,7 +426,7 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, trans_date, notes, up
         try:
             sod = SOD[s_o_d]
 
-            if (Users.get(login=st.session_state.user) in (sod.coord_id, sod.perf_id))\
+            if (Users.get(login=st.session_state.user) in (sod.coord_id, sod.perf_id)) \
                     or Users.get(login=st.session_state.user).access_level == "supervisor":
                 sod.coord_id = Users.get(login=coord)
                 sod.perf_id = Users.get(login=perf)
@@ -766,12 +766,15 @@ def add_new_trans(project, trans_num, out_trans, t_type, subj, link, trans_date,
 def get_trans_nums(proj_short):
     with db_session:
         try:
-            proj_short = list(select(
-                tr.trans_num for tr in Trans if tr.project == Project.get(short_name=proj_short)
-            ))
+            proj_short = list(
+                select(
+                    tr.trans_num for tr in Trans if tr.project == Project.get(short_name=proj_short)
+                )
+            )
             return proj_short
         except Exception as e:
             return err_handler(e)
+
 
 # def get_set_by_id(set_id):
 #     with db_session:
