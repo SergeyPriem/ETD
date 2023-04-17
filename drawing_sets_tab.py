@@ -320,6 +320,9 @@ def edit_sets():
                 # reporter("wait for 30 s.", 30)
                 st.session_state.adb['sod'] = sod_df
 
+            else:
+                reporter("Problem with DB...", 3)
+
             st.session_state.edit_sod['state'] = False
             st.experimental_rerun()
 
