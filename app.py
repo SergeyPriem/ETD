@@ -186,15 +186,15 @@ def home_content():
     with content:
         st.write(st.session_state.user)
         st.title(':orange[Electrical Department]')
-        if 'user' not in st.session_state:
-            st.header('Welcome!')
+
+        if not st.session_state.user:
+            st.header('Welcome, Colleague!')
         else:
-            # st.header(f'Welcome, {mail_to_name(st.session_state.user)}!')
             u_df = st.session_state.adb["users"]
             u_df = u_df.loc[u_df.login == st.session_state.user]
-            st.write(u_df)
-            # username = f"{u_df.name.values[0]} {u_df.surname.values[0]}"
-            # st.header(f'Welcome, {username}!')
+            # st.write(u_df)
+            username = f"{u_df.name.values[0]} {u_df.surname.values[0]}"
+            st.header(f'Welcome, {username}!')
 
         st.text("The Site is designed to help you in everyday routines")
         st.markdown("""
