@@ -188,9 +188,12 @@ def view_tasks(ass_tab2, my_all):
 
         sod_df = st.session_state.adb['sod']
         proj_df = st.session_state.adb['project']
+        spec_df = st.session_state.adb['speciality']
+
 
         df = df.set_index('s_o_d').join(sod_df[['project_id', 'set_name']])
         df = df.set_index('project_id').join(proj_df[['short_name']])
+        df = df.set_index('speciality').join(spec_df[['abbrev']])
 
         users_df = st.session_state.adb['users']
         user_id = users_df[users_df.login == st.session_state.user].index
