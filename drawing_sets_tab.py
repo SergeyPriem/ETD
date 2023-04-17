@@ -145,6 +145,7 @@ def show_sets():
 
         units_tasks = task_df[task_df.s_o_d == unit_id]  # .tolist()
 
+        units_tasks['task_id'] = units_tasks.index
         # units_tasks.speciality = spec_df.loc[spec_df.id == units_tasks.speciality, 'abbrev']
         units_tasks = units_tasks.set_index("speciality").join(spec_df)
 
@@ -180,8 +181,9 @@ def show_sets():
 
         units_tasks = units_tasks.sort_values(by=['speciality', 'date'], ascending=[True, False])
         st.experimental_data_editor(units_tasks[['stage', 'speciality', 'date', 'description', 'link', 'source',
-                                                 'comment', 'backup_copy', 'coord_log', 'perf_log',
-                                                 'added_by']].set_index('speciality'), use_container_width=True)
+                                                 'comment', 'backup_copy', 'coord_log', 'perf_log', 'added_by',
+                                                 'task_id']].set_index('task_id'),
+                                    use_container_width=True)
         st.divider()
 
         aval_spec = list(units_tasks.speciality.drop_duplicates())
