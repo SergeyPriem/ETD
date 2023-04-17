@@ -74,6 +74,9 @@ def show_sets():
 
         df.rename(columns={'short_name': 'project'}, inplace=True)
 
+        df = df[['project', 'set_name', 'coord_id', 'perf_id', 'stage', 'revision', 'start_date', 'current_status',
+                 'request_date', 'trans_num', 'trans_date', 'notes']]
+
         st.write(df)
 
         # if not isinstance(df, pd.DataFrame):
