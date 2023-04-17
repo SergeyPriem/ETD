@@ -819,6 +819,8 @@ if st.session_state.logged:
             selected = option_menu("ET Department", get_menus()[0], icons=get_menus()[1],
                                    menu_icon="bi bi-plug", default_index=0)
 
+            st.write(st.session_state.edit_sod)
+
             # st.info(st.session_state.rights)
 
     else:
