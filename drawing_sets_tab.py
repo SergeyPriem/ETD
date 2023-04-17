@@ -125,7 +125,7 @@ def show_sets():
         st.subheader(f"Project: :red[{proj_selected}]. Unit: :red[{unit_selected}]")
 
         # units_tasks = get_own_tasks(unit_id) ###
-        task_df = st.session_state['task']
+        task_df = st.session_state.adb['task']
 
         # task_df =
         units_tasks = task_df[task_df.s_o_d==unit_id].tosting()
