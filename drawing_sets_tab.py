@@ -63,7 +63,15 @@ def show_sets():
         else:
             user_login = None
 
-        df = get_sets(user_login)
+        # df = get_sets(user_login)
+
+        u_df = st.session_state.adb['users']
+
+        user_id = u_df.loc[u_df.login == user_login].index.values[0]
+
+        df = st.session_state.adb['sod']
+        df = df[(df.coord_id == user_id) | (df.perf_id == user_id)]
+
 
         if not isinstance(df, pd.DataFrame):
             st.write("No Units available in DataBase")
@@ -281,8 +289,8 @@ def edit_sets():
 
                 unit_id = st.session_state.edit_sod['unit_id']
 
-                reporter(f"unit_id={unit_id}")
-
+                # reporter(f"unit_id={unit_id}")
+                #
                 sod_df = st.session_state.adb['sod']
 
                 sod_df.at[unit_id, 'coord_id'] = coord
@@ -293,8 +301,8 @@ def edit_sets():
                     sod_df.at[unit_id, 'trans_num'] = trans_num
                     sod_df.at[unit_id, 'trans_date'] = trans_date
                 sod_df.at[unit_id, 'notes'] = notes
-                st.write(sod_df[sod_df.index == unit_id])
-                reporter("wait for 30 s.", 30)
+                # st.write(sod_df[sod_df.index == unit_id])
+                # reporter("wait for 30 s.", 30)
                 st.session_state.adb['sod'] = sod_df
 
 
