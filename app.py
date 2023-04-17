@@ -824,8 +824,8 @@ if st.session_state.logged and st.session_state.user:
     else:
         selected = option_menu(None, get_menus()[0], icons=get_menus()[1],
                                menu_icon=None, default_index=0, orientation='horizontal')
-else:
-    home_content()
+# else:
+#     home_content()
 
 if selected == "Home":
     if st.session_state.trans_status:
@@ -835,9 +835,6 @@ if selected == "Home":
 
 if selected == "Manage Projects":
     manage_projects()
-
-# if selected == "Create new Set / Unit":
-#     manage_sets()
 
 if selected == "Transmittals":
     transmittals_content()
