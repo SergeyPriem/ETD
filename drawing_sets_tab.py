@@ -180,8 +180,8 @@ def show_sets():
 
         units_tasks = units_tasks.sort_values(by=['speciality', 'date'], ascending=[True, False])
         st.experimental_data_editor(units_tasks[['stage', 'speciality', 'date', 'description', 'link', 'source',
-                                                 'comment', 'backup_copy', 'coord_log', 'perf_log', 'added_by']],
-                                    use_container_width=True)
+                                                 'comment', 'backup_copy', 'coord_log', 'perf_log',
+                                                 'added_by']].set_index('speciality'), use_container_width=True)
         st.divider()
 
         aval_spec = list(units_tasks.speciality.drop_duplicates())
