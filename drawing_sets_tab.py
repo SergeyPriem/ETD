@@ -131,7 +131,9 @@ def show_sets():
 
         # units_tasks.speciality = spec_df.loc[spec_df.id == units_tasks.speciality, 'abbrev']
         units_tasks = units_tasks.set_index("speciality").join(spec_df)
-        st.write(units_tasks)
+
+        units_tasks.speciality = units_tasks.abbrew
+
         if isinstance(units_tasks, str):
             if units_tasks == "Empty Table":
                 st.warning('No Tasks Available for selected Unit')
@@ -159,7 +161,7 @@ def show_sets():
             st.write(f'Quantity: {len(units_tasks)}')
 
         units_tasks = units_tasks.sort_values(by=['speciality', 'date'], ascending=[True, False])
-        st.experimental_data_editor(units_tasks[['stage', 'abbrev', 'date', 'description', 'link', 'source',
+        st.experimental_data_editor(units_tasks[['stage', 'speciality', 'date', 'description', 'link', 'source',
                                                  'comment', 'backup_copy', 'coord_log', 'perf_log', 'added_by']],
                                     use_container_width=True)
         st.divider()
