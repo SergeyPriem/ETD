@@ -132,7 +132,10 @@ def show_sets():
         # units_tasks.speciality = spec_df.loc[spec_df.id == units_tasks.speciality, 'abbrev']
         units_tasks = units_tasks.set_index("speciality").join(spec_df)
 
-        units_tasks.speciality = units_tasks.abbrew
+        st.write("test")
+        st.write(units_tasks)
+
+        # units_tasks.speciality = units_tasks.abbrew
 
         if isinstance(units_tasks, str):
             if units_tasks == "Empty Table":
