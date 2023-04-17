@@ -129,11 +129,9 @@ def show_sets():
 
         units_tasks = task_df[task_df.s_o_d == unit_id]  # .tolist()
 
-        # st.write(spec_df)
-        # st.write(spec_df.loc[spec_df.id == units_tasks.speciality])
-
-        units_tasks.speciality = spec_df.loc[spec_df.id == units_tasks.speciality, 'abbrev']
-
+        # units_tasks.speciality = spec_df.loc[spec_df.id == units_tasks.speciality, 'abbrev']
+        units_tasks = units_tasks.set_index("speciality").join(spec_df.set_index('id'))
+        st.write(units_tasks)
         if isinstance(units_tasks, str):
             if units_tasks == "Empty Table":
                 st.warning('No Tasks Available for selected Unit')
