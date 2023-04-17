@@ -135,7 +135,7 @@ def show_sets():
         st.write("test")
         st.write(units_tasks)
 
-        # units_tasks.speciality = units_tasks.abbrew
+        units_tasks.speciality = units_tasks.abbrev
 
         if isinstance(units_tasks, str):
             if units_tasks == "Empty Table":
