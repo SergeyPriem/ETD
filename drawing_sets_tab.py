@@ -280,7 +280,7 @@ def edit_sets():
 
 
 def drawing_sets():
-    st.write(st.session_state.edit_sod)
+    # st.write(st.session_state.edit_sod)
     if 'edit_sod' in st.session_state:
         if st.session_state.edit_sod['state']:
             edit_sets()
