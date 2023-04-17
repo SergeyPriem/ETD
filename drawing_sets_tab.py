@@ -79,7 +79,7 @@ def show_sets():
         df = df[['project', 'unit', 'coordinator', 'performer', 'stage', 'revision', 'start_date', 'status',
                  'request_date', 'transmittal', 'trans_date', 'notes']]
 
-        st.write(df)
+        # st.write(df)
 
         # if not isinstance(df, pd.DataFrame):
         #     st.write("No Units available in DataBase")
