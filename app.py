@@ -194,7 +194,6 @@ def home_content():
             username = f"{u_df.name.values[0]} {u_df.surname.values[0]}"
             st.header(f'Welcome, {username}!')
 
-        st.text("The Site is designed to help you in everyday routines")
         st.markdown("""
                 <style>
                     div[data-baseweb="tab-list"]:nth-of-type(1)
@@ -212,6 +211,7 @@ def home_content():
                 </style>
                 """, unsafe_allow_html=True)
 
+        st.text("The Site is designed to help you in everyday routines")
         login_tab, reg_tab, change_tab = st.tabs([log_in_out, 'Registration', 'Change Password'])
 
         with login_tab:
