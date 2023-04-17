@@ -70,7 +70,7 @@ def show_sets():
 
         df.set_index('project_id').join(proj_df[['short_name', 'full_name']])
 
-        df.rename(columns={'short_name': 'project'}, inplace=True)
+        # df.rename(columns={'short_name': 'project'}, inplace=True)
 
         st.write(df)
 
