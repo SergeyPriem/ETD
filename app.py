@@ -216,10 +216,8 @@ def home_content():
 
         with login_tab:
             plaho = st.empty()
-            login_col, logout_col = st.columns(2)
-
-            logout_but = logout_col.button('Log Out', disabled=not st.session_state.logged,
-                                           use_container_width=True)
+            # login_col, logout_col = st.columns(2)
+            login_status = False
             with plaho.container():
                 with st.form('log_in'):
                     login = st.selectbox("Select Your Login", st.session_state.registered_logins,
@@ -258,7 +256,10 @@ def home_content():
                         st.session_state.user = None
                         reporter("Wrong Password")
                         st.stop()
-                #
+
+            logout_but = st.button('Log Out', disabled=not st.session_state.logged,
+                                   use_container_width=True)
+
             if logout_but:
                 st.session_state.logged = False
                 st.session_state.user = None
