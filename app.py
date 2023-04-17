@@ -231,45 +231,39 @@ def home_content():
                             reporter("Password should be at least 3 symbols")
                             st.stop()
                         else:
-                            login_status = check_user(login, password)
+                            st.session_state.logged = check_user(login, password)
 
-                    if login_status is True:
-                        st.session_state.logged = True
-                        st.session_state.user = login
-
-                        # st.session_state.rights = get_logged_rights(login)
-
-                        users_df = st.session_state.adb['users']
-                        st.session_state.rights = users_df.loc[users_df.login == login, 'access_level'].values[0]
-                        reply = add_to_log(login)
-
-                        if 'ERROR' in reply.upper():
-                            st.write(f"""Please sent error below to sergey.priemshiy@uzliti-en.com  
-                                        or by telegram +998909598030:  
-                                        {reply}""")
-                            st.stop()
-                        else:
-                            st.experimental_rerun()
-                    else:
-                        st.session_state.logged = False
-                        st.session_state.rights = 'basic'
-                        st.session_state.user = None
-                        reporter("Wrong Password")
-                        st.stop()
-
-            logout_but = st.button('Log Out', disabled=not st.session_state.logged,
-                                   use_container_width=True)
-
-            if logout_but:
-                st.session_state.logged = False
-                st.session_state.user = None
-                reporter("Bye! Bye! Bye! ")
-                st.session_state.rights = 'basic'
-                st.experimental_rerun()
 
             if st.session_state.logged:
+                st.session_state.user = login
                 plaho.empty()
+                # st.session_state.rights = get_logged_rights(login)
 
+                users_df = st.session_state.adb['users']
+                st.session_state.rights = users_df.loc[users_df.login == login, 'access_level'].values[0]
+                reply = add_to_log(login)
+
+                if 'ERROR' in reply.upper():
+                    st.write(f"""Please sent error below to sergey.priemshiy@uzliti-en.com  
+                                or by telegram +998909598030:  
+                                {reply}""")
+                    st.stop()
+
+                logout_but = st.button('Log Out', disabled=not st.session_state.logged,
+                                       use_container_width=True)
+                if logout_but:
+                    st.session_state.logged = False
+                    st.session_state.user = None
+                    reporter("Bye! Bye! Bye!")
+                    st.session_state.rights = 'basic'
+                    st.experimental_rerun()
+            else:
+                st.session_state.rights = 'basic'
+                st.session_state.user = None
+                reporter("Wrong Password")
+                st.stop()
+
+            if st.session_state.logged:
                 with content2:
                     st.markdown("---")
 
