@@ -191,8 +191,8 @@ def home_content():
             # st.header(f'Welcome, {mail_to_name(st.session_state.user)}!')
             u_df = st.session_state.adb["users"]
             u_df = u_df.loc[u_df.login == st.session_state.user]
-            username = f"{u_df.name.values[0]} {u_df.surname.values[0]}"
-            st.header(f'Welcome, {username}!')
+            # username = f"{u_df.name.values[0]} {u_df.surname.values[0]}"
+            # st.header(f'Welcome, {username}!')
 
         st.text("The Site is designed to help you in everyday routines")
         st.markdown("""
