@@ -448,7 +448,7 @@ def login_register():
             st.header(f'Welcome, {username}!')
 
         st.text("The Site is designed to help you in everyday routines")
-        login_tab, reg_tab, change_tab = st.tabs([log_in_out, 'Registration', 'Change Password'])
+        login_tab, reg_tab = st.tabs([log_in_out, 'Registration'])
 
         with login_tab:
             with st.form('log_in'):
@@ -470,13 +470,11 @@ def login_register():
 
             if st.session_state.logged:
                 st.session_state.user = login
-                # plaho.empty()
                 # st.session_state.rights = get_logged_rights(login)
 
                 users_df = st.session_state.adb['users']
                 st.session_state.rights = users_df.loc[users_df.login == login, 'access_level'].values[0]
                 reply = add_to_log(login)
-
 
                 if 'ERROR' in reply.upper():
                     st.write(f"""Please sent error below to sergey.priemshiy@uzliti-en.com  
@@ -484,16 +482,15 @@ def login_register():
                                 {reply}""")
                     st.stop()
 
-                logout_but = st.button('Log Out', disabled=not st.session_state.logged,
-                                       use_container_width=True)
-                if logout_but:
-                    st.session_state.logged = False
-                    st.session_state.user = None
-                    reporter("Bye! Bye! Bye!")
-                    st.session_state.rights = 'basic'
-                    st.experimental_rerun()
+                # logout_but = st.button('Log Out', disabled=not st.session_state.logged,
+                #                        use_container_width=True)
+                # if logout_but:
+                #     st.session_state.logged = False
+                #     st.session_state.user = None
+                #     reporter("Bye! Bye! Bye!")
+                #     st.session_state.rights = 'basic'
+                st.experimental_rerun()
 
-                # st.experimental_rerun()
             else:
                 st.session_state.rights = 'basic'
                 st.session_state.user = None
