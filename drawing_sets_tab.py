@@ -41,7 +41,7 @@ def show_sets():
         </style>
         """, unsafe_allow_html=True)
 
-    empty1, content, empty2 = st.columns([1, 30, 1])
+    empty1, content, empty2 = st.columns([7, 30, 1])
     with empty1:
         st.write(st.session_state.edit_sod)
     with empty2:
