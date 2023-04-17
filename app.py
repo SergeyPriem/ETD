@@ -720,7 +720,7 @@ def manage_users():
 
                     appl_user = users_df.loc[users_df.login == employee_to_edit]
 
-                    st.write(appl_user)
+                    st.write(users_df)
 
             #         position = st.radio('Position', positions,
             #                             key='edit_position', horizontal=True,
