@@ -98,15 +98,14 @@ def show_sets():
         unit_selected = unit_col.selectbox("Unit for Search", units_list, index=get_list_index(units_list, sod))
 
 
+        df_edit = df.loc[(df.unit == unit_selected) & (df.unit == unit_selected)]
 
         st.divider()
         st.write('Details for Drawing Set')
-        st.experimental_data_editor(df.loc[df.unit == unit_selected][
-                                        ['unit_id', 'coordinator', 'performer', 'stage', 'revision', 'start_date',
-                                         'status', 'transmittal', 'trans_date', 'notes']].set_index('unit_id'),
+        st.experimental_data_editor(df_edit[['unit_id', 'coordinator', 'performer', 'stage', 'revision', 'start_date',
+                                             'status', 'transmittal', 'trans_date', 'notes']].set_index('unit_id'),
                                     use_container_width=True)
 
-        df_edit = df.loc[df.unit == unit_selected]
 
         if len(df_edit) == 1:
             unit_id = df_edit.unit_id.values[0]
