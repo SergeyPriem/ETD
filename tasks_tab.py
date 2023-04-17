@@ -191,7 +191,7 @@ def view_tasks(ass_tab2, my_all):
         spec_df = st.session_state.adb['speciality']
 
         df['task_id'] = df.index
-        df = df.set_index('s_o_d').join(sod_df[['project_id', 'set_name']])
+        df = df.set_index('s_o_d').join(sod_df[['project_id', 'set_name', 'coord_id', 'perf_id']])
         df = df.set_index('project_id').join(proj_df[['short_name']])
         df = df.set_index('speciality').join(spec_df[['abbrev']])
         df.rename(columns={'abbrev': 'speciality', 'short_name': 'project', 'set_name': 'unit'}, inplace=True)
@@ -209,13 +209,13 @@ def view_tasks(ass_tab2, my_all):
         if my_all == 'My':
             df = df[(df.coord_id == user_id) | (df.perf_id == user_id)]
 
-        df_orig = pd.DataFrame()
+        # df_orig = pd.DataFrame()
 
-        if not isinstance(df, pd.DataFrame):
-            st.warning(df)
-            st.stop()
-        else:
-            df_orig = df.copy()
+        # if not isinstance(df, pd.DataFrame):
+        #     st.warning(df)
+        #     st.stop()
+        # else:
+        df_orig = df.copy()
 
         df.project = df.project.str.upper()
         df.unit = df.unit.str.upper()
