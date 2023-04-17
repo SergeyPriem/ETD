@@ -58,19 +58,19 @@ def show_sets():
                                  index=get_list_index(["My Units", 'All Units'], my_or_all),
                                  horizontal=True, label_visibility='collapsed')
 
+        u_df = st.session_state.adb['users']
+        proj_df = st.session_state.adb['project']
+        df = st.session_state.adb['sod']
+
         if my_all == "My Units":
             user_login = st.session_state.user
-        else:
-            user_login = None
+            user_id = u_df.loc[u_df.login == user_login].index.values[0]
+            df = df[(df.coord_id == user_id) | (df.perf_id == user_id)]
 
-        # df = get_sets(user_login)
 
-        u_df = st.session_state.adb['users']
+        df.set_index('project_id').join(proj_df[['short_name']])
 
-        user_id = u_df.loc[u_df.login == user_login].index.values[0]
-
-        df = st.session_state.adb['sod']
-        df = df[(df.coord_id == user_id) | (df.perf_id == user_id)]
+        df.rename(columns={'short_name': 'project'})
 
 
         if not isinstance(df, pd.DataFrame):
@@ -90,7 +90,7 @@ def show_sets():
         ds_rigth.text('')
         units_ch_b = ds_rigth.checkbox("Show Units Table")
 
-        df.set_index('id', inplace=True)
+        # df.set_index('id', inplace=True)
 
         if units_ch_b:
             st.experimental_data_editor(df, use_container_width=True)
