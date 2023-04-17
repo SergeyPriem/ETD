@@ -82,41 +82,41 @@ def show_sets():
         # if not isinstance(df, pd.DataFrame):
         #     st.write("No Units available in DataBase")
         #     st.stop()
-        #
+
         # proj_list = []
-        #
+
         # if isinstance(df, pd.DataFrame):
-        #     proj_list = df['project'].drop_duplicates()
+        proj_list = df['project'].drop_duplicates()
         # else:
         #     st.write(df)
         #     st.stop()
-        #
-        # ds_left.subheader(f"{my_all}: {len(df)}")
-        #
-        # ds_rigth.text('')
-        # units_ch_b = ds_rigth.checkbox("Show Units Table")
-        #
-        # # df.set_index('id', inplace=True)
-        #
-        # if units_ch_b:
-        #     st.experimental_data_editor(df, use_container_width=True)
-        #
-        # proj_col, unit_col = st.columns(2, gap='medium')
-        #
-        # proj_selected = proj_col.selectbox("Project for Search", proj_list, index=get_list_index(proj_list, proj))
-        # units_list = df[df.project == proj_selected]['unit']
-        #
-        # unit_selected = unit_col.selectbox("Unit for Search", units_list, index=get_list_index(units_list, sod))
-        #
-        # unit_id = df.loc[df.unit == unit_selected].index.values[0]
-        #
-        # st.divider()
-        # st.write('Details for Drawing Set')
-        # st.experimental_data_editor(df.loc[df.unit == unit_selected][
-        #                                 ['coordinator', 'performer', 'stage', 'revision', 'start_date', 'status',
-        #                                  'transmittal', 'trans_date', 'notes']], use_container_width=True)
-        #
-        # df_edit = df.loc[df.unit == unit_selected]
+
+        ds_left.subheader(f"{my_all}: {len(df)}")
+
+        ds_rigth.text('')
+        units_ch_b = ds_rigth.checkbox("Show Units Table")
+
+        # df.set_index('id', inplace=True)
+
+        if units_ch_b:
+            st.experimental_data_editor(df, use_container_width=True)
+
+        proj_col, unit_col = st.columns(2, gap='medium')
+
+        proj_selected = proj_col.selectbox("Project for Search", proj_list, index=get_list_index(proj_list, proj))
+        units_list = df[df.project == proj_selected]['unit']
+
+        unit_selected = unit_col.selectbox("Unit for Search", units_list, index=get_list_index(units_list, sod))
+
+        unit_id = df.loc[df.unit == unit_selected].index.values[0]
+
+        st.divider()
+        st.write('Details for Drawing Set')
+        st.experimental_data_editor(df.loc[df.unit == unit_selected][
+                                        ['coordinator', 'performer', 'stage', 'revision', 'start_date', 'status',
+                                         'transmittal', 'trans_date', 'notes']], use_container_width=True)
+
+        df_edit = df.loc[df.unit == unit_selected]
 
         if st.button('Edit Details'):
             st.session_state.edit_sod['coordinator'] = df_edit.coordinator.values[0]
