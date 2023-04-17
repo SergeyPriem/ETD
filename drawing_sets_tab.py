@@ -68,7 +68,7 @@ def show_sets():
             df = df[(df.coord_id == user_id) | (df.perf_id == user_id)]
 
 
-        df.set_index('project_id').join(proj_df)
+        df.set_index('project_id').join(proj_df['full_name'])
 
         # df.rename(columns={'short_name': 'project'}, inplace=True)
 
