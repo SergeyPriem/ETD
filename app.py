@@ -219,7 +219,7 @@ def home_content():
             login_col, logout_col = st.columns(2)
 
             with plaho.container():
-                with st.form:
+                with st.form('log_in'):
                     login = st.selectbox("Select Your Login", st.session_state.registered_logins,
                                          disabled=st.session_state.logged)
                     st.write("Not in list? Register first 👆")
