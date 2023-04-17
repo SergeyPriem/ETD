@@ -208,7 +208,7 @@ def view_tasks(ass_tab2, my_all):
         if my_all == 'My':
             df = df[(df.coord_id == user_id) | (df.perf_id == user_id)]
 
-        #df = df.copy()
+        df_orig = df.copy()
 
         df.project = df.project.str.upper()
         df.unit = df.unit.str.upper()
@@ -236,21 +236,21 @@ def view_tasks(ass_tab2, my_all):
         spec_val = spec_col.selectbox("Speciality", real_spec, disabled=st.session_state.spec_disable)
 
         dir_val = dir_col.radio("In-Out", ('In', 'Out'), horizontal=True)
-        df = df[df.in_out == dir_val]
+        df_orig = df_orig[df_orig.in_out == dir_val]
 
-        df_temp = df.copy()
+        df_temp = df_orig.copy()
         df_temp.project = df_temp.project.str.upper()
         df_temp.unit = df_temp.unit.str.upper()
 
         if len(id_val):
-            df = df[df.index == int(id_val)]
+            df_orig = df_orig[df_orig.index == int(id_val)]
         else:
             if not st.session_state.spec_disable:
-                df = df.loc[df.speciality == spec_val]
+                df_orig = df_orig.loc[df_orig.speciality == spec_val]
             if proj_val:
-                df = df.loc[df_temp.project.str.contains(proj_val.upper())]
+                df_orig = df_orig.loc[df_temp.project.str.contains(proj_val.upper())]
             if set_val:
-                df = df.loc[df_temp.unit.str.contains(set_val.upper())]
+                df_orig = df_orig.loc[df_temp.unit.str.contains(set_val.upper())]
 
-        st.write(f"{len(df)} records found")
-        st.experimental_data_editor(df, use_container_width=True)
+        st.write(f"{len(df_orig)} records found")
+        st.experimental_data_editor(df_orig, use_container_width=True)
