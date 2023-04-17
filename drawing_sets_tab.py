@@ -92,13 +92,27 @@ def show_sets():
 
         proj_col, unit_col = st.columns(2, gap='medium')
 
-        proj_selected = proj_col.selectbox("Project for Search", proj_list, index=get_list_index(proj_list, proj))
-        units_list = df[df.project == proj_selected]['unit']
+        if st.session_state.edit_sod['unit'] and st.session_state.edit_sod['project']:
 
-        unit_selected = unit_col.selectbox("Unit for Search", units_list, index=get_list_index(units_list, sod))
+            units_list = df[df.project == st.session_state.edit_sod['project']]['unit']
+
+            df_edit = df.loc[(df.unit == st.session_state.edit_sod['unit'])
+                             & (df.project == st.session_state.edit_sod['project'])]
+
+            unit_selected = unit_col.selectbox("Unit for Search", units_list, index=get_list_index(units_list, sod))
+            proj_selected = proj_col.selectbox("Project for Search", proj_list, index=get_list_index(proj_list, proj))
+
+        else:
+            ## SELECT PROJECT
+            proj_selected = proj_col.selectbox("Project for Search", proj_list, index=get_list_index(proj_list, proj))
+
+            units_list = df[df.project == proj_selected]['unit']
+
+            # SELECT SOD
+            unit_selected = unit_col.selectbox("Unit for Search", units_list, index=get_list_index(units_list, sod))
 
 
-        df_edit = df.loc[(df.unit == unit_selected) & (df.project == proj_selected)]
+            df_edit = df.loc[(df.unit == unit_selected) & (df.project == proj_selected)]
 
         st.divider()
         st.subheader(f"Project: :red[{proj_selected}]. Unit: :red[{unit_selected}]")
@@ -128,8 +142,6 @@ def show_sets():
             st.experimental_rerun()
 
         st.divider()
-        # --------------------------------------------------------------------------------------------------------
-
 
         # units_tasks = get_own_tasks(unit_id) ###
         task_df = st.session_state.adb['task']
