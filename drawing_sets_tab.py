@@ -324,6 +324,8 @@ def edit_sets():
                 reporter(reply, 3)
 
             st.session_state.edit_sod['state'] = False
+            st.session_state.edit_sod['unit'] = None
+            st.session_state.edit_sod['project'] = None
             st.experimental_rerun()
 
         if st.button("Escape", use_container_width=True):
