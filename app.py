@@ -184,6 +184,7 @@ def home_content():
         st.empty()
 
     with content:
+        st.write(st.session_state.user)
         st.title(':orange[Electrical Department]')
         if 'user' not in st.session_state:
             st.header('Welcome!')
