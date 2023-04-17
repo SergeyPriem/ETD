@@ -720,50 +720,52 @@ def manage_users():
 
                     appl_user = users_df.loc[users_df.login == employee_to_edit]
 
-                    position = st.radio('Position', positions,
-                                        key='edit_position', horizontal=True,
-                                        index=get_list_index(positions, appl_user.position.values[0]))
-                    st.markdown("---")
-                    # try:
-                    #     department_ind = departments.index(appl_user.department)
-                    # except:
-                    #     department_ind = 0
+                    st.write(appl_user)
 
-                    department = st.radio('Department', departments,
-                                          key='edit_department', horizontal=True,
-                                          index=get_list_index(departments, appl_user.branch.values[0]))
-                    st.markdown("---")
-
-                    access_tuple = ('performer', 'admin', 'supervisor', 'prohibited')
-                    # try:
-                    #     access_ind = access_tuple.index(appl_user.access_level)
-                    # except Exception:
-                    #     access_ind = 0
-
-                    access_level = st.radio('Access level', access_tuple, horizontal=True,
-                                            key='edit_access_level',
-                                            index=get_list_index(access_tuple, appl_user.access_level.values[0]))
-                    st.markdown("---")
-
-                    try:
-                        date_from_db = appl_user.start_date.values[0]
-                    except:
-                        date_from_db = datetime.date.today()
-
-                    start_date = st.date_input('Start Date', date_from_db, key='start_date')
-
-                    upd_user_but = st.form_submit_button("Update in DB", use_container_width=True)
-
-                if upd_user_but:
-                    reply = update_users_in_db(employee_to_edit, position, department, start_date, access_level)
-                    reporter(reply, 3)
-
-            if edit_move == 'Move to Former Users':
-                end_date = st.date_input('End Date', key='end_date')
-
-                if st.button('Confirm', type='primary', use_container_width=True):
-                    reply = move_to_former(employee_to_edit, end_date)
-                    reporter(reply)
+            #         position = st.radio('Position', positions,
+            #                             key='edit_position', horizontal=True,
+            #                             index=get_list_index(positions, appl_user.position.values[0]))
+            #         st.markdown("---")
+            #         # try:
+            #         #     department_ind = departments.index(appl_user.department)
+            #         # except:
+            #         #     department_ind = 0
+            #
+            #         department = st.radio('Department', departments,
+            #                               key='edit_department', horizontal=True,
+            #                               index=get_list_index(departments, appl_user.branch.values[0]))
+            #         st.markdown("---")
+            #
+            #         access_tuple = ('performer', 'admin', 'supervisor', 'prohibited')
+            #         # try:
+            #         #     access_ind = access_tuple.index(appl_user.access_level)
+            #         # except Exception:
+            #         #     access_ind = 0
+            #
+            #         access_level = st.radio('Access level', access_tuple, horizontal=True,
+            #                                 key='edit_access_level',
+            #                                 index=get_list_index(access_tuple, appl_user.access_level.values[0]))
+            #         st.markdown("---")
+            #
+            #         try:
+            #             date_from_db = appl_user.start_date.values[0]
+            #         except:
+            #             date_from_db = datetime.date.today()
+            #
+            #         start_date = st.date_input('Start Date', date_from_db, key='start_date')
+            #
+            #         upd_user_but = st.form_submit_button("Update in DB", use_container_width=True)
+            #
+            #     if upd_user_but:
+            #         reply = update_users_in_db(employee_to_edit, position, department, start_date, access_level)
+            #         reporter(reply, 3)
+            #
+            # if edit_move == 'Move to Former Users':
+            #     end_date = st.date_input('End Date', key='end_date')
+            #
+            #     if st.button('Confirm', type='primary', use_container_width=True):
+            #         reply = move_to_former(employee_to_edit, end_date)
+            #         reporter(reply)
 
 
 
