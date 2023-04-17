@@ -67,7 +67,7 @@ def show_sets():
             df = df[(df.coord_id == user_id) | (df.perf_id == user_id)]
 
 
-        df['set_id'] = df.index
+        df['unit_id'] = df.index
         df = df.set_index('project_id').join(proj_df['short_name'])
         df = df.set_index('coord_id').join(u_df['login'])
 
@@ -77,7 +77,7 @@ def show_sets():
                            'login_coord': 'coordinator', 'login_perf': 'performer',
                            'current_status': 'status', 'trans_num': 'transmittal'}, inplace=True)
         #
-        df = df[['set_id', 'project', 'unit', 'coordinator', 'performer', 'stage', 'revision', 'start_date', 'status',
+        df = df[['unit_id', 'project', 'unit', 'coordinator', 'performer', 'stage', 'revision', 'start_date', 'status',
                  'request_date', 'transmittal', 'trans_date', 'notes']]
 
         proj_list = df['project'].drop_duplicates()
@@ -97,16 +97,22 @@ def show_sets():
 
         unit_selected = unit_col.selectbox("Unit for Search", units_list, index=get_list_index(units_list, sod))
 
-        unit_id = df.loc[df.unit == unit_selected].index.values[0]
+
 
         st.divider()
         st.write('Details for Drawing Set')
         st.experimental_data_editor(df.loc[df.unit == unit_selected][
-                                        ['set_id', 'coordinator', 'performer', 'stage', 'revision', 'start_date',
-                                         'status', 'transmittal', 'trans_date', 'notes']].set_index('set_id'),
+                                        ['unit_id', 'coordinator', 'performer', 'stage', 'revision', 'start_date',
+                                         'status', 'transmittal', 'trans_date', 'notes']].set_index('unit_id'),
                                     use_container_width=True)
 
         df_edit = df.loc[df.unit == unit_selected]
+
+        if len(df_edit) == 1:
+            unit_id = df_edit.unit_id.values[0]
+        else:
+            st.warning("Duplicated Units. Please fix it")
+            st.stop()
 
         if st.button('Edit Details'):
             st.session_state.edit_sod['coordinator'] = df_edit.coordinator.values[0]
