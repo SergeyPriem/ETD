@@ -132,6 +132,8 @@ def show_sets():
         # units_tasks.speciality = spec_df.loc[spec_df.id == units_tasks.speciality, 'abbrev']
         units_tasks = units_tasks.set_index("speciality").join(spec_df)
 
+        units_tasks.reset_index(inplace=True)
+
         units_tasks.speciality = units_tasks.abbrev
         st.write("test")
         st.write(units_tasks)
