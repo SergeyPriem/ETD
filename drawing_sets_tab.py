@@ -98,7 +98,7 @@ def show_sets():
         unit_selected = unit_col.selectbox("Unit for Search", units_list, index=get_list_index(units_list, sod))
 
 
-        df_edit = df.loc[(df.unit == unit_selected) & (df.unit == unit_selected)]
+        df_edit = df.loc[(df.unit == unit_selected) & (df.projext == proj_selected)]
 
         st.divider()
         st.write('Details for Drawing Set')
