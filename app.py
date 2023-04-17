@@ -767,23 +767,6 @@ def manage_users():
 
 
 
-    with st.form('new_sod'):
-        proj_short = st.selectbox('Select a Project', st.session_state.proj_names)
-        set_name = st.text_input("Enter the Name for new Set of Drawings / Unit").strip()
-        stage = st.radio("Select the Stage", stages, horizontal=True)
-        coordinator = st.selectbox("Coordinator", st.session_state.registered_logins)
-        performer = st.selectbox("Performer", st.session_state.registered_logins)
-        set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
-        status = st.select_slider("Select the Current Status", sod_statuses, value='0%')
-        notes = st.text_area("Add Notes").strip()
-        create_sod_but = st.form_submit_button("Create", use_container_width=True)
-
-    if create_sod_but:
-        reply = add_sod(proj_short, set_name, stage, status, set_start_date, coordinator, performer, notes)
-        reporter(reply)
-
-
-
 performer_menu = ["Drawing Sets", "Transmittals", "Tasks", 'EtapPy', 'Just for fun',
                   'Lessons Learned', 'Settings']
 
