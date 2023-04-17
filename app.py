@@ -232,6 +232,8 @@ def home_content():
                             st.stop()
                         else:
                             st.session_state.logged = check_user(login, password)
+                            if not st.session_state.logged:
+                                st.warning('Wrong Password')
 
 
             if st.session_state.logged:
@@ -260,7 +262,6 @@ def home_content():
             else:
                 st.session_state.rights = 'basic'
                 st.session_state.user = None
-                reporter("Wrong Password")
                 st.stop()
 
             if st.session_state.logged:
