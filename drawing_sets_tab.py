@@ -130,7 +130,7 @@ def show_sets():
         units_tasks = task_df[task_df.s_o_d == unit_id]  # .tolist()
 
         # units_tasks.speciality = spec_df.loc[spec_df.id == units_tasks.speciality, 'abbrev']
-        units_tasks = units_tasks.set_index("speciality").join(spec_df.set_index('id'))
+        units_tasks = units_tasks.set_index("speciality").join(spec_df)
         st.write(units_tasks)
         if isinstance(units_tasks, str):
             if units_tasks == "Empty Table":
