@@ -101,7 +101,7 @@ def show_sets():
         # df.set_index('id', inplace=True)
 
         if units_ch_b:
-            st.experimental_data_editor(df, use_container_width=True)
+            st.experimental_data_editor(df.set_index('project'), use_container_width=True)
 
         proj_col, unit_col = st.columns(2, gap='medium')
 
@@ -115,8 +115,8 @@ def show_sets():
         st.divider()
         st.write('Details for Drawing Set')
         st.experimental_data_editor(df.loc[df.unit == unit_selected][
-                                        ['coordinator', 'performer', 'stage', 'revision', 'start_date', 'status',
-                                         'transmittal', 'trans_date', 'notes']], use_container_width=True)
+            ['coordinator', 'performer', 'stage', 'revision', 'start_date', 'status',
+             'transmittal', 'trans_date', 'notes']].set_index('coordinator'), use_container_width=True)
 
         df_edit = df.loc[df.unit == unit_selected]
 
