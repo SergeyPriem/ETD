@@ -186,7 +186,7 @@ def view_tasks(ass_tab2, my_all):
 
         df = st.session_state.adb['task']
         users_df = st.session_state.adb['users']
-        user_id = users_df.loc[users_df.login == st.session_state.user, 'id'].values[0]
+        user_id = users_df[users_df.login == st.session_state.user].index
 
         if my_all == 'My':
             # df = get_tasks(st.session_state.user)
