@@ -273,9 +273,30 @@ def edit_sets():
             set_upd_but = st.form_submit_button("Update in DB", use_container_width=True, type="primary")
 
         if set_upd_but:
-            reply = update_sod(cur_sod.get('unit_id', '!!!'), coord, perf, rev, status, trans_num,
-                               trans_date, notes, upd_trans_chb)
-            reporter(reply)
+            # reply = update_sod(cur_sod.get('unit_id', '!!!'), coord, perf, rev, status, trans_num,
+            #                    trans_date, notes, upd_trans_chb)
+            reply = True ###
+            if reply is True:
+                reporter("Updated!")
+
+                unit_id = st.session_state.edit_sod['unit_id']
+                sod_df = st.session_state.adb['sod']
+
+                sod_df.at[unit_id, 'coord_id'] = coord
+                sod_df.at[unit_id, 'perf_id'] = perf
+                sod_df.at[unit_id, 'revision'] = rev
+                sod_df.at[unit_id, 'current_status'] = status
+                if upd_trans_chb:
+                    sod_df.at[unit_id, 'trans_num'] = trans_num
+                    sod_df.at[unit_id, 'trans_date'] = trans_date
+                sod_df.at[unit_id, 'notes'] = notes
+
+                st.session_state.adb['sod'] = sod_df
+
+
+
+
+
             st.session_state.edit_sod['state'] = False
             st.experimental_rerun()
 

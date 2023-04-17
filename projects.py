@@ -433,7 +433,7 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, trans_date, notes, up
                     sod.trans_num = trans_num
                     sod.trans_date = trans_date
                 sod.notes = notes
-                return "Updated 😎"
+                return True
             else:
                 return "You haven't right to edit 😡"
         except Exception as e:
