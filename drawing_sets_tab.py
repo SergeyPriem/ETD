@@ -70,7 +70,7 @@ def show_sets():
 
         df.set_index('project_id').join(proj_df[['short_name']])
 
-        df.rename(columns={'short_name': 'project'})
+        df.rename(columns={'short_name': 'project'}, inplace=True)
 
 
         if not isinstance(df, pd.DataFrame):
