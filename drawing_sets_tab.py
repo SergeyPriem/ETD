@@ -72,9 +72,10 @@ def show_sets():
 
 
 
-        df.rename(columns={'short_name': 'project', 'set_name': 'unit'}, inplace=True)
+        df.rename(columns={'short_name': 'project', 'set_name': 'unit', 'coord_id': 'coordinator',
+                           'perf_id': 'performer', 'current_status': 'status'}, inplace=True)
 
-        df = df[['project', 'unit', 'coord_id', 'perf_id', 'stage', 'revision', 'start_date', 'current_status',
+        df = df[['project', 'unit', 'coordinator', 'performer', 'stage', 'revision', 'start_date', 'status',
                  'request_date', 'trans_num', 'trans_date', 'notes']]
 
         st.write(df)
