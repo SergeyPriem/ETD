@@ -185,64 +185,68 @@ def view_tasks(ass_tab2, my_all):
     with ass_tab2:
 
         df = st.session_state.adb['task']
+
+        sod_df = st.session_state.adb['sod']
+        proj_df = st.session_state.adb['project']
+
+        df = df.set_index('s_o_d').join(sod_df['project_id', 'set_name'])
+        df = df.set_index('project_id').join(proj_df['short_name'])
+
         users_df = st.session_state.adb['users']
         user_id = users_df[users_df.login == st.session_state.user].index
 
+        st.write(df)
+
         if my_all == 'My':
-            # df = get_tasks(st.session_state.user)
             df = df[(df.coord_id == user_id) | (df.perf_id == user_id)]
-        # else:
-        #     df = get_tasks()
 
         df_orig = pd.DataFrame()
 
         if not isinstance(df, pd.DataFrame):
-        #     # df_orig = df.copy().set_index('id')
-        # else:
             st.warning(df)
             st.stop()
-
-        df.project = df.project.str.upper()
-        df.unit = df.unit.str.upper()
-
-        id_col, proj_col, set_col, dir_col, check_col, spec_col = st.columns([2, 3, 4, 4, 3, 4], gap='medium')
-
-        real_spec = set(df.speciality)
-
-        if 'spec_disable' not in st.session_state:
-            st.session_state.spec_disable = False
-
-        with check_col:
-            st.text('')
-            st.text('')
-            check_val = st.checkbox('All Specialities', value=True)
-
-        if check_val:
-            st.session_state.spec_disable = True
-        else:
-            st.session_state.spec_disable = False
-
-        id_val = id_col.text_input('ID')
-        proj_val = proj_col.text_input('Project')
-        set_val = set_col.text_input('Set of Drawings / Unit')
-        spec_val = spec_col.selectbox("Speciality", real_spec, disabled=st.session_state.spec_disable)
-
-        dir_val = dir_col.radio("In-Out", ('In', 'Out'), horizontal=True)
-        df_orig = df_orig[df_orig.in_out == dir_val]
-
-        df_temp = df_orig.copy()
-        df_temp.project = df_temp.project.str.upper()
-        df_temp.unit = df_temp.unit.str.upper()
-
-        if len(id_val):
-            df_orig = df_orig[df_orig.index == int(id_val)]
-        else:
-            if not st.session_state.spec_disable:
-                df_orig = df_orig.loc[df_orig.speciality == spec_val]
-            if proj_val:
-                df_orig = df_orig.loc[df_temp.project.str.contains(proj_val.upper())]
-            if set_val:
-                df_orig = df_orig.loc[df_temp.unit.str.contains(set_val.upper())]
-
-        st.write(f"{len(df_orig)} records found")
-        st.experimental_data_editor(df_orig, use_container_width=True)
+        #
+        # df.project = df.project.str.upper()
+        # df.unit = df.unit.str.upper()
+        #
+        # id_col, proj_col, set_col, dir_col, check_col, spec_col = st.columns([2, 3, 4, 4, 3, 4], gap='medium')
+        #
+        # real_spec = set(df.speciality)
+        #
+        # if 'spec_disable' not in st.session_state:
+        #     st.session_state.spec_disable = False
+        #
+        # with check_col:
+        #     st.text('')
+        #     st.text('')
+        #     check_val = st.checkbox('All Specialities', value=True)
+        #
+        # if check_val:
+        #     st.session_state.spec_disable = True
+        # else:
+        #     st.session_state.spec_disable = False
+        #
+        # id_val = id_col.text_input('ID')
+        # proj_val = proj_col.text_input('Project')
+        # set_val = set_col.text_input('Set of Drawings / Unit')
+        # spec_val = spec_col.selectbox("Speciality", real_spec, disabled=st.session_state.spec_disable)
+        #
+        # dir_val = dir_col.radio("In-Out", ('In', 'Out'), horizontal=True)
+        # df_orig = df_orig[df_orig.in_out == dir_val]
+        #
+        # df_temp = df_orig.copy()
+        # df_temp.project = df_temp.project.str.upper()
+        # df_temp.unit = df_temp.unit.str.upper()
+        #
+        # if len(id_val):
+        #     df_orig = df_orig[df_orig.index == int(id_val)]
+        # else:
+        #     if not st.session_state.spec_disable:
+        #         df_orig = df_orig.loc[df_orig.speciality == spec_val]
+        #     if proj_val:
+        #         df_orig = df_orig.loc[df_temp.project.str.contains(proj_val.upper())]
+        #     if set_val:
+        #         df_orig = df_orig.loc[df_temp.unit.str.contains(set_val.upper())]
+        #
+        # st.write(f"{len(df_orig)} records found")
+        # st.experimental_data_editor(df_orig, use_container_width=True)
