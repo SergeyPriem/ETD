@@ -203,10 +203,7 @@ def view_tasks(ass_tab2, my_all):
                  'backup_copy', 'source', 'coord_log', 'perf_log', 'comment', 'added_by', 'coord_id', 'perf_id']]
 
         users_df = st.session_state.adb['users']
-        user_id = users_df[users_df.login == st.session_state.user].index
-
-        st.write(df)
-        st.write(user_id.values[0])
+        user_id = users_df[users_df.login == st.session_state.user].index.values[0]
 
         if my_all == 'My':
             df = df[(df.coord_id == user_id) | (df.perf_id == user_id)]
