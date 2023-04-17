@@ -130,7 +130,7 @@ def form_for_trans():
             st.experimental_rerun()
 
 
-def create_sets():
+def create_new_unit():
     empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
     with empty_sets_1:
         st.empty()
@@ -138,7 +138,7 @@ def create_sets():
         st.empty()
 
     with content_sets:
-        st.subheader("Create Set of Drawings")
+        st.title(':orange[Create new Set of Drawings / Unit]')
 
         with st.form('new_sod'):
             proj_short = st.selectbox('Select a Project', st.session_state.proj_names)
@@ -766,6 +766,24 @@ def manage_users():
                     reporter(reply)
 
 
+
+    with st.form('new_sod'):
+        proj_short = st.selectbox('Select a Project', st.session_state.proj_names)
+        set_name = st.text_input("Enter the Name for new Set of Drawings / Unit").strip()
+        stage = st.radio("Select the Stage", stages, horizontal=True)
+        coordinator = st.selectbox("Coordinator", st.session_state.registered_logins)
+        performer = st.selectbox("Performer", st.session_state.registered_logins)
+        set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
+        status = st.select_slider("Select the Current Status", sod_statuses, value='0%')
+        notes = st.text_area("Add Notes").strip()
+        create_sod_but = st.form_submit_button("Create", use_container_width=True)
+
+    if create_sod_but:
+        reply = add_sod(proj_short, set_name, stage, status, set_start_date, coordinator, performer, notes)
+        reporter(reply)
+
+
+
 performer_menu = ["Drawing Sets", "Transmittals", "Tasks", 'EtapPy', 'Just for fun',
                   'Lessons Learned', 'Settings']
 
@@ -864,26 +882,5 @@ if selected == "Settings":
     settings_content()
 
 if selected == "Create new Set / Unit":
-    st.title(':orange[Manage Drawings Sets]')
-    sets_create, sets_edit = st.tabs(['Create Set of Drawings',
-                                      'Edit Existing Set of Drawings'])
-    with sets_create:
-
-        st.subheader("Create Set of Drawings")
-
-        with st.form('new_sod'):
-            proj_short = st.selectbox('Select a Project', st.session_state.proj_names)
-            set_name = st.text_input("Enter the Name for new Set of Drawings / Unit").strip()
-            stage = st.radio("Select the Stage", stages, horizontal=True)
-            coordinator = st.selectbox("Coordinator", st.session_state.registered_logins)
-            performer = st.selectbox("Performer", st.session_state.registered_logins)
-            set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
-            status = st.select_slider("Select the Current Status", sod_statuses, value='0%')
-            notes = st.text_area("Add Notes").strip()
-            create_sod_but = st.form_submit_button("Create", use_container_width=True)
-
-        if create_sod_but:
-            reply = add_sod(proj_short, set_name, stage, status, set_start_date, coordinator, performer, notes)
-            reporter(reply)
-
+    create_new_unit()
 
