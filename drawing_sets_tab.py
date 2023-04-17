@@ -66,6 +66,8 @@ def show_sets():
             user_id = u_df.loc[u_df.login == user_login].index.values[0]
             df = df[(df.coord_id == user_id) | (df.perf_id == user_id)]
 
+
+        df['set_id'] = df.index
         df = df.set_index('project_id').join(proj_df['short_name'])
         df = df.set_index('coord_id').join(u_df['login'])
 
@@ -75,7 +77,7 @@ def show_sets():
                            'login_coord': 'coordinator', 'login_perf': 'performer',
                            'current_status': 'status', 'trans_num': 'transmittal'}, inplace=True)
         #
-        df = df[['project', 'unit', 'coordinator', 'performer', 'stage', 'revision', 'start_date', 'status',
+        df = df[['set_id', 'project', 'unit', 'coordinator', 'performer', 'stage', 'revision', 'start_date', 'status',
                  'request_date', 'transmittal', 'trans_date', 'notes']]
 
         proj_list = df['project'].drop_duplicates()
@@ -86,7 +88,7 @@ def show_sets():
         units_ch_b = ds_rigth.checkbox("Show Units Table")
 
         if units_ch_b:
-            st.experimental_data_editor(df.set_index('project'), use_container_width=True)
+            st.experimental_data_editor(df.set_index('set_id'), use_container_width=True)
 
         proj_col, unit_col = st.columns(2, gap='medium')
 
@@ -100,8 +102,8 @@ def show_sets():
         st.divider()
         st.write('Details for Drawing Set')
         st.experimental_data_editor(df.loc[df.unit == unit_selected][
-                                        ['coordinator', 'performer', 'stage', 'revision', 'start_date', 'status',
-                                         'transmittal', 'trans_date', 'notes']].set_index('coordinator'),
+                                        ['set_id', 'coordinator', 'performer', 'stage', 'revision', 'start_date',
+                                         'status', 'transmittal', 'trans_date', 'notes']].set_index('set_id'),
                                     use_container_width=True)
 
         df_edit = df.loc[df.unit == unit_selected]
@@ -121,7 +123,7 @@ def show_sets():
             st.experimental_rerun()
 
         st.divider()
-
+        # --------------------------------------------------------------------------------------------------------
         st.subheader(f"Project: :red[{proj_selected}]. Unit: :red[{unit_selected}]")
 
         # units_tasks = get_own_tasks(unit_id) ###
@@ -132,20 +134,20 @@ def show_sets():
         units_tasks = task_df[task_df.s_o_d == unit_id]  # .tolist()
 
         units_tasks['task_id'] = units_tasks.index
-        # units_tasks.speciality = spec_df.loc[spec_df.id == units_tasks.speciality, 'abbrev']
+
         units_tasks = units_tasks.set_index("speciality").join(spec_df)
 
         units_tasks.reset_index(inplace=True)
 
         units_tasks['speciality'] = units_tasks.abbrev
 
-        if isinstance(units_tasks, str):
-            if units_tasks == "Empty Table":
-                st.warning('No Tasks Available for selected Unit')
-                st.stop()
-
-        if not isinstance(units_tasks, pd.DataFrame):
-            st.stop()
+        # if isinstance(units_tasks, str):
+        #     if units_tasks == "Empty Table":
+        #         st.warning('No Tasks Available for selected Unit')
+        #         st.stop()
+        #
+        # if not isinstance(units_tasks, pd.DataFrame):
+        #     st.stop()
 
         task_col, in_out_col, quant_col = st.columns([9, 2, 2])
 
