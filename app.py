@@ -438,13 +438,13 @@ def login_register():
             </style>
             """, unsafe_allow_html=True)
 
-        reg_left, reg_content, reg_right = st.columns([5, 3, 5])
+        reg_left, log_content, reg_right = st.columns([5, 3, 5])
         with reg_left:
             st.empty()
         with reg_right:
             st.empty()
 
-        with reg_content:
+        with log_content:
             st.title(':orange[Electrical Department]')
 
             st.header('Welcome, Colleague!')
@@ -480,6 +480,7 @@ def login_register():
                                     st.stop()
                                 else:
                                     reporter('Logged In', 1)
+                                    st.experimental_rerun()
 
                             else:
                                 st.session_state.logged = False
