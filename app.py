@@ -494,10 +494,9 @@ def login_register():
             if st.session_state.logged:
                 st.subheader("You are Registered & Logged In 😎")
             else:
-                # appl_logins = get_appl_logins()
 
                 users_df = st.session_state.adb['users']
-                appl_logins = users_df.loc[users_df.status == 'current']
+                appl_logins = users_df.loc[users_df.status == 'current'].tolist()
 
                 if isinstance(appl_logins, list):
                     login = st.selectbox("Select Your Login", appl_logins,
