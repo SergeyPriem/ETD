@@ -370,7 +370,6 @@ def home_content():
         # with change_tab:
 
 
-# project, sod, task, trans, users = get_all()
 
 def etap_py():
     from datetime import datetime
@@ -759,7 +758,6 @@ if st.session_state.logged and st.session_state.user:
     else:
         selected = option_menu(None, get_menus()[0], icons=get_menus()[1],
                                menu_icon=None, default_index=0, orientation='horizontal')
-else:
     home_content()
 
 if selected == "Home":
