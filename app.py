@@ -486,7 +486,7 @@ def login_register():
             else:
                 st.session_state.rights = 'basic'
                 st.session_state.user = None
-                st.stop()
+                # st.stop()
 
         with reg_tab:
             st.write(1)
