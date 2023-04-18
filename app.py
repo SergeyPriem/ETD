@@ -473,7 +473,7 @@ def login_register():
 
             st.header('Welcome, Colleague!')
 
-            st.text("The Site is designed to help you in everyday routines")
+            st.write("The Site is designed to help you in everyday routines")
             login_tab, reg_tab = st.tabs(["Log In", 'Registration'])
 
             with login_tab:
