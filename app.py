@@ -2,10 +2,6 @@
 import pandas as pd
 import streamlit as st
 from PIL import Image
-
-st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
-                   page_title='ET Department', initial_sidebar_state='auto')
-
 import datetime
 import random
 from streamlit_option_menu import option_menu
@@ -25,6 +21,8 @@ from projects import confirm_task, get_my_trans, confirm_trans, get_pers_tasks, 
     get_all, get_table
 from models import Task
 
+st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
+                   page_title='ET Department', initial_sidebar_state='auto')
 
 def get_menus():
 
@@ -751,16 +749,6 @@ def win_selector(selected):
         create_new_unit()
 
 
-def write_states():
-    st.write(f"st.session_state.rights={st.session_state.rights}")
-
-    st.write(f"st.session_state.logged={st.session_state.logged}")
-    st.write(f"st.session_state.user={st.session_state.user}")
-    st.write("")
-    st.write(f"st.session_state.menu={st.session_state.menu}")
-    st.write(f"st.session_state.icons={st.session_state.icons}")
-    st.write("")
-
 def show_states():
     st.text('adb')
     st.write(st.session_state.adb)
@@ -794,7 +782,7 @@ def show_states():
     st.write(st.session_state.trans_status)
     st.write('edit_sod')
     st.write(st.session_state.edit_sod)
-st.write()
+
 def prepare_menus(u_df):
     st.session_state.menu = get_menus()[0]
 
@@ -825,8 +813,6 @@ def initial():
     appearance_settings()
 
     st.session_state.adb = get_all()
-
-    # write_states()  # temp
 
     users_df = None
 
