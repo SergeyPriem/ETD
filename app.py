@@ -25,6 +25,46 @@ from projects import confirm_task, get_my_trans, confirm_trans, get_pers_tasks, 
 from models import Task
 
 
+
+def get_menus():
+    menu = None
+    icons = None
+
+    performer_menu = ["Drawing Sets", "Transmittals", "Tasks", 'EtapPy', 'Just for fun',
+                      'Lessons Learned', 'Settings']
+
+    performer_icons = ['bi bi-file-earmark-spreadsheet-fill', 'bi bi-file-arrow-down',
+                       'bi bi-file-check', 'bi bi-diagram-3', 'bi bi-info-circle', 'bi bi-pen', 'bi bi-gear',
+                       ]
+
+    admin_menu = ["Create new Set / Unit"]
+    admin_icons = ['bi bi-bar-chart-steps']
+
+    super_menu = ["Manage Projects", "Manage Users"]
+    super_icons = ["bi bi-briefcase", "bi bi-person-lines-fill"]
+
+    short_menu = ["Home"]
+    short_icons = ['house']
+
+    # if st.session_state.rights == "basic":
+    #     menu = [*short_menu]
+    #     icons = [*short_icons]
+
+    if st.session_state.rights == "performer":
+        menu = [*short_menu, *performer_menu]
+        icons = [*short_icons, *performer_icons]
+
+    if st.session_state.rights == "admin":
+        menu = [*short_menu, *performer_menu, *admin_menu]
+        icons = [*short_icons, *performer_icons, *admin_icons]
+
+    if st.session_state.rights == "supervisor":
+        menu = [*short_menu, *performer_menu, *admin_menu, *super_menu]
+        icons = [*short_icons, *performer_icons, *admin_icons, *super_icons]
+
+    return menu, icons
+
+
 def create_states():
     if 'adb' not in st.session_state:
         st.session_state.adb = get_all()
@@ -691,46 +731,6 @@ def manage_users():
                     reply = move_to_former(employee_to_edit, end_date)
                     reporter(reply)
 
-
-
-performer_menu = ["Drawing Sets", "Transmittals", "Tasks", 'EtapPy', 'Just for fun',
-                  'Lessons Learned', 'Settings']
-
-performer_icons = ['bi bi-file-earmark-spreadsheet-fill', 'bi bi-file-arrow-down',
-                   'bi bi-file-check', 'bi bi-diagram-3', 'bi bi-info-circle', 'bi bi-pen', 'bi bi-gear',
-                   ]
-
-admin_menu = ["Create new Set / Unit"]
-admin_icons = ['bi bi-bar-chart-steps']
-
-super_menu = ["Manage Projects", "Manage Users"]
-super_icons = ["bi bi-briefcase", "bi bi-person-lines-fill"]
-
-short_menu = ["Home"]
-short_icons = ['house']
-
-
-def get_menus():
-    menu = None
-    icons = None
-
-    # if st.session_state.rights == "basic":
-    #     menu = [*short_menu]
-    #     icons = [*short_icons]
-
-    if st.session_state.rights == "performer":
-        menu = [*short_menu, *performer_menu]
-        icons = [*short_icons, *performer_icons]
-
-    if st.session_state.rights == "admin":
-        menu = [*short_menu, *performer_menu, *admin_menu]
-        icons = [*short_icons, *performer_icons, *admin_icons]
-
-    if st.session_state.rights == "supervisor":
-        menu = [*short_menu, *performer_menu, *admin_menu, *super_menu]
-        icons = [*short_icons, *performer_icons, *admin_icons, *super_icons]
-
-    return menu, icons
 
 
 selected = None
