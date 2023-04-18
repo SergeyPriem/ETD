@@ -245,90 +245,88 @@ def show_sets():
 
 
 def edit_sets():
-    st.session_state.w.empty()
-    with st.session_state.w.container():
-        cur_sod = st.session_state.edit_sod
+    cur_sod = st.session_state.edit_sod
 
-        empty_sets_1, content_sets, empty_sets_2 = st.columns([3, 5, 3])
-        with empty_sets_1:
-            st.empty()
-        with empty_sets_2:
-            st.empty()
+    empty_sets_1, content_sets, empty_sets_2 = st.columns([3, 5, 3])
+    with empty_sets_1:
+        st.empty()
+    with empty_sets_2:
+        st.empty()
 
-        with content_sets:
+    with content_sets:
 
-            # all_logins = get_all_logins()
-            all_logins = st.session_state.adb['users'].login.tolist()
+        # all_logins = get_all_logins()
+        all_logins = st.session_state.adb['users'].login.tolist()
 
-            with st.form('upd_set_detail'):
-                st.subheader("Edit Details")
-                st.subheader(f"Project: :red[{cur_sod.get('project', '!!!')}]")
-                st.subheader(f"Unit: :red[{cur_sod.get('unit', '!!!')}]")
-                left_sod, center_sod, right_sod = st.columns([7, 1, 7])
-                left_sod.subheader("")
-                left_sod.write("")
-                upd_trans_chb = right_sod.checkbox('Add Transmittal')
-                with left_sod:
-                    coord = st.selectbox("Coordinator", all_logins,
-                                         index=get_list_index(all_logins, cur_sod.get('coordinator', '!!!')))
+        with st.form('upd_set_detail'):
+            st.subheader("Edit Details")
+            st.subheader(f"Project: :red[{cur_sod.get('project', '!!!')}]")
+            st.subheader(f"Unit: :red[{cur_sod.get('unit', '!!!')}]")
+            left_sod, center_sod, right_sod = st.columns([7, 1, 7])
+            left_sod.subheader("")
+            left_sod.write("")
+            upd_trans_chb = right_sod.checkbox('Add Transmittal')
+            with left_sod:
+                coord = st.selectbox("Coordinator", all_logins,
+                                     index=get_list_index(all_logins, cur_sod.get('coordinator', '!!!')))
 
-                    perf = st.selectbox("Performer", all_logins,
-                                        index=get_list_index(all_logins, cur_sod.get('performer', '!!!')))
+                perf = st.selectbox("Performer", all_logins,
+                                    index=get_list_index(all_logins, cur_sod.get('performer', '!!!')))
 
-                    rev = st.selectbox("Revision", sod_revisions,
-                                       index=get_list_index(sod_revisions, cur_sod.get('revision', '!!!')))
+                rev = st.selectbox("Revision", sod_revisions,
+                                   index=get_list_index(sod_revisions, cur_sod.get('revision', '!!!')))
 
-                    status = st.selectbox('Status', sod_statuses,
-                                          index=get_list_index(sod_statuses, cur_sod.get('status', '!!!')))
+                status = st.selectbox('Status', sod_statuses,
+                                      index=get_list_index(sod_statuses, cur_sod.get('status', '!!!')))
 
-                with right_sod:
-                    trans_list = get_trans_nums(cur_sod.get('project', '!!!'))
+            with right_sod:
+                trans_list = get_trans_nums(cur_sod.get('project', '!!!'))
 
-                    if not isinstance(trans_list, list):
-                        st.warning(trans_list)
-                        st.stop()
+                if not isinstance(trans_list, list):
+                    st.warning(trans_list)
+                    st.stop()
 
-                    trans_num = st.selectbox('New Transmittal Number', trans_list)
-                    trans_date = st.date_input('New Transmittal Date')
-                    notes = st.text_area("Notes (don't delete, just add to previous)",
-                                         value=cur_sod.get('notes', '!!!'), height=125)
+                trans_num = st.selectbox('New Transmittal Number', trans_list)
+                trans_date = st.date_input('New Transmittal Date')
+                notes = st.text_area("Notes (don't delete, just add to previous)",
+                                     value=cur_sod.get('notes', '!!!'), height=125)
 
-                set_upd_but = st.form_submit_button("Update in DB", use_container_width=True, type="primary")
+            set_upd_but = st.form_submit_button("Update in DB", use_container_width=True, type="primary")
 
-            if set_upd_but:
-                reply = update_sod(cur_sod.get('unit_id', '!!!'), coord, perf, rev, status, trans_num,
-                                   trans_date, notes, upd_trans_chb)
+        if set_upd_but:
+            reply = update_sod(cur_sod.get('unit_id', '!!!'), coord, perf, rev, status, trans_num,
+                               trans_date, notes, upd_trans_chb)
 
-                if reply is True:
-                    reporter("Updated!")
+            if reply is True:
+                reporter("Updated!")
 
-                    unit_id = st.session_state.edit_sod['unit_id']
+                unit_id = st.session_state.edit_sod['unit_id']
 
-                    sod_df = st.session_state.adb['sod']
+                sod_df = st.session_state.adb['sod']
 
-                    sod_df.at[unit_id, 'coord_id'] = coord
-                    sod_df.at[unit_id, 'perf_id'] = perf
-                    sod_df.at[unit_id, 'revision'] = rev
-                    sod_df.at[unit_id, 'current_status'] = status
-                    if upd_trans_chb:
-                        sod_df.at[unit_id, 'trans_num'] = trans_num
-                        sod_df.at[unit_id, 'trans_date'] = trans_date
-                    sod_df.at[unit_id, 'notes'] = notes
-                    st.session_state.adb['sod'] = sod_df
+                sod_df.at[unit_id, 'coord_id'] = coord
+                sod_df.at[unit_id, 'perf_id'] = perf
+                sod_df.at[unit_id, 'revision'] = rev
+                sod_df.at[unit_id, 'current_status'] = status
+                if upd_trans_chb:
+                    sod_df.at[unit_id, 'trans_num'] = trans_num
+                    sod_df.at[unit_id, 'trans_date'] = trans_date
+                sod_df.at[unit_id, 'notes'] = notes
+                st.session_state.adb['sod'] = sod_df
 
-                else:
-                    reporter(reply, 3)
+            else:
+                reporter(reply, 3)
 
-                st.session_state.edit_sod['state'] = False
-                st.session_state.edit_sod['unit'] = None
-                st.session_state.edit_sod['project'] = None
-                st.experimental_rerun()
+            st.session_state.edit_sod['state'] = False
+            st.session_state.edit_sod['unit'] = None
+            st.session_state.edit_sod['project'] = None
+            st.experimental_rerun()
 
-            if st.button("Escape", use_container_width=True):
-                st.session_state.edit_sod['state'] = False
-                st.session_state.edit_sod['unit'] = None
-                st.session_state.edit_sod['project'] = None
-                st.experimental_rerun()
+        if st.button("Escape", use_container_width=True):
+            st.session_state.edit_sod['state'] = False
+            st.session_state.edit_sod['unit'] = None
+            st.session_state.edit_sod['project'] = None
+            st.experimental_rerun()
 
 
 def drawing_sets():
