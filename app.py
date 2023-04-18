@@ -717,9 +717,7 @@ def win_selector(selected):
 
 
 def show_states():
-    st.text('w')
-    st.write(st.session_state.w)
-    st.text('-----------------------')
+
     st.text('appl_logins')
     st.write(st.session_state.appl_logins)
     st.text('-----------------------')
