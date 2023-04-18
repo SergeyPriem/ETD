@@ -368,3 +368,21 @@ def create_new_unit():
                 reply = add_sod(proj_short, set_name, stage, status, set_start_date, coordinator, performer, notes)
                 reporter(reply)
 
+                if "ERROR" not in reply.upper():
+                    sod_df = st.session_state.adb['sod']
+                    u_df = st.session_state.adb['users']
+                    proj_df = st.session_state.adb['project']
+
+                    next_id = sod_df.index.max() + 1
+
+                    project_id = proj_df.query('short_name == @proj_short').index.values[0]
+                    coord_id = u_df.query('login == @coordinator').index.values[0]
+                    perf_id = u_df.query('login == @performer').index.values[0]
+
+                    st.session_state.adb['sod'] = sod_df.append(
+                        {'id': next_id, 'project_id': project_id, 'set_name': set_name, 'coord_id': coord_id,
+                         'perf_id': perf_id, 'stage': stage, 'revision': "R1", 'current_status': status,
+                         'notes': notes
+                         }
+                    )
+
