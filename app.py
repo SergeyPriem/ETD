@@ -489,11 +489,12 @@ def login_register():
                 st.stop()
 
         with reg_tab:
+            st.write(1)
             users_df = st.session_state.adb['users']
             appl_logins = users_df.loc[users_df.status == 'current'].tolist()
 
             st.write(appl_logins)
-
+            st.write(2)
             if isinstance(appl_logins, list):
                 login = st.selectbox("Select Your Login", appl_logins,
                                      disabled=st.session_state.logged, key='reg_email')
