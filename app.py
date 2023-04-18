@@ -107,7 +107,6 @@ def create_states():
     if 'proj_names' not in st.session_state:
         st.session_state.proj_names = None
 
-
     if 'trans_status' not in st.session_state:
         st.session_state.trans_status = None
 
@@ -504,13 +503,13 @@ def login_register():
                             #     st.session_state.user = None
                             #     reporter("Bye! Bye! Bye!")
                             #     st.session_state.rights = 'basic'
-                            st.experimental_rerun()
+                            return True
 
                         else:
                             st.warning('Wrong Password')
                             st.session_state.rights = None
                             st.session_state.user = None
-                            # st.stop()
+                            return False
 
         with reg_tab:
             users_df = st.session_state.adb['users']
@@ -856,16 +855,22 @@ def initial():
     except Exception as e:
         st.warning(err_handler(e))
         st.stop()
-
-    st.session_state.proj_names = st.session_state.adb['project'].short_name.tolist()
+    try:
+        st.session_state.proj_names = st.session_state.adb['project'].short_name.tolist()
+        if len(st.session_state.proj_names) == 0:
+            st.warning("Can't get Project List")
+    except Exception as e:
+        st.warning(err_handler(e))
 
     if not st.session_state.logged:
-        login_register()
+        if login_register():
+            reporter("Logged In", 1)
+        else:
+            reporter('Sorry...', 3)
 
     if st.session_state.logged and st.session_state.user:
 
         selected = prepare_menus(users_df)
-
         win_selector(selected)
 
 
