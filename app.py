@@ -762,7 +762,41 @@ def write_states():
     st.write(f"st.session_state.icons={st.session_state.icons}")
     st.write("")
 
-
+def show_states():
+    st.text('adb')
+    st.session_state.adb = None
+    st.text('----------------------')
+    st.write('menu')
+    st.write(st.session_state.menu)
+    st.write('icons')
+    st.write(st.session_state.icons)
+    st.write('rights')
+    st.write(st.session_state.rights)
+    st.write('registered_logins')
+    st.write(st.session_state.registered_logins)
+    st.write('delay')
+    st.write(st.session_state.delay)
+    st.write("preview_proj_stat")
+    st.write(st.session_state.preview_proj_stat)
+    st.write("logged")
+    st.write(st.session_state.logged)
+    st.write('code_sent')
+    st.write(st.session_state.code_sent)
+    st.write('upd_code_sent')
+    st.write(st.session_state.upd_code_sent)
+    st.write('vert_menu')
+    st.write(st.session_state.vert_menu)
+    st.write('user')
+    st.write(st.session_state['user'])
+    st.write('task_preview')
+    st.write(st.session_state.task_preview)
+    st.write('proj_names')
+    st.write(st.session_state.proj_names)
+    st.write('trans_status')
+    st.write(st.session_state.trans_status)
+    st.write('edit_sod')
+    st.write(st.session_state.edit_sod)
+st.write()
 def prepare_menus(u_df):
     st.session_state.menu = get_menus()[0]
 
@@ -778,7 +812,9 @@ def prepare_menus(u_df):
             selected = option_menu("ET Department", st.session_state.menu, icons=st.session_state.icons,
                                    menu_icon="bi bi-plug", default_index=0)
 
-            st.write(st.session_state.edit_sod)
+            if st.session_state.rights == 'supervisor' and st.checkbox("Show states"):
+                show_states()
+                st.write(st.session_state.edit_sod)
 
     else:
         selected = option_menu(None, st.session_state.menu, icons=st.session_state.icons,
