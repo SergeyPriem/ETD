@@ -7,7 +7,7 @@ import random
 from streamlit_option_menu import option_menu
 from admin_tools import manage_projects, get_list_index
 from tasks_tab import tasks_content
-from drawing_sets_tab import drawing_sets
+from drawing_sets_tab import drawing_sets, create_new_unit
 from just_for_fun_tab import just_for_fun, emoji_content
 from lesson_learned_tab import lessons_content
 from pre_sets import appearance_settings, reporter, positions, departments, mail_to_name, trans_stat, stages, \
@@ -110,6 +110,9 @@ def create_states():
     if 'trans_status' not in st.session_state:
         st.session_state.trans_status = None
 
+    if 'appl_logins' not in st.session_state:
+        st.session_state.appl_logins = None
+
     if 'edit_sod' not in st.session_state:
         st.session_state.edit_sod = {
             'coordinator': None,
@@ -155,33 +158,6 @@ def form_for_trans():
                 st.session_state.trans_status = None
                 st.experimental_rerun()
 
-
-def create_new_unit():
-    st.session_state.w.empty()
-    with st.session_state.w.container():
-        empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
-        with empty_sets_1:
-            st.empty()
-        with empty_sets_2:
-            st.empty()
-
-        with content_sets:
-            st.title(':orange[Create new Set of Drawings / Unit]')
-
-            with st.form('new_sod'):
-                proj_short = st.selectbox('Select a Project', st.session_state.proj_names)
-                set_name = st.text_input("Enter the Name for new Set of Drawings / Unit").strip()
-                stage = st.radio("Select the Stage", stages, horizontal=True)
-                coordinator = st.selectbox("Coordinator", st.session_state.registered_logins)
-                performer = st.selectbox("Performer", st.session_state.registered_logins)
-                set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
-                status = st.select_slider("Select the Current Status", sod_statuses, value='0%')
-                notes = st.text_area("Add Notes").strip()
-                create_sod_but = st.form_submit_button("Create", use_container_width=True)
-
-            if create_sod_but:
-                reply = add_sod(proj_short, set_name, stage, status, set_start_date, coordinator, performer, notes)
-                reporter(reply)
 
 
 def home_content():
@@ -512,8 +488,7 @@ def login_register():
                                 st.session_state.user = None
 
             with reg_tab:
-                users_df = st.session_state.adb['users']
-                appl_logins = users_df.loc[users_df.status == 'current', 'login'].tolist()
+                appl_logins = st.session_state.appl_logins
 
                 if isinstance(appl_logins, list):
                     login = st.selectbox("Select Your Login", appl_logins,
@@ -757,6 +732,9 @@ def show_states():
     st.text('w')
     st.write(st.session_state.w)
     st.text('-----------------------')
+    st.text('appl_logins')
+    st.write(st.session_state.appl_logins)
+    st.text('-----------------------')
     st.text('adb')
     st.write(st.session_state.adb)
     st.text('-----------------------')
@@ -857,6 +835,8 @@ def initial():
         st.session_state.registered_logins = users_df.loc[(users_df.status == 'current') &
                                                           users_df.hashed_pass, 'login'].tolist()
 
+        st.session_state.appl_logins = users_df.loc[users_df.status == 'current', 'login'].tolist()
+
         if len(st.session_state.registered_logins) == 0:
             st.warning("Can't get Registered Users")
             st.stop()
@@ -864,6 +844,7 @@ def initial():
     except Exception as e:
         st.warning(err_handler(e))
         st.stop()
+
     try:
         st.session_state.proj_names = st.session_state.adb['project'].short_name.tolist()
         if len(st.session_state.proj_names) == 0:
@@ -880,6 +861,7 @@ def initial():
         #     reporter('Please Log In to start work with Site', 3)
 
     if st.session_state.logged and st.session_state.user:
+
         selected = prepare_menus(users_df)
         win_selector(selected)
 

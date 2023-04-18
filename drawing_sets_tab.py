@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-
+import datetime
 import pandas as pd
 import streamlit as st
-
 from admin_tools import get_list_index
-from pre_sets import specialities, sod_revisions, sod_statuses
-from projects import get_trans_nums, update_sod
+from pre_sets import specialities, sod_revisions, sod_statuses, stages
+from projects import get_trans_nums, update_sod, add_sod
 from pre_sets import reporter
 
 def show_sets():
@@ -341,3 +340,31 @@ def drawing_sets():
             edit_sets()
         else:
             show_sets()
+
+def create_new_unit():
+    st.session_state.w.empty()
+    with st.session_state.w.container():
+        empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
+        with empty_sets_1:
+            st.empty()
+        with empty_sets_2:
+            st.empty()
+
+        with content_sets:
+            st.title(':orange[Create new Set of Drawings / Unit]')
+
+            with st.form('new_sod'):
+                proj_short = st.selectbox('Select a Project', st.session_state.proj_names)
+                set_name = st.text_input("Enter the Name for new Set of Drawings / Unit").strip()
+                stage = st.radio("Select the Stage", stages, horizontal=True)
+                coordinator = st.selectbox("Coordinator", st.session_state.appl_logins)
+                performer = st.selectbox("Performer", st.session_state.appl_logins)
+                set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
+                status = st.select_slider("Select the Current Status", sod_statuses, value='0%')
+                notes = st.text_area("Add Notes").strip()
+                create_sod_but = st.form_submit_button("Create", use_container_width=True)
+
+            if create_sod_but:
+                reply = add_sod(proj_short, set_name, stage, status, set_start_date, coordinator, performer, notes)
+                reporter(reply)
+

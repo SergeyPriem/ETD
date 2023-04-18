@@ -177,7 +177,6 @@ def view_tasks(ass_tab2, my_all):
     with ass_tab2:
 
         df = st.session_state.adb['task']
-
         sod_df = st.session_state.adb['sod']
         proj_df = st.session_state.adb['project']
         spec_df = st.session_state.adb['speciality']
