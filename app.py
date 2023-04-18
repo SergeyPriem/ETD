@@ -503,13 +503,13 @@ def login_register():
                                                 {reply}""")
                                     st.stop()
                                 else:
-                                    return True
+                                    reporter('Logged In', 1)
 
                             else:
+                                st.session_state.logged = False
                                 st.warning('Wrong Password')
                                 st.session_state.rights = None
                                 st.session_state.user = None
-                                return False
 
             with reg_tab:
                 users_df = st.session_state.adb['users']
@@ -872,12 +872,12 @@ def initial():
         st.warning(err_handler(e))
 
     if not st.session_state.logged:
-        if login_register():
-            reporter("Logged In", 1)
-            st.session_state.w.empty()
-            st.experimental_rerun()
-        else:
-            reporter('Please Log In to start work with Site', 3)
+        login_register()
+        # if login_register():
+        #     st.session_state.w.empty()
+            # st.experimental_rerun()
+        # else:
+        #     reporter('Please Log In to start work with Site', 3)
 
     if st.session_state.logged and st.session_state.user:
         selected = prepare_menus(users_df)
