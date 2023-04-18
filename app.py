@@ -714,6 +714,7 @@ def manage_users():
 
 
 def win_selector(selected):
+
     if selected == "Home":
         if st.session_state.trans_status:
             form_for_trans()
@@ -821,8 +822,6 @@ def initial():
         # st.session_state.delay = int(get_settings(st.session_state.user)[1])
 
         selected = prepare_menus(users_df)
-
-        home_content()
 
         win_selector(selected)
 
