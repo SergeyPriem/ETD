@@ -377,9 +377,14 @@ def create_new_unit():
                 coord_id = u_df.query('login == @coordinator').index.values[0]
                 perf_id = u_df.query('login == @performer').index.values[0]
 
-                st.session_state.adb['sod'] = sod_df.append(
-                    {'id': next_id, 'project_id': project_id, 'set_name': set_name, 'coord_id': coord_id,
-                     'perf_id': perf_id, 'stage': stage, 'revision': "R1", 'current_status': status,
-                     'notes': notes, 'aux': f"{st.session_state.user}: {str(datetime.datetime.now())[:-10]}"
-                     }
+                dict_df = pd.DataFrame(
+                    [
+                        {
+                            'id': next_id, 'project_id': project_id, 'set_name': set_name, 'coord_id': coord_id,
+                            'perf_id': perf_id, 'stage': stage, 'revision': "R1", 'current_status': status,
+                            'notes': notes, 'aux': f"{st.session_state.user}: {str(datetime.datetime.now())[:-10]}"
+                         }
+                    ]
                 )
+
+                st.session_state.adb['sod'] = sod_df.append(dict_df)
