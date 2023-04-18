@@ -25,7 +25,6 @@ from projects import confirm_task, get_my_trans, confirm_trans, get_pers_tasks, 
 from models import Task
 
 
-
 def get_menus():
     menu = None
     icons = None
@@ -46,9 +45,9 @@ def get_menus():
     short_menu = ["Home"]
     short_icons = ['house']
 
-    # if st.session_state.rights == "basic":
-    #     menu = [*short_menu]
-    #     icons = [*short_icons]
+    if st.session_state.rights == "basic":
+        menu = [*short_menu]
+        icons = [*short_icons]
 
     if st.session_state.rights == "performer":
         menu = [*short_menu, *performer_menu]
@@ -68,6 +67,19 @@ def get_menus():
 def create_states():
     if 'adb' not in st.session_state:
         st.session_state.adb = get_all()
+
+    users_df = st.session_state.adb['users']
+
+    if 'registered_logins' not in st.session_state:
+        # reg_logins = get_logins_for_registered()
+
+        reg_logins = users_df.loc[(users_df.status == 'current') & (users_df.hashed_pass), 'login'].tolist()
+
+        if isinstance(reg_logins, list):
+            st.session_state.registered_logins = reg_logins
+        else:
+            reporter("Can't get users list")
+            st.stop()
 
     if 'delay' not in st.session_state:
         st.session_state.delay = 2
@@ -121,28 +133,6 @@ def create_states():
             'my_all': None,
             'state': False
         }
-
-
-create_states()
-
-appearance_settings()
-
-if st.session_state.user:
-    log_in_out = 'Log Out'
-else:
-    log_in_out = 'Log In'
-
-if 'registered_logins' not in st.session_state:
-    # reg_logins = get_logins_for_registered()
-
-    users_df = st.session_state.adb['users']
-    reg_logins = users_df.loc[(users_df.status == 'current') & (users_df.hashed_pass), 'login'].tolist()
-
-    if isinstance(reg_logins, list):
-        st.session_state.registered_logins = reg_logins
-    else:
-        reporter("Can't get users list")
-        st.stop()
 
 
 def update_trans_status(trans_num):
@@ -410,9 +400,7 @@ def home_content():
                     else:
                         st.text('No New Transmittals')
 
-
         # with change_tab:
-
 
 
 def etap_py():
@@ -452,6 +440,7 @@ def etap_py():
             tr_df = get_table(Task)
             st.write(tr_df)
             st.text((datetime.now() - start_time))
+
 
 def login_register():
     st.markdown("""
@@ -494,7 +483,7 @@ def login_register():
                 st.write("Not in list? Register first 👆")
                 password = st.text_input('Password', type='password', disabled=st.session_state.logged)
                 login_but = st.form_submit_button('Log In', disabled=st.session_state.logged,
-                                                         use_container_width=True)
+                                                  use_container_width=True)
                 if login_but:
                     if len(password) < 3:
                         reporter("Password should be at least 3 symbols")
@@ -733,27 +722,55 @@ def manage_users():
 
 
 
-selected = None
+def win_selector(selected):
 
-st.write(f"st.session_state.logged={st.session_state.logged}")
-st.write(f"st.session_state.user={st.session_state.user}")
-st.write("")
-st.write(f"st.session_state.menu={st.session_state.menu}")
-st.write(f"st.session_state.icons={st.session_state.icons}")
+    if selected == "Home":
+        if st.session_state.trans_status:
+            form_for_trans()
+        else:
+            home_content()
+
+    if selected == "Manage Projects":
+        manage_projects()
+
+    if selected == "Transmittals":
+        transmittals_content()
+
+    if selected == "Tasks":
+        tasks_content()
+
+    if selected == "Drawing Sets":
+        drawing_sets()
+
+    if selected == "Just for fun":
+        just_for_fun()
+        emoji_content()
+
+    if selected == "EtapPy":
+        etap_py()
+
+    if selected == "Manage Users":
+        manage_users()
+
+    if selected == "Lessons Learned":
+        lessons_content()
+
+    if selected == "Settings":
+        settings_content()
+
+    if selected == "Create new Set / Unit":
+        create_new_unit()
 
 
-if not st.session_state.logged:
-    login_register()
+def write_states():
+    st.write(f"st.session_state.logged={st.session_state.logged}")
+    st.write(f"st.session_state.user={st.session_state.user}")
+    st.write("")
+    st.write(f"st.session_state.menu={st.session_state.menu}")
+    st.write(f"st.session_state.icons={st.session_state.icons}")
 
 
-if st.session_state.logged and st.session_state.user:
-    users_df = st.session_state.adb['users']
-
-    # st.session_state.vert_menu = int(get_settings(st.session_state.user)[0])
-    st.session_state.vert_menu = users_df.loc[users_df.login == st.session_state.user, 'vert_menu'].values[0]
-
-    # st.session_state.delay = int(get_settings(st.session_state.user)[1])
-    st.session_state.delay = users_df.loc[users_df.login == st.session_state.user, 'delay_set'].values[0]
+def prepare_menus():
 
     if st.session_state.vert_menu == 1:
         with st.sidebar:
@@ -767,42 +784,32 @@ if st.session_state.logged and st.session_state.user:
     else:
         selected = option_menu(None, st.session_state.menu, icons=st.session_state.icons,
                                menu_icon=None, default_index=0, orientation='horizontal')
-    home_content()
+    return selected
 
-if selected == "Home":
-    if st.session_state.trans_status:
-        form_for_trans()
-    else:
+
+def initial():
+    create_states()
+    appearance_settings()
+
+    write_states() #temp
+
+    if not st.session_state.logged:
+        login_register()
+
+    if st.session_state.logged and st.session_state.user:
+        users_df = st.session_state.adb['users']
+
+        # st.session_state.vert_menu = int(get_settings(st.session_state.user)[0])
+        # st.session_state.delay = int(get_settings(st.session_state.user)[1])
+
+        st.session_state.vert_menu = users_df.loc[users_df.login == st.session_state.user, 'vert_menu'].values[0]
+        st.session_state.delay = users_df.loc[users_df.login == st.session_state.user, 'delay_set'].values[0]
+
+        selected = prepare_menus()
+
         home_content()
 
-if selected == "Manage Projects":
-    manage_projects()
+        win_selector(selected)
 
-if selected == "Transmittals":
-    transmittals_content()
-
-if selected == "Tasks":
-    tasks_content()
-
-if selected == "Drawing Sets":
-    drawing_sets()
-
-if selected == "Just for fun":
-    just_for_fun()
-    emoji_content()
-
-if selected == "EtapPy":
-    etap_py()
-
-if selected == "Manage Users":
-    manage_users()
-
-if selected == "Lessons Learned":
-    lessons_content()
-
-if selected == "Settings":
-    settings_content()
-
-if selected == "Create new Set / Unit":
-    create_new_unit()
-
+if __name__ == "__main__":
+    initial()
