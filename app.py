@@ -19,7 +19,8 @@ from pre_sets import appearance_settings, reporter, positions, departments, mail
 from send_emails import send_mail
 from settings_tab import settings_content
 from transmittals_tab import transmittals_content
-from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, register_user
+from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, register_user, \
+    err_handler
 from projects import confirm_task, get_my_trans, confirm_trans, get_pers_tasks, trans_status_to_db, add_sod, \
     get_all, get_table
 from models import Task
@@ -42,8 +43,6 @@ def get_menus():
     super_menu = ["Manage Projects", "Manage Users"]
     super_icons = ["bi bi-briefcase", "bi bi-person-lines-fill"]
 
-
-
     if st.session_state.rights == "performer":
         menu = [*performer_menu]
         icons = [*performer_icons]
@@ -61,20 +60,14 @@ def get_menus():
 
 def create_states():
     if 'adb' not in st.session_state:
-        st.session_state.adb = get_all()
+        st.session_state.adb = None
 
-    users_df = st.session_state.adb['users']
+    if 'rights' not in st.session_state:
+        st.session_state.rights = None
 
     if 'registered_logins' not in st.session_state:
+        st.session_state.registered_logins = None
         # reg_logins = get_logins_for_registered()
-
-        reg_logins = users_df.loc[(users_df.status == 'current') & (users_df.hashed_pass), 'login'].tolist()
-
-        if isinstance(reg_logins, list):
-            st.session_state.registered_logins = reg_logins
-        else:
-            reporter("Can't get users list")
-            st.stop()
 
     if 'delay' not in st.session_state:
         st.session_state.delay = 2
@@ -105,7 +98,6 @@ def create_states():
 
     if 'trans_status' not in st.session_state:
         st.session_state.trans_status = None
-
 
     if 'edit_sod' not in st.session_state:
         st.session_state.edit_sod = {
@@ -477,40 +469,36 @@ def login_register():
                         st.stop()
                     else:
                         st.session_state.logged = check_user(login, password)
-                        if not st.session_state.logged:
+
+                        if st.session_state.logged:
+                            st.session_state.user = login
+                            # st.session_state.rights = get_logged_rights(login)
+
+                            users_df = st.session_state.adb['users']
+
+                            st.session_state.rights = users_df.loc[users_df.login == login, 'access_level'].values[0]
+                            reply = add_to_log(login)
+
+                            if 'ERROR' in reply.upper():
+                                st.write(f"""Please sent error below to sergey.priemshiy@uzliti-en.com
+                                            or by telegram +998909598030:
+                                            {reply}""")
+                                st.stop()
+
+                            # logout_but = st.button('Log Out', disabled=not st.session_state.logged,
+                            #                        use_container_width=True)
+                            # if logout_but:
+                            #     st.session_state.logged = False
+                            #     st.session_state.user = None
+                            #     reporter("Bye! Bye! Bye!")
+                            #     st.session_state.rights = 'basic'
+                            st.experimental_rerun()
+
+                        else:
                             st.warning('Wrong Password')
-
-            if st.session_state.logged:
-                st.session_state.user = login
-                # st.session_state.rights = get_logged_rights(login)
-
-                users_df = st.session_state.adb['users']
-
-                if 'rights' not in st.session_state:
-                    st.session_state.rights = users_df.loc[users_df.login == login, 'access_level'].values[0]
-
-                reply = add_to_log(login)
-
-                if 'ERROR' in reply.upper():
-                    st.write(f"""Please sent error below to sergey.priemshiy@uzliti-en.com
-                                or by telegram +998909598030:
-                                {reply}""")
-                    st.stop()
-
-                # logout_but = st.button('Log Out', disabled=not st.session_state.logged,
-                #                        use_container_width=True)
-                # if logout_but:
-                #     st.session_state.logged = False
-                #     st.session_state.user = None
-                #     reporter("Bye! Bye! Bye!")
-                #     st.session_state.rights = 'basic'
-                # return
-                st.experimental_rerun()
-
-            else:
-                st.session_state.rights = 'basic'
-                st.session_state.user = None
-                # st.stop()
+                            st.session_state.rights = None
+                            st.session_state.user = None
+                            # st.stop()
 
         with reg_tab:
             users_df = st.session_state.adb['users']
@@ -712,9 +700,7 @@ def manage_users():
                     reporter(reply)
 
 
-
 def win_selector(selected):
-
     if selected == "Home":
         if st.session_state.trans_status:
             form_for_trans()
@@ -754,7 +740,6 @@ def win_selector(selected):
 
 
 def write_states():
-
     st.write(f"st.session_state.rights={st.session_state.rights}")
 
     st.write(f"st.session_state.logged={st.session_state.logged}")
@@ -765,9 +750,7 @@ def write_states():
     st.write("")
 
 
-
 def prepare_menus():
-
     if st.session_state.vert_menu == 1:
         with st.sidebar:
             image = Image.open("images/big_logo.jpg")
@@ -787,13 +770,29 @@ def initial():
     create_states()
     appearance_settings()
 
-    write_states() #temp
+    st.session_state.adb = get_all()
+
+    write_states()  # temp
+
+    if isinstance(st.session_state.adb, dict):
+        try:
+            users_df = st.session_state.adb['users']
+            if not isinstance(users_df, pd.DataFrame) or len(users_df) == 0:
+                st.warning("Can't get Users")
+                st.stop()
+        except Exception as e:
+            st.warning(err_handler(e))
+            st.stop()
+    else:
+        st.warning(st.session_state.adb)
+
+    st.session_state.registered_logins = users_df.loc[(users_df.status == 'current') &
+                                                      users_df.hashed_pass, 'login'].tolist()
 
     if not st.session_state.logged:
         login_register()
 
     if st.session_state.logged and st.session_state.user:
-        users_df = st.session_state.adb['users']
 
         # st.session_state.vert_menu = int(get_settings(st.session_state.user)[0])
         # st.session_state.delay = int(get_settings(st.session_state.user)[1])
@@ -811,6 +810,7 @@ def initial():
         home_content()
 
         win_selector(selected)
+
 
 if __name__ == "__main__":
     initial()
