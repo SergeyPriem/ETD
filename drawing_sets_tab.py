@@ -342,47 +342,44 @@ def drawing_sets():
             show_sets()
 
 def create_new_unit():
-    st.session_state.w.empty()
-    with st.session_state.w.container():
-        empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
-        with empty_sets_1:
-            st.empty()
-        with empty_sets_2:
-            st.empty()
+    empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
+    with empty_sets_1:
+        st.empty()
+    with empty_sets_2:
+        st.empty()
 
-        with content_sets:
-            st.title(':orange[Create new Set of Drawings / Unit]')
+    with content_sets:
+        st.title(':orange[Create new Set of Drawings / Unit]')
 
-            with st.form('new_sod'):
-                proj_short = st.selectbox('Select a Project', st.session_state.proj_names)
-                set_name = st.text_input("Enter the Name for new Set of Drawings / Unit").strip()
-                stage = st.radio("Select the Stage", stages, horizontal=True)
-                coordinator = st.selectbox("Coordinator", st.session_state.appl_logins)
-                performer = st.selectbox("Performer", st.session_state.appl_logins)
-                set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
-                status = st.select_slider("Select the Current Status", sod_statuses, value='0%')
-                notes = st.text_area("Add Notes").strip()
-                create_sod_but = st.form_submit_button("Create", use_container_width=True)
+        with st.form('new_sod'):
+            proj_short = st.selectbox('Select a Project', st.session_state.proj_names)
+            set_name = st.text_input("Enter the Name for new Set of Drawings / Unit").strip()
+            stage = st.radio("Select the Stage", stages, horizontal=True)
+            coordinator = st.selectbox("Coordinator", st.session_state.appl_logins)
+            performer = st.selectbox("Performer", st.session_state.appl_logins)
+            set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
+            status = st.select_slider("Select the Current Status", sod_statuses, value='0%')
+            notes = st.text_area("Add Notes").strip()
+            create_sod_but = st.form_submit_button("Create", use_container_width=True)
 
-            if create_sod_but:
-                reply = add_sod(proj_short, set_name, stage, status, set_start_date, coordinator, performer, notes)
-                reporter(reply)
+        if create_sod_but:
+            reply = add_sod(proj_short, set_name, stage, status, set_start_date, coordinator, performer, notes)
+            reporter(reply)
 
-                if "ERROR" not in reply.upper():
-                    sod_df = st.session_state.adb['sod']
-                    u_df = st.session_state.adb['users']
-                    proj_df = st.session_state.adb['project']
+            if "ERROR" not in reply.upper():
+                sod_df = st.session_state.adb['sod']
+                u_df = st.session_state.adb['users']
+                proj_df = st.session_state.adb['project']
 
-                    next_id = sod_df.index.max() + 1
+                next_id = sod_df.index.max() + 1
 
-                    project_id = proj_df.query('short_name == @proj_short').index.values[0]
-                    coord_id = u_df.query('login == @coordinator').index.values[0]
-                    perf_id = u_df.query('login == @performer').index.values[0]
+                project_id = proj_df.query('short_name == @proj_short').index.values[0]
+                coord_id = u_df.query('login == @coordinator').index.values[0]
+                perf_id = u_df.query('login == @performer').index.values[0]
 
-                    st.session_state.adb['sod'] = sod_df.append(
-                        {'id': next_id, 'project_id': project_id, 'set_name': set_name, 'coord_id': coord_id,
-                         'perf_id': perf_id, 'stage': stage, 'revision': "R1", 'current_status': status,
-                         'notes': notes, 'aux': f"{st.session_state.user}: {str(datetime.datetime.now())[:-10]}"
-                         }
-                    )
-
+                st.session_state.adb['sod'] = sod_df.append(
+                    {'id': next_id, 'project_id': project_id, 'set_name': set_name, 'coord_id': coord_id,
+                     'perf_id': perf_id, 'stage': stage, 'revision': "R1", 'current_status': status,
+                     'notes': notes, 'aux': f"{st.session_state.user}: {str(datetime.datetime.now())[:-10]}"
+                     }
+                )
