@@ -274,7 +274,7 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
                 aux=f"{st.session_state.user}: {str(datetime.now())[:-10]}"
 
             )
-            return f"New Set '{set_name}' for Project '{proj_short}' is added to DataBase"
+            return 201
         except Exception as e:
             return err_handler(e)
 
