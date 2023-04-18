@@ -271,7 +271,7 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
                 current_status=status,
                 start_date=set_start_date,
                 notes=notes,
-                aux=f"{st.session_state.user}: {(datetime.now())[:-10]}"
+                aux=f"{st.session_state.user}: {str(datetime.now())[:-10]}"
 
             )
             return f"New Set '{set_name}' for Project '{proj_short}' is added to DataBase"
