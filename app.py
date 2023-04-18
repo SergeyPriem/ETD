@@ -491,6 +491,7 @@ def login_register():
                 st.stop()
 
         with reg_tab:
+            st.write(":WTF")
             if st.session_state.logged:
                 st.subheader("You are Registered & Logged In 😎")
             else:
