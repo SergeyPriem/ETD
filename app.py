@@ -793,7 +793,7 @@ def initial():
 
     st.session_state.adb = get_all()
 
-    write_states()  # temp
+    # write_states()  # temp
 
     users_df = None
 
@@ -817,9 +817,6 @@ def initial():
         login_register()
 
     if st.session_state.logged and st.session_state.user:
-
-        # st.session_state.vert_menu = int(get_settings(st.session_state.user)[0])
-        # st.session_state.delay = int(get_settings(st.session_state.user)[1])
 
         selected = prepare_menus(users_df)
 
