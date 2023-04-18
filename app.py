@@ -27,6 +27,7 @@ from models import Task
 
 
 def get_menus():
+
     menu = None
     icons = None
 
@@ -42,6 +43,11 @@ def get_menus():
 
     super_menu = ["Manage Projects", "Manage Users"]
     super_icons = ["bi bi-briefcase", "bi bi-person-lines-fill"]
+
+    if st.session_state.rights:
+        st.write(st.session_state.rights)
+    else:
+        st.warning('Rights not available')
 
     if st.session_state.rights == "performer":
         menu = [*performer_menu]
@@ -59,8 +65,12 @@ def get_menus():
 
 
 def create_states():
+
     if 'adb' not in st.session_state:
         st.session_state.adb = None
+
+    if 'menu' not in st.session_state:
+        st.session_state.menu = None
 
     if 'rights' not in st.session_state:
         st.session_state.rights = None
@@ -750,7 +760,14 @@ def write_states():
     st.write("")
 
 
-def prepare_menus():
+def prepare_menus(u_df):
+    st.session_state.menu = get_menus()[0]
+
+    st.session_state.icons = get_menus()[1]
+
+    st.session_state.vert_menu = u_df.loc[u_df.login == st.session_state.user, 'vert_menu'].values[0]
+    st.session_state.delay = u_df.loc[u_df.login == st.session_state.user, 'delay_set'].values[0]
+
     if st.session_state.vert_menu == 1:
         with st.sidebar:
             image = Image.open("images/big_logo.jpg")
@@ -774,6 +791,8 @@ def initial():
 
     write_states()  # temp
 
+    users_df = None
+
     if isinstance(st.session_state.adb, dict):
         try:
             users_df = st.session_state.adb['users']
@@ -785,6 +804,7 @@ def initial():
             st.stop()
     else:
         st.warning(st.session_state.adb)
+        st.stop()
 
     st.session_state.registered_logins = users_df.loc[(users_df.status == 'current') &
                                                       users_df.hashed_pass, 'login'].tolist()
@@ -796,16 +816,8 @@ def initial():
 
         # st.session_state.vert_menu = int(get_settings(st.session_state.user)[0])
         # st.session_state.delay = int(get_settings(st.session_state.user)[1])
-        if 'menu' not in st.session_state:
-            st.session_state.menu = get_menus()[0]
 
-        if 'icons' not in st.session_state:
-            st.session_state.icons = get_menus()[1]
-
-        st.session_state.vert_menu = users_df.loc[users_df.login == st.session_state.user, 'vert_menu'].values[0]
-        st.session_state.delay = users_df.loc[users_df.login == st.session_state.user, 'delay_set'].values[0]
-
-        selected = prepare_menus()
+        selected = prepare_menus(users_df)
 
         home_content()
 
