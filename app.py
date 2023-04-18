@@ -763,8 +763,7 @@ def write_states():
 
 def show_states():
     st.text('adb')
-    st.session_state.adb = None
-    st.text('----------------------')
+    st.write(st.session_state.adb)
     st.write('menu')
     st.write(st.session_state.menu)
     st.write('icons')
