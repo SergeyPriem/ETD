@@ -445,6 +445,7 @@ def login_register():
         login_tab, reg_tab = st.tabs([log_in_out, 'Registration'])
 
         with login_tab:
+            pass
             # with st.form('log_in'):
             #     login = st.selectbox("Select Your Login", st.session_state.registered_logins,
             #                          disabled=st.session_state.logged)
