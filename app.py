@@ -114,11 +114,6 @@ def create_states():
     if 'trans_status' not in st.session_state:
         st.session_state.trans_status = None
 
-    if 'menu' not in st.session_state:
-        st.session_state.menu = get_menus()[0]
-
-    if 'icons' not in st.session_state:
-        st.session_state.icons = get_menus()[1]
 
     if 'edit_sod' not in st.session_state:
         st.session_state.edit_sod = {
@@ -803,6 +798,11 @@ def initial():
 
         # st.session_state.vert_menu = int(get_settings(st.session_state.user)[0])
         # st.session_state.delay = int(get_settings(st.session_state.user)[1])
+        if 'menu' not in st.session_state:
+            st.session_state.menu = get_menus()[0]
+
+        if 'icons' not in st.session_state:
+            st.session_state.icons = get_menus()[1]
 
         st.session_state.vert_menu = users_df.loc[users_df.login == st.session_state.user, 'vert_menu'].values[0]
         st.session_state.delay = users_df.loc[users_df.login == st.session_state.user, 'delay_set'].values[0]
