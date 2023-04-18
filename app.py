@@ -850,6 +850,7 @@ def initial():
     if not st.session_state.logged:
         if login_register():
             reporter("Logged In", 1)
+            st.experimental_rerun()
         else:
             reporter('Please Log In to start work with Site', 3)
 
