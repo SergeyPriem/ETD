@@ -364,7 +364,7 @@ def create_new_unit():
 
         if create_sod_but:
             reply = add_sod(proj_short, set_name, stage, status, set_start_date, coordinator, performer, notes)
-            reporter(reply)
+            st.info(reply)
 
             if "ERROR" not in reply.upper():
                 sod_df = st.session_state.adb['sod']
