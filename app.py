@@ -72,6 +72,9 @@ def create_states():
     if 'menu' not in st.session_state:
         st.session_state.menu = None
 
+    if 'icons' not in st.session_state:
+        st.session_state.icons = None
+
     if 'rights' not in st.session_state:
         st.session_state.rights = None
 
