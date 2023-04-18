@@ -509,94 +509,95 @@ def login_register():
                     st.subheader("You are Registered 😎")
                 else:
                     st.write("Not in list? Send the request from your e-mail to sergey.priemshiy@uzliti-en.com")
-                    with st.form("Reg_form"):
-                        name = st.text_input('Your Name', disabled=st.session_state.logged)
-                        surname = st.text_input('Your Surame', disabled=st.session_state.logged)
-                        phone = st.text_input('Your personal Phone', disabled=st.session_state.logged)
-                        telegram = st.text_input('Your personal Telegram', disabled=st.session_state.logged)
-                        reg_pass_1 = st.text_input('Password', type='password', key='reg_pass_1',
-                                                   disabled=st.session_state.logged)
-                        reg_pass_2 = st.text_input('Repeat Password', type='password', key='reg_pass_2',
-                                                   disabled=st.session_state.logged)
 
-                        # data_chb = st.checkbox('Data is Correct', disabled=st.session_state.logged)
+                with st.form("Reg_form"):
+                    name = st.text_input('Your Name', disabled=st.session_state.logged)
+                    surname = st.text_input('Your Surame', disabled=st.session_state.logged)
+                    phone = st.text_input('Your personal Phone', disabled=st.session_state.logged)
+                    telegram = st.text_input('Your personal Telegram', disabled=st.session_state.logged)
+                    reg_pass_1 = st.text_input('Password', type='password', key='reg_pass_1',
+                                               disabled=st.session_state.logged)
+                    reg_pass_2 = st.text_input('Repeat Password', type='password', key='reg_pass_2',
+                                               disabled=st.session_state.logged)
 
-                        get_reg_code = st.form_submit_button('Get Confirmation Code')
+                    # data_chb = st.checkbox('Data is Correct', disabled=st.session_state.logged)
 
-                    # conf_html = ""
-                    if get_reg_code:
-                        if login in st.session_state.registered_logins:
-                            reporter(f'User {login} is already in DataBase')
+                    get_reg_code = st.form_submit_button('Get Confirmation Code')
+
+                # conf_html = ""
+                if get_reg_code:
+                    if login in st.session_state.registered_logins:
+                        reporter(f'User {login} is already in DataBase')
+                        st.stop()
+
+                    if len(reg_pass_2) < 3 or reg_pass_1 != reg_pass_2:
+                        st.warning("""- Password should be at least 3 symbols
+                            - Password and Repeat Password should be the same""")
+                        st.stop()
+                    if len(name) < 2 or len(surname) < 2:
+                        st.warning("! Too short Name or Surname")
+                        st.stop()
+
+                    if 'conf_num' not in st.session_state:
+                        st.session_state.conf_num = "".join(random.sample("123456789", 4))
+
+                    conf_html = f"""
+                            <html>
+                              <head></head>
+                              <body>
+                                <h3>
+                                  Hello, Colleague!
+                                  <hr>
+                                </h3>
+                                <h5>
+                                  You got this message because you want to register on ETD site
+                                </h5>
+                                <p>
+                                    Please confirm your registration by entering the confirmation code 
+                                    <b>{st.session_state.conf_num}</b> 
+                                    at the <a href="https://design-energo.streamlit.app/">site</a> registration form
+                                    <hr>
+                                    Best regards, Administration 😎
+                                </p>
+                              </body>
+                            </html>
+                        """
+
+                    if not st.session_state.code_sent:
+                        # user = get_user_data(login)
+
+                        user_df = st.session_state.adb['user']
+                        user = user_df.loc[users_df.login == login]
+
+                        # if "@" not in user.email:
+                        if "@" not in user.email.values[0]:
+                            st.warning("Can't get User's email")
                             st.stop()
 
-                        if len(reg_pass_2) < 3 or reg_pass_1 != reg_pass_2:
-                            st.warning("""- Password should be at least 3 symbols
-                                - Password and Repeat Password should be the same""")
-                            st.stop()
-                        if len(name) < 2 or len(surname) < 2:
-                            st.warning("! Too short Name or Surname")
-                            st.stop()
-
-                        if 'conf_num' not in st.session_state:
-                            st.session_state.conf_num = "".join(random.sample("123456789", 4))
-
-                        conf_html = f"""
-                                <html>
-                                  <head></head>
-                                  <body>
-                                    <h3>
-                                      Hello, Colleague!
-                                      <hr>
-                                    </h3>
-                                    <h5>
-                                      You got this message because you want to register on ETD site
-                                    </h5>
-                                    <p>
-                                        Please confirm your registration by entering the confirmation code 
-                                        <b>{st.session_state.conf_num}</b> 
-                                        at the <a href="https://design-energo.streamlit.app/">site</a> registration form
-                                        <hr>
-                                        Best regards, Administration 😎
-                                    </p>
-                                  </body>
-                                </html>
-                            """
-
-                        if not st.session_state.code_sent:
-                            # user = get_user_data(login)
-
-                            user_df = st.session_state.adb['user']
-                            user = user_df.loc[users_df.login == login]
-
-                            # if "@" not in user.email:
-                            if "@" not in user.email.values[0]:
-                                st.warning("Can't get User's email")
-                                st.stop()
-
-                            if send_mail(receiver=user.email, cc_rec="sergey.priemshiy@uzliti-en.com",
-                                         html=conf_html, subj="Confirmation of ETD site registration"):
-                                st.session_state.code_sent = True
-                                st.info("Confirmation Code sent to Your Company Email")
-                            else:
-                                st.warning("Network problems...Try again later")
-
-                    entered_code = st.text_input("Confirmation Code from Email")
-
-                    if st.button("Register", use_container_width=True):
-                        if login in st.session_state.registered_logins:
-                            reporter(f'User {login} is already in DataBase')
-                            st.stop()
-
-                        if st.session_state.conf_num != entered_code:
-                            reporter("Confirmation code is wrong, try again")
-                            st.stop()
+                        if send_mail(receiver=user.email, cc_rec="sergey.priemshiy@uzliti-en.com",
+                                     html=conf_html, subj="Confirmation of ETD site registration"):
+                            st.session_state.code_sent = True
+                            st.info("Confirmation Code sent to Your Company Email")
                         else:
-                            reply = register_user(name, surname, phone, telegram, login, reg_pass_2)
-                            if 'ERROR' in reply.upper():
-                                st.write('Error')
-                            else:
-                                reporter(reply)
-                                st.experimental_rerun()
+                            st.warning("Network problems...Try again later")
+
+                entered_code = st.text_input("Confirmation Code from Email")
+
+                if st.button("Register", use_container_width=True):
+                    if login in st.session_state.registered_logins:
+                        reporter(f'User {login} is already in DataBase')
+                        st.stop()
+
+                    if st.session_state.conf_num != entered_code:
+                        reporter("Confirmation code is wrong, try again")
+                        st.stop()
+                    else:
+                        reply = register_user(name, surname, phone, telegram, login, reg_pass_2)
+                        if 'ERROR' in reply.upper():
+                            st.write('Error')
+                        else:
+                            reporter(reply)
+                            st.experimental_rerun()
 
 
 def manage_users():
