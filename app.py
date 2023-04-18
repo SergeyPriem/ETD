@@ -19,8 +19,7 @@ from pre_sets import appearance_settings, reporter, positions, departments, mail
 from send_emails import send_mail
 from settings_tab import settings_content
 from transmittals_tab import transmittals_content
-from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, get_settings, \
-    update_user_reg_data, register_user
+from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, register_user
 from projects import confirm_task, get_my_trans, confirm_trans, get_pers_tasks, trans_status_to_db, add_sod, \
     get_all, get_table
 from models import Task
@@ -712,9 +711,12 @@ short_icons = ['house']
 
 
 def get_menus():
-    if st.session_state.rights == "basic":
-        menu = [*short_menu]
-        icons = [*short_icons]
+    menu = None
+    icons = None
+
+    # if st.session_state.rights == "basic":
+    #     menu = [*short_menu]
+    #     icons = [*short_icons]
 
     if st.session_state.rights == "performer":
         menu = [*short_menu, *performer_menu]
@@ -746,11 +748,8 @@ if st.session_state.logged and st.session_state.user:
     # st.session_state.vert_menu = int(get_settings(st.session_state.user)[0])
     st.session_state.vert_menu = users_df.loc[users_df.login == st.session_state.user, 'vert_menu'].values[0]
 
-
     # st.session_state.delay = int(get_settings(st.session_state.user)[1])
     st.session_state.delay = users_df.loc[users_df.login == st.session_state.user, 'delay'].values[0]
-
-
 
     if st.session_state.vert_menu == 1:
         with st.sidebar:
