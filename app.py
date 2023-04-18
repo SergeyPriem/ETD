@@ -474,7 +474,7 @@ def login_register():
         st.header('Welcome, Colleague!')
 
         st.text("The Site is designed to help you in everyday routines")
-        login_tab, reg_tab = st.tabs([log_in_out, 'Registration'])
+        login_tab, reg_tab = st.tabs(["Log In", 'Registration'])
 
         with login_tab:
             with st.form('log_in'):
@@ -768,6 +768,8 @@ def write_states():
     st.write("")
     st.write(f"st.session_state.menu={st.session_state.menu}")
     st.write(f"st.session_state.icons={st.session_state.icons}")
+    st.write("")
+    st.write(f"st.session_state.menu={st.session_state.menu}")
 
 
 def prepare_menus():
