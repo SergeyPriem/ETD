@@ -764,6 +764,9 @@ def win_selector(selected):
 
 
 def show_states():
+    st.text('w')
+    st.write(st.session_state.w)
+    st.text('-----------------------')
     st.text('adb')
     st.write(st.session_state.adb)
     st.text('-----------------------')
