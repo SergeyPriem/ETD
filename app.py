@@ -24,8 +24,8 @@ from models import Task
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
 
-def get_menus():
 
+def get_menus():
     menu = None
     icons = None
 
@@ -61,7 +61,6 @@ def get_menus():
 
 
 def create_states():
-
     if 'adb' not in st.session_state:
         st.session_state.adb = None
 
@@ -198,10 +197,10 @@ def home_content():
         </style>
         """, unsafe_allow_html=True)
 
-    home_left, home_content, home_right = st.columns([5, 3, 5])
+    home_left, home_cont, home_right = st.columns([5, 3, 5])
     empty21, content2, empty22 = st.columns([1, 20, 1])
 
-    with home_content:
+    with home_cont:
         st.title(':orange[Electrical Department]')
 
         u_df = st.session_state.adb["users"]
@@ -527,7 +526,7 @@ def login_register():
 
             with st.form("Reg_form"):
                 name = st.text_input('Your Name', disabled=st.session_state.logged)
-                surname = st.text_input('Your Surame', disabled=st.session_state.logged)
+                surname = st.text_input('Your Surname', disabled=st.session_state.logged)
                 phone = st.text_input('Your personal Phone', disabled=st.session_state.logged)
                 telegram = st.text_input('Your personal Telegram', disabled=st.session_state.logged)
                 reg_pass_1 = st.text_input('Password', type='password', key='reg_pass_1',
@@ -642,6 +641,7 @@ def manage_users():
                 reply = create_appl_user(
                     user_email, user_position, user_department, user_access_level, "current", user_start_date)
                 reporter(reply)
+                st.experimental_rerun()
 
         with users_tab2:
 
@@ -710,7 +710,6 @@ def manage_users():
 
 
 def win_selector(selected):
-
     if selected == "Home":
         if st.session_state.trans_status:
             form_for_trans()
@@ -783,6 +782,7 @@ def show_states():
     st.write('edit_sod')
     st.write(st.session_state.edit_sod)
 
+
 def prepare_menus(u_df):
     st.session_state.menu = get_menus()[0]
 
@@ -851,10 +851,9 @@ def initial():
         if login_register():
             reporter("Logged In", 1)
         else:
-            reporter('Sorry...', 3)
+            reporter('Please Log In to start work with Site', 3)
 
     if st.session_state.logged and st.session_state.user:
-
         selected = prepare_menus(users_df)
         win_selector(selected)
 
