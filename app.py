@@ -176,10 +176,10 @@ def home_content():
         </style>
         """, unsafe_allow_html=True)
 
-    empty1, content, empty2 = st.columns([5, 3, 5])
+    home_left, home_content, home_right = st.columns([5, 3, 5])
     empty21, content2, empty22 = st.columns([1, 20, 1])
 
-    with content:
+    with home_content:
         st.title(':orange[Electrical Department]')
 
         u_df = st.session_state.adb["users"]
