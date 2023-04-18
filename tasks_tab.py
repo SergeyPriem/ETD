@@ -53,7 +53,7 @@ def add_task(task_content):
 
             left_col2, right_col2 = st.columns(2)
             speciality = left_col2.multiselect("Speciality", specialities)
-            description = right_col2.text_input('Description of Task')
+            description = right_col2.text_input('Description of Task', max_chars=249)
 
             col_31, col_32, col_33, col_34 = st.columns([1, 1, 1, 3])
             direction = col_31.radio('Direction', ('In', 'Out'), horizontal=True)
@@ -65,7 +65,7 @@ def add_task(task_content):
                                            'Adaptation', 'As-built'), horizontal=True)
 
             left_col3, right_col3 = st.columns(2)
-            link = left_col3.text_input('Path')
+            link = left_col3.text_input('Link', max_chars=499)
             comments = left_col3.text_input('Comments')
             source = right_col3.text_area('Received by:', value='Received by paper', height=127)
 
@@ -143,12 +143,8 @@ def add_task(task_content):
                 if direction == "In":
                     for single_set in set_of_dr:
                         reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date,
-                                             description,
-                                             link, source, comments)
-
-                        # st.write((project, single_set, stage, direction, speciality[0], date, description,
-                        #           link, source, comments))
-                        # reply = "Added <*> Successfully"
+                                             description.strip(),
+                                             link.strip(), source.strip(), comments.strip())
 
                         if '<*>' in reply:
                             rep1, rep2 = reply.split('<*>')
@@ -160,17 +156,15 @@ def add_task(task_content):
                 else:
                     for single_spec in speciality:
                         reply = add_out_to_db(project, set_of_dr[0], stage, direction, single_spec, date,
-                                              description,
-                                              link, source, comments)
-                        # st.write((project, set_of_dr[0], stage, direction, single_spec, date, description,
-                        #           link, source, comments))
-                        # reply = "Added <*> Successfully"
+                                              description.strip(),
+                                              link.strip(), source.strip(), comments.strip())
+
                         if 'ERROR' in reply.upper():
                             st.warning(reply)
                         else:
                             st.info(reply)
 
-                st.button("N E X T")
+                # st.button("N E X T")
 
 
 def view_tasks(ass_tab2, my_all):
