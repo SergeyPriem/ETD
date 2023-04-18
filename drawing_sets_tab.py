@@ -8,242 +8,240 @@ from projects import get_trans_nums, update_sod, add_sod
 from pre_sets import reporter
 
 def show_sets():
-    st.session_state.w.empty()
-    with st.session_state.w.container():
-        if st.session_state.edit_sod['project']:
+    if st.session_state.edit_sod['project']:
 
-            cur_sod = st.session_state.edit_sod
-            proj = cur_sod.get('project', None)
-            my_or_all = cur_sod.get('my_all', None)
-            sod = cur_sod.get('project', None)
+        cur_sod = st.session_state.edit_sod
+        proj = cur_sod.get('project', None)
+        my_or_all = cur_sod.get('my_all', None)
+        sod = cur_sod.get('project', None)
+
+    else:
+        proj = None
+        my_or_all = None
+        sod = None
+
+    st.markdown("""
+        <style>
+            div[data-testid="column"]:nth-of-type(1)
+            {
+                text-align: center;
+            } 
+
+            div[data-testid="column"]:nth-of-type(2)
+            {
+                text-align: center;
+            } 
+
+            div[data-testid="column"]:nth-of-type(3)
+            {
+                text-align: center;
+            } 
+        </style>
+        """, unsafe_allow_html=True)
+
+    empty1, content, empty2 = st.columns([1, 30, 1])
+    with empty1:
+        st.empty()
+    with empty2:
+        st.empty()
+
+    with content:
+        st.title(':orange[Drawing Sets]')
+
+        ds_left, lc, ds_center, cr, ds_rigth = st.columns([5, 6, 4, 5, 5])
+        ds_center.text('')
+
+        my_all = ds_center.radio("Select the Option", ["My Units", 'All Units'],
+                                 index=get_list_index(["My Units", 'All Units'], my_or_all),
+                                 horizontal=True, label_visibility='collapsed')
+
+        u_df = st.session_state.adb['users']
+        proj_df = st.session_state.adb['project']
+        df = st.session_state.adb['sod']
+
+        if my_all == "My Units":
+            user_login = st.session_state.user
+            user_id = u_df.loc[u_df.login == user_login].index.values[0]
+            df = df[(df.coord_id == user_id) | (df.perf_id == user_id)]
+
+
+        df['unit_id'] = df.index
+        df = df.set_index('project_id').join(proj_df['short_name'])
+        df = df.set_index('coord_id').join(u_df['login'])
+
+        df = df.set_index('perf_id').join(u_df['login'], lsuffix='_coord', rsuffix='_perf')
+
+        df.rename(columns={'short_name': 'project', 'set_name': 'unit',
+                           'login_coord': 'coordinator', 'login_perf': 'performer',
+                           'current_status': 'status', 'trans_num': 'transmittal'}, inplace=True)
+        #
+        df = df[['unit_id', 'project', 'unit', 'coordinator', 'performer', 'stage', 'revision', 'start_date',
+                 'status', 'request_date', 'transmittal', 'trans_date', 'notes']]
+
+        proj_list = df['project'].drop_duplicates()
+
+        ds_left.subheader(f"{my_all}: {len(df)}")
+
+        ds_rigth.text('')
+        units_ch_b = ds_rigth.checkbox("Show Units Table")
+
+        if units_ch_b:
+            st.experimental_data_editor(df.set_index('unit_id'), use_container_width=True)
+
+        proj_col, unit_col = st.columns(2, gap='medium')
+
+        if st.session_state.edit_sod['unit'] and st.session_state.edit_sod['project']:
+
+            units_list = df[df.project == st.session_state.edit_sod['project']]['unit']
+
+            df_edit = df.loc[(df.unit == st.session_state.edit_sod['unit'])
+                             & (df.project == st.session_state.edit_sod['project'])]
+
+            unit_selected = unit_col.selectbox("Unit for Search", units_list, index=get_list_index(units_list, sod))
+            proj_selected = proj_col.selectbox("Project for Search", proj_list, index=get_list_index(proj_list, proj))
 
         else:
-            proj = None
-            my_or_all = None
-            sod = None
+            ## SELECT PROJECT
+            proj_selected = proj_col.selectbox("Project for Search", proj_list, index=get_list_index(proj_list, proj))
 
-        st.markdown("""
-            <style>
-                div[data-testid="column"]:nth-of-type(1)
-                {
-                    text-align: center;
-                } 
-    
-                div[data-testid="column"]:nth-of-type(2)
-                {
-                    text-align: center;
-                } 
-    
-                div[data-testid="column"]:nth-of-type(3)
-                {
-                    text-align: center;
-                } 
-            </style>
-            """, unsafe_allow_html=True)
+            units_list = df[df.project == proj_selected]['unit']
 
-        empty1, content, empty2 = st.columns([1, 30, 1])
-        with empty1:
-            st.empty()
-        with empty2:
-            st.empty()
-
-        with content:
-            st.title(':orange[Drawing Sets]')
-
-            ds_left, lc, ds_center, cr, ds_rigth = st.columns([5, 6, 4, 5, 5])
-            ds_center.text('')
-
-            my_all = ds_center.radio("Select the Option", ["My Units", 'All Units'],
-                                     index=get_list_index(["My Units", 'All Units'], my_or_all),
-                                     horizontal=True, label_visibility='collapsed')
-
-            u_df = st.session_state.adb['users']
-            proj_df = st.session_state.adb['project']
-            df = st.session_state.adb['sod']
-
-            if my_all == "My Units":
-                user_login = st.session_state.user
-                user_id = u_df.loc[u_df.login == user_login].index.values[0]
-                df = df[(df.coord_id == user_id) | (df.perf_id == user_id)]
+            # SELECT SOD
+            unit_selected = unit_col.selectbox("Unit for Search", units_list, index=get_list_index(units_list, sod))
 
 
-            df['unit_id'] = df.index
-            df = df.set_index('project_id').join(proj_df['short_name'])
-            df = df.set_index('coord_id').join(u_df['login'])
+            df_edit = df.loc[(df.unit == unit_selected) & (df.project == proj_selected)]
 
-            df = df.set_index('perf_id').join(u_df['login'], lsuffix='_coord', rsuffix='_perf')
-
-            df.rename(columns={'short_name': 'project', 'set_name': 'unit',
-                               'login_coord': 'coordinator', 'login_perf': 'performer',
-                               'current_status': 'status', 'trans_num': 'transmittal'}, inplace=True)
-            #
-            df = df[['unit_id', 'project', 'unit', 'coordinator', 'performer', 'stage', 'revision', 'start_date',
-                     'status', 'request_date', 'transmittal', 'trans_date', 'notes']]
-
-            proj_list = df['project'].drop_duplicates()
-
-            ds_left.subheader(f"{my_all}: {len(df)}")
-
-            ds_rigth.text('')
-            units_ch_b = ds_rigth.checkbox("Show Units Table")
-
-            if units_ch_b:
-                st.experimental_data_editor(df.set_index('unit_id'), use_container_width=True)
-
-            proj_col, unit_col = st.columns(2, gap='medium')
-
-            if st.session_state.edit_sod['unit'] and st.session_state.edit_sod['project']:
-
-                units_list = df[df.project == st.session_state.edit_sod['project']]['unit']
-
-                df_edit = df.loc[(df.unit == st.session_state.edit_sod['unit'])
-                                 & (df.project == st.session_state.edit_sod['project'])]
-
-                unit_selected = unit_col.selectbox("Unit for Search", units_list, index=get_list_index(units_list, sod))
-                proj_selected = proj_col.selectbox("Project for Search", proj_list, index=get_list_index(proj_list, proj))
-
-            else:
-                ## SELECT PROJECT
-                proj_selected = proj_col.selectbox("Project for Search", proj_list, index=get_list_index(proj_list, proj))
-
-                units_list = df[df.project == proj_selected]['unit']
-
-                # SELECT SOD
-                unit_selected = unit_col.selectbox("Unit for Search", units_list, index=get_list_index(units_list, sod))
+        st.divider()
+        st.subheader(f"Project: :red[{proj_selected}]. Unit: :red[{unit_selected}]")
+        st.experimental_data_editor(df_edit[['unit_id', 'coordinator', 'performer', 'stage', 'revision', 'start_date',
+                                             'status', 'transmittal', 'trans_date', 'notes']].set_index('unit_id'),
+                                    use_container_width=True)
 
 
-                df_edit = df.loc[(df.unit == unit_selected) & (df.project == proj_selected)]
+        if len(df_edit) == 1:
+            unit_id = df_edit.unit_id.values[0]
+        else:
+            st.warning("Duplicated Units. Please fix it")
+            st.stop()
 
-            st.divider()
-            st.subheader(f"Project: :red[{proj_selected}]. Unit: :red[{unit_selected}]")
-            st.experimental_data_editor(df_edit[['unit_id', 'coordinator', 'performer', 'stage', 'revision', 'start_date',
-                                                 'status', 'transmittal', 'trans_date', 'notes']].set_index('unit_id'),
-                                        use_container_width=True)
+        if st.button('Edit Details'):
+            st.session_state.edit_sod['coordinator'] = df_edit.coordinator.values[0]
+            st.session_state.edit_sod['performer'] = df_edit.performer.values[0]
+            st.session_state.edit_sod['revision'] = df_edit.revision.values[0]
+            st.session_state.edit_sod['status'] = df_edit.status.values[0]
+            st.session_state.edit_sod['notes'] = df_edit.notes.values[0]
+            st.session_state.edit_sod['project'] = proj_selected
+            st.session_state.edit_sod['unit'] = unit_selected
+            st.session_state.edit_sod['unit_id'] = unit_id
+            st.session_state.edit_sod['my_all'] = my_all
+            st.session_state.edit_sod['state'] = True
 
+            st.experimental_rerun()
 
-            if len(df_edit) == 1:
-                unit_id = df_edit.unit_id.values[0]
-            else:
-                st.warning("Duplicated Units. Please fix it")
-                st.stop()
+        st.divider()
 
-            if st.button('Edit Details'):
-                st.session_state.edit_sod['coordinator'] = df_edit.coordinator.values[0]
-                st.session_state.edit_sod['performer'] = df_edit.performer.values[0]
-                st.session_state.edit_sod['revision'] = df_edit.revision.values[0]
-                st.session_state.edit_sod['status'] = df_edit.status.values[0]
-                st.session_state.edit_sod['notes'] = df_edit.notes.values[0]
-                st.session_state.edit_sod['project'] = proj_selected
-                st.session_state.edit_sod['unit'] = unit_selected
-                st.session_state.edit_sod['unit_id'] = unit_id
-                st.session_state.edit_sod['my_all'] = my_all
-                st.session_state.edit_sod['state'] = True
+        # units_tasks = get_own_tasks(unit_id) ###
+        task_df = st.session_state.adb['task']
 
-                st.experimental_rerun()
+        spec_df = st.session_state.adb['speciality']
 
-            st.divider()
+        units_tasks = task_df[task_df.s_o_d == unit_id]  # .tolist()
 
-            # units_tasks = get_own_tasks(unit_id) ###
-            task_df = st.session_state.adb['task']
+        units_tasks['task_id'] = units_tasks.index
 
-            spec_df = st.session_state.adb['speciality']
+        units_tasks = units_tasks.set_index("speciality").join(spec_df)
 
-            units_tasks = task_df[task_df.s_o_d == unit_id]  # .tolist()
+        units_tasks.reset_index(inplace=True)
 
-            units_tasks['task_id'] = units_tasks.index
+        units_tasks['speciality'] = units_tasks.abbrev
 
-            units_tasks = units_tasks.set_index("speciality").join(spec_df)
+        # if isinstance(units_tasks, str):
+        #     if units_tasks == "Empty Table":
+        #         st.warning('No Tasks Available for selected Unit')
+        #         st.stop()
+        #
+        # if not isinstance(units_tasks, pd.DataFrame):
+        #     st.stop()
 
-            units_tasks.reset_index(inplace=True)
+        task_col, in_out_col, quant_col = st.columns([9, 2, 2])
 
-            units_tasks['speciality'] = units_tasks.abbrev
+        with in_out_col:
+            in_out_radio = st.radio("Select Incoming / Outgoing", ('In', 'Out'), horizontal=True)
 
-            # if isinstance(units_tasks, str):
-            #     if units_tasks == "Empty Table":
-            #         st.warning('No Tasks Available for selected Unit')
-            #         st.stop()
-            #
-            # if not isinstance(units_tasks, pd.DataFrame):
-            #     st.stop()
+        if in_out_radio == "In":
+            units_tasks = units_tasks[(units_tasks.in_out == 'Входящие') | (units_tasks.in_out == 'In')]
+        else:
+            units_tasks = units_tasks[(units_tasks.in_out == 'Исходящие') | (units_tasks.in_out == 'Out')]
 
-            task_col, in_out_col, quant_col = st.columns([9, 2, 2])
+        with task_col:
+            st.subheader(f"Available Tasks")
 
-            with in_out_col:
-                in_out_radio = st.radio("Select Incoming / Outgoing", ('In', 'Out'), horizontal=True)
+        with quant_col:
+            st.write("")
+            st.write("")
+            st.write(f'Quantity: {len(units_tasks)}')
 
-            if in_out_radio == "In":
-                units_tasks = units_tasks[(units_tasks.in_out == 'Входящие') | (units_tasks.in_out == 'In')]
-            else:
-                units_tasks = units_tasks[(units_tasks.in_out == 'Исходящие') | (units_tasks.in_out == 'Out')]
+        units_tasks = units_tasks.sort_values(by=['speciality', 'date'], ascending=[True, False])
+        st.experimental_data_editor(units_tasks[['stage', 'speciality', 'date', 'description', 'link', 'source',
+                                                 'comment', 'backup_copy', 'coord_log', 'perf_log', 'added_by',
+                                                 'task_id']].set_index('task_id'),
+                                    use_container_width=True)
+        st.divider()
 
-            with task_col:
-                st.subheader(f"Available Tasks")
+        aval_spec = list(units_tasks.speciality.drop_duplicates())
 
-            with quant_col:
-                st.write("")
-                st.write("")
-                st.write(f'Quantity: {len(units_tasks)}')
+        spec_dual = specialities  # (*specialities, *specialities_rus)
+        not_aval_spec = []
 
-            units_tasks = units_tasks.sort_values(by=['speciality', 'date'], ascending=[True, False])
-            st.experimental_data_editor(units_tasks[['stage', 'speciality', 'date', 'description', 'link', 'source',
-                                                     'comment', 'backup_copy', 'coord_log', 'perf_log', 'added_by',
-                                                     'task_id']].set_index('task_id'),
-                                        use_container_width=True)
-            st.divider()
+        for i in spec_dual:
+            if i not in aval_spec:
+                not_aval_spec.append(i)
 
-            aval_spec = list(units_tasks.speciality.drop_duplicates())
+        not_aval_df = pd.DataFrame(not_aval_spec, columns=['speciality'])
+        not_aval_df['request'] = False
+        not_aval_df = not_aval_df.set_index('speciality')
 
-            spec_dual = specialities  # (*specialities, *specialities_rus)
-            not_aval_spec = []
+        if in_out_radio == "In":
+            req_checkbox = st.checkbox('Create Draft for not available Tasks')
+            if req_checkbox:
+                st.subheader("Not available Tasks for Specialities. Here you can create request for assignments")
+                not_aval_col, empty_col, but_col, request_col = st.columns([4, 1, 3, 10])
+                with not_aval_col:
+                    request_df = st.experimental_data_editor(not_aval_df, use_container_width=True, height=600,
+                                                             num_rows='fixed', key='tasks', disabled=False)
 
-            for i in spec_dual:
-                if i not in aval_spec:
-                    not_aval_spec.append(i)
+                with but_col:
+                    request_but = st.button('Create Request')
 
-            not_aval_df = pd.DataFrame(not_aval_spec, columns=['speciality'])
-            not_aval_df['request'] = False
-            not_aval_df = not_aval_df.set_index('speciality')
-
-            if in_out_radio == "In":
-                req_checkbox = st.checkbox('Create Draft for not available Tasks')
-                if req_checkbox:
-                    st.subheader("Not available Tasks for Specialities. Here you can create request for assignments")
-                    not_aval_col, empty_col, but_col, request_col = st.columns([4, 1, 3, 10])
-                    with not_aval_col:
-                        request_df = st.experimental_data_editor(not_aval_df, use_container_width=True, height=600,
-                                                                 num_rows='fixed', key='tasks', disabled=False)
-
-                    with but_col:
-                        request_but = st.button('Create Request')
-
-                    with request_col:
-                        if request_but:
-                            if len(request_df[request_df.request].index):
-                                st.subheader("Draft of e-mail")
-                                st.markdown("""<u>Тема:</u>""", unsafe_allow_html=True)
-                                st.markdown(f"**Недостающие задания для {proj_selected}: {unit_selected}**")
-                                st.markdown("""<u>Тело:</u>""", unsafe_allow_html=True)
-                                st.markdown(f"""
-                                В ЭлектроОтделе сейчас в разработке комплект чертежей:
-                                **{proj_selected}: {unit_selected}**.
-                                В настоящее время отсутствуют задания по специальностям:
-                                **{', '.join(request_df[request_df.request == True].index.values)}**.
-                                Просим сообщить о необходимости задания и его сроке выдачи.
-                                """)
-                                st.write('')
-                                st.markdown("""<u>Subject:</u>""", unsafe_allow_html=True)
-                                st.markdown(
-                                    f"**Not available assignments for {proj_selected}: {unit_selected}**")
-                                st.markdown("""<u>Body:</u>""", unsafe_allow_html=True)
-                                st.markdown(f"""
-                                Currently Electrical Department is developing:
-                                **{proj_selected}: {unit_selected}**.
-                                For now we haven't assignments from:
-                                **{', '.join(request_df[request_df.request == True].index.values)}**.
-                                Kindly ask you to inform about a necessity of assignment and it's issue date.
-                                """)
-                            else:
-                                st.warning("Select specialities for request")
+                with request_col:
+                    if request_but:
+                        if len(request_df[request_df.request].index):
+                            st.subheader("Draft of e-mail")
+                            st.markdown("""<u>Тема:</u>""", unsafe_allow_html=True)
+                            st.markdown(f"**Недостающие задания для {proj_selected}: {unit_selected}**")
+                            st.markdown("""<u>Тело:</u>""", unsafe_allow_html=True)
+                            st.markdown(f"""
+                            В ЭлектроОтделе сейчас в разработке комплект чертежей:
+                            **{proj_selected}: {unit_selected}**.
+                            В настоящее время отсутствуют задания по специальностям:
+                            **{', '.join(request_df[request_df.request == True].index.values)}**.
+                            Просим сообщить о необходимости задания и его сроке выдачи.
+                            """)
+                            st.write('')
+                            st.markdown("""<u>Subject:</u>""", unsafe_allow_html=True)
+                            st.markdown(
+                                f"**Not available assignments for {proj_selected}: {unit_selected}**")
+                            st.markdown("""<u>Body:</u>""", unsafe_allow_html=True)
+                            st.markdown(f"""
+                            Currently Electrical Department is developing:
+                            **{proj_selected}: {unit_selected}**.
+                            For now we haven't assignments from:
+                            **{', '.join(request_df[request_df.request == True].index.values)}**.
+                            Kindly ask you to inform about a necessity of assignment and it's issue date.
+                            """)
+                        else:
+                            st.warning("Select specialities for request")
 
 
 def edit_sets():
