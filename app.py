@@ -491,7 +491,7 @@ def login_register():
         with reg_tab:
             st.write(1)
             users_df = st.session_state.adb['users']
-            appl_logins = users_df.loc[users_df.status == 'current'].tolist()
+            appl_logins = users_df.loc[users_df.status == 'current', 'login'].tolist()
 
             st.write(appl_logins)
             st.write(2)
