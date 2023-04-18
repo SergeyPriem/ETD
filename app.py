@@ -741,8 +741,16 @@ if not st.session_state.logged:
 
 
 if st.session_state.logged and st.session_state.user:
-    st.session_state.vert_menu = int(get_settings(st.session_state.user)[0])
-    st.session_state.delay = int(get_settings(st.session_state.user)[1])
+    users_df = st.session_state.adb['users']
+
+    # st.session_state.vert_menu = int(get_settings(st.session_state.user)[0])
+    st.session_state.vert_menu = users_df.loc[users_df.login == st.session_state.user, 'vert_menu'].values[0]
+
+
+    # st.session_state.delay = int(get_settings(st.session_state.user)[1])
+    st.session_state.delay = users_df.loc[users_df.login == st.session_state.user, 'delay'].values[0]
+
+
 
     if st.session_state.vert_menu == 1:
         with st.sidebar:
