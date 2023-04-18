@@ -61,6 +61,9 @@ def get_menus():
 
 
 def create_states():
+    if 'w' not in st.session_state:
+        st.session_state.w = st.empty()
+
     if 'adb' not in st.session_state:
         st.session_state.adb = None
 
@@ -127,586 +130,598 @@ def update_trans_status(trans_num):
 
 
 def form_for_trans():
-    empty1, content, empty2 = st.columns([5, 3, 5])
-    with content:
-        with st.form('confirm_trans', clear_on_submit=True):
-            st.subheader(f'Close Transmittal {st.session_state.trans_status}')
-            out_num = st.text_input('Number of reply Transmittal')
-            out_date = st.date_input('Date of reply Transmittal')
-            status = st.radio("Transmittal Status", trans_stat)
-            comment = st.text_area('Comments')
-            out_note = f"{out_num} by {out_date}: {comment}"
-            st.divider()
-            conf_but = st.form_submit_button('Update', type='primary', use_container_width=True)
+    st.session_state.w.empty()
+    with st.session_state.w.container():
+        empty1, content, empty2 = st.columns([5, 3, 5])
+        with content:
+            with st.form('confirm_trans', clear_on_submit=True):
+                st.subheader(f'Close Transmittal {st.session_state.trans_status}')
+                out_num = st.text_input('Number of reply Transmittal')
+                out_date = st.date_input('Date of reply Transmittal')
+                status = st.radio("Transmittal Status", trans_stat)
+                comment = st.text_area('Comments')
+                out_note = f"{out_num} by {out_date}: {comment}"
+                st.divider()
+                conf_but = st.form_submit_button('Update', type='primary', use_container_width=True)
 
-        if conf_but:
-            st.session_state.trans_status = (st.session_state.trans_status, status, out_note)
-            reply = trans_status_to_db()
-            reporter(reply, 2)
-            st.session_state.trans_status = None
-            st.experimental_rerun()
+            if conf_but:
+                st.session_state.trans_status = (st.session_state.trans_status, status, out_note)
+                reply = trans_status_to_db()
+                reporter(reply, 2)
+                st.session_state.trans_status = None
+                st.experimental_rerun()
 
-        if st.button('Escape', use_container_width=True):
-            st.session_state.trans_status = None
-            st.experimental_rerun()
+            if st.button('Escape', use_container_width=True):
+                st.session_state.trans_status = None
+                st.experimental_rerun()
 
 
 def create_new_unit():
-    empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
-    with empty_sets_1:
-        st.empty()
-    with empty_sets_2:
-        st.empty()
+    st.session_state.w.empty()
+    with st.session_state.w.container():
+        empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
+        with empty_sets_1:
+            st.empty()
+        with empty_sets_2:
+            st.empty()
 
-    with content_sets:
-        st.title(':orange[Create new Set of Drawings / Unit]')
+        with content_sets:
+            st.title(':orange[Create new Set of Drawings / Unit]')
 
-        with st.form('new_sod'):
-            proj_short = st.selectbox('Select a Project', st.session_state.proj_names)
-            set_name = st.text_input("Enter the Name for new Set of Drawings / Unit").strip()
-            stage = st.radio("Select the Stage", stages, horizontal=True)
-            coordinator = st.selectbox("Coordinator", st.session_state.registered_logins)
-            performer = st.selectbox("Performer", st.session_state.registered_logins)
-            set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
-            status = st.select_slider("Select the Current Status", sod_statuses, value='0%')
-            notes = st.text_area("Add Notes").strip()
-            create_sod_but = st.form_submit_button("Create", use_container_width=True)
+            with st.form('new_sod'):
+                proj_short = st.selectbox('Select a Project', st.session_state.proj_names)
+                set_name = st.text_input("Enter the Name for new Set of Drawings / Unit").strip()
+                stage = st.radio("Select the Stage", stages, horizontal=True)
+                coordinator = st.selectbox("Coordinator", st.session_state.registered_logins)
+                performer = st.selectbox("Performer", st.session_state.registered_logins)
+                set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
+                status = st.select_slider("Select the Current Status", sod_statuses, value='0%')
+                notes = st.text_area("Add Notes").strip()
+                create_sod_but = st.form_submit_button("Create", use_container_width=True)
 
-        if create_sod_but:
-            reply = add_sod(proj_short, set_name, stage, status, set_start_date, coordinator, performer, notes)
-            reporter(reply)
+            if create_sod_but:
+                reply = add_sod(proj_short, set_name, stage, status, set_start_date, coordinator, performer, notes)
+                reporter(reply)
 
 
 def home_content():
-    st.markdown("""
-        <style>
-            div[data-testid="column"]:nth-of-type(1)
-            {
-                text-align: center;
-            } 
+    st.session_state.w.empty()
+    with st.session_state.w.container():
+        st.markdown("""
+            <style>
+                div[data-testid="column"]:nth-of-type(1)
+                {
+                    text-align: center;
+                } 
+    
+                div[data-testid="column"]:nth-of-type(2)
+                {
+                    text-align: center;
+                } 
+    
+                div[data-testid="column"]:nth-of-type(3)
+                {
+                    text-align: center;
+                } 
+            </style>
+            """, unsafe_allow_html=True)
 
-            div[data-testid="column"]:nth-of-type(2)
-            {
-                text-align: center;
-            } 
+        home_left, home_cont, home_right = st.columns([5, 3, 5])
+        empty21, content2, empty22 = st.columns([1, 20, 1])
 
-            div[data-testid="column"]:nth-of-type(3)
-            {
-                text-align: center;
-            } 
-        </style>
-        """, unsafe_allow_html=True)
+        with home_cont:
+            st.title(':orange[Electrical Department]')
 
-    home_left, home_cont, home_right = st.columns([5, 3, 5])
-    empty21, content2, empty22 = st.columns([1, 20, 1])
+            u_df = st.session_state.adb["users"]
+            u_df = u_df.loc[u_df.login == st.session_state.user]
+            username = f"{u_df.name.values[0]} {u_df.surname.values[0]}"
+            st.header(f'Welcome, {username}!')
 
-    with home_cont:
-        st.title(':orange[Electrical Department]')
+            if st.session_state.logged:
+                with content2:
+                    st.markdown("---")
 
-        u_df = st.session_state.adb["users"]
-        u_df = u_df.loc[u_df.login == st.session_state.user]
-        username = f"{u_df.name.values[0]} {u_df.surname.values[0]}"
-        st.header(f'Welcome, {username}!')
+                    ass_col, blank_col, trans_col = st.columns([10, 2, 10])
+                    with ass_col:
+                        # df = get_pers_tasks()
 
-        if st.session_state.logged:
-            with content2:
-                st.markdown("---")
+                        df = get_pers_tasks()
 
-                ass_col, blank_col, trans_col = st.columns([10, 2, 10])
-                with ass_col:
-                    # df = get_pers_tasks()
+                        if isinstance(df, pd.DataFrame) and len(df) > 0:
+                            st.subheader(":orange[New Incoming Tasks]")
+                            for ind, row in df.iterrows():
+                                name_surname = mail_to_name(row.added_by)
+                                st.markdown(f"""<h4>Task: {row.id}</h4>""", unsafe_allow_html=True)
 
-                    df = get_pers_tasks()
+                                st.markdown("""<style>
+                                                    .nobord td {
+                                                            border-style: hidden;
+                                                            margin-left: auto;
+                                                            margin-right: auto;
+                                                            text-align: left;
+                                                        }
+                                                      </style>
+                                                      """, unsafe_allow_html=True)
 
-                    if isinstance(df, pd.DataFrame) and len(df) > 0:
-                        st.subheader(":orange[New Incoming Tasks]")
-                        for ind, row in df.iterrows():
-                            name_surname = mail_to_name(row.added_by)
-                            st.markdown(f"""<h4>Task: {row.id}</h4>""", unsafe_allow_html=True)
+                                st.markdown(f"""
+                                    <table class="nobord">
+                                    <tr>
+                                        <td>Project</td>
+                                        <td>{row.project}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Unit</td>
+                                        <td>{row.unit}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Speciality</td>
+                                        <td>{row.speciality}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Stage</td>
+                                        <td>{row.stage}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Issue Date</td>
+                                        <td>{row.date}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Description</td>
+                                        <td>{row.description}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Link</td>
+                                        <td>{row.link}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Backup Copy</td>
+                                        <td>{row.backup_copy}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Source</td>
+                                        <td>{row.source}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Comment</td>
+                                        <td>{row.comment}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Added By</td>
+                                        <td>{name_surname}</td>
+                                    </tr>
+                                    </table>
+                                    <br>
+                                    """, unsafe_allow_html=True)
 
-                            st.markdown("""<style>
-                                                .nobord td {
-                                                        border-style: hidden;
-                                                        margin-left: auto;
-                                                        margin-right: auto;
-                                                        text-align: left;
-                                                    }
-                                                  </style>
-                                                  """, unsafe_allow_html=True)
+                                but_key1 = f"Confirm Task: {row.id}"
+                                task_id = row.id
+                                if st.button(label=but_key1, key=but_key1, type='primary', on_click=confirm_task,
+                                             args=(
+                                                     (row.id,))):
+                                    st.info(f"Task {task_id} confirmed!!")
+                                st.text("")
+                        else:
+                            st.text('No New Tasks')
 
-                            st.markdown(f"""
-                                <table class="nobord">
-                                <tr>
-                                    <td>Project</td>
-                                    <td>{row.project}</td>
-                                </tr>
-                                <tr>
-                                    <td>Unit</td>
-                                    <td>{row.unit}</td>
-                                </tr>
-                                <tr>
-                                    <td>Speciality</td>
-                                    <td>{row.speciality}</td>
-                                </tr>
-                                <tr>
-                                    <td>Stage</td>
-                                    <td>{row.stage}</td>
-                                </tr>
-                                <tr>
-                                    <td>Issue Date</td>
-                                    <td>{row.date}</td>
-                                </tr>
-                                <tr>
-                                    <td>Description</td>
-                                    <td>{row.description}</td>
-                                </tr>
-                                <tr>
-                                    <td>Link</td>
-                                    <td>{row.link}</td>
-                                </tr>
-                                <tr>
-                                    <td>Backup Copy</td>
-                                    <td>{row.backup_copy}</td>
-                                </tr>
-                                <tr>
-                                    <td>Source</td>
-                                    <td>{row.source}</td>
-                                </tr>
-                                <tr>
-                                    <td>Comment</td>
-                                    <td>{row.comment}</td>
-                                </tr>
-                                <tr>
-                                    <td>Added By</td>
-                                    <td>{name_surname}</td>
-                                </tr>
-                                </table>
-                                <br>
-                                """, unsafe_allow_html=True)
+                    with trans_col:
+                        df = get_my_trans(st.session_state.user)  # st.session_state.user
+                        if isinstance(df, pd.DataFrame) and len(df) > 0:
+                            st.subheader(":orange[New Incoming Transmittals]")
+                            # df = df.loc[df.status != "Closed"]
+                            for ind, row in df.iterrows():
+                                # name_surname = mail_to_name(row.added_by)
+                                st.markdown(f"""<h4>Transmittal: {row.trans_num}</h4>""", unsafe_allow_html=True)
 
-                            but_key1 = f"Confirm Task: {row.id}"
-                            task_id = row.id
-                            if st.button(label=but_key1, key=but_key1, type='primary', on_click=confirm_task,
-                                         args=(
-                                                 (row.id,))):
-                                st.info(f"Task {task_id} confirmed!!")
-                            st.text("")
-                    else:
-                        st.text('No New Tasks')
+                                st.markdown("""<style>
+                                                    .nobord {
+                                                            border-style: hidden;
+                                                            margin-left: auto;
+                                                            margin-right: auto;
+                                                            text-align: left;
+                                                        }
+                                                      </style>
+                                                      """, unsafe_allow_html=True)
 
-                with trans_col:
-                    df = get_my_trans(st.session_state.user)  # st.session_state.user
-                    if isinstance(df, pd.DataFrame) and len(df) > 0:
-                        st.subheader(":orange[New Incoming Transmittals]")
-                        # df = df.loc[df.status != "Closed"]
-                        for ind, row in df.iterrows():
-                            # name_surname = mail_to_name(row.added_by)
-                            st.markdown(f"""<h4>Transmittal: {row.trans_num}</h4>""", unsafe_allow_html=True)
+                                st.markdown(f"""
+                                    <table class="nobord">
+                                    <tr>
+                                        <td>Transmittal Number</td>
+                                        <td>{row.trans_num}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Project</td>
+                                        <td>{row.project}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Subject</td>
+                                        <td>{row.subject}</td>
+                                    </tr>
+    
+                                    <tr>
+                                        <td>Transmittal Date</td>
+                                        <td>{row.trans_date}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Is reply required?</td>
+                                        <td>{"Yes" if row.ans_required else "No"}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Previous Transmittal</td>
+                                        <td>{row.ref_trans}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Responsible</td>
+                                        <td>{row.responsible}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Author</td>
+                                        <td>{row.author}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Link</td>
+                                        <td>{row.link}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Type</td>
+                                        <td>{row.trans_type}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Notes</td>
+                                        <td>{row.notes}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Added By</td>
+                                        <td>{row.added_by}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Status</td>
+                                        <td>{row.status}</td>
+                                    </tr>
+                                    </table>
+                                    <br>
+                                    """, unsafe_allow_html=True)
 
-                            st.markdown("""<style>
-                                                .nobord {
-                                                        border-style: hidden;
-                                                        margin-left: auto;
-                                                        margin-right: auto;
-                                                        text-align: left;
-                                                    }
-                                                  </style>
-                                                  """, unsafe_allow_html=True)
+                                but_key1 = f"Confirm receiving: {row.trans_num}"
+                                but_key2 = f"Update Status for: {row.trans_num}"
 
-                            st.markdown(f"""
-                                <table class="nobord">
-                                <tr>
-                                    <td>Transmittal Number</td>
-                                    <td>{row.trans_num}</td>
-                                </tr>
-                                <tr>
-                                    <td>Project</td>
-                                    <td>{row.project}</td>
-                                </tr>
-                                <tr>
-                                    <td>Subject</td>
-                                    <td>{row.subject}</td>
-                                </tr>
+                                if st.session_state.user not in row.received:
+                                    st.button(label=but_key1, key=but_key1, type='secondary',
+                                              on_click=confirm_trans,
+                                              args=((row.trans_num,)))
 
-                                <tr>
-                                    <td>Transmittal Date</td>
-                                    <td>{row.trans_date}</td>
-                                </tr>
-                                <tr>
-                                    <td>Is reply required?</td>
-                                    <td>{"Yes" if row.ans_required else "No"}</td>
-                                </tr>
-                                <tr>
-                                    <td>Previous Transmittal</td>
-                                    <td>{row.ref_trans}</td>
-                                </tr>
-                                <tr>
-                                    <td>Responsible</td>
-                                    <td>{row.responsible}</td>
-                                </tr>
-                                <tr>
-                                    <td>Author</td>
-                                    <td>{row.author}</td>
-                                </tr>
-                                <tr>
-                                    <td>Link</td>
-                                    <td>{row.link}</td>
-                                </tr>
-                                <tr>
-                                    <td>Type</td>
-                                    <td>{row.trans_type}</td>
-                                </tr>
-                                <tr>
-                                    <td>Notes</td>
-                                    <td>{row.notes}</td>
-                                </tr>
-                                <tr>
-                                    <td>Added By</td>
-                                    <td>{row.added_by}</td>
-                                </tr>
-                                <tr>
-                                    <td>Status</td>
-                                    <td>{row.status}</td>
-                                </tr>
-                                </table>
-                                <br>
-                                """, unsafe_allow_html=True)
-
-                            but_key1 = f"Confirm receiving: {row.trans_num}"
-                            but_key2 = f"Update Status for: {row.trans_num}"
-
-                            if st.session_state.user not in row.received:
-                                st.button(label=but_key1, key=but_key1, type='secondary',
-                                          on_click=confirm_trans,
+                                st.button(label=but_key2, key=but_key2, type='primary',
+                                          on_click=update_trans_status,
                                           args=((row.trans_num,)))
+                                st.text("")
+                        else:
+                            st.text('No New Transmittals')
 
-                            st.button(label=but_key2, key=but_key2, type='primary',
-                                      on_click=update_trans_status,
-                                      args=((row.trans_num,)))
-                            st.text("")
-                    else:
-                        st.text('No New Transmittals')
 
-        # with change_tab:
 
 
 def etap_py():
     from datetime import datetime
 
-    # project, sod, task, trans, users = get_all()
-    adb = st.session_state.adb
-    phone_1, phone_content, phone_2 = st.columns([1, 9, 1])
-    with phone_1:
-        st.empty()
-    with phone_2:
-        st.empty()
-    with phone_content:
-        st.title(':orange[Create SLD from Load List]')
+    st.session_state.w.empty()
+    with st.session_state.w.container():
 
-        if st.button('Show Projects'):
-            st.write(adb['project'])
+        adb = st.session_state.adb
+        phone_1, phone_content, phone_2 = st.columns([1, 9, 1])
+        with phone_1:
+            st.empty()
+        with phone_2:
+            st.empty()
+        with phone_content:
+            st.title(':orange[Create SLD from Load List]')
 
-        if st.button('Show Units'):
-            st.write(adb['sod'])
+            if st.button('Show Projects'):
+                st.write(adb['project'])
 
-        if st.button('Show Tasks'):
-            start_time = datetime.now()
-            st.write(adb['task'])
-            st.text((datetime.now() - start_time))
+            if st.button('Show Units'):
+                st.write(adb['sod'])
 
-        if st.button('Show Transmittals'):
-            start_time = datetime.now()
-            st.write(adb['trans'])
-            st.text((datetime.now() - start_time))
+            if st.button('Show Tasks'):
+                start_time = datetime.now()
+                st.write(adb['task'])
+                st.text((datetime.now() - start_time))
 
-        if st.button('Show Users'):
-            st.write(adb['users'])
+            if st.button('Show Transmittals'):
+                start_time = datetime.now()
+                st.write(adb['trans'])
+                st.text((datetime.now() - start_time))
 
-        if st.button("Tasks from DB"):
-            start_time = datetime.now()
-            tr_df = get_table(Task)
-            st.write(tr_df)
-            st.text((datetime.now() - start_time))
+            if st.button('Show Users'):
+                st.write(adb['users'])
+
+            if st.button("Tasks from DB"):
+                start_time = datetime.now()
+                tr_df = get_table(Task)
+                st.write(tr_df)
+                st.text((datetime.now() - start_time))
 
 
 def login_register():
-    st.markdown("""
-        <style>
-            div[data-testid="column"]:nth-of-type(1)
-            {
-                text-align: center;
-            } 
+    st.session_state.w.empty()
+    with st.session_state.w.container():
+        st.markdown("""
+            <style>
+                div[data-testid="column"]:nth-of-type(1)
+                {
+                    text-align: center;
+                } 
+    
+                div[data-testid="column"]:nth-of-type(2)
+                {
+                    text-align: center;
+                } 
+    
+                div[data-testid="column"]:nth-of-type(3)
+                {
+                    text-align: center;
+                } 
+            </style>
+            """, unsafe_allow_html=True)
 
-            div[data-testid="column"]:nth-of-type(2)
-            {
-                text-align: center;
-            } 
+        reg_left, reg_content, reg_right = st.columns([5, 3, 5])
+        with reg_left:
+            st.empty()
+        with reg_right:
+            st.empty()
 
-            div[data-testid="column"]:nth-of-type(3)
-            {
-                text-align: center;
-            } 
-        </style>
-        """, unsafe_allow_html=True)
+        with reg_content:
+            st.title(':orange[Electrical Department]')
 
-    reg_left, reg_content, reg_right = st.columns([5, 3, 5])
-    with reg_left:
-        st.empty()
-    with reg_right:
-        st.empty()
+            st.header('Welcome, Colleague!')
 
-    with reg_content:
-        st.title(':orange[Electrical Department]')
+            st.text("The Site is designed to help you in everyday routines")
+            login_tab, reg_tab = st.tabs(["Log In", 'Registration'])
 
-        st.header('Welcome, Colleague!')
-
-        st.text("The Site is designed to help you in everyday routines")
-        login_tab, reg_tab = st.tabs(["Log In", 'Registration'])
-
-        with login_tab:
-            with st.form('log_in'):
-                login = st.selectbox("Select Your Login", st.session_state.registered_logins,
-                                     disabled=st.session_state.logged)
-                st.write("Not in list? Register first 👆")
-                password = st.text_input('Password', type='password', disabled=st.session_state.logged)
-                login_but = st.form_submit_button('Log In', disabled=st.session_state.logged,
-                                                  use_container_width=True)
-                if login_but:
-                    if len(password) < 3:
-                        reporter("Password should be at least 3 symbols")
-                        st.stop()
-                    else:
-                        st.session_state.logged = check_user(login, password)
-
-                        if st.session_state.logged:
-                            st.session_state.user = login
-                            # st.session_state.rights = get_logged_rights(login)
-
-                            users_df = st.session_state.adb['users']
-
-                            st.session_state.rights = users_df.loc[users_df.login == login, 'access_level'].values[0]
-                            reply = add_to_log(login)
-
-                            if 'ERROR' in reply.upper():
-                                st.write(f"""Please sent error below to sergey.priemshiy@uzliti-en.com
-                                            or by telegram +998909598030:
-                                            {reply}""")
-                                st.stop()
-
-                            # logout_but = st.button('Log Out', disabled=not st.session_state.logged,
-                            #                        use_container_width=True)
-                            # if logout_but:
-                            #     st.session_state.logged = False
-                            #     st.session_state.user = None
-                            #     reporter("Bye! Bye! Bye!")
-                            #     st.session_state.rights = 'basic'
-                            return True
-
+            with login_tab:
+                with st.form('log_in'):
+                    login = st.selectbox("Select Your Login", st.session_state.registered_logins,
+                                         disabled=st.session_state.logged)
+                    st.write("Not in list? Register first 👆")
+                    password = st.text_input('Password', type='password', disabled=st.session_state.logged)
+                    login_but = st.form_submit_button('Log In', disabled=st.session_state.logged,
+                                                      use_container_width=True)
+                    if login_but:
+                        if len(password) < 3:
+                            reporter("Password should be at least 3 symbols")
+                            st.stop()
                         else:
-                            st.warning('Wrong Password')
-                            st.session_state.rights = None
-                            st.session_state.user = None
-                            return False
+                            st.session_state.logged = check_user(login, password)
 
-        with reg_tab:
-            users_df = st.session_state.adb['users']
-            appl_logins = users_df.loc[users_df.status == 'current', 'login'].tolist()
+                            if st.session_state.logged:
+                                st.session_state.user = login
+                                # st.session_state.rights = get_logged_rights(login)
 
-            if isinstance(appl_logins, list):
-                login = st.selectbox("Select Your Login", appl_logins,
-                                     disabled=st.session_state.logged, key='reg_email')
-            else:
-                reporter(appl_logins)
-                st.stop()
+                                users_df = st.session_state.adb['users']
 
-            if login in st.session_state.registered_logins:
-                st.subheader("You are Registered 😎")
-            else:
-                st.write("Not in list? Send the request from your e-mail to sergey.priemshiy@uzliti-en.com")
+                                st.session_state.rights = users_df.loc[users_df.login == login, 'access_level'].values[0]
+                                reply = add_to_log(login)
 
-            with st.form("Reg_form"):
-                name = st.text_input('Your Name', disabled=st.session_state.logged)
-                surname = st.text_input('Your Surname', disabled=st.session_state.logged)
-                phone = st.text_input('Your personal Phone', disabled=st.session_state.logged)
-                telegram = st.text_input('Your personal Telegram', disabled=st.session_state.logged)
-                reg_pass_1 = st.text_input('Password', type='password', key='reg_pass_1',
-                                           disabled=st.session_state.logged)
-                reg_pass_2 = st.text_input('Repeat Password', type='password', key='reg_pass_2',
-                                           disabled=st.session_state.logged)
+                                if 'ERROR' in reply.upper():
+                                    st.write(f"""Please sent error below to sergey.priemshiy@uzliti-en.com
+                                                or by telegram +998909598030:
+                                                {reply}""")
+                                    st.stop()
 
-                # data_chb = st.checkbox('Data is Correct', disabled=st.session_state.logged)
+                                # logout_but = st.button('Log Out', disabled=not st.session_state.logged,
+                                #                        use_container_width=True)
+                                # if logout_but:
+                                #     st.session_state.logged = False
+                                #     st.session_state.user = None
+                                #     reporter("Bye! Bye! Bye!")
+                                #     st.session_state.rights = 'basic'
+                                return True
 
-                get_reg_code = st.form_submit_button('Get Confirmation Code', use_container_width=True)
+                            else:
+                                st.warning('Wrong Password')
+                                st.session_state.rights = None
+                                st.session_state.user = None
+                                return False
 
-            # conf_html = ""
-            if get_reg_code:
+            with reg_tab:
+                users_df = st.session_state.adb['users']
+                appl_logins = users_df.loc[users_df.status == 'current', 'login'].tolist()
+
+                if isinstance(appl_logins, list):
+                    login = st.selectbox("Select Your Login", appl_logins,
+                                         disabled=st.session_state.logged, key='reg_email')
+                else:
+                    reporter(appl_logins)
+                    st.stop()
+
                 if login in st.session_state.registered_logins:
-                    reporter(f'User {login} is already in DataBase')
-                    st.stop()
+                    st.subheader("You are Registered 😎")
+                else:
+                    st.write("Not in list? Send the request from your e-mail to sergey.priemshiy@uzliti-en.com")
 
-                if len(reg_pass_2) < 3 or reg_pass_1 != reg_pass_2:
-                    st.warning("""- Password should be at least 3 symbols
-                        - Password and Repeat Password should be the same""")
-                    st.stop()
-                if len(name) < 2 or len(surname) < 2:
-                    st.warning("! Too short Name or Surname")
-                    st.stop()
+                with st.form("Reg_form"):
+                    name = st.text_input('Your Name', disabled=st.session_state.logged)
+                    surname = st.text_input('Your Surname', disabled=st.session_state.logged)
+                    phone = st.text_input('Your personal Phone', disabled=st.session_state.logged)
+                    telegram = st.text_input('Your personal Telegram', disabled=st.session_state.logged)
+                    reg_pass_1 = st.text_input('Password', type='password', key='reg_pass_1',
+                                               disabled=st.session_state.logged)
+                    reg_pass_2 = st.text_input('Repeat Password', type='password', key='reg_pass_2',
+                                               disabled=st.session_state.logged)
 
-                if 'conf_num' not in st.session_state:
-                    st.session_state.conf_num = "".join(random.sample("123456789", 4))
+                    # data_chb = st.checkbox('Data is Correct', disabled=st.session_state.logged)
 
-                conf_html = f"""
-                        <html>
-                          <head></head>
-                          <body>
-                            <h3>
-                              Hello, Colleague!
-                              <hr>
-                            </h3>
-                            <h5>
-                              You got this message because you want to register on ETD site
-                            </h5>
-                            <p>
-                                Please confirm your registration by entering the confirmation code
-                                <b>{st.session_state.conf_num}</b>
-                                at the <a href="https://design-energo.streamlit.app/">site</a> registration form
-                                <hr>
-                                Best regards, Administration 😎
-                            </p>
-                          </body>
-                        </html>
-                    """
+                    get_reg_code = st.form_submit_button('Get Confirmation Code', use_container_width=True)
 
-                if not st.session_state.code_sent:
-                    # user = get_user_data(login)
-
-                    user_df = st.session_state.adb['user']
-                    user = user_df.loc[users_df.login == login]
-
-                    # if "@" not in user.email:
-                    if "@" not in user.email.values[0]:
-                        st.warning("Can't get User's email")
+                # conf_html = ""
+                if get_reg_code:
+                    if login in st.session_state.registered_logins:
+                        reporter(f'User {login} is already in DataBase')
                         st.stop()
 
-                    if send_mail(receiver=user.email, cc_rec="sergey.priemshiy@uzliti-en.com",
-                                 html=conf_html, subj="Confirmation of ETD site registration"):
-                        st.session_state.code_sent = True
-                        st.info("Confirmation Code sent to Your Company Email")
+                    if len(reg_pass_2) < 3 or reg_pass_1 != reg_pass_2:
+                        st.warning("""- Password should be at least 3 symbols
+                            - Password and Repeat Password should be the same""")
+                        st.stop()
+                    if len(name) < 2 or len(surname) < 2:
+                        st.warning("! Too short Name or Surname")
+                        st.stop()
+
+                    if 'conf_num' not in st.session_state:
+                        st.session_state.conf_num = "".join(random.sample("123456789", 4))
+
+                    conf_html = f"""
+                            <html>
+                              <head></head>
+                              <body>
+                                <h3>
+                                  Hello, Colleague!
+                                  <hr>
+                                </h3>
+                                <h5>
+                                  You got this message because you want to register on ETD site
+                                </h5>
+                                <p>
+                                    Please confirm your registration by entering the confirmation code
+                                    <b>{st.session_state.conf_num}</b>
+                                    at the <a href="https://design-energo.streamlit.app/">site</a> registration form
+                                    <hr>
+                                    Best regards, Administration 😎
+                                </p>
+                              </body>
+                            </html>
+                        """
+
+                    if not st.session_state.code_sent:
+                        # user = get_user_data(login)
+
+                        user_df = st.session_state.adb['user']
+                        user = user_df.loc[users_df.login == login]
+
+                        # if "@" not in user.email:
+                        if "@" not in user.email.values[0]:
+                            st.warning("Can't get User's email")
+                            st.stop()
+
+                        if send_mail(receiver=user.email, cc_rec="sergey.priemshiy@uzliti-en.com",
+                                     html=conf_html, subj="Confirmation of ETD site registration"):
+                            st.session_state.code_sent = True
+                            st.info("Confirmation Code sent to Your Company Email")
+                        else:
+                            st.warning("Network problems...Try again later")
+
+                entered_code = st.text_input("Confirmation Code from Email")
+
+                if st.button("Register", use_container_width=True):
+                    if login in st.session_state.registered_logins:
+                        reporter(f'User {login} is already in DataBase')
+                        st.stop()
+
+                    if st.session_state.conf_num != entered_code:
+                        reporter("Confirmation code is wrong, try again")
+                        st.stop()
                     else:
-                        st.warning("Network problems...Try again later")
-
-            entered_code = st.text_input("Confirmation Code from Email")
-
-            if st.button("Register", use_container_width=True):
-                if login in st.session_state.registered_logins:
-                    reporter(f'User {login} is already in DataBase')
-                    st.stop()
-
-                if st.session_state.conf_num != entered_code:
-                    reporter("Confirmation code is wrong, try again")
-                    st.stop()
-                else:
-                    reply = register_user(name, surname, phone, telegram, login, reg_pass_2)
-                    if 'ERROR' in reply.upper():
-                        st.write('Error')
-                    else:
-                        reporter(reply)
-                        st.experimental_rerun()
+                        reply = register_user(name, surname, phone, telegram, login, reg_pass_2)
+                        if 'ERROR' in reply.upper():
+                            st.write('Error')
+                        else:
+                            reporter(reply)
+                            st.experimental_rerun()
 
 
 def manage_users():
-    users_1, users_content, users_2 = st.columns([1, 2, 1])
-    with users_1:
-        st.empty()
-    with users_1:
-        st.empty()
-    with users_content:
-        st.title(':orange[Manage Users]')
+    st.session_state.w.empty()
+    with st.session_state.w.container():
+        users_1, users_content, users_2 = st.columns([1, 2, 1])
+        with users_1:
+            st.empty()
+        with users_1:
+            st.empty()
+        with users_content:
+            st.title(':orange[Manage Users]')
 
-        users_tab1, users_tab2 = st.tabs(['Add New User', 'Edit User Details'])
-        with users_tab1:
-            with st.form("Add_new_user"):
-                user_email = st.text_input('Email')
-                user_position = st.radio('Position', positions, horizontal=True)
-                st.markdown("---")
-                user_department = st.radio('Department', departments, horizontal=True)
-                st.markdown("---")
-                user_access_level = st.radio('Access level',
-                                             ('performer', 'admin', 'supervisor'), horizontal=True)
-                st.markdown("---")
-                user_start_date = st.date_input('Start Date', datetime.date.today())
-                create_appl_user_but = st.form_submit_button('Create New User', use_container_width=True)
-
-            if create_appl_user_but:
-                reply = create_appl_user(
-                    user_email, user_position, user_department, user_access_level, "current", user_start_date)
-                reporter(reply)
-                st.experimental_rerun()
-
-        with users_tab2:
-
-            # list_appl_users = get_all_emails()
-
-            users_df = st.session_state.adb['users']
-
-            list_appl_users = users_df.login.tolist()
-
-            employee_to_edit = st.selectbox('Select User', list_appl_users)
-            edit_move = st.radio('Action', ('Edit', 'Move to Former Users'), horizontal=True)
-
-            if edit_move == 'Edit':
-                with st.form('upd_exist_user'):
-
-                    # appl_user = get_user_data(employee_to_edit)
-
-                    users_df = st.session_state.adb['users']
-
-                    appl_user = users_df.loc[users_df.login == employee_to_edit]
-
-                    position = st.radio('Position', positions,
-                                        key='edit_position', horizontal=True,
-                                        index=get_list_index(positions, appl_user.position.values[0]))
+            users_tab1, users_tab2 = st.tabs(['Add New User', 'Edit User Details'])
+            with users_tab1:
+                with st.form("Add_new_user"):
+                    user_email = st.text_input('Email')
+                    user_position = st.radio('Position', positions, horizontal=True)
                     st.markdown("---")
-                    # try:
-                    #     department_ind = departments.index(appl_user.department)
-                    # except:
-                    #     department_ind = 0
-
-                    department = st.radio('Department', departments,
-                                          key='edit_department', horizontal=True,
-                                          index=get_list_index(departments, appl_user.branch.values[0]))
+                    user_department = st.radio('Department', departments, horizontal=True)
                     st.markdown("---")
-
-                    access_tuple = ('performer', 'admin', 'supervisor', 'prohibited')
-                    # try:
-                    #     access_ind = access_tuple.index(appl_user.access_level)
-                    # except Exception:
-                    #     access_ind = 0
-
-                    access_level = st.radio('Access level', access_tuple, horizontal=True,
-                                            key='edit_access_level',
-                                            index=get_list_index(access_tuple, appl_user.access_level.values[0]))
+                    user_access_level = st.radio('Access level',
+                                                 ('performer', 'admin', 'supervisor'), horizontal=True)
                     st.markdown("---")
+                    user_start_date = st.date_input('Start Date', datetime.date.today())
+                    create_appl_user_but = st.form_submit_button('Create New User', use_container_width=True)
 
-                    try:
-                        date_from_db = appl_user.start_date.values[0]
-                    except:
-                        date_from_db = datetime.date.today()
-
-                    start_date = st.date_input('Start Date', date_from_db, key='start_date')
-
-                    upd_user_but = st.form_submit_button("Update in DB", use_container_width=True)
-
-                if upd_user_but:
-                    reply = update_users_in_db(employee_to_edit, position, department, start_date, access_level)
-                    reporter(reply, 3)
-
-            if edit_move == 'Move to Former Users':
-                end_date = st.date_input('End Date', key='end_date')
-
-                if st.button('Confirm', type='primary', use_container_width=True):
-                    reply = move_to_former(employee_to_edit, end_date)
+                if create_appl_user_but:
+                    reply = create_appl_user(
+                        user_email, user_position, user_department, user_access_level, "current", user_start_date)
                     reporter(reply)
+                    st.experimental_rerun()
+
+            with users_tab2:
+
+                # list_appl_users = get_all_emails()
+
+                users_df = st.session_state.adb['users']
+
+                list_appl_users = users_df.login.tolist()
+
+                employee_to_edit = st.selectbox('Select User', list_appl_users)
+                edit_move = st.radio('Action', ('Edit', 'Move to Former Users'), horizontal=True)
+
+                if edit_move == 'Edit':
+                    with st.form('upd_exist_user'):
+
+                        # appl_user = get_user_data(employee_to_edit)
+
+                        users_df = st.session_state.adb['users']
+
+                        appl_user = users_df.loc[users_df.login == employee_to_edit]
+
+                        position = st.radio('Position', positions,
+                                            key='edit_position', horizontal=True,
+                                            index=get_list_index(positions, appl_user.position.values[0]))
+                        st.markdown("---")
+                        # try:
+                        #     department_ind = departments.index(appl_user.department)
+                        # except:
+                        #     department_ind = 0
+
+                        department = st.radio('Department', departments,
+                                              key='edit_department', horizontal=True,
+                                              index=get_list_index(departments, appl_user.branch.values[0]))
+                        st.markdown("---")
+
+                        access_tuple = ('performer', 'admin', 'supervisor', 'prohibited')
+                        # try:
+                        #     access_ind = access_tuple.index(appl_user.access_level)
+                        # except Exception:
+                        #     access_ind = 0
+
+                        access_level = st.radio('Access level', access_tuple, horizontal=True,
+                                                key='edit_access_level',
+                                                index=get_list_index(access_tuple, appl_user.access_level.values[0]))
+                        st.markdown("---")
+
+                        try:
+                            date_from_db = appl_user.start_date.values[0]
+                        except:
+                            date_from_db = datetime.date.today()
+
+                        start_date = st.date_input('Start Date', date_from_db, key='start_date')
+
+                        upd_user_but = st.form_submit_button("Update in DB", use_container_width=True)
+
+                    if upd_user_but:
+                        reply = update_users_in_db(employee_to_edit, position, department, start_date, access_level)
+                        reporter(reply, 3)
+
+                if edit_move == 'Move to Former Users':
+                    end_date = st.date_input('End Date', key='end_date')
+
+                    if st.button('Confirm', type='primary', use_container_width=True):
+                        reply = move_to_former(employee_to_edit, end_date)
+                        reporter(reply)
 
 
 def win_selector(selected):
@@ -866,6 +881,7 @@ def initial():
     if not st.session_state.logged:
         if login_register():
             reporter("Logged In", 1)
+            st.session_state.w.empty()
             st.experimental_rerun()
         else:
             reporter('Please Log In to start work with Site', 3)
