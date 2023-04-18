@@ -26,31 +26,30 @@ def tasks_content():
         </style>
         """, unsafe_allow_html=True)
 
-    ass_1, ass_content, ass_2 = st.columns([1, 15, 1])
-    with ass_1:
+    task_l, task_cont, task_r = st.columns([1, 15, 1])
+    with task_l:
         st.empty()
-    with ass_2:
+    with task_r:
         st.empty()
-    with ass_content:
+    with task_cont:
         st.title(':orange[Tasks]')
 
-        ass_tab1, ass_tab2 = st.tabs(['Add New Task', 'View Existing Tasks'])
+        task_tab1, task_tab2 = st.tabs(['Add New Task', 'View Existing Tasks'])
 
-        with ass_tab1:
-            add_task(ass_tab1)
+        with task_tab1:
+            add_task(task_tab1)
 
-        with ass_tab2:
+        with task_tab2:
             my_all = st.radio('Select', ("My", "All"), horizontal=True, label_visibility='collapsed')
-            view_tasks(ass_tab2, my_all)
+            view_tasks(task_tab2, my_all)
 
 
-def add_task(ass_content):
+def add_task(task_content):
     st.session_state.w.empty()
     with st.session_state.w.container():
-        with ass_content:
+        with task_content:
             # left_col, right_col = st.columns(2)
             plaho = st.empty()
-
             with plaho.container():
                 project = st.selectbox('Select the Project', st.session_state.proj_names)
 
@@ -76,11 +75,11 @@ def add_task(ass_content):
                     comments = left_col3.text_input('Comments')
                     source = right_col3.text_area('Received by:', value='Received by paper', height=127)
 
-                    ass_preview = st.form_submit_button("Preview Task", use_container_width=True)
+                    task_preview = st.form_submit_button("Preview Task", use_container_width=True)
 
                 pr_l, pr_c, pr_r = st.columns([1, 2, 1])
 
-                if ass_preview:
+                if task_preview:
                     st.session_state.task_preview = True
 
                     st.write("")
@@ -182,7 +181,7 @@ def add_task(ass_content):
 
                     if st.button("N E X T"):
                         plaho.empty()
-                        st.experimental_rerun()
+                        # st.experimental_rerun()
 
 
 def view_tasks(ass_tab2, my_all):
