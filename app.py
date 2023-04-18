@@ -63,10 +63,10 @@ def create_states():
         st.session_state.trans_status = None
 
     if 'menu' not in st.session_state:
-        st.session_state.menu = get_menus()[0]
+        st.session_state.menu = None
 
     if 'icons' not in st.session_state:
-        st.session_state.icons = get_menus()[1]
+        st.session_state.icons = None
 
     if 'edit_sod' not in st.session_state:
         st.session_state.edit_sod = {
