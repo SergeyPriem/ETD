@@ -259,7 +259,9 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
 
     with db_session:
         try:
+            last_id = max(s.id for s in SOD)
             SOD(
+                id=last_id + 1,
                 project_id=Project.get(short_name=proj_short),
                 set_name=set_name,
                 stage=stage,
@@ -268,7 +270,9 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
                 perf_id=Users.get(login=performer).id,
                 current_status=status,
                 start_date=set_start_date,
-                notes=notes
+                notes=notes,
+                aux=f"{st.session_state.user}: {(datetime.now())[:-10]}"
+
             )
             return f"New Set '{set_name}' for Project '{proj_short}' is added to DataBase"
         except Exception as e:

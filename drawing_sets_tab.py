@@ -382,7 +382,7 @@ def create_new_unit():
                     st.session_state.adb['sod'] = sod_df.append(
                         {'id': next_id, 'project_id': project_id, 'set_name': set_name, 'coord_id': coord_id,
                          'perf_id': perf_id, 'stage': stage, 'revision': "R1", 'current_status': status,
-                         'notes': notes
+                         'notes': notes, 'aux': f"{st.session_state.user}: {str(datetime.datetime.now())[:-10]}"
                          }
                     )
 
