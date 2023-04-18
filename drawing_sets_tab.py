@@ -7,6 +7,7 @@ from pre_sets import specialities, sod_revisions, sod_statuses, stages
 from projects import get_trans_nums, update_sod, add_sod
 from pre_sets import reporter
 
+
 def show_sets():
     if st.session_state.edit_sod['project']:
 
@@ -64,7 +65,6 @@ def show_sets():
             user_id = u_df.loc[u_df.login == user_login].index.values[0]
             df = df[(df.coord_id == user_id) | (df.perf_id == user_id)]
 
-
         df['unit_id'] = df.index
         df = df.set_index('project_id').join(proj_df['short_name'])
         df = df.set_index('coord_id').join(u_df['login'])
@@ -101,14 +101,13 @@ def show_sets():
             proj_selected = proj_col.selectbox("Project for Search", proj_list, index=get_list_index(proj_list, proj))
 
         else:
-            ## SELECT PROJECT
+            # SELECT PROJECT
             proj_selected = proj_col.selectbox("Project for Search", proj_list, index=get_list_index(proj_list, proj))
 
             units_list = df[df.project == proj_selected]['unit']
 
             # SELECT SOD
             unit_selected = unit_col.selectbox("Unit for Search", units_list, index=get_list_index(units_list, sod))
-
 
             df_edit = df.loc[(df.unit == unit_selected) & (df.project == proj_selected)]
 
@@ -117,7 +116,6 @@ def show_sets():
         st.experimental_data_editor(df_edit[['unit_id', 'coordinator', 'performer', 'stage', 'revision', 'start_date',
                                              'status', 'transmittal', 'trans_date', 'notes']].set_index('unit_id'),
                                     use_container_width=True)
-
 
         if len(df_edit) == 1:
             unit_id = df_edit.unit_id.values[0]
@@ -155,14 +153,6 @@ def show_sets():
         units_tasks.reset_index(inplace=True)
 
         units_tasks['speciality'] = units_tasks.abbrev
-
-        # if isinstance(units_tasks, str):
-        #     if units_tasks == "Empty Table":
-        #         st.warning('No Tasks Available for selected Unit')
-        #         st.stop()
-        #
-        # if not isinstance(units_tasks, pd.DataFrame):
-        #     st.stop()
 
         task_col, in_out_col, quant_col = st.columns([9, 2, 2])
 
@@ -330,12 +320,12 @@ def edit_sets():
 
 
 def drawing_sets():
-    # st.write(st.session_state.edit_sod)
     if 'edit_sod' in st.session_state:
         if st.session_state.edit_sod['state']:
             edit_sets()
         else:
             show_sets()
+
 
 def create_new_unit():
     empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
@@ -378,7 +368,7 @@ def create_new_unit():
                             'id': next_id, 'project_id': project_id, 'set_name': set_name, 'coord_id': coord_id,
                             'perf_id': perf_id, 'stage': stage, 'revision': "R1", 'current_status': status,
                             'notes': notes, 'aux': f"{st.session_state.user}: {str(datetime.datetime.now())[:-10]}"
-                         }
+                        }
                     ]
                 )
 
@@ -386,4 +376,3 @@ def create_new_unit():
 
             else:
                 st.warning(reply)
-
