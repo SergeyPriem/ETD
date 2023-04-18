@@ -28,8 +28,7 @@ from models import Task
 
 def create_states():
     if 'adb' not in st.session_state:
-        with st.spinner('Loading from DB'):
-            st.session_state.adb = get_all()
+        st.session_state.adb = get_all()
 
     if 'delay' not in st.session_state:
         st.session_state.delay = 2
@@ -63,6 +62,12 @@ def create_states():
 
     if 'trans_status' not in st.session_state:
         st.session_state.trans_status = None
+
+    if 'menu' not in st.session_state:
+        st.session_state.menu = get_menus()[0]
+
+    if 'icons' not in st.session_state:
+        st.session_state.icons = get_menus()[1]
 
     if 'edit_sod' not in st.session_state:
         st.session_state.edit_sod = {
@@ -516,7 +521,7 @@ def login_register():
 
                 # data_chb = st.checkbox('Data is Correct', disabled=st.session_state.logged)
 
-                get_reg_code = st.form_submit_button('Get Confirmation Code')
+                get_reg_code = st.form_submit_button('Get Confirmation Code', use_container_width=True)
 
             # conf_html = ""
             if get_reg_code:
@@ -710,22 +715,20 @@ def get_menus():
     if st.session_state.rights == "basic":
         menu = [*short_menu]
         icons = [*short_icons]
-        return menu, icons
 
     if st.session_state.rights == "performer":
         menu = [*short_menu, *performer_menu]
         icons = [*short_icons, *performer_icons]
-        return menu, icons
 
     if st.session_state.rights == "admin":
         menu = [*short_menu, *performer_menu, *admin_menu]
         icons = [*short_icons, *performer_icons, *admin_icons]
-        return menu, icons
 
     if st.session_state.rights == "supervisor":
         menu = [*short_menu, *performer_menu, *admin_menu, *super_menu]
         icons = [*short_icons, *performer_icons, *admin_icons, *super_icons]
-        return menu, icons
+
+    return menu, icons
 
 
 selected = None
@@ -745,13 +748,13 @@ if st.session_state.logged and st.session_state.user:
         with st.sidebar:
             image = Image.open("images/big_logo.jpg")
             st.image(image, use_column_width=True)
-            selected = option_menu("ET Department", get_menus()[0], icons=get_menus()[1],
+            selected = option_menu("ET Department", st.session_state.menu, icons=st.session_state.icons,
                                    menu_icon="bi bi-plug", default_index=0)
 
             st.write(st.session_state.edit_sod)
 
     else:
-        selected = option_menu(None, get_menus()[0], icons=get_menus()[1],
+        selected = option_menu(None, st.session_state.menu, icons=st.session_state.icons,
                                menu_icon=None, default_index=0, orientation='horizontal')
     home_content()
 
