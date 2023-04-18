@@ -44,10 +44,8 @@ def get_menus():
     super_menu = ["Manage Projects", "Manage Users"]
     super_icons = ["bi bi-briefcase", "bi bi-person-lines-fill"]
 
-    if st.session_state.rights:
-        st.write(st.session_state.rights)
-    else:
-        st.warning('Rights not available')
+    if not st.session_state.rights:
+        st.warning('Rights not available...')
 
     if st.session_state.rights == "performer":
         menu = [*performer_menu]
@@ -107,7 +105,8 @@ def create_states():
         st.session_state.task_preview = False
 
     if 'proj_names' not in st.session_state:
-        st.session_state.proj_names = st.session_state.adb['project'].short_name.tolist()
+        st.session_state.proj_names = None
+
 
     if 'trans_status' not in st.session_state:
         st.session_state.trans_status = None
@@ -797,21 +796,32 @@ def initial():
 
     users_df = None
 
-    if isinstance(st.session_state.adb, dict):
-        try:
-            users_df = st.session_state.adb['users']
-            if not isinstance(users_df, pd.DataFrame) or len(users_df) == 0:
-                st.warning("Can't get Users")
-                st.stop()
-        except Exception as e:
-            st.warning(err_handler(e))
-            st.stop()
-    else:
+    if not isinstance(st.session_state.adb, dict):
         st.warning(st.session_state.adb)
         st.stop()
 
-    st.session_state.registered_logins = users_df.loc[(users_df.status == 'current') &
-                                                      users_df.hashed_pass, 'login'].tolist()
+    try:
+        users_df = st.session_state.adb['users']
+        if not isinstance(users_df, pd.DataFrame) or len(users_df) == 0:
+            st.warning("Can't get Users")
+            st.stop()
+    except Exception as e:
+        st.warning(err_handler(e))
+        st.stop()
+
+    try:
+        st.session_state.registered_logins = users_df.loc[(users_df.status == 'current') &
+                                                          users_df.hashed_pass, 'login'].tolist()
+
+        if len(st.session_state.registered_logins) == 0:
+            st.warning("Can't get Registered Users")
+            st.stop()
+
+    except Exception as e:
+        st.warning(err_handler(e))
+        st.stop()
+
+    st.session_state.proj_names = st.session_state.adb['project'].short_name.tolist()
 
     if not st.session_state.logged:
         login_register()
