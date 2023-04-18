@@ -737,6 +737,10 @@ selected = None
 
 st.write(f"st.session_state.logged={st.session_state.logged}")
 st.write(f"st.session_state.user={st.session_state.user}")
+st.write("")
+st.write(f"st.session_state.menu={st.session_state.menu}")
+st.write(f"st.session_state.icons={st.session_state.icons}")
+
 
 if not st.session_state.logged:
     login_register()
