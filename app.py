@@ -29,10 +29,10 @@ def get_menus():
     menu = None
     icons = None
 
-    performer_menu = ["Drawing Sets", "Transmittals", "Tasks", 'EtapPy', 'Just for fun',
+    performer_menu = ["Home", "Drawing Sets", "Transmittals", "Tasks", 'EtapPy', 'Just for fun',
                       'Lessons Learned', 'Settings']
 
-    performer_icons = ['bi bi-file-earmark-spreadsheet-fill', 'bi bi-file-arrow-down',
+    performer_icons = ['house', 'bi bi-file-earmark-spreadsheet-fill', 'bi bi-file-arrow-down',
                        'bi bi-file-check', 'bi bi-diagram-3', 'bi bi-info-circle', 'bi bi-pen', 'bi bi-gear',
                        ]
 
@@ -42,24 +42,19 @@ def get_menus():
     super_menu = ["Manage Projects", "Manage Users"]
     super_icons = ["bi bi-briefcase", "bi bi-person-lines-fill"]
 
-    short_menu = ["Home"]
-    short_icons = ['house']
 
-    if st.session_state.rights == "basic":
-        menu = [*short_menu]
-        icons = [*short_icons]
 
     if st.session_state.rights == "performer":
-        menu = [*short_menu, *performer_menu]
-        icons = [*short_icons, *performer_icons]
+        menu = [*performer_menu]
+        icons = [*performer_icons]
 
     if st.session_state.rights == "admin":
-        menu = [*short_menu, *performer_menu, *admin_menu]
-        icons = [*short_icons, *performer_icons, *admin_icons]
+        menu = [*performer_menu, *admin_menu]
+        icons = [*performer_icons, *admin_icons]
 
     if st.session_state.rights == "supervisor":
-        menu = [*short_menu, *performer_menu, *admin_menu, *super_menu]
-        icons = [*short_icons, *performer_icons, *admin_icons, *super_icons]
+        menu = [*performer_menu, *admin_menu, *super_menu]
+        icons = [*performer_icons, *admin_icons, *super_icons]
 
     return menu, icons
 
@@ -89,9 +84,6 @@ def create_states():
 
     if "logged" not in st.session_state:
         st.session_state.logged = False
-
-    if 'rights' not in st.session_state:
-        st.session_state.rights = 'basic'
 
     if 'code_sent' not in st.session_state:
         st.session_state.code_sent = False
@@ -493,7 +485,10 @@ def login_register():
                 # st.session_state.rights = get_logged_rights(login)
 
                 users_df = st.session_state.adb['users']
-                st.session_state.rights = users_df.loc[users_df.login == login, 'access_level'].values[0]
+
+                if 'rights' not in st.session_state:
+                    st.session_state.rights = users_df.loc[users_df.login == login, 'access_level'].values[0]
+
                 reply = add_to_log(login)
 
                 if 'ERROR' in reply.upper():
@@ -509,6 +504,7 @@ def login_register():
                 #     st.session_state.user = None
                 #     reporter("Bye! Bye! Bye!")
                 #     st.session_state.rights = 'basic'
+                # return
                 st.experimental_rerun()
 
             else:
@@ -758,13 +754,16 @@ def win_selector(selected):
 
 
 def write_states():
+
+    st.write(f"st.session_state.rights={st.session_state.rights}")
+
     st.write(f"st.session_state.logged={st.session_state.logged}")
     st.write(f"st.session_state.user={st.session_state.user}")
     st.write("")
     st.write(f"st.session_state.menu={st.session_state.menu}")
     st.write(f"st.session_state.icons={st.session_state.icons}")
     st.write("")
-    st.write(f"st.session_state.menu={st.session_state.menu}")
+
 
 
 def prepare_menus():
