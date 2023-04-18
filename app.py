@@ -444,159 +444,156 @@ def login_register():
         login_tab, reg_tab = st.tabs([log_in_out, 'Registration'])
 
         with login_tab:
-            pass
-            # with st.form('log_in'):
-            #     login = st.selectbox("Select Your Login", st.session_state.registered_logins,
-            #                          disabled=st.session_state.logged)
-            #     st.write("Not in list? Register first 👆")
-            #     password = st.text_input('Password', type='password', disabled=st.session_state.logged)
-            #     login_but = st.form_submit_button('Log In', disabled=st.session_state.logged,
-            #                                              use_container_width=True)
-            #     if login_but:
-            #         if len(password) < 3:
-            #             reporter("Password should be at least 3 symbols")
-            #             st.stop()
-            #         else:
-            #             st.session_state.logged = check_user(login, password)
-            #             if not st.session_state.logged:
-            #                 st.warning('Wrong Password')
-            #
-            # if st.session_state.logged:
-            #     st.session_state.user = login
-            #     # st.session_state.rights = get_logged_rights(login)
-            #
-            #     users_df = st.session_state.adb['users']
-            #     st.session_state.rights = users_df.loc[users_df.login == login, 'access_level'].values[0]
-            #     reply = add_to_log(login)
-            #
-            #     if 'ERROR' in reply.upper():
-            #         st.write(f"""Please sent error below to sergey.priemshiy@uzliti-en.com
-            #                     or by telegram +998909598030:
-            #                     {reply}""")
-            #         st.stop()
-            #
-            #     # logout_but = st.button('Log Out', disabled=not st.session_state.logged,
-            #     #                        use_container_width=True)
-            #     # if logout_but:
-            #     #     st.session_state.logged = False
-            #     #     st.session_state.user = None
-            #     #     reporter("Bye! Bye! Bye!")
-            #     #     st.session_state.rights = 'basic'
-            #     st.experimental_rerun()
-            #
-            # else:
-            #     st.session_state.rights = 'basic'
-            #     st.session_state.user = None
-            #     st.stop()
+            with st.form('log_in'):
+                login = st.selectbox("Select Your Login", st.session_state.registered_logins,
+                                     disabled=st.session_state.logged)
+                st.write("Not in list? Register first 👆")
+                password = st.text_input('Password', type='password', disabled=st.session_state.logged)
+                login_but = st.form_submit_button('Log In', disabled=st.session_state.logged,
+                                                         use_container_width=True)
+                if login_but:
+                    if len(password) < 3:
+                        reporter("Password should be at least 3 symbols")
+                        st.stop()
+                    else:
+                        st.session_state.logged = check_user(login, password)
+                        if not st.session_state.logged:
+                            st.warning('Wrong Password')
+
+            if st.session_state.logged:
+                st.session_state.user = login
+                # st.session_state.rights = get_logged_rights(login)
+
+                users_df = st.session_state.adb['users']
+                st.session_state.rights = users_df.loc[users_df.login == login, 'access_level'].values[0]
+                reply = add_to_log(login)
+
+                if 'ERROR' in reply.upper():
+                    st.write(f"""Please sent error below to sergey.priemshiy@uzliti-en.com
+                                or by telegram +998909598030:
+                                {reply}""")
+                    st.stop()
+
+                # logout_but = st.button('Log Out', disabled=not st.session_state.logged,
+                #                        use_container_width=True)
+                # if logout_but:
+                #     st.session_state.logged = False
+                #     st.session_state.user = None
+                #     reporter("Bye! Bye! Bye!")
+                #     st.session_state.rights = 'basic'
+                st.experimental_rerun()
+
+            else:
+                st.session_state.rights = 'basic'
+                st.session_state.user = None
+                st.stop()
 
         with reg_tab:
-            st.write("WTF")
+            users_df = st.session_state.adb['users']
+            appl_logins = users_df.loc[users_df.status == 'current'].tolist()
 
-            # users_df = st.session_state.adb['users']
-            # appl_logins = users_df.loc[users_df.status == 'current'].tolist()
-            #
-            # st.write(appl_logins)
-            #
-            # if isinstance(appl_logins, list):
-            #     login = st.selectbox("Select Your Login", appl_logins,
-            #                          disabled=st.session_state.logged, key='reg_email')
-            # else:
-            #     reporter(appl_logins)
-            #     st.stop()
-            #
-            # if login in st.session_state.registered_logins:
-            #     st.subheader("You are Registered 😎")
-            # else:
-            #     st.write("Not in list? Send the request from your e-mail to sergey.priemshiy@uzliti-en.com")
-            #
-            # with st.form("Reg_form"):
-            #     name = st.text_input('Your Name', disabled=st.session_state.logged)
-            #     surname = st.text_input('Your Surame', disabled=st.session_state.logged)
-            #     phone = st.text_input('Your personal Phone', disabled=st.session_state.logged)
-            #     telegram = st.text_input('Your personal Telegram', disabled=st.session_state.logged)
-            #     reg_pass_1 = st.text_input('Password', type='password', key='reg_pass_1',
-            #                                disabled=st.session_state.logged)
-            #     reg_pass_2 = st.text_input('Repeat Password', type='password', key='reg_pass_2',
-            #                                disabled=st.session_state.logged)
-            #
-            #     # data_chb = st.checkbox('Data is Correct', disabled=st.session_state.logged)
-            #
-            #     get_reg_code = st.form_submit_button('Get Confirmation Code')
-            #
-            # # conf_html = ""
-            # if get_reg_code:
-            #     if login in st.session_state.registered_logins:
-            #         reporter(f'User {login} is already in DataBase')
-            #         st.stop()
-            #
-            #     if len(reg_pass_2) < 3 or reg_pass_1 != reg_pass_2:
-            #         st.warning("""- Password should be at least 3 symbols
-            #             - Password and Repeat Password should be the same""")
-            #         st.stop()
-            #     if len(name) < 2 or len(surname) < 2:
-            #         st.warning("! Too short Name or Surname")
-            #         st.stop()
-            #
-            #     if 'conf_num' not in st.session_state:
-            #         st.session_state.conf_num = "".join(random.sample("123456789", 4))
-            #
-            #     conf_html = f"""
-            #             <html>
-            #               <head></head>
-            #               <body>
-            #                 <h3>
-            #                   Hello, Colleague!
-            #                   <hr>
-            #                 </h3>
-            #                 <h5>
-            #                   You got this message because you want to register on ETD site
-            #                 </h5>
-            #                 <p>
-            #                     Please confirm your registration by entering the confirmation code
-            #                     <b>{st.session_state.conf_num}</b>
-            #                     at the <a href="https://design-energo.streamlit.app/">site</a> registration form
-            #                     <hr>
-            #                     Best regards, Administration 😎
-            #                 </p>
-            #               </body>
-            #             </html>
-            #         """
-            #
-            #     if not st.session_state.code_sent:
-            #         # user = get_user_data(login)
-            #
-            #         user_df = st.session_state.adb['user']
-            #         user = user_df.loc[users_df.login == login]
-            #
-            #         # if "@" not in user.email:
-            #         if "@" not in user.email.values[0]:
-            #             st.warning("Can't get User's email")
-            #             st.stop()
-            #
-            #         if send_mail(receiver=user.email, cc_rec="sergey.priemshiy@uzliti-en.com",
-            #                      html=conf_html, subj="Confirmation of ETD site registration"):
-            #             st.session_state.code_sent = True
-            #             st.info("Confirmation Code sent to Your Company Email")
-            #         else:
-            #             st.warning("Network problems...Try again later")
-            #
-            # entered_code = st.text_input("Confirmation Code from Email")
-            #
-            # if st.button("Register", use_container_width=True):
-            #     if login in st.session_state.registered_logins:
-            #         reporter(f'User {login} is already in DataBase')
-            #         st.stop()
-            #
-            #     if st.session_state.conf_num != entered_code:
-            #         reporter("Confirmation code is wrong, try again")
-            #         st.stop()
-            #     else:
-            #         reply = register_user(name, surname, phone, telegram, login, reg_pass_2)
-            #         if 'ERROR' in reply.upper():
-            #             st.write('Error')
-            #         else:
-            #             reporter(reply)
-            #             st.experimental_rerun()
+            st.write(appl_logins)
+
+            if isinstance(appl_logins, list):
+                login = st.selectbox("Select Your Login", appl_logins,
+                                     disabled=st.session_state.logged, key='reg_email')
+            else:
+                reporter(appl_logins)
+                st.stop()
+
+            if login in st.session_state.registered_logins:
+                st.subheader("You are Registered 😎")
+            else:
+                st.write("Not in list? Send the request from your e-mail to sergey.priemshiy@uzliti-en.com")
+
+            with st.form("Reg_form"):
+                name = st.text_input('Your Name', disabled=st.session_state.logged)
+                surname = st.text_input('Your Surame', disabled=st.session_state.logged)
+                phone = st.text_input('Your personal Phone', disabled=st.session_state.logged)
+                telegram = st.text_input('Your personal Telegram', disabled=st.session_state.logged)
+                reg_pass_1 = st.text_input('Password', type='password', key='reg_pass_1',
+                                           disabled=st.session_state.logged)
+                reg_pass_2 = st.text_input('Repeat Password', type='password', key='reg_pass_2',
+                                           disabled=st.session_state.logged)
+
+                # data_chb = st.checkbox('Data is Correct', disabled=st.session_state.logged)
+
+                get_reg_code = st.form_submit_button('Get Confirmation Code')
+
+            # conf_html = ""
+            if get_reg_code:
+                if login in st.session_state.registered_logins:
+                    reporter(f'User {login} is already in DataBase')
+                    st.stop()
+
+                if len(reg_pass_2) < 3 or reg_pass_1 != reg_pass_2:
+                    st.warning("""- Password should be at least 3 symbols
+                        - Password and Repeat Password should be the same""")
+                    st.stop()
+                if len(name) < 2 or len(surname) < 2:
+                    st.warning("! Too short Name or Surname")
+                    st.stop()
+
+                if 'conf_num' not in st.session_state:
+                    st.session_state.conf_num = "".join(random.sample("123456789", 4))
+
+                conf_html = f"""
+                        <html>
+                          <head></head>
+                          <body>
+                            <h3>
+                              Hello, Colleague!
+                              <hr>
+                            </h3>
+                            <h5>
+                              You got this message because you want to register on ETD site
+                            </h5>
+                            <p>
+                                Please confirm your registration by entering the confirmation code
+                                <b>{st.session_state.conf_num}</b>
+                                at the <a href="https://design-energo.streamlit.app/">site</a> registration form
+                                <hr>
+                                Best regards, Administration 😎
+                            </p>
+                          </body>
+                        </html>
+                    """
+
+                if not st.session_state.code_sent:
+                    # user = get_user_data(login)
+
+                    user_df = st.session_state.adb['user']
+                    user = user_df.loc[users_df.login == login]
+
+                    # if "@" not in user.email:
+                    if "@" not in user.email.values[0]:
+                        st.warning("Can't get User's email")
+                        st.stop()
+
+                    if send_mail(receiver=user.email, cc_rec="sergey.priemshiy@uzliti-en.com",
+                                 html=conf_html, subj="Confirmation of ETD site registration"):
+                        st.session_state.code_sent = True
+                        st.info("Confirmation Code sent to Your Company Email")
+                    else:
+                        st.warning("Network problems...Try again later")
+
+            entered_code = st.text_input("Confirmation Code from Email")
+
+            if st.button("Register", use_container_width=True):
+                if login in st.session_state.registered_logins:
+                    reporter(f'User {login} is already in DataBase')
+                    st.stop()
+
+                if st.session_state.conf_num != entered_code:
+                    reporter("Confirmation code is wrong, try again")
+                    st.stop()
+                else:
+                    reply = register_user(name, surname, phone, telegram, login, reg_pass_2)
+                    if 'ERROR' in reply.upper():
+                        st.write('Error')
+                    else:
+                        reporter(reply)
+                        st.experimental_rerun()
 
 
 def manage_users():
