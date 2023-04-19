@@ -158,8 +158,9 @@ def add_task(task_content):
 
                         if '<*>' in reply:
                             rep1, rep2 = reply.split('<*>')
-                            copy_to_clip = st.button(rep2)
+                            copy_to_clip = st.button('Copy back-up string to Clipboard')
                             st.info(rep2)
+
                             if copy_to_clip:
                                 pyperclip.copy(rep2)
                         else:
