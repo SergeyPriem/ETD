@@ -223,7 +223,6 @@ def add_task(task_content):
             else:  # Outgoing Tasks
                 for single_unit in units:
                     for single_spec in specialities:
-                        st.write(f"{single_spec} of {specialities}")
                         reply = add_out_to_db(project, single_unit, stage, direction, single_spec, date,
                                               description.strip(),
                                               link.strip(), source.strip(), comments.strip())
