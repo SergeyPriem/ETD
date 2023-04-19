@@ -26,8 +26,8 @@ def delete_table_row(Table, row_id):
 def create_backup_string(source_link, backup_folder, task_num):
     if source_link != "Non-Task":
         head = "xcopy /e /r /f /-y "
-        tail = f'"{source_link}\\\\*.*" "{backup_folder}\\{task_num}\\\\"'.replace("/\\", "\\").replace("/", "\\")
-        backup_string = f'\\{head} {tail}'
+        tail = f'"{source_link}\\\\*.*" "\\{backup_folder}\\{task_num}\\"'.replace("/\\", "\\").replace("/", "\\")
+        backup_string = f'{head} {tail}'
         return str(f'{backup_folder}\\{task_num}\\'.replace("/\\", "\\")).replace("/", "\\"), backup_string
     else:
         return "Non-assignment", "Non-assignment"
