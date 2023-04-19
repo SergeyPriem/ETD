@@ -47,9 +47,16 @@ def add_task(task_content):
     with task_content:
         project = st.selectbox('Select the Project', st.session_state.proj_names)
 
+        proj_df = st.session_state.adb['project']
+        sod_df = st.session_state.adb['sod']
+
+        proj_id = proj_df[proj_df.short_name == project].index.values[0]
+
+        sod_list = sod_df[sod_df.project_id == proj_id].set_name.tolist()
+
         with st.form(key="add_task"):
             set_of_dr = st.multiselect('Select the Set Of Drawings / Unit',
-                                       options=get_sets_for_project(project))
+                                       options=sod_list) #get_sets_for_project(project))
 
             left_col2, right_col2 = st.columns(2)
             speciality = left_col2.multiselect("Speciality", specialities)
