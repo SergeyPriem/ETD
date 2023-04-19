@@ -55,11 +55,11 @@ def add_task(task_content):
         sod_list = sod_df[sod_df.project_id == proj_id].set_name.tolist()
 
         with st.form(key="add_task"):
-            set_of_dr = st.multiselect('Select the Set Of Drawings / Unit',
-                                       options=sod_list)  # get_sets_for_project(project))
+            units = st.multiselect('Select the Set Of Drawings / Unit',
+                                   options=sod_list)  # get_sets_for_project(project))
 
             left_col2, right_col2 = st.columns(2)
-            speciality = left_col2.multiselect("Speciality", st.session_state.spec)
+            specialities = left_col2.multiselect("Speciality", st.session_state.spec)
             description = right_col2.text_input('Description of Task', max_chars=249)
 
             col_31, col_32, col_33, col_34 = st.columns([1, 1, 1, 3])
@@ -105,10 +105,10 @@ def add_task(task_content):
                     <td>Project:</td><td style="color: #00bbf9;"><b>{project}</b></td>
                 </tr>
                 <tr>
-                    <td>Unit:</td><td style="color: #00bbf9;"><b>{set_of_dr}</b></td>
+                    <td>Unit:</td><td style="color: #00bbf9;"><b>{units}</b></td>
                 </tr>
                 <tr>
-                    <td>Speciality:</td><td style="color: #00bbf9;"><b>{speciality}</b></td>
+                    <td>Speciality:</td><td style="color: #00bbf9;"><b>{specialities}</b></td>
                 </tr>
                 <tr>
                     <td>Stage:</td><td style="color: #00bbf9;"><b>{stage}</b></td>
@@ -151,8 +151,8 @@ def add_task(task_content):
             st.session_state.task_preview = False
 
             if direction == "In":
-                for single_set in set_of_dr:
-                    reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date,
+                for single_set in units:
+                    reply = add_in_to_db(project, single_set, stage, direction, specialities[0], date,
                                          description.strip(),
                                          link.strip(), source.strip(), comments.strip())
 
@@ -222,17 +222,18 @@ def add_task(task_content):
                         st.warning(reply)
 
             else:  # Outgoing Tasks
-                for single_spec in speciality:
-                    st.write(f"{single_spec} of {speciality}")
-                    reply = add_out_to_db(project, set_of_dr[0], stage, direction, single_spec, date,
-                                          description.strip(),
-                                          link.strip(), source.strip(), comments.strip())
+                for single_unit in units:
+                    for single_spec in specialities:
+                        st.write(f"{single_spec} of {specialities}")
+                        reply = add_out_to_db(project, single_unit, stage, direction, single_spec, date,
+                                              description.strip(),
+                                              link.strip(), source.strip(), comments.strip())
 
-                    if 'ERROR' in reply.upper():
-                        st.warning(reply)
-                    else:
-                        st.info(reply)
-                    st.divider()
+                        if 'ERROR' in reply.upper():
+                            st.warning(reply)
+                        else:
+                            st.info(reply)
+                        st.divider()
 
 
 def view_tasks(ass_tab2, my_all):
