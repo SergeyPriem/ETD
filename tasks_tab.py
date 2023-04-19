@@ -223,6 +223,7 @@ def add_task(task_content):
 
             else:  # Outgoing Tasks
                 for single_spec in speciality:
+                    st.write(f"{single_spec} of {speciality}")
                     reply = add_out_to_db(project, set_of_dr[0], stage, direction, single_spec, date,
                                           description.strip(),
                                           link.strip(), source.strip(), comments.strip())
@@ -231,6 +232,7 @@ def add_task(task_content):
                         st.warning(reply)
                     else:
                         st.info(reply)
+                    st.divider()
 
 
 def view_tasks(ass_tab2, my_all):
