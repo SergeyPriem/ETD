@@ -207,7 +207,7 @@ def add_task(task_content):
                             """
 
                         if send_mail(perf_email, coord_email, subj, info_html):
-                            st.text(f"Notifications sent by emails: {project}, {single_set}")
+                            st.write(f"Notifications sent by emails: {project}, {single_set}")
 
                     else:
                         st.warning(reply)
