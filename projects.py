@@ -429,7 +429,7 @@ def update_sets(edited_set_df):
     return "Updated Successfully"
 
 
-def update_sod(s_o_d, coord, perf, rev, status, trans_num, trans_date, notes, upd_trans_chb):
+def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb):
     with db_session:
         try:
             sod = SOD[s_o_d]
@@ -441,10 +441,10 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, trans_date, notes, up
                 sod.revision = rev
                 sod.current_status = status
                 if upd_trans_chb:
-                    sod.trans_num = trans_num
-                    sod.trans_date = trans_date
+                    sod.trans_num += " =>" + str(trans_num)
+                    # sod.trans_date = trans_date
                 sod.notes = notes
-                return True
+                return 200
             else:
                 return "You haven't right to edit 😡"
         except Exception as e:

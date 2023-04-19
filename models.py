@@ -37,7 +37,7 @@ class SOD(db.Entity):
     start_date = Optional(date, nullable=True)
     current_status = Optional(str, nullable=True)
     request_date = Optional(date, nullable=True)
-    trans_num = Optional(str, 250, nullable=True)
+    trans_num = Optional(str, 1000, nullable=True)
     trans_date = Optional(date, nullable=True)
     notes = Optional(str, 1500, nullable=True)
     aux = Optional(str, 200, nullable=True)

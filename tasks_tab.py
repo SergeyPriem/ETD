@@ -177,8 +177,7 @@ def add_task(task_content):
                             except:
                                 perf_email = 'sergey.priemshiy@uzliti-en.com'
 
-                            subj = f"New incoming Task for {project}: {single_unit} | " \
-                                   f"Новое входящее задание для {project}: {single_unit}"
+                            subj = f"New incoming Task  | Новое входящее задание:  {project}: {single_unit}"
 
                             info_html = f"""
                                     <html>

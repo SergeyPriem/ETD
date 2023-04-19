@@ -90,32 +90,32 @@ def show_sets():
 
         proj_col, unit_col = st.columns(2, gap='medium')
 
-        if st.session_state.edit_sod['unit'] and st.session_state.edit_sod['project']:
+        # if st.session_state.edit_sod['unit'] and st.session_state.edit_sod['project']:
+        #
+        #     units_list = df[df.project == st.session_state.edit_sod['project']]['unit']
+        #
+        #     df_edit = df.loc[(df.unit == st.session_state.edit_sod['unit'])
+        #                      & (df.project == st.session_state.edit_sod['project'])]
+        #
+        #     unit_selected = unit_col.selectbox("Unit for Search", units_list, index=get_list_index(units_list, sod))
+        #     proj_selected = proj_col.selectbox("Project for Search", proj_list, index=get_list_index(proj_list, proj))
+        #
+        # else:
+        # SELECT PROJECT
+        proj_selected = proj_col.selectbox("Project for Search", proj_list, index=get_list_index(proj_list, proj))
 
-            units_list = df[df.project == st.session_state.edit_sod['project']]['unit']
+        units_list = df[df.project == proj_selected]['unit']
 
-            df_edit = df.loc[(df.unit == st.session_state.edit_sod['unit'])
-                             & (df.project == st.session_state.edit_sod['project'])]
+        # SELECT SOD
+        unit_selected = unit_col.selectbox("Unit for Search", units_list, index=get_list_index(units_list, sod))
 
-            unit_selected = unit_col.selectbox("Unit for Search", units_list, index=get_list_index(units_list, sod))
-            proj_selected = proj_col.selectbox("Project for Search", proj_list, index=get_list_index(proj_list, proj))
-
-        else:
-            # SELECT PROJECT
-            proj_selected = proj_col.selectbox("Project for Search", proj_list, index=get_list_index(proj_list, proj))
-
-            units_list = df[df.project == proj_selected]['unit']
-
-            # SELECT SOD
-            unit_selected = unit_col.selectbox("Unit for Search", units_list, index=get_list_index(units_list, sod))
-
-            df_edit = df.loc[(df.unit == unit_selected) & (df.project == proj_selected)]
+        df_edit = df.loc[(df.unit == unit_selected) & (df.project == proj_selected)]
 
         st.divider()
         st.subheader(f"Project: :red[{proj_selected}]. Unit: :red[{unit_selected}]")
-        st.experimental_data_editor(df_edit[['unit_id', 'coordinator', 'performer', 'stage', 'revision', 'start_date',
-                                             'status', 'transmittal', 'trans_date', 'notes']].set_index('unit_id'),
-                                    use_container_width=True)
+        # st.experimental_data_editor(df_edit[['unit_id', 'coordinator', 'performer', 'stage', 'revision', 'start_date',
+        #                                      'status', 'transmittal', 'trans_date', 'notes']].set_index('unit_id'),
+        #                             use_container_width=True)
 
         if len(df_edit) == 1:
             unit_id = df_edit.unit_id.to_numpy()[0]
@@ -123,19 +123,62 @@ def show_sets():
             st.warning("Duplicated Units. Please fix it")
             st.stop()
 
-        if st.button('Edit Details'):
-            st.session_state.edit_sod['coordinator'] = df_edit.coordinator.to_numpy()[0]
-            st.session_state.edit_sod['performer'] = df_edit.performer.to_numpy()[0]
-            st.session_state.edit_sod['revision'] = df_edit.revision.to_numpy()[0]
-            st.session_state.edit_sod['status'] = df_edit.status.to_numpy()[0]
-            st.session_state.edit_sod['notes'] = df_edit.notes.to_numpy()[0]
-            st.session_state.edit_sod['project'] = proj_selected
-            st.session_state.edit_sod['unit'] = unit_selected
-            st.session_state.edit_sod['unit_id'] = unit_id
-            st.session_state.edit_sod['my_all'] = my_all
-            st.session_state.edit_sod['state'] = True
+        with st.form("edit-unit_details"):
+            coord = st.selectbox("Coordinator", (1,2,3,4,5))
+            perf = st.selectbox("Performer", (1,2,3,4,5))
+            rev = st.selectbox("Revision", (1,2,3,4,5))
+            status = st.selectbox("Status", (1,2,3,4,5))
+            upd_trans_chb = trans_num = st.checkbox("Add Transmittal")
+            st.selectbox("New Transmittal Number", (1,2,3,4,5))
+            notes = st.text_area("Notes (don't delete, just add to previous)", max_chars=1500)
+            upd_unit_but = st.form_submit_button("Update Unit Details")
 
-            st.experimental_rerun()
+        if upd_unit_but:
+            # st.session_state.edit_sod['coordinator'] = df_edit.coordinator.to_numpy()[0]
+            # st.session_state.edit_sod['performer'] = df_edit.performer.to_numpy()[0]
+            # st.session_state.edit_sod['revision'] = df_edit.revision.to_numpy()[0]
+            # st.session_state.edit_sod['status'] = df_edit.status.to_numpy()[0]
+            # st.session_state.edit_sod['notes'] = df_edit.notes.to_numpy()[0]
+            # st.session_state.edit_sod['project'] = proj_selected
+            # st.session_state.edit_sod['unit'] = unit_selected
+            # st.session_state.edit_sod['unit_id'] = unit_id
+            # st.session_state.edit_sod['my_all'] = my_all
+            # st.session_state.edit_sod['state'] = True
+
+            # st.experimental_rerun()
+            reply = update_sod(cur_sod.get('unit_id', '!!!'), coord, perf, rev, status, trans_num,
+                               notes, upd_trans_chb)
+
+            if reply == 200:
+                reporter("Updated!")
+
+                unit_id = st.session_state.edit_sod['unit_id']
+
+                sod_df = st.session_state.adb['sod']
+
+                sod_df.at[unit_id, 'coord_id'] = coord
+                sod_df.at[unit_id, 'perf_id'] = perf
+                sod_df.at[unit_id, 'revision'] = rev
+                sod_df.at[unit_id, 'current_status'] = status
+                if upd_trans_chb:
+                    sod_df.at[unit_id, 'trans_num'] += " =>" + str(trans_num)
+                    # sod_df.at[unit_id, 'trans_date'] = trans_date
+                sod_df.at[unit_id, 'notes'] = notes
+                st.session_state.adb['sod'] = sod_df
+
+            else:
+                reporter(reply, 3)
+
+            # st.session_state.edit_sod['state'] = False
+            # st.session_state.edit_sod['unit'] = None
+            # st.session_state.edit_sod['project'] = None
+            # st.experimental_rerun()
+
+        # if st.button("Escape", use_container_width=True):
+        #     st.session_state.edit_sod['state'] = False
+        #     st.session_state.edit_sod['unit'] = None
+        #     st.session_state.edit_sod['project'] = None
+        #     st.experimental_rerun()
 
         st.divider()
 
