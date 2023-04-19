@@ -9,17 +9,17 @@ from pre_sets import reporter
 
 
 def show_sets():
-    if st.session_state.edit_sod['project']:
-
-        cur_sod = st.session_state.edit_sod
-        proj = cur_sod.get('project', None)
-        my_or_all = cur_sod.get('my_all', None)
-        sod = cur_sod.get('project', None)
-
-    else:
-        proj = None
-        my_or_all = None
-        sod = None
+    # if st.session_state.edit_sod['project']:
+    #
+    #     cur_sod = st.session_state.edit_sod
+    #     proj = cur_sod.get('project', None)
+    #     my_or_all = cur_sod.get('my_all', None)
+    #     sod = cur_sod.get('project', None)
+    #
+    # else:
+    #     proj = None
+    #     my_or_all = None
+    #     sod = None
 
     st.markdown("""
         <style>
@@ -53,7 +53,6 @@ def show_sets():
         ds_center.text('')
 
         my_all = ds_center.radio("Select the Option", ["My Units", 'All Units'],
-                                 index=get_list_index(["My Units", 'All Units'], my_or_all),
                                  horizontal=True, label_visibility='collapsed')
 
         u_df = st.session_state.adb['users']
@@ -102,12 +101,12 @@ def show_sets():
         #
         # else:
         # SELECT PROJECT
-        proj_selected = proj_col.selectbox("Project for Search", proj_list, index=get_list_index(proj_list, proj))
+        proj_selected = proj_col.selectbox("Project for Search", proj_list)
 
         units_list = df[df.project == proj_selected]['unit']
 
         # SELECT SOD
-        unit_selected = unit_col.selectbox("Unit for Search", units_list, index=get_list_index(units_list, sod))
+        unit_selected = unit_col.selectbox("Unit for Search", units_list)
 
         df_edit = df.loc[(df.unit == unit_selected) & (df.project == proj_selected)]
 
@@ -128,13 +127,13 @@ def show_sets():
         with st.form("edit-unit_details"):
             l_c, r_c = st.columns(2, gap='medium')
             coord = l_c.selectbox("Coordinator", all_logins,
-                                  index=get_list_index(all_logins, cur_sod.get('coordinator', '!!!')))
+                                  index=get_list_index(all_logins, df_edit.coordinator.to_numpy()[0]))
             perf = l_c.selectbox("Performer", all_logins,
-                                 index=get_list_index(all_logins, cur_sod.get('performer', '!!!')))
+                                 index=get_list_index(all_logins, df_edit.performer.to_numpy()[0]))
             rev = l_c.selectbox("Revision", sod_revisions,
-                                index=get_list_index(sod_revisions, cur_sod.get('revision', '!!!')))
+                                index=get_list_index(sod_revisions, df_edit.revision.to_numpy()[0]))
             status = l_c.selectbox('Status', sod_statuses,
-                                   index=get_list_index(sod_statuses, cur_sod.get('status', '!!!')))
+                                   index=get_list_index(sod_statuses, df_edit.status.to_numpy()[0]))
             trans_df = st.session_state.adb['trans']
 
             proj_df = st.session_state.adb['proj']
