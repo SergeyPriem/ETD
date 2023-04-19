@@ -158,6 +158,7 @@ def add_task(task_content):
 
                         if '<*>' in reply:
                             rep1, rep2 = reply.split('<*>')
+                            st.write(rep1)
                             # copy_to_clip = st.button('Copy back-up string to Clipboard')
                             st.code(rep2)
 
