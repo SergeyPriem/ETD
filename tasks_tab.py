@@ -196,6 +196,7 @@ def add_task(task_content):
                                     <h4>
                                       {project}: {single_set}
                                     </h4>
+                                    <br>
                                     <p>
                                         Task's details at the site | Детали задания на сайте: 
                                         <a href="https://e-design.streamlit.app/">e-design.streamlit.app</a>
