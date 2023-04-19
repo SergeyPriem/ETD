@@ -78,104 +78,103 @@ def add_task(task_content):
 
             task_preview = st.form_submit_button("Preview Task", use_container_width=True)
 
-        pr_l, pr_c, pr_r = st.columns([1, 4, 1])
+        # pr_l, pr_c, pr_r = st.columns([1, 4, 1])
 
         if task_preview:
             st.session_state.task_preview = True
 
             st.write("")
 
-            with pr_c:
-                st.markdown("""<style>
-                                .task_preview table, tr {
-                                        border-style: hidden;
-                                        margin: auto;
-                                    }
-    
-                                .task_preview td {
-                                        border-style: hidden;
-                                        text-align: left;
-                                    }
-                                  </style>
-                                  """, unsafe_allow_html=True)
+            # with pr_c:
+            st.markdown("""<style>
+                            .task_preview table, tr {
+                                    border-style: hidden;
+                                    margin: auto;
+                                }
 
-                st.markdown(f"""
-                <table class="task_preview">
-                    <tr>
-                        <td>Project:</td><td style="color: #00bbf9;"><b>{project}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Unit:</td><td style="color: #00bbf9;"><b>{set_of_dr}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Speciality:</td><td style="color: #00bbf9;"><b>{speciality}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Stage:</td><td style="color: #00bbf9;"><b>{stage}</b></td>
-                    </tr>
-                    <tr>
-                        <td>In or Out:</td><td style="color: #00bbf9;"><b>{direction}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Date:</td><td style="color: #00bbf9;"><b>{date}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Description:</td><td style="color: #00bbf9;"><b>{description}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Link:</td><td style="color: #00bbf9;"><b>{link}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Received by:</td><td style="color: #00bbf9;"><b>{source}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Non-Task:</td><td style="color: #00bbf9;"><b>{non_task}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Comments:</td><td style="color: #00bbf9;"><b>{comments}</b></td>
-                    </tr>
-                </table>
-                """, unsafe_allow_html=True)
+                            .task_preview td {
+                                    border-style: hidden;
+                                    text-align: left;
+                                }
+                              </style>
+                              """, unsafe_allow_html=True)
 
-        if st.session_state.task_preview:
+            st.markdown(f"""
+            <table class="task_preview">
+                <tr>
+                    <td>Project:</td><td style="color: #00bbf9;"><b>{project}</b></td>
+                </tr>
+                <tr>
+                    <td>Unit:</td><td style="color: #00bbf9;"><b>{set_of_dr}</b></td>
+                </tr>
+                <tr>
+                    <td>Speciality:</td><td style="color: #00bbf9;"><b>{speciality}</b></td>
+                </tr>
+                <tr>
+                    <td>Stage:</td><td style="color: #00bbf9;"><b>{stage}</b></td>
+                </tr>
+                <tr>
+                    <td>In or Out:</td><td style="color: #00bbf9;"><b>{direction}</b></td>
+                </tr>
+                <tr>
+                    <td>Date:</td><td style="color: #00bbf9;"><b>{date}</b></td>
+                </tr>
+                <tr>
+                    <td>Description:</td><td style="color: #00bbf9;"><b>{description}</b></td>
+                </tr>
+                <tr>
+                    <td>Link:</td><td style="color: #00bbf9;"><b>{link}</b></td>
+                </tr>
+                <tr>
+                    <td>Received by:</td><td style="color: #00bbf9;"><b>{source}</b></td>
+                </tr>
+                <tr>
+                    <td>Non-Task:</td><td style="color: #00bbf9;"><b>{non_task}</b></td>
+                </tr>
+                <tr>
+                    <td>Comments:</td><td style="color: #00bbf9;"><b>{comments}</b></td>
+                </tr>
+            </table>
+            """, unsafe_allow_html=True)
 
-            if non_task:
-                description = "Non-task"
-                link = "Non-task"
-                comments = "Non-task"
+        # if st.session_state.task_preview:
 
-            st.text('')
+        if non_task:
+            description = "Non-task"
+            link = "Non-task"
+            comments = "Non-task"
 
-            if st.button('Add Task', type='primary', use_container_width=True,
-                           disabled=not st.session_state.task_preview):
+        st.text('')
 
-                st.session_state.task_preview = False
+        if st.button('Add Task', type='primary', use_container_width=True, disabled= not st.session_state.task_preview):
 
-                if direction == "In":
-                    for single_set in set_of_dr:
-                        reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date,
-                                             description.strip(),
-                                             link.strip(), source.strip(), comments.strip())
+            st.session_state.task_preview = False
 
-                        if '<*>' in reply:
-                            rep1, rep2 = reply.split('<*>')
-                            st.write(rep1)
-                            # copy_to_clip = st.button('Copy back-up string to Clipboard')
-                            st.code(rep2)
+            if direction == "In":
+                for single_set in set_of_dr:
+                    reply = add_in_to_db(project, single_set, stage, direction, speciality[0], date,
+                                         description.strip(),
+                                         link.strip(), source.strip(), comments.strip())
 
-                        else:
-                            st.warning(reply)
+                    if '<*>' in reply:
+                        rep1, rep2 = reply.split('<*>')
+                        st.write(rep1)
+                        # copy_to_clip = st.button('Copy back-up string to Clipboard')
+                        st.code(rep2)
 
-                else:
-                    for single_spec in speciality:
-                        reply = add_out_to_db(project, set_of_dr[0], stage, direction, single_spec, date,
-                                              description.strip(),
-                                              link.strip(), source.strip(), comments.strip())
+                    else:
+                        st.warning(reply)
 
-                        if 'ERROR' in reply.upper():
-                            st.warning(reply)
-                        else:
-                            st.info(reply)
+            else:
+                for single_spec in speciality:
+                    reply = add_out_to_db(project, set_of_dr[0], stage, direction, single_spec, date,
+                                          description.strip(),
+                                          link.strip(), source.strip(), comments.strip())
+
+                    if 'ERROR' in reply.upper():
+                        st.warning(reply)
+                    else:
+                        st.info(reply)
 
                 # st.button("N E X T")
 
