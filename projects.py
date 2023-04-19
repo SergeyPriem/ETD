@@ -7,6 +7,7 @@ from datetime import date, datetime
 import streamlit as st
 from pre_sets import BACKUP_FOLDER
 from users import err_handler
+import pyperclip
 
 set_sql_debug(True)
 
@@ -343,7 +344,7 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
             return f"""
             New Task for {new_ass.s_o_d.project_id.short_name}: {new_ass.s_o_d.set_name} is added to DataBase  
             
-            Backup string:<*>
+            Copy Backup string 👇 to Clipboard<*>
             {result[1]}
             """
         except Exception as e:

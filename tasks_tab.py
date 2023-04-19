@@ -3,7 +3,7 @@
 import streamlit as st
 from pre_sets import specialities
 from projects import get_sets_for_project, add_in_to_db, add_out_to_db
-
+import pyperclip
 
 def tasks_content():
     st.markdown("""
@@ -159,8 +159,10 @@ def add_task(task_content):
 
                         if '<*>' in reply:
                             rep1, rep2 = reply.split('<*>')
-                            st.write(rep1)
+                            copy_to_clip = st.button(rep1)
                             st.info(rep2)
+                            if copy_to_clip:
+                                pyperclip.copy(rep2)
                         else:
                             st.warning(reply)
 

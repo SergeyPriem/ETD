@@ -7,3 +7,4 @@ requests==2.28.2
 streamlit-option-menu==0.3.2
 PyMySQL==1.0.2
 streamlit-profiler==0.2.4
+pyperclip==1.8.2
