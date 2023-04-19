@@ -207,9 +207,9 @@ def add_task(task_content):
                                 </html>
                             """
                         if perf_email == coord_email:
-                            reply = send_mail(perf_email, 'sergey.priemshiy@uzliti-en.com', subj, info_html)
-                        else:
-                            reply = send_mail(perf_email, coord_email, subj, info_html)
+                            coord_email = 'sergey.priemshiy@uzliti-en.com'
+
+                        reply = send_mail(perf_email, coord_email, subj, info_html)
 
                         if reply == 200:
                             st.write(f"Notifications sent by emails: {perf_email}, {coord_email}")
