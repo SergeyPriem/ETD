@@ -105,31 +105,34 @@ def add_task(task_content):
                         <td>Project:</td><td style="color: #00bbf9;"><b>{project}</b></td>
                     </tr>
                     <tr>
-                        <td>Unit:</td><td style="color: #1569C7;"><b>{set_of_dr}</b></td>
+                        <td>Unit:</td><td style="color: #00bbf9;"><b>{set_of_dr}</b></td>
                     </tr>
                     <tr>
-                        <td>Speciality:</td><td style="color: #1569C7;"><b>{speciality}</b></td>
+                        <td>Speciality:</td><td style="color: #00bbf9;"><b>{speciality}</b></td>
                     </tr>
                     <tr>
-                        <td>Stage:</td><td style="color: #1569C7;"><b>{stage}</b></td>
+                        <td>Stage:</td><td style="color: #00bbf9;"><b>{stage}</b></td>
                     </tr>
                     <tr>
-                        <td>In or Out:</td><td style="color: #1569C7;"><b>{direction}</b></td>
+                        <td>In or Out:</td><td style="color: #00bbf9;"><b>{direction}</b></td>
                     </tr>
                     <tr>
-                        <td>Date:</td><td style="color: #1569C7;"><b>{date}</b></td>
+                        <td>Date:</td><td style="color: #00bbf9;"><b>{date}</b></td>
                     </tr>
                     <tr>
-                        <td>Description:</td><td style="color: #1569C7;"><b>{description}</b></td>
+                        <td>Description:</td><td style="color: #00bbf9;"><b>{description}</b></td>
                     </tr>
                     <tr>
-                        <td>Path:</td><td style="color: #1569C7;"><b>{link}</b></td>
+                        <td>Link:</td><td style="color: #00bbf9;"><b>{link}</b></td>
                     </tr>
                     <tr>
-                        <td>Received by:</td><td style="color: #1569C7;"><b>{source}</b></td>
+                        <td>Received by:</td><td style="color: #00bbf9;"><b>{source}</b></td>
                     </tr>
                     <tr>
-                        <td>Non-Task:</td><td style="color: #1569C7;"><b>{non_task}</b></td>
+                        <td>Non-Task:</td><td style="color: #00bbf9;"><b>{non_task}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Comments:</td><td style="color: #00bbf9;"><b>{comments}</b></td>
                     </tr>
                 </table>
                 """, unsafe_allow_html=True)
