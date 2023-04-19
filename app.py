@@ -24,7 +24,7 @@ from models import Task
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
 
-st.code("lllllslkdjflsjdf")
+
 def get_menus():
     menu = None
     icons = None
