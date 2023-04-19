@@ -35,7 +35,7 @@ def send_mail(receiver: str, cc_rec: str, subj: str, html: str):
         # and message to send - here it is sent as one string.
         s.sendmail(msg['From'], [receiver, cc_rec], msg.as_string())
         s.quit()
-        return True
+        return 200
     except Exception as e:
         return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
 

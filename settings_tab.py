@@ -85,7 +85,7 @@ def settings_content():
                 email_sent = send_mail(receiver=receiver,
                                        cc_rec="sergey.priemshiy@uzliti-en.com",
                                        html=upd_html, subj="Confirmation of Data Update on ETD site")
-                if email_sent is True:
+                if email_sent == 200:
                     st.session_state.upd_code_sent = True
                 else:
                     st.session_state.upd_code_sent = False

@@ -556,8 +556,10 @@ def login_register():
                         st.warning("Can't get User's email")
                         st.stop()
 
-                    if send_mail(receiver=user.email, cc_rec="sergey.priemshiy@uzliti-en.com",
-                                 html=conf_html, subj="Confirmation of ETD site registration"):
+                    reply = send_mail(receiver=user.email, cc_rec="sergey.priemshiy@uzliti-en.com",
+                                      html=conf_html, subj="Confirmation of ETD site registration")
+
+                    if reply == 200:
                         st.session_state.code_sent = True
                         st.info("Confirmation Code sent to Your Company Email")
                     else:

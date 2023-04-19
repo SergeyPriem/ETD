@@ -206,8 +206,12 @@ def add_task(task_content):
                                 </html>
                             """
 
-                        if send_mail(perf_email, coord_email, subj, info_html):
+                        reply = send_mail(perf_email, coord_email, subj, info_html)
+
+                        if reply == 200:
                             st.write(f"Notifications sent by emails: {project}, {single_set}")
+                        else:
+                            st.warning(reply)
 
                     else:
                         st.warning(reply)
