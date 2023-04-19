@@ -4,6 +4,7 @@ import streamlit as st
 from projects import add_in_to_db, add_out_to_db
 import pyperclip
 
+
 def tasks_content():
     st.markdown("""
         <style>
@@ -55,7 +56,7 @@ def add_task(task_content):
 
         with st.form(key="add_task"):
             set_of_dr = st.multiselect('Select the Set Of Drawings / Unit',
-                                       options=sod_list) #get_sets_for_project(project))
+                                       options=sod_list)  # get_sets_for_project(project))
 
             left_col2, right_col2 = st.columns(2)
             speciality = left_col2.multiselect("Speciality", st.session_state.spec)
@@ -145,8 +146,8 @@ def add_task(task_content):
 
             st.text('')
 
-            if pr_c.button('Add Task', type='primary', use_container_width=True,
-                                 disabled=not st.session_state.task_preview):
+            if st.button('Add Task', type='primary', use_container_width=True,
+                           disabled=not st.session_state.task_preview):
 
                 st.session_state.task_preview = False
 
