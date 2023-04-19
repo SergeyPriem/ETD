@@ -102,7 +102,7 @@ def add_task(task_content):
                 st.markdown(f"""
                 <table class="task_preview">
                     <tr>
-                        <td>Project:</td><td style="color: #1569C7;"><b>{project}</b></td>
+                        <td>Project:</td><td style="color: #00bbf9;"><b>{project}</b></td>
                     </tr>
                     <tr>
                         <td>Unit:</td><td style="color: #1569C7;"><b>{set_of_dr}</b></td>
