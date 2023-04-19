@@ -351,7 +351,7 @@ def create_new_unit():
         if create_sod_but:
             reply = add_sod(proj_short, set_name, stage, status, set_start_date, coordinator, performer, notes)
             if reply == 201:
-                reporter(f"New Set '{set_name}' for Project '{proj_short}' is added to DataBase")
+                st.info(f"New Set '{set_name}' for Project '{proj_short}' is added to DataBase")
                 sod_df = st.session_state.adb['sod']
                 u_df = st.session_state.adb['users']
                 proj_df = st.session_state.adb['project']
