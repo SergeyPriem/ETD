@@ -140,6 +140,8 @@ def show_sets():
             proj_id = proj_df[proj_df.short_name == proj_selected].index.to_numpy()[0]
 
             trans_list = trans_df[trans_df.index == proj_id].trans_num.to_list()
+            r_c.text('')
+            r_c.text('')
             upd_trans_chb = r_c.checkbox("Add Transmittal")
             trans_num = r_c.selectbox("New Transmittal Number", trans_list)
             notes = r_c.text_area("Notes (don't delete, just add to previous)", max_chars=1500)
