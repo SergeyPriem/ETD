@@ -136,7 +136,7 @@ def show_sets():
                                    index=get_list_index(sod_statuses, df_edit.status.to_numpy()[0]))
             trans_df = st.session_state.adb['trans']
 
-            proj_df = st.session_state.adb['proj']
+            proj_df = st.session_state.adb['project']
             proj_id = proj_df[proj_df.short_name == proj_selected].index.to_numpy()[0]
 
             trans_list = trans_df[trans_df.index == proj_id].trans_num.to_list()
