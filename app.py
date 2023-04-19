@@ -792,7 +792,6 @@ def prepare_menus(u_df):
 
             if st.session_state.rights == 'supervisor' and st.checkbox("Show states"):
                 show_states()
-
     else:
         selected = option_menu(None, st.session_state.menu, icons=st.session_state.icons,
                                menu_icon=None, default_index=0, orientation='horizontal')
