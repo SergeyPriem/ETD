@@ -339,13 +339,13 @@ def create_new_unit():
 
         with st.form('new_sod'):
             proj_short = st.selectbox('Select a Project', st.session_state.proj_names)
-            set_name = st.text_input("Enter the Name for new Set of Drawings / Unit").strip()
+            set_name = st.text_input("Enter the Name for new Set of Drawings / Unit", max_chars=200).strip()
             stage = st.radio("Select the Stage", stages, horizontal=True)
             coordinator = st.selectbox("Coordinator", st.session_state.appl_logins)
             performer = st.selectbox("Performer", st.session_state.appl_logins)
             set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
             status = st.select_slider("Select the Current Status", sod_statuses, value='0%')
-            notes = st.text_area("Add Notes").strip()
+            notes = st.text_area("Add Notes", max_chars=500).strip()
             create_sod_but = st.form_submit_button("Create", use_container_width=True)
 
         if create_sod_but:
