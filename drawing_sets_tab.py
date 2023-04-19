@@ -123,13 +123,26 @@ def show_sets():
             st.warning("Duplicated Units. Please fix it")
             st.stop()
 
+        all_logins = st.session_state.adb['users'].login.tolist()
+
         with st.form("edit-unit_details"):
-            coord = st.selectbox("Coordinator", (1,2,3,4,5))
-            perf = st.selectbox("Performer", (1,2,3,4,5))
-            rev = st.selectbox("Revision", (1,2,3,4,5))
-            status = st.selectbox("Status", (1,2,3,4,5))
-            upd_trans_chb = trans_num = st.checkbox("Add Transmittal")
-            st.selectbox("New Transmittal Number", (1,2,3,4,5))
+            l_c, r_c = st.columns(2, gap='medium')
+            coord = l_c.selectbox("Coordinator", all_logins,
+                                  index=get_list_index(all_logins, cur_sod.get('coordinator', '!!!')))
+            perf = l_c.selectbox("Performer", all_logins,
+                                 index=get_list_index(all_logins, cur_sod.get('performer', '!!!')))
+            rev = l_c.selectbox("Revision", sod_revisions,
+                                index=get_list_index(sod_revisions, cur_sod.get('revision', '!!!')))
+            status = l_c.selectbox('Status', sod_statuses,
+                                   index=get_list_index(sod_statuses, cur_sod.get('status', '!!!')))
+            trans_df = st.session_state.adb['trans']
+
+            proj_df = st.session_state.adb['proj']
+            proj_id = proj_df[proj_df.short_name == proj_selected].index.to_numpy()[0]
+
+            trans_list = trans_df[trans_df.index == proj_id].trans_num.to_list()
+            upd_trans_chb = r_c.checkbox("Add Transmittal")
+            trans_num = r_c.selectbox("New Transmittal Number", trans_list)
             notes = st.text_area("Notes (don't delete, just add to previous)", max_chars=1500)
             upd_unit_but = st.form_submit_button("Update Unit Details")
 
