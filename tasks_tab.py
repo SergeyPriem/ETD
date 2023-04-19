@@ -69,7 +69,7 @@ def add_task(task_content):
             comments = left_col3.text_input('Comments', max_chars=249)
             source = right_col3.text_area('Received by:', value='Received by paper', height=127, max_chars=2499)
 
-            task_preview = st.form_submit_button("Preview Task", use_container_width=True)
+            task_preview = left_col2.form_submit_button("Preview Task", use_container_width=True)
 
         pr_l, pr_c, pr_r = st.columns([1, 2, 1])
 
@@ -136,7 +136,8 @@ def add_task(task_content):
 
             st.text('')
 
-            if pr_c.button('Add Task', type='primary', use_container_width=True):
+            if right_col2.button('Add Task', type='primary', use_container_width=True,
+                                 disabled=not st.session_state.task_preview):
 
                 st.session_state.task_preview = False
 
