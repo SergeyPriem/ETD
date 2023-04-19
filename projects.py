@@ -24,6 +24,8 @@ def delete_table_row(table, row_id):
 
 
 def create_backup_string(source_link, backup_folder, task_num):
+    if not source_link.endswith('\\'):
+        source_link += '\\'
     if source_link != "Non-Task":
         head = "xcopy /e /r /f /-y "
         tail = f'"{source_link}*.*" "{backup_folder}\\{task_num}\\"'.replace("/\\", "\\").replace("/", "\\")
@@ -343,7 +345,7 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
             return f"""
             New Task for {new_ass.s_o_d.project_id.short_name}: {new_ass.s_o_d.set_name} is added to DataBase  
             
-            Copy Backup string 👇 to Clipboard<*>
+            Copy backup string 👇 to Clipboard<*>
             {result[1]}
             """
         except Exception as e:
