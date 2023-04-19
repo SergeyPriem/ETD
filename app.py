@@ -10,14 +10,13 @@ from tasks_tab import tasks_content
 from drawing_sets_tab import drawing_sets, create_new_unit
 from just_for_fun_tab import just_for_fun, emoji_content
 from lesson_learned_tab import lessons_content
-from pre_sets import appearance_settings, reporter, positions, departments, mail_to_name, trans_stat, stages, \
-    sod_statuses
+from pre_sets import appearance_settings, reporter, positions, departments, mail_to_name, trans_stat
 from send_emails import send_mail
 from settings_tab import settings_content
 from transmittals_tab import transmittals_content
 from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, register_user, \
     err_handler
-from projects import confirm_task, get_my_trans, confirm_trans, get_pers_tasks, trans_status_to_db, add_sod, \
+from projects import confirm_task, get_my_trans, confirm_trans, get_pers_tasks, trans_status_to_db, \
     get_all, get_table
 from models import Task
 
@@ -187,7 +186,7 @@ def home_content():
 
         u_df = st.session_state.adb["users"]
         u_df = u_df.loc[u_df.login == st.session_state.user]
-        username = f"{u_df.name.values[0]} {u_df.surname.values[0]}"
+        username = f"{u_df.name.to_numpy()[0]} {u_df.surname.to_numpy()[0]}"
         st.header(f'Welcome, {username}!')
 
         if st.session_state.logged:
@@ -460,7 +459,7 @@ def login_register():
                             st.session_state.user = login
                             users_df = st.session_state.adb['users']
                             st.session_state.rights = users_df.loc[
-                                users_df.login == login, 'access_level'].values[0]
+                                users_df.login == login, 'access_level'].to_numpy()[0]
                             reply = add_to_log(login)
 
                             if 'ERROR' in reply.upper():
@@ -538,7 +537,7 @@ def login_register():
                             <p>
                                 Please confirm your registration by entering the confirmation code
                                 <b>{st.session_state.conf_num}</b>
-                                at the <a href="https://design-energo.streamlit.app/">site</a> registration form
+                                at the <a href="https://e-design.streamlit.app/">site</a> registration form
                                 <hr>
                                 Best regards, Administration 😎
                             </p>
@@ -553,7 +552,7 @@ def login_register():
                     user = user_df.loc[users_df.login == login]
 
                     # if "@" not in user.email:
-                    if "@" not in user.email.values[0]:
+                    if "@" not in user.email.to_numpy()[0]:
                         st.warning("Can't get User's email")
                         st.stop()
 
@@ -634,7 +633,7 @@ def manage_users():
 
                     position = st.radio('Position', positions,
                                         key='edit_position', horizontal=True,
-                                        index=get_list_index(positions, appl_user.position.values[0]))
+                                        index=get_list_index(positions, appl_user.position.to_numpy()[0]))
                     st.markdown("---")
                     # try:
                     #     department_ind = departments.index(appl_user.department)
@@ -643,7 +642,7 @@ def manage_users():
 
                     department = st.radio('Department', departments,
                                           key='edit_department', horizontal=True,
-                                          index=get_list_index(departments, appl_user.branch.values[0]))
+                                          index=get_list_index(departments, appl_user.branch.to_numpy()[0]))
                     st.markdown("---")
 
                     access_tuple = ('performer', 'admin', 'supervisor', 'prohibited')
@@ -654,11 +653,11 @@ def manage_users():
 
                     access_level = st.radio('Access level', access_tuple, horizontal=True,
                                             key='edit_access_level',
-                                            index=get_list_index(access_tuple, appl_user.access_level.values[0]))
+                                            index=get_list_index(access_tuple, appl_user.access_level.to_numpy()[0]))
                     st.markdown("---")
 
                     try:
-                        date_from_db = appl_user.start_date.values[0]
+                        date_from_db = appl_user.start_date.to_numpy()[0]
                     except:
                         date_from_db = datetime.date.today()
 
@@ -780,8 +779,8 @@ def prepare_menus(u_df):
 
     st.session_state.icons = get_menus()[1]
 
-    st.session_state.vert_menu = u_df.loc[u_df.login == st.session_state.user, 'vert_menu'].values[0]
-    st.session_state.delay = u_df.loc[u_df.login == st.session_state.user, 'delay_set'].values[0]
+    st.session_state.vert_menu = u_df.loc[u_df.login == st.session_state.user, 'vert_menu'].to_numpy()[0]
+    st.session_state.delay = u_df.loc[u_df.login == st.session_state.user, 'delay_set'].to_numpy()[0]
 
     if st.session_state.vert_menu == 1:
         with st.sidebar:

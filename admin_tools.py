@@ -112,5 +112,3 @@ def manage_projects():
                 st.experimental_data_editor(df, use_container_width=True)
             else:
                 st.warning('No records found')
-
-

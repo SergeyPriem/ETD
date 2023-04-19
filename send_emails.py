@@ -54,7 +54,7 @@ ass_html = f"""
           You got this message because of new incoming assignment: {ass_num}
         </h5>
         <p>
-            Please find it on your <a href="https://design-energo.streamlit.app/">site</a>
+            Please find it on your <a href="https://e-design.streamlit.app/">site</a>
             <br>
             <br>
             or by link:<br>{ass_link}

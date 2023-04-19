@@ -80,7 +80,9 @@ def settings_content():
                 """
 
             if not st.session_state.upd_code_sent:
-                email_sent = send_mail(receiver=st.session_state.user,
+                u_df = st.session_state.adm['users']
+                receiver = u_df[u_df.login == st.session_state.user].email.to_numpy()[0]
+                email_sent = send_mail(receiver=receiver,
                                        cc_rec="sergey.priemshiy@uzliti-en.com",
                                        html=upd_html, subj="Confirmation of Data Update on ETD site")
                 if email_sent is True:

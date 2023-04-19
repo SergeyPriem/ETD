@@ -2,7 +2,7 @@
 
 import streamlit as st
 from projects import add_in_to_db, add_out_to_db
-import pyperclip
+from send_emails import send_mail
 
 
 def tasks_content():
@@ -50,7 +50,7 @@ def add_task(task_content):
         proj_df = st.session_state.adb['project']
         sod_df = st.session_state.adb['sod']
 
-        proj_id = proj_df[proj_df.short_name == project].index.values[0]
+        proj_id = proj_df[proj_df.short_name == project].index.to_numpy()[0]
 
         sod_list = sod_df[sod_df.project_id == proj_id].set_name.tolist()
 
@@ -146,7 +146,7 @@ def add_task(task_content):
 
         st.text('')
 
-        if st.button('Add Task', type='primary', use_container_width=True, disabled= not st.session_state.task_preview):
+        if st.button('Add Task', type='primary', use_container_width=True, disabled=not st.session_state.task_preview):
 
             st.session_state.task_preview = False
 
@@ -162,10 +162,57 @@ def add_task(task_content):
                         # copy_to_clip = st.button('Copy back-up string to Clipboard')
                         st.code(rep2)
 
+                        u_df = st.session_state.adm['users']
+
+                        try:
+                            coord_id = sod_df[sod_df.set_name == single_set].coord_id.to_numpy()[0]
+                            coord_email = u_df[u_df.index == coord_id].email.to_numpy()[0]
+                        except:
+                            coord_email = 'sergey.priemshiy@uzliti-en.com'
+
+                        try:
+                            perf_id = sod_df[sod_df.set_name == single_set].perf_id.to_numpy()[0]
+                            perf_email = u_df[u_df.index == perf_id].email.to_numpy()[0]
+                        except:
+                            perf_email = 'sergey.priemshiy@uzliti-en.com'
+
+                        subj = f"New incoming Task for {project}: {single_set} | " \
+                               f"Новое входящее задание для {project}: {single_set}"
+
+                        info_html = f"""
+                                <html>
+                                  <head></head>
+                                  <body>
+                                    <h3>
+                                      Hello, Colleagues!
+                                      <hr>
+                                    </h3>
+                                    <h5>
+                                      You got this message because you are working on the project:
+                                    </h5>
+                                    <h5>
+                                      Вы получили это письмо, потому что Вы работаете над проектом:
+                                    </h5>
+                                    <h4>
+                                      {project}: {single_set}
+                                    </h4>
+                                    <p>
+                                        Task's details at a the site | Детали задания на сайте: 
+                                        <a href="https://e-design.streamlit.app/">e-design.streamlit.app</a>
+                                        <hr>
+                                        Best regards, Administration 😎
+                                    </p>
+                                  </body>
+                                </html>
+                            """
+
+                        if send_mail(perf_email, coord_email, subj, info_html):
+                            st.text(f"Notifications sent by emails: {project}, {single_set}")
+
                     else:
                         st.warning(reply)
 
-            else:
+            else:  # Outgoing Tasks
                 for single_spec in speciality:
                     reply = add_out_to_db(project, set_of_dr[0], stage, direction, single_spec, date,
                                           description.strip(),
@@ -175,8 +222,6 @@ def add_task(task_content):
                         st.warning(reply)
                     else:
                         st.info(reply)
-
-                # st.button("N E X T")
 
 
 def view_tasks(ass_tab2, my_all):
@@ -198,7 +243,7 @@ def view_tasks(ass_tab2, my_all):
                  'backup_copy', 'source', 'coord_log', 'perf_log', 'comment', 'added_by', 'coord_id', 'perf_id']]
 
         users_df = st.session_state.adb['users']
-        user_id = users_df[users_df.login == st.session_state.user].index.values[0]
+        user_id = users_df[users_df.login == st.session_state.user].index.to_numpy()[0]
 
         if my_all == 'My':
             df = df[(df.coord_id == user_id) | (df.perf_id == user_id)]

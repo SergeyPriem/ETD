@@ -62,7 +62,7 @@ def show_sets():
 
         if my_all == "My Units":
             user_login = st.session_state.user
-            user_id = u_df.loc[u_df.login == user_login].index.values[0]
+            user_id = u_df.loc[u_df.login == user_login].index.to_numpy()[0]
             df = df[(df.coord_id == user_id) | (df.perf_id == user_id)]
 
         df['unit_id'] = df.index
@@ -118,17 +118,17 @@ def show_sets():
                                     use_container_width=True)
 
         if len(df_edit) == 1:
-            unit_id = df_edit.unit_id.values[0]
+            unit_id = df_edit.unit_id.to_numpy()[0]
         else:
             st.warning("Duplicated Units. Please fix it")
             st.stop()
 
         if st.button('Edit Details'):
-            st.session_state.edit_sod['coordinator'] = df_edit.coordinator.values[0]
-            st.session_state.edit_sod['performer'] = df_edit.performer.values[0]
-            st.session_state.edit_sod['revision'] = df_edit.revision.values[0]
-            st.session_state.edit_sod['status'] = df_edit.status.values[0]
-            st.session_state.edit_sod['notes'] = df_edit.notes.values[0]
+            st.session_state.edit_sod['coordinator'] = df_edit.coordinator.to_numpy()[0]
+            st.session_state.edit_sod['performer'] = df_edit.performer.to_numpy()[0]
+            st.session_state.edit_sod['revision'] = df_edit.revision.to_numpy()[0]
+            st.session_state.edit_sod['status'] = df_edit.status.to_numpy()[0]
+            st.session_state.edit_sod['notes'] = df_edit.notes.to_numpy()[0]
             st.session_state.edit_sod['project'] = proj_selected
             st.session_state.edit_sod['unit'] = unit_selected
             st.session_state.edit_sod['unit_id'] = unit_id
@@ -358,9 +358,9 @@ def create_new_unit():
 
                 next_id = sod_df.index.max() + 1
 
-                project_id = proj_df.query('short_name == @proj_short').index.values[0]
-                coord_id = u_df.query('login == @coordinator').index.values[0]
-                perf_id = u_df.query('login == @performer').index.values[0]
+                project_id = proj_df.query('short_name == @proj_short').index.to_numpy()[0]
+                coord_id = u_df.query('login == @coordinator').index.to_numpy()[0]
+                perf_id = u_df.query('login == @performer').index.to_numpy()[0]
 
                 dict_df = pd.DataFrame(
                     [
