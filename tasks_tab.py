@@ -197,7 +197,7 @@ def add_task(task_content):
                                       {project}: {single_set}
                                     </h4>
                                     <p>
-                                        Task's details at a the site | Детали задания на сайте: 
+                                        Task's details at the site | Детали задания на сайте: 
                                         <a href="https://e-design.streamlit.app/">e-design.streamlit.app</a>
                                         <hr>
                                         Best regards, Administration 😎
@@ -209,9 +209,11 @@ def add_task(task_content):
                         reply = send_mail(perf_email, coord_email, subj, info_html)
 
                         if reply == 200:
-                            st.write(f"Notifications sent by emails: {project}, {single_set}")
+                            st.write(f"Notifications sent by emails: {perf_email}, {coord_email}")
+                            st.divider()
                         else:
                             st.warning(reply)
+
 
                     else:
                         st.warning(reply)
