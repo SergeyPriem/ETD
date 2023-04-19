@@ -159,7 +159,7 @@ def add_task(task_content):
 
                         if '<*>' in reply:
                             rep1, rep2 = reply.split('<*>')
-                            copy_to_clip = st.button(rep1)
+                            copy_to_clip = st.button(rep2)
                             st.info(rep2)
                             if copy_to_clip:
                                 pyperclip.copy(rep2)
