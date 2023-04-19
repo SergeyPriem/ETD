@@ -370,8 +370,6 @@ def home_content():
                         st.text('No New Transmittals')
 
 
-
-
 def etap_py():
     from datetime import datetime
 
@@ -844,7 +842,7 @@ def initial():
         st.warning(err_handler(e))
 
     try:
-        st.session_state.spec = st.session_state.adb['spec'].abbrev.tolist()
+        st.session_state.spec = st.session_state.adb['speciality'].abbrev.tolist()
         if len(st.session_state.spec) == 0:
             st.warning("Can't get Specialities")
     except Exception as e:
