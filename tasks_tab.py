@@ -151,75 +151,74 @@ def add_task(task_content):
             st.session_state.task_preview = False
 
             if direction == "In":
-                for single_set in units:
-                    reply = add_in_to_db(project, single_set, stage, direction, specialities[0], date,
-                                         description.strip(),
-                                         link.strip(), source.strip(), comments.strip())
+                for single_unit in units:
+                    for single_spec in specialities:
+                        reply = add_in_to_db(project, single_unit, stage, direction, single_spec, date,
+                                             description.strip(),
+                                             link.strip(), source.strip(), comments.strip())
 
-                    if '<*>' in reply:
-                        rep1, rep2 = reply.split('<*>')
-                        st.write(rep1)
-                        # copy_to_clip = st.button('Copy back-up string to Clipboard')
-                        st.code(rep2)
+                        if '<*>' in reply:
+                            rep1, rep2 = reply.split('<*>')
+                            st.write(rep1)
+                            # copy_to_clip = st.button('Copy back-up string to Clipboard')
+                            st.code(rep2)
 
-                        u_df = st.session_state.adb['users']
+                            u_df = st.session_state.adb['users']
 
-                        try:
-                            coord_id = sod_df[sod_df.set_name == single_set].coord_id.to_numpy()[0]
-                            coord_email = u_df[u_df.index == coord_id].email.to_numpy()[0]
-                        except:
-                            coord_email = 'sergey.priemshiy@uzliti-en.com'
+                            try:
+                                coord_id = sod_df[sod_df.set_name == single_unit].coord_id.to_numpy()[0]
+                                coord_email = u_df[u_df.index == coord_id].email.to_numpy()[0]
+                            except:
+                                coord_email = 'sergey.priemshiy@uzliti-en.com'
 
-                        try:
-                            perf_id = sod_df[sod_df.set_name == single_set].perf_id.to_numpy()[0]
-                            perf_email = u_df[u_df.index == perf_id].email.to_numpy()[0]
-                        except:
-                            perf_email = 'sergey.priemshiy@uzliti-en.com'
+                            try:
+                                perf_id = sod_df[sod_df.set_name == single_unit].perf_id.to_numpy()[0]
+                                perf_email = u_df[u_df.index == perf_id].email.to_numpy()[0]
+                            except:
+                                perf_email = 'sergey.priemshiy@uzliti-en.com'
 
-                        subj = f"New incoming Task for {project}: {single_set} | " \
-                               f"Новое входящее задание для {project}: {single_set}"
+                            subj = f"New incoming Task for {project}: {single_unit} | " \
+                                   f"Новое входящее задание для {project}: {single_unit}"
 
-                        info_html = f"""
-                                <html>
-                                  <head></head>
-                                  <body>
-                                    <h3>
-                                      Hello, Colleagues!
-                                      <hr>
-                                    </h3>
-                                    <h5>
-                                      You got this message because you are working on the project:
-                                    </h5>
-                                    <h5>
-                                      Вы получили это письмо, потому что Вы работаете над проектом:
-                                    </h5>
-                                    <h4>
-                                      {project}: {single_set}
-                                    </h4>
-                                    <br>
-                                    <p>
-                                        Task's details at the site | Детали задания на сайте: 
-                                        <a href="https://e-design.streamlit.app/">e-design.streamlit.app</a>
-                                        <hr>
-                                        Best regards, Administration 😎
-                                    </p>
-                                  </body>
-                                </html>
-                            """
-                        if perf_email == coord_email:
-                            coord_email = 'sergey.priemshiy@uzliti-en.com'
+                            info_html = f"""
+                                    <html>
+                                      <head></head>
+                                      <body>
+                                        <h3>
+                                          Hello, Colleagues!
+                                          <hr>
+                                        </h3>
+                                        <h5>
+                                          You got this message because you are working on the project:
+                                        </h5>
+                                        <h5>
+                                          Вы получили это письмо, потому что Вы работаете над проектом:
+                                        </h5>
+                                        <h4>
+                                          {project}: {single_unit}
+                                        </h4>
+                                        <br>
+                                        <p>
+                                            Task's details at the site | Детали задания на сайте: 
+                                            <a href="https://e-design.streamlit.app/">e-design.streamlit.app</a>
+                                            <hr>
+                                            Best regards, Administration 😎
+                                        </p>
+                                      </body>
+                                    </html>
+                                """
+                            if perf_email == coord_email:
+                                coord_email = 'sergey.priemshiy@uzliti-en.com'
 
-                        reply = send_mail(perf_email, coord_email, subj, info_html)
+                            reply = send_mail(perf_email, coord_email, subj, info_html)
 
-                        if reply == 200:
-                            st.write(f"Notifications sent by emails: {perf_email}, {coord_email}")
-                            st.divider()
+                            if reply == 200:
+                                st.write(f"Notifications sent by emails: {perf_email}, {coord_email}")
+                                st.divider()
+                            else:
+                                st.warning(reply)
                         else:
                             st.warning(reply)
-
-
-                    else:
-                        st.warning(reply)
 
             else:  # Outgoing Tasks
                 for single_unit in units:
