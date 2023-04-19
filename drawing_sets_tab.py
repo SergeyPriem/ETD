@@ -142,7 +142,7 @@ def show_sets():
             trans_list = trans_df[trans_df.index == proj_id].trans_num.to_list()
             upd_trans_chb = r_c.checkbox("Add Transmittal")
             trans_num = r_c.selectbox("New Transmittal Number", trans_list)
-            notes = st.text_area("Notes (don't delete, just add to previous)", max_chars=1500)
+            notes = r_c.text_area("Notes (don't delete, just add to previous)", max_chars=1500)
             upd_unit_but = st.form_submit_button("Update Unit Details")
 
         if upd_unit_but:
