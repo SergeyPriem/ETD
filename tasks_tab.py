@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import streamlit as st
-from pre_sets import specialities
-from projects import get_sets_for_project, add_in_to_db, add_out_to_db
+from projects import add_in_to_db, add_out_to_db
 import pyperclip
 
 def tasks_content():
@@ -59,7 +58,7 @@ def add_task(task_content):
                                        options=sod_list) #get_sets_for_project(project))
 
             left_col2, right_col2 = st.columns(2)
-            speciality = left_col2.multiselect("Speciality", specialities)
+            speciality = left_col2.multiselect("Speciality", st.session_state.spec)
             description = right_col2.text_input('Description of Task', max_chars=249)
 
             col_31, col_32, col_33, col_34 = st.columns([1, 1, 1, 3])

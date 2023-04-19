@@ -181,7 +181,7 @@ def show_sets():
 
         aval_spec = list(units_tasks.speciality.drop_duplicates())
 
-        spec_dual = specialities  # (*specialities, *specialities_rus)
+        spec_dual = st.session_state.spec  # (*specialities, *specialities_rus)
         not_aval_spec = []
 
         for i in spec_dual:

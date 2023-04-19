@@ -97,8 +97,8 @@ class VisitLog(db.Entity):
 
 class Speciality(db.Entity):
     id = PrimaryKey(int, size=8, auto=True)
-    abbrev = Required(str, 20, auto=True)
-    descr = Optional(str, 50)
+    abbrev = Required(str, 40)
+    descr = Optional(str, 100)
     tasks = Set(Task)
 
 

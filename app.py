@@ -65,6 +65,9 @@ def create_states():
     if 'adb' not in st.session_state:
         st.session_state.adb = None
 
+    if 'spec' not in st.session_state:
+        st.session_state.spec = None
+
     if 'menu' not in st.session_state:
         st.session_state.menu = None
 
@@ -769,6 +772,9 @@ def show_states():
     st.write('edit_sod')
     st.write(st.session_state.edit_sod)
     st.text('-----------------------')
+    st.write('spec')
+    st.write(st.session_state.spec)
+    st.text('-----------------------')
 
 
 def prepare_menus(u_df):
@@ -826,7 +832,6 @@ def initial():
         if len(st.session_state.registered_logins) == 0:
             st.warning("Can't get Registered Users")
             st.stop()
-
     except Exception as e:
         st.warning(err_handler(e))
         st.stop()
@@ -838,13 +843,15 @@ def initial():
     except Exception as e:
         st.warning(err_handler(e))
 
+    try:
+        st.session_state.spec = st.session_state.adb['spec'].abbrev.tolist()
+        if len(st.session_state.spec) == 0:
+            st.warning("Can't get Specialities")
+    except Exception as e:
+        st.warning(err_handler(e))
+
     if not st.session_state.logged:
         login_register()
-        # if login_register():
-        #     st.session_state.w.empty()
-            # st.experimental_rerun()
-        # else:
-        #     reporter('Please Log In to start work with Site', 3)
 
     if st.session_state.logged and st.session_state.user:
 

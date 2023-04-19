@@ -7,7 +7,6 @@ from datetime import date, datetime
 import streamlit as st
 from pre_sets import BACKUP_FOLDER
 from users import err_handler
-import pyperclip
 
 set_sql_debug(True)
 

@@ -6,10 +6,10 @@ from pathlib import Path
 
 positions = ('Trainee', 'III cat.', 'II cat.', 'I cat.', 'Lead', 'Group Head', 'Senior', 'Dep. Head')
 departments = ('UzLITI Engineering', 'En-Solut', 'En-Concept', 'En-Smart', 'Remote')
-specialities = ('Architecture', 'Civil', 'HVAC', 'WSS', 'Telecom', 'F&G', 'Instrument', 'Process', 'Plot Plan',
-                'Building-Process', 'Cathodic Protection', 'Estimators', 'Thermal', 'ProgMan')
-specialities_rus = ('Архитектура', 'ОВ', 'ВК', 'Связь', 'СПГО', 'КИП', 'Технология',
-                    'ЭХЗ', 'Сметчики', 'Теплотехники', 'Строители')
+# specialities = ('Architecture', 'Civil', 'HVAC', 'WSS', 'Telecom', 'F&G', 'Instrument', 'Process', 'Plot Plan',
+#                 'Building-Process', 'Cathodic Protection', 'Estimators', 'Thermal', 'ProgMan')
+# specialities_rus = ('Архитектура', 'ОВ', 'ВК', 'Связь', 'СПГО', 'КИП', 'Технология',
+#                     'ЭХЗ', 'Сметчики', 'Теплотехники', 'Строители')
 stages = ('Detail Design', 'Basic Design', 'Feed', 'Feasibility Study', 'Adaptation')
 sod_statuses = (
     '0%', "Cancelled", '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '99%', "Squad Check", "Issued",
