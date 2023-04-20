@@ -93,6 +93,23 @@ def add_task(task_content):
             with placeholder:
                 st.write("")
                 # with pr_c:
+
+                form_ready = True
+
+                form_dict = {
+                    'units': units,
+                    'specialities': specialities,
+                    'description': description,
+                    'link': link,
+                }
+
+
+                for field_name, field_value in form_dict.items():
+                    if len(field_value) == 0:
+                        st.warning(f"Empty field: {field_name}")
+                        form_ready = False
+
+
                 st.markdown("""<style>
                                 .task_preview table, tr {
                                         border-style: hidden;
@@ -143,20 +160,6 @@ def add_task(task_content):
                     </tr>
                 </table>
                 """, unsafe_allow_html=True)
-
-                form_dict = {
-                    'units': units,
-                    'specialities': specialities,
-                    'description': description,
-                    'link': link,
-                }
-
-                form_ready = True
-
-                for field_name, field_value in form_dict.items():
-                    if len(field_value) == 0:
-                        st.warning(f"Empty field: {field_name}")
-                        form_ready = False
 
                 st.text('')
 
