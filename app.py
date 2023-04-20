@@ -548,10 +548,9 @@ def login_register():
                 if not st.session_state.code_sent:
                     # user = get_user_data(login)
 
-                    user_df = st.session_state.adb['user']
+                    user_df = st.session_state.adb['users']
                     user = user_df.loc[users_df.login == login]
 
-                    # if "@" not in user.email:
                     if "@" not in user.email.to_numpy()[0]:
                         st.warning("Can't get User's email")
                         st.stop()
