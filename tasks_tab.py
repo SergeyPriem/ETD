@@ -175,10 +175,10 @@ def add_task(task_content):
                                 st.code(rep2, language="python")
 
                                 sod_id = (sod_df.set_name == unit) & (sod_df.project_id == proj_id)
+
                                 try:
                                     coord_id = sod_df[sod_id].coord_id.to_numpy()[0]
                                     coord_email = u_df[(u_df.index == coord_id)].email.to_numpy()[0]
-
                                 except:
                                     coord_email = 'sergey.priemshiy@uzliti-en.com'
 
@@ -187,8 +187,6 @@ def add_task(task_content):
                                     perf_email = u_df[u_df.index == perf_id].email.to_numpy()[0]
                                 except:
                                     perf_email = 'sergey.priemshiy@uzliti-en.com'
-
-                                st.write(perf_email)
 
                                 subj = f"Incoming Task  | Входящее задание:  {project}: {unit}"
 
@@ -221,6 +219,7 @@ def add_task(task_content):
                                     """
                                 if perf_email == coord_email:
                                     coord_email = 'sergey.priemshiy@uzliti-en.com'
+
                                 reply = send_mail(perf_email, coord_email, subj, info_html)
 
                                 if reply == 200:
