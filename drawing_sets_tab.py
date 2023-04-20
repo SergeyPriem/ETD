@@ -170,7 +170,7 @@ def show_sets():
             if reply == 200:
                 reporter("Updated!")
 
-                unit_id = st.session_state.edit_sod['unit_id']
+                # unit_id = st.session_state.edit_sod['unit_id']
 
                 sod_df = st.session_state.adb['sod']
 
