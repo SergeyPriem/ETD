@@ -35,7 +35,7 @@ def get_menus():
                        'bi bi-file-check', 'bi bi-diagram-3', 'bi bi-info-circle', 'bi bi-pen', 'bi bi-gear',
                        ]
 
-    admin_menu = ["Create Drawing Set / Unit"]
+    admin_menu = ["Create Dr. Set / Unit"]
     admin_icons = ['bi bi-folder-plus']
 
     super_menu = ["Manage Projects", "Manage Users"]
