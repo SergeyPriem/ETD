@@ -176,18 +176,19 @@ def add_task(task_content):
                                 st.write(rep1)
                                 st.code(rep2, language="python")
 
+                                sod_id = (sod_df.set_name == unit) & (sod_df.project_id == proj_id)
                                 try:
-                                    coord_id = sod_df[(sod_df.set_name == unit)
-                                                      & (sod_df.project_id == proj_id)].coord_id.to_numpy()[0]
-
-                                    coord_email = u_df[(u_df.index == coord_id)
-                                                       & (sod_df.project_id == proj_id)].email.to_numpy()[0]
+                                    coord_id = sod_df[sod_id].coord_id.to_numpy()[0]
+                                    coord_email = u_df[(u_df.index == coord_id)].email.to_numpy()[0]
 
                                 except:
                                     coord_email = 'sergey.priemshiy@uzliti-en.com'
 
+                                st.write(unit) ###
+                                st.write(coord_email) ###
+
                                 try:
-                                    perf_id = sod_df[sod_df.set_name == unit].perf_id.to_numpy()[0]
+                                    perf_id = sod_df[sod_id].perf_id.to_numpy()[0]
                                     perf_email = u_df[u_df.index == perf_id].email.to_numpy()[0]
                                 except:
                                     perf_email = 'sergey.priemshiy@uzliti-en.com'
