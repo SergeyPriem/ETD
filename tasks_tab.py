@@ -234,18 +234,18 @@ def add_task(task_content):
                             else:
                                 st.warning(reply)
 
-            else:  # Outgoing Tasks
-                for unit in units:
-                    for single_spec in specialities:
-                        reply = add_out_to_db(project, unit, stage, direction, single_spec, date,
-                                              description.strip(),
-                                              link.strip(), source.strip(), comments.strip())
+                else:  # Outgoing Tasks
+                    for unit in units:
+                        for single_spec in specialities:
+                            reply = add_out_to_db(project, unit, stage, direction, single_spec, date,
+                                                  description.strip(),
+                                                  link.strip(), source.strip(), comments.strip())
 
-                        if 'ERROR' in reply.upper():
-                            st.warning(reply)
-                        else:
-                            st.info(reply)
-                        st.divider()
+                            if 'ERROR' in reply.upper():
+                                st.warning(reply)
+                            else:
+                                st.info(reply)
+                            st.divider()
 
 def view_tasks(ass_tab2, my_all):
     with ass_tab2:
