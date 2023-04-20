@@ -243,7 +243,6 @@ def add_task(task_content):
                             st.info(reply)
                         st.divider()
 
-
 def view_tasks(ass_tab2, my_all):
     with ass_tab2:
 
