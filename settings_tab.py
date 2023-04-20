@@ -25,9 +25,10 @@ def settings_content():
             # st.session_state.delay = st.select_slider('Time delay for info messages',
             #                                           options=[1, 2, 3, 4], value=st.session_state.delay)
 
-            menu_position = l_f.radio('Location of menu', ("Top", "Left",),
-                                     index=st.session_state.vert_menu, horizontal=True)
+            menu_position = l_f.radio('Location of menu', ("Top", "Left"),
+                                      index=st.session_state.vert_menu, horizontal=True)
             r_f = st.write('')
+
             appl_set_but = r_f.form_submit_button('Apply')
 
         if appl_set_but:
