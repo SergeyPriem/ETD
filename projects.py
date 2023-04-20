@@ -324,7 +324,7 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
                 backup_copy='NA',
                 source=source,
                 comment=comment,
-                added_by=st.session_state.user,
+                added_by=f"{str(st.session_state.user)}: {str(datetime.now())[:-10]}"
             )
 
             new_ass_id = max(n.id for n in Task)
