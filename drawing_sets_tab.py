@@ -168,7 +168,7 @@ def show_sets():
                                notes, upd_trans_chb)
 
             if reply == 200:
-                reporter("Updated!")
+                st.success("Updated!")
 
                 # unit_id = st.session_state.edit_sod['unit_id']
 
