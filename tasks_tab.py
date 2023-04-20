@@ -161,9 +161,11 @@ def add_task(task_content):
                 if direction == "In":
                     for unit in units:
                         for spec in specialities:
-                            reply = add_in_to_db(project, unit, stage, direction, spec, date,
-                                                 description.strip(),
-                                                 link.strip(), source.strip(), comments.strip())
+
+                            reply = "111 <*> 222" ###
+                            # reply = add_in_to_db(project, unit, stage, direction, spec, date,
+                            #                      description.strip(),
+                            #                      link.strip(), source.strip(), comments.strip())
 
                             if '<*>' in reply:
                                 rep1, rep2 = reply.split('<*>')
@@ -215,8 +217,8 @@ def add_task(task_content):
                                     """
                                 if perf_email == coord_email:
                                     coord_email = 'sergey.priemshiy@uzliti-en.com'
-
-                                reply = send_mail(perf_email, coord_email, subj, info_html)
+                                reply =200 ###
+                                # reply = send_mail(perf_email, coord_email, subj, info_html)
 
                                 if reply == 200:
                                     st.write(f"Notifications sent by emails: {perf_email}, {coord_email}")
