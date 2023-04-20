@@ -185,7 +185,7 @@ def show_sets():
                 st.session_state.adb['sod'] = sod_df
 
             else:
-                reporter(reply, 3)
+                st.warning(reply)
 
             # st.session_state.edit_sod['state'] = False
             # st.session_state.edit_sod['unit'] = None
