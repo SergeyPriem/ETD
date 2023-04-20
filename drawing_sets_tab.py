@@ -111,7 +111,8 @@ def show_sets():
         df_edit = df.loc[(df.unit == unit_selected) & (df.project == proj_selected)]
 
         st.divider()
-        st.subheader(f"Project: :red[{proj_selected}]. Unit: :red[{unit_selected}]")
+        st.subheader(f"Project: :red[{proj_selected}]")
+        st.subheader(f"Unit: :red[{unit_selected}]")
         # st.experimental_data_editor(df_edit[['unit_id', 'coordinator', 'performer', 'stage', 'revision', 'start_date',
         #                                      'status', 'transmittal', 'trans_date', 'notes']].set_index('unit_id'),
         #                             use_container_width=True)
@@ -122,6 +123,8 @@ def show_sets():
             st.warning("Duplicated Units. Please fix it")
             st.stop()
 
+        st.text(unit_id)     ###
+        st.write(df_edit)
         all_logins = st.session_state.adb['users'].login.tolist()
 
         with st.form("edit-unit_details"):
