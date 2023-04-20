@@ -79,32 +79,30 @@ def add_task(task_content):
             task_preview = st.form_submit_button("Preview Task", use_container_width=True)
 
         # pr_l, pr_c, pr_r = st.columns([1, 4, 1])
+        plah = st.empty()
+        with plah.container():
+            if task_preview:
 
-        if task_preview:
+                if non_task:
+                    description = "Non-task"
+                    link = "Non-task"
+                    comments = "Non-task"
 
-            if non_task:
-                description = "Non-task"
-                link = "Non-task"
-                comments = "Non-task"
+                st.session_state.task_preview = True
 
-            st.session_state.task_preview = True
+                form_dict = {
+                    'Unit': units,
+                    'Speciality': specialities,
+                    'Description': description,
+                    'Link': link,
+                }
 
-            form_dict = {
-                'Unit': units,
-                'Speciality': specialities,
-                'Description': description,
-                'Link': link,
-            }
+                for field_name, field_value in form_dict.items():
+                    if len(field_value) == 0:
+                        st.warning(f"Empty field: {field_name}")
+                        st.session_state.task_preview = False
 
-            for field_name, field_value in form_dict.items():
-                if len(field_value) == 0:
-                    st.warning(f"Empty field: {field_name}")
-                    st.session_state.task_preview = False
-
-            plah = st.empty()
-            if st.session_state.task_preview:
-
-                with plah.container():
+                if st.session_state.task_preview:
                     st.write("")
 
                     st.markdown("""<style>
@@ -160,92 +158,92 @@ def add_task(task_content):
 
                     st.text('')
 
-        if st.session_state.task_preview:
-            if st.button('Add Task', type='primary', use_container_width=True):
-                plah.empty()
+            if st.session_state.task_preview:
+                if st.button('Add Task', type='primary', use_container_width=True):
+                    plah.empty()
 
-                if direction == "In":
-                    for unit in units:
-                        for spec in specialities:
+                    if direction == "In":
+                        for unit in units:
+                            for spec in specialities:
 
-                            reply = add_in_to_db(project, unit, stage, direction, spec, date,
-                                                 description.strip(),
-                                                 link.strip(), source.strip(), comments.strip())
+                                reply = add_in_to_db(project, unit, stage, direction, spec, date,
+                                                     description.strip(),
+                                                     link.strip(), source.strip(), comments.strip())
 
-                            if '<*>' in reply:
-                                rep1, rep2 = reply.split('<*>')
-                                st.write(rep1)
-                                st.code(rep2, language="python")
+                                if '<*>' in reply:
+                                    rep1, rep2 = reply.split('<*>')
+                                    st.write(rep1)
+                                    st.code(rep2, language="python")
 
-                                u_df = st.session_state.adb['users']
+                                    u_df = st.session_state.adb['users']
 
-                                try:
-                                    coord_id = sod_df[sod_df.set_name == unit].coord_id.to_numpy()[0]
-                                    coord_email = u_df[u_df.index == coord_id].email.to_numpy()[0]
-                                except:
-                                    coord_email = 'sergey.priemshiy@uzliti-en.com'
+                                    try:
+                                        coord_id = sod_df[sod_df.set_name == unit].coord_id.to_numpy()[0]
+                                        coord_email = u_df[u_df.index == coord_id].email.to_numpy()[0]
+                                    except:
+                                        coord_email = 'sergey.priemshiy@uzliti-en.com'
 
-                                try:
-                                    perf_id = sod_df[sod_df.set_name == unit].perf_id.to_numpy()[0]
-                                    perf_email = u_df[u_df.index == perf_id].email.to_numpy()[0]
-                                except:
-                                    perf_email = 'sergey.priemshiy@uzliti-en.com'
+                                    try:
+                                        perf_id = sod_df[sod_df.set_name == unit].perf_id.to_numpy()[0]
+                                        perf_email = u_df[u_df.index == perf_id].email.to_numpy()[0]
+                                    except:
+                                        perf_email = 'sergey.priemshiy@uzliti-en.com'
 
-                                subj = f"Incoming Task  | Входящее задание:  {project}: {unit}"
+                                    subj = f"Incoming Task  | Входящее задание:  {project}: {unit}"
 
-                                info_html = f"""
-                                        <html>
-                                          <head></head>
-                                          <body>
-                                            <h3>
-                                              Hello, Colleagues!
-                                              <hr>
-                                            </h3>
-                                            <h5>
-                                              You got this message because you are working on the project:
-                                            </h5>
-                                            <h5>
-                                              Вы получили это письмо, потому что Вы работаете над проектом:
-                                            </h5>
-                                            <h4>
-                                              {project}: {unit}
-                                            </h4>
-                                            <br>
-                                            <p>
-                                                Task's details at the site | Детали задания на сайте:
-                                                <a href="https://e-design.streamlit.app/">e-design.streamlit.app</a>
-                                                <hr>
-                                                Best regards, Administration 😎
-                                            </p>
-                                          </body>
-                                        </html>
-                                    """
-                                if perf_email == coord_email:
-                                    coord_email = 'sergey.priemshiy@uzliti-en.com'
+                                    info_html = f"""
+                                            <html>
+                                              <head></head>
+                                              <body>
+                                                <h3>
+                                                  Hello, Colleagues!
+                                                  <hr>
+                                                </h3>
+                                                <h5>
+                                                  You got this message because you are working on the project:
+                                                </h5>
+                                                <h5>
+                                                  Вы получили это письмо, потому что Вы работаете над проектом:
+                                                </h5>
+                                                <h4>
+                                                  {project}: {unit}
+                                                </h4>
+                                                <br>
+                                                <p>
+                                                    Task's details at the site | Детали задания на сайте:
+                                                    <a href="https://e-design.streamlit.app/">e-design.streamlit.app</a>
+                                                    <hr>
+                                                    Best regards, Administration 😎
+                                                </p>
+                                              </body>
+                                            </html>
+                                        """
+                                    if perf_email == coord_email:
+                                        coord_email = 'sergey.priemshiy@uzliti-en.com'
 
-                                reply = send_mail(perf_email, coord_email, subj, info_html)
+                                    reply = send_mail(perf_email, coord_email, subj, info_html)
 
-                                if reply == 200:
-                                    st.write(f"Notifications sent by emails: {perf_email}, {coord_email}")
-                                    st.divider()
+                                    if reply == 200:
+                                        st.write(f"Notifications sent by emails: {perf_email}, {coord_email}")
+                                        st.divider()
+                                    else:
+                                        st.warning(reply)
                                 else:
                                     st.warning(reply)
-                            else:
-                                st.warning(reply)
 
-                else:  # Outgoing Tasks
-                    for unit in units:
-                        for spec in specialities:
-                            reply = add_out_to_db(project, unit, stage, direction, spec, date,
-                                                  description.strip(),
-                                                  link.strip(), source.strip(), comments.strip())
+                    else:  # Outgoing Tasks
+                        for unit in units:
+                            for spec in specialities:
+                                reply = add_out_to_db(project, unit, stage, direction, spec, date,
+                                                      description.strip(),
+                                                      link.strip(), source.strip(), comments.strip())
 
-                            if 'ERROR' in reply.upper():
-                                st.warning(reply)
-                            else:
-                                st.info(reply)
-                            st.divider()
-                st.session_state.task_preview = False
+                                if 'ERROR' in reply.upper():
+                                    st.warning(reply)
+                                else:
+                                    st.info(reply)
+                                st.divider()
+                    st.session_state.task_preview = False
 
 
 def view_tasks(ass_tab2, my_all):
