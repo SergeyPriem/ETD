@@ -388,7 +388,7 @@ def update_projects(edited_proj_df):
                 continue
             with db_session:
                 try:
-                    proj_for_upd = Project[row.short_name]
+                    proj_for_upd = Project.get(short_name=row.short_name)
                     proj_for_upd.full_name = row.full_name
                     proj_for_upd.client = row.client
                     proj_for_upd.manager = row.manager
