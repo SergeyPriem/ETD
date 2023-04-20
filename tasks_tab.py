@@ -165,8 +165,6 @@ def add_task(task_content):
                     for unit in units:
                         for spec in specialities:
 
-                            st.write('check 2') ###
-
                             reply = add_in_to_db(project, unit, stage, direction, spec, date,
                                                  description.strip(),
                                                  link.strip(), source.strip(), comments.strip())
@@ -174,7 +172,7 @@ def add_task(task_content):
                             if '<*>' in reply:
                                 rep1, rep2 = reply.split('<*>')
                                 st.write(rep1)
-                                st.code(rep2)
+                                st.code(rep2, language="python")
 
                                 u_df = st.session_state.adb['users']
 
