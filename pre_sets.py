@@ -53,21 +53,21 @@ if 'delay' not in st.session_state:
 #     else:
 #         red_words = True
 #         yellow_words = False
-
-    if red_words:
-        for i in range(duration, 0, -1):
-            placeholder.error(text, icon="⚡")
-            time.sleep(1)
-    elif yellow_words:
-        for i in range(duration, 0, -1):
-            placeholder.warning(text, icon='⚠️')
-            time.sleep(1)
-    else:
-        for i in range(duration, 0, -1):
-            placeholder.success(text, icon="✅")
-            time.sleep(1)
-
-    placeholder.empty()
+#
+#     if red_words:
+#         for i in range(duration, 0, -1):
+#             placeholder.error(text, icon="⚡")
+#             time.sleep(1)
+#     elif yellow_words:
+#         for i in range(duration, 0, -1):
+#             placeholder.warning(text, icon='⚠️')
+#             time.sleep(1)
+#     else:
+#         for i in range(duration, 0, -1):
+#             placeholder.success(text, icon="✅")
+#             time.sleep(1)
+#
+#     placeholder.empty()
 
 
 def mail_to_name(mail):
