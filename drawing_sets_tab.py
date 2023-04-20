@@ -123,8 +123,6 @@ def show_sets():
             st.warning("Duplicated Units. Please fix it")
             st.stop()
 
-        st.text(unit_id)     ###
-        st.write(df_edit)
         all_logins = st.session_state.adb['users'].login.tolist()
 
         with st.form("edit-unit_details"):
