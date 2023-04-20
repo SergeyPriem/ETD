@@ -183,6 +183,7 @@ def show_sets():
                     # sod_df.at[unit_id, 'trans_date'] = trans_date
                 sod_df.loc[unit_id, 'notes'] = notes
                 st.session_state.adb['sod'] = sod_df
+                st.experimental_rerun()
 
             else:
                 st.warning(reply)
