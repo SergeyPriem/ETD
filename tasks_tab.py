@@ -164,8 +164,9 @@ def add_task(task_content):
                 st.text('')
 
         if st.session_state.task_preview:
-            if st.button('Add Task', type='primary', use_container_width=True,
-                         on_click=disable_add_task, args=(True,), disabled=st.session_state.disable_add_task):
+            left_b, right_b = st.columns(2, gap='medium')
+            if left_b.button('Add Task', type='primary', use_container_width=True,
+                             on_click=disable_add_task, args=(True,), disabled=st.session_state.disable_add_task):
                 if direction == "In":
                     for unit in units:
                         for spec in specialities:
@@ -247,6 +248,8 @@ def add_task(task_content):
                                 st.info(reply)
                             st.divider()
                 st.session_state.task_preview = False
+
+            right_b.button('Escape or Correct Data', use_container_width=True, on_click=disable_add_task, args=(True,))
 
 
 def view_tasks(ass_tab2, my_all):
