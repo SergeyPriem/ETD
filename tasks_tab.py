@@ -80,7 +80,7 @@ def add_task(task_content):
             source = right_col3.text_area('Received by:', value='Received by paper', height=127, max_chars=2499)
 
             task_preview = st.form_submit_button("Preview Task", use_container_width=True,
-                                                 on_click=disable_add_task, args=False)
+                                                 on_click=disable_add_task, args=(False))
 
         # pr_l, pr_c, pr_r = st.columns([1, 4, 1])
         if task_preview:
@@ -165,7 +165,7 @@ def add_task(task_content):
 
         if st.session_state.task_preview:
             if st.button('Add Task', type='primary', use_container_width=True,
-                         on_click=disable_add_task, args=True, disabled=st.session_state.disable_add_task):
+                         on_click=disable_add_task, args=(True), disabled=st.session_state.disable_add_task):
                 if direction == "In":
                     for unit in units:
                         for spec in specialities:
