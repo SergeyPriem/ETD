@@ -35,8 +35,8 @@ def appearance_settings():
     st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 
-if 'delay' not in st.session_state:
-    st.session_state.delay = 3
+# if 'delay' not in st.session_state:
+#     st.session_state.delay = 3
 
 
 # def reporter(text: str, duration=int(st.session_state.delay)) -> None:  #: int = st.session_state.delay

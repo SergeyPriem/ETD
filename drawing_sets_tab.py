@@ -6,19 +6,8 @@ from admin_tools import get_list_index
 from pre_sets import sod_revisions, sod_statuses, stages
 from projects import get_trans_nums, update_sod, add_sod
 
-
+@st.cache_data(ttl=600)
 def drawing_sets():
-    # if st.session_state.edit_sod['project']:
-    #
-    #     cur_sod = st.session_state.edit_sod
-    #     proj = cur_sod.get('project', None)
-    #     my_or_all = cur_sod.get('my_all', None)
-    #     sod = cur_sod.get('project', None)
-    #
-    # else:
-    #     proj = None
-    #     my_or_all = None
-    #     sod = None
 
     st.markdown("""
         <style>
@@ -88,24 +77,10 @@ def drawing_sets():
 
         proj_col, unit_col = st.columns(2, gap='medium')
 
-        # if st.session_state.edit_sod['unit'] and st.session_state.edit_sod['project']:
-        #
-        #     units_list = df[df.project == st.session_state.edit_sod['project']]['unit']
-        #
-        #     df_edit = df.loc[(df.unit == st.session_state.edit_sod['unit'])
-        #                      & (df.project == st.session_state.edit_sod['project'])]
-        #
-        #     unit_selected = unit_col.selectbox("Unit for Search", units_list, index=get_list_index(units_list, sod))
-        #     proj_selected = proj_col.selectbox("Project for Search", proj_list, index=get_list_index(proj_list, proj))
-        #
-        # else:
-        # SELECT PROJECT
-
         proj_selected = proj_col.selectbox("Project for Search", proj_list)
 
         units_list = df[df.project == proj_selected]['unit']
 
-        # SELECT SOD
         unit_selected = unit_col.selectbox("Unit for Search", units_list)
 
         df_edit = df.loc[(df.unit == unit_selected) & (df.project == proj_selected)]
@@ -113,9 +88,6 @@ def drawing_sets():
         st.divider()
         st.subheader(f"Project: :red[{proj_selected}]")
         st.subheader(f"Unit: :red[{unit_selected}]")
-        # st.experimental_data_editor(df_edit[['unit_id', 'coordinator', 'performer', 'stage', 'revision', 'start_date',
-        #                                      'status', 'transmittal', 'trans_date', 'notes']].set_index('unit_id'),
-        #                             use_container_width=True)
 
         if len(df_edit) == 1:
             unit_id = df_edit.unit_id.to_numpy()[0]
@@ -268,99 +240,6 @@ def drawing_sets():
                         else:
                             st.warning("Select specialities for request")
 
-
-# def edit_sets():
-#     cur_sod = st.session_state.edit_sod
-#
-#     empty_sets_1, content_sets, empty_sets_2 = st.columns([3, 5, 3])
-#     with empty_sets_1:
-#         st.empty()
-#     with empty_sets_2:
-#         st.empty()
-#
-#     with content_sets:
-#
-#         # all_logins = get_all_logins()
-#         all_logins = st.session_state.adb['users'].login.tolist()
-#
-#         with st.form('upd_set_detail'):
-#             st.subheader("Edit Details")
-#             st.subheader(f"Project: :red[{cur_sod.get('project', '!!!')}]")
-#             st.subheader(f"Unit: :red[{cur_sod.get('unit', '!!!')}]")
-#             left_sod, center_sod, right_sod = st.columns([7, 1, 7])
-#             left_sod.subheader("")
-#             left_sod.write("")
-#             upd_trans_chb = right_sod.checkbox('Add Transmittal')
-#             with left_sod:
-#                 coord = st.selectbox("Coordinator", all_logins,
-#                                      index=get_list_index(all_logins, cur_sod.get('coordinator', '!!!')))
-#
-#                 perf = st.selectbox("Performer", all_logins,
-#                                     index=get_list_index(all_logins, cur_sod.get('performer', '!!!')))
-#
-#                 rev = st.selectbox("Revision", sod_revisions,
-#                                    index=get_list_index(sod_revisions, cur_sod.get('revision', '!!!')))
-#
-#                 status = st.selectbox('Status', sod_statuses,
-#                                       index=get_list_index(sod_statuses, cur_sod.get('status', '!!!')))
-#
-#             with right_sod:
-#                 trans_list = get_trans_nums(cur_sod.get('project', '!!!'))
-#
-#                 if not isinstance(trans_list, list):
-#                     st.warning(trans_list)
-#                     st.stop()
-#
-#                 trans_num = st.selectbox('New Transmittal Number', trans_list)
-#                 trans_date = st.date_input('New Transmittal Date')
-#                 notes = st.text_area("Notes (don't delete, just add to previous)",
-#                                      value=cur_sod.get('notes', '!!!'), height=125)
-#
-#             set_upd_but = st.form_submit_button("Update in DB", use_container_width=True, type="primary")
-#
-#         if set_upd_but:
-#             reply = update_sod(cur_sod.get('unit_id', '!!!'), coord, perf, rev, status, trans_num,
-#                                trans_date, notes, upd_trans_chb)
-#
-#             if reply is True:
-#                 st.info("Updated!")
-#
-#                 unit_id = st.session_state.edit_sod['unit_id']
-#
-#                 sod_df = st.session_state.adb['sod']
-#
-#                 sod_df.at[unit_id, 'coord_id'] = coord
-#                 sod_df.at[unit_id, 'perf_id'] = perf
-#                 sod_df.at[unit_id, 'revision'] = rev
-#                 sod_df.at[unit_id, 'current_status'] = status
-#                 if upd_trans_chb:
-#                     sod_df.at[unit_id, 'trans_num'] = trans_num
-#                     sod_df.at[unit_id, 'trans_date'] = trans_date
-#                 sod_df.at[unit_id, 'notes'] = notes
-#                 st.session_state.adb['sod'] = sod_df
-#
-#             else:
-#                 st.warning(reply)
-#
-#         #     st.session_state.edit_sod['state'] = False
-#         #     st.session_state.edit_sod['unit'] = None
-#         #     st.session_state.edit_sod['project'] = None
-#         #     st.experimental_rerun()
-#         #
-#         # if st.button("Escape", use_container_width=True):
-#         #     st.session_state.edit_sod['state'] = False
-#         #     st.session_state.edit_sod['unit'] = None
-#         #     st.session_state.edit_sod['project'] = None
-#         #     st.experimental_rerun()
-
-
-# def drawing_sets():
-#     if 'edit_sod' in st.session_state:
-#         if st.session_state.edit_sod['state']:
-#             edit_sets()
-#         else:
-#             show_sets()
-#
 
 def create_new_unit():
     empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])

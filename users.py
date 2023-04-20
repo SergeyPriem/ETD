@@ -239,12 +239,12 @@ def update_users_in_db(login, position, branch, start_date, access_level):
                    Status: **:blue[{hero.status}]**"""
 
 
-def update_settings(login, menu, delay):
+def update_settings(login, menu):
     with db_session:
         try:
             hero = Users.get(login=login)
             hero.vert_menu = menu
-            hero.delay_set = delay
+            # hero.delay_set = delay
         except Exception as e:
             return err_handler(e)
         return "Settings Updated"

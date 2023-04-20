@@ -80,9 +80,9 @@ def create_states():
         st.session_state.registered_logins = None
         # reg_logins = get_logins_for_registered()
 
-    if 'delay' not in st.session_state:
-        st.session_state.delay = 2
-
+    # if 'delay' not in st.session_state:
+    #     st.session_state.delay = 2
+    #
     if "preview_proj_stat" not in st.session_state:
         st.session_state.preview_proj_stat = False
 
@@ -112,20 +112,6 @@ def create_states():
 
     if 'appl_logins' not in st.session_state:
         st.session_state.appl_logins = None
-
-    if 'edit_sod' not in st.session_state:
-        st.session_state.edit_sod = {
-            'coordinator': None,
-            'performer': None,
-            'revision': None,
-            'status': None,
-            'notes': None,
-            'project': None,
-            'unit': None,
-            'unit_id': None,
-            'my_all': None,
-            'state': False
-        }
 
     if 'disable_add_task' not in st.session_state:
         st.session_state.disable_add_task = True
@@ -720,7 +706,7 @@ def win_selector(selected):
     if selected == "Settings":
         settings_content()
 
-    if selected == "Create new Set / Unit":
+    if selected == "Create Dr. Set / Unit":
         create_new_unit()
 
 
@@ -744,9 +730,9 @@ def show_states():
     st.write('registered_logins')
     st.write(st.session_state.registered_logins)
     st.text('-----------------------')
-    st.write('delay')
-    st.write(st.session_state.delay)
-    st.text('-----------------------')
+    # st.write('delay')
+    # st.write(st.session_state.delay)
+    # st.text('-----------------------')
     st.write("preview_proj_stat")
     st.write(st.session_state.preview_proj_stat)
     st.text('-----------------------')
@@ -774,9 +760,6 @@ def show_states():
     st.write('trans_status')
     st.write(st.session_state.trans_status)
     st.text('-----------------------')
-    st.write('edit_sod')
-    st.write(st.session_state.edit_sod)
-    st.text('-----------------------')
     st.write('spec')
     st.write(st.session_state.spec)
     st.text('-----------------------')
@@ -788,7 +771,7 @@ def prepare_menus(u_df):
     st.session_state.icons = get_menus()[1]
 
     st.session_state.vert_menu = u_df.loc[u_df.login == st.session_state.user, 'vert_menu'].to_numpy()[0]
-    st.session_state.delay = u_df.loc[u_df.login == st.session_state.user, 'delay_set'].to_numpy()[0]
+    # st.session_state.delay = u_df.loc[u_df.login == st.session_state.user, 'delay_set'].to_numpy()[0]
 
     if st.session_state.vert_menu == 1:
         with st.sidebar:
