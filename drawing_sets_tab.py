@@ -6,7 +6,7 @@ from admin_tools import get_list_index
 from pre_sets import sod_revisions, sod_statuses, stages
 from projects import get_trans_nums, update_sod, add_sod
 
-@st.cache_data(ttl=600)
+
 def drawing_sets():
 
     st.markdown("""

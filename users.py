@@ -30,7 +30,6 @@ def move_to_former(email, end_date):
 
 
 ### GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET #################
-# @st.cache_data(ttl=600)
 def get_all_emails():
     with db_session:
         try:
@@ -63,7 +62,6 @@ def get_appl_logins():
             return err_handler(e)
 
 
-# @st.cache_data(ttl=1800)
 def get_logins_for_registered():
     with db_session:
         try:

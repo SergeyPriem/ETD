@@ -6,7 +6,7 @@ from send_emails import send_mail
 
 def disable_add_task(cur_stat):
     st.session_state.disable_add_task = cur_stat
-@st.cache_data(ttl=600)
+
 def tasks_content():
     st.markdown("""
         <style>
