@@ -156,7 +156,7 @@ def add_task(task_content):
                 </table>
                 """, unsafe_allow_html=True)
 
-                st.write('check 0') ###
+                st.write(st.session_state.task_preview) ###
 
                 st.text('')
 
