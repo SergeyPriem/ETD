@@ -174,14 +174,14 @@ def show_sets():
 
                 sod_df = st.session_state.adb['sod']
 
-                sod_df.at[unit_id, 'coord_id'] = coord
-                sod_df.at[unit_id, 'perf_id'] = perf
-                sod_df.at[unit_id, 'revision'] = rev
-                sod_df.at[unit_id, 'current_status'] = status
+                sod_df.loc[unit_id, 'coord_id'] = coord
+                sod_df.loc[unit_id, 'perf_id'] = perf
+                sod_df.loc[unit_id, 'revision'] = rev
+                sod_df.loc[unit_id, 'current_status'] = status
                 if upd_trans_chb:
-                    sod_df.at[unit_id, 'trans_num'] += " =>" + str(trans_num)
+                    sod_df.loc[unit_id, 'trans_num'] += " =>" + str(trans_num)
                     # sod_df.at[unit_id, 'trans_date'] = trans_date
-                sod_df.at[unit_id, 'notes'] = notes
+                sod_df.loc[unit_id, 'notes'] = notes
                 st.session_state.adb['sod'] = sod_df
 
             else:
