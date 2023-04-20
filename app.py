@@ -8,7 +8,7 @@ from streamlit_option_menu import option_menu
 from admin_tools import manage_projects, get_list_index
 from tasks_tab import tasks_content
 from drawing_sets_tab import drawing_sets, create_new_unit
-from just_for_fun_tab import just_for_fun, emoji_content
+from just_for_fun_tab import just_for_fun
 from lesson_learned_tab import lessons_content
 from pre_sets import appearance_settings, positions, departments, mail_to_name, trans_stat
 from send_emails import send_mail
@@ -692,7 +692,6 @@ def win_selector(selected):
 
     if selected == "Just for fun":
         just_for_fun()
-        emoji_content()
 
     if selected == "EtapPy":
         etap_py()
