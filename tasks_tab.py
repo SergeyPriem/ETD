@@ -163,15 +163,17 @@ def add_task(task_content):
 
                     if direction == "In":
                         for unit in units:
-                            for single_spec in specialities:
-                                reply = add_in_to_db(project, unit, stage, direction, single_spec, date,
+                            for spec in specialities:
+
+                                st.write('check')
+
+                                reply = add_in_to_db(project, unit, stage, direction, spec, date,
                                                      description.strip(),
                                                      link.strip(), source.strip(), comments.strip())
 
                                 if '<*>' in reply:
                                     rep1, rep2 = reply.split('<*>')
                                     st.write(rep1)
-                                    # copy_to_clip = st.button('Copy back-up string to Clipboard')
                                     st.code(rep2)
 
                                     u_df = st.session_state.adb['users']
@@ -232,8 +234,8 @@ def add_task(task_content):
 
                     else:  # Outgoing Tasks
                         for unit in units:
-                            for single_spec in specialities:
-                                reply = add_out_to_db(project, unit, stage, direction, single_spec, date,
+                            for spec in specialities:
+                                reply = add_out_to_db(project, unit, stage, direction, spec, date,
                                                       description.strip(),
                                                       link.strip(), source.strip(), comments.strip())
 
