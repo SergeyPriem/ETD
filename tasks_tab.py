@@ -249,8 +249,10 @@ def add_task(task_content):
                             st.divider()
                 st.session_state.task_preview = False
 
-            right_b.button('Escape or Correct Data', use_container_width=True, on_click=disable_add_task, args=(True,))
-
+            if right_b.button('Escape or Correct Data', use_container_width=True,
+                              on_click=disable_add_task, args=(True,)):
+                st.session_state.task_preview = False
+                st.experimental_rerun()
 
 def view_tasks(ass_tab2, my_all):
     with ass_tab2:
