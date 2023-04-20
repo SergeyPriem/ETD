@@ -586,6 +586,7 @@ def login_register():
                         reporter(reply)
                 st.session_state.conf_num = None
                 st.session_state.code_sent = None
+                st.session_state.adb = get_all()
                 st.experimental_rerun()
 
 
