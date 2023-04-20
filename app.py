@@ -473,7 +473,7 @@ def login_register():
                                             {reply}""")
                                 st.stop()
                             else:
-                                reporter('Logged In', 1)
+                                reporter('Logged In', 0.3)
                                 st.experimental_rerun()
 
                         else:
