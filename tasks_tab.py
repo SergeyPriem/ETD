@@ -148,16 +148,20 @@ def add_task(task_content):
                     'units': units,
                     'specialities': specialities,
                     'description': description,
-                    'link': link
+                    'link': link,
                 }
+
+                form_ready = True
 
                 for field_name, field_value in form_dict.items():
                     if len(field_value) == 0:
                         st.warning(f"Empty field: {field_name}")
+                        form_ready = False
 
                 st.text('')
 
-            if st.button('Add Task', type='primary', use_container_width=True, disabled=not st.session_state.task_preview):
+            if form_ready and st.button('Add Task', type='primary', use_container_width=True,
+                                        disabled=not st.session_state.task_preview):
                 placeholder.empty()
                 st.session_state.task_preview = False
 
