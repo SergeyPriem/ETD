@@ -44,11 +44,12 @@ def tasks_content():
 
 
 def add_task(task_content):
+    u_df = st.session_state.adb['users']
+    sod_df = st.session_state.adb['sod']
+    proj_df = st.session_state.adb['project']
+
     with task_content:
         project = st.selectbox('Select the Project', st.session_state.proj_names)
-
-        proj_df = st.session_state.adb['project']
-        sod_df = st.session_state.adb['sod']
 
         proj_id = proj_df[proj_df.short_name == project].index.to_numpy()[0]
 
@@ -80,6 +81,9 @@ def add_task(task_content):
 
         # pr_l, pr_c, pr_r = st.columns([1, 4, 1])
         if task_preview:
+
+            # proj_df = st.session_state.adb['project']
+            # sod_df = st.session_state.adb['sod']
 
             if non_task:
                 description = "Non-task"
@@ -172,16 +176,15 @@ def add_task(task_content):
                                 st.write(rep1)
                                 st.code(rep2, language="python")
 
-                                u_df = st.session_state.adb['users']
-
                                 try:
-                                    coord_id = sod_df[sod_df.set_name == unit].coord_id.to_numpy()[0]
-                                    coord_email = u_df[u_df.index == coord_id].email.to_numpy()[0]
+                                    coord_id = sod_df[(sod_df.set_name == unit)
+                                                      & (sod_df.project_id == proj_id)].coord_id.to_numpy()[0]
+
+                                    coord_email = u_df[(u_df.index == coord_id)
+                                                       & (sod_df.project_id == proj_id)].email.to_numpy()[0]
 
                                 except:
                                     coord_email = 'sergey.priemshiy@uzliti-en.com'
-                                st.write(unit)
-                                st.write(coord_email)
 
                                 try:
                                     perf_id = sod_df[sod_df.set_name == unit].perf_id.to_numpy()[0]
