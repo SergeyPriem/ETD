@@ -156,18 +156,20 @@ def add_task(task_content):
                 </table>
                 """, unsafe_allow_html=True)
 
+                st.write('check 0') ###
+
                 st.text('')
 
                 if st.button('Add Task', type='primary', use_container_width=True,
                     disabled=not st.session_state.task_preview):
 
-                    st.write('check 1')
+                    st.write('check 1') ###
 
                     if direction == "In":
                         for unit in units:
                             for spec in specialities:
 
-                                st.write('check 2')
+                                st.write('check 2') ###
 
                                 reply = add_in_to_db(project, unit, stage, direction, spec, date,
                                                      description.strip(),
