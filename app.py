@@ -769,7 +769,7 @@ def prepare_menus(u_df):
 
     st.session_state.icons = get_menus()[1]
 
-    st.session_state.vert_menu = u_df.loc[u_df.login == st.session_state.user, 'vert_menu'].to_numpy()[0]
+    st.session_state.vert_menu = int(u_df.loc[u_df.login == st.session_state.user, 'vert_menu'].to_numpy()[0])
     # st.session_state.delay = u_df.loc[u_df.login == st.session_state.user, 'delay_set'].to_numpy()[0]
 
     if st.session_state.vert_menu == 1:
