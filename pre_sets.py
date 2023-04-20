@@ -39,7 +39,7 @@ if 'delay' not in st.session_state:
     st.session_state.delay = 3
 
 
-def reporter(text: str, duration=st.session_state.delay) -> None:  #: int = st.session_state.delay
+def reporter(text: str, duration=int(st.session_state.delay)) -> None:  #: int = st.session_state.delay
     placeholder = st.empty()
     if isinstance(text, str):
         text_lower = text.lower()
