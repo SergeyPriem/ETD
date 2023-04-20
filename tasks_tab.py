@@ -81,34 +81,34 @@ def add_task(task_content):
         # pr_l, pr_c, pr_r = st.columns([1, 4, 1])
 
         if task_preview:
-            st.session_state.task_preview = True
 
             if non_task:
                 description = "Non-task"
                 link = "Non-task"
                 comments = "Non-task"
 
+            st.session_state.task_preview = True
+
+            form_dict = {
+                'units': units,
+                'specialities': specialities,
+                'description': description,
+                'link': link,
+            }
+
+            for field_name, field_value in form_dict.items():
+                if len(field_value) == 0:
+                    st.warning(f"Empty field: {field_name}")
+                    st.session_state.task_preview = False
+
+        if st.session_state.task_preview and st.button('Add Task', type='primary', use_container_width=True,
+                                                       disabled=not st.session_state.task_preview):
+
             placeholder = st.container()
 
             with placeholder:
                 st.write("")
                 # with pr_c:
-
-                form_ready = True
-
-                form_dict = {
-                    'units': units,
-                    'specialities': specialities,
-                    'description': description,
-                    'link': link,
-                }
-
-
-                for field_name, field_value in form_dict.items():
-                    if len(field_value) == 0:
-                        st.warning(f"Empty field: {field_name}")
-                        form_ready = False
-
 
                 st.markdown("""<style>
                                 .task_preview table, tr {
@@ -163,10 +163,7 @@ def add_task(task_content):
 
                 st.text('')
 
-            if form_ready and st.button('Add Task', type='primary', use_container_width=True,
-                                        disabled=not st.session_state.task_preview):
                 placeholder.empty()
-                st.session_state.task_preview = False
 
                 if direction == "In":
                     for unit in units:
@@ -249,6 +246,10 @@ def add_task(task_content):
                             else:
                                 st.info(reply)
                             st.divider()
+            st.session_state.task_preview = False
+
+
+
 
 def view_tasks(ass_tab2, my_all):
     with ass_tab2:
