@@ -27,7 +27,7 @@ def settings_content():
 
             menu_position = l_f.radio('Location of menu', ("Top", "Left"),
                                       index=st.session_state.vert_menu, horizontal=True)
-            r_f = st.write('')
+            r_f.write('')
 
             appl_set_but = r_f.form_submit_button('Apply')
 
