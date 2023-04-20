@@ -4,6 +4,8 @@ import streamlit as st
 from projects import add_in_to_db, add_out_to_db
 from send_emails import send_mail
 
+def disable_add_task(cur_stat):
+    st.session_state.disable_add_task = cur_stat
 
 def tasks_content():
     st.markdown("""
@@ -77,7 +79,8 @@ def add_task(task_content):
             comments = left_col3.text_input('Comments', max_chars=249)
             source = right_col3.text_area('Received by:', value='Received by paper', height=127, max_chars=2499)
 
-            task_preview = st.form_submit_button("Preview Task", use_container_width=True)
+            task_preview = st.form_submit_button("Preview Task", use_container_width=True,
+                                                 on_click=disable_add_task, args=False)
 
         # pr_l, pr_c, pr_r = st.columns([1, 4, 1])
         if task_preview:
@@ -161,7 +164,8 @@ def add_task(task_content):
                 st.text('')
 
         if st.session_state.task_preview:
-            if st.button('Add Task', type='primary', use_container_width=True):
+            if st.button('Add Task', type='primary', use_container_width=True,
+                         on_click=disable_add_task, args=True, disabled=st.session_state.disable_add_task):
                 if direction == "In":
                     for unit in units:
                         for spec in specialities:

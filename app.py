@@ -127,6 +127,8 @@ def create_states():
             'state': False
         }
 
+    if 'disable_add_task' not in st.session_state:
+        st.session_state.disable_add_task = True
 
 def update_trans_status(trans_num):
     st.session_state.trans_status = trans_num
