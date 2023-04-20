@@ -180,6 +180,7 @@ def add_task(task_content):
 
                                 except:
                                     coord_email = 'sergey.priemshiy@uzliti-en.com'
+                                st.write(unit)
                                 st.write(coord_email)
 
                                 try:
