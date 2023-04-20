@@ -550,8 +550,8 @@ def login_register():
                 if not st.session_state.code_sent:
                     # user = get_user_data(login)
 
-                    user_df = st.session_state.adb['users']
-                    user = user_df.loc[users_df.login == login]
+                    u_df = st.session_state.adb['users']
+                    user = u_df.loc[u_df.login == login]
 
                     if "@" not in user.email.to_numpy()[0]:
                         st.warning("Can't get User's email")
@@ -618,9 +618,9 @@ def manage_users():
 
             # list_appl_users = get_all_emails()
 
-            users_df = st.session_state.adb['users']
+            u_df = st.session_state.adb['users']
 
-            list_appl_users = users_df.login.tolist()
+            list_appl_users = u_df.login.tolist()
 
             employee_to_edit = st.selectbox('Select User', list_appl_users)
             edit_move = st.radio('Action', ('Edit', 'Move to Former Users'), horizontal=True)
@@ -630,9 +630,9 @@ def manage_users():
 
                     # appl_user = get_user_data(employee_to_edit)
 
-                    users_df = st.session_state.adb['users']
+                    u_df = st.session_state.adb['users']
 
-                    appl_user = users_df.loc[users_df.login == employee_to_edit]
+                    appl_user = u_df.loc[u_df.login == employee_to_edit]
 
                     position = st.radio('Position', positions,
                                         key='edit_position', horizontal=True,
@@ -806,15 +806,15 @@ def initial():
 
     st.session_state.adb = get_all()
 
-    users_df = None
+    u_df = None
 
     if not isinstance(st.session_state.adb, dict):
         st.warning(st.session_state.adb)
         st.stop()
 
     try:
-        users_df = st.session_state.adb['users']
-        if not isinstance(users_df, pd.DataFrame) or len(users_df) == 0:
+        u_df = st.session_state.adb['users']
+        if not isinstance(u_df, pd.DataFrame) or len(u_df) == 0:
             st.warning("Can't get Users")
             st.stop()
     except Exception as e:
@@ -822,10 +822,10 @@ def initial():
         st.stop()
 
     try:
-        st.session_state.registered_logins = users_df.loc[(users_df.status == 'current') &
-                                                          users_df.hashed_pass, 'login'].tolist()
+        st.session_state.registered_logins = u_df.loc[(u_df.status == 'current') &
+                                                      u_df.hashed_pass, 'login'].tolist()
 
-        st.session_state.appl_logins = users_df.loc[users_df.status == 'current', 'login'].tolist()
+        st.session_state.appl_logins = u_df.loc[u_df.status == 'current', 'login'].tolist()
 
         if len(st.session_state.registered_logins) == 0:
             st.warning("Can't get Registered Users")
@@ -853,7 +853,7 @@ def initial():
 
     if st.session_state.logged and st.session_state.user:
 
-        selected = prepare_menus(users_df)
+        selected = prepare_menus(u_df)
         win_selector(selected)
 
 
