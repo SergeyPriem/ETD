@@ -160,8 +160,7 @@ def add_task(task_content):
 
                 st.text('')
 
-                if st.button('Add Task', type='primary', use_container_width=True,
-                    disabled=not st.session_state.task_preview):
+                if st.button('Add Task', type='primary', use_container_width=True):
 
                     st.write('check 1') ###
 
