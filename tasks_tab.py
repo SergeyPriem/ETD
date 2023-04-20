@@ -148,7 +148,7 @@ def add_task(task_content):
                     'units': units,
                     'specialities': specialities,
                     'description': description,
-                    'link': link,
+                    'link': link
                 }
 
                 for field_name, field_value in form_dict.items():
