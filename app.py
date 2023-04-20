@@ -572,7 +572,7 @@ def login_register():
 
             if st.button("Register", use_container_width=True):
                 if login in st.session_state.registered_logins:
-                    reporter(f'User {login} is already in DataBase')
+                    reporter(f'User {login} is already Registered')
                     st.stop()
 
                 if st.session_state.conf_num != entered_code:
