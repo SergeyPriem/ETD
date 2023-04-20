@@ -161,7 +161,7 @@ def show_sets():
             # st.session_state.edit_sod['state'] = True
 
             # st.experimental_rerun()
-            reply = update_sod(cur_sod.get('unit_id', '!!!'), coord, perf, rev, status, trans_num,
+            reply = update_sod(unit_id, coord, perf, rev, status, trans_num,
                                notes, upd_trans_chb)
 
             if reply == 200:
@@ -365,16 +365,16 @@ def edit_sets():
             else:
                 reporter(reply, 3)
 
-            st.session_state.edit_sod['state'] = False
-            st.session_state.edit_sod['unit'] = None
-            st.session_state.edit_sod['project'] = None
-            st.experimental_rerun()
-
-        if st.button("Escape", use_container_width=True):
-            st.session_state.edit_sod['state'] = False
-            st.session_state.edit_sod['unit'] = None
-            st.session_state.edit_sod['project'] = None
-            st.experimental_rerun()
+        #     st.session_state.edit_sod['state'] = False
+        #     st.session_state.edit_sod['unit'] = None
+        #     st.session_state.edit_sod['project'] = None
+        #     st.experimental_rerun()
+        #
+        # if st.button("Escape", use_container_width=True):
+        #     st.session_state.edit_sod['state'] = False
+        #     st.session_state.edit_sod['unit'] = None
+        #     st.session_state.edit_sod['project'] = None
+        #     st.experimental_rerun()
 
 
 def drawing_sets():
