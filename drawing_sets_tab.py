@@ -101,6 +101,7 @@ def show_sets():
         #
         # else:
         # SELECT PROJECT
+
         proj_selected = proj_col.selectbox("Project for Search", proj_list)
 
         units_list = df[df.project == proj_selected]['unit']
