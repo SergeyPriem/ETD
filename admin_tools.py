@@ -3,7 +3,7 @@
 import pandas as pd
 import streamlit as st
 from models import Project, Task, VisitLog, SOD, Users, Trans, Speciality
-from pre_sets import proj_statuses, reporter
+from pre_sets import proj_statuses
 from projects import create_project, get_table, update_projects
 
 
@@ -70,7 +70,7 @@ def manage_projects():
                                        proj_status, proj_tech_ass, proj_tech_conditions,
                                        proj_surveys, proj_mdr, proj_notes)
 
-                reporter(reply)
+                st.info(reply)
                 # st.session_state.preview_proj_stat = False
 
         with proj_tab2:
@@ -96,9 +96,9 @@ def manage_projects():
                     proj_len_edited = len(edited_proj_df[edited_proj_df.edit])
                     if proj_len_edited:
                         reply = update_projects(edited_proj_df)
-                        reporter(reply)
+                        st.info(reply)
                     else:
-                        reporter("No selection to Edit")
+                        st.warning("No selection to Edit")
 
         with viewer_tab:
             # tab_list = get_tab_names()

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import streamlit as st
 import random
-from pre_sets import reporter
 from send_emails import send_mail
 from users import update_settings, update_user_reg_data
 
@@ -99,11 +98,11 @@ def settings_content():
 
             if update_pass:
                 if st.session_state.upd_conf_num != entered_upd_code:
-                    reporter("Confirmation code is wrong, try again")
+                    st.warning("Confirmation code is wrong, try again")
                     st.stop()
                 else:
                     reply = update_user_reg_data(st.session_state.user, upd_pass_2)
-                    reporter(reply)
+                    st.info(reply)
             else:
                 st.write("After pressing 'Get Confirmation Code' you will get Confirmation Code by e-mail")
                 st.write("Enter the Code and press 'Update Password'")

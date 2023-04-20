@@ -10,7 +10,7 @@ from tasks_tab import tasks_content
 from drawing_sets_tab import drawing_sets, create_new_unit
 from just_for_fun_tab import just_for_fun, emoji_content
 from lesson_learned_tab import lessons_content
-from pre_sets import appearance_settings, reporter, positions, departments, mail_to_name, trans_stat
+from pre_sets import appearance_settings, positions, departments, mail_to_name, trans_stat
 from send_emails import send_mail
 from settings_tab import settings_content
 from transmittals_tab import transmittals_content
@@ -153,7 +153,7 @@ def form_for_trans():
         if conf_but:
             st.session_state.trans_status = (st.session_state.trans_status, status, out_note)
             reply = trans_status_to_db()
-            reporter(reply, 2)
+            st.info(reply)
             st.session_state.trans_status = None
             st.experimental_rerun()
 
@@ -456,7 +456,7 @@ def login_register():
                                                   use_container_width=True)
                 if login_but:
                     if len(password) < 3:
-                        reporter("Password should be at least 3 symbols")
+                        st.warning("Password should be at least 3 symbols")
                         st.stop()
                     else:
                         if check_user(login, password):
@@ -473,7 +473,7 @@ def login_register():
                                             {reply}""")
                                 st.stop()
                             else:
-                                reporter('Logged In', 0.3)
+                                st.info('Logged In')
                                 st.experimental_rerun()
 
                         else:
@@ -489,7 +489,7 @@ def login_register():
                 login = st.selectbox("Select Your Login", appl_logins,
                                      disabled=st.session_state.logged, key='reg_email')
             else:
-                reporter(appl_logins)
+                st.warning(appl_logins)
                 st.stop()
 
             if login in st.session_state.registered_logins:
@@ -514,7 +514,7 @@ def login_register():
             # conf_html = ""
             if get_reg_code:
                 if login in st.session_state.registered_logins:
-                    reporter(f'User {login} is already in DataBase')
+                    st.warning(f'User {login} is already in DataBase')
                     st.stop()
 
                 if len(reg_pass_2) < 3 or reg_pass_1 != reg_pass_2:
@@ -572,18 +572,18 @@ def login_register():
 
             if st.button("Register", use_container_width=True):
                 if login in st.session_state.registered_logins:
-                    reporter(f'User {login} is already Registered')
+                    st.warning(f'User {login} is already Registered')
                     st.stop()
 
                 if st.session_state.conf_num != entered_code:
-                    reporter("Confirmation code is wrong, try again")
+                    st.warning("Confirmation code is wrong, try again")
                     st.stop()
                 else:
                     reply = register_user(name, surname, phone, telegram, login, reg_pass_2)
                     if 'ERROR' in reply.upper():
                         st.write('Error')
                     else:
-                        reporter(reply)
+                        st.warning(reply)
                 st.session_state.conf_num = None
                 st.session_state.code_sent = None
                 st.session_state.adb = get_all()
@@ -616,7 +616,7 @@ def manage_users():
             if create_appl_user_but:
                 reply = create_appl_user(
                     user_email, user_position, user_department, user_access_level, "current", user_start_date)
-                reporter(reply)
+                st.warning(reply)
                 st.experimental_rerun()
 
         with users_tab2:
@@ -675,14 +675,14 @@ def manage_users():
 
                 if upd_user_but:
                     reply = update_users_in_db(employee_to_edit, position, department, start_date, access_level)
-                    reporter(reply, 3)
+                    st.info(reply)
 
             if edit_move == 'Move to Former Users':
                 end_date = st.date_input('End Date', key='end_date')
 
                 if st.button('Confirm', type='primary', use_container_width=True):
                     reply = move_to_former(employee_to_edit, end_date)
-                    reporter(reply)
+                    st.info(reply)
 
 
 def win_selector(selected):

@@ -5,7 +5,6 @@ import streamlit as st
 from admin_tools import get_list_index
 from pre_sets import sod_revisions, sod_statuses, stages
 from projects import get_trans_nums, update_sod, add_sod
-from pre_sets import reporter
 
 
 def show_sets():
@@ -349,7 +348,7 @@ def edit_sets():
                                trans_date, notes, upd_trans_chb)
 
             if reply is True:
-                reporter("Updated!")
+                st.info("Updated!")
 
                 unit_id = st.session_state.edit_sod['unit_id']
 
@@ -366,7 +365,7 @@ def edit_sets():
                 st.session_state.adb['sod'] = sod_df
 
             else:
-                reporter(reply, 3)
+                st.warning(reply)
 
         #     st.session_state.edit_sod['state'] = False
         #     st.session_state.edit_sod['unit'] = None
