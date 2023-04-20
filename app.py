@@ -557,7 +557,7 @@ def login_register():
                         st.warning("Can't get User's email")
                         st.stop()
 
-                    reply = send_mail(receiver=user.email, cc_rec="sergey.priemshiy@uzliti-en.com",
+                    reply = send_mail(receiver=user.email.to_numpy()[0], cc_rec="sergey.priemshiy@uzliti-en.com",
                                       html=conf_html, subj="Confirmation of ETD site registration")
 
                     if reply == 200:
