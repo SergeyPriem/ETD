@@ -29,7 +29,7 @@ def settings_content():
                                       index=st.session_state.vert_menu, horizontal=True)
             r_f.write('')
 
-            appl_set_but = r_f.form_submit_button('Apply')
+            appl_set_but = r_f.form_submit_button('Apply', use_container_width=True)
 
         if appl_set_but:
             if menu_position == 'Left':
