@@ -249,8 +249,6 @@ def add_task(task_content):
             st.session_state.task_preview = False
 
 
-
-
 def view_tasks(ass_tab2, my_all):
     with ass_tab2:
 
