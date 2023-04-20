@@ -103,151 +103,146 @@ def add_task(task_content):
 
             if st.session_state.task_preview:
 
-                placeholder = st.empty()
+                st.write("")
 
-                with placeholder.container():
-                    st.write("")
+                st.markdown("""<style>
+                                .task_preview table, tr {
+                                        border-style: hidden;
+                                        margin: auto;
+                                    }
+    
+                                .task_preview td {
+                                        border-style: hidden;
+                                        text-align: left;
+                                    }
+                                  </style>
+                                  """, unsafe_allow_html=True)
 
-                    st.markdown("""<style>
-                                    .task_preview table, tr {
-                                            border-style: hidden;
-                                            margin: auto;
-                                        }
-        
-                                    .task_preview td {
-                                            border-style: hidden;
-                                            text-align: left;
-                                        }
-                                      </style>
-                                      """, unsafe_allow_html=True)
+                st.markdown(f"""
+                <table class="task_preview">
+                    <tr>
+                        <td>Project:</td><td style="color: #00bbf9;"><b>{project}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Unit:</td><td style="color: #00bbf9;"><b>{units}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Speciality:</td><td style="color: #00bbf9;"><b>{specialities}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Stage:</td><td style="color: #00bbf9;"><b>{stage}</b></td>
+                    </tr>
+                    <tr>
+                        <td>In or Out:</td><td style="color: #00bbf9;"><b>{direction}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Date:</td><td style="color: #00bbf9;"><b>{date}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Description:</td><td style="color: #00bbf9;"><b>{description}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Link:</td><td style="color: #00bbf9;"><b>{link}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Received by:</td><td style="color: #00bbf9;"><b>{source}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Non-Task:</td><td style="color: #00bbf9;"><b>{non_task}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Comments:</td><td style="color: #00bbf9;"><b>{comments}</b></td>
+                    </tr>
+                </table>
+                """, unsafe_allow_html=True)
 
-                    st.markdown(f"""
-                    <table class="task_preview">
-                        <tr>
-                            <td>Project:</td><td style="color: #00bbf9;"><b>{project}</b></td>
-                        </tr>
-                        <tr>
-                            <td>Unit:</td><td style="color: #00bbf9;"><b>{units}</b></td>
-                        </tr>
-                        <tr>
-                            <td>Speciality:</td><td style="color: #00bbf9;"><b>{specialities}</b></td>
-                        </tr>
-                        <tr>
-                            <td>Stage:</td><td style="color: #00bbf9;"><b>{stage}</b></td>
-                        </tr>
-                        <tr>
-                            <td>In or Out:</td><td style="color: #00bbf9;"><b>{direction}</b></td>
-                        </tr>
-                        <tr>
-                            <td>Date:</td><td style="color: #00bbf9;"><b>{date}</b></td>
-                        </tr>
-                        <tr>
-                            <td>Description:</td><td style="color: #00bbf9;"><b>{description}</b></td>
-                        </tr>
-                        <tr>
-                            <td>Link:</td><td style="color: #00bbf9;"><b>{link}</b></td>
-                        </tr>
-                        <tr>
-                            <td>Received by:</td><td style="color: #00bbf9;"><b>{source}</b></td>
-                        </tr>
-                        <tr>
-                            <td>Non-Task:</td><td style="color: #00bbf9;"><b>{non_task}</b></td>
-                        </tr>
-                        <tr>
-                            <td>Comments:</td><td style="color: #00bbf9;"><b>{comments}</b></td>
-                        </tr>
-                    </table>
-                    """, unsafe_allow_html=True)
+                st.text('')
 
-                    st.text('')
+                if st.button('Add Task', type='primary', use_container_width=True,
+                    disabled=not st.session_state.task_preview):
 
-                    if st.button('Add Task', type='primary', use_container_width=True,
-                        disabled=not st.session_state.task_preview):
+                    if direction == "In":
+                        for unit in units:
+                            for single_spec in specialities:
+                                reply = add_in_to_db(project, unit, stage, direction, single_spec, date,
+                                                     description.strip(),
+                                                     link.strip(), source.strip(), comments.strip())
 
-                        placeholder.empty()
+                                if '<*>' in reply:
+                                    rep1, rep2 = reply.split('<*>')
+                                    st.write(rep1)
+                                    # copy_to_clip = st.button('Copy back-up string to Clipboard')
+                                    st.code(rep2)
 
-                        if direction == "In":
-                            for unit in units:
-                                for single_spec in specialities:
-                                    reply = add_in_to_db(project, unit, stage, direction, single_spec, date,
-                                                         description.strip(),
-                                                         link.strip(), source.strip(), comments.strip())
+                                    u_df = st.session_state.adb['users']
 
-                                    if '<*>' in reply:
-                                        rep1, rep2 = reply.split('<*>')
-                                        st.write(rep1)
-                                        # copy_to_clip = st.button('Copy back-up string to Clipboard')
-                                        st.code(rep2)
+                                    try:
+                                        coord_id = sod_df[sod_df.set_name == unit].coord_id.to_numpy()[0]
+                                        coord_email = u_df[u_df.index == coord_id].email.to_numpy()[0]
+                                    except:
+                                        coord_email = 'sergey.priemshiy@uzliti-en.com'
 
-                                        u_df = st.session_state.adb['users']
+                                    try:
+                                        perf_id = sod_df[sod_df.set_name == unit].perf_id.to_numpy()[0]
+                                        perf_email = u_df[u_df.index == perf_id].email.to_numpy()[0]
+                                    except:
+                                        perf_email = 'sergey.priemshiy@uzliti-en.com'
 
-                                        try:
-                                            coord_id = sod_df[sod_df.set_name == unit].coord_id.to_numpy()[0]
-                                            coord_email = u_df[u_df.index == coord_id].email.to_numpy()[0]
-                                        except:
-                                            coord_email = 'sergey.priemshiy@uzliti-en.com'
+                                    subj = f"New incoming Task  | Новое входящее задание:  {project}: {unit}"
 
-                                        try:
-                                            perf_id = sod_df[sod_df.set_name == unit].perf_id.to_numpy()[0]
-                                            perf_email = u_df[u_df.index == perf_id].email.to_numpy()[0]
-                                        except:
-                                            perf_email = 'sergey.priemshiy@uzliti-en.com'
+                                    info_html = f"""
+                                            <html>
+                                              <head></head>
+                                              <body>
+                                                <h3>
+                                                  Hello, Colleagues!
+                                                  <hr>
+                                                </h3>
+                                                <h5>
+                                                  You got this message because you are working on the project:
+                                                </h5>
+                                                <h5>
+                                                  Вы получили это письмо, потому что Вы работаете над проектом:
+                                                </h5>
+                                                <h4>
+                                                  {project}: {unit}
+                                                </h4>
+                                                <br>
+                                                <p>
+                                                    Task's details at the site | Детали задания на сайте: 
+                                                    <a href="https://e-design.streamlit.app/">e-design.streamlit.app</a>
+                                                    <hr>
+                                                    Best regards, Administration 😎
+                                                </p>
+                                              </body>
+                                            </html>
+                                        """
+                                    if perf_email == coord_email:
+                                        coord_email = 'sergey.priemshiy@uzliti-en.com'
 
-                                        subj = f"New incoming Task  | Новое входящее задание:  {project}: {unit}"
+                                    reply = send_mail(perf_email, coord_email, subj, info_html)
 
-                                        info_html = f"""
-                                                <html>
-                                                  <head></head>
-                                                  <body>
-                                                    <h3>
-                                                      Hello, Colleagues!
-                                                      <hr>
-                                                    </h3>
-                                                    <h5>
-                                                      You got this message because you are working on the project:
-                                                    </h5>
-                                                    <h5>
-                                                      Вы получили это письмо, потому что Вы работаете над проектом:
-                                                    </h5>
-                                                    <h4>
-                                                      {project}: {unit}
-                                                    </h4>
-                                                    <br>
-                                                    <p>
-                                                        Task's details at the site | Детали задания на сайте: 
-                                                        <a href="https://e-design.streamlit.app/">e-design.streamlit.app</a>
-                                                        <hr>
-                                                        Best regards, Administration 😎
-                                                    </p>
-                                                  </body>
-                                                </html>
-                                            """
-                                        if perf_email == coord_email:
-                                            coord_email = 'sergey.priemshiy@uzliti-en.com'
-
-                                        reply = send_mail(perf_email, coord_email, subj, info_html)
-
-                                        if reply == 200:
-                                            st.write(f"Notifications sent by emails: {perf_email}, {coord_email}")
-                                            st.divider()
-                                        else:
-                                            st.warning(reply)
+                                    if reply == 200:
+                                        st.write(f"Notifications sent by emails: {perf_email}, {coord_email}")
+                                        st.divider()
                                     else:
                                         st.warning(reply)
+                                else:
+                                    st.warning(reply)
 
-                        else:  # Outgoing Tasks
-                            for unit in units:
-                                for single_spec in specialities:
-                                    reply = add_out_to_db(project, unit, stage, direction, single_spec, date,
-                                                          description.strip(),
-                                                          link.strip(), source.strip(), comments.strip())
+                    else:  # Outgoing Tasks
+                        for unit in units:
+                            for single_spec in specialities:
+                                reply = add_out_to_db(project, unit, stage, direction, single_spec, date,
+                                                      description.strip(),
+                                                      link.strip(), source.strip(), comments.strip())
 
-                                    if 'ERROR' in reply.upper():
-                                        st.warning(reply)
-                                    else:
-                                        st.info(reply)
-                                    st.divider()
-                st.session_state.task_preview = False
+                                if 'ERROR' in reply.upper():
+                                    st.warning(reply)
+                                else:
+                                    st.info(reply)
+                                st.divider()
+                    st.session_state.task_preview = False
 
 
 def view_tasks(ass_tab2, my_all):
