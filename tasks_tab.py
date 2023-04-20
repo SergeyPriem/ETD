@@ -166,10 +166,8 @@ def add_task(task_content):
                     for unit in units:
                         for spec in specialities:
 
-                            reply = "111 <*> 222" ###
-                            # reply = add_in_to_db(project, unit, stage, direction, spec, date,
-                            #                      description.strip(),
-                            #                      link.strip(), source.strip(), comments.strip())
+                            reply = add_in_to_db(project, unit, stage, direction, spec, date, description.strip(),
+                                                 link.strip(), source.strip(), comments.strip())
 
                             if '<*>' in reply:
                                 rep1, rep2 = reply.split('<*>')
@@ -183,9 +181,6 @@ def add_task(task_content):
 
                                 except:
                                     coord_email = 'sergey.priemshiy@uzliti-en.com'
-
-                                st.write(unit) ###
-                                st.write(coord_email) ###
 
                                 try:
                                     perf_id = sod_df[sod_id].perf_id.to_numpy()[0]
@@ -226,8 +221,7 @@ def add_task(task_content):
                                     """
                                 if perf_email == coord_email:
                                     coord_email = 'sergey.priemshiy@uzliti-en.com'
-                                reply =200 ###
-                                # reply = send_mail(perf_email, coord_email, subj, info_html)
+                                reply = send_mail(perf_email, coord_email, subj, info_html)
 
                                 if reply == 200:
                                     st.write(f"Notifications sent by emails: {perf_email}, {coord_email}")
