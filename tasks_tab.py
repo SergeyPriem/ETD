@@ -90,10 +90,10 @@ def add_task(task_content):
             st.session_state.task_preview = True
 
             form_dict = {
-                'units': units,
-                'specialities': specialities,
-                'description': description,
-                'link': link,
+                'Unit': units,
+                'Speciality': specialities,
+                'Description': description,
+                'Link': link,
             }
 
             for field_name, field_value in form_dict.items():
