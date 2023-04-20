@@ -130,6 +130,9 @@ def create_states():
     if 'disable_add_task' not in st.session_state:
         st.session_state.disable_add_task = True
 
+    if 'conf_num' not in st.session_state:
+        st.session_state.conf_num = False
+
 def update_trans_status(trans_num):
     st.session_state.trans_status = trans_num
 
@@ -522,8 +525,7 @@ def login_register():
                     st.warning("! Too short Name or Surname")
                     st.stop()
 
-                if 'conf_num' not in st.session_state:
-                    st.session_state.conf_num = "".join(random.sample("123456789", 4))
+                st.session_state.conf_num = "".join(random.sample("123456789", 4)) # create confirmation code
 
                 conf_html = f"""
                         <html>
@@ -582,7 +584,9 @@ def login_register():
                         st.write('Error')
                     else:
                         reporter(reply)
-                        st.experimental_rerun()
+                st.session_state.conf_num = None
+                st.session_state.code_sent = None
+                st.experimental_rerun()
 
 
 def manage_users():
