@@ -262,27 +262,28 @@ def create_new_unit():
             reply = add_sod(proj_short, set_name, stage, status, set_start_date, coordinator, performer, notes)
             if reply == 201:
                 st.success(f"New Set '{set_name}' for Project '{proj_short}' is added to DataBase")
-                sod_df = st.session_state.adb['sod']
-                u_df = st.session_state.adb['users']
-                proj_df = st.session_state.adb['project']
-
-                next_id = sod_df.index.max() + 1
-
-                project_id = proj_df.query('short_name == @proj_short').index.to_numpy()[0]
-                coord_id = u_df.query('login == @coordinator').index.to_numpy()[0]
-                perf_id = u_df.query('login == @performer').index.to_numpy()[0]
-
-                dict_df = pd.DataFrame(
-                    [
-                        {
-                            'id': next_id, 'project_id': project_id, 'set_name': set_name, 'coord_id': coord_id,
-                            'perf_id': perf_id, 'stage': stage, 'revision': "R1", 'current_status': status,
-                            'notes': notes, 'aux': f"{st.session_state.user}: {str(datetime.datetime.now())[:-10]}"
-                        }
-                    ]
-                )
-
-                st.session_state.adb['sod'] = sod_df.append(dict_df)
+                # sod_df = st.session_state.adb['sod']
+                # u_df = st.session_state.adb['users']
+                # proj_df = st.session_state.adb['project']
+                #
+                # next_id = sod_df.index.max() + 1
+                #
+                # project_id = proj_df.query('short_name == @proj_short').index.to_numpy()[0]
+                # coord_id = u_df.query('login == @coordinator').index.to_numpy()[0]
+                # perf_id = u_df.query('login == @performer').index.to_numpy()[0]
+                #
+                # dict_df = pd.DataFrame(
+                #     [
+                #         {
+                #             'id': next_id, 'project_id': project_id, 'set_name': set_name, 'coord_id': coord_id,
+                #             'perf_id': perf_id, 'stage': stage, 'revision': "R1", 'current_status': status,
+                #             'notes': notes, 'aux': f"{st.session_state.user}: {str(datetime.datetime.now())[:-10]}"
+                #         }
+                #     ]
+                # )
+                #
+                # st.session_state.adb['sod'] = sod_df.append(dict_df)
+                st.session_state.adb['sod'] = get_table(SOD)
 
             else:
                 st.warning(reply)
