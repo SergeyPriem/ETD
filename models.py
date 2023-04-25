@@ -143,18 +143,18 @@ set_sql_debug(True)
 
 
 # db.bind(provider='sqlite', filename='DBB.sqlite', create_db=True)
-@st.cache_resource(ttl=3600)
-def binding():
-    db.bind(
-        provider='mysql',
-        host=st.secrets["db_host"],
-        user=st.secrets["db_user"],
-        passwd=st.secrets["db_password"],
-        db=st.secrets["db_database"]
-    )
+# @st.cache_resource(ttl=3600)
+# def binding():
+db.bind(
+    provider='mysql',
+    host=st.secrets["db_host"],
+    user=st.secrets["db_user"],
+    passwd=st.secrets["db_password"],
+    db=st.secrets["db_database"]
+)
 
 
-binding()
+# binding()
 
 db.generate_mapping(create_tables=True)
 
