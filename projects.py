@@ -566,10 +566,12 @@ def confirm_task(task_id):
             coord, perform = sod.coord_id, sod.perf_id
 
             if user == coord.login:
-                Task[task_id].coord_log = f"{(Task[task_id].coord_log).replace('None', '')}<{user}*{str(datetime.now())[:-10]}>"
+                Task[task_id].coord_log = f"{(Task[task_id].coord_log).replace('None', '')}" \
+                                          f"<{user}*{str(datetime.now())[:-10]}>"
 
             if user == perform.login:
-                Task[task_id].perf_log = f"{(Task[task_id].perf_log).replace('None', '')}<{user}*{str(datetime.now())[:-10]}>"
+                Task[task_id].perf_log = f"{(Task[task_id].perf_log).replace('None', '')}" \
+                                         f"<{user}*{str(datetime.now())[:-10]}>"
 
         except Exception as e:
             return err_handler(e)
