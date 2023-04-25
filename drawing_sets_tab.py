@@ -133,13 +133,12 @@ def drawing_sets():
 
                 sod_df = st.session_state.adb['sod']
 
-                sod_df.loc[unit_id, 'coord_id'] = coord
-                sod_df.loc[unit_id, 'perf_id'] = perf
+                sod_df.loc[unit_id, 'coordinator'] = coord
+                sod_df.loc[unit_id, 'performer'] = perf
                 sod_df.loc[unit_id, 'revision'] = rev
                 sod_df.loc[unit_id, 'current_status'] = status
                 if upd_trans_chb:
-                    sod_df.loc[unit_id, 'trans_num'] += " =>" + str(trans_num)
-                    # sod_df.at[unit_id, 'trans_date'] = trans_date
+                    sod_df.loc[unit_id, 'trans_num'] += f"<{str(trans_num)}>"
                 sod_df.loc[unit_id, 'notes'] = notes
                 st.session_state.adb['sod'] = sod_df
                 # st.experimental_rerun()
