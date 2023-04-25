@@ -118,9 +118,10 @@ def manage_projects():
             for k, v in enumerate(col_list):
                 if cols[k].button(v, use_container_width=True):
                     if v == 'users':
-                        st.experimental_data_editor(adb[v].drop(columns=['hashed_pass']), use_container_width=True)
+                        st.experimental_data_editor(adb[v].drop(columns=['hashed_pass']),
+                                                    use_container_width=True, height=500)
                     else:
-                        st.experimental_data_editor(adb[v], use_container_width=True)
+                        st.experimental_data_editor(adb[v], use_container_width=True,  height=500)
 
 
 
