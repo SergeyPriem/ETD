@@ -559,7 +559,7 @@ def get_own_tasks(set_id):
 
 def confirm_task(task_id):
     user = st.session_state.user
-    print("TASK_ID=", task_id)
+    st.header(f"TASK_ID={task_id}")
     with db_session:
         try:
 
