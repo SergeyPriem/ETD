@@ -117,6 +117,9 @@ def manage_projects():
             adb = st.session_state.adb
             for k, v in enumerate(col_list):
                 if cols[k].button(v, use_container_width=True):
+                    if v == 'users':
+                        adb[v].drop(columns=['hashed_pass'])
+
                     st.write(adb[v])
 
 
