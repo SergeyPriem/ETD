@@ -391,7 +391,7 @@ def etap_py():
             st.text((datetime.now() - start_time))
 
         if st.button('Show Users'):
-            st.write(adb['users'])
+            st.write(adb['users'].drop(columns=['hashed_pass']))
 
         if st.button("Tasks from DB"):
             start_time = datetime.now()
