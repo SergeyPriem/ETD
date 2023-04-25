@@ -795,8 +795,6 @@ def initial():
 
     u_df = None
 
-    # if st.session_state.all:
-
     if not st.session_state.adb:
         st.session_state.adb = get_all()
 
