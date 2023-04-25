@@ -140,6 +140,7 @@ def drawing_sets():
                 if upd_trans_chb:
                     sod_df.loc[unit_id, 'trans_num'] += f"<{str(trans_num)}>"
                 sod_df.loc[unit_id, 'notes'] = notes
+                st.write(sod_df)
                 st.session_state.adb['sod'] = sod_df
                 # st.experimental_rerun()
 
