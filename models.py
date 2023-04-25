@@ -8,9 +8,6 @@ import streamlit as st
 db = Database()
 
 
-# @st.cache_resource(ttl=3600)
-# def make_db(_db):
-
 class Project(db.Entity):
     id = PrimaryKey(int, size=16, auto=True)
     short_name = Required(str, 150)
@@ -161,7 +158,7 @@ binding()
 
 db.generate_mapping(create_tables=True)
 
-    # return db
+# return db
 
 
 # db = make_db(db)
