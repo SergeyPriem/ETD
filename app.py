@@ -262,8 +262,7 @@ def home_content():
                             but_key1 = f"Confirm Task: {row.id}"
                             task_id = row.id
                             if st.button(label=but_key1, key=but_key1, type='primary', on_click=confirm_task,
-                                         args=(
-                                                 (row.id,))):
+                                         args=((row.id,))):
                                 st.info(f"Task {task_id} confirmed!!")
                             st.text("")
                     else:
@@ -798,7 +797,8 @@ def initial():
 
     # if st.session_state.all:
 
-    st.session_state.adb = get_all()
+    if not st.session_state.adb:
+        st.session_state.adb = get_all()
 
 
     if not isinstance(st.session_state.adb, dict):
