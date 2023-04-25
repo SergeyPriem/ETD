@@ -125,6 +125,7 @@ def drawing_sets():
             reply = update_sod(unit_id, coord, perf, rev, status, trans_num,
                                notes, upd_trans_chb)
 
+
             if reply == 200:
                 st.success("Updated!")
 
@@ -139,7 +140,7 @@ def drawing_sets():
                     # sod_df.at[unit_id, 'trans_date'] = trans_date
                 sod_df.loc[unit_id, 'notes'] = notes
                 st.session_state.adb['sod'] = sod_df
-                st.experimental_rerun()
+                # st.experimental_rerun()
 
             else:
                 st.warning(reply)
