@@ -572,18 +572,20 @@ def confirm_task(task_id):
 
             if user == coord.login:
                 st.header("COORDINATOR")
-                Task[task_id].coord_log = f"{(Task[task_id].coord_log).replace('None', '')}" \
-                                          f"<{user}*{str(datetime.now())[:-10]}>"
-
+                if Task[task_id].coord_log:
+                    Task[task_id].coord_log = f"{(Task[task_id].coord_log).replace('None', '')}<{user}*{str(datetime.now())[:-10]}>"
+                else:
+                    Task[task_id].coord_log = f"<{user}*{str(datetime.now())[:-10]}>"
 
             if user == perform.login:
-                st.header("PERFORMER")
-                Task[task_id].perf_log = f"{(Task[task_id].perf_log).replace('None', '')}" \
-                                         f"<{user}*{str(datetime.now())[:-10]}>"
-                st.header("PERFORMER-2")
+                if Task[task_id].perf_log:
+                    Task[task_id].perf_log = f"{(Task[task_id].perf_log).replace('None', '')}<{user}*{str(datetime.now())[:-10]}>"
+                else:
+                    Task[task_id].perf_log = f"<{user}*{str(datetime.now())[:-10]}>"
 
         except Exception as e:
-            st.header(err_handler(e))
+            with st.sidebar:
+                st.text(err_handler(e))
             return err_handler(e)
 
     # st.info(f"Task with ID {id} confirmed By user {user}")
