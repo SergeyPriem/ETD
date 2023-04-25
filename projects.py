@@ -580,9 +580,10 @@ def confirm_task(task_id):
                 st.header("PERFORMER")
                 Task[task_id].perf_log = f"{(Task[task_id].perf_log).replace('None', '')}" \
                                          f"<{user}*{str(datetime.now())[:-10]}>"
-
+                st.header("PERFORMER-2")
 
         except Exception as e:
+            st.header(err_handler(e))
             return err_handler(e)
 
     # st.info(f"Task with ID {id} confirmed By user {user}")
