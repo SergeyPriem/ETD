@@ -144,7 +144,7 @@ def drawing_sets():
             else:
                 st.warning(reply)
 
-        # st.divider()
+        st.write("")
 
         # units_tasks = get_own_tasks(unit_id) ###
         task_df = st.session_state.adb['task']
