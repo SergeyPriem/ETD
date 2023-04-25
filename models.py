@@ -7,14 +7,6 @@ import streamlit as st
 
 db = Database()
 
-# Project = None
-# SOD = None
-# Users = None
-# Task = None
-# VisitLog = None
-# Speciality = None
-# Message = None
-# Trans = None
 
 # @st.cache_resource(ttl=3600)
 # def make_db(_db):
@@ -154,14 +146,18 @@ set_sql_debug(True)
 
 
 # db.bind(provider='sqlite', filename='DBB.sqlite', create_db=True)
+@st.cache_resource(ttl=3600)
+def binding():
+    db.bind(
+        provider='mysql',
+        host=st.secrets["db_host"],
+        user=st.secrets["db_user"],
+        passwd=st.secrets["db_password"],
+        db=st.secrets["db_database"]
+    )
 
-db.bind(
-    provider='mysql',
-    host=st.secrets["db_host"],
-    user=st.secrets["db_user"],
-    passwd=st.secrets["db_password"],
-    db=st.secrets["db_database"]
-)
+
+binding()
 
 db.generate_mapping(create_tables=True)
 
