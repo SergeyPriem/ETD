@@ -12,7 +12,7 @@ def lessons_content():
         st.empty()
 
     with content:
-        st.title(':orange[Lessons Learned]')
+        st.title(':orange[Lessons Learned] - under Development')
         st.text('It would be great to collect, store and share experiences of technical solutions from which lessons can be learned')
 
         content_col1, content_col2 = st.columns(2, gap="medium")
