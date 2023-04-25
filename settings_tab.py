@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 import streamlit as st
 import random
+
+from models import Users
+from projects import get_table
 from send_emails import send_mail
 from users import update_settings, update_user_reg_data
 
@@ -35,8 +38,8 @@ def settings_content():
                 st.session_state.vert_menu = 0
 
             update_settings(st.session_state.user, st.session_state.vert_menu)
-            # save preferences to DB
-            st.experimental_rerun()
+            st.session_state.adb['users'] = get_table(Users)
+            # st.experimental_rerun()
 
         with st.form("UpData"):
 
