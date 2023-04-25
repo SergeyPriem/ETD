@@ -133,7 +133,6 @@ def drawing_sets():
             else:
                 reply = update_sod(unit_id, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
 
-
             if reply == 200:
                 st.success("Updated!")
                 st.session_state.adb['sod'] = get_table(SOD)
