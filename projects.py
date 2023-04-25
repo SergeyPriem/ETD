@@ -8,7 +8,7 @@ import streamlit as st
 from pre_sets import BACKUP_FOLDER
 from users import err_handler
 
-set_sql_debug(True)
+set_sql_debug(False)
 
 
 def delete_table_row(table, row_id):

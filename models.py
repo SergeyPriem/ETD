@@ -139,7 +139,7 @@ class Trans(db.Entity):
     status = Optional(str, 50, nullable=True)
 
 
-set_sql_debug(True)
+set_sql_debug(False)
 
 
 # db.bind(provider='sqlite', filename='DBB.sqlite', create_db=True)
