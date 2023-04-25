@@ -116,6 +116,7 @@ def drawing_sets():
             proj_id = proj_df[proj_df.short_name == proj_selected].index.to_numpy()[0]
 
             trans_list = trans_df[trans_df.index == proj_id].trans_num.to_list()
+            trans_list.insert(0, 'Not required')
             r_c.text('')
             r_c.text('')
             upd_trans_chb = r_c.checkbox("Add Transmittal")
@@ -126,25 +127,16 @@ def drawing_sets():
             upd_unit_but = st.form_submit_button("Update Unit Details")
 
         if upd_unit_but:
-            reply = update_sod(unit_id, coord, perf, rev, status, trans_num,
-                               notes, upd_trans_chb)
+            if upd_trans_chb and trans_num == "Not required":
+                st.warning("Select right Transmittal Number")
+                st.stop()
+            else:
+                reply = update_sod(unit_id, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
 
 
             if reply == 200:
                 st.success("Updated!")
-
-                # sod_df = st.session_state.adb['sod']
-                #
-                # sod_df.loc[unit_id, 'coordinator'] = coord
-                # sod_df.loc[unit_id, 'performer'] = perf
-                # sod_df.loc[unit_id, 'revision'] = rev
-                # sod_df.loc[unit_id, 'current_status'] = status
-                # if upd_trans_chb:
-                #     sod_df.loc[unit_id, 'trans_num'] += f"<{str(trans_num)}>"
-                # sod_df.loc[unit_id, 'notes'] = notes
-                # st.write(sod_df)
                 st.session_state.adb['sod'] = get_table(SOD)
-                # st.experimental_rerun()
 
             else:
                 st.warning(reply)

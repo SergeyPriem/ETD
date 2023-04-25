@@ -440,7 +440,7 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
                 sod.perf_id = Users.get(login=perf)
                 sod.revision = rev
                 sod.current_status = status
-                if upd_trans_chb:
+                if upd_trans_chb and trans_num != "Not required":
                     sod.trans_num += f"<{str(trans_num)}>"
                     # sod.trans_date = trans_date
                 sod.notes = notes
