@@ -143,7 +143,7 @@ set_sql_debug(True)
 
 
 @st.cache_resource(ttl=3600)
-def make_db(db):
+def make_db(_db):
     # db.bind(provider='sqlite', filename='DBB.sqlite', create_db=True)
 
     db.bind(
