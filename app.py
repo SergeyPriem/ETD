@@ -796,53 +796,53 @@ def initial():
 
     u_df = None
 
-    if st.session_state.all:
-        st.session_state.adb = get_all()
+    # if st.session_state.all:
+
+    st.session_state.adb = get_all()
 
 
+    if not isinstance(st.session_state.adb, dict):
+        st.warning(st.session_state.adb)
+        st.stop()
 
-        if not isinstance(st.session_state.adb, dict):
-            st.warning(st.session_state.adb)
+    try:
+        u_df = st.session_state.adb['users']
+        if not isinstance(u_df, pd.DataFrame) or len(u_df) == 0:
+            st.warning("Can't get Users")
             st.stop()
+    except Exception as e:
+        st.warning(err_handler(e))
+        st.stop()
 
-        try:
-            u_df = st.session_state.adb['users']
-            if not isinstance(u_df, pd.DataFrame) or len(u_df) == 0:
-                st.warning("Can't get Users")
-                st.stop()
-        except Exception as e:
-            st.warning(err_handler(e))
+    try:
+        st.session_state.registered_logins = u_df.loc[(u_df.status == 'current') &
+                                                      u_df.hashed_pass, 'login'].tolist()
+
+        st.session_state.appl_logins = u_df.loc[u_df.status == 'current', 'login'].tolist()
+
+        if len(st.session_state.registered_logins) == 0:
+            st.warning("Can't get Registered Users")
             st.stop()
+    except Exception as e:
+        st.warning(err_handler(e))
+        st.stop()
 
-        try:
-            st.session_state.registered_logins = u_df.loc[(u_df.status == 'current') &
-                                                          u_df.hashed_pass, 'login'].tolist()
+    try:
+        st.session_state.proj_names = st.session_state.adb['project'].short_name.tolist()
+        if len(st.session_state.proj_names) == 0:
+            st.warning("Can't get Project List")
+    except Exception as e:
+        st.warning(err_handler(e))
 
-            st.session_state.appl_logins = u_df.loc[u_df.status == 'current', 'login'].tolist()
+    try:
+        st.session_state.spec = st.session_state.adb['speciality'].abbrev.tolist()
+        if len(st.session_state.spec) == 0:
+            st.warning("Can't get Specialities")
+    except Exception as e:
+        st.warning(err_handler(e))
 
-            if len(st.session_state.registered_logins) == 0:
-                st.warning("Can't get Registered Users")
-                st.stop()
-        except Exception as e:
-            st.warning(err_handler(e))
-            st.stop()
-
-        try:
-            st.session_state.proj_names = st.session_state.adb['project'].short_name.tolist()
-            if len(st.session_state.proj_names) == 0:
-                st.warning("Can't get Project List")
-        except Exception as e:
-            st.warning(err_handler(e))
-
-        try:
-            st.session_state.spec = st.session_state.adb['speciality'].abbrev.tolist()
-            if len(st.session_state.spec) == 0:
-                st.warning("Can't get Specialities")
-        except Exception as e:
-            st.warning(err_handler(e))
-
-    else:
-        pass
+    # else:
+    #     pass
 
     if not st.session_state.logged:
         login_register()
