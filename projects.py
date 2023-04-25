@@ -444,6 +444,8 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
                     sod.trans_num += f"<{str(trans_num)}>"
                     # sod.trans_date = trans_date
                 sod.notes = notes
+
+                st.session_state.adb['sod'] = tab_to_df(select(u for u in SOD)[:])
                 return 200
             else:
                 return "You haven't right to edit 😡"

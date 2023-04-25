@@ -3,8 +3,9 @@ import datetime
 import pandas as pd
 import streamlit as st
 from admin_tools import get_list_index
+from models import SOD
 from pre_sets import sod_revisions, sod_statuses, stages
-from projects import get_trans_nums, update_sod, add_sod
+from projects import get_trans_nums, update_sod, add_sod, get_table
 
 
 def drawing_sets():
@@ -131,17 +132,17 @@ def drawing_sets():
             if reply == 200:
                 st.success("Updated!")
 
-                sod_df = st.session_state.adb['sod']
-
-                sod_df.loc[unit_id, 'coordinator'] = coord
-                sod_df.loc[unit_id, 'performer'] = perf
-                sod_df.loc[unit_id, 'revision'] = rev
-                sod_df.loc[unit_id, 'current_status'] = status
-                if upd_trans_chb:
-                    sod_df.loc[unit_id, 'trans_num'] += f"<{str(trans_num)}>"
-                sod_df.loc[unit_id, 'notes'] = notes
-                st.write(sod_df)
-                st.session_state.adb['sod'] = sod_df
+                # sod_df = st.session_state.adb['sod']
+                #
+                # sod_df.loc[unit_id, 'coordinator'] = coord
+                # sod_df.loc[unit_id, 'performer'] = perf
+                # sod_df.loc[unit_id, 'revision'] = rev
+                # sod_df.loc[unit_id, 'current_status'] = status
+                # if upd_trans_chb:
+                #     sod_df.loc[unit_id, 'trans_num'] += f"<{str(trans_num)}>"
+                # sod_df.loc[unit_id, 'notes'] = notes
+                # st.write(sod_df)
+                st.session_state.adb['sod'] = get_table(SOD)
                 # st.experimental_rerun()
 
             else:
