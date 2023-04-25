@@ -7,7 +7,7 @@ from pony.orm import *
 
 from pre_sets import mail_to_name
 
-set_sql_debug(True)
+set_sql_debug(False)
 
 
 def err_handler(e):
