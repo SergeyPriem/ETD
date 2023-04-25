@@ -118,9 +118,9 @@ def manage_projects():
             for k, v in enumerate(col_list):
                 if cols[k].button(v, use_container_width=True):
                     if v == 'users':
-                        adb[v].drop(columns=['hashed_pass'])
-
-                    st.write(adb[v])
+                        st.write(adb[v].drop(columns=['hashed_pass']))
+                    else:
+                        st.write(adb[v])
 
 
 
