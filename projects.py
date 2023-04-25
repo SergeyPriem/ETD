@@ -185,7 +185,7 @@ def get_pers_tasks() -> pd.DataFrame:
                     t.id,
                     s.project_id.short_name,
                     s.set_name,
-                    spec, #.abbrev,
+                    spec.abbrev,
                     t.stage,
                     t.in_out,
                     t.date,
