@@ -28,7 +28,7 @@ def get_menus():
     menu = None
     icons = None
 
-    performer_menu = ["Home", "Drawing Sets", "Transmittals", "Tasks", 'EtapPy', 'Just for fun',
+    performer_menu = ["Home", "Drawing Sets", "Transmittals", "Tasks", 'colPy', 'Just for fun',
                       'Lessons Learned', 'Settings']
 
     performer_icons = ['house', 'bi bi-file-earmark-spreadsheet-fill', 'bi bi-file-arrow-down',
@@ -362,42 +362,15 @@ def home_content():
                         st.text('No New Transmittals')
 
 
-def etap_py():
-    from datetime import datetime
+def col_py():
 
-    adb = st.session_state.adb
-    phone_1, phone_content, phone_2 = st.columns([1, 9, 1])
-    with phone_1:
+    col_1, col_content, col_2 = st.columns([1, 9, 1])
+    with col_1:
         st.empty()
-    with phone_2:
+    with col_2:
         st.empty()
-    with phone_content:
+    with col_content:
         st.title(':orange[Create SLD from Load List]')
-
-        if st.button('Show Projects'):
-            st.write(adb['project'])
-
-        if st.button('Show Units'):
-            st.write(adb['sod'])
-
-        if st.button('Show Tasks'):
-            start_time = datetime.now()
-            st.write(adb['task'])
-            st.text((datetime.now() - start_time))
-
-        if st.button('Show Transmittals'):
-            start_time = datetime.now()
-            st.write(adb['trans'])
-            st.text((datetime.now() - start_time))
-
-        if st.button('Show Users'):
-            st.write(adb['users'].drop(columns=['hashed_pass']))
-
-        if st.button("Tasks from DB"):
-            start_time = datetime.now()
-            tr_df = get_table(Task)
-            st.write(tr_df)
-            st.text((datetime.now() - start_time))
 
 
 def login_register():
@@ -695,8 +668,8 @@ def win_selector(selected):
     if selected == "Just for fun":
         just_for_fun()
 
-    if selected == "EtapPy":
-        etap_py()
+    if selected == "colPy":
+        col_py()
 
     if selected == "Manage Users":
         manage_users()
