@@ -568,12 +568,12 @@ def confirm_task(task_id):
             if user == coord.login:
                 Task[task_id].coord_log = f"{(Task[task_id].coord_log).replace('None', '')}" \
                                           f"<{user}*{str(datetime.now())[:-10]}>"
-                st.write("COORDINATOR")
+                print("COORDINATOR")
 
             if user == perform.login:
                 Task[task_id].perf_log = f"{(Task[task_id].perf_log).replace('None', '')}" \
                                          f"<{user}*{str(datetime.now())[:-10]}>"
-                st.write("PERFORMER")
+                print("PERFORMER")
 
         except Exception as e:
             return err_handler(e)
