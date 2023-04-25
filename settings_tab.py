@@ -38,18 +38,6 @@ def settings_content():
             # save preferences to DB
             st.experimental_rerun()
 
-        with st.form('access_type'):
-            adl, adr = st.columns(2)
-            all_demand = adl.radio("Select the DB data collection", ('All', "On Demand"))
-
-            all_demand_but = adr.form_submit_button('Apply DB access', use_container_width=True)
-
-        if all_demand_but:
-            if all_demand == 'All':
-                st.session_state.all = True
-            else:
-                st.session_state.all = False
-
         with st.form("UpData"):
 
             upd_pass_1 = st.text_input('Updated Password', type='password', key='upd_pass_1',
