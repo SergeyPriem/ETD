@@ -17,7 +17,7 @@ def get_list_index(a_list: list, elem: str) -> int:
 
 
 def manage_projects():
-    empty_proj_1, content_proj, empty_proj_2 = st.columns([1, 9, 1])
+    empty_proj_1, content_proj, empty_proj_2 = st.columns([1, 12, 1])
     with empty_proj_1:
         st.empty()
     with empty_proj_2:
@@ -118,9 +118,9 @@ def manage_projects():
             for k, v in enumerate(col_list):
                 if cols[k].button(v, use_container_width=True):
                     if v == 'users':
-                        st.write(adb[v].drop(columns=['hashed_pass']))
+                        st.experimental_data_editor(adb[v].drop(columns=['hashed_pass']), use_container_width=True)
                     else:
-                        st.write(adb[v])
+                        st.experimental_data_editor(adb[v], use_container_width=True)
 
 
 
