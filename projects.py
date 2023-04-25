@@ -571,14 +571,16 @@ def confirm_task(task_id):
             st.header(f"perform={perform.login}")
 
             if user == coord.login:
+                st.header("COORDINATOR")
                 Task[task_id].coord_log = f"{(Task[task_id].coord_log).replace('None', '')}" \
                                           f"<{user}*{str(datetime.now())[:-10]}>"
-                st.header("COORDINATOR")
+
 
             if user == perform.login:
+                st.header("PERFORMER")
                 Task[task_id].perf_log = f"{(Task[task_id].perf_log).replace('None', '')}" \
                                          f"<{user}*{str(datetime.now())[:-10]}>"
-                st.header("PERFORMER")
+
 
         except Exception as e:
             return err_handler(e)
