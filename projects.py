@@ -273,7 +273,7 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
                 current_status=status,
                 start_date=set_start_date,
                 notes=notes,
-                aux=f"{st.session_state.user}: {str(datetime.now())[:-10]}"
+                aux=f"<{st.session_state.user}*{str(datetime.now())[:-10]}>"
 
             )
             return 201
@@ -324,7 +324,7 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
                 backup_copy='NA',
                 source=source,
                 comment=comment,
-                added_by=f"{str(st.session_state.user)}: {str(datetime.now())[:-10]}"
+                added_by=f"<{str(st.session_state.user)}*{str(datetime.now())[:-10]}>"
             )
 
             new_ass_id = max(n.id for n in Task)
@@ -332,12 +332,12 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
             if SOD[set_draw.id].coord_id.login == st.session_state.user:
                 Task[new_ass_id].coord_log = str(
                     Task[new_ass_id].coord_log).replace('None', '') + \
-                                             f"*{st.session_state.user}*{str(datetime.now())[:-10]}* "
+                                             f"<{st.session_state.user}*{str(datetime.now())[:-10]}>"
 
             if SOD[set_draw.id].perf_id.login == st.session_state.user:
                 Task[new_ass_id].perf_log = str(
                     Task[new_ass_id].perf_log).replace('None', '') + \
-                                            f"*{st.session_state.user}*{str(datetime.now())[:-10]}* "
+                                            f"<{st.session_state.user}*{str(datetime.now())[:-10]}>"
 
             result = create_backup_string(link, BACKUP_FOLDER, new_ass_id)
             new_ass.backup_copy = result[0]
@@ -422,7 +422,7 @@ def update_sets(edited_set_df):
                     set_to_edit.revision = row.revision
                     set_to_edit.start_date = row.start_date
                     if isinstance(row.notes, str):
-                        set_to_edit.notes += "->" + row.notes
+                        set_to_edit.notes += "=>" + row.notes
                     set_to_edit.current_status = row.current_status
                 except Exception as e:
                     return err_handler(e)
@@ -441,7 +441,7 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
                 sod.revision = rev
                 sod.current_status = status
                 if upd_trans_chb:
-                    sod.trans_num += " =>" + str(trans_num)
+                    sod.trans_num += "=>" + str(trans_num)
                     # sod.trans_date = trans_date
                 sod.notes = notes
                 return 200
@@ -566,12 +566,10 @@ def confirm_task(task_id):
             coord, perform = sod.coord_id, sod.perf_id
 
             if user == coord.login:
-                Task[task_id].coord_log = str(
-                    Task[task_id].coord_log).replace('None', '') + f"*{user}*{str(datetime.now())[:-10]}* "
+                Task[task_id].coord_log = f"{(Task[task_id].coord_log).replace('None', '')}<{user}*{str(datetime.now())[:-10]}>"
 
             if user == perform.login:
-                Task[task_id].perf_log = str(
-                    Task[task_id].perf_log).replace('None', '') + f"*{user}*{str(datetime.now())[:-10]}* "
+                Task[task_id].perf_log = f"{(Task[task_id].perf_log).replace('None', '')}<{user}*{str(datetime.now())[:-10]}>"
 
         except Exception as e:
             return err_handler(e)
@@ -587,7 +585,7 @@ def confirm_trans(trans_num):
 
             tr = Trans.get(trans_num=trans_num)
             prev_record = tr.received.replace('-', '')
-            tr.received = f"{prev_record} >> {user}*{str(datetime.now())[:-10]}"
+            tr.received = f"{prev_record}<{user}*{str(datetime.now())[:-10]}>"
 
         except Exception as e:
             return err_handler(e)
@@ -607,8 +605,7 @@ def trans_status_to_db():
                 new_notes = " >>" + str(out_note)
 
             if st.session_state.user not in trans.received:
-                trans.received = f"{trans.received.replace('-', '')} >>\
-                 {st.session_state.user}*{str(datetime.now())[:-10]}"
+                trans.received = f"{trans.received.replace('-', '')}<{st.session_state.user}*{str(datetime.now())[:-10]}>"
 
             trans.notes = new_notes
             trans.status = status
