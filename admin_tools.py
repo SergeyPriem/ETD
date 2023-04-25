@@ -107,47 +107,47 @@ def manage_projects():
 
         with viewer_tab:
             # tab_list = get_tab_names()
-            tab_name = st.radio("Select the Table for view", (
-                Task, Project, SOD, Users, VisitLog, Trans, Speciality), horizontal=True)
+            # tab_name = st.radio("Select the Table for view", (
+            #     Task, Project, SOD, Users, VisitLog, Trans, Speciality), horizontal=True)
 
             col_list = ['Projects', 'Units', 'Tasks', 'Transmittals', 'Users', 'Tasks from DB']
 
             cols = st.columns(len(col_list))
 
-            for k, v in enumerate(col_list):
-                cols[k].button(v)
-
-
             adb = st.session_state.adb
-            if st.button('Projects'):
-                st.write(adb['project'])
+            for k, v in enumerate(col_list):
+                cols[k].button(v, use_container_width=True)
 
-            if st.button('Units'):
-                st.write(adb['sod'])
 
-            if st.button('Tasks'):
-                start_time = datetime.now()
-                st.write(adb['task'])
-                st.text((datetime.now() - start_time))
+            # if st.button('Projects'):
+            #     st.write(adb['project'])
+            #
+            # if st.button('Units'):
+            #     st.write(adb['sod'])
+            #
+            # if st.button('Tasks'):
+            #     start_time = datetime.now()
+            #     st.write(adb['task'])
+            #     st.text((datetime.now() - start_time))
+            #
+            # if st.button('Transmittals'):
+            #     start_time = datetime.now()
+            #     st.write(adb['trans'])
+            #     st.text((datetime.now() - start_time))
+            #
+            # if st.button('Users'):
+            #     st.write(adb['users'].drop(columns=['hashed_pass']))
+            #
+            # if st.button("Tasks from DB"):
+            #     start_time = datetime.now()
+            #     tr_df = get_table(Task)
+            #     st.write(tr_df)
+            #     st.text((datetime.now() - start_time))
 
-            if st.button('Transmittals'):
-                start_time = datetime.now()
-                st.write(adb['trans'])
-                st.text((datetime.now() - start_time))
-
-            if st.button('Users'):
-                st.write(adb['users'].drop(columns=['hashed_pass']))
-
-            if st.button("Tasks from DB"):
-                start_time = datetime.now()
-                tr_df = get_table(Task)
-                st.write(tr_df)
-                st.text((datetime.now() - start_time))
-
-            df = get_table(tab_name)
-            if isinstance(df, pd.DataFrame):
-                st.info(f'Records Q-ty: {len(df)}')
-                # st.write(df)
-                st.experimental_data_editor(df, use_container_width=True)
-            else:
-                st.warning('No records found')
+            # df = get_table(tab_name)
+            # if isinstance(df, pd.DataFrame):
+            #     st.info(f'Records Q-ty: {len(df)}')
+            #     # st.write(df)
+            #     st.experimental_data_editor(df, use_container_width=True)
+            # else:
+            #     st.warning('No records found')
