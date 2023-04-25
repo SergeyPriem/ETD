@@ -119,9 +119,9 @@ def manage_projects():
                 if cols[k].button(v, use_container_width=True):
                     if v == 'users':
                         st.experimental_data_editor(adb[v].drop(columns=['hashed_pass']),
-                                                    use_container_width=True, height=500)
+                                                    use_container_width=True, height=1500)
                     else:
-                        st.experimental_data_editor(adb[v], use_container_width=True,  height=500)
+                        st.experimental_data_editor(adb[v], use_container_width=True,  height=1500)
 
 
 
