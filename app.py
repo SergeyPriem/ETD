@@ -794,10 +794,12 @@ def initial():
     create_states()
     appearance_settings()
 
+    u_df = None
+
     if st.session_state.all:
         st.session_state.adb = get_all()
 
-        u_df = None
+
 
         if not isinstance(st.session_state.adb, dict):
             st.warning(st.session_state.adb)
