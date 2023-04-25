@@ -185,7 +185,7 @@ def get_pers_tasks() -> pd.DataFrame:
                     t.id,
                     s.project_id.short_name,
                     s.set_name,
-                    t.speciality.id, #.abbrev,
+                    spec, #.abbrev,
                     t.stage,
                     t.in_out,
                     t.date,
@@ -200,6 +200,7 @@ def get_pers_tasks() -> pd.DataFrame:
                 )
                 for t in Task
                 for s in t.s_o_d
+                for spec in t.speciality
                 if
                 (s.coord_id == Users.get(login=login) and (login not in t.coord_log) and "confirmed" not in t.coord_log)
                 or ((s.perf_id == Users.get(login=login)) and (
