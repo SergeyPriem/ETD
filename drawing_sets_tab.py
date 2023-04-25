@@ -89,6 +89,8 @@ def drawing_sets():
         st.subheader(f"Project: :red[{proj_selected}]")
         st.subheader(f"Unit: :red[{unit_selected}]")
 
+        st.write(df_edit)
+
         if len(df_edit) == 1:
             unit_id = df_edit.unit_id.to_numpy()[0]
         else:
