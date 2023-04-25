@@ -121,7 +121,8 @@ def drawing_sets():
             upd_trans_chb = r_c.checkbox("Add Transmittal")
             r_c.text('')
             trans_num = r_c.selectbox("New Transmittal Number", trans_list)
-            notes = r_c.text_area("Notes (don't delete, just add to previous)", max_chars=1500, height=127)
+            notes = r_c.text_area("Notes (don't delete, just add to previous)",
+                                  value=df_edit.notes.to_numpy()[0], max_chars=1500, height=127)
             upd_unit_but = st.form_submit_button("Update Unit Details")
 
         if upd_unit_but:
