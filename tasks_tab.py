@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import streamlit as st
-from projects import add_in_to_db, add_out_to_db
+
+from models import Task
+from projects import add_in_to_db, add_out_to_db, get_table
 from send_emails import send_mail
 
 def disable_add_task(cur_stat):
@@ -246,8 +248,10 @@ def add_task(task_content):
                                 st.warning(reply)
                             else:
                                 st.info(reply)
+
                             st.divider()
                 st.session_state.task_preview = False
+                st.session_state.adb['task'] = get_table(Task)
 
             if right_b.button('Escape or Correct Data', use_container_width=True,
                               on_click=disable_add_task, args=(True,)):
