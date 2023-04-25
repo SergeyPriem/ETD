@@ -26,7 +26,7 @@ def settings_content():
                                       index=st.session_state.vert_menu, horizontal=True)
             r_f.write('')
 
-            appl_set_but = r_f.form_submit_button('Apply', use_container_width=True)
+            appl_set_but = r_f.form_submit_button('Apply menu position', use_container_width=True)
 
         if appl_set_but:
             if menu_position == 'Left':
@@ -38,7 +38,20 @@ def settings_content():
             # save preferences to DB
             st.experimental_rerun()
 
+        with st.form('access_type'):
+            adl, adr = st.columns(2)
+            all_demand = adl.radio("Select the DB data collection", ('All', "On Demand"))
+
+            all_demand_but = adr.form_submit_button('Apply DB access', use_container_width=True)
+
+        if all_demand_but:
+            if all_demand == 'All':
+                st.session_state.all = True
+            else:
+                st.session_state.all = False
+
         with st.form("UpData"):
+
             upd_pass_1 = st.text_input('Updated Password', type='password', key='upd_pass_1',
                                        disabled=not st.session_state.logged)
             upd_pass_2 = st.text_input('Repeat Updated Password', type='password', key='upd_pass_2',
