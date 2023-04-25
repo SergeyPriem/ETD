@@ -69,9 +69,13 @@ def manage_projects():
                 reply = create_project(proj_short, proj_full, client, proj_man, responsible_el,
                                        proj_status, proj_tech_ass, proj_tech_conditions,
                                        proj_surveys, proj_mdr, proj_notes)
+                if 'is added to DataBase' in reply:
+                    st.info(reply)
+                    st.session_state.adb['project'] = get_table(Project)
+                else:
+                    st.warning(reply)
+                    st.stop()
 
-                st.info(reply)
-                # st.session_state.preview_proj_stat = False
 
         with proj_tab2:
             proj_to_edit_list = st.multiselect('Select Projects to Edit', st.session_state.proj_names)
