@@ -6,8 +6,10 @@ from models import Task
 from projects import add_in_to_db, add_out_to_db, get_table
 from send_emails import send_mail
 
+
 def disable_add_task(cur_stat):
     st.session_state.disable_add_task = cur_stat
+
 
 def tasks_content():
     st.markdown("""
@@ -251,12 +253,14 @@ def add_task(task_content):
 
                             st.divider()
                 st.session_state.task_preview = False
-                st.session_state.adb['task'] = get_table(Task)
 
             if right_b.button('Escape or Correct Data', use_container_width=True,
                               on_click=disable_add_task, args=(True,)):
                 st.session_state.task_preview = False
                 st.experimental_rerun()
+
+            st.session_state.adb['task'] = get_table(Task)
+
 
 def view_tasks(ass_tab2, my_all):
     with ass_tab2:
