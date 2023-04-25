@@ -110,13 +110,15 @@ def manage_projects():
             # tab_name = st.radio("Select the Table for view", (
             #     Task, Project, SOD, Users, VisitLog, Trans, Speciality), horizontal=True)
 
-            col_list = ['Projects', 'Units', 'Tasks', 'Transmittals', 'Users', 'Tasks from DB']
+            col_list = ['project', 'sod', 'task', 'trans', 'users']
 
             cols = st.columns(len(col_list))
 
             adb = st.session_state.adb
             for k, v in enumerate(col_list):
-                cols[k].button(v, use_container_width=True)
+                if cols[k].button(v, use_container_width=True):
+                    st.write(adb[v])
+
 
 
             # if st.button('Projects'):
