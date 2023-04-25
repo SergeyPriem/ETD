@@ -566,6 +566,9 @@ def confirm_task(task_id):
             sod = Task[task_id].s_o_d
             coord, perform = sod.coord_id, sod.perf_id
 
+            st.header(f"coord={coord}")
+            st.header(f"perform={perform}")
+
             if user == coord.login:
                 Task[task_id].coord_log = f"{(Task[task_id].coord_log).replace('None', '')}" \
                                           f"<{user}*{str(datetime.now())[:-10]}>"
