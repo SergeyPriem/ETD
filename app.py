@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
-import pandas as pd
+
 import streamlit as st
+
 from PIL import Image
+
+st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
+                   page_title='ET Department', initial_sidebar_state='auto')
 import datetime
+import pandas as pd
 import random
 from streamlit_option_menu import option_menu
 from admin_tools import manage_projects, get_list_index
@@ -20,8 +25,7 @@ from projects import confirm_task, get_my_trans, confirm_trans, get_pers_tasks, 
     get_all, get_table
 from models import Task
 
-st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
-                   page_title='ET Department', initial_sidebar_state='auto')
+
 
 
 def get_menus():
