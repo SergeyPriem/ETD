@@ -560,6 +560,7 @@ def get_own_tasks(set_id):
 def confirm_task(task_id):
     user = st.session_state.user
     st.header(f"TASK_ID={task_id}")
+    st.header(f"user={user}")
     with db_session:
         try:
 
