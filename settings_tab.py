@@ -39,7 +39,7 @@ def settings_content():
 
             update_settings(st.session_state.user, st.session_state.vert_menu)
             st.session_state.adb['users'] = get_table(Users)
-            # st.experimental_rerun()
+            st.experimental_rerun()
 
         with st.form("UpData"):
 
