@@ -100,6 +100,8 @@ def manage_projects():
                 if st.button("Update in DataBase", key="update_project"):
                     proj_len_edited = len(edited_proj_df[edited_proj_df.edit])
                     if proj_len_edited:
+                        st.divider()
+                        st.write(edited_proj_df)
                         reply = update_projects(edited_proj_df)
                         st.info(reply)
                     else:
