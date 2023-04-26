@@ -110,7 +110,7 @@ def manage_projects():
             # tab_name = st.radio("Select the Table for view", (
             #     Task, Project, SOD, Users, VisitLog, Trans, Speciality), horizontal=True)
 
-            col_list = ['project', 'sod', 'task', 'trans', 'users']
+            col_list = ['project', 'sod', 'task', 'trans', 'users', 'visitlog']
 
             cols = st.columns(len(col_list))
 
