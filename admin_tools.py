@@ -182,12 +182,13 @@ def manage_projects():
                         st.write(cc_rec)
                         st.write(subj)
                         st.markdown(html, unsafe_allow_html=True)
-                        # reply2 = send_mail(receiver, cc_rec, subj, html)
-                        #
-                        # if reply2 == 200:
-                        #     st.success(reply2)
-                        # else:
-                        #     st.warning(reply2)
+
+                        reply2 = send_mail(receiver, cc_rec, subj, html)
+
+                        if reply2 == 200:
+                            st.success(reply2)
+                        else:
+                            st.warning(reply2)
 
                     else:
                         st.warning(reply)
