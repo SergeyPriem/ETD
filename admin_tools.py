@@ -124,13 +124,12 @@ def manage_projects():
                     upd_proj_but = st.form_submit_button('Update Project', use_container_width=True)
 
                 if upd_proj_but:
-                    # proj_len_edited = len(edited_proj_df[edited_proj_df.edit])
                     if len(short_name) < 3 or len(full_name) < 3:
                         st.write('Too short Name')
 
-                        # reply = update_projects(proj_df.index.to_numpy()[0], short_name, full_name, client,
-                        #                         manager, responsible_el, status, assignment, tech_conditions,
-                        #                         surveys, mdr, notes)
+                        reply = update_projects(proj_df.index.to_numpy()[0], short_name, full_name, client,
+                                                manager, responsible_el, status, assignment, tech_conditions,
+                                                surveys, mdr, notes)
                     if reply == 201:
                         st.success('Updated')
 
