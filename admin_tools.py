@@ -7,6 +7,8 @@ from pre_sets import proj_statuses
 from projects import create_project, get_table, update_projects
 from datetime import datetime
 
+from send_emails import send_mail
+
 
 def get_list_index(a_list: list, elem: str) -> int:
     try:
@@ -77,7 +79,6 @@ def manage_projects():
                     st.warning(reply)
                     st.stop()
 
-
         with proj_tab2:
             proj_to_edit_list = st.multiselect('Select Projects to Edit', st.session_state.proj_names)
 
@@ -91,10 +92,16 @@ def manage_projects():
 
                 # proj_df = proj_df.set_index('short_name')
                 proj_df = proj_df[proj_df.short_name.isin(proj_to_edit_list)]
-                proj_df['to_del'] = False
-                proj_df['edit'] = False
+                # proj_df['to_del'] = False
+                # proj_df['edit'] = False
 
-                edited_proj_df = st.experimental_data_editor(proj_df, use_container_width=True)
+                # edited_proj_df = st.experimental_data_editor(proj_df, use_container_width=True)
+
+                u_df = st.session_state.adb['users']
+
+                u_id = proj_df.responsible_el.to_numpy()[0]
+
+                prev_responsible = u_df.loc[u_df.index == u_id, 'login'].to_numpy()[0]
 
                 with st.form('update_project'):
                     short_name = st.text_input('Project Short Name', value=proj_df.short_name.to_numpy()[0],
@@ -108,7 +115,7 @@ def manage_projects():
                     responsible_el = st.selectbox('Responsible Person',
                                                   st.session_state.appl_logins,
                                                   get_list_index(st.session_state.appl_logins,
-                                                                 proj_df.responsible_el.to_numpy()[0]))
+                                                                 prev_responsible))
                     status = st.selectbox('Status', proj_statuses,
                                           get_list_index(proj_statuses, proj_df.status.to_numpy()[0]))
 
@@ -120,15 +127,79 @@ def manage_projects():
                     mdr = st.text_area("MDR location", proj_df.mdr.to_numpy()[0], max_chars=250).strip()
                     notes = st.text_area("Notes", proj_df.notes.to_numpy()[0], max_chars=1000).strip()
 
-                    upd_proj_but = st.form_submit_button('upd_proj')
+                    upd_proj_but = st.form_submit_button('Update Project', use_container_width=True)
 
-                if st.button("Update in DataBase", key="update_project"):
-                    proj_len_edited = len(edited_proj_df[edited_proj_df.edit])
-                    if proj_len_edited:
-                        st.divider()
-                        st.write(edited_proj_df)
-                        reply = update_projects(edited_proj_df)
-                        st.info(reply)
+                if upd_proj_but:
+                    # proj_len_edited = len(edited_proj_df[edited_proj_df.edit])
+                    if len(short_name) < 3 or len(full_name) < 3:
+                        st.write('Too short Name')
+
+                        # reply = update_projects(proj_df.index.to_numpy()[0], short_name, full_name, client,
+                        #                         manager, responsible_el, status, assignment, tech_conditions,
+                        #                         surveys, mdr, notes)
+                        reply = 201
+                        if reply == 201:
+                            st.success('Updated')
+
+                            html = f"""
+                                <html>
+                                  <head></head>
+                                  <body>
+                                    <h3>
+                                      Hello, Colleague!
+                                      <hr>
+                                    </h3>
+                                    <h5>
+                                      You got this message because you are involved in the project : 
+                                      <b>{proj_df.short_name.to_numpy()[0]}</b>
+                                    </h5>
+                                    <p>Some data for the Project were updated</p>
+                                    <p>Short name: <b>{short_name}</b></p>
+                                    <p>Full name: <b>{full_name}</b></p>
+                                    <p>Client: <b>{client}</b></p>
+                                    <p>Manager: <b>{manager}</b></p>
+                                    <p>Responsible Person: <b>{responsible_el}</b></p>
+                                    <p>Project status: <b>{status}</b></p>
+                                    <p>Assignment: <b>{assignment}</b></p>
+                                    <p>Technical Conditions: <b>{tech_conditions}</b></p>
+                                    <p>Surveys: <b>{surveys}</b></p>
+                                    <p>MDR: <b>{mdr}</b></p>
+                                    <p>Notes: <b>{notes}</b></p>
+                                    <p>
+                                        <hr>
+                                        Best regards, Administration 😎
+                                    </p>
+                                  </body>
+                                </html>
+                            """
+
+                            if prev_responsible == responsible_el:
+                                # receivers = [u_df.loc[u_df.login == responsible_el, 'email'].to_numpy()[0]]
+                                receivers = ['sergey.priemshiy@uzliti-en.com']
+
+                            else:
+                                # receiver_2 = u_df.loc[u_df.login == prev_responsible, 'email'].to_numpy()[0]
+                                # receivers = [
+                                #     u_df.loc[u_df.login == responsible_el, 'email'].to_numpy()[0],
+                                #     receiver_2
+                                #     ]
+                                receiver_2 = 'sergey.priemshiy@uzliti-en.com'
+                                receivers = [
+                                    'sergey.priemshiy@uzliti-en.com',
+                                    receiver_2
+                                ]
+                                html = ""
+
+                            cc_rec = 'sergey.priemshiy@uzliti-en.com'
+
+                            subj = f"Project: {short_name}. Changes"
+
+                            reply2 = send_mail(receivers, cc_rec, subj, html)
+
+                            st.info(reply2)
+
+                        else:
+                            st.warning(reply)
                     else:
                         st.warning("No selection to Edit")
 
@@ -148,9 +219,7 @@ def manage_projects():
                         st.experimental_data_editor(adb[v].drop(columns=['hashed_pass']),
                                                     use_container_width=True, height=1500)
                     else:
-                        st.experimental_data_editor(adb[v], use_container_width=True,  height=1500)
-
-
+                        st.experimental_data_editor(adb[v], use_container_width=True, height=1500)
 
             # if st.button('Projects'):
             #     st.write(adb['project'])
