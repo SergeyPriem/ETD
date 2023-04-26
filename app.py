@@ -370,10 +370,23 @@ def col_py():
     with col_content:
         st.title(':orange[Create SLD from Load List] - under Development')
 
-        st.write("Upload Load List in xlsx or xlsb")
-        load_list = st.file_uploader("Some label", type=['xlsx', 'xlsb'], accept_multiple_files=False, key=None,
+        load_list = st.file_uploader("Upload Load List in xlsx or xlsb", type=['xlsx', 'xlsb'],
+                                     accept_multiple_files=False, key=None,
                                      help=None, on_change=None, args=None,
                                      kwargs=None, disabled=False, label_visibility="visible")
+
+        cab_data = st.file_uploader("Upload Cable Catalog in xlsx or xlsb", type=['xlsx', 'xlsb'],
+                                     accept_multiple_files=False, key=None,
+                                     help=None, on_change=None, args=None,
+                                     kwargs=None, disabled=False, label_visibility="visible")
+
+        dxf_template = st.file_uploader("Upload SLD template in dxf (v.18.0)", type=['dxf'],
+                                        accept_multiple_files=False, key=None,
+                                        help=None, on_change=None, args=None,
+                                        kwargs=None, disabled=False, label_visibility="visible")
+
+        st.download_button('Get Load List here', load_list, file_name=None, mime=None, key=None, help=None,
+                           on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
 
 
 def login_register():
