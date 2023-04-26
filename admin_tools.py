@@ -131,7 +131,6 @@ def manage_projects():
                         # reply = update_projects(proj_df.index.to_numpy()[0], short_name, full_name, client,
                         #                         manager, responsible_el, status, assignment, tech_conditions,
                         #                         surveys, mdr, notes)
-                    reply = 201
                     if reply == 201:
                         st.success('Updated')
 
@@ -168,22 +167,21 @@ def manage_projects():
                         """
 
                         if prev_responsible == responsible_el:
-                            # receivers = [u_df.loc[u_df.login == responsible_el, 'email'].to_numpy()[0]]
-                            receiver = 'sergey.priemshiy@uzliti-en.com'
+                            receiver = [u_df.loc[u_df.login == responsible_el, 'email'].to_numpy()[0]]
                             cc_rec = 'sergey.priemshiy@uzliti-en.com'
-                        else:
-                            # receiver_2 = u_df.loc[u_df.login == prev_responsible, 'email'].to_numpy()[0]
-                            # receivers = u_df.loc[u_df.login == responsible_el, 'email'].to_numpy()[0]
-                            #     receiver_2
-                            #     ]
-                            cc_rec = 'sergey.priemshiy@uzliti-en.com'
-                            receiver = 'sergey.priemshiy@uzliti-en.com'
 
-                        subj = f"Project: {short_name}. Changes"
+                        else:
+                            receiver = u_df.loc[u_df.login == prev_responsible, 'email'].to_numpy()[0]
+                            cc_rec = u_df.loc[u_df.login == responsible_el, 'email'].to_numpy()[0]
+
+                        subj = f"{short_name}. Changes"
 
                         reply2 = send_mail(receiver, cc_rec, subj, html)
 
-                        st.info(reply2)
+                        if reply2 == 200:
+                            st.success(reply2)
+                        else:
+                            st.warning(reply2)
 
                     else:
                         st.warning(reply)
