@@ -125,7 +125,7 @@ def manage_projects():
 
                 if upd_proj_but:
                     if len(short_name) < 3 or len(full_name) < 3:
-                        st.write('Too short Name')
+                        st.write('Too short Name. Should be more than 2 symbols')
                         st.stop()
 
                     reply = update_projects(proj_df.index.to_numpy()[0], short_name, full_name, client,
@@ -169,7 +169,7 @@ def manage_projects():
                         """
 
                         if prev_responsible == responsible_el:
-                            receiver = [u_df.loc[u_df.login == responsible_el, 'email'].to_numpy()[0]]
+                            receiver = u_df.loc[u_df.login == responsible_el, 'email'].to_numpy()[0]
                             cc_rec = 'sergey.priemshiy@uzliti-en.com'
 
                         else:
@@ -178,12 +178,14 @@ def manage_projects():
 
                         subj = f"{short_name}. Changes"
 
-                        reply2 = send_mail(receiver, cc_rec, subj, html)
-
-                        if reply2 == 200:
-                            st.success(reply2)
-                        else:
-                            st.warning(reply2)
+                        st.write(receiver)
+                        st.write(cc_rec)
+                        # reply2 = send_mail(receiver, cc_rec, subj, html)
+                        #
+                        # if reply2 == 200:
+                        #     st.success(reply2)
+                        # else:
+                        #     st.warning(reply2)
 
                     else:
                         st.warning(reply)
