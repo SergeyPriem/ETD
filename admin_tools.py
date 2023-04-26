@@ -178,15 +178,10 @@ def manage_projects():
 
                         subj = f"{short_name}. Changes"
 
-                        st.write(receiver)
-                        st.write(cc_rec)
-                        st.write(subj)
-                        st.markdown(html, unsafe_allow_html=True)
-
                         reply2 = send_mail(receiver, cc_rec, subj, html)
 
                         if reply2 == 200:
-                            st.success(reply2)
+                            st.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
                         else:
                             st.warning(reply2)
 
