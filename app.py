@@ -461,7 +461,8 @@ def login_register():
             with st.form("Reg_form"):
                 name = st.text_input('Your Name', disabled=st.session_state.logged)
                 surname = st.text_input('Your Surname', disabled=st.session_state.logged)
-                phone = st.text_input('Your personal Phone', disabled=st.session_state.logged)
+                phone = st.text_input('Your personal Phone', disabled=st.session_state.logged)\
+                    .replace(" ", "").replace("-", "")
                 telegram = st.text_input('Your personal Telegram', disabled=st.session_state.logged)
                 reg_pass_1 = st.text_input('Password', type='password', key='reg_pass_1',
                                            disabled=st.session_state.logged)
