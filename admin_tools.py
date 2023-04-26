@@ -130,60 +130,60 @@ def manage_projects():
                         reply = update_projects(proj_df.index.to_numpy()[0], short_name, full_name, client,
                                                 manager, responsible_el, status, assignment, tech_conditions,
                                                 surveys, mdr, notes)
-                    if reply == 201:
-                        st.success('Updated')
+                        if reply == 201:
+                            st.success('Updated')
 
-                        html = f"""
-                            <html>
-                              <head></head>
-                              <body>
-                                <h3>
-                                  Hello, Colleague!
-                                  <hr>
-                                </h3>
-                                <h5>
-                                  You got this message because you are involved in the project : 
-                                  <b>{proj_df.short_name.to_numpy()[0]}</b>
-                                </h5>
-                                <p>Some data for the Project were updated</p>
-                                <p>Short name: <b>{short_name}</b></p>
-                                <p>Full name: <b>{full_name}</b></p>
-                                <p>Client: <b>{client}</b></p>
-                                <p>Manager: <b>{manager}</b></p>
-                                <p>Responsible Person: <b>{responsible_el}</b></p>
-                                <p>Project status: <b>{status}</b></p>
-                                <p>Assignment: <b>{assignment}</b></p>
-                                <p>Technical Conditions: <b>{tech_conditions}</b></p>
-                                <p>Surveys: <b>{surveys}</b></p>
-                                <p>MDR: <b>{mdr}</b></p>
-                                <p>Notes: <b>{notes}</b></p>
-                                <p>
-                                    <hr>
-                                    Best regards, Administration 😎
-                                </p>
-                              </body>
-                            </html>
-                        """
+                            html = f"""
+                                <html>
+                                  <head></head>
+                                  <body>
+                                    <h3>
+                                      Hello, Colleague!
+                                      <hr>
+                                    </h3>
+                                    <h5>
+                                      You got this message because you are involved in the project : 
+                                      <b>{proj_df.short_name.to_numpy()[0]}</b>
+                                    </h5>
+                                    <p>Some data for the Project were updated</p>
+                                    <p>Short name: <b>{short_name}</b></p>
+                                    <p>Full name: <b>{full_name}</b></p>
+                                    <p>Client: <b>{client}</b></p>
+                                    <p>Manager: <b>{manager}</b></p>
+                                    <p>Responsible Person: <b>{responsible_el}</b></p>
+                                    <p>Project status: <b>{status}</b></p>
+                                    <p>Assignment: <b>{assignment}</b></p>
+                                    <p>Technical Conditions: <b>{tech_conditions}</b></p>
+                                    <p>Surveys: <b>{surveys}</b></p>
+                                    <p>MDR: <b>{mdr}</b></p>
+                                    <p>Notes: <b>{notes}</b></p>
+                                    <p>
+                                        <hr>
+                                        Best regards, Administration 😎
+                                    </p>
+                                  </body>
+                                </html>
+                            """
 
-                        if prev_responsible == responsible_el:
-                            receiver = [u_df.loc[u_df.login == responsible_el, 'email'].to_numpy()[0]]
-                            cc_rec = 'sergey.priemshiy@uzliti-en.com'
+                            if prev_responsible == responsible_el:
+                                receiver = [u_df.loc[u_df.login == responsible_el, 'email'].to_numpy()[0]]
+                                cc_rec = 'sergey.priemshiy@uzliti-en.com'
+
+                            else:
+                                receiver = u_df.loc[u_df.login == prev_responsible, 'email'].to_numpy()[0]
+                                cc_rec = u_df.loc[u_df.login == responsible_el, 'email'].to_numpy()[0]
+
+                            subj = f"{short_name}. Changes"
+
+                            reply2 = send_mail(receiver, cc_rec, subj, html)
+
+                            if reply2 == 200:
+                                st.success(reply2)
+                            else:
+                                st.warning(reply2)
 
                         else:
-                            receiver = u_df.loc[u_df.login == prev_responsible, 'email'].to_numpy()[0]
-                            cc_rec = u_df.loc[u_df.login == responsible_el, 'email'].to_numpy()[0]
-
-                        subj = f"{short_name}. Changes"
-
-                        reply2 = send_mail(receiver, cc_rec, subj, html)
-
-                        if reply2 == 200:
-                            st.success(reply2)
-                        else:
-                            st.warning(reply2)
-
-                    else:
-                        st.warning(reply)
+                            st.warning(reply)
 
         with viewer_tab:
             # tab_list = get_tab_names()
