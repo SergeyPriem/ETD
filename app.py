@@ -60,7 +60,6 @@ def get_menus():
 
 
 def create_states():
-
     if 'all' not in st.session_state:
         st.session_state.all = True
 
@@ -122,6 +121,7 @@ def create_states():
     if 'conf_num' not in st.session_state:
         st.session_state.conf_num = False
 
+
 def update_trans_status(trans_num):
     st.session_state.trans_status = trans_num
 
@@ -149,7 +149,6 @@ def form_for_trans():
         if st.button('Escape', use_container_width=True):
             st.session_state.trans_status = None
             st.experimental_rerun()
-
 
 
 def home_content():
@@ -363,7 +362,6 @@ def home_content():
 
 
 def col_py():
-
     col_1, col_content, col_2 = st.columns([1, 9, 1])
     with col_1:
         st.empty()
@@ -371,6 +369,11 @@ def col_py():
         st.empty()
     with col_content:
         st.title(':orange[Create SLD from Load List] - under Development')
+
+        st.write("Upload Load List in xlsx or xlsb")
+        load_list = st.file_uploader("Some label", type=['xlsx', 'xlsb'], accept_multiple_files=False, key=None,
+                                     help=None, on_change=None, args=None,
+                                     kwargs=None, disabled=False, label_visibility="visible")
 
 
 def login_register():
@@ -461,7 +464,7 @@ def login_register():
             with st.form("Reg_form"):
                 name = st.text_input('Your Name', disabled=st.session_state.logged)
                 surname = st.text_input('Your Surname', disabled=st.session_state.logged)
-                phone = st.text_input('Your personal Phone', disabled=st.session_state.logged)\
+                phone = st.text_input('Your personal Phone', disabled=st.session_state.logged) \
                     .replace(" ", "").replace("-", "")
                 telegram = st.text_input('Your personal Telegram', disabled=st.session_state.logged)
                 reg_pass_1 = st.text_input('Password', type='password', key='reg_pass_1',
@@ -495,7 +498,7 @@ def login_register():
                     st.warning("Telegram length should less than 80 symbols")
                     st.stop()
 
-                st.session_state.conf_num = "".join(random.sample("123456789", 4)) # create confirmation code
+                st.session_state.conf_num = "".join(random.sample("123456789", 4))  # create confirmation code
 
                 conf_html = f"""
                         <html>
@@ -688,7 +691,6 @@ def win_selector(selected):
 
 
 def show_states():
-
     st.text('appl_logins')
     st.write(st.session_state.appl_logins)
     st.text('-----------------------')
@@ -771,7 +773,6 @@ def initial():
     if not st.session_state.adb:
         st.session_state.adb = get_all()
 
-
     if not isinstance(st.session_state.adb, dict):
         st.warning(st.session_state.adb)
         st.stop()
@@ -819,7 +820,6 @@ def initial():
         login_register()
 
     if st.session_state.logged and st.session_state.user:
-
         selected = prepare_menus(u_df)
         win_selector(selected)
 
