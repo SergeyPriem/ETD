@@ -33,7 +33,7 @@ def send_mail(receiver: str, cc_rec: str, subj: str, html: str):
         s.login(msg['From'], st.secrets["g_key"])
         # sendmail function takes 3 arguments: sender's address, recipient's address
         # and message to send - here it is sent as one string.
-        s.sendmail(msg['From'], [receiver, cc_rec], msg.as_string())
+        s.sendmail(msg['From'], [*receiver, *cc_rec], msg.as_string())
         s.quit()
         return 200
     except Exception as e:
