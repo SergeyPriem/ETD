@@ -386,12 +386,12 @@ def col_py():
                                         kwargs=None, disabled=False, label_visibility="visible")
         if load_list:
 
-            st.download_button('Get Load List here', data=None, file_name=load_list, mime=None, key=None, help=None,
+            st.download_button('Get Cable List here', data=load_list, file_name='Cable List.xlsx', mime=None, key=None, help=None,
                                on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
 
         if dxf_template:
 
-            st.download_button('Get SLD here', data=None, file_name=dxf_template, mime=None, key=None, help=None,
+            st.download_button('Get SLD here', data=dxf_template, file_name='SLD.dxf', mime=None, key=None, help=None,
                                on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
 
 
