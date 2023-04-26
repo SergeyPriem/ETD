@@ -384,12 +384,15 @@ def col_py():
                                         accept_multiple_files=False, key=None,
                                         help=None, on_change=None, args=None,
                                         kwargs=None, disabled=False, label_visibility="visible")
+        if load_list:
 
-        st.download_button('Get Load List here', load_list, file_name=None, mime=None, key=None, help=None,
-                           on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
+            st.download_button('Get Load List here', load_list, file_name=None, mime=None, key=None, help=None,
+                               on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
 
-        st.download_button('Get SLD here', dxf_template, file_name=None, mime=None, key=None, help=None,
-                           on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
+        if dxf_template:
+
+            st.download_button('Get SLD here', dxf_template, file_name=None, mime=None, key=None, help=None,
+                               on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
 
 
 def login_register():
