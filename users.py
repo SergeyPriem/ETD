@@ -227,14 +227,15 @@ def update_users_in_db(login, position, branch, start_date, access_level):
             hero.access_level = access_level
             hero.status = 'current'
             hero.end_date = None
+            return f"""Updated Data for Users with Login **{login}**  
+                       Position: **:blue[{position}]**  
+                       Branch: **:blue[{branch}]**  
+                       Access level: **:blue[{access_level}]**  
+                       Status: **:blue[{hero.status}]**"""
+
         except Exception as e:
             return err_handler(e)
 
-        return f"""Updated Data for Users with Login **{login}**  
-                   Position: **:blue[{position}]**  
-                   Branch: **:blue[{branch}]**  
-                   Access level: **:blue[{access_level}]**  
-                   Status: **:blue[{hero.status}]**"""
 
 
 def update_settings(login, menu):

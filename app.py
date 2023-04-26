@@ -18,7 +18,7 @@ from users import check_user, add_to_log, create_appl_user, update_users_in_db, 
     err_handler
 from projects import confirm_task, get_my_trans, confirm_trans, get_pers_tasks, trans_status_to_db, \
     get_all, get_table
-from models import Task
+from models import Users
 
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
@@ -577,12 +577,10 @@ def manage_users():
             if create_appl_user_but:
                 reply = create_appl_user(
                     user_email, user_position, user_department, user_access_level, "current", user_start_date)
-                st.warning(reply)
-                st.experimental_rerun()
+                st.info(reply)
+                st.session_state.adb['users'] = get_table(Users)
 
         with users_tab2:
-
-            # list_appl_users = get_all_emails()
 
             u_df = st.session_state.adb['users']
 
@@ -594,8 +592,6 @@ def manage_users():
             if edit_move == 'Edit':
                 with st.form('upd_exist_user'):
 
-                    # appl_user = get_user_data(employee_to_edit)
-
                     u_df = st.session_state.adb['users']
 
                     appl_user = u_df.loc[u_df.login == employee_to_edit]
@@ -604,10 +600,6 @@ def manage_users():
                                         key='edit_position', horizontal=True,
                                         index=get_list_index(positions, appl_user.position.to_numpy()[0]))
                     st.markdown("---")
-                    # try:
-                    #     department_ind = departments.index(appl_user.department)
-                    # except:
-                    #     department_ind = 0
 
                     department = st.radio('Department', departments,
                                           key='edit_department', horizontal=True,
@@ -615,10 +607,6 @@ def manage_users():
                     st.markdown("---")
 
                     access_tuple = ('performer', 'admin', 'supervisor', 'prohibited')
-                    # try:
-                    #     access_ind = access_tuple.index(appl_user.access_level)
-                    # except Exception:
-                    #     access_ind = 0
 
                     access_level = st.radio('Access level', access_tuple, horizontal=True,
                                             key='edit_access_level',
@@ -637,6 +625,7 @@ def manage_users():
                 if upd_user_but:
                     reply = update_users_in_db(employee_to_edit, position, department, start_date, access_level)
                     st.info(reply)
+                    st.session_state.adb['users'] = get_table(Users)
 
             if edit_move == 'Move to Former Users':
                 end_date = st.date_input('End Date', key='end_date')
@@ -644,6 +633,7 @@ def manage_users():
                 if st.button('Confirm', type='primary', use_container_width=True):
                     reply = move_to_former(employee_to_edit, end_date)
                     st.info(reply)
+                    st.session_state.adb['users'] = get_table(Users)
 
 
 def win_selector(selected):
@@ -704,9 +694,6 @@ def show_states():
     st.write('registered_logins')
     st.write(st.session_state.registered_logins)
     st.text('-----------------------')
-    # st.write('delay')
-    # st.write(st.session_state.delay)
-    # st.text('-----------------------')
     st.write("preview_proj_stat")
     st.write(st.session_state.preview_proj_stat)
     st.text('-----------------------')
