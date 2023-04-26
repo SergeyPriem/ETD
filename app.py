@@ -684,6 +684,7 @@ def win_selector(selected):
 
     if selected == "Refresh Data":
         st.session_state.adb = get_all()
+        st.header('Data is Fresh')
 
 
 def show_states():
