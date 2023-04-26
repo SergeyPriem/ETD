@@ -94,8 +94,25 @@ def manage_projects():
                 proj_df['to_del'] = False
                 proj_df['edit'] = False
 
-                # st.write(proj_df)
                 edited_proj_df = st.experimental_data_editor(proj_df, use_container_width=True)
+
+                with st.form('update_project'):
+                    short_name = st.text_input('Project Short Name', value=proj_df.short_name.to_numpy()[0])
+                    full_name = st.text_input('Project Full Name', value=proj_df.full_name.to_numpy()[0])
+                    client = st.text_input('Client', value=proj_df.client.to_numpy()[0])
+                    manager = st.text_input('Manager', value=proj_df.client.to_numpy()[0])
+                    responsible_el = st.selectbox('Responsible Person',
+                                                  st.session_state.appl_logins,
+                                                  get_list_index(st.session_state.appl_logins,
+                                                                 proj_df.responsible_el.to_numpy()[0]))
+                    status = st.selectbox('Status', proj_statuses,
+                                          get_list_index(proj_statuses, proj_df.status.to_numpy()[0]))
+
+                    assignment = st.text_area("Assignment location", proj_df.assignment.to_numpy()[0])
+                    tech_conditions = st.text_area("Tech. conditions location", proj_df.tech_conditions.to_numpy()[0])
+                    surveys = st.text_area("Surveys location", proj_df.surveys.to_numpy()[0])
+                    mdr = st.text_area("MDR location", proj_df.mdr.to_numpy()[0])
+                    notes = st.text_area("Notes", proj_df.notes.to_numpy()[0])
 
                 if st.button("Update in DataBase", key="update_project"):
                     proj_len_edited = len(edited_proj_df[edited_proj_df.edit])
