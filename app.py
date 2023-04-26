@@ -29,11 +29,11 @@ def get_menus():
     icons = None
 
     performer_menu = ["Home", "Drawing Sets", "Transmittals", "Tasks", 'Py', 'Just for fun',
-                      'Lessons Learned', 'Settings']
+                      'Lessons Learned', 'Settings', 'Refresh Data']
 
     performer_icons = ['house', 'bi bi-file-earmark-spreadsheet-fill', 'bi bi-file-arrow-down',
                        'bi bi-file-check', 'bi bi-diagram-3', 'bi bi-info-circle', 'bi bi-pen', 'bi bi-gear',
-                       ]
+                       'bi bi-arrow-clockwise']
 
     admin_menu = ["Create Dr. Set / Unit"]
     admin_icons = ['bi bi-folder-plus']
@@ -681,6 +681,9 @@ def win_selector(selected):
 
     if selected == "Create Dr. Set / Unit":
         create_new_unit()
+
+    if selected == "Refresh Data":
+        st.session_state.adb = get_all()
 
 
 def show_states():
