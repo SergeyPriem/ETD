@@ -83,19 +83,13 @@ def manage_projects():
             proj_to_edit_list = st.multiselect('Select Projects to Edit', st.session_state.proj_names)
 
             if proj_to_edit_list:
-                # proj_df = get_table(Project)
                 proj_df = st.session_state.adb['project']
 
                 if not isinstance(proj_df, pd.DataFrame):
                     st.warning(proj_df)
                     st.stop()
 
-                # proj_df = proj_df.set_index('short_name')
                 proj_df = proj_df[proj_df.short_name.isin(proj_to_edit_list)]
-                # proj_df['to_del'] = False
-                # proj_df['edit'] = False
-
-                # edited_proj_df = st.experimental_data_editor(proj_df, use_container_width=True)
 
                 u_df = st.session_state.adb['users']
 
@@ -137,71 +131,69 @@ def manage_projects():
                         # reply = update_projects(proj_df.index.to_numpy()[0], short_name, full_name, client,
                         #                         manager, responsible_el, status, assignment, tech_conditions,
                         #                         surveys, mdr, notes)
-                        reply = 201
-                        if reply == 201:
-                            st.success('Updated')
+                    reply = 201
+                    if reply == 201:
+                        st.success('Updated')
 
-                            html = f"""
-                                <html>
-                                  <head></head>
-                                  <body>
-                                    <h3>
-                                      Hello, Colleague!
-                                      <hr>
-                                    </h3>
-                                    <h5>
-                                      You got this message because you are involved in the project : 
-                                      <b>{proj_df.short_name.to_numpy()[0]}</b>
-                                    </h5>
-                                    <p>Some data for the Project were updated</p>
-                                    <p>Short name: <b>{short_name}</b></p>
-                                    <p>Full name: <b>{full_name}</b></p>
-                                    <p>Client: <b>{client}</b></p>
-                                    <p>Manager: <b>{manager}</b></p>
-                                    <p>Responsible Person: <b>{responsible_el}</b></p>
-                                    <p>Project status: <b>{status}</b></p>
-                                    <p>Assignment: <b>{assignment}</b></p>
-                                    <p>Technical Conditions: <b>{tech_conditions}</b></p>
-                                    <p>Surveys: <b>{surveys}</b></p>
-                                    <p>MDR: <b>{mdr}</b></p>
-                                    <p>Notes: <b>{notes}</b></p>
-                                    <p>
-                                        <hr>
-                                        Best regards, Administration 😎
-                                    </p>
-                                  </body>
-                                </html>
-                            """
+                        html = f"""
+                            <html>
+                              <head></head>
+                              <body>
+                                <h3>
+                                  Hello, Colleague!
+                                  <hr>
+                                </h3>
+                                <h5>
+                                  You got this message because you are involved in the project : 
+                                  <b>{proj_df.short_name.to_numpy()[0]}</b>
+                                </h5>
+                                <p>Some data for the Project were updated</p>
+                                <p>Short name: <b>{short_name}</b></p>
+                                <p>Full name: <b>{full_name}</b></p>
+                                <p>Client: <b>{client}</b></p>
+                                <p>Manager: <b>{manager}</b></p>
+                                <p>Responsible Person: <b>{responsible_el}</b></p>
+                                <p>Project status: <b>{status}</b></p>
+                                <p>Assignment: <b>{assignment}</b></p>
+                                <p>Technical Conditions: <b>{tech_conditions}</b></p>
+                                <p>Surveys: <b>{surveys}</b></p>
+                                <p>MDR: <b>{mdr}</b></p>
+                                <p>Notes: <b>{notes}</b></p>
+                                <p>
+                                    <hr>
+                                    Best regards, Administration 😎
+                                </p>
+                              </body>
+                            </html>
+                        """
 
-                            if prev_responsible == responsible_el:
-                                # receivers = [u_df.loc[u_df.login == responsible_el, 'email'].to_numpy()[0]]
-                                receivers = ['sergey.priemshiy@uzliti-en.com']
-
-                            else:
-                                # receiver_2 = u_df.loc[u_df.login == prev_responsible, 'email'].to_numpy()[0]
-                                # receivers = [
-                                #     u_df.loc[u_df.login == responsible_el, 'email'].to_numpy()[0],
-                                #     receiver_2
-                                #     ]
-                                receiver_2 = 'sergey.priemshiy@uzliti-en.com'
-                                receivers = [
-                                    'sergey.priemshiy@uzliti-en.com',
-                                    receiver_2
-                                ]
-                                html = ""
-
-                            cc_rec = 'sergey.priemshiy@uzliti-en.com'
-
-                            subj = f"Project: {short_name}. Changes"
-
-                            reply2 = send_mail(receivers, cc_rec, subj, html)
-
-                            st.info(reply2)
+                        if prev_responsible == responsible_el:
+                            # receivers = [u_df.loc[u_df.login == responsible_el, 'email'].to_numpy()[0]]
+                            receivers = ['sergey.priemshiy@uzliti-en.com']
 
                         else:
-                            st.warning(reply)
+                            # receiver_2 = u_df.loc[u_df.login == prev_responsible, 'email'].to_numpy()[0]
+                            # receivers = [
+                            #     u_df.loc[u_df.login == responsible_el, 'email'].to_numpy()[0],
+                            #     receiver_2
+                            #     ]
+                            receiver_2 = 'sergey.priemshiy@uzliti-en.com'
+                            receivers = [
+                                'sergey.priemshiy@uzliti-en.com',
+                                receiver_2
+                            ]
+                            html = ""
+
+                        cc_rec = 'sergey.priemshiy@uzliti-en.com'
+
+                        subj = f"Project: {short_name}. Changes"
+
+                        reply2 = send_mail(receivers, cc_rec, subj, html)
+
+                        st.info(reply2)
+
                     else:
-                        st.warning("No selection to Edit")
+                        st.warning(reply)
 
         with viewer_tab:
             # tab_list = get_tab_names()
