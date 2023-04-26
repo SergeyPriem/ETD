@@ -53,7 +53,7 @@ def drawing_sets():
             user_id = u_df.loc[u_df.login == user_login].index.to_numpy()[0]
             df = df[(df.coord_id == user_id) | (df.perf_id == user_id)]
 
-        df['unit_id'] = df.index
+        df.loc[:, 'unit_id'] = df.index
         df = df.set_index('project_id').join(proj_df['short_name'])
         df = df.set_index('coord_id').join(u_df['login'])
 
