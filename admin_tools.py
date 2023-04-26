@@ -95,7 +95,7 @@ def manage_projects():
                 proj_df['edit'] = False
 
                 # st.write(proj_df)
-                edited_proj_df = st.experimental_data_editor(proj_df)
+                edited_proj_df = st.experimental_data_editor(proj_df, use_container_width=True)
 
                 if st.button("Update in DataBase", key="update_project"):
                     proj_len_edited = len(edited_proj_df[edited_proj_df.edit])
