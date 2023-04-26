@@ -388,6 +388,9 @@ def col_py():
         st.download_button('Get Load List here', load_list, file_name=None, mime=None, key=None, help=None,
                            on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
 
+        st.download_button('Get SLD here', dxf_template, file_name=None, mime=None, key=None, help=None,
+                           on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
+
 
 def login_register():
     st.markdown("""
