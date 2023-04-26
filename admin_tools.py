@@ -181,7 +181,7 @@ def manage_projects():
                         st.write(receiver)
                         st.write(cc_rec)
                         st.write(subj)
-                        st.write(html)
+                        st.markdown(html, unsafe_allow_html=True)
                         # reply2 = send_mail(receiver, cc_rec, subj, html)
                         #
                         # if reply2 == 200:
