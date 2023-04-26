@@ -149,6 +149,7 @@ def manage_projects():
                                   <b>{proj_df.short_name.to_numpy()[0]}</b>
                                 </h5>
                                 <p>Some data for the Project were updated</p>
+                                <br>
                                 <p>Short name: <b>{short_name}</b></p>
                                 <p>Full name: <b>{full_name}</b></p>
                                 <p>Client: <b>{client}</b></p>
