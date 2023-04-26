@@ -93,7 +93,7 @@ def drawing_sets():
         if len(df_edit) == 1:
             unit_id = df_edit.unit_id.to_numpy()[0]
         else:
-            st.warning("Duplicated Units. Please fix it")
+            st.warning("Units not available")
             st.stop()
 
         all_logins = st.session_state.adb['users'].login.tolist()
