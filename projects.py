@@ -384,13 +384,14 @@ def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, de
 def update_projects(proj_id, short_name, full_name, client, manager, responsible_el, status,
                     assignment, tech_conditions, surveys, mdr, notes):
     with db_session:
+        resp_id = Users.get(login=responsible_el)
         try:
             proj_for_upd = Project[proj_id]
             proj_for_upd.short_name = short_name
             proj_for_upd.full_name = full_name
             proj_for_upd.client = client
             proj_for_upd.manager = manager
-            proj_for_upd.responsible_el = responsible_el
+            proj_for_upd.responsible_el = resp_id
             proj_for_upd.status = status
             proj_for_upd.assignment = assignment
             proj_for_upd.tech_conditions = tech_conditions
