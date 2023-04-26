@@ -487,6 +487,14 @@ def login_register():
                     st.warning("! Too short Name or Surname")
                     st.stop()
 
+                if len(phone) > 13:
+                    st.warning("Phone number should be 13 symbols length")
+                    st.stop()
+
+                if len(telegram) > 80:
+                    st.warning("Telegram length should less than 80 symbols")
+                    st.stop()
+
                 st.session_state.conf_num = "".join(random.sample("123456789", 4)) # create confirmation code
 
                 conf_html = f"""
