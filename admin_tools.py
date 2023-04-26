@@ -130,6 +130,8 @@ def manage_projects():
                         reply = update_projects(proj_df.index.to_numpy()[0], short_name, full_name, client,
                                                 manager, responsible_el, status, assignment, tech_conditions,
                                                 surveys, mdr, notes)
+                        st.write(reply)
+
                         if reply == 201:
                             st.success('Updated')
 
