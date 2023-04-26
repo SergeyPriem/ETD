@@ -529,7 +529,7 @@ def login_register():
                     else:
                         st.warning("Network problems...Try again later")
 
-            entered_code = st.text_input("Confirmation Code from Email")
+            entered_code = st.text_input("Confirmation Code from Email").replace(" ", '')
 
             if st.button("Register", use_container_width=True):
                 if login in st.session_state.registered_logins:
