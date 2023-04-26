@@ -344,7 +344,7 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
             new_ass.backup_copy = result[0]
 
             return f"""
-            New Task for {new_ass.s_o_d.project_id.short_name}: {new_ass.s_o_d.set_name} is added to DataBase  
+            New Task #{int(last_id) + 1} for {new_ass.s_o_d.project_id.short_name}: {new_ass.s_o_d.set_name} is added to DataBase  
             
             Copy backup string 👇 to Clipboard<*>
             {result[1]}
@@ -375,7 +375,7 @@ def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, de
                 added_by=st.session_state.user
             )
             return f"""
-            New Task for {sod_name} -> {speciality} is added to DataBase  
+            New Task #{int(last_id) + 1} for {sod_name} -> {speciality} is added to DataBase  
             """
         except Exception as e:
             return err_handler(e)
