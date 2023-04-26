@@ -169,26 +169,19 @@ def manage_projects():
 
                         if prev_responsible == responsible_el:
                             # receivers = [u_df.loc[u_df.login == responsible_el, 'email'].to_numpy()[0]]
-                            receivers = ['sergey.priemshiy@uzliti-en.com']
-
+                            receiver = 'sergey.priemshiy@uzliti-en.com'
+                            cc_rec = 'sergey.priemshiy@uzliti-en.com'
                         else:
                             # receiver_2 = u_df.loc[u_df.login == prev_responsible, 'email'].to_numpy()[0]
-                            # receivers = [
-                            #     u_df.loc[u_df.login == responsible_el, 'email'].to_numpy()[0],
+                            # receivers = u_df.loc[u_df.login == responsible_el, 'email'].to_numpy()[0]
                             #     receiver_2
                             #     ]
-                            receiver_2 = 'sergey.priemshiy@uzliti-en.com'
-                            receivers = [
-                                'sergey.priemshiy@uzliti-en.com',
-                                receiver_2
-                            ]
-                            html = ""
-
-                        cc_rec = 'sergey.priemshiy@uzliti-en.com'
+                            cc_rec = 'sergey.priemshiy@uzliti-en.com'
+                            receiver = 'sergey.priemshiy@uzliti-en.com'
 
                         subj = f"Project: {short_name}. Changes"
 
-                        reply2 = send_mail(receivers, cc_rec, subj, html)
+                        reply2 = send_mail(receiver, cc_rec, subj, html)
 
                         st.info(reply2)
 
