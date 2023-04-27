@@ -820,10 +820,10 @@ def prepare_menus(u_df):
                 st.sidebar.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>",
                                     unsafe_allow_html=True)
                 td = datetime.datetime.now() - st_time
-                delta = td.total_seconds()
-                st.sidebar.markdown(f"<h6 style='text-align: center; color: #00bbf9;'>{delta}</h6>",
+                delta = f"{td.total_seconds()}"
+                st.sidebar.markdown(f"<h5 style='text-align: center; color: #00bbf9;'>{delta[:-3]} s.</h5>",
                                     unsafe_allow_html=True)
-                st.write(f"{datetime.datetime.now() - st_time} s.")
+                # st.write(f"{datetime.datetime.now() - st_time} s.")
     else:
         selected = option_menu(None, st.session_state.menu, icons=st.session_state.icons,
                                menu_icon=None, default_index=0, orientation='horizontal')
