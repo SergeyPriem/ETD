@@ -39,6 +39,25 @@ import streamlit as st
 
 
 def just_for_fun():
+    st.markdown("""
+        <style>
+            div[data-testid="column"]:nth-of-type(1)
+            {
+                text-align: center;
+            } 
+
+            div[data-testid="column"]:nth-of-type(2)
+            {
+                text-align: center;
+            } 
+
+            div[data-testid="column"]:nth-of-type(3)
+            {
+                text-align: center;
+            } 
+        </style>
+        """, unsafe_allow_html=True)
+
     fun_1, fun_content, fun_2 = st.columns([1, 9, 1])
     with fun_1:
         st.empty()
@@ -46,7 +65,7 @@ def just_for_fun():
         st.empty()
     with fun_content:
         st.title(':orange[Relax Area] - under Development')
-        # st.header('Welcome!')
+        st.divider()
         st.text("🌴 Short time to relax")
 
         st.write("check out this [Мальтийский механизм](https://www.wikiwand.com/ru/"
