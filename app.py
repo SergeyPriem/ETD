@@ -764,8 +764,8 @@ def win_selector(selected):
         st.session_state.adb = get_all()
         st.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>",
                             unsafe_allow_html=True)
-        selected = st.session_state.selected
-        st.button("OK", key='close_fresh')
+        if st.button("OK", key='close_fresh'):
+            win_selector(st.session_state.selected)
 
     if selected == "Create Dr. Set / Unit":
         create_new_unit()
