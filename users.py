@@ -235,7 +235,7 @@ def update_users_in_db(login, position, branch, start_date, access_level, script
             hero.script_acc = script_acc
             hero.status = 'current'
             hero.end_date = None
-            return f"""Updated Data for Users with Login **{login}**  
+            return f"""Updated Data for Users with Login **:blue[{login}]**  
                        Position: **:blue[{position}]**  
                        Branch: **:blue[{branch}]**  
                        Access level: **:blue[{access_level}]**  
