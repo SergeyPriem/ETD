@@ -757,7 +757,7 @@ def win_selector(selected):
         st.session_state.selected = selected
 
     tab_dict = {
-        "Home": home(),
+        "Home": home,
         "Manage Projects": manage_projects,
         "Transmittals": transmittals_content,
         "Tasks": tasks_content,
@@ -774,6 +774,7 @@ def win_selector(selected):
     st.header(selected)
 
     tab_dict.get(selected)()
+    # st.stop()
 
     show_duration()
 
