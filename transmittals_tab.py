@@ -39,6 +39,11 @@ def transmittals_content():
         add_trans_tab, view_trans_tab = st.tabs(['Add New Transmittal', 'View Existing Transmittals'])
 
         with add_trans_tab:
+
+            u_df = st.session_state.adb['users']
+
+
+
             with st.form("add_trans"):
                 lc, cc, rc = st.columns([5, 4, 4], gap='medium')
                 project = lc.selectbox("Project", st.session_state.proj_names)
@@ -49,7 +54,7 @@ def transmittals_content():
                 subj = cc.text_input("Subject")
                 ans_required = cc.radio("Reply required", ('Yes', 'No'), horizontal=True)
                 cc.write("")
-                responsible = cc.selectbox("Responsible Employee", get_logins_for_current())
+                responsible = cc.selectbox("Responsible Employee", st.session_state.appl_logins)
                 cc.write("")
                 link = rc.text_input("Link")
                 reply_date = rc.date_input("Due Date")
