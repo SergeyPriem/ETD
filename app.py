@@ -735,19 +735,19 @@ def manage_users():
 def fresh_data():
     st.session_state.adb = get_all()
 
-    # plaho = st.empty()
+    plaho = st.empty()
 
-    # with plaho.container():
-    st.header("")
-    st.header("")
-    st.header("")
-    st.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>", unsafe_allow_html=True)
-    lc, cc, rc  = st.columns([11, 3, 11])
+    with plaho.container():
+        st.header("")
+        st.header("")
+        st.header("")
+        st.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>", unsafe_allow_html=True)
+        lc, cc, rc  = st.columns([11, 3, 11])
 
-    close_fresh_but = cc.button("O K", key='close_fresh', use_container_width=True)
+        close_fresh_but = cc.button("O K", key='close_fresh', use_container_width=True)
 
     if close_fresh_but:
-        # plaho.empty()
+        plaho.empty()
         win_selector(st.session_state.selected)
 
 
