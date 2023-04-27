@@ -773,7 +773,7 @@ def win_selector(selected):
 
     st.header(selected)
 
-    tab_dict.get(selected)
+    tab_dict.get(selected)()
 
     show_duration()
 
