@@ -28,7 +28,7 @@ def get_menus():
     menu = None
     icons = None
 
-    performer_menu = ["Home", "Drawing Sets", "Transmittals", "Tasks", 'Py', 'Just for fun',
+    performer_menu = ["Home", "Drawing Sets", "Transmittals", "Tasks", 'Scripts', 'Just for fun',
                       'Lessons Learned', 'Settings', 'Refresh Data']
 
     performer_icons = ['house', 'bi bi-file-earmark-spreadsheet-fill', 'bi bi-file-arrow-down',
@@ -727,7 +727,7 @@ def win_selector(selected):
     if selected == "Just for fun":
         just_for_fun()
 
-    if selected == "Py":
+    if selected == "Scripts":
         col_py()
 
     if selected == "Manage Users":
