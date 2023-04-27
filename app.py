@@ -819,7 +819,7 @@ def prepare_menus(u_df):
                 st.session_state.adb = get_all()
                 st.sidebar.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>",
                                     unsafe_allow_html=True)
-                st.test(f"{datetime.datetime.now() - st_time} s.")
+                st.write(f"{datetime.datetime.now() - st_time} s.")
     else:
         selected = option_menu(None, st.session_state.menu, icons=st.session_state.icons,
                                menu_icon=None, default_index=0, orientation='horizontal')
