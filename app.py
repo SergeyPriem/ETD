@@ -28,7 +28,7 @@ def show_duration():
 
     u_df = st.session_state.adb['users']
 
-    access_level = u_df.loc[u_df.login == st.session_state.user, 'access_level']
+    access_level = u_df.loc[u_df.login == st.session_state.user, 'access_level'].to_numpy()[0]
 
     if access_level == 'supervisor':
         with st.sidebar:
