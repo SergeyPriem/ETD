@@ -727,8 +727,9 @@ def manage_users():
 
 def fresh_data():
     st.session_state.adb = get_all()
-    but_str = st.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>", unsafe_allow_html=True)
-    if st.button(but_str, key='close_fresh'):
+    st.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>", unsafe_allow_html=True)
+    lc, cc, rc  = st.columns([10, 3, 10])
+    if cc.button("O K", key='close_fresh', use_container_width=True):
         win_selector(st.session_state.selected)
 
 
