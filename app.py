@@ -368,6 +368,26 @@ def col_py():
     with col_2:
         st.empty()
     with col_content:
+
+        st.markdown("""
+            <style>
+                div[data-testid="column"]:nth-of-type(1)
+                {
+                    text-align: center;
+                } 
+
+                div[data-testid="column"]:nth-of-type(2)
+                {
+                    text-align: center;
+                } 
+
+                div[data-testid="column"]:nth-of-type(3)
+                {
+                    text-align: center;
+                } 
+            </style>
+            """, unsafe_allow_html=True)
+
         st.title(':orange[Create SLD from Load List] - under Development')
 
         u_df = st.session_state.adb['users']
