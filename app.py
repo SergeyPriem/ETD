@@ -759,9 +759,9 @@ def win_selector(selected):
 
     if selected == "Refresh Data":
         st.session_state.adb = get_all()
-        st.sidebar.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>",
+        st.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>",
                             unsafe_allow_html=True)
-        st.experimental_rerun()
+        # st.experimental_rerun()
 
     if selected == "Create Dr. Set / Unit":
         create_new_unit()
