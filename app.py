@@ -744,7 +744,6 @@ def win_selector(selected):
             form_for_trans()
         else:
             home_content()
-        show_duration()
 
     if selected == "Manage Projects":
         manage_projects()
