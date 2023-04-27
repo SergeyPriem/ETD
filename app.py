@@ -210,6 +210,15 @@ def home_content():
                 with ass_col:
                     # df = get_pers_tasks()
 
+                    # u_df = st.session_state.adb['users']
+                    # u_id = u_df.loc[u_df.login == st.session_state.user].index.to_numpy()[0]
+                    #
+                    # task_df = st.session_state.adb['task']
+                    #
+                    # task_df = task_df.loc[task_df.coord_id == u_id]
+
+
+
                     df = get_pers_tasks()
 
                     if isinstance(df, pd.DataFrame) and len(df) > 0:
@@ -726,19 +735,19 @@ def manage_users():
 def fresh_data():
     st.session_state.adb = get_all()
 
-    plaho = st.empty()
+    # plaho = st.empty()
 
-    with plaho.container():
-        st.header("")
-        st.header("")
-        st.header("")
-        st.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>", unsafe_allow_html=True)
-        lc, cc, rc  = st.columns([11, 3, 11])
+    # with plaho.container():
+    st.header("")
+    st.header("")
+    st.header("")
+    st.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>", unsafe_allow_html=True)
+    lc, cc, rc  = st.columns([11, 3, 11])
 
-        close_fresh_but = cc.button("O K", key='close_fresh', use_container_width=True)
+    close_fresh_but = cc.button("O K", key='close_fresh', use_container_width=True)
 
     if close_fresh_but:
-        plaho.empty()
+        # plaho.empty()
         win_selector(st.session_state.selected)
 
 
@@ -755,6 +764,8 @@ def win_selector(selected):
 
     if selected != "Refresh Data":
         st.session_state.selected = selected
+    else:
+        st.stop()
 
     tab_dict = {
         "Home": home,
