@@ -737,9 +737,11 @@ def fresh_data():
         st.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>", unsafe_allow_html=True)
         lc, cc, rc  = st.columns([11, 3, 11])
 
-        if cc.button("O K", key='close_fresh', use_container_width=True):
-            plaho.empty()
-            win_selector(st.session_state.selected)
+        close_fresh_but = cc.button("O K", key='close_fresh', use_container_width=True)
+
+    if close_fresh_but:
+        plaho.empty()
+        win_selector(st.session_state.selected)
 
 
 def win_selector(selected):
