@@ -24,6 +24,16 @@ st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
 
 
+def show_duration():
+    with st.sidebar:
+        st.sidebar.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>",
+                            unsafe_allow_html=True)
+        td = datetime.datetime.now() - st.session_state.r_now
+        delta = f"{td.total_seconds()}"
+        st.sidebar.markdown(f"<h5 style='text-align: center; color: #00bbf9;'>{delta[:-3]} s.</h5>",
+                            unsafe_allow_html=True)
+
+
 def get_menus():
     menu = None
     icons = None
@@ -62,6 +72,12 @@ def get_menus():
 def create_states():
     if 'all' not in st.session_state:
         st.session_state.all = True
+
+    if 'r_now' not in st.session_state:
+        st.session_state.r_now = datetime.datetime.now()
+
+    if 'selected' not in st.session_state:
+        st.session_state.selected = 'Home'
 
     if 'adb' not in st.session_state:
         st.session_state.adb = None
@@ -705,44 +721,50 @@ def manage_users():
                     st.session_state.adb['users'] = get_table(Users)
 
 
-def win_selector(selected):
-    if selected == "Home":
+def win_selector():
+    if st.session_state.selected == "Home":
+        st.session_state.r_now = datetime.datetime.now()
         if st.session_state.trans_status:
             form_for_trans()
         else:
             home_content()
+        show_duration()
 
-    if selected == "Manage Projects":
+    if st.session_state.selected == "Manage Projects":
         manage_projects()
 
-    if selected == "Transmittals":
+    if st.session_state.selected == "Transmittals":
         transmittals_content()
 
-    if selected == "Tasks":
+    if st.session_state.selected == "Tasks":
         tasks_content()
 
-    if selected == "Drawing Sets":
+    if st.session_state.selected == "Drawing Sets":
         drawing_sets()
 
-    if selected == "Just for fun":
+    if st.session_state.selected == "Just for fun":
         just_for_fun()
 
-    if selected == "Scripts":
+    if st.session_state.selected == "Scripts":
         col_py()
 
-    if selected == "Manage Users":
+    if st.session_state.selected == "Manage Users":
         manage_users()
 
-    if selected == "Lessons Learned":
+    if st.session_state.selected == "Lessons Learned":
         lessons_content()
 
-    if selected == "Settings":
+    if st.session_state.selected == "Settings":
         settings_content()
 
-    if selected == "Create Dr. Set / Unit":
+    if st.session_state.selected == "Refresh Data":
+        st.session_state.adb = get_all()
+        st.sidebar.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>",
+                            unsafe_allow_html=True)
+        st.experimental_rerun()
+
+    if st.session_state.selected == "Create Dr. Set / Unit":
         create_new_unit()
-
-
 
 
 def show_states():
@@ -808,26 +830,15 @@ def prepare_menus(u_df):
         with st.sidebar:
             image = Image.open("images/big_logo.jpg")
             st.image(image, use_column_width=True)
-            selected = option_menu("ET Department", st.session_state.menu, icons=st.session_state.icons,
-                                   menu_icon="bi bi-plug", default_index=0)
+            st.session_state.selected = option_menu("ET Department", st.session_state.menu,
+                                                    icons=st.session_state.icons,
+                                                    menu_icon="bi bi-plug", default_index=0)
 
             if st.session_state.rights == 'supervisor' and st.checkbox("Show states"):
                 show_states()
-
-            if st.sidebar.button("Refresh Data", use_container_width=True):
-                st_time = datetime.datetime.now()
-                st.session_state.adb = get_all()
-                st.sidebar.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>",
-                                    unsafe_allow_html=True)
-                td = datetime.datetime.now() - st_time
-                delta = f"{td.total_seconds()}"
-                st.sidebar.markdown(f"<h5 style='text-align: center; color: #00bbf9;'>{delta[:-3]} s.</h5>",
-                                    unsafe_allow_html=True)
-                # st.write(f"{datetime.datetime.now() - st_time} s.")
     else:
-        selected = option_menu(None, st.session_state.menu, icons=st.session_state.icons,
-                               menu_icon=None, default_index=0, orientation='horizontal')
-    return selected
+        st.session_state.selected = option_menu(None, st.session_state.menu, icons=st.session_state.icons,
+                                                menu_icon=None, default_index=0, orientation='horizontal')
 
 
 def initial():
@@ -886,8 +897,9 @@ def initial():
         login_register()
 
     if st.session_state.logged and st.session_state.user:
-        selected = prepare_menus(u_df)
-        win_selector(selected)
+        prepare_menus(u_df)
+        win_selector()
+
 
 if __name__ == "__main__":
     initial()
