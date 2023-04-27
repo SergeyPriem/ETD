@@ -764,8 +764,6 @@ def win_selector(selected):
 
     if selected != "Refresh Data":
         st.session_state.selected = selected
-    else:
-        st.stop()
 
     tab_dict = {
         "Home": home,
