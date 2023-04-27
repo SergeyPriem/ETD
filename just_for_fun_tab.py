@@ -66,7 +66,7 @@ def just_for_fun():
     with fun_content:
         st.title(':orange[Relax Area] - under Development')
         st.divider()
-        st.text("🌴 Short time to relax")
+        st.write("🌴 Short time to relax")
 
         st.write("check out this [Мальтийский механизм](https://www.wikiwand.com/ru/"
                  "%D0%9C%D0%B0%D0%BB%D1%8C%D1%82%D0%B8%D0%B9%D1%81%D0%BA%D0%B8%D0%B9"
