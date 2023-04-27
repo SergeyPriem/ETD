@@ -721,8 +721,8 @@ def manage_users():
                     st.session_state.adb['users'] = get_table(Users)
 
 
-def win_selector():
-    if st.session_state.selected == "Home":
+def win_selector(selected):
+    if selected == "Home":
         st.session_state.r_now = datetime.datetime.now()
         if st.session_state.trans_status:
             form_for_trans()
@@ -730,40 +730,40 @@ def win_selector():
             home_content()
         show_duration()
 
-    if st.session_state.selected == "Manage Projects":
+    if selected == "Manage Projects":
         manage_projects()
 
-    if st.session_state.selected == "Transmittals":
+    if selected == "Transmittals":
         transmittals_content()
 
-    if st.session_state.selected == "Tasks":
+    if selected == "Tasks":
         tasks_content()
 
-    if st.session_state.selected == "Drawing Sets":
+    if selected == "Drawing Sets":
         drawing_sets()
 
-    if st.session_state.selected == "Just for fun":
+    if selected == "Just for fun":
         just_for_fun()
 
-    if st.session_state.selected == "Scripts":
+    if selected == "Scripts":
         col_py()
 
-    if st.session_state.selected == "Manage Users":
+    if selected == "Manage Users":
         manage_users()
 
-    if st.session_state.selected == "Lessons Learned":
+    if selected == "Lessons Learned":
         lessons_content()
 
-    if st.session_state.selected == "Settings":
+    if selected == "Settings":
         settings_content()
 
-    if st.session_state.selected == "Refresh Data":
+    if selected == "Refresh Data":
         st.session_state.adb = get_all()
         st.sidebar.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>",
                             unsafe_allow_html=True)
         st.experimental_rerun()
 
-    if st.session_state.selected == "Create Dr. Set / Unit":
+    if selected == "Create Dr. Set / Unit":
         create_new_unit()
 
 
@@ -830,15 +830,17 @@ def prepare_menus(u_df):
         with st.sidebar:
             image = Image.open("images/big_logo.jpg")
             st.image(image, use_column_width=True)
-            st.session_state.selected = option_menu("ET Department", st.session_state.menu,
+            selected = option_menu("ET Department", st.session_state.menu,
                                                     icons=st.session_state.icons,
                                                     menu_icon="bi bi-plug", default_index=0)
 
             if st.session_state.rights == 'supervisor' and st.checkbox("Show states"):
                 show_states()
     else:
-        st.session_state.selected = option_menu(None, st.session_state.menu, icons=st.session_state.icons,
+        selected = option_menu(None, st.session_state.menu, icons=st.session_state.icons,
                                                 menu_icon=None, default_index=0, orientation='horizontal')
+
+    return selected
 
 
 def initial():
@@ -897,8 +899,8 @@ def initial():
         login_register()
 
     if st.session_state.logged and st.session_state.user:
-        prepare_menus(u_df)
-        win_selector()
+
+        win_selector(prepare_menus(u_df))
 
 
 if __name__ == "__main__":
