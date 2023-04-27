@@ -722,6 +722,9 @@ def manage_users():
 
 
 def win_selector(selected):
+
+    st.session_state.selected = selected
+
     if selected == "Home":
         st.session_state.r_now = datetime.datetime.now()
         if st.session_state.trans_status:
@@ -761,7 +764,8 @@ def win_selector(selected):
         st.session_state.adb = get_all()
         st.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>",
                             unsafe_allow_html=True)
-        # st.experimental_rerun()
+        selected = st.session_state.selected
+        st.button("OK", key='close_fresh')
 
     if selected == "Create Dr. Set / Unit":
         create_new_unit()
