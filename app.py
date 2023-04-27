@@ -758,17 +758,17 @@ def win_selector(selected):
 
     tab_dict = {
         "Home": home(),
-        "Manage Projects": manage_projects(),
-        "Transmittals": transmittals_content(),
-        "Tasks": tasks_content(),
-        "Drawing Sets": drawing_sets(),
-        "Just for fun": just_for_fun(),
-        "Scripts": scripts(),
-        "Manage Users": manage_users(),
-        "Lessons Learned": lessons_content(),
-        "Settings": settings_content(),
-        "Refresh Data": fresh_data(),
-        "Create Dr. Set / Unit": create_new_unit()
+        "Manage Projects": manage_projects,
+        "Transmittals": transmittals_content,
+        "Tasks": tasks_content,
+        "Drawing Sets": drawing_sets,
+        "Just for fun": just_for_fun,
+        "Scripts": scripts,
+        "Manage Users": manage_users,
+        "Lessons Learned": lessons_content,
+        "Settings": settings_content,
+        "Refresh Data": fresh_data,
+        "Create Dr. Set / Unit": create_new_unit,
     }
 
     st.header(selected)
