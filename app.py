@@ -285,7 +285,7 @@ def home_content():
                                 st.info(f"Task {task_id} confirmed!!")
                             st.text("")
                     else:
-                        st.text('No New Tasks')
+                        st.write('No New Tasks')
 
                 with trans_col:
                     df = get_my_trans(st.session_state.user)  # st.session_state.user
@@ -378,7 +378,7 @@ def home_content():
                                       args=((row.trans_num,)))
                             st.text("")
                     else:
-                        st.text('No New Transmittals')
+                        st.write('No New Transmittals')
 
 
 def col_py():
