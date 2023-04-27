@@ -723,7 +723,8 @@ def manage_users():
 
 def win_selector(selected):
 
-    st.session_state.selected = selected
+    if selected != "Refresh Data":
+        st.session_state.selected = selected
 
     if selected == "Home":
         st.session_state.r_now = datetime.datetime.now()
