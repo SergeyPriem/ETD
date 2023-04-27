@@ -127,16 +127,6 @@ def get_logged_rights(login):
             return err_handler(e)
 
 
-def get_settings(login):
-    with db_session:
-        try:
-            u = Users.get(login=login)
-            # u_set = select((u.vert_menu, u.delay_set) for u in Users if u.id == email).first()
-            # return u_set
-            return u.vert_menu, u.delay_set
-        except Exception as e:
-            return err_handler(e)
-
 
 ##### CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE #################
 def create_appl_user(email, position, branch, access_level, status, start_date, script_acc_init):
@@ -152,7 +142,7 @@ def create_appl_user(email, position, branch, access_level, status, start_date, 
                 position=position,
                 branch=branch,
                 access_level=access_level,
-                script_acc= script_acc_init,
+                script_acc=script_acc_init,
                 status=status,
                 start_date=start_date)
             return f"User {email} is added to Applied Users"
@@ -203,26 +193,6 @@ def add_to_log(login):
 
 
 #### UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE ###############
-# def update_user_data(employee_to_edit, user_tab):
-#     with user_tab:
-#         st.write(employee_to_edit)
-#         with st.form('Edit Users Data', clear_on_submit=False):
-#             position = st.radio('Position', ('Senior', 'Lead', 'I cat.', 'II cat.', 'III cat.', 'Trainee'),
-#                                 horizontal=True)
-#
-#             department = st.radio('Department', ('UzLITI Engineering', 'En-Solut', 'En-Concept', 'En-Smart', 'Remote'),
-#                                   horizontal=True)
-#
-#             access_level = st.radio('Access level',
-#                                     ('performer', 'admin', 'superuser', 'former'), horizontal=True)
-#
-#             start_date = st.date_input('Start Date', key='start_date')
-#             end_date = st.date_input('End Date', key='end_date')
-#
-#             st.form_submit_button("Update2", key="update_user_button",
-#                                   on_click=update_users_in_db,
-#                                   args=(employee_to_edit, position, department, start_date, end_date, access_level))
-
 
 def update_users_in_db(login, position, branch, start_date, access_level, script_acc):
     with db_session:
@@ -246,16 +216,15 @@ def update_users_in_db(login, position, branch, start_date, access_level, script
             return err_handler(e)
 
 
-
 def update_settings(login, menu):
     with db_session:
         try:
             hero = Users.get(login=login)
             hero.vert_menu = menu
-            # hero.delay_set = delay
         except Exception as e:
             return err_handler(e)
         return "Settings Updated"
+
 
 def update_script_acc(login, acc):
     with db_session:
@@ -277,6 +246,3 @@ def update_user_reg_data(login, upd_pass_2):
             return f"Data for {login} is Updated"
         except Exception as e:
             return err_handler(e)
-
-# def get_registered_logins():
-#     return None

@@ -370,31 +370,37 @@ def col_py():
     with col_content:
         st.title(':orange[Create SLD from Load List] - under Development')
 
-        p_l, p_c, p_r = st.columns(3, gap='medium')
+        u_df = st.session_state.adb['users']
 
-        load_list = p_l.file_uploader("Upload Load List in xlsx or xlsb", type=['xlsx', 'xlsb'],
-                                     accept_multiple_files=False, key=None,
-                                     help=None, on_change=None, args=None,
-                                     kwargs=None, disabled=False, label_visibility="visible")
+        user_script_acc = u_df.loc[u_df.login == st.session_state.user, 'script_acc'].to_numpy()[0]
 
-        cab_data = p_c.file_uploader("Upload Cable Catalog in xlsx or xlsb", type=['xlsx', 'xlsb'],
-                                     accept_multiple_files=False, key=None,
-                                     help=None, on_change=None, args=None,
-                                     kwargs=None, disabled=False, label_visibility="visible")
+        if user_script_acc:
 
-        dxf_template = p_r.file_uploader("Upload SLD template in dxf (v.18.0)", type=['dxf'],
-                                        accept_multiple_files=False, key=None,
-                                        help=None, on_change=None, args=None,
-                                        kwargs=None, disabled=False, label_visibility="visible")
-        if load_list:
+            p_l, p_c, p_r = st.columns(3, gap='medium')
 
-            st.download_button('Get Cable List here', data=load_list, file_name='Cable List.xlsx', mime=None, key=None, help=None,
-                               on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
+            load_list = p_l.file_uploader("Upload Load List in xlsx or xlsb", type=['xlsx', 'xlsb'],
+                                         accept_multiple_files=False, key=None,
+                                         help=None, on_change=None, args=None,
+                                         kwargs=None, disabled=False, label_visibility="visible")
 
-        if dxf_template:
+            cab_data = p_c.file_uploader("Upload Cable Catalog in xlsx or xlsb", type=['xlsx', 'xlsb'],
+                                         accept_multiple_files=False, key=None,
+                                         help=None, on_change=None, args=None,
+                                         kwargs=None, disabled=False, label_visibility="visible")
 
-            st.download_button('Get SLD here', data=dxf_template, file_name='SLD.dxf', mime=None, key=None, help=None,
-                               on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
+            dxf_template = p_r.file_uploader("Upload SLD template in dxf (v.18.0)", type=['dxf'],
+                                            accept_multiple_files=False, key=None,
+                                            help=None, on_change=None, args=None,
+                                            kwargs=None, disabled=False, label_visibility="visible")
+            if load_list:
+
+                st.download_button('Get Cable List here', data=load_list, file_name='Cable List.xlsx', mime=None, key=None, help=None,
+                                   on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
+
+            if dxf_template:
+
+                st.download_button('Get SLD here', data=dxf_template, file_name='SLD.dxf', mime=None, key=None, help=None,
+                                   on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
 
 
 def login_register():
