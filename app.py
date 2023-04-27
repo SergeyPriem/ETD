@@ -771,10 +771,7 @@ def win_selector(selected):
         "Create Dr. Set / Unit": create_new_unit,
     }
 
-    st.header(selected)
-
     tab_dict.get(selected)()
-    # st.stop()
 
     show_duration()
 

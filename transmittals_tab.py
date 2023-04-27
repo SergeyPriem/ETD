@@ -40,10 +40,6 @@ def transmittals_content():
 
         with add_trans_tab:
 
-            u_df = st.session_state.adb['users']
-
-
-
             with st.form("add_trans"):
                 lc, cc, rc = st.columns([5, 4, 4], gap='medium')
                 project = lc.selectbox("Project", st.session_state.proj_names)
@@ -197,10 +193,6 @@ def transmittals_content():
 
             df = get_trans_for_preview(user_email)
 
-            # if df == "Empty Table":
-            #     st.wtite("No Available Transmittals")
-            #     st.stop()
-            #
             if isinstance(df, pd.DataFrame):
                 if len(df) > 0:
                     st.subheader(f"{my_all_tr}: {len(df)}")
