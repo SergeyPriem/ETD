@@ -742,9 +742,7 @@ def win_selector(selected):
     if selected == "Create Dr. Set / Unit":
         create_new_unit()
 
-if st.sidebar.button("Refresh Data"):
-    st.session_state.adb = get_all()
-    st.sidebar.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>", unsafe_allow_html=True)
+
 
 
 def show_states():
@@ -815,6 +813,11 @@ def prepare_menus(u_df):
 
             if st.session_state.rights == 'supervisor' and st.checkbox("Show states"):
                 show_states()
+
+            if st.sidebar.button("Refresh Data", use_container_width=True):
+                st.session_state.adb = get_all()
+                st.sidebar.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>",
+                                    unsafe_allow_html=True)
     else:
         selected = option_menu(None, st.session_state.menu, icons=st.session_state.icons,
                                menu_icon=None, default_index=0, orientation='horizontal')
@@ -879,7 +882,6 @@ def initial():
     if st.session_state.logged and st.session_state.user:
         selected = prepare_menus(u_df)
         win_selector(selected)
-
 
 if __name__ == "__main__":
     initial()
