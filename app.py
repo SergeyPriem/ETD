@@ -646,7 +646,7 @@ def manage_users():
                                             index=get_list_index(access_tuple, appl_user.access_level.to_numpy()[0]))
                     st.markdown("---")
 
-                    script_acc_chb = st.checkbox('Access to Scripts', value=appl_user.script_acc)
+                    script_acc_chb = st.checkbox('Access to Scripts', value=appl_user.script_acc.to_numpy()[0])
                     st.markdown("---")
 
                     try:
