@@ -25,13 +25,17 @@ st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
 
 
 def show_duration():
-    with st.sidebar:
-        st.sidebar.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>",
-                            unsafe_allow_html=True)
-        td = datetime.datetime.now() - st.session_state.r_now
-        delta = f"{td.total_seconds()}"
-        st.sidebar.markdown(f"<h5 style='text-align: center; color: #00bbf9;'>{delta[:-3]} s.</h5>",
-                            unsafe_allow_html=True)
+
+    u_df = st.session_state.adb['users']
+
+    access_level = u_df.loc[u_df.login == st.session_state.user, 'access_level']
+
+    if access_level == 'supervisor':
+        with st.sidebar:
+            td = datetime.datetime.now() - st.session_state.r_now
+            delta = f"{td.total_seconds()}"
+            st.sidebar.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>Time spent: {delta[:-3]} s.</h3>",
+                                unsafe_allow_html=True)
 
 
 def get_menus():
@@ -721,13 +725,21 @@ def manage_users():
                     st.session_state.adb['users'] = get_table(Users)
 
 
+def fresh_data():
+    st.session_state.adb = get_all()
+    but_str = st.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>", unsafe_allow_html=True)
+    if st.button(but_str, key='close_fresh'):
+        win_selector(st.session_state.selected)
+
+
 def win_selector(selected):
+
+    st.session_state.r_now = datetime.datetime.now()
 
     if selected != "Refresh Data":
         st.session_state.selected = selected
 
     if selected == "Home":
-        st.session_state.r_now = datetime.datetime.now()
         if st.session_state.trans_status:
             form_for_trans()
         else:
@@ -762,14 +774,12 @@ def win_selector(selected):
         settings_content()
 
     if selected == "Refresh Data":
-        st.session_state.adb = get_all()
-        st.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>",
-                            unsafe_allow_html=True)
-        if st.button("OK", key='close_fresh'):
-            win_selector(st.session_state.selected)
+        fresh_data()
 
     if selected == "Create Dr. Set / Unit":
         create_new_unit()
+
+    show_duration()
 
 
 def show_states():
@@ -836,14 +846,14 @@ def prepare_menus(u_df):
             image = Image.open("images/big_logo.jpg")
             st.image(image, use_column_width=True)
             selected = option_menu("ET Department", st.session_state.menu,
-                                                    icons=st.session_state.icons,
-                                                    menu_icon="bi bi-plug", default_index=0)
+                                   icons=st.session_state.icons,
+                                   menu_icon="bi bi-plug", default_index=0)
 
             if st.session_state.rights == 'supervisor' and st.checkbox("Show states"):
                 show_states()
     else:
         selected = option_menu(None, st.session_state.menu, icons=st.session_state.icons,
-                                                menu_icon=None, default_index=0, orientation='horizontal')
+                               menu_icon=None, default_index=0, orientation='horizontal')
 
     return selected
 
@@ -897,14 +907,10 @@ def initial():
     except Exception as e:
         st.warning(err_handler(e))
 
-    # else:
-    #     pass
-
     if not st.session_state.logged:
         login_register()
 
     if st.session_state.logged and st.session_state.user:
-
         win_selector(prepare_menus(u_df))
 
 
