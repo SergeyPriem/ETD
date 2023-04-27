@@ -4,6 +4,25 @@ import streamlit as st
 
 def lessons_content():
 
+    st.markdown("""
+        <style>
+            div[data-testid="column"]:nth-of-type(1)
+            {
+                text-align: center;
+            } 
+
+            div[data-testid="column"]:nth-of-type(2)
+            {
+                text-align: center;
+            } 
+
+            div[data-testid="column"]:nth-of-type(3)
+            {
+                text-align: center;
+            } 
+        </style>
+        """, unsafe_allow_html=True)
+
 
     empty1, content, empty2 = st.columns([1, 30, 1])
     with empty1:
