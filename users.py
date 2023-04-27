@@ -196,28 +196,28 @@ def add_to_log(login):
 
 
 #### UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE ###############
-def update_user_data(employee_to_edit, user_tab):
-    with user_tab:
-        st.write(employee_to_edit)
-        with st.form('Edit Users Data', clear_on_submit=False):
-            position = st.radio('Position', ('Senior', 'Lead', 'I cat.', 'II cat.', 'III cat.', 'Trainee'),
-                                horizontal=True)
+# def update_user_data(employee_to_edit, user_tab):
+#     with user_tab:
+#         st.write(employee_to_edit)
+#         with st.form('Edit Users Data', clear_on_submit=False):
+#             position = st.radio('Position', ('Senior', 'Lead', 'I cat.', 'II cat.', 'III cat.', 'Trainee'),
+#                                 horizontal=True)
+#
+#             department = st.radio('Department', ('UzLITI Engineering', 'En-Solut', 'En-Concept', 'En-Smart', 'Remote'),
+#                                   horizontal=True)
+#
+#             access_level = st.radio('Access level',
+#                                     ('performer', 'admin', 'superuser', 'former'), horizontal=True)
+#
+#             start_date = st.date_input('Start Date', key='start_date')
+#             end_date = st.date_input('End Date', key='end_date')
+#
+#             st.form_submit_button("Update2", key="update_user_button",
+#                                   on_click=update_users_in_db,
+#                                   args=(employee_to_edit, position, department, start_date, end_date, access_level))
 
-            department = st.radio('Department', ('UzLITI Engineering', 'En-Solut', 'En-Concept', 'En-Smart', 'Remote'),
-                                  horizontal=True)
 
-            access_level = st.radio('Access level',
-                                    ('performer', 'admin', 'superuser', 'former'), horizontal=True)
-
-            start_date = st.date_input('Start Date', key='start_date')
-            end_date = st.date_input('End Date', key='end_date')
-
-            st.form_submit_button("Update2", key="update_user_button",
-                                  on_click=update_users_in_db,
-                                  args=(employee_to_edit, position, department, start_date, end_date, access_level))
-
-
-def update_users_in_db(login, position, branch, start_date, access_level):
+def update_users_in_db(login, position, branch, start_date, access_level, script_acc):
     with db_session:
         try:
             hero = Users.get(login=login)
@@ -225,6 +225,7 @@ def update_users_in_db(login, position, branch, start_date, access_level):
             hero.branch = branch
             hero.start_date = start_date
             hero.access_level = access_level
+            hero.script_acc = script_acc
             hero.status = 'current'
             hero.end_date = None
             return f"""Updated Data for Users with Login **{login}**  
@@ -244,6 +245,15 @@ def update_settings(login, menu):
             hero = Users.get(login=login)
             hero.vert_menu = menu
             # hero.delay_set = delay
+        except Exception as e:
+            return err_handler(e)
+        return "Settings Updated"
+
+def update_script_acc(login, acc):
+    with db_session:
+        try:
+            hero = Users.get(login=login)
+            hero.script_acc = acc
         except Exception as e:
             return err_handler(e)
         return "Settings Updated"

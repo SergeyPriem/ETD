@@ -646,6 +646,9 @@ def manage_users():
                                             index=get_list_index(access_tuple, appl_user.access_level.to_numpy()[0]))
                     st.markdown("---")
 
+                    script_acc_chb = st.checkbox('Access to Scripts', value=appl_user.script_acc)
+                    st.markdown("---")
+
                     try:
                         date_from_db = appl_user.start_date.to_numpy()[0]
                     except:
@@ -656,7 +659,10 @@ def manage_users():
                     upd_user_but = st.form_submit_button("Update in DB", use_container_width=True)
 
                 if upd_user_but:
-                    reply = update_users_in_db(employee_to_edit, position, department, start_date, access_level)
+                    script_acc = 1 if script_acc_chb else 0
+
+                    reply = update_users_in_db(employee_to_edit, position, department,
+                                               start_date, access_level, script_acc)
                     st.info(reply)
                     st.session_state.adb['users'] = get_table(Users)
 
