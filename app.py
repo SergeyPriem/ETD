@@ -820,7 +820,7 @@ def prepare_menus(u_df):
                 st.sidebar.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>",
                                     unsafe_allow_html=True)
                 td = datetime.datetime.now() - st_time
-                delta = td.strftime("%f")
+                delta = td.total_seconds()
                 st.sidebar.markdown(f"<h6 style='text-align: center; color: #00bbf9;'>{delta}</h6>",
                                     unsafe_allow_html=True)
                 st.write(f"{datetime.datetime.now() - st_time} s.")
