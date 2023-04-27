@@ -139,15 +139,22 @@ def get_settings(login):
 
 
 ##### CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE #################
-def create_appl_user(email, position, branch, access_level, status, start_date):
+def create_appl_user(email, position, branch, access_level, status, start_date, script_acc_init):
     if '@' not in email or len(email) < 12:
         return f'Wrong e-mail {email}'
     if email in get_all_emails():
         return f'User with email {email} already exist in DataBase'
     with db_session:
         try:
-            Users(email=email, login=email.split("@")[0], position=position, branch=branch,
-                  access_level=access_level, status=status, start_date=start_date)
+            Users(
+                email=email,
+                login=email.split("@")[0],
+                position=position,
+                branch=branch,
+                access_level=access_level,
+                script_acc= script_acc_init,
+                status=status,
+                start_date=start_date)
             return f"User {email} is added to Applied Users"
         except Exception as e:
             return err_handler(e)

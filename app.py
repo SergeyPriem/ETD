@@ -604,12 +604,15 @@ def manage_users():
                 user_access_level = st.radio('Access level',
                                              ('performer', 'admin', 'supervisor'), horizontal=True)
                 st.markdown("---")
+                script_acc_chb_init = st.checkbox('Access to Scripts', key="acc_to_scr", value=0)
                 user_start_date = st.date_input('Start Date', datetime.date.today())
                 create_appl_user_but = st.form_submit_button('Create New User', use_container_width=True)
 
             if create_appl_user_but:
+                script_acc_init = 1 if script_acc_chb_init else 0
                 reply = create_appl_user(
-                    user_email, user_position, user_department, user_access_level, "current", user_start_date)
+                    user_email, user_position, user_department, user_access_level, "current",
+                    user_start_date, script_acc_init)
                 st.info(reply)
                 st.session_state.adb['users'] = get_table(Users)
 
