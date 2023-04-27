@@ -540,8 +540,6 @@ def login_register():
                 reg_pass_2 = st.text_input('Repeat Password', type='password', key='reg_pass_2',
                                            disabled=st.session_state.logged)
 
-                # data_chb = st.checkbox('Data is Correct', disabled=st.session_state.logged)
-
                 get_reg_code = st.form_submit_button('Get Confirmation Code', use_container_width=True)
 
             # conf_html = ""
@@ -773,44 +771,9 @@ def win_selector(selected):
         "Create Dr. Set / Unit": create_new_unit()
     }
 
-    tab_dict.get(selected, 'Home')
+    st.header(selected)
 
-
-    # if selected == "Home":
-    #     home()
-    #
-    # if selected == "Manage Projects":
-    #     manage_projects()
-    #
-    # if selected == "Transmittals":
-    #     transmittals_content()
-    #
-    # if selected == "Tasks":
-    #     tasks_content()
-    #
-    # if selected == "Drawing Sets":
-    #     drawing_sets()
-    #
-    # if selected == "Just for fun":
-    #     just_for_fun()
-    #
-    # if selected == "Scripts":
-    #     col_py()
-    #
-    # if selected == "Manage Users":
-    #     manage_users()
-    #
-    # if selected == "Lessons Learned":
-    #     lessons_content()
-    #
-    # if selected == "Settings":
-    #     settings_content()
-    #
-    # if selected == "Refresh Data":
-    #     fresh_data()
-    #
-    # if selected == "Create Dr. Set / Unit":
-    #     create_new_unit()
+    tab_dict.get(selected)
 
     show_duration()
 
