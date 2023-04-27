@@ -381,7 +381,7 @@ def home_content():
                         st.write('No New Transmittals')
 
 
-def col_py():
+def scripts():
     col_1, col_content, col_2 = st.columns([1, 9, 1])
     with col_1:
         st.empty()
@@ -744,6 +744,13 @@ def fresh_data():
         win_selector(st.session_state.selected)
 
 
+def home():
+    if st.session_state.trans_status:
+        form_for_trans()
+    else:
+        home_content()
+
+
 def win_selector(selected):
 
     st.session_state.r_now = datetime.datetime.now()
@@ -751,44 +758,59 @@ def win_selector(selected):
     if selected != "Refresh Data":
         st.session_state.selected = selected
 
-    if selected == "Home":
-        if st.session_state.trans_status:
-            form_for_trans()
-        else:
-            home_content()
+    tab_dict = {
+        "Home": home(),
+        "Manage Projects": manage_projects(),
+        "Transmittals": transmittals_content(),
+        "Tasks": tasks_content(),
+        "Drawing Sets": drawing_sets(),
+        "Just for fun": just_for_fun(),
+        "Scripts": scripts(),
+        "Manage Users": manage_users(),
+        "Lessons Learned": lessons_content(),
+        "Settings": settings_content(),
+        "Refresh Data": fresh_data(),
+        "Create Dr. Set / Unit": create_new_unit()
+    }
 
-    if selected == "Manage Projects":
-        manage_projects()
+    tab_dict.get(selected, 'Home')
 
-    if selected == "Transmittals":
-        transmittals_content()
 
-    if selected == "Tasks":
-        tasks_content()
-
-    if selected == "Drawing Sets":
-        drawing_sets()
-
-    if selected == "Just for fun":
-        just_for_fun()
-
-    if selected == "Scripts":
-        col_py()
-
-    if selected == "Manage Users":
-        manage_users()
-
-    if selected == "Lessons Learned":
-        lessons_content()
-
-    if selected == "Settings":
-        settings_content()
-
-    if selected == "Refresh Data":
-        fresh_data()
-
-    if selected == "Create Dr. Set / Unit":
-        create_new_unit()
+    # if selected == "Home":
+    #     home()
+    #
+    # if selected == "Manage Projects":
+    #     manage_projects()
+    #
+    # if selected == "Transmittals":
+    #     transmittals_content()
+    #
+    # if selected == "Tasks":
+    #     tasks_content()
+    #
+    # if selected == "Drawing Sets":
+    #     drawing_sets()
+    #
+    # if selected == "Just for fun":
+    #     just_for_fun()
+    #
+    # if selected == "Scripts":
+    #     col_py()
+    #
+    # if selected == "Manage Users":
+    #     manage_users()
+    #
+    # if selected == "Lessons Learned":
+    #     lessons_content()
+    #
+    # if selected == "Settings":
+    #     settings_content()
+    #
+    # if selected == "Refresh Data":
+    #     fresh_data()
+    #
+    # if selected == "Create Dr. Set / Unit":
+    #     create_new_unit()
 
     show_duration()
 
