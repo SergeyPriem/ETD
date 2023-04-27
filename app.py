@@ -745,8 +745,7 @@ def win_selector(selected):
     if selected == "Refresh Data":
         st.session_state.adb = get_all()
 
-        st.markdown("style='text-align: center; color: blue;", unsafe_allow_html=True)
-        st.header('Data is Fresh')
+        st.markdown("style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>", unsafe_allow_html=True)
 
 
 def show_states():
