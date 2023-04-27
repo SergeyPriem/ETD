@@ -239,7 +239,7 @@ def update_users_in_db(login, position, branch, start_date, access_level, script
                        Position: **:blue[{position}]**  
                        Branch: **:blue[{branch}]**  
                        Access level: **:blue[{access_level}]**  
-                       Script Access: **:blue[{access_level}]**  
+                       Script Access: **:blue[{script_acc}]**  
                        Status: **:blue[{hero.status}]**"""
 
         except Exception as e:
