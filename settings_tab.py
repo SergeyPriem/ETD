@@ -9,6 +9,27 @@ from users import update_settings, update_user_reg_data
 
 
 def settings_content():
+
+    st.markdown("""
+        <style>
+            div[data-testid="column"]:nth-of-type(1)
+            {
+                text-align: center;
+            } 
+
+            div[data-testid="column"]:nth-of-type(2)
+            {
+                text-align: center;
+            } 
+
+            div[data-testid="column"]:nth-of-type(3)
+            {
+                text-align: center;
+            } 
+        </style>
+        """, unsafe_allow_html=True)
+
+
     empty1_set, content_set, empty2_set = st.columns([1, 4, 1])
     with empty1_set:
         st.empty()
@@ -18,7 +39,7 @@ def settings_content():
     with content_set:
 
         st.title(':orange[Settings]')
-        st.text('This page is intended to make some adjustments for more comfortable use of Application')
+        st.write('This page is intended to make some adjustments for more comfortable use of Application')
 
         st.markdown("---")
 

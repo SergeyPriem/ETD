@@ -400,9 +400,9 @@ def col_py():
             p_l, p_c, p_r = st.columns(3, gap='medium')
 
             load_list = p_l.file_uploader("Upload Load List in xlsx or xlsb", type=['xlsx', 'xlsb'],
-                                         accept_multiple_files=False, key=None,
-                                         help=None, on_change=None, args=None,
-                                         kwargs=None, disabled=False, label_visibility="visible")
+                                          accept_multiple_files=False, key=None,
+                                          help=None, on_change=None, args=None,
+                                          kwargs=None, disabled=False, label_visibility="visible")
 
             cab_data = p_c.file_uploader("Upload Cable Catalog in xlsx or xlsb", type=['xlsx', 'xlsb'],
                                          accept_multiple_files=False, key=None,
@@ -410,17 +410,17 @@ def col_py():
                                          kwargs=None, disabled=False, label_visibility="visible")
 
             dxf_template = p_r.file_uploader("Upload SLD template in dxf (v.18.0)", type=['dxf'],
-                                            accept_multiple_files=False, key=None,
-                                            help=None, on_change=None, args=None,
-                                            kwargs=None, disabled=False, label_visibility="visible")
+                                             accept_multiple_files=False, key=None,
+                                             help=None, on_change=None, args=None,
+                                             kwargs=None, disabled=False, label_visibility="visible")
             if load_list:
-
-                st.download_button('Get Cable List here', data=load_list, file_name='Cable List.xlsx', mime=None, key=None, help=None,
+                st.download_button('Get Cable List here', data=load_list, file_name='Cable List.xlsx', mime=None,
+                                   key=None, help=None,
                                    on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
 
             if dxf_template:
-
-                st.download_button('Get SLD here', data=dxf_template, file_name='SLD.dxf', mime=None, key=None, help=None,
+                st.download_button('Get SLD here', data=dxf_template, file_name='SLD.dxf', mime=None, key=None,
+                                   help=None,
                                    on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
 
 
@@ -744,6 +744,8 @@ def win_selector(selected):
 
     if selected == "Refresh Data":
         st.session_state.adb = get_all()
+
+        st.markdown("<h1 style='text-align: center; color: blue;'>Some title</h1>", unsafe_allow_html=True)
         st.header('Data is Fresh')
 
 
