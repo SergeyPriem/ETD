@@ -389,6 +389,7 @@ def col_py():
             """, unsafe_allow_html=True)
 
         st.title(':orange[Create SLD from Load List] - under Development')
+        st.divider()
 
         u_df = st.session_state.adb['users']
 
