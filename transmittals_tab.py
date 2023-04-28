@@ -19,6 +19,12 @@ def det_trans_from_df(login=None):
     trans_df = trans_df.merge(proj_df[['short_name']], how='left', left_on="project", right_on='id')
     trans_df = trans_df.merge(u_df[['login']], how='left', left_on="responsible", right_on='id')
     trans_df = trans_df.merge(u_df[['login']], how='left', left_on="responsible", right_on='id')
+    trans_df.project = trans_df.short_name
+    trans_df.responsible = trans_df.login_x
+    trans_df.users = trans_df.login_y
+
+    trans_df = trans_df.drop(columns=['short_name', 'login_x', 'login_y'])
+    trans_df.rename(columns={'users': 'Added By'}, inplace=True)
 
     return trans_df
 
