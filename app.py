@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import time
 import pandas as pd
 import streamlit as st
 from PIL import Image
@@ -771,6 +772,7 @@ def fresh_data():
         # close_fresh_but = cc.button("O K", key='close_fresh', use_container_width=True)
 
     # if close_fresh_but:
+    time.sleep(1)
     plaho.empty()
         # st.experimental_rerun()
         # prepare_menus()
