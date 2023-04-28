@@ -772,7 +772,7 @@ def fresh_data():
 
     if close_fresh_but:
         plaho.empty()
-        # win_selector(st.session_state.selected)
+        prepare_menus()
 
 
 def home():
@@ -859,13 +859,10 @@ def show_states():
     st.text('-----------------------')
 
 
-def prepare_menus(u_df):
+def prepare_menus():
     st.session_state.menu = get_menus()[0]
 
     st.session_state.icons = get_menus()[1]
-
-    st.session_state.vert_menu = int(u_df.loc[u_df.login == st.session_state.user, 'vert_menu'].to_numpy()[0])
-    # st.session_state.delay = u_df.loc[u_df.login == st.session_state.user, 'delay_set'].to_numpy()[0]
 
     if st.session_state.vert_menu == 1:
         with st.sidebar:
@@ -909,6 +906,8 @@ def initial():
         st.warning(err_handler(e))
         st.stop()
 
+    st.session_state.vert_menu = int(u_df.loc[u_df.login == st.session_state.user, 'vert_menu'].to_numpy()[0])
+
     try:
         st.session_state.registered_logins = u_df.loc[(u_df.status == 'current') &
                                                       u_df.hashed_pass, 'login'].tolist()
@@ -940,7 +939,7 @@ def initial():
         login_register()
 
     if st.session_state.logged and st.session_state.user:
-        win_selector(prepare_menus(u_df))
+        win_selector(prepare_menus())
 
 
 if __name__ == "__main__":
