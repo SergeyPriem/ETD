@@ -217,16 +217,20 @@ def home_content():
                         sod_df = st.session_state.adb['sod']
                         proj_df = st.session_state.adb['project']
 
-                        df_new = task_df.merge(sod_df, how='left', left_on='s_o_d', right_on='id')
-                        df_new = df_new[(df_new.coord_id == u_id) | (df_new.perf_id == u_id)]
-                        df_new = df_new.merge(proj_df[['short_name']], how='left', left_on='project_id', right_on='id')
-                        st.experimental_data_editor(df_new, use_container_width=True)
+                        task_df = task_df.merge(sod_df, how='left', left_on='s_o_d', right_on='id')
+                        task_df = task_df[(task_df.coord_id == u_id) | (task_df.perf_id == u_id)]
+                        task_df = task_df.merge(proj_df[['short_name']], how='left', left_on='project_id', right_on='id')
+
+                        df = task_df.loc[
+                            ((task_df.coord_id == u_id) & (~task_df.coord_log.str.contains('confirmed')) & (
+                                ~task_df.coord_log.str.contains(st.session_state.user)))
+                            |
+                            ((task_df.perf_id == u_id) & (~task_df.perf_log.str.contains('confirmed')) & (
+                                ~task_df.perf_log.str.contains(st.session_state.user)))
+                            ]
+
+                        st.experimental_data_editor(df, use_container_width=True)
                     #
-                    # df = task_df.loc[
-                    #     ((task_df.coord_id == u_id) & (~task_df.coord_log.str.contains('confirmed')) & (~task_df.coord_log.str.contains(st.session_state.user)))
-                    #     |
-                    #     ((task_df.perf_id == u_id) & (~task_df.perf_log.str.contains('confirmed')) & (~task_df.perf_log.str.contains(st.session_state.user)))
-                    #     ]
                     #
 
                     if isinstance(df, pd.DataFrame) and len(df) > 0:
