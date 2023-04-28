@@ -392,7 +392,7 @@ def home_content():
                                 </tr>
                                 <tr>
                                     <td>Responsible</td>
-                                    <td>{row.login}</td>
+                                    <td>{row.login_x}</td>
                                 </tr>
                                 <tr>
                                     <td>Author</td>
@@ -412,7 +412,7 @@ def home_content():
                                 </tr>
                                 <tr>
                                     <td>Added By</td>
-                                    <td>{row.login}</td>
+                                    <td>{row.login_y}</td>
                                 </tr>
                                 <tr>
                                     <td>Status</td>
