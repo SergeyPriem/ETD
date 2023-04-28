@@ -207,39 +207,39 @@ def home_content():
 
                 ass_col, blank_col, trans_col = st.columns([10, 2, 10])
                 with ass_col:
-                    df = get_pers_tasks()
+                    # df = get_pers_tasks()
                     #
                       #
 
-                    if st.session_state.user == 'sergey.priemshiy':
-                        u_id = get_cur_u_id()
-                        task_df = st.session_state.adb['task']
-                        sod_df = st.session_state.adb['sod']
-                        proj_df = st.session_state.adb['project']
-                        spec = st.session_state.adb['speciality']
+                # if st.session_state.user == 'sergey.priemshiy':
+                    u_id = get_cur_u_id()
+                    task_df = st.session_state.adb['task']
+                    sod_df = st.session_state.adb['sod']
+                    proj_df = st.session_state.adb['project']
+                    spec = st.session_state.adb['speciality']
 
-                        task_df.loc[:, 'new_id'] = task_df.index
-                        task_df = task_df.merge(sod_df[['project_id', 'set_name', 'coord_id', 'perf_id']], how='left', left_on='s_o_d', right_on='id')
-                        task_df = task_df[(task_df.coord_id == u_id) | (task_df.perf_id == u_id)]
-                        task_df = task_df.merge(proj_df[['short_name']], how='left', left_on='project_id', right_on='id')
-                        task_df = task_df.merge(spec['abbrev'], how='left', left_on='speciality', right_on='id')
-                        task_df.loc[:, 'speciality'] = task_df.abbrev
+                    task_df.loc[:, 'new_id'] = task_df.index
+                    task_df = task_df.merge(sod_df[['project_id', 'set_name', 'coord_id', 'perf_id']], how='left', left_on='s_o_d', right_on='id')
+                    task_df = task_df[(task_df.coord_id == u_id) | (task_df.perf_id == u_id)]
+                    task_df = task_df.merge(proj_df[['short_name']], how='left', left_on='project_id', right_on='id')
+                    task_df = task_df.merge(spec['abbrev'], how='left', left_on='speciality', right_on='id')
+                    task_df.loc[:, 'speciality'] = task_df.abbrev
 
-                        df = task_df.loc[
-                            ((task_df.coord_id == u_id) & (~task_df.coord_log.str.contains('confirmed')) & (
-                                ~task_df.coord_log.str.contains(st.session_state.user)))
-                            |
-                            ((task_df.perf_id == u_id) & (~task_df.perf_log.str.contains('confirmed')) & (
-                                ~task_df.perf_log.str.contains(st.session_state.user)))
-                            ]
+                    df = task_df.loc[
+                        ((task_df.coord_id == u_id) & (~task_df.coord_log.str.contains('confirmed')) & (
+                            ~task_df.coord_log.str.contains(st.session_state.user)))
+                        |
+                        ((task_df.perf_id == u_id) & (~task_df.perf_log.str.contains('confirmed')) & (
+                            ~task_df.perf_log.str.contains(st.session_state.user)))
+                        ]
 
-                        df.rename(columns={
-                            'new_id': 'id',
-                            'short_name': 'project',
-                            'set_name': 'unit'
-                        }, inplace=True)
+                    df.rename(columns={
+                        'new_id': 'id',
+                        'short_name': 'project',
+                        'set_name': 'unit'
+                    }, inplace=True)
 
-                        st.experimental_data_editor(df, use_container_width=True)
+                        # st.experimental_data_editor(df, use_container_width=True)
                     #
                     #
 
