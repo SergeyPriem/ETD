@@ -18,7 +18,7 @@ from users import check_user, add_to_log, create_appl_user, update_users_in_db, 
     err_handler
 from projects import confirm_task, get_my_trans, confirm_trans, get_pers_tasks, trans_status_to_db, \
     get_all, get_table
-from models import Users
+from models import Users, Task
 
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
@@ -314,6 +314,7 @@ def home_content():
                             if st.button(label=but_key1, key=but_key1, type='primary', on_click=confirm_task,
                                          args=((row.id,))):
                                 st.info(f"Task {task_id} confirmed!!")
+                                st.session_state.adb['task'] = get_table(Task)
                             st.text("")
                     else:
                         st.write('No New Tasks')
