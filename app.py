@@ -25,7 +25,6 @@ st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
 
 
 def show_duration():
-
     u_df = st.session_state.adb['users']
 
     access_level = u_df.loc[u_df.login == st.session_state.user, 'access_level'].to_numpy()[0]
@@ -210,16 +209,20 @@ def home_content():
                 with ass_col:
                     df = get_pers_tasks()
                     #
-                    # u_id = get_cur_u_id()                    #
-                    # task_df = st.session_state.adb['task']
+                    u_id = get_cur_u_id()  #
+                    task_df = st.session_state.adb['task']
+                    sod_df = st.session_state.adb['sod']
+
+                    if st.session_state.user == 'sergey.priemshiy':
+                        df_new = task_df.merge(sod_df, how='left', left_on='s_o_d', right_on='id')
+                        st.experimental_data_editor(df_new, use_container_width=True)
                     #
                     # df = task_df.loc[
-                    #     ((~task_df.coord_log.str.contains('confirmed')) & (~task_df.coord_log.str.contains(st.session_state.user)))
+                    #     ((task_df.coord_id == u_id) & (~task_df.coord_log.str.contains('confirmed')) & (~task_df.coord_log.str.contains(st.session_state.user)))
                     #     |
-                    #     ((~task_df.perf_log.str.contains('confirmed')) & (~task_df.perf_log.str.contains(st.session_state.user)))
+                    #     ((task_df.perf_id == u_id) & (~task_df.perf_log.str.contains('confirmed')) & (~task_df.perf_log.str.contains(st.session_state.user)))
                     #     ]
                     #
-
 
                     if isinstance(df, pd.DataFrame) and len(df) > 0:
                         st.subheader(":orange[New Incoming Tasks]")
@@ -742,7 +745,7 @@ def fresh_data():
         st.header("")
         st.header("")
         st.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>", unsafe_allow_html=True)
-        lc, cc, rc  = st.columns([11, 3, 11])
+        lc, cc, rc = st.columns([11, 3, 11])
 
         close_fresh_but = cc.button("O K", key='close_fresh', use_container_width=True)
 
@@ -759,7 +762,6 @@ def home():
 
 
 def win_selector(selected):
-
     st.session_state.r_now = datetime.datetime.now()
 
     if selected != "Refresh Data":
