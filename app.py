@@ -871,7 +871,7 @@ def prepare_menus():
             st.image(image, use_column_width=True)
             selected = option_menu("ET Department",
                                    options=st.session_state.menu,
-                                   default_index=get_list_index(st.session_state.menu, st.session_state.selected),
+                                   default_index=0,
                                    icons=st.session_state.icons,
                                    menu_icon="bi bi-plug")
 
@@ -880,7 +880,7 @@ def prepare_menus():
     else:
         selected = option_menu(None,
                                options=st.session_state.menu,
-                               default_index=get_list_index(st.session_state.menu, st.session_state.selected),
+                               default_index=0,
                                icons=st.session_state.icons,
                                menu_icon=None,
                                orientation='horizontal')
