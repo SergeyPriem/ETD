@@ -934,8 +934,9 @@ def initial():
 
     st.session_state.vert_menu = int(u_df.loc[u_df.login == st.session_state.user, 'vert_menu'].to_numpy()[0])
 
-    if st.session_state.vert_menu not in (1, 2):
+    if st.session_state.vert_menu not in (0, 1):
         st.sidebar.warning('Something wrong with menu settings')
+        st.session_state.vert_menu = 1
 
     try:
         st.session_state.registered_logins = u_df.loc[(u_df.status == 'current') &
