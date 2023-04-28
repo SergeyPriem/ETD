@@ -209,7 +209,7 @@ def transmittals_content():
 
             # u_id = get_cur_u_id()
 
-            df = get_trans_for_preview(user_login)
+            # df = get_trans_for_preview(user_login)
             df = det_trans_from_df(user_login)
 
             if isinstance(df, pd.DataFrame):
