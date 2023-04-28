@@ -252,14 +252,8 @@ def home_content():
 
                 ass_col, blank_col, trans_col = st.columns([10, 2, 10])
                 with ass_col:
-                    # df = get_pers_tasks()
-                    #
-                      #
-
-                # if st.session_state.user == 'sergey.priemshiy':
 
                     df = home_tasks()
-
 
                     if isinstance(df, pd.DataFrame) and len(df) > 0:
                         st.subheader(":orange[New Incoming Tasks]")
@@ -370,7 +364,7 @@ def home_content():
                                 </tr>
                                 <tr>
                                     <td>Subject</td>
-                                    <td>{row.subject}</td>
+                                    <td>{row.subj}</td>
                                 </tr>
 
                                 <tr>
@@ -399,7 +393,7 @@ def home_content():
                                 </tr>
                                 <tr>
                                     <td>Type</td>
-                                    <td>{row.trans_type}</td>
+                                    <td>{row.t_type}</td>
                                 </tr>
                                 <tr>
                                     <td>Notes</td>
@@ -407,7 +401,7 @@ def home_content():
                                 </tr>
                                 <tr>
                                     <td>Added By</td>
-                                    <td>{row.added_by}</td>
+                                    <td>{row.users}</td>
                                 </tr>
                                 <tr>
                                     <td>Status</td>
