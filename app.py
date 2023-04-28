@@ -19,7 +19,7 @@ from users import check_user, add_to_log, create_appl_user, update_users_in_db, 
     err_handler
 from projects import confirm_task, confirm_trans, trans_status_to_db, get_all, get_table
 from models import Users, Task, Trans
-
+import openpyxl
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
 
@@ -499,7 +499,7 @@ def scripts():
                                      value=65, min_value=6, max_value=150)
             peak_sc = lc.number_input('Peak Short Circuit Current at the Panel',
                                       value=125, min_value=10, max_value=300)
-            contr_but_len = rc.number_input('Peak Short Circuit Current at the Panel',
+            contr_but_len = rc.number_input('Length of cable for Emergency PushButton',
                                             value=25, min_value=10, max_value=300)
 
             min_sect = rc.selectbox('Min. Cross_section of Power Cable wire', ['1.5', '2.5', '4'], index=1)
