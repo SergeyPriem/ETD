@@ -71,7 +71,7 @@ def home_trans():
         & (trans_df.status != "Closed")
         & (trans_df.status != "Issued Docs")]
 
-    trans_df = trans_df.merge(proj_df[['short_name']], how='left', left_on="id")
+    trans_df = trans_df.merge(proj_df[['short_name']], how='left', left_on="project", right_on='id')
     trans_df = trans_df.merge(u_df[['login']], how='left', left_on="id")
 
     return trans_df
@@ -342,6 +342,9 @@ def home_content():
                 with trans_col:
                     # df = get_my_trans(st.session_state.user)
                     df = home_trans() # st.session_state.user
+
+                    st.write(df)
+
                     if isinstance(df, pd.DataFrame) and len(df) > 0:
                         st.subheader(":orange[New Incoming Transmittals]")
                         # df = df.loc[df.status != "Closed"]
