@@ -208,16 +208,16 @@ def home_content():
 
                 ass_col, blank_col, trans_col = st.columns([10, 2, 10])
                 with ass_col:
-                    # df = get_pers_tasks()
+                    df = get_pers_tasks()
                     #
-                    u_id = get_cur_u_id()                    #
-                    task_df = st.session_state.adb['task']
-
-                    df = task_df.loc[
-                        ((task_df.coord_id == u_id) & (~task_df.coord_log.str.contains('confirmed')) & (~task_df.coord_log.str.contains(st.session_state.user)))
-                        |
-                        ((task_df.perf_id == u_id) & (~task_df.perf_log.str.contains('confirmed')) & (~task_df.perf_log.str.contains(st.session_state.user)))
-                        ]
+                    # u_id = get_cur_u_id()                    #
+                    # task_df = st.session_state.adb['task']
+                    #
+                    # df = task_df.loc[
+                    #     ((~task_df.coord_log.str.contains('confirmed')) & (~task_df.coord_log.str.contains(st.session_state.user)))
+                    #     |
+                    #     ((~task_df.perf_log.str.contains('confirmed')) & (~task_df.perf_log.str.contains(st.session_state.user)))
+                    #     ]
                     #
 
 
