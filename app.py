@@ -17,8 +17,7 @@ from settings_tab import settings_content
 from transmittals_tab import transmittals_content
 from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, register_user, \
     err_handler
-from projects import confirm_task, get_my_trans, confirm_trans, get_pers_tasks, trans_status_to_db, \
-    get_all, get_table
+from projects import confirm_task, confirm_trans, trans_status_to_db, get_all, get_table
 from models import Users, Task, Trans
 
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
@@ -59,7 +58,6 @@ def home_tasks():
 
 
 def home_trans():
-
     u_id = get_cur_u_id()
     trans_df = st.session_state.adb['trans']
 
@@ -77,6 +75,7 @@ def home_trans():
 
     return trans_df
 
+
 def show_duration():
     u_df = st.session_state.adb['users']
 
@@ -89,6 +88,7 @@ def show_duration():
             st.sidebar.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>{delta[:-3]} s.</h3>",
                                 unsafe_allow_html=True)
     pass
+
 
 def get_menus():
     menu = None
@@ -342,7 +342,7 @@ def home_content():
 
                 with trans_col:
                     # df = get_my_trans(st.session_state.user)
-                    df = home_trans() # st.session_state.user
+                    df = home_trans()  # st.session_state.user
 
                     # st.write(df)
 
@@ -932,12 +932,6 @@ def initial():
         st.warning(err_handler(e))
         st.stop()
 
-
-
-    # if st.session_state.vert_menu not in (0, 1):
-    #     st.sidebar.warning('Something wrong with menu settings')
-    #     st.session_state.vert_menu = 1
-
     try:
         st.session_state.registered_logins = u_df.loc[(u_df.status == 'current') &
                                                       u_df.hashed_pass, 'login'].tolist()
@@ -967,7 +961,6 @@ def initial():
 
     if not st.session_state.logged:
         login_register()
-
 
     if st.session_state.logged and st.session_state.user:
         try:
