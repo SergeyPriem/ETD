@@ -906,7 +906,7 @@ def initial():
         st.warning(err_handler(e))
         st.stop()
 
-    st.session_state.vert_menu = int(u_df.loc[u_df.login == st.session_state.user, 'vert_menu'].to_numpy()[0])
+    st.session_state.vert_menu = 0 #int(u_df.loc[u_df.login == st.session_state.user, 'vert_menu'].to_numpy()[0])
 
     try:
         st.session_state.registered_logins = u_df.loc[(u_df.status == 'current') &
