@@ -72,7 +72,8 @@ def home_trans():
         & (trans_df.status != "Issued Docs")]
 
     trans_df = trans_df.merge(proj_df[['short_name']], how='left', left_on="project", right_on='id')
-    trans_df = trans_df.merge(u_df[['login']], how='left', left_on="id")
+    trans_df = trans_df.merge(u_df[['login']], how='left', left_on="responsible", right_on='id')
+    trans_df = trans_df.merge(u_df[['login']], how='left', left_on="responsible", right_on='id')
 
     return trans_df
 
