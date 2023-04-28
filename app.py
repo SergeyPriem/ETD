@@ -19,7 +19,7 @@ from users import check_user, add_to_log, create_appl_user, update_users_in_db, 
     err_handler
 from projects import confirm_task, get_my_trans, confirm_trans, get_pers_tasks, trans_status_to_db, \
     get_all, get_table
-from models import Users, Task
+from models import Users, Task, Trans
 
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
@@ -344,7 +344,7 @@ def home_content():
                     # df = get_my_trans(st.session_state.user)
                     df = home_trans() # st.session_state.user
 
-                    st.write(df)
+                    # st.write(df)
 
                     if isinstance(df, pd.DataFrame) and len(df) > 0:
                         st.subheader(":orange[New Incoming Transmittals]")
@@ -433,7 +433,10 @@ def home_content():
                             st.button(label=but_key2, key=but_key2, type='primary',
                                       on_click=update_trans_status,
                                       args=((row.trans_num,)))
+                            st.session_state.adb['trans'] = get_table(Trans)
+                            st.experimental_rerun()
                             st.text("")
+
                     else:
                         st.write('No New Transmittals')
 
