@@ -337,7 +337,7 @@ def home_content():
                         st.write('No New Tasks')
 
                 with trans_col:
-                    df = get_my_trans(st.session_state.user)
+                    # df = get_my_trans(st.session_state.user)
                     df = home_trans() # st.session_state.user
                     if isinstance(df, pd.DataFrame) and len(df) > 0:
                         st.subheader(":orange[New Incoming Transmittals]")
