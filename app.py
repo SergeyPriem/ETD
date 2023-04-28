@@ -772,7 +772,7 @@ def fresh_data():
 
     if close_fresh_but:
         plaho.empty()
-        # st.experimental_rerun()
+        st.experimental_rerun()
         # prepare_menus()
 
 
