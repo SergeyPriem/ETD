@@ -5,7 +5,7 @@ from models import Project, SOD, Task, Users, Speciality, Trans
 import pandas as pd
 from datetime import date, datetime
 import streamlit as st
-from pre_sets import BACKUP_FOLDER
+from utilities import BACKUP_FOLDER
 from users import err_handler
 
 set_sql_debug(False)
@@ -36,12 +36,12 @@ def create_backup_string(source_link, backup_folder, task_num):
 
 
 def tab_to_df(tab):
-    users_dict = [u.to_dict() for u in tab]
-    users_df = pd.DataFrame(users_dict)
-    if 'id' in list(users_df.columns):
-        users_df = users_df.set_index('id')
-    if len(users_df) > 0:
-        return users_df
+    t_dict = [t.to_dict() for t in tab]
+    t_df = pd.DataFrame(t_dict)
+    if 'id' in list(t_df.columns):
+        t_df = t_df.set_index('id')
+    if len(t_df) > 0:
+        return t_df
     else:
         return "Empty Table"
 

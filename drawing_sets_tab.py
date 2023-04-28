@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st
 from admin_tools import get_list_index
 from models import SOD
-from pre_sets import sod_revisions, sod_statuses, stages
+from utilities import sod_revisions, sod_statuses, stages
 from projects import get_trans_nums, update_sod, add_sod, get_table
 
 

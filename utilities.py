@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import streamlit as st
-import time
 from pathlib import Path
 
 positions = ('Trainee', 'III cat.', 'II cat.', 'I cat.', 'Lead', 'Group Head', 'Senior', 'Dep. Head')
@@ -69,6 +68,11 @@ def appearance_settings():
 #
 #     placeholder.empty()
 
+def get_cur_u_id():
+    u_df = st.session_state.adb['users']
+    u_id = u_df[u_df.login == st.session_state.user].index.to_numpy()[0]
+
+    return u_id
 
 def mail_to_name(mail):
     try:

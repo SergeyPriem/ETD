@@ -3,6 +3,7 @@
 import streamlit as st
 
 from models import Task
+from utilities import get_cur_u_id
 from projects import add_in_to_db, add_out_to_db, get_table
 from send_emails import send_mail
 
@@ -280,11 +281,10 @@ def view_tasks(ass_tab2, my_all):
         df = df[['project', 'unit', 'stage', 'in_out', 'date', 'speciality', 'description', 'link',
                  'backup_copy', 'source', 'coord_log', 'perf_log', 'comment', 'added_by', 'coord_id', 'perf_id']]
 
-        users_df = st.session_state.adb['users']
-        user_id = users_df[users_df.login == st.session_state.user].index.to_numpy()[0]
+        u_id = get_cur_u_id()
 
         if my_all == 'My':
-            df = df[(df.coord_id == user_id) | (df.perf_id == user_id)]
+            df = df[(df.coord_id == u_id) | (df.perf_id == u_id)]
 
         df_orig = df.copy()
 

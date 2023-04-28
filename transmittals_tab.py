@@ -2,7 +2,7 @@
 import pandas as pd
 import streamlit as st
 
-from pre_sets import trans_types
+from utilities import trans_types, get_cur_u_id
 from projects import add_new_trans, get_trans_for_preview
 from users import get_logins_for_current
 
@@ -187,11 +187,13 @@ def transmittals_content():
             my_all_tr = st.radio("Select the Option", ["My Transmittals", 'All Transmittals'], horizontal=True)
 
             if my_all_tr == "My Transmittals":
-                user_email = st.session_state.user
+                user_login = st.session_state.user
             else:
-                user_email = None
+                user_login = None
 
-            df = get_trans_for_preview(user_email)
+            u_id = get_cur_u_id()
+
+            df = get_trans_for_preview(user_login)
 
             if isinstance(df, pd.DataFrame):
                 if len(df) > 0:

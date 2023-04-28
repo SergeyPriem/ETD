@@ -10,7 +10,7 @@ from tasks_tab import tasks_content
 from drawing_sets_tab import drawing_sets, create_new_unit
 from just_for_fun_tab import just_for_fun
 from lesson_learned_tab import lessons_content
-from pre_sets import appearance_settings, positions, departments, mail_to_name, trans_stat
+from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, get_cur_u_id
 from send_emails import send_mail
 from settings_tab import settings_content
 from transmittals_tab import transmittals_content
@@ -209,17 +209,17 @@ def home_content():
                 ass_col, blank_col, trans_col = st.columns([10, 2, 10])
                 with ass_col:
                     # df = get_pers_tasks()
-
-                    # u_df = st.session_state.adb['users']
-                    # u_id = u_df.loc[u_df.login == st.session_state.user].index.to_numpy()[0]
                     #
-                    # task_df = st.session_state.adb['task']
+                    u_id = get_cur_u_id()                    #
+                    task_df = st.session_state.adb['task']
+
+                    df = task_df.loc[
+                        ((task_df.coord_id == u_id) & (~task_df.coord_log.str.contains('confirmed')) & (~task_df.coord_log.str.contains(st.session_state.user)))
+                        |
+                        ((task_df.perf_id == u_id) & (~task_df.perf_log.str.contains('confirmed')) & (~task_df.perf_log.str.contains(st.session_state.user)))
+                        ]
                     #
-                    # task_df = task_df.loc[task_df.coord_id == u_id]
 
-
-
-                    df = get_pers_tasks()
 
                     if isinstance(df, pd.DataFrame) and len(df) > 0:
                         st.subheader(":orange[New Incoming Tasks]")
@@ -503,9 +503,9 @@ def login_register():
                         if check_user(login, password):
                             st.session_state.logged = True
                             st.session_state.user = login
-                            users_df = st.session_state.adb['users']
-                            st.session_state.rights = users_df.loc[
-                                users_df.login == login, 'access_level'].to_numpy()[0]
+                            u_df = st.session_state.adb['users']
+                            st.session_state.rights = u_df.loc[
+                                u_df.login == login, 'access_level'].to_numpy()[0]
                             reply = add_to_log(login)
 
                             if 'ERROR' in reply.upper():

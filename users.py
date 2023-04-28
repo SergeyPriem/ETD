@@ -5,7 +5,7 @@ import bcrypt
 from models import Users, VisitLog
 from pony.orm import *
 
-from pre_sets import mail_to_name
+from utilities import mail_to_name
 
 set_sql_debug(False)
 

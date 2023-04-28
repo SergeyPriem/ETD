@@ -3,7 +3,7 @@
 import pandas as pd
 import streamlit as st
 from models import Project, Task, VisitLog, SOD, Users, Trans, Speciality
-from pre_sets import proj_statuses
+from utilities import proj_statuses
 from projects import create_project, get_table, update_projects
 from datetime import datetime
 
@@ -35,9 +35,9 @@ def manage_projects():
                 proj_short = st.text_input('Project Name - short')
                 proj_full = st.text_area('Project Name - full')
                 # responsible_el = st.selectbox('Responsible Person', get_logins_for_current())
-                users_df = st.session_state.adb['users']
+                u_df = st.session_state.adb['users']
                 responsible_el = st.selectbox('Responsible Person',
-                                              users_df.loc[users_df.status == 'current', 'login'].tolist())
+                                              u_df.loc[u_df.status == 'current', 'login'].tolist())
                 proj_status = st.radio('Project Status', proj_statuses, horizontal=True)
                 client = st.text_input('Client')
                 proj_tech_ass = st.text_area('Link for Technical Task')
