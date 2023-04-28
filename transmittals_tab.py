@@ -6,6 +6,22 @@ from utilities import trans_types, get_cur_u_id
 from projects import add_new_trans, get_trans_for_preview
 from users import get_logins_for_current
 
+def det_trans_from_df(login=None):
+    u_id = get_cur_u_id()
+    trans_df = st.session_state.adb['trans']
+
+    proj_df = st.session_state.adb['project']
+    u_df = st.session_state.adb['users']
+
+    if login:
+        trans_df = trans_df[trans_df.responsible == u_id]
+
+    trans_df = trans_df.merge(proj_df[['short_name']], how='left', left_on="project", right_on='id')
+    trans_df = trans_df.merge(u_df[['login']], how='left', left_on="responsible", right_on='id')
+    trans_df = trans_df.merge(u_df[['login']], how='left', left_on="responsible", right_on='id')
+
+    return trans_df
+
 
 def transmittals_content():
     tr_empty1, tr_content, tr_empty2 = st.columns([1, 15, 1])
@@ -191,9 +207,10 @@ def transmittals_content():
             else:
                 user_login = None
 
-            u_id = get_cur_u_id()
+            # u_id = get_cur_u_id()
 
             df = get_trans_for_preview(user_login)
+            df = det_trans_from_df(user_login)
 
             if isinstance(df, pd.DataFrame):
                 if len(df) > 0:
