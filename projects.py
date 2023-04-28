@@ -324,27 +324,30 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
                 link=link,
                 backup_copy='NA',
                 source=source,
+                coord_log=f"<{st.session_state.user}*{str(datetime.now())[:-10]}>",
+                perf_log=f"<{st.session_state.user}*{str(datetime.now())[:-10]}>",
                 comment=comment,
                 added_by=f"<{str(st.session_state.user)}*{str(datetime.now())[:-10]}>"
             )
 
             new_ass_id = max(n.id for n in Task)
 
-            if SOD[set_draw.id].coord_id.login == st.session_state.user:
-                Task[new_ass_id].coord_log = str(
-                    Task[new_ass_id].coord_log).replace('None', '') + \
-                                             f"<{st.session_state.user}*{str(datetime.now())[:-10]}>"
-
-            if SOD[set_draw.id].perf_id.login == st.session_state.user:
-                Task[new_ass_id].perf_log = str(
-                    Task[new_ass_id].perf_log).replace('None', '') + \
-                                            f"<{st.session_state.user}*{str(datetime.now())[:-10]}>"
+            # if SOD[set_draw.id].coord_id.login == st.session_state.user:
+            #     Task[new_ass_id].coord_log = str(
+            #         Task[new_ass_id].coord_log).replace('None', '') + \
+            #                                  f"<{st.session_state.user}*{str(datetime.now())[:-10]}>"
+            #
+            #
+            # if SOD[set_draw.id].perf_id.login == st.session_state.user:
+            #     Task[new_ass_id].perf_log = str(
+            #         Task[new_ass_id].perf_log).replace('None', '') + \
+            #                                 f"<{st.session_state.user}*{str(datetime.now())[:-10]}>"
 
             result = create_backup_string(link, BACKUP_FOLDER, new_ass_id)
             new_ass.backup_copy = result[0]
 
             return f"""
-            New Task #{int(last_id) + 1} for {new_ass.s_o_d.project_id.short_name}: {new_ass.s_o_d.set_name} is added to DataBase  
+            New Task #{int(new_ass_id) + 1} for {new_ass.s_o_d.project_id.short_name}: {new_ass.s_o_d.set_name} is added to DataBase  
             
             Copy backup string 👇 to Clipboard<*>
             {result[1]}

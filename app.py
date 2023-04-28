@@ -315,6 +315,7 @@ def home_content():
                                          args=((row.id,))):
                                 st.info(f"Task {task_id} confirmed!!")
                                 st.session_state.adb['task'] = get_table(Task)
+                                st.experimental_rerun()
                             st.text("")
                     else:
                         st.write('No New Tasks')
