@@ -772,7 +772,7 @@ def fresh_data():
 
     if close_fresh_but:
         plaho.empty()
-        win_selector(st.session_state.selected)
+        # win_selector(st.session_state.selected)
 
 
 def home():
@@ -872,14 +872,17 @@ def prepare_menus(u_df):
             image = Image.open("images/big_logo.jpg")
             st.image(image, use_column_width=True)
             selected = option_menu("ET Department", st.session_state.menu,
+                                   default_index=get_list_index(st.session_state.menu, st.session_state.selected),
                                    icons=st.session_state.icons,
-                                   menu_icon="bi bi-plug", default_index=0)
+                                   menu_icon="bi bi-plug")
 
             if st.session_state.rights == 'supervisor' and st.checkbox("Show states"):
                 show_states()
     else:
         selected = option_menu(None, st.session_state.menu, icons=st.session_state.icons,
-                               menu_icon=None, default_index=0, orientation='horizontal')
+                               menu_icon=None,
+                               default_index=get_list_index(st.session_state.menu, st.session_state.selected),
+                               orientation='horizontal')
 
     return selected
 
