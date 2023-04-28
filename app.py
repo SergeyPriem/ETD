@@ -932,11 +932,17 @@ def initial():
         st.warning(err_handler(e))
         st.stop()
 
-    st.session_state.vert_menu = int(u_df.loc[u_df.login == st.session_state.user, 'vert_menu'].to_numpy()[0])
-
-    if st.session_state.vert_menu not in (0, 1):
-        st.sidebar.warning('Something wrong with menu settings')
+    try:
+        st.session_state.vert_menu = int(u_df.loc[u_df.login == st.session_state.user, 'vert_menu'].to_numpy()[0])
+    except Exception as e:
         st.session_state.vert_menu = 1
+        st.sidebar.warning('Something wrong with menu settings')
+        st.sidebar.warning(err_handler(e))
+
+
+    # if st.session_state.vert_menu not in (0, 1):
+    #     st.sidebar.warning('Something wrong with menu settings')
+    #     st.session_state.vert_menu = 1
 
     try:
         st.session_state.registered_logins = u_df.loc[(u_df.status == 'current') &

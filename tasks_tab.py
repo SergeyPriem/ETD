@@ -227,6 +227,13 @@ def add_task(task_content):
                                           </body>
                                         </html>
                                     """
+
+                                if st.session_state.user in coord_email:
+                                    coord_email = 'sergey.priemshiy@uzliti-en.com'
+
+                                if st.session_state.user in perf_email:
+                                    perf_email = 'sergey.priemshiy@uzliti-en.com'
+
                                 if perf_email == coord_email:
                                     coord_email = 'sergey.priemshiy@uzliti-en.com'
 
