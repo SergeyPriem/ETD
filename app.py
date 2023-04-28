@@ -62,10 +62,17 @@ def home_trans():
 
     u_id = get_cur_u_id()
     trans_df = st.session_state.adb['trans']
+
+    proj_df = st.session_state.adb['project']
+    u_df = st.session_state.adb['users']
+
     trans_df = trans_df[
         (trans_df.responsible == u_id)
         & (trans_df.status != "Closed")
         & (trans_df.status != "Issued Docs")]
+
+    trans_df = trans_df.merge(proj_df[['short_name']], how='left', left_on="id")
+    trans_df = trans_df.merge(u_df[['login']], how='left', left_on="id")
 
     return trans_df
 
@@ -360,7 +367,7 @@ def home_content():
                                 </tr>
                                 <tr>
                                     <td>Project</td>
-                                    <td>{row.project}</td>
+                                    <td>{row.short_name}</td>
                                 </tr>
                                 <tr>
                                     <td>Subject</td>
@@ -381,7 +388,7 @@ def home_content():
                                 </tr>
                                 <tr>
                                     <td>Responsible</td>
-                                    <td>{row.responsible}</td>
+                                    <td>{row.login}</td>
                                 </tr>
                                 <tr>
                                     <td>Author</td>
@@ -401,7 +408,7 @@ def home_content():
                                 </tr>
                                 <tr>
                                     <td>Added By</td>
-                                    <td>{row.users}</td>
+                                    <td>{row.login}</td>
                                 </tr>
                                 <tr>
                                     <td>Status</td>
