@@ -209,12 +209,15 @@ def home_content():
                 with ass_col:
                     df = get_pers_tasks()
                     #
-                    u_id = get_cur_u_id()  #
-                    task_df = st.session_state.adb['task']
-                    sod_df = st.session_state.adb['sod']
+                      #
 
                     if st.session_state.user == 'sergey.priemshiy':
+                        u_id = get_cur_u_id()
+                        task_df = st.session_state.adb['task']
+                        sod_df = st.session_state.adb['sod']
+
                         df_new = task_df.merge(sod_df, how='left', left_on='s_o_d', right_on='id')
+                        df_new = df_new[(df_new.coord_id == u_id) | (df_new.perf_id == u_id)]
                         st.experimental_data_editor(df_new, use_container_width=True)
                     #
                     # df = task_df.loc[
