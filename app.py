@@ -489,6 +489,31 @@ def scripts():
                                              accept_multiple_files=False, key=None,
                                              help=None, on_change=None, args=None,
                                              kwargs=None, disabled=False, label_visibility="visible")
+
+            panelDescr = st.text_input("Panel Description ('Motor Control Center')", max_chars=20)
+            max_sc = st.number_input('Initial Short Circuit Current at the Panel',
+                                     value=65, min_value=6, max_value=150)
+            peak_sc = st.number_input('Peak Short Circuit Current at the Panel',
+                                      value=125, min_value=10, max_value=300)
+            contr_but_len = st.number_input('Peak Short Circuit Current at the Panel',
+                                            value=25, min_value=10, max_value=300)
+
+            min_sect = st.selectbox('Min. Cross_section of Power Cable wire', ['1.5', '2.5', '4'], index=1)
+            incom_margin = st.selectbox("Margin for Incomer's Rated Current", ['1.0', '1.05', '1.1', '1.15', '1.2'],
+                                        index=1)
+
+
+            if cab_data:
+                cab_df = pd.read_excel(cab_data, sheet_name='cab_data')
+                diam_df = pd.read_excel(cab_data, sheet_name='PRYSMIAN')
+                glands_df = pd.read_excel(cab_data, sheet_name='GLANDS')
+                ex_df = pd.read_excel(cab_data, sheet_name='ExZones')
+
+                st.write(cab_df)
+                st.write(diam_df)
+                st.write(glands_df)
+                st.write(ex_df)
+
             if load_list:
                 st.download_button('Get Cable List here', data=load_list, file_name='Cable List.xlsx', mime=None,
                                    key=None, help=None,
