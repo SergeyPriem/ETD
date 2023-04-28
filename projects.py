@@ -614,7 +614,7 @@ def trans_status_to_db():
             prev_notes = trans.notes
 
             if prev_notes:
-                new_notes = prev_notes + " >>" + str(out_note)
+                new_notes = prev_notes + "<" + str(out_note) + ">"
             else:
                 new_notes = " >>" + str(out_note)
 
