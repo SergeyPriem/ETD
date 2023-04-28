@@ -59,9 +59,11 @@ def home_tasks():
 
 
 def home_trans():
+
+    u_id = get_cur_u_id()
     trans_df = st.session_state.adb['trans']
     trans_df = trans_df[
-        (trans_df.responsible == st.session_state.user)
+        (trans_df.responsible == u_id)
         & (trans_df.status != "Closed")
         & (trans_df.status != "Issued Docs")]
 
