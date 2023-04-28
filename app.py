@@ -58,6 +58,15 @@ def home_tasks():
     return df
 
 
+def home_trans():
+    trans_df = st.session_state.adb['trans']
+    trans_df = trans_df[
+        (trans_df.responsible == st.session_state.user)
+        & (trans_df.status != "Closed")
+        & (trans_df.status != "Issued Docs")]
+
+    return trans_df
+
 def show_duration():
     u_df = st.session_state.adb['users']
 
@@ -69,7 +78,7 @@ def show_duration():
             delta = f"{td.total_seconds()}"
             st.sidebar.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>Time spent: {delta[:-3]} s.</h3>",
                                 unsafe_allow_html=True)
-
+    pass
 
 def get_menus():
     menu = None
@@ -328,7 +337,8 @@ def home_content():
                         st.write('No New Tasks')
 
                 with trans_col:
-                    df = get_my_trans(st.session_state.user)  # st.session_state.user
+                    df = get_my_trans(st.session_state.user)
+                    df = home_trans() # st.session_state.user
                     if isinstance(df, pd.DataFrame) and len(df) > 0:
                         st.subheader(":orange[New Incoming Transmittals]")
                         # df = df.loc[df.status != "Closed"]
@@ -773,15 +783,9 @@ def fresh_data():
         st.header("")
         st.header("")
         st.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>", unsafe_allow_html=True)
-        # lc, cc, rc = st.columns([11, 3, 11])
 
-        # close_fresh_but = cc.button("O K", key='close_fresh', use_container_width=True)
-
-    # if close_fresh_but:
     time.sleep(1)
     plaho.empty()
-        # st.experimental_rerun()
-        # prepare_menus()
 
 
 def home():
