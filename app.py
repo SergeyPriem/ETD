@@ -230,6 +230,8 @@ def home_content():
                                 ~task_df.perf_log.str.contains(st.session_state.user)))
                             ]
 
+                        df.rename(columns={'new_id': 'id'}, inplace=True)
+
                         st.experimental_data_editor(df, use_container_width=True)
                     #
                     #
