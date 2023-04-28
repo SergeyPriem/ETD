@@ -152,11 +152,7 @@ def create_states():
 
     if 'registered_logins' not in st.session_state:
         st.session_state.registered_logins = None
-        # reg_logins = get_logins_for_registered()
 
-    # if 'delay' not in st.session_state:
-    #     st.session_state.delay = 2
-    #
     if "preview_proj_stat" not in st.session_state:
         st.session_state.preview_proj_stat = False
 
