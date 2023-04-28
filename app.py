@@ -217,6 +217,7 @@ def home_content():
                         sod_df = st.session_state.adb['sod']
                         proj_df = st.session_state.adb['project']
 
+                        task_df.loc[:, 'new_id'] = task_df.index
                         task_df = task_df.merge(sod_df[['project_id', 'set_name', 'coord_id', 'perf_id']], how='left', left_on='s_o_d', right_on='id')
                         task_df = task_df[(task_df.coord_id == u_id) | (task_df.perf_id == u_id)]
                         task_df = task_df.merge(proj_df[['short_name']], how='left', left_on='project_id', right_on='id')
