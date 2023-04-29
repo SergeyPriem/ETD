@@ -845,21 +845,28 @@ def xl_to_sld():
 
             lc, rc = st.columns(2, gap='medium')
 
-            panelDescr = lc.text_input("Panel Description ('Motor Control Center')", max_chars=20)
-            max_sc = lc.number_input('Initial Short Circuit Current at the Panel',
-                                     value=65, min_value=6, max_value=150)
-            peak_sc = lc.number_input('Peak Short Circuit Current at the Panel',
-                                      value=125, min_value=10, max_value=300)
-            contr_but_len = rc.number_input('Length of cable for Emergency PushButton',
-                                            value=25, min_value=10, max_value=300)
+            with st.form("cab_list"):
+                panelDescr = lc.text_input("Panel Description ('Motor Control Center')", max_chars=20)
+                max_sc = lc.number_input('Initial Short Circuit Current at the Panel',
+                                         value=65, min_value=6, max_value=150)
+                peak_sc = lc.number_input('Peak Short Circuit Current at the Panel',
+                                          value=125, min_value=10, max_value=300)
+                contr_but_len = rc.number_input('Length of cable for Emergency PushButton',
+                                                value=25, min_value=10, max_value=300)
 
-            min_sect = rc.selectbox('Min. Cross_section of Power Cable wire', ['1.5', '2.5', '4'], index=1)
-            incom_margin = rc.selectbox("Margin for Incomer's Rated Current", ['1.0', '1.05', '1.1', '1.15', '1.2'],
-                                        index=1)
+                min_sect = rc.selectbox('Min. Cross_section of Power Cable wire', ['1.5', '2.5', '4'], index=1)
+                incom_margin = rc.selectbox("Margin for Incomer's Rated Current", ['1.0', '1.05', '1.1', '1.15', '1.2'],
+                                            index=1)
 
-            show_settings = lc.checkbox("Show CB settings at SLD")
+                show_settings = lc.checkbox("Show CB settings at SLD")
 
-            if load_list and cab_data:
+                make_cablist_but = rc.form_submit_button("Make Cable List", use_container_width=True)
+
+            if load_list and cab_data and make_cablist_but:
+                if len(panelDescr) < 2:
+                    st.warning('Panel Description is too short')
+                    st.stop()
+
                 cab_df = pd.read_excel(cab_data, sheet_name='cab_data')
                 diam_df = pd.read_excel(cab_data, sheet_name='PRYSMIAN')
                 glands_df = pd.read_excel(cab_data, sheet_name='GLANDS')
