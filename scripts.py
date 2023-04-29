@@ -827,6 +827,7 @@ def add_gen_data(msp, loads_df, loads_df_new, point, max_sc, peak_sc):
 
 
 def xl_to_sld():
+    dxf_template = None
     COS_START = 0.4
     # K_START = 1
     SIN_START = math.sin(math.acos(COS_START))
