@@ -961,7 +961,10 @@ def xl_to_sld():
                     except Exception as e:
                         st.warning(e)
 
-                bytes_dxf = dxf_template.get_value()
+                if dxf_template is not None:
+                    bytes_dxf = dxf_template.get_value()
+                else:
+                    st.warning("IT IS NONE")
 
                 if dxf_template and create_sld_but:
                     try:
