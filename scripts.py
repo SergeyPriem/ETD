@@ -628,9 +628,11 @@ def making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, cont
 
             if 'MCC' in loads_df['load_tag'][row] and float(incom_margin) != 1.1:
                 st.warning(f"Margin for incomer isn't equal to 10%, please adjust")
+                st.stop()
 
             if 'LVS' in loads_df['load_tag'][row] and float(incom_margin) != 1.2:
                 st.warning(f"Margin for incomer isn't equal to 20%, please adjust")
+                st.stop()
 
             L = round5(rated_current * float(incom_margin))
             loads_df.loc[row, 'CB_AMPACITY'] = max_nearest(L)  # ном ток расцепителя
