@@ -973,8 +973,9 @@ def xl_to_sld():
                 #
                 #     bytes_dxf = dxf_template.read()
                 #
+                temp_file = open(dxf_template)
                 try:
-                    doc = ezdxf.readfile(dxf_template)
+                    doc = ezdxf.readfile(temp_file)
                 except IOError as e:
                     st.warning(f"Not a DXF file or a generic I/O error.")
                     st.write(err_handler(e))
