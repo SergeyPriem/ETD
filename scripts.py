@@ -915,7 +915,7 @@ def xl_to_sld():
             with tab_sld:
                 with st.form('create_sld'):
                     lc, rc = st.columns(2, gap='medium')
-                    order = lc.radio("Order od SLD creation", ('ПО ТИПУ ФИДЕРОВ', 'ПО LOAD LIST'))
+                    order = lc.radio("Order od SLD creation", ('ПО ТИПУ ФИДЕРОВ', 'ПО LOAD LIST'), horizontal=True)
                     create_sld_but = rc.form_submit_button('Create SLD', use_container_width=True)
 
 
