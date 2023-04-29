@@ -6,6 +6,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import math
+import xlsxwriter
 
 from users import err_handler
 
@@ -868,8 +869,6 @@ def xl_to_sld():
                 ex_df = pd.read_excel(cab_data, sheet_name='ExZones')
 
                 loads_df = pd.read_excel(load_list, sheet_name='loads')
-                # st.write(loads_df)
-
 
             if dxf_template:
                 st.download_button('Get SLD here', data=dxf_template, file_name='SLD.dxf', mime=None, key=None,
