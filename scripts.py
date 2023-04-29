@@ -2,6 +2,7 @@
 import datetime
 import io
 import ezdxf
+from ezdxf.tools.text import MTextEditor
 import streamlit as st
 import pandas as pd
 import numpy as np
