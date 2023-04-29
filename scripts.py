@@ -14,6 +14,40 @@ cab_dict = {
     300: 150, 400: 240
 }
 
+cableTagList = []
+loadRatList = []
+voltsList = []
+fromUnitList = []
+fromTagList = []
+columnList = []
+fromDescrList = []
+toUnitList = []
+toTagList = []
+toDescrList = []
+refList = []
+wiresList = []
+sectionList = []
+uList = []
+composList = []
+configList = []
+lengthList = []
+diamList = []
+weightList = []
+glandTypeList = []
+glandSizeList = []
+accList = []
+mcsTypeList = []
+conduitSizeList = []
+conduitLengthList = []
+busList = []
+
+compositDic = {
+    1: 'PH',
+    2: 'PHN',
+    3: 'PHNG',
+    4: '3PHG',
+    5: '3PHNG'
+}
 
 def max_nearest(target: int) -> int:
     lst = [4, 6, 10, 16, 25, 32, 40, 63, 80, 100, 125, 160, 250, 320,
@@ -25,7 +59,7 @@ def max_nearest(target: int) -> int:
     return 63000
 
 
-def cab_diam(purpose: str, composition: str, wires: int, section: float) -> float:
+def cab_diam(purpose: str, composition: str, wires: int, section: float, diam_df) -> float:
     if composition.find('SWA') != -1:
         constr = 'SWA'
     else:
@@ -194,7 +228,7 @@ def incom_sect_cb_calc(loads_df: pd.DataFrame) -> pd.DataFrame:
     return loads_df
 
 
-def tags_for_control_cab(row: int, loads_df: pd.DataFrame) -> pd.DataFrame:
+def tags_for_control_cab(row: int, loads_df: pd.DataFrame, load_tag_short) -> pd.DataFrame:
     if loads_df.rated_power[row] >= 30:
         loads_df.loc[row, 'LCS1-CABLE_TAG1'] = "C-" + loads_df['panel_tag'][row] + loads_df['bus'][
             row] + "-" + load_tag_short + "LCS1-1"
@@ -235,62 +269,60 @@ def fill_lists(i: int, panelDescr) -> None:
 
 # loads_path = input('Введите полный путь к файлу, с названием файла и расширением: ')
 
-def check_loads():
+def check_loads(loads_df):
     checkLoads_df = loads_df.iloc[:, 0:27]
-    
+
     if (checkLoads_df.isnull().sum()).sum() > 0:
         p_red(f'В Load List {(checkLoads_df.isnull().sum()).sum()} не заполненных обязательных полей')
         p_red('Подгрузите корректно заполненный Load List')
         st.write('Script aborted')('Script aborted!')
-    
+
     if checkLoads_df.eff.min() == 0:
         p_red("Nulls in 'efficiency' column")
         st.write('Script aborted')
-    
+
     if checkLoads_df.power_factor.min() == 0:
         p_red("Nulls in 'power factor' column")
         st.write('Script aborted')
-    
+
     if checkLoads_df.abs_power[3:].min() == 0:
         p_red("Nulls in 'abs_power' column")
         st.write('Script aborted')
-    
+
     if checkLoads_df.rated_power[3:].min() == 0:
         p_red("Nulls in 'rated_power' column")
         st.write('Script aborted')
-    
+
     if checkLoads_df.usage_factor[3:].min() == 0:
         p_red("Nulls in 'usage_factor' column")
         st.write('Script aborted')
 
     print('')
     p_green('Полнота данных: OK\n')
-    
-check_loads()
+
 
 def prepare_loads_df(loads_df):
     loads_df['length'] = round(loads_df['length'] / 5, 0) * 5
-    
+
     loads_df['VFD_AMPACITY'] = '-'
     loads_df['VFD_TAG'] = '-'
-    
+
     loads_df[
-        ['CONT_AMPACITY', 'HEATER-CABLE_TAG', 'HEATER-CABLE_TYPE', 'LCS1-CABLE_TAG1', 'LCS1-CABLE_TYPE1', 'LCS1-CABLE_TAG2',
+        ['CONT_AMPACITY', 'HEATER-CABLE_TAG', 'HEATER-CABLE_TYPE', 'LCS1-CABLE_TAG1', 'LCS1-CABLE_TYPE1',
+         'LCS1-CABLE_TAG2',
          'LCS1-CABLE_TYPE2', 'LCS2-CABLE_TAG', 'LCS2-CABLE_TYPE']] = '-'
-    
+
     loads_df[['c_kw', 'i_kw', 's_kw', 'c_kvar', 'i_kvar', 's_kvar', 'peak_kw_pe', 'peak_kvar_pe', 'power_factor_pe',
               'rated_current_pe']] = 0
-    
-    #  NORMAL MODE
-    
-    loads_df = incom_sect_cb_calc(loads_df)
-    
+
     return loads_df
 
+    #  NORMAL MODE
 
 
 def sect_calc(cab_df, row: int, u_c: int, power: float, rated_current: float, derat_factor: float,
-              cos_c: float, k_start: float, len_c: float, min_sect: object, u_drop_al: float, busduct: bool) -> tuple:
+              cos_c: float, k_start: float, len_c: float, min_sect: object, u_drop_al: float, busduct: bool,
+              cos_start: float, sin_start: float) -> tuple:
     if busduct:
         return 1, 1000, 1000, 0
     global section, voltage_drop, pe_sect
@@ -353,171 +385,7 @@ def sect_calc(cab_df, row: int, u_c: int, power: float, rated_current: float, de
     #################################################################################################################
 
 
-
-
-for row in range(len(loads_df)):
-    # select cable by rated current
-    derat_factor = loads_df['instal_derat'][row] * loads_df['temp_derat'][row]
-    u_drop_al = loads_df['u_drop_appl'][row]
-    busduct = False
-
-    if loads_df['equip'][row] in ('INCOMER', 'SECT_BREAKER'):
-        rated_current = float(loads_df['rated_current_pe'][row])
-
-        if 'MCC' in loads_df['load_tag'][row] and float(incom_margin) != 1.1:
-            print(f"{red}Margin for incomer isn't equal to 10%, please adjust")
-
-        if 'LVS' in loads_df['load_tag'][row] and float(incom_margin) != 1.2:
-            print(f"{red}Margin for incomer isn't equal to 20%, please adjust")
-
-        L = round5(rated_current * float(incom_margin))
-        loads_df.loc[row, 'CB_AMPACITY'] = max_nearest(L)  # ном ток расцепителя
-        cos_c = loads_df['power_factor_pe'][row]
-        power = loads_df['peak_kw_pe'][row]
-    else:
-        rated_current = loads_df['rated_current'][row]
-        L = round5(rated_current * 1.2)
-        loads_df.loc[row, 'CB_AMPACITY'] = max_nearest(L)  # ном ток расцепителя
-        cos_c = loads_df['power_factor'][row]
-        power = loads_df['abs_power'][row] / loads_df['eff'][row]
-
-    k_start = loads_df['start_ratio'][row]
-    u_c = loads_df['rated_voltage'][row]
-    len_c = loads_df['length'][row]
-
-    if loads_df['equip'][row] == 'SECT_BREAKER':
-        busduct = True
-
-    cab_params = sect_calc(cab_df, row, u_c, power, rated_current, derat_factor, cos_c, k_start, len_c, min_sect,
-                           u_drop_al, busduct)
-    loads_df.loc[row, 'parallel'] = cab_params[0]
-    par = cab_params[0]
-    loads_df.loc[row, 'section'] = cab_params[1]
-    section = cab_params[1]
-
-    if section == 0 or section == "0":
-        print("Нулевое сечение для потребителя: ", loads_df.iloc[row, 0])
-
-    loads_df.loc[row, 'pe_sect'] = cab_params[2]
-    loads_df.loc[row, 'calc_drop'] = round(cab_params[3], 1)
-
-    if par > 6 and loads_df.loc[row, 'equip'] != 'INCOMER':
-        alarm_tag = str(loads_df.iloc[row, 0])
-        p_red('!!!')
-        p_red(f'У потребителя {alarm_tag} расчетное количество параллельных кабелей составило {par}.')
-        p_red(f'Все {par} кабелей внесены в кабельный журнал и отражены на SLD.')
-        p_red(f'При переходе на шинопровод удалите кабели потребителя {alarm_tag} ')
-        p_red('из кабельного журнала и поправьте таговые номера и описание линии на SLD')
-        p_red('!!!')
-        print('\033[0m')
-
-    S = str(round5(L * 1.5 * k_start)) + 'A/0.2s'
-    I = str(round5(L * 2 * k_start))  # ПРОВЕРИТЬ!!!
-    N = str(round5(L * 0.5))
-    G = str(round5(loads_df['rated_current'][row] * 0.7))
-
-    ''' "N" - подбирается исходя из длит. допустимого тока N-провода.
-        "G" - А. В. Беляев Выбор аппаратуры, защит и кабелей в сетях 0,4 кВ, 2008 г., стр. 132.'''
-
-    # ОКОНЧАНИЕ МОДУЛЯ ВЫБОРА КАБЕЛЯ
-
-    if par > 1:
-        par_cab = str(par) + "x"
-    else:
-        par_cab = " "
-    if loads_df.pe_num[row] == 1 and section > 25:
-        loads_df.loc[row, 'CONSUM-CABLE_TYPE'] = (
-                par_cab + loads_df['power_type'][row] + "-" + str(loads_df['ph_num'][row]) + "C+Ex" + str(section)
-                + '/' + str(loads_df['pe_sect'][row]) + "mm2, L=" + str(loads_df['length'][row]) + "m, dU="
-                + str(loads_df['calc_drop'][row]) + "%")
-    else:
-        loads_df.loc[row, 'CONSUM-CABLE_TYPE'] = (
-                str(par_cab) + str(loads_df['power_type'][row]) + "-" + str(loads_df['ph_num'][row]
-                                                                            + loads_df['pe_num'][row]) + "x" + str(
-            section) + "mm2, L=" + str(loads_df['length'][row])
-                + "m, dU=" + str(loads_df['calc_drop'][row]) + "%")
-
-    if loads_df['load_tag'][row][-1] == 'M':
-        load_tag_short = loads_df['load_tag'][row][:-1]
-    else:
-        load_tag_short = loads_df['load_tag'][row] + '-'
-
-    # CB feeder***************************************************************************************************
-    if loads_df['starter_type'][row] == "CB":
-        loads_df.loc[row, 'CONSUM-CABLE_TAG'] = "L-" + loads_df['panel_tag'][row] + loads_df['bus'][row] + "-" + \
-                                                loads_df['load_tag'][row]
-        if loads_df.equip[row] != 'INCOMER' and loads_df.equip[row] != 'SECT_BREAKER':
-            loads_df.loc[row, 'CB_SET'] = 'L:' + str(
-                L) + 'A; \nS:' + S + '; \nI:' + I + 'A; \nN:' + N + 'A; \nG:' + G + 'A' if show_settings else 'LSING'
-        if loads_df['equip'][row] == "INCOMER" or loads_df['equip'][row] == "SECT_BREAKER":
-
-            if "LVS" in loads_df['load_tag'][row]:
-                loads_df.loc[row, 'CB_SET'] = 'L:' + str(
-                    L) + 'A; \nS:' + S + '; \nI:' + I + 'A; \nN:' + N + 'A' if show_settings else 'LSIN'
-            else:
-                loads_df.loc[row, 'CB_SET'] = 'L:' + str(
-                    L) + 'A; \nS:' + S + '; \nI:' + I + 'A' if show_settings else 'LSI'
-
-    if loads_df.CB_AMPACITY[row] < 630:
-        loads_df.loc[row, 'SCHEME_TYPE'] = 'F1'
-    else:
-        loads_df.loc[row, 'SCHEME_TYPE'] = 'F2'
-
-    # DOL feeder****************************************************************************************************
-    if loads_df['starter_type'][row] == "DOL":
-        loads_df.loc[row, 'CONSUM-CABLE_TAG'] = "L-" + str(loads_df['panel_tag'][row]) + str(
-            loads_df['bus'][row]) + "-" + str(loads_df['load_tag'][row])
-        loads_df.loc[row, 'HEATER-CABLE_TAG'] = "L-" + loads_df['panel_tag'][row] + loads_df['bus'][
-            row] + "-" + load_tag_short + "SH"
-        loads_df.loc[row, 'HEATER-CABLE_TYPE'] = loads_df['power_type'][row] + "-3x2.5mm2, L=" + str(
-            loads_df['length'][row]) + 'm, dU=HOLD'
-
-        loads_df = tags_for_control_cab(row, loads_df)
-
-        if loads_df.addBut[row] == 1:
-            loads_df.loc[row, 'LCS2-CABLE_TAG'] = "C-" + load_tag_short + "LCS1" "-" + load_tag_short + "LCS2"
-            loads_df.loc[row, 'LCS2-CABLE_TYPE'] = loads_df['control_type'][row] + '-3x1.5mm2, L=' + str(
-                contr_but_len) + 'm'
-        else:
-            loads_df.loc[row, 'starter_type'] = "DOL"
-
-        loads_df.loc[row, 'CONT_AMPACITY'] = str(max_nearest(loads_df.CB_AMPACITY[row] * 1.1)) + 'A'
-        loads_df.loc[row, 'CB_SET'] = 'I:' + I + 'A' if show_settings else 'I'
-        loads_df.loc[row, 'SCHEME_TYPE'] = 'MH1'
-
-    # VFD feeder ***************************************************************************************************
-    if loads_df['starter_type'][row] == "VFD":
-        loads_df.loc[row, 'VFD_TAG'] = load_tag_short[:7] + ' ' + load_tag_short[7:] + "VFD"
-        loads_df.loc[row, 'CONSUM-CABLE_TAG'] = "L-" + str(loads_df['VFD_TAG'][row]) + "-" \
-                                                + str(loads_df['load_tag'][row])
-
-        loads_df.loc[row, 'HEATER-CABLE_TAG'] = \
-            "L-" + str(loads_df['panel_tag'][row]) + loads_df['bus'][row] + "-" + load_tag_short + "SH"
-        loads_df.loc[row, 'HEATER-CABLE_TYPE'] = \
-            str(loads_df['power_type'][row]) + "-3x2.5mm2, L=" + str(loads_df['length'][row]) + 'm'
-        loads_df.loc[row, 'LCS1-CABLE_TAG'] = \
-            "C-" + str(loads_df['panel_tag'][row]) + loads_df['bus'][row] + "-" + load_tag_short + "LCS1"
-
-        loads_df = tags_for_control_cab(row, loads_df)
-
-        if loads_df.addBut[row] == 1:
-            loads_df.loc[row, 'LCS2-CABLE_TAG'] = "C-" + load_tag_short + "LCS1" "-" + load_tag_short + "LCS2"
-            loads_df.loc[row, 'LCS2-CABLE_TYPE'] = loads_df['control_type'][row] + '-3x1.5mm2, L=' + str(
-                contr_but_len) + 'm'
-        else:
-            loads_df.loc[row, 'starter_type'] = "VFD"  # "VFD_1but"
-            loads_df.loc[row, 'VFD-CABLE_TAG'] = "L-" + str(loads_df['panel_tag'][row]) + str(
-                loads_df['bus'][row]) + "-" + load_tag_short + "VFD"
-
-        loads_df.loc[row, 'VFD_AMPACITY'] = str(max_nearest(loads_df['rated_current'][row] * 1.2)) + 'A'
-        loads_df.loc[row, 'CONT_AMPACITY'] = str(max_nearest(loads_df.CB_AMPACITY[row] * 1.1)) + 'A'
-        loads_df.loc[row, 'CB_SET'] = 'L:' + str(L) + 'A; \nI:' + I + 'A' if show_settings else 'LI'
-        if loads_df.rated_power[row] < 7.5:
-            loads_df.loc[row, 'SCHEME_TYPE'] = 'F1-VFD'
-        else:
-            loads_df.loc[row, 'SCHEME_TYPE'] = 'F2-VFD'
-
-    # SC RATING & POLARITY
+def sc_rating_polarity(max_sc, loads_df, row):
     if loads_df.starter_type[row] != 'CB':
         loads_df.loc[row, 'RAT_POL'] = str(max_sc) + 'kA, 3P'
     else:
@@ -527,53 +395,9 @@ for row in range(len(loads_df)):
     else:
         loads_df.loc[row, 'CB_RATING'] = max_nearest(loads_df.CB_AMPACITY[row])
 
-loads_df['CONSUM-CABLE_TYPE'] = loads_df['CONSUM-CABLE_TYPE'].astype(str).str.replace('\.0mm2', 'mm2', regex=True)
-loads_df['CONSUM-CABLE_TYPE'] = loads_df['CONSUM-CABLE_TYPE'].astype(str).str.replace('\.0/', '/', regex=True)
-loads_df['CONT_AMPACITY'] = loads_df['CONT_AMPACITY'].astype(str).str.replace('\.0A', 'A', regex=True)
-loads_df['CB_AMPACITY'] = loads_df['CB_AMPACITY'].astype(str).str.replace('\.0', '', regex=True)
-loads_df['CB_RATING'] = loads_df['CB_RATING'].astype(str).str.replace('\.0', '', regex=True)
-loads_df['CB_SET'] = loads_df['CB_SET'].astype(str).str.replace('\.0A', 'A', regex=True)
+    return loads_df
 
-loads_df['rated_current'] = round(loads_df['rated_current'], 1)
-
-# -------------СБОРКА КАБЕЛЬНОГО ЖУРНАЛА----------------------
-
-cableTagList = []
-loadRatList = []
-voltsList = []
-fromUnitList = []
-fromTagList = []
-columnList = []
-fromDescrList = []
-toUnitList = []
-toTagList = []
-toDescrList = []
-refList = []
-wiresList = []
-sectionList = []
-uList = []
-composList = []
-configList = []
-lengthList = []
-diamList = []
-weightList = []
-glandTypeList = []
-glandSizeList = []
-accList = []
-mcsTypeList = []
-conduitSizeList = []
-conduitLengthList = []
-busList = []
-
-compositDic = {
-    1: 'PH',
-    2: 'PHN',
-    3: 'PHNG',
-    4: '3PHG',
-    5: '3PHNG'
-}
-
-def create_cab_list():
+def create_cab_list(contr_but_len, loads_df):
     for i in range(len(loads_df.index)):
         if not pd.isnull(loads_df['CONSUM-CABLE_TAG'][i]):
             if loads_df.parallel[i] > 1:
@@ -593,7 +417,8 @@ def create_cab_list():
                     if loads_df['section'][i] == loads_df.pe_sect[i]:
                         finSection = str(loads_df['section'][i]).replace('.0', '')
                     else:
-                        finSection = str(loads_df['section'][i]).replace('.0', '') + '/' + str(loads_df.pe_sect[i]).replace(
+                        finSection = str(loads_df['section'][i]).replace('.0', '') + '/' + str(
+                            loads_df.pe_sect[i]).replace(
                             '.0', '')
                     sectionList.append(finSection)
 
@@ -732,14 +557,191 @@ def create_cab_list():
     cl_df = cl_df.query('cableTag != "-"')
 
     cl_df.set_index('cableTag', inplace=True)
-    cl_df.to_excel(loads_path[:-8] + '-cabList.xlsx')
+    # cl_df.to_excel(loads_path[:-8] + '-cabList.xlsx')
 
-    p_green(f'''КАБЕЛЬНЫЙ ЖУРНАЛ В ФОРМАТЕ .xlsx ГОТОВ
-    Открывать по ссылке:
-    {loads_path[:-8] + '-cabList.xlsx'}''')
+    # p_green(f'''КАБЕЛЬНЫЙ ЖУРНАЛ В ФОРМАТЕ .xlsx ГОТОВ
+    # Открывать по ссылке:
+    # {loads_path[:-8] + '-cabList.xlsx'}''')
+def replace_zero(loads_df):
+    loads_df['CONSUM-CABLE_TYPE'] = loads_df['CONSUM-CABLE_TYPE'].astype(str).str.replace('\.0mm2', 'mm2', regex=True)
+    loads_df['CONSUM-CABLE_TYPE'] = loads_df['CONSUM-CABLE_TYPE'].astype(str).str.replace('\.0/', '/', regex=True)
+    loads_df['CONT_AMPACITY'] = loads_df['CONT_AMPACITY'].astype(str).str.replace('\.0A', 'A', regex=True)
+    loads_df['CB_AMPACITY'] = loads_df['CB_AMPACITY'].astype(str).str.replace('\.0', '', regex=True)
+    loads_df['CB_RATING'] = loads_df['CB_RATING'].astype(str).str.replace('\.0', '', regex=True)
+    loads_df['CB_SET'] = loads_df['CB_SET'].astype(str).str.replace('\.0A', 'A', regex=True)
+    loads_df['rated_current'] = round(loads_df['rated_current'], 1)
+
+    return loads_df
+
+def making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, contr_but_len):
+    for row in range(len(loads_df)):
+        # select cable by rated current
+        derat_factor = loads_df['instal_derat'][row] * loads_df['temp_derat'][row]
+        u_drop_al = loads_df['u_drop_appl'][row]
+        busduct = False
+
+        if loads_df['equip'][row] in ('INCOMER', 'SECT_BREAKER'):
+            rated_current = float(loads_df['rated_current_pe'][row])
+
+            if 'MCC' in loads_df['load_tag'][row] and float(incom_margin) != 1.1:
+                st.warning(f"Margin for incomer isn't equal to 10%, please adjust")
+
+            if 'LVS' in loads_df['load_tag'][row] and float(incom_margin) != 1.2:
+                st.warning(f"Margin for incomer isn't equal to 20%, please adjust")
+
+            L = round5(rated_current * float(incom_margin))
+            loads_df.loc[row, 'CB_AMPACITY'] = max_nearest(L)  # ном ток расцепителя
+            cos_c = loads_df['power_factor_pe'][row]
+            power = loads_df['peak_kw_pe'][row]
+        else:
+            rated_current = loads_df['rated_current'][row]
+            L = round5(rated_current * 1.2)
+            loads_df.loc[row, 'CB_AMPACITY'] = max_nearest(L)  # ном ток расцепителя
+            cos_c = loads_df['power_factor'][row]
+            power = loads_df['abs_power'][row] / loads_df['eff'][row]
+
+        k_start = loads_df['start_ratio'][row]
+        u_c = loads_df['rated_voltage'][row]
+        len_c = loads_df['length'][row]
+
+        if loads_df['equip'][row] == 'SECT_BREAKER':
+            busduct = True
+
+        cab_params = sect_calc(cab_df, row, u_c, power, rated_current, derat_factor, cos_c, k_start, len_c, min_sect,
+                               u_drop_al, busduct)
+        loads_df.loc[row, 'parallel'] = cab_params[0]
+        par = cab_params[0]
+        loads_df.loc[row, 'section'] = cab_params[1]
+        section = cab_params[1]
+
+        if section == 0 or section == "0":
+            print("Нулевое сечение для потребителя: ", loads_df.iloc[row, 0])
+
+        loads_df.loc[row, 'pe_sect'] = cab_params[2]
+        loads_df.loc[row, 'calc_drop'] = round(cab_params[3], 1)
+
+        if par > 6 and loads_df.loc[row, 'equip'] != 'INCOMER':
+            alarm_tag = str(loads_df.iloc[row, 0])
+            p_red('!!!')
+            p_red(f'У потребителя {alarm_tag} расчетное количество параллельных кабелей составило {par}.')
+            p_red(f'Все {par} кабелей внесены в кабельный журнал и отражены на SLD.')
+            p_red(f'При переходе на шинопровод удалите кабели потребителя {alarm_tag} ')
+            p_red('из кабельного журнала и поправьте таговые номера и описание линии на SLD')
+            p_red('!!!')
+            print('\033[0m')
+
+        S = str(round5(L * 1.5 * k_start)) + 'A/0.2s'
+        I = str(round5(L * 2 * k_start))  # ПРОВЕРИТЬ!!!
+        N = str(round5(L * 0.5))
+        G = str(round5(loads_df['rated_current'][row] * 0.7))
+
+        ''' "N" - подбирается исходя из длит. допустимого тока N-провода.
+            "G" - А. В. Беляев Выбор аппаратуры, защит и кабелей в сетях 0,4 кВ, 2008 г., стр. 132.'''
+
+        # ОКОНЧАНИЕ МОДУЛЯ ВЫБОРА КАБЕЛЯ
+
+        if par > 1:
+            par_cab = str(par) + "x"
+        else:
+            par_cab = " "
+        if loads_df.pe_num[row] == 1 and section > 25:
+            loads_df.loc[row, 'CONSUM-CABLE_TYPE'] = (
+                    par_cab + loads_df['power_type'][row] + "-" + str(loads_df['ph_num'][row]) + "C+Ex" + str(section)
+                    + '/' + str(loads_df['pe_sect'][row]) + "mm2, L=" + str(loads_df['length'][row]) + "m, dU="
+                    + str(loads_df['calc_drop'][row]) + "%")
+        else:
+            loads_df.loc[row, 'CONSUM-CABLE_TYPE'] = (
+                    str(par_cab) + str(loads_df['power_type'][row]) + "-" + str(loads_df['ph_num'][row]
+                                                                                + loads_df['pe_num'][row]) + "x" + str(
+                section) + "mm2, L=" + str(loads_df['length'][row])
+                    + "m, dU=" + str(loads_df['calc_drop'][row]) + "%")
+
+        if loads_df['load_tag'][row][-1] == 'M':
+            load_tag_short = loads_df['load_tag'][row][:-1]
+        else:
+            load_tag_short = loads_df['load_tag'][row] + '-'
+
+        # CB feeder***************************************************************************************************
+        if loads_df['starter_type'][row] == "CB":
+            loads_df.loc[row, 'CONSUM-CABLE_TAG'] = "L-" + loads_df['panel_tag'][row] + loads_df['bus'][row] + "-" + \
+                                                    loads_df['load_tag'][row]
+            if loads_df.equip[row] != 'INCOMER' and loads_df.equip[row] != 'SECT_BREAKER':
+                loads_df.loc[row, 'CB_SET'] = 'L:' + str(
+                    L) + 'A; \nS:' + S + '; \nI:' + I + 'A; \nN:' + N + 'A; \nG:' + G + 'A' if show_settings else 'LSING'
+            if loads_df['equip'][row] == "INCOMER" or loads_df['equip'][row] == "SECT_BREAKER":
+
+                if "LVS" in loads_df['load_tag'][row]:
+                    loads_df.loc[row, 'CB_SET'] = 'L:' + str(
+                        L) + 'A; \nS:' + S + '; \nI:' + I + 'A; \nN:' + N + 'A' if show_settings else 'LSIN'
+                else:
+                    loads_df.loc[row, 'CB_SET'] = 'L:' + str(
+                        L) + 'A; \nS:' + S + '; \nI:' + I + 'A' if show_settings else 'LSI'
+
+        if loads_df.CB_AMPACITY[row] < 630:
+            loads_df.loc[row, 'SCHEME_TYPE'] = 'F1'
+        else:
+            loads_df.loc[row, 'SCHEME_TYPE'] = 'F2'
+
+        # DOL feeder****************************************************************************************************
+        if loads_df['starter_type'][row] == "DOL":
+            loads_df.loc[row, 'CONSUM-CABLE_TAG'] = "L-" + str(loads_df['panel_tag'][row]) + str(
+                loads_df['bus'][row]) + "-" + str(loads_df['load_tag'][row])
+            loads_df.loc[row, 'HEATER-CABLE_TAG'] = "L-" + loads_df['panel_tag'][row] + loads_df['bus'][
+                row] + "-" + load_tag_short + "SH"
+            loads_df.loc[row, 'HEATER-CABLE_TYPE'] = loads_df['power_type'][row] + "-3x2.5mm2, L=" + str(
+                loads_df['length'][row]) + 'm, dU=HOLD'
+
+            loads_df = tags_for_control_cab(row, loads_df)
+
+            if loads_df.addBut[row] == 1:
+                loads_df.loc[row, 'LCS2-CABLE_TAG'] = "C-" + load_tag_short + "LCS1" "-" + load_tag_short + "LCS2"
+                loads_df.loc[row, 'LCS2-CABLE_TYPE'] = loads_df['control_type'][row] + '-3x1.5mm2, L=' + str(
+                    contr_but_len) + 'm'
+            else:
+                loads_df.loc[row, 'starter_type'] = "DOL"
+
+            loads_df.loc[row, 'CONT_AMPACITY'] = str(max_nearest(loads_df.CB_AMPACITY[row] * 1.1)) + 'A'
+            loads_df.loc[row, 'CB_SET'] = 'I:' + I + 'A' if show_settings else 'I'
+            loads_df.loc[row, 'SCHEME_TYPE'] = 'MH1'
+
+        # VFD feeder ***************************************************************************************************
+        if loads_df['starter_type'][row] == "VFD":
+            loads_df.loc[row, 'VFD_TAG'] = load_tag_short[:7] + ' ' + load_tag_short[7:] + "VFD"
+            loads_df.loc[row, 'CONSUM-CABLE_TAG'] = "L-" + str(loads_df['VFD_TAG'][row]) + "-" \
+                                                    + str(loads_df['load_tag'][row])
+
+            loads_df.loc[row, 'HEATER-CABLE_TAG'] = \
+                "L-" + str(loads_df['panel_tag'][row]) + loads_df['bus'][row] + "-" + load_tag_short + "SH"
+            loads_df.loc[row, 'HEATER-CABLE_TYPE'] = \
+                str(loads_df['power_type'][row]) + "-3x2.5mm2, L=" + str(loads_df['length'][row]) + 'm'
+            loads_df.loc[row, 'LCS1-CABLE_TAG'] = \
+                "C-" + str(loads_df['panel_tag'][row]) + loads_df['bus'][row] + "-" + load_tag_short + "LCS1"
+
+            loads_df = tags_for_control_cab(row, loads_df)
+
+            if loads_df.addBut[row] == 1:
+                loads_df.loc[row, 'LCS2-CABLE_TAG'] = "C-" + load_tag_short + "LCS1" "-" + load_tag_short + "LCS2"
+                loads_df.loc[row, 'LCS2-CABLE_TYPE'] = loads_df['control_type'][row] + '-3x1.5mm2, L=' + str(
+                    contr_but_len) + 'm'
+            else:
+                loads_df.loc[row, 'starter_type'] = "VFD"  # "VFD_1but"
+                loads_df.loc[row, 'VFD-CABLE_TAG'] = "L-" + str(loads_df['panel_tag'][row]) + str(
+                    loads_df['bus'][row]) + "-" + load_tag_short + "VFD"
+
+            loads_df.loc[row, 'VFD_AMPACITY'] = str(max_nearest(loads_df['rated_current'][row] * 1.2)) + 'A'
+            loads_df.loc[row, 'CONT_AMPACITY'] = str(max_nearest(loads_df.CB_AMPACITY[row] * 1.1)) + 'A'
+            loads_df.loc[row, 'CB_SET'] = 'L:' + str(L) + 'A; \nI:' + I + 'A' if show_settings else 'LI'
+            if loads_df.rated_power[row] < 7.5:
+                loads_df.loc[row, 'SCHEME_TYPE'] = 'F1-VFD'
+            else:
+                loads_df.loc[row, 'SCHEME_TYPE'] = 'F2-VFD'
+
+        # SC RATING & POLARITY
+
+        loads_df = sc_rating_polarity()
 
 
-create_cab_list()
+
 
 def xl_to_sld():
     cos_start = 0.4
@@ -800,8 +802,6 @@ def xl_to_sld():
 
             lc, rc = st.columns(2, gap='medium')
 
-
-
             panelDescr = lc.text_input("Panel Description ('Motor Control Center')", max_chars=20)
             max_sc = lc.number_input('Initial Short Circuit Current at the Panel',
                                      value=65, min_value=6, max_value=150)
@@ -813,7 +813,6 @@ def xl_to_sld():
             min_sect = rc.selectbox('Min. Cross_section of Power Cable wire', ['1.5', '2.5', '4'], index=1)
             incom_margin = rc.selectbox("Margin for Incomer's Rated Current", ['1.0', '1.05', '1.1', '1.15', '1.2'],
                                         index=1)
-
 
             if cab_data:
                 cab_df = pd.read_excel(cab_data, sheet_name='cab_data')
@@ -841,4 +840,12 @@ def xl_to_sld():
 
             loads_df = prepare_loads_df(loads_df)
 
+            check_loads(loads_df)
 
+            loads_df = incom_sect_cb_calc(loads_df)
+
+            making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect)
+
+            loads_df = replace_zero(loads_df)
+
+            create_cab_list()
