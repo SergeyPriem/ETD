@@ -895,10 +895,8 @@ def xl_to_sld():
                 buffer = io.BytesIO()
 
                 with pd.ExcelWriter(buffer) as writer:
-                    # Write each dataframe to a different worksheet.
-                    cl_df.to_excel(writer, sheet_name='Sheet1', index=False)
-                    # Close the Pandas Excel writer and output the Excel file to the buffer
-                    writer.save()
+                    cl_df.to_excel(writer)
+
 
                 st.download_button('Get Cable List here', data=buffer,
                                    file_name=f'Cable List {datetime.datetime.today()}.xlsx', mime=None,
