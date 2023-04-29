@@ -899,7 +899,7 @@ def xl_to_sld():
 
 
                 st.download_button('Get Cable List here', data=buffer,
-                                   file_name=f'Cable List {datetime.datetime.today()}.xlsx', mime=None,
+                                   file_name=f'Cable List ({datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}).xlsx', mime=None,
                                    key=None, help=None, on_click=None, args=None, kwargs=None, disabled=False,
                                    use_container_width=False)
 
