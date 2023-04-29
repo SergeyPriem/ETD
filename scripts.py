@@ -843,9 +843,10 @@ def xl_to_sld():
                                              help=None, on_change=None, args=None,
                                              kwargs=None, disabled=False, label_visibility="visible")
 
-            lc, rc = st.columns(2, gap='medium')
+
 
             with st.form("cab_list"):
+                lc, rc = st.columns(2, gap='medium')
                 panelDescr = lc.text_input("Panel Description ('Motor Control Center')", max_chars=20)
                 max_sc = lc.number_input('Initial Short Circuit Current at the Panel',
                                          value=65, min_value=6, max_value=150)
