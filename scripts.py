@@ -838,7 +838,6 @@ def xl_to_sld():
         st.empty()
     with col_content:
 
-
         st.markdown("""
             <style>
                 div[data-testid="column"]:nth-of-type(1)
@@ -959,14 +958,15 @@ def xl_to_sld():
                     rc.text('')
                     create_sld_but = rc.form_submit_button('Create SLD', use_container_width=True)
 
-                try:
-                    doc = ezdxf.readfile(dxf_template)
-                except IOError:
-                    st.warning(f"Not a DXF file or a generic I/O error.")
-                    st.stop()
-                except ezdxf.DXFStructureError:
-                    print(f"Invalid or corrupted DXF file.")
-                    st.stop()
+                if dxf_template and create_sld_but:
+                    try:
+                        doc = ezdxf.readfile(dxf_template)
+                    except IOError:
+                        st.warning(f"Not a DXF file or a generic I/O error.")
+                        st.stop()
+                    except ezdxf.DXFStructureError:
+                        print(f"Invalid or corrupted DXF file.")
+                        st.stop()
 
                 msp = doc.modelspace()
                 point = 0
