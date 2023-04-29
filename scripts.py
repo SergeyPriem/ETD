@@ -985,7 +985,8 @@ def xl_to_sld():
                     #     st.stop()
 
                     except Exception as e:
-                        st.write(err_handler(e))
+                        st.write('!!!')
+                        st.warning(err_handler(e))
 
                     # st.write(doc)
                 # #
