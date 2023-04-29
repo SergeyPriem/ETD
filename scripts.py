@@ -971,6 +971,7 @@ def xl_to_sld():
                     # except Exception as e:
                     #     st.warning(err_handler(e))
 
+                    st.write(st.session_state.temp_dxf)
                     try:
                         doc = ezdxf.readfile(st.session_state.temp_dxf)
                     except IOError as e:
@@ -982,6 +983,9 @@ def xl_to_sld():
                         st.warning(f"Invalid or corrupted DXF file.")
                         st.write(err_handler(e))
                         st.stop()
+
+                    except Exception as e:
+                        st.write(err_handler(e))
 
                     # st.write(doc)
                 # #
