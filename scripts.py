@@ -965,7 +965,7 @@ def xl_to_sld():
                         st.divider()
                         st.write(type(dxf_in_ram))
                         st.divider()
-                        st.write(dxf_template.getbuffer())
+                        st.write(type(dxf_template.getbuffer()))
                     except Exception as e:
                         st.warning(err_handler(e))
 
