@@ -427,7 +427,7 @@ def sc_rating_polarity(max_sc, loads_df, row):
     return loads_df
 
 
-def create_cab_list(contr_but_len, loads_df, panelDescr):
+def create_cab_list(contr_but_len, loads_df, panelDescr, diam_df):
     for i in range(len(loads_df.index)):
         if not pd.isnull(loads_df['CONSUM-CABLE_TAG'][i]):
             if loads_df.parallel[i] > 1:
@@ -566,7 +566,7 @@ def create_cab_list(contr_but_len, loads_df, panelDescr):
         else:
             purpose = 'control'
         try:
-            cl_df.loc[y, 'diam'] = cab_diam(purpose, cl_df.compos[y], cl_df.wires[y], cl_df.section[y])
+            cl_df.loc[y, 'diam'] = cab_diam(purpose, cl_df.compos[y], cl_df.wires[y], cl_df.section[y], diam_df)
             cl_df.loc[y, 'weight'] = cab_weight(purpose, cl_df.compos[y], cl_df.wires[y], cl_df.section[y])
             cl_df.loc[y, 'glandType'] = gland_type(cl_df.toUnit[y])
             cl_df.loc[y, 'glandSize'] = gland_size(cl_df.diam[y], cl_df.compos[y])
@@ -891,7 +891,7 @@ def xl_to_sld():
 
                 loads_df = replace_zero(loads_df)
 
-                cl_df = create_cab_list(contr_but_len, loads_df, panelDescr)
+                cl_df = create_cab_list(contr_but_len, loads_df, panelDescr, diam_df)
 
                 st.subheader("Cable List is Ready")
                 st.write(cl_df)
