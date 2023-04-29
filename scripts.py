@@ -1,7 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 import datetime
 import io
-from io import StringIO
 import ezdxf
 import streamlit as st
 import pandas as pd
@@ -966,34 +965,17 @@ def xl_to_sld():
                     except Exception as e:
                         st.warning(err_handler(e))
 
-                    # st.write(bytes_data)
-                    # if dxf_template and create_sld_but:
-                    #     try:
-                    #         st.write(dxf_template)
-                    #     except Exception as e:
-                    #         st.warning(e)
-                    #
-                    # if dxf_template is not None:
-                    #     bytes_dxf = dxf_template.get_value()
-                    # else:
-                    #     st.warning("IT IS NONE")
+                    try:
+                        doc = ezdxf.readfile(dxf_in_ram)
+                    except IOError as e:
+                        st.warning(f"Not a DXF file or a generic I/O error.")
+                        st.write(err_handler(e))
+                        st.stop()
 
-                    # if dxf_template is not None and create_sld_but:
-                    #
-                    #     bytes_dxf = dxf_template.read()
-                    #
-                    # temp_file = open(dxf_template, 'r', encoding='utf-8')
-                    # try:
-                    #     doc = ezdxf.readfile(dxf_in_ram)
-                    # except IOError as e:
-                    #     st.warning(f"Not a DXF file or a generic I/O error.")
-                    #     st.write(err_handler(e))
-                    #     st.stop()
-                    #
-                    # except ezdxf.DXFStructureError as (e):
-                    #     st.warning(f"Invalid or corrupted DXF file.")
-                    #     st.write(err_handler(e))
-                    #     st.stop()
+                    except ezdxf.DXFStructureError as (e):
+                        st.warning(f"Invalid or corrupted DXF file.")
+                        st.write(err_handler(e))
+                        st.stop()
 
                     # st.write(doc)
                 # #
