@@ -7,7 +7,6 @@ import pandas as pd
 import numpy as np
 import math
 
-
 from users import err_handler
 
 cab_dict = {
@@ -164,14 +163,14 @@ def incom_sect_cb_calc(loads_df: pd.DataFrame) -> pd.DataFrame:
 
     loads_df.loc[(loads_df.load_duty == 'C') & (loads_df.equip != 'INCOMER') & (
             loads_df.equip != 'SECT_BREAKER'), 'c_kvar'] = \
-                loads_df.abs_power / loads_df.eff * np.tan(np.arccos(loads_df.power_factor))
+        loads_df.abs_power / loads_df.eff * np.tan(np.arccos(loads_df.power_factor))
 
     loads_df.loc[(loads_df.load_duty == 'I') & (loads_df.equip != 'INCOMER') & (
             loads_df.equip != 'SECT_BREAKER'), 'i_kvar'] = \
         loads_df.abs_power / loads_df.eff * np.tan(np.arccos(loads_df.power_factor))
 
     loads_df.loc[(loads_df.load_duty == 'S') & (loads_df.equip != 'INCOMER') & (
-            loads_df.equip != 'SECT_BREAKER'), 's_kvar'] =\
+            loads_df.equip != 'SECT_BREAKER'), 's_kvar'] = \
         loads_df.abs_power / loads_df.eff * np.tan(np.arccos(loads_df.power_factor))
 
     c_kw_a = loads_df.loc[loads_df.bus == 'A', 'c_kw'].sum()
@@ -353,7 +352,6 @@ def prepare_loads_df(loads_df):
 def sect_calc(cab_df, row: int, u_c: int, power: float, rated_current: float, derat_factor: float,
               cos_c: float, k_start: float, len_c: float, min_sect: object, u_drop_al: float, busduct: bool,
               cos_start: float, sin_start: float, loads_df) -> tuple:
-
     # sect_calc(cab_df, row, u_c, power, rated_current, derat_factor, cos_c, k_start, len_c, min_sect,
     #                                u_drop_al, busduct, cos_start, sin_start, loads_df)
     if busduct:
@@ -617,7 +615,8 @@ def replace_zero(loads_df):
     return loads_df
 
 
-def making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, contr_but_len, sin_start, cos_start, max_sc):
+def making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, contr_but_len, sin_start, cos_start,
+                   max_sc):
     for row in range(len(loads_df)):
         # select cable by rated current
         derat_factor = loads_df['instal_derat'][row] * loads_df['temp_derat'][row]
@@ -652,7 +651,7 @@ def making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, cont
             busduct = True
 
         cab_params = sect_calc(cab_df, row, u_c, power, rated_current, derat_factor, cos_c, k_start, len_c, min_sect,
-                                    u_drop_al, busduct, cos_start, sin_start, loads_df)
+                               u_drop_al, busduct, cos_start, sin_start, loads_df)
         loads_df.loc[row, 'parallel'] = cab_params[0]
         par = cab_params[0]
         loads_df.loc[row, 'section'] = cab_params[1]
@@ -736,8 +735,6 @@ def making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, cont
                 loads_df['length'][row]) + 'm, dU=HOLD'
 
             loads_df = tags_for_control_cab(row, loads_df, load_tag_short)
-
-
 
             if loads_df.addBut[row] == 1:
                 loads_df.loc[row, 'LCS2-CABLE_TAG'] = "C-" + load_tag_short + "LCS1" "-" + load_tag_short + "LCS2"
@@ -897,9 +894,7 @@ def xl_to_sld():
                 with pd.ExcelWriter(buffer) as writer:
                     cl_df.to_excel(writer)
 
-
                 st.download_button('Get Cable List here', data=buffer,
-                                   file_name=f'Cable List ({datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}).xlsx', mime=None,
-                                   key=None, help=None, on_click=None, args=None, kwargs=None, disabled=False,
-                                   use_container_width=False)
-
+                                   file_name=f'Cable List {datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}.xlsx',
+                                   mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
+                                   disabled=False, use_container_width=False)
