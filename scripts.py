@@ -959,7 +959,7 @@ def xl_to_sld():
                     st.write(dir(dxf_template))
                     try:
                         bytes_data = dxf_template.getvalue()
-                        st.write(bytes_data)
+                        st.write(type(bytes_data))
                     except Exception as e:
                         st.warning(err_handler(e))
 
