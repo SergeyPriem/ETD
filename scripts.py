@@ -5,6 +5,8 @@ import pandas as pd
 import numpy as np
 import math
 
+from users import err_handler
+
 cab_dict = {
     1.5: 1.5, 2.5: 2.5, 4: 4,
     6: 6, 10: 10, 16: 16,
@@ -137,9 +139,13 @@ def p_white(text):  # information, request
 
 def incom_sect_cb_calc(loads_df: pd.DataFrame) -> pd.DataFrame:
 
-    if len(loads_df.loc[loads_df.abs_power == 0]) > 0:
-        st.write(loads_df.loc[loads_df.abs_power == 0])
-        st.warning("abs_power")
+    try:
+        if len(loads_df.loc[loads_df.abs_power == 0]) > 0:
+            st.write(loads_df.loc[loads_df.abs_power == 0])
+            st.warning("abs_power")
+            st.stop()
+    except Exception as e:
+        st.write(err_handler(e))
         st.stop()
 
     loads_df.loc[(loads_df.load_duty == 'C') & (loads_df.equip != 'INCOMER') & (
