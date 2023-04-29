@@ -859,24 +859,15 @@ def xl_to_sld():
 
             show_settings = lc.checkbox("Show CB settings at SLD")
 
-            if cab_data:
+            if load_list and cab_data:
                 cab_df = pd.read_excel(cab_data, sheet_name='cab_data')
                 diam_df = pd.read_excel(cab_data, sheet_name='PRYSMIAN')
                 glands_df = pd.read_excel(cab_data, sheet_name='GLANDS')
                 ex_df = pd.read_excel(cab_data, sheet_name='ExZones')
 
-                # st.write(cab_df)
-                # st.write(diam_df)
-                # st.write(glands_df)
-                # st.write(ex_df)
-
-            if load_list:
                 loads_df = pd.read_excel(load_list, sheet_name='loads')
                 st.write(loads_df)
 
-                st.download_button('Get Cable List here', data=load_list, file_name='Cable List.xlsx', mime=None,
-                                   key=None, help=None,
-                                   on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
 
             if dxf_template:
                 st.download_button('Get SLD here', data=dxf_template, file_name='SLD.dxf', mime=None, key=None,
@@ -898,4 +889,9 @@ def xl_to_sld():
                 cl_df = create_cab_list(contr_but_len, loads_df, panelDescr, diam_df, ex_df, glands_df)
 
                 st.subheader("Cable List is Ready")
-                st.write(cl_df)
+                st.write(cl_df.head(7))
+
+                st.download_button('Get Cable List here', data=load_list, file_name='Cable List.xlsx', mime=None,
+                                   key=None, help=None,
+                                   on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
+
