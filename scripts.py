@@ -961,7 +961,7 @@ def xl_to_sld():
                         # with open(dxf_template, 'r') as f:
                         text_data = dxf_template.read()
                         dxf_in_ram = io.BytesIO(text_data)
-                        st.write(dxf_in_ram.readlines())
+                        st.write(type(dxf_in_ram.readlines()))
                         st.divider()
                         st.write(type(dxf_in_ram))
                     except Exception as e:
