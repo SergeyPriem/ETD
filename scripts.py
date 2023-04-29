@@ -892,9 +892,10 @@ def xl_to_sld():
                 st.subheader("Cable List is Ready")
                 st.write(cl_df.head(7))
 
-                cable_list = cl_df.to_excel(f'Cable List {datetime.datetime.today()}.xlsx')
+                # cable_list = cl_df.to_excel(f'Cable List {datetime.datetime.today()}.xlsx')
 
-                st.download_button('Get Cable List here', data=cable_list, file_name='Cable List.xlsx', mime=None,
-                                   key=None, help=None,
-                                   on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
+                st.download_button('Get Cable List here', data=cl_df,
+                                   file_name=f'Cable List {datetime.datetime.today()}.xlsx', mime=None,
+                                   key=None, help=None, on_click=None, args=None, kwargs=None, disabled=False,
+                                   use_container_width=False)
 
