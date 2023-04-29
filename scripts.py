@@ -840,10 +840,10 @@ def xl_to_sld():
                 glands_df = pd.read_excel(cab_data, sheet_name='GLANDS')
                 ex_df = pd.read_excel(cab_data, sheet_name='ExZones')
 
-                st.write(cab_df)
-                st.write(diam_df)
-                st.write(glands_df)
-                st.write(ex_df)
+                # st.write(cab_df)
+                # st.write(diam_df)
+                # st.write(glands_df)
+                # st.write(ex_df)
 
             if load_list:
                 loads_df = pd.read_excel(load_list, sheet_name='loads')
