@@ -1,4 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
+import datetime
 
 import streamlit as st
 import pandas as pd
@@ -866,7 +867,7 @@ def xl_to_sld():
                 ex_df = pd.read_excel(cab_data, sheet_name='ExZones')
 
                 loads_df = pd.read_excel(load_list, sheet_name='loads')
-                st.write(loads_df)
+                # st.write(loads_df)
 
 
             if dxf_template:
@@ -891,7 +892,9 @@ def xl_to_sld():
                 st.subheader("Cable List is Ready")
                 st.write(cl_df.head(7))
 
-                st.download_button('Get Cable List here', data=load_list, file_name='Cable List.xlsx', mime=None,
+                cable_list = cl_df.to_excel(f'Cable List {datetime.datetime.today()}.xlsx')
+
+                st.download_button('Get Cable List here', data=cable_list, file_name='Cable List.xlsx', mime=None,
                                    key=None, help=None,
                                    on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
 
