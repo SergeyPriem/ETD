@@ -1,6 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 import datetime
 import io
+from io import StringIO
 import ezdxf
 import streamlit as st
 import pandas as pd
@@ -959,7 +960,8 @@ def xl_to_sld():
                     st.write(dir(dxf_template))
                     try:
                         bytes_data = dxf_template.getvalue()
-                        st.write(type(bytes_data))
+                        dxf_in_ram = StringIO(bytes_data)
+                        st.write(type(dxf_in_ram))
                     except Exception as e:
                         st.warning(err_handler(e))
 
