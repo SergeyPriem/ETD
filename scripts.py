@@ -974,15 +974,15 @@ def xl_to_sld():
                     st.write(st.session_state.temp_dxf)
                     try:
                         doc = ezdxf.readfile(st.session_state.temp_dxf)
-                    except IOError as e:
-                        st.warning(f"Not a DXF file or a generic I/O error.")
-                        st.write(err_handler(e))
-                        st.stop()
-
-                    except ezdxf.DXFStructureError as e:
-                        st.warning(f"Invalid or corrupted DXF file.")
-                        st.write(err_handler(e))
-                        st.stop()
+                    # except IOError as e:
+                    #     st.warning(f"Not a DXF file or a generic I/O error.")
+                    #     st.write(err_handler(e))
+                    #     st.stop()
+                    #
+                    # except ezdxf.DXFStructureError as e:
+                    #     st.warning(f"Invalid or corrupted DXF file.")
+                    #     st.write(err_handler(e))
+                    #     st.stop()
 
                     except Exception as e:
                         st.write(err_handler(e))
