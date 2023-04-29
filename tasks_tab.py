@@ -337,5 +337,6 @@ def view_tasks(ass_tab2, my_all):
             if set_val:
                 df_orig = df_orig.loc[df_temp.unit.str.contains(set_val.upper())]
 
+        df_orig.sort_values(by=['task_id'], ascending=False)
         st.write(f"{len(df_orig)} records found")
         st.experimental_data_editor(df_orig, use_container_width=True)

@@ -7,6 +7,7 @@ import datetime
 import random
 from streamlit_option_menu import option_menu
 from admin_tools import manage_projects, get_list_index
+from scripts import xl_to_sld
 from tasks_tab import tasks_content
 from drawing_sets_tab import drawing_sets, create_new_unit
 from just_for_fun_tab import just_for_fun
@@ -437,96 +438,6 @@ def home_content():
                         st.write('No New Transmittals')
 
 
-def scripts():
-    col_1, col_content, col_2 = st.columns([1, 9, 1])
-    with col_1:
-        st.empty()
-    with col_2:
-        st.empty()
-    with col_content:
-
-        st.markdown("""
-            <style>
-                div[data-testid="column"]:nth-of-type(1)
-                {
-                    text-align: center;
-                } 
-
-                div[data-testid="column"]:nth-of-type(2)
-                {
-                    text-align: center;
-                } 
-
-                div[data-testid="column"]:nth-of-type(3)
-                {
-                    text-align: center;
-                } 
-            </style>
-            """, unsafe_allow_html=True)
-
-        st.title(':orange[Create SLD from Load List] - under Development')
-        st.divider()
-
-        u_df = st.session_state.adb['users']
-
-        user_script_acc = u_df.loc[u_df.login == st.session_state.user, 'script_acc'].to_numpy()[0]
-
-        if user_script_acc:
-
-            p_l, p_c, p_r = st.columns(3, gap='medium')
-
-            load_list = p_l.file_uploader("Upload Load List in xlsx or xlsb", type=['xlsx', 'xlsb'],
-                                          accept_multiple_files=False, key=None,
-                                          help=None, on_change=None, args=None,
-                                          kwargs=None, disabled=False, label_visibility="visible")
-
-            cab_data = p_c.file_uploader("Upload Cable Catalog in xlsx or xlsb", type=['xlsx', 'xlsb'],
-                                         accept_multiple_files=False, key=None,
-                                         help=None, on_change=None, args=None,
-                                         kwargs=None, disabled=False, label_visibility="visible")
-
-            dxf_template = p_r.file_uploader("Upload SLD template in dxf (v.18.0)", type=['dxf'],
-                                             accept_multiple_files=False, key=None,
-                                             help=None, on_change=None, args=None,
-                                             kwargs=None, disabled=False, label_visibility="visible")
-
-            lc, rc = st.columns(2, gap='medium')
-
-
-
-            panelDescr = lc.text_input("Panel Description ('Motor Control Center')", max_chars=20)
-            max_sc = lc.number_input('Initial Short Circuit Current at the Panel',
-                                     value=65, min_value=6, max_value=150)
-            peak_sc = lc.number_input('Peak Short Circuit Current at the Panel',
-                                      value=125, min_value=10, max_value=300)
-            contr_but_len = rc.number_input('Length of cable for Emergency PushButton',
-                                            value=25, min_value=10, max_value=300)
-
-            min_sect = rc.selectbox('Min. Cross_section of Power Cable wire', ['1.5', '2.5', '4'], index=1)
-            incom_margin = rc.selectbox("Margin for Incomer's Rated Current", ['1.0', '1.05', '1.1', '1.15', '1.2'],
-                                        index=1)
-
-
-            if cab_data:
-                cab_df = pd.read_excel(cab_data, sheet_name='cab_data')
-                diam_df = pd.read_excel(cab_data, sheet_name='PRYSMIAN')
-                glands_df = pd.read_excel(cab_data, sheet_name='GLANDS')
-                ex_df = pd.read_excel(cab_data, sheet_name='ExZones')
-
-                st.write(cab_df)
-                st.write(diam_df)
-                st.write(glands_df)
-                st.write(ex_df)
-
-            if load_list:
-                st.download_button('Get Cable List here', data=load_list, file_name='Cable List.xlsx', mime=None,
-                                   key=None, help=None,
-                                   on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
-
-            if dxf_template:
-                st.download_button('Get SLD here', data=dxf_template, file_name='SLD.dxf', mime=None, key=None,
-                                   help=None,
-                                   on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
 
 
 def login_register():
@@ -843,7 +754,7 @@ def win_selector(selected):
         "Tasks": tasks_content,
         "Drawing Sets": drawing_sets,
         "Just for fun": just_for_fun,
-        "Scripts": scripts,
+        "Scripts": xl_to_sld,
         "Manage Users": manage_users,
         "Lessons Learned": lessons_content,
         "Settings": settings_content,
