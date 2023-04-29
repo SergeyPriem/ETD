@@ -1147,9 +1147,9 @@ def xl_to_sld():
                 #                        mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
                 #                        disabled=False, use_container_width=False)
 
-                    if dxf_template:
-                        st.download_button('Get SLD here', data=dxf_template, file_name='SLD.dxf', mime=None, key=None,
-                                           help=None,
-                                           on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
+                    # if dxf_template:
+                    #     st.download_button('Get SLD here', data=dxf_template, file_name='SLD.dxf', mime=None, key=None,
+                    #                        help=None,
+                    #                        on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
 
 
