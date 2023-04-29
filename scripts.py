@@ -726,7 +726,9 @@ def making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, cont
             loads_df.loc[row, 'HEATER-CABLE_TYPE'] = loads_df['power_type'][row] + "-3x2.5mm2, L=" + str(
                 loads_df['length'][row]) + 'm, dU=HOLD'
 
-            loads_df = tags_for_control_cab(row, loads_df)
+            loads_df = tags_for_control_cab(row, loads_df, load_tag_short)
+
+
 
             if loads_df.addBut[row] == 1:
                 loads_df.loc[row, 'LCS2-CABLE_TAG'] = "C-" + load_tag_short + "LCS1" "-" + load_tag_short + "LCS2"
@@ -752,7 +754,7 @@ def making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, cont
             loads_df.loc[row, 'LCS1-CABLE_TAG'] = \
                 "C-" + str(loads_df['panel_tag'][row]) + loads_df['bus'][row] + "-" + load_tag_short + "LCS1"
 
-            loads_df = tags_for_control_cab(row, loads_df)
+            loads_df = tags_for_control_cab(row, loads_df, load_tag_short)
 
             if loads_df.addBut[row] == 1:
                 loads_df.loc[row, 'LCS2-CABLE_TAG'] = "C-" + load_tag_short + "LCS1" "-" + load_tag_short + "LCS2"
