@@ -754,9 +754,9 @@ def making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, cont
 
 
 def xl_to_sld():
-    cos_start = 0.4
-    k_start = 1
-    sin_start = math.sin(math.acos(cos_start))
+    # COS_START = 0.4
+    # K_START = 1
+    # SIN_START = math.sin(math.acos(COS_START))
 
     col_1, col_content, col_2 = st.columns([1, 9, 1])
     with col_1:
@@ -863,7 +863,7 @@ def xl_to_sld():
 
                 loads_df = replace_zero(loads_df)
 
-                cl_df = create_cab_list(contr_but_len, loads_df)
+                cl_df = create_cab_list(contr_but_len, loads_df, panelDescr)
 
                 st.subheader("Cable List is Ready")
                 st.write(cl_df)
