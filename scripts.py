@@ -956,20 +956,20 @@ def xl_to_sld():
                     create_sld_but = rc.form_submit_button('Create SLD', use_container_width=True)
 
 
-                if dxf_template and create_sld_but:
-                    try:
-                        st.write(dxf_template)
-                    except Exception as e:
-                        st.warning(e)
+                # if dxf_template and create_sld_but:
+                #     try:
+                #         st.write(dxf_template)
+                #     except Exception as e:
+                #         st.warning(e)
+                #
+                # if dxf_template is not None:
+                #     bytes_dxf = dxf_template.get_value()
+                # else:
+                #     st.warning("IT IS NONE")
 
-                if dxf_template is not None:
-                    bytes_dxf = dxf_template.get_value()
-                else:
-                    st.warning("IT IS NONE")
-
-                if dxf_template and create_sld_but:
+                if dxf_template is not None and create_sld_but:
                     try:
-                        doc = ezdxf.readfile(bytes_dxf)
+                        doc = ezdxf.readfile(dxf_template)
                     except IOError:
                         st.warning(f"Not a DXF file or a generic I/O error.")
                         st.write(type(dxf_template))
