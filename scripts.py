@@ -982,7 +982,7 @@ def xl_to_sld():
 
                     st.stop()
 
-                except ezdxf.DXFStructureError:
+                except ezdxf.DXFStructureError as (e):
                     st.warning(f"Invalid or corrupted DXF file.")
                     st.write(err_handler(e))
                     st.stop()
