@@ -875,7 +875,7 @@ def xl_to_sld():
             if len(loads_df):
                 loads_df = prepare_loads_df(loads_df)
 
-                loads_df = check_loads(loads_df)
+                check_loads(loads_df)
 
                 loads_df = incom_sect_cb_calc(loads_df)
 
