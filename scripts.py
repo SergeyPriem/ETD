@@ -855,15 +855,15 @@ def xl_to_sld():
             if len(loads_df):
                 loads_df = prepare_loads_df(loads_df)
 
-            loads_df = check_loads(loads_df)
+                loads_df = check_loads(loads_df)
 
-            loads_df = incom_sect_cb_calc(loads_df)
+                loads_df = incom_sect_cb_calc(loads_df)
 
-            making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect)
+                making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect)
 
-            loads_df = replace_zero(loads_df)
+                loads_df = replace_zero(loads_df)
 
-            cl_df = create_cab_list(contr_but_len, loads_df)
+                cl_df = create_cab_list(contr_but_len, loads_df)
 
-            st.subheader("Cable List is Ready")
-            st.write(cl_df)
+                st.subheader("Cable List is Ready")
+                st.write(cl_df)
