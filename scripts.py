@@ -572,7 +572,7 @@ def create_cab_list(contr_but_len, loads_df, panelDescr, diam_df, ex_df):
 
             # cab_weight(purpose, composition, wires, section, diam_df, ex_df)
 
-            cl_df.loc[y, 'glandType'] = gland_type(cl_df.toUnit[y])
+            cl_df.loc[y, 'glandType'] = gland_type(cl_df.toUnit[y], ex_df)
             cl_df.loc[y, 'glandSize'] = gland_size(cl_df.diam[y], cl_df.compos[y])
         except Exception as e:
             print('Ошибка определения диаметра кабеля: ', cl_df.cableTag[y])
