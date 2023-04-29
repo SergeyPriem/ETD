@@ -138,19 +138,25 @@ def p_white(text):  # information, request
 def incom_sect_cb_calc(loads_df: pd.DataFrame) -> pd.DataFrame:
     loads_df.loc[(loads_df.load_duty == 'C') & (loads_df.equip != 'INCOMER') & (
             loads_df.equip != 'SECT_BREAKER'), 'c_kw'] = loads_df.abs_power / loads_df.eff
+
     loads_df.loc[(loads_df.load_duty == 'I') & (loads_df.equip != 'INCOMER') & (
             loads_df.equip != 'SECT_BREAKER'), 'i_kw'] = loads_df.abs_power / loads_df.eff
+
     loads_df.loc[(loads_df.load_duty == 'S') & (loads_df.equip != 'INCOMER') & (
             loads_df.equip != 'SECT_BREAKER'), 's_kw'] = loads_df.abs_power / loads_df.eff
+
     loads_df.loc[(loads_df.load_duty == 'C') & (loads_df.equip != 'INCOMER') & (
-            loads_df.equip != 'SECT_BREAKER'), 'c_kvar'] = loads_df.abs_power / loads_df.eff * np.tan(
-        np.arccos(loads_df.power_factor))
+            loads_df.equip != 'SECT_BREAKER'), 'c_kvar'] = \
+                loads_df.abs_power / loads_df.eff * np.tan(np.arccos(loads_df.power_factor))
+
     loads_df.loc[(loads_df.load_duty == 'I') & (loads_df.equip != 'INCOMER') & (
-            loads_df.equip != 'SECT_BREAKER'), 'i_kvar'] = loads_df.abs_power / loads_df.eff * np.tan(
-        np.arccos(loads_df.power_factor))
+            loads_df.equip != 'SECT_BREAKER'), 'i_kvar'] = \
+        loads_df.abs_power / loads_df.eff * np.tan(np.arccos(loads_df.power_factor))
+
     loads_df.loc[(loads_df.load_duty == 'S') & (loads_df.equip != 'INCOMER') & (
-            loads_df.equip != 'SECT_BREAKER'), 's_kvar'] = loads_df.abs_power / loads_df.eff * np.tan(
-        np.arccos(loads_df.power_factor))
+            loads_df.equip != 'SECT_BREAKER'), 's_kvar'] =\
+        loads_df.abs_power / loads_df.eff * np.tan(np.arccos(loads_df.power_factor))
+
     c_kw_a = loads_df.loc[loads_df.bus == 'A', 'c_kw'].sum()
     c_kw_b = loads_df.loc[loads_df.bus == 'B', 'c_kw'].sum()
     i_kw_a = loads_df.loc[loads_df.bus == 'A', 'i_kw'].sum()
