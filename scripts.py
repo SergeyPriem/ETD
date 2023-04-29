@@ -964,20 +964,22 @@ def xl_to_sld():
                         st.write(type(dxf_in_ram.readlines()))
                         st.divider()
                         st.write(type(dxf_in_ram))
+                        st.divider()
+                        st.write(dxf_template.getbuffer())
                     except Exception as e:
                         st.warning(err_handler(e))
 
-                    try:
-                        doc = ezdxf.readfile(dxf_template.getbuffer())
-                    except IOError as e:
-                        st.warning(f"Not a DXF file or a generic I/O error.")
-                        st.write(err_handler(e))
-                        st.stop()
-
-                    except ezdxf.DXFStructureError as (e):
-                        st.warning(f"Invalid or corrupted DXF file.")
-                        st.write(err_handler(e))
-                        st.stop()
+                    # try:
+                    #     doc = ezdxf.readfile(dxf_template.getbuffer())
+                    # except IOError as e:
+                    #     st.warning(f"Not a DXF file or a generic I/O error.")
+                    #     st.write(err_handler(e))
+                    #     st.stop()
+                    #
+                    # except ezdxf.DXFStructureError as (e):
+                    #     st.warning(f"Invalid or corrupted DXF file.")
+                    #     st.write(err_handler(e))
+                    #     st.stop()
 
                     # st.write(doc)
                 # #
