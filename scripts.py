@@ -608,7 +608,7 @@ def replace_zero(loads_df):
     return loads_df
 
 
-def making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, contr_but_len, sin_start, cos_start):
+def making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, contr_but_len, sin_start, cos_start, max_sc):
     for row in range(len(loads_df)):
         # select cable by rated current
         derat_factor = loads_df['instal_derat'][row] * loads_df['temp_derat'][row]
@@ -773,7 +773,7 @@ def making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, cont
 
         # SC RATING & POLARITY
 
-        loads_df = sc_rating_polarity()
+        loads_df = sc_rating_polarity(max_sc, loads_df, row)
 
 
 def xl_to_sld():
@@ -883,7 +883,7 @@ def xl_to_sld():
                 loads_df = incom_sect_cb_calc(loads_df)
 
                 making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, contr_but_len,
-                               SIN_START, COS_START)
+                               SIN_START, COS_START, max_sc)
 
                 loads_df = replace_zero(loads_df)
 
