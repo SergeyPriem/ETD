@@ -1,5 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 import datetime
+import io
 
 import streamlit as st
 import pandas as pd
@@ -892,9 +893,15 @@ def xl_to_sld():
                 st.subheader("Cable List is Ready")
                 st.write(cl_df.head(7))
 
-                # cable_list = cl_df.to_excel(f'Cable List {datetime.datetime.today()}.xlsx')
+                buffer = io.BytesIO()
 
-                st.download_button('Get Cable List here', data=cl_df,
+                with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+                    # Write each dataframe to a different worksheet.
+                    cl_df.to_excel(writer, sheet_name='Sheet1', index=False)
+                    # Close the Pandas Excel writer and output the Excel file to the buffer
+                    writer.save()
+
+                st.download_button('Get Cable List here', data=buffer,
                                    file_name=f'Cable List {datetime.datetime.today()}.xlsx', mime=None,
                                    key=None, help=None, on_click=None, args=None, kwargs=None, disabled=False,
                                    use_container_width=False)
