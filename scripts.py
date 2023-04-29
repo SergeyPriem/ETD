@@ -572,6 +572,8 @@ def create_cab_list(contr_but_len, loads_df, panelDescr):
             cl_df.loc[y, 'glandSize'] = gland_size(cl_df.diam[y], cl_df.compos[y])
         except:
             print('Ошибка определения диаметра кабеля: ', cl_df.cableTag[y])
+            e_str = f"{cl_df.cableTag[y]} > {err_handler(e)}"
+            st.write(e_str)
 
     for i in range(len(loads_df.parallel)):
         if loads_df.parallel[i] > 1:
