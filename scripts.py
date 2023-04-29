@@ -995,7 +995,7 @@ def xl_to_sld():
                         st.write(err_handler(e))
                         st.stop()
 
-                    st.write(doc)
+                    # st.write(doc)
                 # #
                 #     msp = doc.modelspace()
                 #     point = 0
