@@ -919,10 +919,6 @@ def xl_to_sld():
 
                     loads_df = pd.read_excel(load_list, sheet_name='loads')
 
-                if dxf_template:
-                    st.download_button('Get SLD here', data=dxf_template, file_name='SLD.dxf', mime=None, key=None,
-                                       help=None,
-                                       on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
 
                 if len(loads_df):
                     loads_df = prepare_loads_df(loads_df)
@@ -957,6 +953,7 @@ def xl_to_sld():
                     order = lc.radio("Order od SLD creation", ('ПО ТИПУ ФИДЕРОВ', 'ПО LOAD LIST'), horizontal=True)
                     rc.text('')
                     create_sld_but = rc.form_submit_button('Create SLD', use_container_width=True)
+
 
                 if dxf_template and create_sld_but:
                     try:
@@ -1125,4 +1122,10 @@ def xl_to_sld():
                 #                        file_name=f'SLD {datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}.xlsx',
                 #                        mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
                 #                        disabled=False, use_container_width=False)
-                #
+
+                if dxf_template:
+                    st.download_button('Get SLD here', data=dxf_template, file_name='SLD.dxf', mime=None, key=None,
+                                       help=None,
+                                       on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
+
+
