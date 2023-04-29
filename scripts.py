@@ -879,7 +879,7 @@ def xl_to_sld():
 
                 loads_df = incom_sect_cb_calc(loads_df)
 
-                making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect)
+                making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, contr_but_len)
 
                 loads_df = replace_zero(loads_df)
 
