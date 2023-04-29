@@ -138,17 +138,17 @@ def p_white(text):  # information, request
 
 
 def incom_sect_cb_calc(loads_df: pd.DataFrame) -> pd.DataFrame:
-    st.info('Loads DF')
-    st.write(loads_df)
-    st.stop()
-    try:
-        if len(loads_df.loc[loads_df.abs_power == 0]) > 0:
-            st.write(loads_df.loc[loads_df.abs_power == 0])
-            st.warning("abs_power")
-            st.stop()
-    except Exception as e:
-        st.write(err_handler(e))
-        st.stop()
+    # st.info('Loads DF')
+    # st.write(loads_df)
+    # st.stop()
+    # try:
+    #     if len(loads_df.loc[loads_df.abs_power == 0]) > 0:
+    #         st.write(loads_df.loc[loads_df.abs_power == 0])
+    #         st.warning("abs_power")
+    #         st.stop()
+    # except Exception as e:
+    #     st.write(err_handler(e))
+    #     st.stop()
 
     loads_df.loc[(loads_df.load_duty == 'C') & (loads_df.equip != 'INCOMER') & (
             loads_df.equip != 'SECT_BREAKER'), 'c_kw'] = loads_df.abs_power / loads_df.eff
