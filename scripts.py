@@ -959,10 +959,10 @@ def xl_to_sld():
                 if dxf_template is not None:
                     st.write(dir(dxf_template))
                     try:
-                        with open(dxf_template, 'r') as f:
-                            # text_data = dxf_template.get_value()
-                            dxf_in_ram = io.BytesIO(f)
-                            st.write(type(dxf_in_ram))
+                        # with open(dxf_template, 'r') as f:
+                        text_data = dxf_template.read()
+                        dxf_in_ram = io.BytesIO(text_data)
+                        st.write(type(dxf_in_ram))
                     except Exception as e:
                         st.warning(err_handler(e))
 
