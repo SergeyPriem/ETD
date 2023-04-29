@@ -973,7 +973,7 @@ def xl_to_sld():
                 #
                 #     bytes_dxf = dxf_template.read()
                 #
-                temp_file = open(dxf_template)
+                temp_file = open(dxf_template, 'r', encoding='utf-8')
                 try:
                     doc = ezdxf.readfile(temp_file)
                 except IOError as e:
