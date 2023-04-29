@@ -276,30 +276,36 @@ def check_loads(loads_df):
     if (checkLoads_df.isnull().sum()).sum() > 0:
         p_red(f'В Load List {(checkLoads_df.isnull().sum()).sum()} не заполненных обязательных полей')
         p_red('Подгрузите корректно заполненный Load List')
-        st.write('Script aborted')('Script aborted!')
+        st.write('Script aborted')
+        st.stop()
 
     if checkLoads_df.eff.min() == 0:
         p_red("Nulls in 'efficiency' column")
         st.write('Script aborted')
+        st.stop()
 
     if checkLoads_df.power_factor.min() == 0:
         p_red("Nulls in 'power factor' column")
         st.write('Script aborted')
+        st.stop()
 
     if checkLoads_df.abs_power[3:].min() == 0:
         p_red("Nulls in 'abs_power' column")
         st.write('Script aborted')
+        st.stop()
 
     if checkLoads_df.rated_power[3:].min() == 0:
         p_red("Nulls in 'rated_power' column")
         st.write('Script aborted')
+        st.stop()
 
     if checkLoads_df.usage_factor[3:].min() == 0:
         p_red("Nulls in 'usage_factor' column")
         st.write('Script aborted')
+        st.stop()
 
-    print('')
-    p_green('Полнота данных: OK\n')
+    st.text('')
+    st.success('Loads Data are Walid')
 
 
 def prepare_loads_df(loads_df):
@@ -787,6 +793,8 @@ def xl_to_sld():
 
         if user_script_acc:
 
+            loads_df = pd.DataFrame()
+
             p_l, p_c, p_r = st.columns(3, gap='medium')
 
             load_list = p_l.file_uploader("Upload Load List in xlsx or xlsb", type=['xlsx', 'xlsb'],
@@ -844,9 +852,10 @@ def xl_to_sld():
                                    help=None,
                                    on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
 
-            loads_df = prepare_loads_df(loads_df)
+            if len(loads_df):
+                loads_df = prepare_loads_df(loads_df)
 
-            check_loads(loads_df)
+            loads_df = check_loads(loads_df)
 
             loads_df = incom_sect_cb_calc(loads_df)
 
@@ -854,4 +863,7 @@ def xl_to_sld():
 
             loads_df = replace_zero(loads_df)
 
-            create_cab_list(contr_but_len, loads_df)
+            cl_df = create_cab_list(contr_but_len, loads_df)
+
+            st.subheader("Cable List is Ready")
+            st.write(cl_df)
