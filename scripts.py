@@ -957,7 +957,7 @@ def xl_to_sld():
 
                 st.write(dir(dxf_template))
                 bytes_data = dxf_template.getvalue()
-                st.write(bytes_data)
+                # st.write(bytes_data)
                 # if dxf_template and create_sld_but:
                 #     try:
                 #         st.write(dxf_template)
@@ -975,9 +975,10 @@ def xl_to_sld():
                 #
                 try:
                     doc = ezdxf.readfile(bytes_data)
-                except IOError:
+                except IOError as e:
                     st.warning(f"Not a DXF file or a generic I/O error.")
-                    st.write(type(dxf_template))
+                    st.write(err_handler(e))
+
                     st.stop()
 
                 except ezdxf.DXFStructureError:
