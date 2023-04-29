@@ -886,6 +886,8 @@ def xl_to_sld():
                                              help=None, on_change=None, args=None,
                                              kwargs=None, disabled=False, label_visibility="visible")
 
+            st.session_state.temp_dxf = dxf_template
+
             tab_cl, tab_sld = st.tabs(['Create Cable List', 'Create SLD'])
 
             with tab_cl:
@@ -957,29 +959,29 @@ def xl_to_sld():
 
                 if dxf_template is not None:
                     # st.write(dir(dxf_template))
-                    try:
-                        # with open(dxf_template, 'r') as f:
-                        text_data = dxf_template.read()
-                        dxf_in_ram = io.BytesIO(text_data)
-                        st.write(type(dxf_in_ram.readlines()))
-                        st.divider()
-                        st.write(type(dxf_in_ram))
-                        st.divider()
-                        st.write(type(dxf_template.getbuffer()))
-                    except Exception as e:
-                        st.warning(err_handler(e))
-
                     # try:
-                    #     doc = ezdxf.readfile(dxf_template.getbuffer())
-                    # except IOError as e:
-                    #     st.warning(f"Not a DXF file or a generic I/O error.")
-                    #     st.write(err_handler(e))
-                    #     st.stop()
-                    #
-                    # except ezdxf.DXFStructureError as (e):
-                    #     st.warning(f"Invalid or corrupted DXF file.")
-                    #     st.write(err_handler(e))
-                    #     st.stop()
+                    #     # with open(dxf_template, 'r') as f:
+                    #     text_data = dxf_template.read()
+                    #     dxf_in_ram = io.BytesIO(text_data)
+                    #     st.write(type(dxf_in_ram.readlines()))
+                    #     st.divider()
+                    #     st.write(type(dxf_in_ram))
+                    #     st.divider()
+                    #     st.write(type(dxf_template.getbuffer()))
+                    # except Exception as e:
+                    #     st.warning(err_handler(e))
+
+                    try:
+                        doc = ezdxf.readfile(st.session_state.temp_dxf)
+                    except IOError as e:
+                        st.warning(f"Not a DXF file or a generic I/O error.")
+                        st.write(err_handler(e))
+                        st.stop()
+
+                    except ezdxf.DXFStructureError as (e):
+                        st.warning(f"Invalid or corrupted DXF file.")
+                        st.write(err_handler(e))
+                        st.stop()
 
                     # st.write(doc)
                 # #

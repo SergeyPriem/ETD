@@ -127,6 +127,9 @@ def get_menus():
 
 
 def create_states():
+    if 'temp_dxf' not in st.session_state:
+        st.session_state.temp_dxf = None
+
     if 'all' not in st.session_state:
         st.session_state.all = True
 
