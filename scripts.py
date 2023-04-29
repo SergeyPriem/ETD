@@ -138,7 +138,9 @@ def p_white(text):  # information, request
 
 
 def incom_sect_cb_calc(loads_df: pd.DataFrame) -> pd.DataFrame:
-
+    st.info('Loads DF')
+    st.write(loads_df)
+    st.stop()
     try:
         if len(loads_df.loc[loads_df.abs_power == 0]) > 0:
             st.write(loads_df.loc[loads_df.abs_power == 0])
