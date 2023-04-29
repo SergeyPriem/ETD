@@ -350,6 +350,9 @@ def prepare_loads_df(loads_df):
 def sect_calc(cab_df, row: int, u_c: int, power: float, rated_current: float, derat_factor: float,
               cos_c: float, k_start: float, len_c: float, min_sect: object, u_drop_al: float, busduct: bool,
               cos_start: float, sin_start: float, loads_df) -> tuple:
+
+    # sect_calc(cab_df, row, u_c, power, rated_current, derat_factor, cos_c, k_start, len_c, min_sect,
+    #                                u_drop_al, busduct, cos_start, sin_start, loads_df)
     if busduct:
         return 1, 1000, 1000, 0
     global section, voltage_drop, pe_sect
@@ -605,7 +608,7 @@ def replace_zero(loads_df):
     return loads_df
 
 
-def making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, contr_but_len, sin_start):
+def making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, contr_but_len, sin_start, cos_start):
     for row in range(len(loads_df)):
         # select cable by rated current
         derat_factor = loads_df['instal_derat'][row] * loads_df['temp_derat'][row]
@@ -640,7 +643,7 @@ def making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, cont
             busduct = True
 
         cab_params = sect_calc(cab_df, row, u_c, power, rated_current, derat_factor, cos_c, k_start, len_c, min_sect,
-                               u_drop_al, busduct, sin_start, loads_df)
+                                    u_drop_al, busduct, cos_start, sin_start, loads_df)
         loads_df.loc[row, 'parallel'] = cab_params[0]
         par = cab_params[0]
         loads_df.loc[row, 'section'] = cab_params[1]
@@ -879,7 +882,8 @@ def xl_to_sld():
 
                 loads_df = incom_sect_cb_calc(loads_df)
 
-                making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, contr_but_len, SIN_START)
+                making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, contr_but_len,
+                               SIN_START, COS_START)
 
                 loads_df = replace_zero(loads_df)
 
