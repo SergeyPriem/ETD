@@ -968,8 +968,11 @@ def xl_to_sld():
                 #     st.warning("IT IS NONE")
 
                 if dxf_template is not None and create_sld_but:
+
+                    bytes_dxf = dxf_template.read()
+
                     try:
-                        doc = ezdxf.readfile(dxf_template)
+                        doc = ezdxf.readfile(bytes_dxf)
                     except IOError:
                         st.warning(f"Not a DXF file or a generic I/O error.")
                         st.write(type(dxf_template))
