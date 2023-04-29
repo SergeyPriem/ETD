@@ -49,6 +49,7 @@ compositDic = {
     5: '3PHNG'
 }
 
+
 def max_nearest(target: int) -> int:
     lst = [4, 6, 10, 16, 25, 32, 40, 63, 80, 100, 125, 160, 250, 320,
            400, 500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3200, 4000, 5000,
@@ -247,7 +248,7 @@ def tags_for_control_cab(row: int, loads_df: pd.DataFrame, load_tag_short) -> pd
     return loads_df
 
 
-def fill_lists(i: int, panelDescr) -> None:
+def fill_lists(i: int, panelDescr, loads_df) -> None:
     accList.append(pd.NA)
     busList.append(loads_df.bus[i])
     columnList.append(pd.NA)
@@ -322,7 +323,7 @@ def prepare_loads_df(loads_df):
 
 def sect_calc(cab_df, row: int, u_c: int, power: float, rated_current: float, derat_factor: float,
               cos_c: float, k_start: float, len_c: float, min_sect: object, u_drop_al: float, busduct: bool,
-              cos_start: float, sin_start: float) -> tuple:
+              cos_start: float, sin_start: float, loads_df) -> tuple:
     if busduct:
         return 1, 1000, 1000, 0
     global section, voltage_drop, pe_sect
@@ -382,7 +383,6 @@ def sect_calc(cab_df, row: int, u_c: int, power: float, rated_current: float, de
 
             break
     return par, section, pe_sect, voltage_drop
-    #################################################################################################################
 
 
 def sc_rating_polarity(max_sc, loads_df, row):
@@ -397,12 +397,13 @@ def sc_rating_polarity(max_sc, loads_df, row):
 
     return loads_df
 
-def create_cab_list(contr_but_len, loads_df):
+
+def create_cab_list(contr_but_len, loads_df, panelDescr):
     for i in range(len(loads_df.index)):
         if not pd.isnull(loads_df['CONSUM-CABLE_TAG'][i]):
             if loads_df.parallel[i] > 1:
                 for k in range(int(loads_df.parallel[i])):
-                    fill_lists(i)
+                    fill_lists(i, panelDescr, loads_df)
 
                     lengthList.append(loads_df.length[i])
                     wiresList.append(loads_df.ph_num[i] + loads_df.pe_num[i])
@@ -423,7 +424,7 @@ def create_cab_list(contr_but_len, loads_df):
                     sectionList.append(finSection)
 
             else:
-                fill_lists(i)
+                fill_lists(i, panelDescr, loads_df)
 
                 wiresList.append(loads_df.ph_num[i] + loads_df.pe_num[i])
                 lengthList.append(loads_df.length[i])
@@ -441,7 +442,7 @@ def create_cab_list(contr_but_len, loads_df):
                 sectionList.append(finSection)
 
         if not pd.isnull(loads_df['HEATER-CABLE_TAG'][i]):
-            fill_lists(i)
+            fill_lists(i, panelDescr, loads_df)
 
             lengthList.append(loads_df.length[i])
             wiresList.append(3)
@@ -454,7 +455,7 @@ def create_cab_list(contr_but_len, loads_df):
             composList.append(str(loads_df['HEATER-CABLE_TYPE'][i]).split('-')[0])
 
         if not pd.isnull(loads_df['LCS1-CABLE_TAG1'][i]):
-            fill_lists(i)
+            fill_lists(i, panelDescr, loads_df)
 
             lengthList.append(loads_df.length[i])
             wiresList.append(10)
@@ -467,7 +468,7 @@ def create_cab_list(contr_but_len, loads_df):
             cableTagList.append(loads_df['LCS1-CABLE_TAG1'][i])
 
         if not pd.isnull(loads_df['LCS1-CABLE_TAG2'][i]):
-            fill_lists(i)
+            fill_lists(i, panelDescr, loads_df)
 
             lengthList.append(loads_df.length[i])
             wiresList.append(3)
@@ -480,7 +481,7 @@ def create_cab_list(contr_but_len, loads_df):
             toTagList.append(loads_df.load_tag[i][:-1] + "LCS1")
 
         if not pd.isnull(loads_df['LCS2-CABLE_TAG'][i]):
-            fill_lists(i)
+            fill_lists(i, panelDescr, loads_df)
 
             lengthList.append(contr_but_len)
             wiresList.append(3)
@@ -557,11 +558,15 @@ def create_cab_list(contr_but_len, loads_df):
     cl_df = cl_df.query('cableTag != "-"')
 
     cl_df.set_index('cableTag', inplace=True)
+
+    return cl_df
     # cl_df.to_excel(loads_path[:-8] + '-cabList.xlsx')
 
     # p_green(f'''КАБЕЛЬНЫЙ ЖУРНАЛ В ФОРМАТЕ .xlsx ГОТОВ
     # Открывать по ссылке:
     # {loads_path[:-8] + '-cabList.xlsx'}''')
+
+
 def replace_zero(loads_df):
     loads_df['CONSUM-CABLE_TYPE'] = loads_df['CONSUM-CABLE_TYPE'].astype(str).str.replace('\.0mm2', 'mm2', regex=True)
     loads_df['CONSUM-CABLE_TYPE'] = loads_df['CONSUM-CABLE_TYPE'].astype(str).str.replace('\.0/', '/', regex=True)
@@ -572,6 +577,7 @@ def replace_zero(loads_df):
     loads_df['rated_current'] = round(loads_df['rated_current'], 1)
 
     return loads_df
+
 
 def making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, contr_but_len):
     for row in range(len(loads_df)):
@@ -608,7 +614,7 @@ def making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, cont
             busduct = True
 
         cab_params = sect_calc(cab_df, row, u_c, power, rated_current, derat_factor, cos_c, k_start, len_c, min_sect,
-                               u_drop_al, busduct)
+                               u_drop_al, busduct, loads_df)
         loads_df.loc[row, 'parallel'] = cab_params[0]
         par = cab_params[0]
         loads_df.loc[row, 'section'] = cab_params[1]
@@ -741,8 +747,6 @@ def making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, cont
         loads_df = sc_rating_polarity()
 
 
-
-
 def xl_to_sld():
     cos_start = 0.4
     k_start = 1
@@ -814,6 +818,8 @@ def xl_to_sld():
             incom_margin = rc.selectbox("Margin for Incomer's Rated Current", ['1.0', '1.05', '1.1', '1.15', '1.2'],
                                         index=1)
 
+            show_settings = lc.checkbox("Show CB settings at SLD")
+
             if cab_data:
                 cab_df = pd.read_excel(cab_data, sheet_name='cab_data')
                 diam_df = pd.read_excel(cab_data, sheet_name='PRYSMIAN')
@@ -848,4 +854,4 @@ def xl_to_sld():
 
             loads_df = replace_zero(loads_df)
 
-            create_cab_list()
+            create_cab_list(contr_but_len, loads_df)
