@@ -427,7 +427,7 @@ def sc_rating_polarity(max_sc, loads_df, row):
     return loads_df
 
 
-def create_cab_list(contr_but_len, loads_df, panelDescr, diam_df, ex_df):
+def create_cab_list(contr_but_len, loads_df, panelDescr, diam_df, ex_df, glands_df):
     for i in range(len(loads_df.index)):
         if not pd.isnull(loads_df['CONSUM-CABLE_TAG'][i]):
             if loads_df.parallel[i] > 1:
@@ -573,7 +573,7 @@ def create_cab_list(contr_but_len, loads_df, panelDescr, diam_df, ex_df):
             # cab_weight(purpose, composition, wires, section, diam_df, ex_df)
 
             cl_df.loc[y, 'glandType'] = gland_type(cl_df.toUnit[y], ex_df)
-            cl_df.loc[y, 'glandSize'] = gland_size(cl_df.diam[y], cl_df.compos[y])
+            cl_df.loc[y, 'glandSize'] = gland_size(cl_df.diam[y], cl_df.compos[y], glands_df)
         except Exception as e:
             print('Ошибка определения диаметра кабеля: ', cl_df.cableTag[y])
             e_str = f"{cl_df.cableTag[y]} > {err_handler(e)}"
@@ -895,7 +895,7 @@ def xl_to_sld():
 
                 loads_df = replace_zero(loads_df)
 
-                cl_df = create_cab_list(contr_but_len, loads_df, panelDescr, diam_df, ex_df)
+                cl_df = create_cab_list(contr_but_len, loads_df, panelDescr, diam_df, ex_df, glands_df)
 
                 st.subheader("Cable List is Ready")
                 st.write(cl_df)
