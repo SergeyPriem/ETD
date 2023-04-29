@@ -955,8 +955,14 @@ def xl_to_sld():
                     rc.text('')
                     create_sld_but = rc.form_submit_button('Create SLD', use_container_width=True)
 
-                st.write(dir(dxf_template))
-                bytes_data = dxf_template.getvalue()
+                if dxf_template is not None:
+                    st.write(dir(dxf_template))
+                    try:
+                        bytes_data = dxf_template.getvalue()
+                        st.write(bytes_data)
+                    except Exception as e:
+                        st.warning(err_handler(e))
+
                 # st.write(bytes_data)
                 # if dxf_template and create_sld_but:
                 #     try:
