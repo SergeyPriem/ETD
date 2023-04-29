@@ -973,19 +973,19 @@ def xl_to_sld():
                 #
                 #     bytes_dxf = dxf_template.read()
                 #
-                temp_file = open(dxf_template, 'r', encoding='utf-8')
-                try:
-                    doc = ezdxf.readfile(temp_file)
-                except IOError as e:
-                    st.warning(f"Not a DXF file or a generic I/O error.")
-                    st.write(err_handler(e))
-
-                    st.stop()
-
-                except ezdxf.DXFStructureError as (e):
-                    st.warning(f"Invalid or corrupted DXF file.")
-                    st.write(err_handler(e))
-                    st.stop()
+                # temp_file = open(dxf_template, 'r', encoding='utf-8')
+                # try:
+                #     doc = ezdxf.readfile(temp_file)
+                # except IOError as e:
+                #     st.warning(f"Not a DXF file or a generic I/O error.")
+                #     st.write(err_handler(e))
+                #
+                #     st.stop()
+                #
+                # except ezdxf.DXFStructureError as (e):
+                #     st.warning(f"Invalid or corrupted DXF file.")
+                #     st.write(err_handler(e))
+                #     st.stop()
                 # #
                 #     msp = doc.modelspace()
                 #     point = 0
