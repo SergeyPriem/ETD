@@ -955,7 +955,7 @@ def xl_to_sld():
                     rc.text('')
                     create_sld_but = rc.form_submit_button('Create SLD', use_container_width=True)
 
-
+                st.write(dir(dxf_template))
                 # if dxf_template and create_sld_but:
                 #     try:
                 #         st.write(dxf_template)
@@ -967,21 +967,21 @@ def xl_to_sld():
                 # else:
                 #     st.warning("IT IS NONE")
 
-                if dxf_template is not None and create_sld_but:
-
-                    bytes_dxf = dxf_template.read()
-
-                    try:
-                        doc = ezdxf.readfile(bytes_dxf)
-                    except IOError:
-                        st.warning(f"Not a DXF file or a generic I/O error.")
-                        st.write(type(dxf_template))
-                        st.stop()
-
-                    except ezdxf.DXFStructureError:
-                        st.warning(f"Invalid or corrupted DXF file.")
-                        st.stop()
+                # if dxf_template is not None and create_sld_but:
                 #
+                #     bytes_dxf = dxf_template.read()
+                #
+                #     try:
+                #         doc = ezdxf.readfile(bytes_dxf)
+                #     except IOError:
+                #         st.warning(f"Not a DXF file or a generic I/O error.")
+                #         st.write(type(dxf_template))
+                #         st.stop()
+                #
+                #     except ezdxf.DXFStructureError:
+                #         st.warning(f"Invalid or corrupted DXF file.")
+                #         st.stop()
+                # #
                 #     msp = doc.modelspace()
                 #     point = 0
                 #
