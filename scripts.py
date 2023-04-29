@@ -959,8 +959,8 @@ def xl_to_sld():
                 if dxf_template is not None:
                     st.write(dir(dxf_template))
                     try:
-                        bytes_data = dxf_template.getvalue()
-                        dxf_in_ram = StringIO(bytes_data)
+                        text_data = dxf_template.get_value()
+                        dxf_in_ram = io.BytesIO(text_data)
                         st.write(type(dxf_in_ram))
                     except Exception as e:
                         st.warning(err_handler(e))
