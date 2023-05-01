@@ -86,9 +86,9 @@ def show_duration():
         with st.sidebar:
             td = datetime.datetime.now() - st.session_state.r_now
             delta = f"{td.total_seconds()}"
-            st.sidebar.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>{st.session_state.proj_scope} s.</h3>",
+            st.sidebar.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>{st.session_state.proj_scope}</h3>",
                                 unsafe_allow_html=True)
-            st.write("")
+            st.text("")
             st.sidebar.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>{delta[:-3]} s.</h3>",
                                 unsafe_allow_html=True)
     pass
