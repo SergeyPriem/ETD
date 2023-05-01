@@ -398,8 +398,8 @@ def manage_units():
 
                     u_df = st.session_state.adb['users']
 
-                    receiver = u_df[sod_df[u_id, 'coord_id'], 'email']
-                    cc_rec = u_df[sod_df[u_id, 'perf_id'], 'email']
+                    receiver = u_df[sod_df[u_id, 'coord_id'].to_numpy()[0], 'email'].to_numpy()[0]
+                    cc_rec = u_df[sod_df[u_id, 'perf_id'].to_numpy()[0], 'email'].to_numpy()[0]
 
                     if receiver == cc_rec:
                         cc_rec = 'sergey.priemshiy@uzliti-en.com'
