@@ -335,7 +335,7 @@ def manage_units():
             proj_short = lc.selectbox('Select Project', st.session_state.proj_names)
 
             proj_df = st.session_state.adb['project']
-            proj_id = proj_df.loc[proj_df.short_name == proj_short, 'index'].to_numpy()[0]
+            proj_id = proj_df.loc[proj_df.short_name == proj_short].index.to_numpy()[0]
 
             u_df = st.session_state.adb['sod']
 
