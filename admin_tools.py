@@ -80,16 +80,12 @@ def manage_projects():
                     st.stop()
 
         with edit_proj_tab:
-            proj_to_edit_list = st.selectbox('Select Projects to Edit', st.session_state.proj_names)
+            proj_to_edit = st.selectbox('Select Projects to Edit', st.session_state.proj_names)
 
-            if proj_to_edit_list:
+            if proj_to_edit:
                 proj_df = st.session_state.adb['project']
 
-                if not isinstance(proj_df, pd.DataFrame):
-                    st.warning(proj_df)
-                    st.stop()
-
-                proj_df = proj_df[proj_df.short_name.isin(proj_to_edit_list)]
+                proj_df = proj_df[proj_df.short_name == proj_to_edit]
 
                 u_df = st.session_state.adb['users']
 
@@ -131,10 +127,11 @@ def manage_projects():
                     reply = update_projects(proj_df.index.to_numpy()[0], short_name, full_name, client,
                                             manager, responsible_el, status, assignment, tech_conditions,
                                             surveys, mdr, notes)
-                    st.write(reply)
 
                     if reply == 201:
                         st.success('Updated')
+
+                        st.session_state.adb['project'] = get_table(Project)
 
                         html = f"""
                             <html>
