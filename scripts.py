@@ -961,8 +961,10 @@ def xl_to_sld():
             with tab_sld:
                 with st.form('create_sld'):
                     lc, cc, rc = st.columns(3, gap='medium')
-                    order = lc.radio("Order od SLD creation", ('ПО ТИПУ ФИДЕРОВ', 'ПО LOAD LIST'), horizontal=True)
+                    order = lc.radio("Order of SLD creation", ('By Feeder Type', 'By Load List Order'), horizontal=True)
                     sld_file_name = cc.text_input('Enter the Name for resulting SLD (without extension)')
+                    rc.text('')
+                    rc.text('')
                     rc.text('')
                     create_sld_but = rc.form_submit_button('Create SLD', use_container_width=True)
 
@@ -1051,7 +1053,7 @@ def xl_to_sld():
                 #         loads_df_sb.loc[:, 'BUS_NUMBER'] = 'A/B'
                 #         loads_df_sb.loc[:, 'starter_type'] = 'SECT_BREAKER'
                 #
-                #     if order == "ПО ТИПУ ФИДЕРОВ":
+                #     if order == "By Feeder Type":
                 #         loads_df_A = loads_df_A.sort_values(by='starter_type', ascending=False)
                 #         loads_df_A.loc[:, 'CB_TAG'] = range(2, len_A + 2)
                 #
