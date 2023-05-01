@@ -72,6 +72,8 @@ def settings_content():
                                      st.session_state.proj_scope
                                  ),
                                  horizontal=True)
+                st.text("")
+                st.text("")
                 scope_conf_but = r_c.form_submit_button('Apply Selected Scope', use_container_width=True)
 
             if scope_conf_but:
