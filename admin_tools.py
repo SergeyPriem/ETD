@@ -27,9 +27,9 @@ def manage_projects():
 
     with content_proj:
         st.title(':orange[Manage Projects]')
-        proj_tab1, proj_tab2, viewer_tab = st.tabs(['Create Project', 'Edit Existing Project', 'View Tables'])
+        create_proj_tab, edit_proj_tab, viewer_tab = st.tabs(['Create Project', 'Edit Existing Project', 'View Tables'])
 
-        with proj_tab1:
+        with create_proj_tab:
             # st.subheader('Add New Project')
             with st.form("create_project", clear_on_submit=False):
                 proj_short = st.text_input('Project Name - short')
@@ -79,8 +79,8 @@ def manage_projects():
                     st.warning(reply)
                     st.stop()
 
-        with proj_tab2:
-            proj_to_edit_list = st.multiselect('Select Projects to Edit', st.session_state.proj_names)
+        with edit_proj_tab:
+            proj_to_edit_list = st.selectbox('Select Projects to Edit', st.session_state.proj_names)
 
             if proj_to_edit_list:
                 proj_df = st.session_state.adb['project']
