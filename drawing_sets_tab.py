@@ -105,7 +105,7 @@ def drawing_sets():
         proj_df = st.session_state.adb['project']
 
         proj_id = proj_df[proj_df.short_name == proj_selected].index.to_numpy()[0]
-        trans_list = []
+
         try:
             trans_list = trans_df.loc[trans_df.project == proj_id, 'trans_num'].tolist()
             st.write(trans_list)
@@ -113,12 +113,14 @@ def drawing_sets():
             st.write(err_handler(e))
             st.stop()
 
-        if st.session_state.user == 'sergey.priemshiy':
-            st.write(proj_df)
-            st.write(proj_id)
-            # if trans_list_check:
-            #     st.write(trans_list_check)
-            st.write(trans_df)
+        # if st.session_state.user == 'sergey.priemshiy':
+        #     st.write(proj_df)
+        #     st.write(proj_id)
+        #     if trans_list:
+        #         st.write(trans_list)
+        #     st.write(trans_df)
+
+        trans_list.insert(0, 'Not required')
 
         with st.form("edit-unit_details"):
             l_c, r_c = st.columns(2, gap='medium')
@@ -131,7 +133,7 @@ def drawing_sets():
             status = l_c.selectbox('Status', sod_statuses,
                                    index=get_list_index(sod_statuses, df_edit.status.to_numpy()[0]))
 
-            trans_list.insert(0, 'Not required')
+
             r_c.text('')
             r_c.text('')
             upd_trans_chb = r_c.checkbox("Add Transmittal")
