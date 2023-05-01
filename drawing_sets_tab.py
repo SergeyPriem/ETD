@@ -254,7 +254,28 @@ def drawing_sets():
                             st.warning("Select specialities for request")
 
 
-def create_new_unit():
+def manage_units():
+
+    st.markdown("""
+        <style>
+            div[data-testid="column"]:nth-of-type(1)
+            {
+                text-align: center;
+            } 
+
+            div[data-testid="column"]:nth-of-type(2)
+            {
+                text-align: center;
+            } 
+
+            div[data-testid="column"]:nth-of-type(3)
+            {
+                text-align: center;
+            } 
+        </style>
+        """, unsafe_allow_html=True)
+
+
     empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
     with empty_sets_1:
         st.empty()
@@ -262,45 +283,53 @@ def create_new_unit():
         st.empty()
 
     with content_sets:
-        st.title(':orange[Create new Set of Drawings / Unit]')
+        st.title(':orange[Manage Units]')
 
-        with st.form('new_sod'):
-            proj_short = st.selectbox('Select a Project', st.session_state.proj_names)
-            set_name = st.text_input("Enter the Name for new Set of Drawings / Unit", max_chars=200).strip()
-            stage = st.radio("Select the Stage", stages, horizontal=True)
-            coordinator = st.selectbox("Coordinator", st.session_state.appl_logins)
-            performer = st.selectbox("Performer", st.session_state.appl_logins)
-            set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
-            status = st.select_slider("Select the Current Status", sod_statuses, value='0%')
-            notes = st.text_area("Add Notes", max_chars=500).strip()
-            create_sod_but = st.form_submit_button("Create", use_container_width=True)
+        tab_create, tab_update = st.tabs(['Create New Unit', 'Edit Existing Unit'])
 
-        if create_sod_but:
-            reply = add_sod(proj_short, set_name, stage, status, set_start_date, coordinator, performer, notes)
-            if reply == 201:
-                st.success(f"New Set '{set_name}' for Project '{proj_short}' is added to DataBase")
-                # sod_df = st.session_state.adb['sod']
-                # u_df = st.session_state.adb['users']
-                # proj_df = st.session_state.adb['project']
-                #
-                # next_id = sod_df.index.max() + 1
-                #
-                # project_id = proj_df.query('short_name == @proj_short').index.to_numpy()[0]
-                # coord_id = u_df.query('login == @coordinator').index.to_numpy()[0]
-                # perf_id = u_df.query('login == @performer').index.to_numpy()[0]
-                #
-                # dict_df = pd.DataFrame(
-                #     [
-                #         {
-                #             'id': next_id, 'project_id': project_id, 'set_name': set_name, 'coord_id': coord_id,
-                #             'perf_id': perf_id, 'stage': stage, 'revision': "R1", 'current_status': status,
-                #             'notes': notes, 'aux': f"{st.session_state.user}: {str(datetime.datetime.now())[:-10]}"
-                #         }
-                #     ]
-                # )
-                #
-                # st.session_state.adb['sod'] = sod_df.append(dict_df)
-                st.session_state.adb['sod'] = get_table(SOD)
+        with tab_create:
+            with st.form('new_sod'):
+                proj_short = st.selectbox('Select a Project', st.session_state.proj_names)
+                set_name = st.text_input("Enter the Name for new Set of Drawings / Unit", max_chars=200).strip()
+                stage = st.radio("Select the Stage", stages, horizontal=True)
+                coordinator = st.selectbox("Coordinator", st.session_state.appl_logins)
+                performer = st.selectbox("Performer", st.session_state.appl_logins)
+                set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
+                status = st.select_slider("Select the Current Status", sod_statuses, value='0%')
+                notes = st.text_area("Add Notes", max_chars=500).strip()
+                create_sod_but = st.form_submit_button("Create", use_container_width=True)
 
-            else:
-                st.warning(reply)
+            if create_sod_but:
+                reply = add_sod(proj_short, set_name, stage, status, set_start_date, coordinator, performer, notes)
+                if reply == 201:
+                    st.success(f"New Set '{set_name}' for Project '{proj_short}' is added to DataBase")
+                    # sod_df = st.session_state.adb['sod']
+                    # u_df = st.session_state.adb['users']
+                    # proj_df = st.session_state.adb['project']
+                    #
+                    # next_id = sod_df.index.max() + 1
+                    #
+                    # project_id = proj_df.query('short_name == @proj_short').index.to_numpy()[0]
+                    # coord_id = u_df.query('login == @coordinator').index.to_numpy()[0]
+                    # perf_id = u_df.query('login == @performer').index.to_numpy()[0]
+                    #
+                    # dict_df = pd.DataFrame(
+                    #     [
+                    #         {
+                    #             'id': next_id, 'project_id': project_id, 'set_name': set_name, 'coord_id': coord_id,
+                    #             'perf_id': perf_id, 'stage': stage, 'revision': "R1", 'current_status': status,
+                    #             'notes': notes, 'aux': f"{st.session_state.user}: {str(datetime.datetime.now())[:-10]}"
+                    #         }
+                    #     ]
+                    # )
+                    #
+                    # st.session_state.adb['sod'] = sod_df.append(dict_df)
+                    st.session_state.adb['sod'] = get_table(SOD)
+
+                else:
+                    st.warning(reply)
+
+        with tab_update:
+            lc, rc = st.columns(2, gap='medium')
+
+            proj_short = lc.selectbox('Select a Project', st.session_state.proj_names)

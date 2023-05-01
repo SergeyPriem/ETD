@@ -9,7 +9,7 @@ from streamlit_option_menu import option_menu
 from admin_tools import manage_projects, get_list_index
 from scripts import xl_to_sld
 from tasks_tab import tasks_content
-from drawing_sets_tab import drawing_sets, create_new_unit
+from drawing_sets_tab import drawing_sets, manage_units
 from just_for_fun_tab import just_for_fun
 from lesson_learned_tab import lessons_content
 from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, get_cur_u_id
@@ -112,7 +112,7 @@ def get_menus():
                        'bi bi-file-check', 'bi bi-diagram-3', 'bi bi-info-circle', 'bi bi-pen', 'bi bi-gear',
                        'bi bi-arrow-clockwise']
 
-    admin_menu = ["Create Dr. Set / Unit"]
+    admin_menu = ["Manage Units"]
     admin_icons = ['bi bi-folder-plus']
 
     super_menu = ["Manage Projects", "Manage Users"]
@@ -775,7 +775,7 @@ def win_selector(selected):
         "Lessons Learned": lessons_content,
         "Settings": settings_content,
         "Refresh Data": fresh_data,
-        "Create Dr. Set / Unit": create_new_unit,
+        "Manage Units": manage_units,
     }
 
     tab_dict.get(selected)()
