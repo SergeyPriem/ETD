@@ -65,15 +65,15 @@ def settings_content():
 
         with scope_tab:
             with st.form('change_scope'):
-                l_c, r_c = st.columns(2, gap='medium')
-                scope = l_c.radio("Choose the Preferred Scope loaded from DB",
+                # l_c, r_c = st.columns(2, gap='medium')
+                scope = st.radio("Choose the Preferred Scope loaded from DB",
                                  ['All Projects', 'Only Current Projects', "All excluding cancelled and suspended"],
                                  horizontal=True)
                 scope_conf_but = st.form_submit_button('Apply Selected Scope', use_container_width=True)
 
             if scope_conf_but:
 
-                st.write('Under Development')
+                st.write(f'{scope}: Under Development')
 
 
         with change_pass_tab:
