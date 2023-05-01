@@ -1133,7 +1133,7 @@ def xl_to_sld():
                     add_gen_data(msp, lo_df, lo_df_new, point, max_sc, peak_sc)
                     # msp, loads_df, loads_df_new, point, max_sc, peak_sc
 
-                    sld_dxf_file = doc.saveas(f'temp_dxf/{sld_file_name}.dxf')
+                    doc.saveas(f'temp_dxf/{sld_file_name}.dxf')
 
                     st.success('SLD is ready. Please Download')
                     #
@@ -1147,15 +1147,14 @@ def xl_to_sld():
                     #     #                    mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
                     #     #                    disabled=False, use_container_width=False)
                     #
-                    if sld_dxf_file:
-                        st.download_button(
-                            'Get SLD here',
-                            data=sld_dxf_file,
-                            file_name=f'{sld_file_name} {datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}.dxf',
-                            mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
-                            disabled=False, use_container_width=False
-                        )
-                        st.divider()
-                        with os.scandir('temp_dxf/') as entries:
-                            for entry in entries:
-                                st.info(entry.name)
+                    st.download_button(
+                        'Get SLD here',
+                        data='temp_dxf/{sld_file_name}.dxf',
+                        file_name=f'{sld_file_name} {datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}.dxf',
+                        mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
+                        disabled=False, use_container_width=False
+                    )
+                    st.divider()
+                    with os.scandir('temp_dxf/') as entries:
+                        for entry in entries:
+                            st.info(entry.name)
