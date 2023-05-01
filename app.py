@@ -82,13 +82,20 @@ def show_duration():
 
     access_level = u_df.loc[u_df.login == st.session_state.user, 'access_level'].to_numpy()[0]
 
+    st.sidebar.text("")
+    st.sidebar.markdown(f"<h4 style='text-align: center; color: #00bbf9;'>Current Mode:</h4>",
+                        unsafe_allow_html=True)
+    st.sidebar.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>{st.session_state.proj_scope}</h3>",
+                        unsafe_allow_html=True)
+    st.sidebar.markdown(f"<h6 style='text-align: center; color: #fcf403;'>You can chose another Mode in Settings -> Scope of Load</h6>",
+                        unsafe_allow_html=True)
+
     if access_level == 'supervisor':
         with st.sidebar:
             td = datetime.datetime.now() - st.session_state.r_now
             delta = f"{td.total_seconds()}"
-            st.sidebar.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>{st.session_state.proj_scope}</h3>",
-                                unsafe_allow_html=True)
-            st.text("")
+
+
             st.sidebar.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>{delta[:-3]} s.</h3>",
                                 unsafe_allow_html=True)
     pass
