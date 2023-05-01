@@ -55,11 +55,14 @@ compositDic = {
 }
 
 
-def save_uploadedfile(uploadedfile):
-    with open(os.path.join("temp_dxf", uploadedfile.name), "wb") as f:
-        f.write(uploadedfile.getbuffer())
-    st.success(f"Saved File:{uploadedfile.name} to temp_dxf")
-    return uploadedfile.name
+def save_uploaded_file(uploaded_file):
+    try:
+        with open(os.path.join("temp_dxf", uploaded_file.name), "wb") as f:
+            f.write(uploaded_file.getbuffer())
+        return uploaded_file.name
+    except Exception as e:
+        st.warning(f"Can't save sld_template to temp. folder: {err_handler(e)}")
+        st.stop()
 
 
 def max_nearest(target: int) -> int:
@@ -878,17 +881,17 @@ def xl_to_sld():
 
             p_l, p_c, p_r = st.columns(3, gap='medium')
 
-            load_list = p_l.file_uploader("Upload LOAD LIST in xlsx or xlsb", type=['xlsx', 'xlsb'],
+            load_list = p_l.file_uploader("LOAD LIST", type=['xlsx', 'xlsb'],
                                           accept_multiple_files=False, key=None,
                                           help=None, on_change=None, args=None,
                                           kwargs=None, disabled=False, label_visibility="visible")
 
-            cab_data = p_c.file_uploader("Upload CABLE CATALOG in xlsx or xlsb", type=['xlsx', 'xlsb'],
+            cab_data = p_c.file_uploader("CABLE CATALOG", type=['xlsx', 'xlsb'],
                                          accept_multiple_files=False, key=None,
                                          help=None, on_change=None, args=None,
                                          kwargs=None, disabled=False, label_visibility="visible")
 
-            dxf_template = p_r.file_uploader("Upload SLD template in dxf (v.18.0)", type=['dxf'],
+            dxf_template = p_r.file_uploader("SLD template", type=['dxf'],
                                              accept_multiple_files=False, key=None,
                                              help=None, on_change=None, args=None,
                                              kwargs=None, disabled=False, label_visibility="visible")
@@ -957,14 +960,15 @@ def xl_to_sld():
 
             with tab_sld:
                 with st.form('create_sld'):
-                    lc, rc = st.columns(2, gap='medium')
+                    lc, cc, rc = st.columns(3, gap='medium')
                     order = lc.radio("Order od SLD creation", ('ПО ТИПУ ФИДЕРОВ', 'ПО LOAD LIST'), horizontal=True)
+                    sld_file_name = st.text_input('Enter the Name for resulting SLD (without extension)')
                     rc.text('')
                     create_sld_but = rc.form_submit_button('Create SLD', use_container_width=True)
 
                 if dxf_template is not None and create_sld_but:
 
-                    dxf_temp_file = save_uploadedfile(dxf_template)
+                    dxf_temp_file = save_uploaded_file(dxf_template)
 
                     with os.scandir('temp_dxf/') as entries:
                         for entry in entries:
