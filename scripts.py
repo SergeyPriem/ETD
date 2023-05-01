@@ -886,7 +886,6 @@ def xl_to_sld():
                                              help=None, on_change=None, args=None,
                                              kwargs=None, disabled=False, label_visibility="visible")
 
-            st.session_state.temp_dxf = dxf_template
 
             tab_cl, tab_sld = st.tabs(['Create Cable List', 'Create SLD'])
 
@@ -958,6 +957,15 @@ def xl_to_sld():
                     create_sld_but = rc.form_submit_button('Create SLD', use_container_width=True)
 
                 if dxf_template is not None:
+
+                    # st.session_state.temp_dxf = dxf_template
+                    import os
+                    def save_uploadedfile(uploadedfile):
+                        with open(os.path.join("temp_dxf", uploadedfile.name), "wb") as f:
+                            f.write(uploadedfile.getbuffer())
+                        return st.success("Saved File:{} to tempDir".format(uploadedfile.name))
+
+                    save_uploadedfile(dxf_template)
                     # st.write(dir(dxf_template))
                     # try:
                     #     # with open(dxf_template, 'r') as f:
@@ -971,18 +979,18 @@ def xl_to_sld():
                     # except Exception as e:
                     #     st.warning(err_handler(e))
 
-                    st.write(st.session_state.temp_dxf)
+                    # st.write(st.session_state.temp_dxf)
                     try:
-                        doc = ezdxf.readfile(st.session_state.temp_dxf)
-                    # except IOError as e:
-                    #     st.warning(f"Not a DXF file or a generic I/O error.")
-                    #     st.write(err_handler(e))
-                    #     st.stop()
-                    #
-                    # except ezdxf.DXFStructureError as e:
-                    #     st.warning(f"Invalid or corrupted DXF file.")
-                    #     st.write(err_handler(e))
-                    #     st.stop()
+                        doc = ezdxf.readfile(f'/temp_dxf/{}')
+                    except IOError as e:
+                        st.warning(f"Not a DXF file or a generic I/O error.")
+                        st.write(err_handler(e))
+                        st.stop()
+
+                    except ezdxf.DXFStructureError as e:
+                        st.warning(f"Invalid or corrupted DXF file.")
+                        st.write(err_handler(e))
+                        st.stop()
 
                     except Exception as e:
                         st.write('!!!')
