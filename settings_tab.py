@@ -10,7 +10,6 @@ from users import update_settings, update_user_reg_data
 
 
 def settings_content():
-
     st.markdown("""
         <style>
             div[data-testid="column"]:nth-of-type(1)
@@ -29,7 +28,6 @@ def settings_content():
             } 
         </style>
         """, unsafe_allow_html=True)
-
 
     empty1_set, content_set, empty2_set = st.columns([1, 4, 1])
     with empty1_set:
@@ -79,7 +77,6 @@ def settings_content():
             if scope_conf_but:
                 st.session_state.proj_scope = scope
                 st.session_state.adb = get_all()
-
 
         with change_pass_tab:
             with st.form("UpData"):

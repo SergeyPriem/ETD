@@ -201,6 +201,7 @@ def manage_projects():
             adb = st.session_state.adb
             for k, v in enumerate(col_list):
                 if cols[k].button(v, use_container_width=True):
+                    st.subheader(f":blue[Q-ty of Records: {len(adb[v])}]")
                     if v == 'users':
                         st.experimental_data_editor(adb[v].drop(columns=['hashed_pass']),
                                                     use_container_width=True, height=1500)
