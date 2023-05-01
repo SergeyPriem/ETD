@@ -966,7 +966,7 @@ def xl_to_sld():
 
                     dxf_temp_file = save_uploadedfile(dxf_template)
 
-                    with os.scandir('my_directory/') as entries:
+                    with os.scandir('temp_dxf/') as entries:
                         for entry in entries:
                             st.info(entry.name)
 
