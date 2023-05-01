@@ -107,10 +107,13 @@ def manage_projects():
                                                   get_list_index(st.session_state.appl_logins,
                                                                  prev_responsible))
                     status = st.radio('Status', proj_statuses,
-                                      get_list_index(proj_statuses, proj_ser.status.to_numpy()[0]))
+                                      get_list_index(proj_statuses, proj_ser.status.to_numpy()[0]),
+                                      horizontal=True)
 
                     assignment = st.text_area("Assignment location",
-                                              proj_ser.assignment.to_numpy()[0], max_chars=1000).strip()
+                                              proj_ser.assignment.to_numpy()[0],
+                                              height=100,
+                                              max_chars=1000).strip()
                     tech_conditions = st.text_area("Tech. conditions location",
                                                    proj_ser.tech_conditions.to_numpy()[0], max_chars=1000).strip()
                     surveys = st.text_area("Surveys location", proj_ser.surveys.to_numpy()[0], max_chars=1000).strip()
