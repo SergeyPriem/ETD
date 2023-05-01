@@ -108,7 +108,7 @@ def manage_projects():
                                                   get_list_index(st.session_state.appl_logins,
                                                   prev_responsible))
 
-                    rc.text()
+                    rc.text('')
                     status = rc.radio('Status', proj_statuses,
                                       get_list_index(proj_statuses, proj_ser.status.to_numpy()[0]),
                                       horizontal=True)
