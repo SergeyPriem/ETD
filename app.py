@@ -86,6 +86,9 @@ def show_duration():
         with st.sidebar:
             td = datetime.datetime.now() - st.session_state.r_now
             delta = f"{td.total_seconds()}"
+            st.sidebar.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>{st.session_state.proj_scope} s.</h3>",
+                                unsafe_allow_html=True)
+            st.write("")
             st.sidebar.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>{delta[:-3]} s.</h3>",
                                 unsafe_allow_html=True)
     pass
@@ -839,8 +842,8 @@ def prepare_menus():
                                    icons=st.session_state.icons,
                                    menu_icon="bi bi-plug")
 
+            st.write(st.session_state.proj_scope)
             if st.session_state.rights == 'supervisor' and st.checkbox("Show states"):
-                st.write(st.session_state.proj_scope)
                 show_states()
     else:
         selected = option_menu(None,
