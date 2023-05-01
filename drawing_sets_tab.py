@@ -107,8 +107,8 @@ def drawing_sets():
         proj_id = proj_df[proj_df.short_name == proj_selected].index.to_numpy()[0]
         trans_list = []
         try:
-            trans_list_check = trans_df.loc[trans_df.project == proj_id, 'trans_num'].tolist()
-            st.write(type(trans_list_check))
+            trans_list = trans_df.loc[trans_df.project == proj_id, 'trans_num'].tolist()
+            st.write(trans_list)
         except Exception as e:
             st.write(err_handler(e))
             st.stop()
