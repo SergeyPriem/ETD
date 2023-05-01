@@ -94,33 +94,37 @@ def manage_projects():
                 prev_responsible = u_df.loc[u_df.index == u_id, 'login'].to_numpy()[0]
 
                 with st.form('update_project'):
-                    short_name = st.text_input('Project Short Name', value=proj_ser.short_name.to_numpy()[0],
+                    lc, rc = st.columns(2, gap='medium')
+                    short_name = lc.text_input('Project Short Name', value=proj_ser.short_name.to_numpy()[0],
                                                max_chars=150).strip()
-                    full_name = st.text_input('Project Full Name',
+                    full_name = rc.text_input('Project Full Name',
                                               value=proj_ser.full_name.to_numpy()[0], max_chars=200).strip()
-                    client = st.text_input('Client',
+                    client = lc.text_input('Client',
                                            value=proj_ser.client.to_numpy()[0], max_chars=50).strip()
-                    manager = st.text_input('Manager',
+                    manager = rc.text_input('Manager',
                                             value=proj_ser.client.to_numpy()[0], max_chars=50).strip()
-                    responsible_el = st.selectbox('Responsible Person',
+                    responsible_el = lc.selectbox('Responsible Person',
                                                   st.session_state.appl_logins,
                                                   get_list_index(st.session_state.appl_logins,
                                                                  prev_responsible))
-                    status = st.radio('Status', proj_statuses,
+                    status = rc.radio('Status', proj_statuses,
                                       get_list_index(proj_statuses, proj_ser.status.to_numpy()[0]),
                                       horizontal=True)
 
-                    assignment = st.text_area("Assignment location",
+                    assignment = lc.text_area("Assignment location",
                                               proj_ser.assignment.to_numpy()[0],
                                               height=100,
                                               max_chars=1000).strip()
-                    tech_conditions = st.text_area("Tech. conditions location",
+                    tech_conditions = rc.text_area("Tech. conditions location",
                                                    proj_ser.tech_conditions.to_numpy()[0], max_chars=1000).strip()
-                    surveys = st.text_area("Surveys location", proj_ser.surveys.to_numpy()[0], max_chars=1000).strip()
-                    mdr = st.text_area("MDR location", proj_ser.mdr.to_numpy()[0], max_chars=250).strip()
-                    notes = st.text_area("Notes", proj_ser.notes.to_numpy()[0], max_chars=1000).strip()
+                    surveys = lc.text_area("Surveys location", proj_ser.surveys.to_numpy()[0], max_chars=1000).strip()
+                    mdr = rc.text_area("MDR location", proj_ser.mdr.to_numpy()[0], max_chars=250).strip()
+                    notes = lc.text_area("Notes", proj_ser.notes.to_numpy()[0], max_chars=1000).strip()
 
-                    upd_proj_but = st.form_submit_button('Update Project', use_container_width=True)
+                    rc.text('')
+                    rc.text('')
+                    rc.text('')
+                    upd_proj_but = rc.form_submit_button('Update Project', use_container_width=True)
 
                 if upd_proj_but:
                     if len(short_name) < 3 or len(full_name) < 3:
