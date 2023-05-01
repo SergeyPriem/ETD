@@ -127,7 +127,6 @@ def manage_projects():
                     rc.text('')
                     rc.text('')
                     rc.text('')
-                    rc.text('')
                     upd_proj_but = rc.form_submit_button('Update Project', use_container_width=True)
 
                 if upd_proj_but:
