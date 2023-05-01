@@ -31,41 +31,38 @@ def manage_projects():
         with create_proj_tab:
             # st.subheader('Add New Project')
             with st.form("create_project", clear_on_submit=False):
-                proj_short = st.text_input('Project Name - short')
-                proj_full = st.text_area('Project Name - full')
+                lc, rc = st.columns(2, gap='medium')
+                proj_short = lc.text_input('Project Name - short', max_chars=150)
+                proj_full = rc.text_input('Project Name - full', max_chars=200)
                 # responsible_el = st.selectbox('Responsible Person', get_logins_for_current())
                 u_df = st.session_state.adb['users']
-                responsible_el = st.selectbox('Responsible Person',
+                responsible_el = lc.selectbox('Responsible Person',
                                               u_df.loc[u_df.status == 'current', 'login'].tolist())
-                proj_status = st.radio('Project Status', proj_statuses, horizontal=True)
-                client = st.text_input('Client')
-                proj_tech_ass = st.text_area('Link for Technical Task')
-                proj_tech_conditions = st.text_area('Link for Technical Conditions')
-                proj_surveys = st.text_area('Link for Technical Surveys')
-                proj_mdr = st.text_area('Link for MDR')
-                proj_man = st.text_input('Project Manager')
-                proj_notes = st.text_area('Notes')
-                proj_preview_col, proj_create_col = st.columns([1, 1])
-                proj_prev_but = st.form_submit_button('Preview Data')
+                rc.text('')
+                proj_status = rc.radio('Project Status', proj_statuses, horizontal=True)
+                client = lc.text_input('Client', max_chars=50)
+                proj_man = rc.text_input('Project Manager', max_chars=50)
+                proj_tech_ass = lc.text_area('Link for Technical Task', max_chars=1000)
+                proj_tech_conditions = rc.text_area('Link for Technical Conditions', max_chars=1000)
+                proj_surveys = lc.text_area('Link for Technical Surveys', max_chars=1000)
+                proj_mdr = rc.text_area('Link for MDR', max_chars=250)
+                proj_notes = lc.text_area('Notes', max_chars=1000)
+                proj_prev_but = rc.form_submit_button('Preview Data', use_container_width=True)
 
-            with proj_preview_col:
-                # preview_checkbox = st.checkbox('Preview Project',
-                #                                value=st.session_state.preview_proj_stat)
-
-                if proj_prev_but:
-                    st.write(f"""
-                    Short Name: **:blue[{proj_short}]**  
-                    Full Name: **:blue[{proj_full}]**  
-                    Responsible: **:blue[{responsible_el}]**  
-                    Status: **:blue[{proj_status}]**  
-                    Client: **:blue[{client}]**  
-                    Link for Technical Task: **:blue[{proj_tech_ass}]**  
-                    Link for Technical Conditions: **:blue[{proj_tech_conditions}]**  
-                    Link for Technical Surveys: **:blue[{proj_surveys}]**  
-                    Link for MDR: **:blue[{proj_mdr}]**  
-                    Project Manager: **:blue[{proj_man}]**  
-                    Notes: **:blue[{proj_notes}]**  
-                    """)
+            if proj_prev_but:
+                st.write(f"""
+                Short Name: **:blue[{proj_short}]**  
+                Full Name: **:blue[{proj_full}]**  
+                Responsible: **:blue[{responsible_el}]**  
+                Status: **:blue[{proj_status}]**  
+                Client: **:blue[{client}]**  
+                Link for Technical Task: **:blue[{proj_tech_ass}]**  
+                Link for Technical Conditions: **:blue[{proj_tech_conditions}]**  
+                Link for Technical Surveys: **:blue[{proj_surveys}]**  
+                Link for MDR: **:blue[{proj_mdr}]**  
+                Project Manager: **:blue[{proj_man}]**  
+                Notes: **:blue[{proj_notes}]**  
+                """)
 
             if st.button("Create Project"):
                 reply = create_project(proj_short, proj_full, client, proj_man, responsible_el,
@@ -207,4 +204,3 @@ def manage_projects():
                                                     use_container_width=True, height=1500)
                     else:
                         st.experimental_data_editor(adb[v], use_container_width=True, height=1500)
-

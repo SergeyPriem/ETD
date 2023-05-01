@@ -818,9 +818,7 @@ def get_all():
             if st.session_state.proj_scope == "Only Current Projects":
                 proj = select(u for u in Project if u.status in ['current', 'perspective', 'final stage'])[:]
                 sod = select(u for u in SOD if u.project_id.status in ['current', 'perspective', 'final stage'])[:]
-                task = select(
-                    u for u in Task if u.s_o_d.project_id.status in ['current', 'perspective', 'final stage']
-                )[:]
+                task = select(u for u in Task if u.s_o_d.project_id.status in ['current', 'perspective', 'final stage'])[:]
 
                 trans = select(u for u in Trans if u.project.status in ['current', 'perspective', 'final stage'])[:]
 
