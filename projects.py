@@ -607,11 +607,9 @@ def confirm_trans(trans_num):
     user = st.session_state.user
     with db_session:
         try:
-
             tr = Trans.get(trans_num=trans_num)
             prev_record = tr.received.replace('-', '')
             tr.received = f"{prev_record}<{user}*{str(datetime.now())[:-10]}>"
-
         except Exception as e:
             return err_handler(e)
 

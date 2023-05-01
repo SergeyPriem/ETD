@@ -354,8 +354,10 @@ def manage_units():
             if upd_unit_but:
                 reply = update_unit_name_stage(unit_name, new_unit_name, new_stage)
 
-                if reply['status'] == 201:
-                    st.session_state.adb['sod'] = reply['sod']
+                st.write(reply)
 
-                else:
-                    st.warning(reply)
+                # if reply['status'] == 201:
+                #     st.session_state.adb['sod'] = reply['sod']
+                #
+                # else:
+                #     st.warning(reply)
