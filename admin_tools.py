@@ -85,37 +85,37 @@ def manage_projects():
             if proj_to_edit:
                 proj_df = st.session_state.adb['project']
 
-                proj_df = proj_df[proj_df.short_name == proj_to_edit]
+                proj_ser = proj_df[proj_df.short_name == proj_to_edit]
 
                 u_df = st.session_state.adb['users']
 
-                u_id = proj_df.responsible_el.to_numpy()[0]
+                u_id = proj_ser.responsible_el.to_numpy()[0]
 
                 prev_responsible = u_df.loc[u_df.index == u_id, 'login'].to_numpy()[0]
 
                 with st.form('update_project'):
-                    short_name = st.text_input('Project Short Name', value=proj_df.short_name.to_numpy()[0],
+                    short_name = st.text_input('Project Short Name', value=proj_ser.short_name.to_numpy()[0],
                                                max_chars=150).strip()
                     full_name = st.text_input('Project Full Name',
-                                              value=proj_df.full_name.to_numpy()[0], max_chars=200).strip()
+                                              value=proj_ser.full_name.to_numpy()[0], max_chars=200).strip()
                     client = st.text_input('Client',
-                                           value=proj_df.client.to_numpy()[0], max_chars=50).strip()
+                                           value=proj_ser.client.to_numpy()[0], max_chars=50).strip()
                     manager = st.text_input('Manager',
-                                            value=proj_df.client.to_numpy()[0], max_chars=50).strip()
+                                            value=proj_ser.client.to_numpy()[0], max_chars=50).strip()
                     responsible_el = st.selectbox('Responsible Person',
                                                   st.session_state.appl_logins,
                                                   get_list_index(st.session_state.appl_logins,
                                                                  prev_responsible))
                     status = st.selectbox('Status', proj_statuses,
-                                          get_list_index(proj_statuses, proj_df.status.to_numpy()[0]))
+                                          get_list_index(proj_statuses, proj_ser.status.to_numpy()[0]))
 
                     assignment = st.text_area("Assignment location",
-                                              proj_df.assignment.to_numpy()[0], max_chars=1000).strip()
+                                              proj_ser.assignment.to_numpy()[0], max_chars=1000).strip()
                     tech_conditions = st.text_area("Tech. conditions location",
-                                                   proj_df.tech_conditions.to_numpy()[0], max_chars=1000).strip()
-                    surveys = st.text_area("Surveys location", proj_df.surveys.to_numpy()[0], max_chars=1000).strip()
-                    mdr = st.text_area("MDR location", proj_df.mdr.to_numpy()[0], max_chars=250).strip()
-                    notes = st.text_area("Notes", proj_df.notes.to_numpy()[0], max_chars=1000).strip()
+                                                   proj_ser.tech_conditions.to_numpy()[0], max_chars=1000).strip()
+                    surveys = st.text_area("Surveys location", proj_ser.surveys.to_numpy()[0], max_chars=1000).strip()
+                    mdr = st.text_area("MDR location", proj_ser.mdr.to_numpy()[0], max_chars=250).strip()
+                    notes = st.text_area("Notes", proj_ser.notes.to_numpy()[0], max_chars=1000).strip()
 
                     upd_proj_but = st.form_submit_button('Update Project', use_container_width=True)
 
@@ -124,7 +124,7 @@ def manage_projects():
                         st.write('Too short Name. Should be more than 2 symbols')
                         st.stop()
 
-                    reply = update_projects(proj_df.index.to_numpy()[0], short_name, full_name, client,
+                    reply = update_projects(proj_ser.index.to_numpy()[0], short_name, full_name, client,
                                             manager, responsible_el, status, assignment, tech_conditions,
                                             surveys, mdr, notes)
 
@@ -143,7 +143,7 @@ def manage_projects():
                                 </h3>
                                 <h5>
                                   You got this message because you are involved in the project : 
-                                  <b>{proj_df.short_name.to_numpy()[0]}</b>
+                                  <b>{proj_ser.short_name.to_numpy()[0]}</b>
                                 </h5>
                                 <p>Some data for the Project were updated</p>
                                 <br>
@@ -205,35 +205,3 @@ def manage_projects():
                     else:
                         st.experimental_data_editor(adb[v], use_container_width=True, height=1500)
 
-            # if st.button('Projects'):
-            #     st.write(adb['project'])
-            #
-            # if st.button('Units'):
-            #     st.write(adb['sod'])
-            #
-            # if st.button('Tasks'):
-            #     start_time = datetime.now()
-            #     st.write(adb['task'])
-            #     st.text((datetime.now() - start_time))
-            #
-            # if st.button('Transmittals'):
-            #     start_time = datetime.now()
-            #     st.write(adb['trans'])
-            #     st.text((datetime.now() - start_time))
-            #
-            # if st.button('Users'):
-            #     st.write(adb['users'].drop(columns=['hashed_pass']))
-            #
-            # if st.button("Tasks from DB"):
-            #     start_time = datetime.now()
-            #     tr_df = get_table(Task)
-            #     st.write(tr_df)
-            #     st.text((datetime.now() - start_time))
-
-            # df = get_table(tab_name)
-            # if isinstance(df, pd.DataFrame):
-            #     st.info(f'Records Q-ty: {len(df)}')
-            #     # st.write(df)
-            #     st.experimental_data_editor(df, use_container_width=True)
-            # else:
-            #     st.warning('No records found')
