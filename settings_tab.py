@@ -78,7 +78,6 @@ def settings_content():
 
             if scope_conf_but:
                 st.session_state.proj_scope = scope
-                st.write(f'{st.session_state.proj_scope}: Under Development')
                 st.write(f'{scope}: Under Development')
 
 

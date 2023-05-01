@@ -825,20 +825,44 @@ def get_trans_nums(proj_short):
 
 def get_all():
     with db_session:
-        try:
-            proj = tab_to_df(select(u for u in Project)[:])
-            sod = tab_to_df(select(u for u in SOD)[:])
-            task = tab_to_df(select(u for u in Task)[:])
-            trans = tab_to_df(select(u for u in Trans)[:])
-            users = tab_to_df(select(u for u in Users)[:])
-            spec = tab_to_df(select(s for s in Speciality)[:])
-            return {
-                'project': proj,
-                'sod': sod,
-                'task': task,
-                'trans': trans,
-                'users': users,
-                'speciality': spec
-            }
-        except Exception as e:
-            return err_handler(e)
+        if st.session_state.proj_scope == "All Projects":
+            try:
+                proj = tab_to_df(select(u for u in Project)[:])
+                sod = tab_to_df(select(u for u in SOD)[:])
+                task = tab_to_df(select(u for u in Task)[:])
+                trans = tab_to_df(select(u for u in Trans)[:])
+                users = tab_to_df(select(u for u in Users)[:])
+                spec = tab_to_df(select(s for s in Speciality)[:])
+                return {
+                    'project': proj,
+                    'sod': sod,
+                    'task': task,
+                    'trans': trans,
+                    'users': users,
+                    'speciality': spec
+                }
+            except Exception as e:
+                return err_handler(e)
+
+        if st.session_state.proj_scope == "Only Current Projects":
+            try:
+                proj = tab_to_df(select(u for u in Project if u.status == 'current')[:])
+                sod = tab_to_df(select(u for u in SOD if u.project_id.status == 'current')[:])
+                task = tab_to_df(select(u for u in Task if u.s_o_d.project_id.status == 'current')[:])
+                trans = tab_to_df(select(u for u in Trans if u.project.status == 'current')[:])
+                users = tab_to_df(select(u for u in Users)[:])
+                spec = tab_to_df(select(s for s in Speciality)[:])
+                return {
+                    'project': proj,
+                    'sod': sod,
+                    'task': task,
+                    'trans': trans,
+                    'users': users,
+                    'speciality': spec
+                }
+            except Exception as e:
+                return err_handler(e)
+
+
+
+#"Only Current Projects"
