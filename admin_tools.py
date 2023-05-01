@@ -106,8 +106,8 @@ def manage_projects():
                                                   st.session_state.appl_logins,
                                                   get_list_index(st.session_state.appl_logins,
                                                                  prev_responsible))
-                    status = st.selectbox('Status', proj_statuses,
-                                          get_list_index(proj_statuses, proj_ser.status.to_numpy()[0]))
+                    status = st.radio('Status', proj_statuses,
+                                      get_list_index(proj_statuses, proj_ser.status.to_numpy()[0]))
 
                     assignment = st.text_area("Assignment location",
                                               proj_ser.assignment.to_numpy()[0], max_chars=1000).strip()
@@ -187,10 +187,6 @@ def manage_projects():
                         st.warning(reply)
 
         with viewer_tab:
-            # tab_list = get_tab_names()
-            # tab_name = st.radio("Select the Table for view", (
-            #     Task, Project, SOD, Users, VisitLog, Trans, Speciality), horizontal=True)
-
             col_list = ['project', 'sod', 'task', 'trans', 'users']
 
             cols = st.columns(len(col_list))
