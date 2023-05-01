@@ -1150,16 +1150,16 @@ def xl_to_sld():
                 #     #                    mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
                 #     #                    disabled=False, use_container_width=False)
                 #
-                if sld_dxf_file:
-                    st.download_button(
-                        'Get SLD here',
-                        data=sld_dxf_file,
-                        file_name=f'{sld_file_name} {datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}.dxf',
-                        mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
-                        disabled=False, use_container_width=False
-                    )
-                    st.divider()
-                    with os.scandir('temp_dxf/') as entries:
-                        for entry in entries:
-                            st.info(entry.name)
+                    if sld_dxf_file:
+                        st.download_button(
+                            'Get SLD here',
+                            data=sld_dxf_file,
+                            file_name=f'{sld_file_name} {datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}.dxf',
+                            mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
+                            disabled=False, use_container_width=False
+                        )
+                        st.divider()
+                        with os.scandir('temp_dxf/') as entries:
+                            for entry in entries:
+                                st.info(entry.name)
 
