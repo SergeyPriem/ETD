@@ -332,4 +332,25 @@ def manage_units():
         with tab_update:
             lc, rc = st.columns(2, gap='medium')
 
-            proj_short = lc.selectbox('Select a Project', st.session_state.proj_names)
+            proj_short = lc.selectbox('Select Project', st.session_state.proj_names)
+
+            proj_df = st.session_state.adb['project']
+            proj_id = proj_df.loc[proj_df.short_name == proj_short, 'index'].to_numpy()[0]
+
+            u_df = st.session_state.adb['sod']
+
+            u_list = u_df.loc[u_df.project.id == proj_id, 'set_name'].tolist()
+
+            unit_name = lc.selectbox('Select Unit', u_list)
+            current_stage = ""
+
+            with st.form('update_unit'):
+                lc, rc = st.columns(2, gap='medium')
+                new_unit_name = lc.text_input('New Name for Unit', value=unit_name)
+                new_stage = rc.selectbox("New Stage for Unit", stages, index=get_list_index(stages, current_stage))
+
+                upd_unit_but = st.form_submit_button("Update Unit Details", use_container_width=True)
+
+            if upd_unit_but:
+                st.write(new_unit_name)
+                st.write(new_stage)
