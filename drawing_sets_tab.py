@@ -112,11 +112,12 @@ def drawing_sets():
             trans_df = st.session_state.adb['trans']
 
             proj_df = st.session_state.adb['project']
-            # proj_id = proj_df[proj_df.short_name == proj_selected].index.to_numpy()[0]
+            proj_id = proj_df[proj_df.short_name == proj_selected].index.to_numpy()[0]
 
             trans_list = trans_df[trans_df.project == proj_selected].trans_num.to_list()
 
             if st.session_state.user=='sergey.priemshiy':
+                st.write(proj_id)
                 st.write(trans_df)
 
             trans_list.insert(0, 'Not required')
