@@ -968,22 +968,9 @@ def xl_to_sld():
 
                     dxf_name = save_uploadedfile(dxf_template)
 
-                    st.success(f'temp_dxf/{dxf_name}')
+                    if os.path.exists(f'temp_dxf/{dxf_name}'):
+                        st.success(f'temp_dxf/{dxf_name} is Exist!')
 
-                    # st.write(dir(dxf_template))
-                    # try:
-                    #     # with open(dxf_template, 'r') as f:
-                    #     text_data = dxf_template.read()
-                    #     dxf_in_ram = io.BytesIO(text_data)
-                    #     st.write(type(dxf_in_ram.readlines()))
-                    #     st.divider()
-                    #     st.write(type(dxf_in_ram))
-                    #     st.divider()
-                    #     st.write(type(dxf_template.getbuffer()))
-                    # except Exception as e:
-                    #     st.warning(err_handler(e))
-
-                    # st.write(st.session_state.temp_dxf)
                     try:
                         doc = ezdxf.readfile(f'temp_dxf/{dxf_name}')
                         st.info("SUCCESS")
