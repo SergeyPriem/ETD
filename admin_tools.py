@@ -136,6 +136,8 @@ def manage_projects():
                                             manager, responsible_el, status, assignment, tech_conditions,
                                             surveys, mdr, notes)
 
+                    st.write(reply['updated_projects'])
+
                     l_rep, r_rep = st.columns(2, gap='medium')
                     if reply['status'] == 201:
                         l_rep.success('Updated')
