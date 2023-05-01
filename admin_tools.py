@@ -47,6 +47,9 @@ def manage_projects():
                 proj_surveys = lc.text_area('Link for Technical Surveys', max_chars=1000)
                 proj_mdr = rc.text_area('Link for MDR', max_chars=250)
                 proj_notes = lc.text_area('Notes', max_chars=1000)
+                rc.text('')
+                rc.text('')
+                rc.text('')
                 proj_prev_but = rc.form_submit_button('Preview Data', use_container_width=True)
 
             if proj_prev_but:
