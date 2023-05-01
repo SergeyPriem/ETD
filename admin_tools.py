@@ -136,8 +136,9 @@ def manage_projects():
                                             manager, responsible_el, status, assignment, tech_conditions,
                                             surveys, mdr, notes)
 
+                    l_rep, r_rep = st.columns(2, gap='medium')
                     if reply['status'] == 201:
-                        st.success('Updated')
+                        l_rep.success('Updated')
 
                         st.session_state.adb['project'] = reply['updated_projects']
 
@@ -186,9 +187,9 @@ def manage_projects():
                         reply2 = send_mail(receiver, cc_rec, subj, html)
 
                         if reply2 == 200:
-                            st.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
+                            r_rep.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
                         else:
-                            st.warning(reply2)
+                            r_rep.warning(reply2)
 
                     else:
                         st.warning(reply)

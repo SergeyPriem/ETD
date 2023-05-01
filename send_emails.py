@@ -5,6 +5,8 @@ import streamlit as st
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+from users import err_handler
+
 
 def send_mail(receiver: str, cc_rec: str, subj: str, html: str):
     # Create message container - the correct MIME type is multipart/alternative.
@@ -37,7 +39,7 @@ def send_mail(receiver: str, cc_rec: str, subj: str, html: str):
         s.quit()
         return 200
     except Exception as e:
-        return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+        return err_handler(e)
 
 ass_num = 789
 ass_subject = f'New assignment {ass_num}'

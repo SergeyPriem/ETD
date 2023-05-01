@@ -843,10 +843,10 @@ def get_all():
             return err_handler(e)
 
 
-def update_unit_name_stage(proj_id, unit_name, new_name, new_stage):
+def update_unit_name_stage(unit_id, new_name, new_stage):
     with db_session:
         try:
-            unit = SOD.get(set_name=unit_name, project_id=proj_id)
+            unit = SOD[unit_id]
             unit.set_name = new_name
             unit.stage = new_stage
 
@@ -862,7 +862,11 @@ def update_unit_name_stage(proj_id, unit_name, new_name, new_stage):
             return {
                 'status': 201,
                 'sod': tab_to_df(sod),
+                'err_descr': None,
             }
 
         except Exception as e:
-            return err_handler(e)
+            return {'status': 404,
+                    'sod': None,
+                    'err_descr': err_handler(e),
+                    }

@@ -4,6 +4,7 @@ import pandas as pd
 import streamlit as st
 from admin_tools import get_list_index
 from models import SOD
+from send_emails import send_mail
 from utilities import sod_revisions, sod_statuses, stages
 from projects import update_sod, add_sod, get_table, update_unit_name_stage
 from users import err_handler
@@ -336,13 +337,15 @@ def manage_units():
             proj_df = st.session_state.adb['project']
             proj_id = proj_df.loc[proj_df.short_name == proj_short].index.to_numpy()[0]
 
-            u_df = st.session_state.adb['sod']
+            sod_df = st.session_state.adb['sod']
 
-            u_list = u_df.loc[u_df.project_id == proj_id, 'set_name'].tolist()
+            u_list = sod_df.loc[sod_df.project_id == proj_id, 'set_name'].tolist()
+
+
 
             unit_name = r_c.selectbox('Select Unit', u_list)
 
-            current_stage = u_df.loc[u_df.set_name == unit_name, 'stage'].to_numpy()[0]
+            current_stage = sod_df.loc[sod_df.set_name == unit_name, 'stage'].to_numpy()[0]
 
             with st.form('update_unit'):
                 lc, rc = st.columns(2, gap='medium')
@@ -352,12 +355,58 @@ def manage_units():
                 upd_unit_but = st.form_submit_button("Update Details for Unit", use_container_width=True)
 
             if upd_unit_but:
-                reply = update_unit_name_stage(proj_id, unit_name, new_unit_name, new_stage)
+                u_id = sod_df.loc[(sod_df.project_id == proj_id) & (sod_df.set_name == unit_name)].index.to_numpy()[0]
+                reply = update_unit_name_stage(u_id, new_unit_name, new_stage)
+
+                l_rep, r_rep = st.columns(2, gap='medium')
 
                 st.write(reply)
 
-                # if reply['status'] == 201:
-                #     st.session_state.adb['sod'] = reply['sod']
-                #
-                # else:
-                #     st.warning(reply)
+                if reply['status'] == 201:
+                    st.session_state.adb['sod'] = reply['sod']
+
+                    l_rep.success('Unit Details Updated')
+
+                    subj = f"{proj_short}: {unit_name}. Changes"
+
+                    html = f"""
+                        <html>
+                          <head></head>
+                          <body>
+                            <h3>
+                              Hello, Colleague!
+                              <hr>
+                            </h3>
+                            <h5>
+                              You got this message because you are involved in the project : 
+                              <b>{proj_short}</b>
+                            </h5>
+                            <p>Some data for the Project were updated</p>
+                            <br>
+                            <p>Project short name: <b>{proj_short}</b></p>
+                            <p>Old Unit name: <b>{unit_name}</b></p>
+                            <p>New Unit Name: <b>{new_unit_name}</b></p>
+                            <p>Old Project Stage: <b>{current_stage}</b></p>
+                            <p>New Project Stage: <b>{new_stage}</b></p>
+                            <p>
+                            <hr>
+                            Best regards, Administration 😎
+                            </p>
+                          </body>
+                        </html>
+                    """
+
+                    u_df = st.session_state.adb['users']
+
+                    receiver = u_df[sod_df[u_id, 'coord_id'], 'email']
+                    cc_rec = u_df[sod_df[u_id, 'perf_id'], 'email']
+
+                    if receiver == cc_rec:
+                        cc_rec = 'sergey.priemshiy@uzliti-en.com'
+
+                    reply2 = send_mail(receiver, cc_rec, subj, html)
+
+                    if reply2 == 200:
+                        r_rep.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
+                else:
+                    st.warning(reply['err_descr'])
