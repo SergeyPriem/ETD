@@ -962,7 +962,7 @@ def xl_to_sld():
                 with st.form('create_sld'):
                     lc, cc, rc = st.columns(3, gap='medium')
                     order = lc.radio("Order od SLD creation", ('ПО ТИПУ ФИДЕРОВ', 'ПО LOAD LIST'), horizontal=True)
-                    sld_file_name = st.text_input('Enter the Name for resulting SLD (without extension)')
+                    sld_file_name = cc.text_input('Enter the Name for resulting SLD (without extension)')
                     rc.text('')
                     create_sld_but = rc.form_submit_button('Create SLD', use_container_width=True)
 
