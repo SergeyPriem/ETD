@@ -136,10 +136,10 @@ def manage_projects():
                                             manager, responsible_el, status, assignment, tech_conditions,
                                             surveys, mdr, notes)
 
-                    if reply == 201:
+                    if reply['status'] == 201:
                         st.success('Updated')
 
-                        st.session_state.adb['project'] = get_table(Project)
+                        st.session_state.adb['project'] = reply['updated_projects']
 
                         html = f"""
                             <html>
@@ -177,7 +177,6 @@ def manage_projects():
                         if prev_responsible == responsible_el:
                             receiver = u_df.loc[u_df.login == responsible_el, 'email'].to_numpy()[0]
                             cc_rec = 'sergey.priemshiy@uzliti-en.com'
-
                         else:
                             receiver = u_df.loc[u_df.login == prev_responsible, 'email'].to_numpy()[0]
                             cc_rec = u_df.loc[u_df.login == responsible_el, 'email'].to_numpy()[0]

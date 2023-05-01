@@ -96,7 +96,21 @@ def get_table(table_name):
             table = select(u for u in table_name)[:]
             return tab_to_df(table)
         except Exception as e:
-            return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+            return err_handler(e)
+
+
+# def get_proj_table():
+#     with db_session:
+#         try:
+#             if st.session_state.proj_scope == "All Projects":
+#                 proj = select(u for u in Project)[:]
+#             if st.session_state.proj_scope == "Only Current Projects":
+#                 proj = select(u for u in Project if u.status in ['current', 'perspective', 'final stage'])[:]
+#             if st.session_state.proj_scope == "All excluding cancelled and suspended":
+#                 proj = select(u for u in Project if u.status not in ['suspended', 'cancelled'])[:]
+#             return tab_to_df(proj)
+#         except Exception as e:
+#             return err_handler(e)
 
 
 @st.cache_data(ttl=300, show_spinner='Getting Data from DB...')
@@ -332,17 +346,6 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
 
             new_ass_id = max(n.id for n in Task)
 
-            # if SOD[set_draw.id].coord_id.login == st.session_state.user:
-            #     Task[new_ass_id].coord_log = str(
-            #         Task[new_ass_id].coord_log).replace('None', '') + \
-            #                                  f"<{st.session_state.user}*{str(datetime.now())[:-10]}>"
-            #
-            #
-            # if SOD[set_draw.id].perf_id.login == st.session_state.user:
-            #     Task[new_ass_id].perf_log = str(
-            #         Task[new_ass_id].perf_log).replace('None', '') + \
-            #                                 f"<{st.session_state.user}*{str(datetime.now())[:-10]}>"
-
             result = create_backup_string(link, BACKUP_FOLDER, new_ass_id)
             new_ass.backup_copy = result[0]
 
@@ -401,7 +404,15 @@ def update_projects(proj_id, short_name, full_name, client, manager, responsible
             proj_for_upd.surveys = surveys
             proj_for_upd.mdr = mdr
             proj_for_upd.notes = notes
-            return 201
+
+            if st.session_state.proj_scope == "All Projects":
+                proj = select(u for u in Project)[:]
+            if st.session_state.proj_scope == "Only Current Projects":
+                proj = select(u for u in Project if u.status in ['current', 'perspective', 'final stage'])[:]
+            if st.session_state.proj_scope == "All excluding cancelled and suspended":
+                proj = select(u for u in Project if u.status not in ['suspended', 'cancelled'])[:]
+
+            return {"status": 201, "updated_projects": tab_to_df(proj)}
         except Exception as e:
             return err_handler(e)
 
@@ -795,33 +806,6 @@ def get_trans_nums(proj_short):
             return err_handler(e)
 
 
-# def get_set_by_id(set_id):
-#     with db_session:
-#         sod = SOD[set_id]
-#
-#     with db_session:
-#         try:
-#             data = select(
-#                 (
-#                     s.id,
-#                     s.project_id,
-#                     s.coord_id.login,
-#                     s.perf_id.login,
-#                     s.stage,
-#                     s.revision,
-#                     s.current_status,
-#                     s.request_date,
-#                     s.trans_num,
-#                     s.trans_date,
-#                     s.notes,
-#                 )
-#                 for s in SOD
-#                 if (s.project_id == Project.get(short_name=selected_project) and s.set_name == selected_set)
-#             ).first()
-#             return data
-#         except Exception as e:
-#             return err_handler(e)
-
 
 def get_all():
     with db_session:
@@ -847,9 +831,13 @@ def get_all():
         if st.session_state.proj_scope == "Only Current Projects":
             try:
                 proj = tab_to_df(select(u for u in Project if u.status in ['current', 'perspective', 'final stage'])[:])
-                sod = tab_to_df(select(u for u in SOD if u.project_id.status in ['current', 'perspective', 'final stage'])[:])
-                task = tab_to_df(select(u for u in Task if u.s_o_d.project_id.status in ['current', 'perspective', 'final stage'])[:])
-                trans = tab_to_df(select(u for u in Trans if u.project.status in ['current', 'perspective', 'final stage'])[:])
+                sod = tab_to_df(
+                    select(u for u in SOD if u.project_id.status in ['current', 'perspective', 'final stage'])[:])
+                task = tab_to_df(
+                    select(u for u in Task if u.s_o_d.project_id.status in ['current', 'perspective', 'final stage'])[
+                    :])
+                trans = tab_to_df(
+                    select(u for u in Trans if u.project.status in ['current', 'perspective', 'final stage'])[:])
                 users = tab_to_df(select(u for u in Users)[:])
                 spec = tab_to_df(select(s for s in Speciality)[:])
                 return {
@@ -867,7 +855,8 @@ def get_all():
             try:
                 proj = tab_to_df(select(u for u in Project if u.status not in ['suspended', 'cancelled'])[:])
                 sod = tab_to_df(select(u for u in SOD if u.project_id.status not in ['suspended', 'cancelled'])[:])
-                task = tab_to_df(select(u for u in Task if u.s_o_d.project_id.status not in ['suspended', 'cancelled'])[:])
+                task = tab_to_df(
+                    select(u for u in Task if u.s_o_d.project_id.status not in ['suspended', 'cancelled'])[:])
                 trans = tab_to_df(select(u for u in Trans if u.project.status not in ['suspended', 'cancelled'])[:])
                 users = tab_to_df(select(u for u in Users)[:])
                 spec = tab_to_df(select(s for s in Speciality)[:])
@@ -882,6 +871,3 @@ def get_all():
             except Exception as e:
                 return err_handler(e)
 
-
-
-#"Only Current Projects"
