@@ -4,7 +4,7 @@ import random
 
 from admin_tools import get_list_index
 from models import Users
-from projects import get_table
+from projects import get_table, get_all
 from send_emails import send_mail
 from users import update_settings, update_user_reg_data
 
@@ -78,7 +78,7 @@ def settings_content():
 
             if scope_conf_but:
                 st.session_state.proj_scope = scope
-                st.write(f'{scope}: Under Development')
+                st.session_state.adb = get_all()
 
 
         with change_pass_tab:

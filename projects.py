@@ -846,10 +846,29 @@ def get_all():
 
         if st.session_state.proj_scope == "Only Current Projects":
             try:
-                proj = tab_to_df(select(u for u in Project if u.status == 'current')[:])
-                sod = tab_to_df(select(u for u in SOD if u.project_id.status == 'current')[:])
-                task = tab_to_df(select(u for u in Task if u.s_o_d.project_id.status == 'current')[:])
-                trans = tab_to_df(select(u for u in Trans if u.project.status == 'current')[:])
+                proj = tab_to_df(select(u for u in Project if u.status in ['current', 'perspective', 'final stage'])[:])
+                sod = tab_to_df(select(u for u in SOD if u.project_id.status in ['current', 'perspective', 'final stage'])[:])
+                task = tab_to_df(select(u for u in Task if u.s_o_d.project_id.status in ['current', 'perspective', 'final stage'])[:])
+                trans = tab_to_df(select(u for u in Trans if u.project.status in ['current', 'perspective', 'final stage'])[:])
+                users = tab_to_df(select(u for u in Users)[:])
+                spec = tab_to_df(select(s for s in Speciality)[:])
+                return {
+                    'project': proj,
+                    'sod': sod,
+                    'task': task,
+                    'trans': trans,
+                    'users': users,
+                    'speciality': spec
+                }
+            except Exception as e:
+                return err_handler(e)
+
+        if st.session_state.proj_scope == "All excluding cancelled and suspended":
+            try:
+                proj = tab_to_df(select(u for u in Project if u.status not in ['suspended', 'cancelled'])[:])
+                sod = tab_to_df(select(u for u in SOD if u.project_id.status not in ['suspended', 'cancelled'])[:])
+                task = tab_to_df(select(u for u in Task if u.s_o_d.project_id.status not in ['suspended', 'cancelled'])[:])
+                trans = tab_to_df(select(u for u in Trans if u.project.status not in ['suspended', 'cancelled'])[:])
                 users = tab_to_df(select(u for u in Users)[:])
                 spec = tab_to_df(select(s for s in Speciality)[:])
                 return {
