@@ -965,7 +965,6 @@ def xl_to_sld():
                     sld_file_name = cc.text_input('Enter the Name for resulting SLD (without extension)')
                     rc.text('')
                     rc.text('')
-                    rc.text('')
                     create_sld_but = rc.form_submit_button('Create SLD', use_container_width=True)
 
                 if dxf_template is not None and create_sld_but:
