@@ -583,14 +583,14 @@ def confirm_task(task_id):
             if user == coord.login:
                 if Task[task_id].coord_log:
                     Task[
-                        task_id].coord_log = f"{(Task[task_id].coord_log).replace('None', '')}<{user}*{str(datetime.now())[:-10]}>"
+                        task_id].coord_log = f"{Task[task_id].coord_log.replace('None', '')}<{user}*{str(datetime.now())[:-10]}>"
                 else:
                     Task[task_id].coord_log = f"<{user}*{str(datetime.now())[:-10]}>"
 
             if user == perform.login:
                 if Task[task_id].perf_log:
                     Task[
-                        task_id].perf_log = f"{(Task[task_id].perf_log).replace('None', '')}<{user}*{str(datetime.now())[:-10]}>"
+                        task_id].perf_log = f"{Task[task_id].perf_log.replace('None', '')}<{user}*{str(datetime.now())[:-10]}>"
                 else:
                     Task[task_id].perf_log = f"<{user}*{str(datetime.now())[:-10]}>"
 
@@ -806,68 +806,41 @@ def get_trans_nums(proj_short):
             return err_handler(e)
 
 
-
 def get_all():
     with db_session:
-        if st.session_state.proj_scope == "All Projects":
-            try:
-                proj = tab_to_df(select(u for u in Project)[:])
-                sod = tab_to_df(select(u for u in SOD)[:])
-                task = tab_to_df(select(u for u in Task)[:])
-                trans = tab_to_df(select(u for u in Trans)[:])
-                users = tab_to_df(select(u for u in Users)[:])
-                spec = tab_to_df(select(s for s in Speciality)[:])
-                return {
-                    'project': proj,
-                    'sod': sod,
-                    'task': task,
-                    'trans': trans,
-                    'users': users,
-                    'speciality': spec
-                }
-            except Exception as e:
-                return err_handler(e)
+        try:
+            if st.session_state.proj_scope == "All Projects":
+                proj = (select(u for u in Project)[:])
+                sod = (select(u for u in SOD)[:])
+                task = (select(u for u in Task)[:])
+                trans = (select(u for u in Trans)[:])
 
-        if st.session_state.proj_scope == "Only Current Projects":
-            try:
-                proj = tab_to_df(select(u for u in Project if u.status in ['current', 'perspective', 'final stage'])[:])
-                sod = tab_to_df(
-                    select(u for u in SOD if u.project_id.status in ['current', 'perspective', 'final stage'])[:])
-                task = tab_to_df(
-                    select(u for u in Task if u.s_o_d.project_id.status in ['current', 'perspective', 'final stage'])[
-                    :])
-                trans = tab_to_df(
-                    select(u for u in Trans if u.project.status in ['current', 'perspective', 'final stage'])[:])
-                users = tab_to_df(select(u for u in Users)[:])
-                spec = tab_to_df(select(s for s in Speciality)[:])
-                return {
-                    'project': proj,
-                    'sod': sod,
-                    'task': task,
-                    'trans': trans,
-                    'users': users,
-                    'speciality': spec
-                }
-            except Exception as e:
-                return err_handler(e)
+            if st.session_state.proj_scope == "Only Current Projects":
+                proj = select(u for u in Project if u.status in ['current', 'perspective', 'final stage'])[:]
+                sod = select(u for u in SOD if u.project_id.status in ['current', 'perspective', 'final stage'])[:]
+                task = select(
+                    u for u in Task if u.s_o_d.project_id.status in ['current', 'perspective', 'final stage']
+                )[:]
 
-        if st.session_state.proj_scope == "All excluding cancelled and suspended":
-            try:
-                proj = tab_to_df(select(u for u in Project if u.status not in ['suspended', 'cancelled'])[:])
-                sod = tab_to_df(select(u for u in SOD if u.project_id.status not in ['suspended', 'cancelled'])[:])
-                task = tab_to_df(
-                    select(u for u in Task if u.s_o_d.project_id.status not in ['suspended', 'cancelled'])[:])
-                trans = tab_to_df(select(u for u in Trans if u.project.status not in ['suspended', 'cancelled'])[:])
-                users = tab_to_df(select(u for u in Users)[:])
-                spec = tab_to_df(select(s for s in Speciality)[:])
-                return {
-                    'project': proj,
-                    'sod': sod,
-                    'task': task,
-                    'trans': trans,
-                    'users': users,
-                    'speciality': spec
-                }
-            except Exception as e:
-                return err_handler(e)
+                trans = select(u for u in Trans if u.project.status in ['current', 'perspective', 'final stage'])[:]
 
+            if st.session_state.proj_scope == "All excluding cancelled and suspended":
+                proj = select(u for u in Project if u.status not in ['suspended', 'cancelled'])[:]
+                sod = select(u for u in SOD if u.project_id.status not in ['suspended', 'cancelled'])[:]
+                task = select(u for u in Task if u.s_o_d.project_id.status not in ['suspended', 'cancelled'])[:]
+                trans = select(u for u in Trans if u.project.status not in ['suspended', 'cancelled'])[:]
+
+            users = (select(u for u in Users)[:])
+            spec = (select(s for s in Speciality)[:])
+
+            return {
+                'project': tab_to_df(proj),
+                'sod': tab_to_df(sod),
+                'task': tab_to_df(task),
+                'trans': tab_to_df(trans),
+                'users': tab_to_df(users),
+                'speciality': tab_to_df(spec)
+            }
+
+        except Exception as e:
+            return err_handler(e)
