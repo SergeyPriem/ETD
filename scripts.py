@@ -986,6 +986,7 @@ def xl_to_sld():
                     # st.write(st.session_state.temp_dxf)
                     try:
                         doc = ezdxf.readfile(f'temp_dxf/{dxf_name}')
+                        st.info("SUCCESS")
                     except IOError as e:
                         st.warning(f"Not a DXF file or a generic I/O error.")
                         st.write(err_handler(e))
