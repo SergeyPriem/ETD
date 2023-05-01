@@ -360,8 +360,6 @@ def manage_units():
 
                 l_rep, r_rep = st.columns(2, gap='medium')
 
-                st.write(reply)
-
                 if reply['status'] == 201:
                     st.session_state.adb['sod'] = reply['sod']
 
