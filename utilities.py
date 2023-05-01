@@ -70,7 +70,7 @@ def appearance_settings():
 
 def get_cur_u_id():
     u_df = st.session_state.adb['users']
-    u_id = u_df[u_df.login == st.session_state.user].index.to_numpy()[0]
+    u_id = u_df[u_df.login == st.session_state.login].index.to_numpy()[0]
 
     return u_id
 

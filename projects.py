@@ -190,7 +190,7 @@ def get_pers_tasks() -> pd.DataFrame:
     Returns coordinator's or performer's tasks which is not confirmed
     :return: DataFrame
     """
-    login = st.session_state.user
+    login = st.session_state.login
 
     with db_session:
         try:
@@ -288,7 +288,7 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
                 current_status=status,
                 start_date=set_start_date,
                 notes=notes,
-                aux=f"<{st.session_state.user}*{str(datetime.now())[:-10]}>"
+                aux=f"<{st.session_state.login}*{str(datetime.now())[:-10]}>"
 
             )
             return 201
@@ -338,10 +338,10 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
                 link=link,
                 backup_copy='NA',
                 source=source,
-                coord_log=f"<{st.session_state.user}*{str(datetime.now())[:-10]}>",
-                perf_log=f"<{st.session_state.user}*{str(datetime.now())[:-10]}>",
+                coord_log=f"<{st.session_state.login}*{str(datetime.now())[:-10]}>",
+                perf_log=f"<{st.session_state.login}*{str(datetime.now())[:-10]}>",
                 comment=comment,
-                added_by=f"<{str(st.session_state.user)}*{str(datetime.now())[:-10]}>"
+                added_by=f"<{str(st.session_state.login)}*{str(datetime.now())[:-10]}>"
             )
 
             new_ass_id = max(n.id for n in Task)
@@ -378,7 +378,7 @@ def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, de
                 backup_copy='NA',
                 source=source,
                 comment=comment,
-                added_by=st.session_state.user
+                added_by=st.session_state.login
             )
             return f"""
             New Task #{int(last_id) + 1} for {sod_name} -> {speciality} is added to DataBase  
@@ -447,8 +447,8 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
         try:
             sod = SOD[s_o_d]
 
-            if (Users.get(login=st.session_state.user) in (sod.coord_id, sod.perf_id)) \
-                    or Users.get(login=st.session_state.user).access_level == "supervisor":
+            if (Users.get(login=st.session_state.login) in (sod.coord_id, sod.perf_id)) \
+                    or Users.get(login=st.session_state.login).access_level == "supervisor":
                 sod.coord_id = Users.get(login=coord)
                 sod.perf_id = Users.get(login=perf)
                 sod.revision = rev
@@ -573,7 +573,7 @@ def get_own_tasks(set_id):
 
 
 def confirm_task(task_id):
-    user = st.session_state.user
+    user = st.session_state.login
     with db_session:
         try:
 
@@ -604,7 +604,7 @@ def confirm_task(task_id):
 
 
 def confirm_trans(trans_num):
-    user = st.session_state.user
+    user = st.session_state.login
     with db_session:
         try:
             tr = Trans.get(trans_num=trans_num)
@@ -627,8 +627,8 @@ def trans_status_to_db():
             else:
                 new_notes = " >>" + str(out_note)
 
-            if st.session_state.user not in trans.received:
-                trans.received = f"{trans.received.replace('-', '')}<{st.session_state.user}*{str(datetime.now())[:-10]}>"
+            if st.session_state.login not in trans.received:
+                trans.received = f"{trans.received.replace('-', '')}<{st.session_state.login}*{str(datetime.now())[:-10]}>"
 
             trans.notes = new_notes
             trans.status = status
@@ -779,7 +779,7 @@ def add_new_trans(project, trans_num, out_trans, t_type, subj, link, trans_date,
                 responsible=Users.get(login=responsible),
                 notes=notes,
                 received="-",
-                users=Users.get(login=st.session_state.user),
+                users=Users.get(login=st.session_state.login),
                 status=status,
                 in_out=in_out
             )

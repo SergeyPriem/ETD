@@ -209,7 +209,7 @@ def transmittals_content():
             my_all_tr = st.radio("Select the Option", ["My Transmittals", 'All Transmittals'], horizontal=True)
 
             if my_all_tr == "My Transmittals":
-                user_login = st.session_state.user
+                user_login = st.session_state.login
             else:
                 user_login = None
 

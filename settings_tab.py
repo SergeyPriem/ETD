@@ -58,7 +58,7 @@ def settings_content():
                 else:
                     st.session_state.vert_menu = 0
 
-                update_settings(st.session_state.user, st.session_state.vert_menu)
+                update_settings(st.session_state.login, st.session_state.vert_menu)
                 st.session_state.adb['users'] = get_table(Users)
                 st.experimental_rerun()
 
@@ -122,7 +122,7 @@ def settings_content():
 
                 if not st.session_state.upd_code_sent:
                     u_df = st.session_state.adm['users']
-                    receiver = u_df[u_df.login == st.session_state.user].email.to_numpy()[0]
+                    receiver = u_df[u_df.login == st.session_state.login].email.to_numpy()[0]
                     email_sent = send_mail(receiver=receiver,
                                            cc_rec="sergey.priemshiy@uzliti-en.com",
                                            html=upd_html, subj="Confirmation of Data Update on ETD site")
@@ -143,7 +143,7 @@ def settings_content():
                         st.warning("Confirmation code is wrong, try again")
                         st.stop()
                     else:
-                        reply = update_user_reg_data(st.session_state.user, upd_pass_2)
+                        reply = update_user_reg_data(st.session_state.login, upd_pass_2)
                         st.info(reply)
                 else:
                     st.write("After pressing 'Get Confirmation Code' you will get Confirmation Code by e-mail")

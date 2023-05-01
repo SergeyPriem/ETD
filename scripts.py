@@ -878,7 +878,7 @@ def xl_to_sld():
 
         u_df = st.session_state.adb['users']
 
-        user_script_acc = u_df.loc[u_df.login == st.session_state.user, 'script_acc'].to_numpy()[0]
+        user_script_acc = u_df.loc[u_df.login == st.session_state.login, 'script_acc'].to_numpy()[0]
 
         if user_script_acc:
 

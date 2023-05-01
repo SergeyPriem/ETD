@@ -51,7 +51,7 @@ def drawing_sets():
         df = st.session_state.adb['sod']
 
         if my_all == "My Units":
-            user_login = st.session_state.user
+            user_login = st.session_state.login
             user_id = u_df.loc[u_df.login == user_login].index.to_numpy()[0]
             df = df[(df.coord_id == user_id) | (df.perf_id == user_id)]
 
@@ -113,7 +113,7 @@ def drawing_sets():
             st.write(err_handler(e))
             st.stop()
 
-        # if st.session_state.user == 'sergey.priemshiy':
+        # if st.session_state.login == 'sergey.priemshiy':
         #     st.write(proj_df)
         #     st.write(proj_id)
         #     if trans_list:
@@ -318,7 +318,7 @@ def manage_units():
                     #         {
                     #             'id': next_id, 'project_id': project_id, 'set_name': set_name, 'coord_id': coord_id,
                     #             'perf_id': perf_id, 'stage': stage, 'revision': "R1", 'current_status': status,
-                    #             'notes': notes, 'aux': f"{st.session_state.user}: {str(datetime.datetime.now())[:-10]}"
+                    #             'notes': notes, 'aux': f"{st.session_state.login}: {str(datetime.datetime.now())[:-10]}"
                     #         }
                     #     ]
                     # )

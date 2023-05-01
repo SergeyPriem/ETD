@@ -228,10 +228,10 @@ def add_task(task_content):
                                         </html>
                                     """
 
-                                if st.session_state.user in coord_email:
+                                if st.session_state.login in coord_email:
                                     coord_email = 'sergey.priemshiy@uzliti-en.com'
 
-                                if st.session_state.user in perf_email:
+                                if st.session_state.login in perf_email:
                                     perf_email = 'sergey.priemshiy@uzliti-en.com'
 
                                 if perf_email == coord_email:

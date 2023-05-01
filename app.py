@@ -43,10 +43,10 @@ def home_tasks():
 
     df = task_df.loc[
         ((task_df.coord_id == u_id) & (~task_df.coord_log.str.contains('confirmed')) & (
-            ~task_df.coord_log.str.contains(st.session_state.user)))
+            ~task_df.coord_log.str.contains(st.session_state.login)))
         |
         ((task_df.perf_id == u_id) & (~task_df.perf_log.str.contains('confirmed')) & (
-            ~task_df.perf_log.str.contains(st.session_state.user)))
+            ~task_df.perf_log.str.contains(st.session_state.login)))
         ]
 
     df.rename(columns={
@@ -80,7 +80,7 @@ def home_trans():
 def show_duration():
     u_df = st.session_state.adb['users']
 
-    access_level = u_df.loc[u_df.login == st.session_state.user, 'access_level'].to_numpy()[0]
+    access_level = u_df.loc[u_df.login == st.session_state.login, 'access_level'].to_numpy()[0]
 
     st.sidebar.text("")
     st.sidebar.markdown(f"<h4 style='text-align: center; color: #00bbf9;'>Current Mode:</h4>",
@@ -185,8 +185,8 @@ def create_states():
     if 'vert_menu' not in st.session_state:
         st.session_state.vert_menu = 1
 
-    if 'user' not in st.session_state:
-        st.session_state['user'] = None
+    if 'login' not in st.session_state:
+        st.session_state.login = None
 
     if 'task_preview' not in st.session_state:
         st.session_state.task_preview = False
@@ -263,7 +263,7 @@ def home_content():
         st.title(':orange[Electrical Department]')
 
         u_df = st.session_state.adb["users"]
-        u_df = u_df.loc[u_df.login == st.session_state.user]
+        u_df = u_df.loc[u_df.login == st.session_state.login]
         username = f"{u_df.name.to_numpy()[0]} {u_df.surname.to_numpy()[0]}"
         st.header(f'Welcome, {username}!')
 
@@ -354,8 +354,8 @@ def home_content():
                         st.write('No New Tasks')
 
                 with trans_col:
-                    # df = get_my_trans(st.session_state.user)
-                    df = home_trans()  # st.session_state.user
+                    # df = get_my_trans(st.session_state.login)
+                    df = home_trans()  # st.session_state.login
 
                     # st.write(df)
 
@@ -438,7 +438,7 @@ def home_content():
                             but_key1 = f"Confirm receiving: {row.trans_num}"
                             but_key2 = f"Update Status for: {row.trans_num}"
 
-                            if st.session_state.user not in row.received:
+                            if st.session_state.login not in row.received:
                                 st.button(label=but_key1, key=but_key1, type='secondary',
                                           on_click=confirm_trans,
                                           args=((row.trans_num,)))
@@ -505,7 +505,7 @@ def login_register():
                     else:
                         if check_user(login, password):
                             st.session_state.logged = True
-                            st.session_state.user = login
+                            st.session_state.login = login
                             u_df = st.session_state.adb['users']
                             st.session_state.rights = u_df.loc[
                                 u_df.login == login, 'access_level'].to_numpy()[0]
@@ -524,7 +524,7 @@ def login_register():
                             st.session_state.logged = False
                             st.warning('Wrong Password')
                             st.session_state.rights = None
-                            st.session_state.user = None
+                            st.session_state.login = None
 
         with reg_tab:
             appl_logins = st.session_state.appl_logins
@@ -914,9 +914,9 @@ def initial():
     if not st.session_state.logged:
         login_register()
 
-    if st.session_state.logged and st.session_state.user:
+    if st.session_state.logged and st.session_state.login:
         try:
-            st.session_state.vert_menu = int(u_df.loc[u_df.login == st.session_state.user, 'vert_menu'].to_numpy()[0])
+            st.session_state.vert_menu = int(u_df.loc[u_df.login == st.session_state.login, 'vert_menu'].to_numpy()[0])
         except Exception as e:
             st.session_state.vert_menu = 1
 
