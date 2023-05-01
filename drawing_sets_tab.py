@@ -349,7 +349,7 @@ def manage_units():
                 new_unit_name = lc.text_input('New Name for Unit', value=unit_name)
                 new_stage = rc.selectbox("New Stage for Unit", stages, index=get_list_index(stages, current_stage))
 
-                upd_unit_but = st.form_submit_button("Update Unit Details", use_container_width=True)
+                upd_unit_but = st.form_submit_button("Update Unit Details", key='update_unit',use_container_width=True)
 
             if upd_unit_but:
                 reply = update_unit_name_stage(unit_name, new_unit_name, new_stage)
