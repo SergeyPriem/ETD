@@ -106,7 +106,9 @@ def manage_projects():
                     responsible_el = lc.selectbox('Responsible Person',
                                                   st.session_state.appl_logins,
                                                   get_list_index(st.session_state.appl_logins,
-                                                                 prev_responsible))
+                                                  prev_responsible))
+
+                    rc.text()
                     status = rc.radio('Status', proj_statuses,
                                       get_list_index(proj_statuses, proj_ser.status.to_numpy()[0]),
                                       horizontal=True)
@@ -121,6 +123,8 @@ def manage_projects():
                     mdr = rc.text_area("MDR location", proj_ser.mdr.to_numpy()[0], max_chars=250).strip()
                     notes = lc.text_area("Notes", proj_ser.notes.to_numpy()[0], max_chars=1000).strip()
 
+                    rc.text('')
+                    rc.text('')
                     rc.text('')
                     rc.text('')
                     rc.text('')
