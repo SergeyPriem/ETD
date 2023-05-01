@@ -67,7 +67,7 @@ def manage_projects():
                 Notes: **:blue[{proj_notes}]**  
                 """)
 
-            if st.button("Create Project"):
+            if st.button("Create Project", use_container_width=True):
                 reply = create_project(proj_short, proj_full, client, proj_man, responsible_el,
                                        proj_status, proj_tech_ass, proj_tech_conditions,
                                        proj_surveys, proj_mdr, proj_notes)
