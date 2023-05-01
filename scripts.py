@@ -6,7 +6,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import math
-
+import os
 
 from users import err_handler
 
@@ -53,6 +53,15 @@ compositDic = {
     4: '3PHG',
     5: '3PHNG'
 }
+
+
+
+
+def save_uploadedfile(uploadedfile):
+    with open(os.path.join("temp_dxf", uploadedfile.name), "wb") as f:
+        f.write(uploadedfile.getbuffer())
+    st.success("Saved File:{} to tempDir".format(uploadedfile.name))
+    return uploadedfile.name
 
 
 def max_nearest(target: int) -> int:
@@ -959,13 +968,10 @@ def xl_to_sld():
                 if dxf_template is not None:
 
                     # st.session_state.temp_dxf = dxf_template
-                    import os
-                    def save_uploadedfile(uploadedfile):
-                        with open(os.path.join("temp_dxf", uploadedfile.name), "wb") as f:
-                            f.write(uploadedfile.getbuffer())
-                        return st.success("Saved File:{} to tempDir".format(uploadedfile.name))
 
-                    save_uploadedfile(dxf_template)
+                    dxf_name = save_uploadedfile(dxf_template)
+
+                    st.success(dxf_name)
                     # st.write(dir(dxf_template))
                     # try:
                     #     # with open(dxf_template, 'r') as f:
@@ -980,21 +986,21 @@ def xl_to_sld():
                     #     st.warning(err_handler(e))
 
                     # st.write(st.session_state.temp_dxf)
-                    try:
-                        doc = ezdxf.readfile(f'/temp_dxf/{}')
-                    except IOError as e:
-                        st.warning(f"Not a DXF file or a generic I/O error.")
-                        st.write(err_handler(e))
-                        st.stop()
-
-                    except ezdxf.DXFStructureError as e:
-                        st.warning(f"Invalid or corrupted DXF file.")
-                        st.write(err_handler(e))
-                        st.stop()
-
-                    except Exception as e:
-                        st.write('!!!')
-                        st.warning(err_handler(e))
+                    # try:
+                    #     doc = ezdxf.readfile(f'/temp_dxf/{dxf_name}')
+                    # except IOError as e:
+                    #     st.warning(f"Not a DXF file or a generic I/O error.")
+                    #     st.write(err_handler(e))
+                    #     st.stop()
+                    #
+                    # except ezdxf.DXFStructureError as e:
+                    #     st.warning(f"Invalid or corrupted DXF file.")
+                    #     st.write(err_handler(e))
+                    #     st.stop()
+                    #
+                    # except Exception as e:
+                    #     st.write('!!!')
+                    #     st.warning(err_handler(e))
 
                     # st.write(doc)
                 # #
