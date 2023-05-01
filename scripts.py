@@ -55,12 +55,10 @@ compositDic = {
 }
 
 
-
-
 def save_uploadedfile(uploadedfile):
     with open(os.path.join("temp_dxf", uploadedfile.name), "wb") as f:
         f.write(uploadedfile.getbuffer())
-    st.success("Saved File:{} to tempDir".format(uploadedfile.name))
+    st.success(f"Saved File:{uploadedfile.name} to temp_dxf")
     return uploadedfile.name
 
 
@@ -895,7 +893,6 @@ def xl_to_sld():
                                              help=None, on_change=None, args=None,
                                              kwargs=None, disabled=False, label_visibility="visible")
 
-
             tab_cl, tab_sld = st.tabs(['Create Cable List', 'Create SLD'])
 
             with tab_cl:
@@ -911,7 +908,8 @@ def xl_to_sld():
                                                     value=25, min_value=10, max_value=300)
 
                     min_sect = rc.selectbox('Min. Cross_section of Power Cable wire', ['1.5', '2.5', '4'], index=1)
-                    incom_margin = rc.selectbox("Margin for Incomer's Rated Current", ['1.0', '1.05', '1.1', '1.15', '1.2'],
+                    incom_margin = rc.selectbox("Margin for Incomer's Rated Current",
+                                                ['1.0', '1.05', '1.1', '1.15', '1.2'],
                                                 index=1)
 
                     show_settings = lc.checkbox("Show CB settings at SLD")
@@ -929,7 +927,6 @@ def xl_to_sld():
                     ex_df = pd.read_excel(cab_data, sheet_name='ExZones')
 
                     loads_df = pd.read_excel(load_list, sheet_name='loads')
-
 
                 if len(loads_df):
                     loads_df = prepare_loads_df(loads_df)
@@ -971,7 +968,8 @@ def xl_to_sld():
 
                     dxf_name = save_uploadedfile(dxf_template)
 
-                    st.success(dxf_name)
+                    st.success(f'/temp_dxf/{dxf_name}')
+
                     # st.write(dir(dxf_template))
                     # try:
                     #     # with open(dxf_template, 'r') as f:
@@ -1154,9 +1152,7 @@ def xl_to_sld():
                 #                        mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
                 #                        disabled=False, use_container_width=False)
 
-                    # if dxf_template:
-                    #     st.download_button('Get SLD here', data=dxf_template, file_name='SLD.dxf', mime=None, key=None,
-                    #                        help=None,
-                    #                        on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
-
-
+                # if dxf_template:
+                #     st.download_button('Get SLD here', data=dxf_template, file_name='SLD.dxf', mime=None, key=None,
+                #                        help=None,
+                #                        on_click=None, args=None, kwargs=None, disabled=False, use_container_width=False)
