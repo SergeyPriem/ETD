@@ -105,13 +105,13 @@ def drawing_sets():
 
         proj_id = proj_df[proj_df.short_name == proj_selected].index.to_numpy()[0]
         trans_list = []
-        trans_list_check = trans_df[trans_df.project == proj_id, 'trans_num'].tolist()
+        # trans_list_check = trans_df[trans_df.project == proj_id, 'trans_num'].tolist()
 
         if st.session_state.user == 'sergey.priemshiy':
             st.write(proj_df)
             st.write(proj_id)
-            if trans_list_check:
-                st.write(trans_list_check)
+            # if trans_list_check:
+            #     st.write(trans_list_check)
             st.write(trans_df)
 
         with st.form("edit-unit_details"):
