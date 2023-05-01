@@ -352,7 +352,7 @@ def manage_units():
                 upd_unit_but = st.form_submit_button("Update Details for Unit", use_container_width=True)
 
             if upd_unit_but:
-                reply = update_unit_name_stage(unit_name, new_unit_name, new_stage)
+                reply = update_unit_name_stage(proj_id, unit_name, new_unit_name, new_stage)
 
                 st.write(reply)
 

@@ -843,10 +843,10 @@ def get_all():
             return err_handler(e)
 
 
-def update_unit_name_stage(unit_name, new_name, new_stage):
+def update_unit_name_stage(proj_id, unit_name, new_name, new_stage):
     with db_session:
         try:
-            unit = SOD.get(set_name=unit_name)
+            unit = SOD.get(set_name=unit_name, project_id=proj_id)
             unit.set_name = new_name
             unit.stage = new_stage
 
