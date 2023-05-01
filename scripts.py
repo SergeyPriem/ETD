@@ -975,7 +975,6 @@ def xl_to_sld():
                     if len(st.session_state.loads_df):
                         lo_df = st.session_state.loads_df
 
-
                     dxf_temp_file = save_uploaded_file(dxf_template)
 
                     with os.scandir('temp_dxf/') as entries:
@@ -1006,23 +1005,22 @@ def xl_to_sld():
 
                     # .astype(str).str.replace('710-', '', regex=True)
 
-
                     lo_df['CONSUM-CABLE_TAG'] = lo_df['CONSUM-CABLE_TAG'].astype(str).str.replace('710-', '',
-                                                                                                        regex=True)
+                                                                                                  regex=True)
                     lo_df['CONSUM-CABLE_TAG'] = lo_df['CONSUM-CABLE_TAG'].astype(str).str.replace('715-', '',
-                                                                                                        regex=True)
+                                                                                                  regex=True)
                     lo_df['HEATER-CABLE_TAG'] = lo_df['HEATER-CABLE_TAG'].astype(str).str.replace('710-', '',
-                                                                                                        regex=True)
+                                                                                                  regex=True)
                     lo_df['HEATER-CABLE_TAG'] = lo_df['HEATER-CABLE_TAG'].astype(str).str.replace('715-', '',
-                                                                                                        regex=True)
+                                                                                                  regex=True)
                     lo_df['LCS1-CABLE_TAG1'] = lo_df['LCS1-CABLE_TAG1'].astype(str).str.replace('710-', '',
-                                                                                                      regex=True)
+                                                                                                regex=True)
                     lo_df['LCS1-CABLE_TAG1'] = lo_df['LCS1-CABLE_TAG1'].astype(str).str.replace('715-', '',
-                                                                                                      regex=True)
+                                                                                                regex=True)
                     lo_df['LCS1-CABLE_TAG2'] = lo_df['LCS1-CABLE_TAG2'].astype(str).str.replace('710-', '',
-                                                                                                      regex=True)
+                                                                                                regex=True)
                     lo_df['LCS1-CABLE_TAG2'] = lo_df['LCS1-CABLE_TAG2'].astype(str).str.replace('715-', '',
-                                                                                                      regex=True)
+                                                                                                regex=True)
                     lo_df['LCS2-CABLE_TAG'] = lo_df['LCS2-CABLE_TAG'].astype(str).str.replace('710-', '', regex=True)
                     lo_df['LCS2-CABLE_TAG'] = lo_df['LCS2-CABLE_TAG'].astype(str).str.replace('715-', '', regex=True)
 
@@ -1092,7 +1090,7 @@ def xl_to_sld():
                             'CB_SC-RATING_POLARITY': lo_df_new.RAT_POL[i],
                             'CONSUM-CABLE_TAG': lo_df_new['CONSUM-CABLE_TAG'][i],
                             'CONSUM-CABLE_TYPE': lo_df_new['CONSUM-CABLE_TYPE'][i].replace('.0m', 'm').replace('.0/',
-                                                                                                                  '/'),
+                                                                                                               '/'),
                             'CONSUMER_TAG': lo_df_new.index[i],
                             'CONSUMER_POWER': round(lo_df_new.rated_power[i], 1),
                             'CONSUMER_AMPACITY': round(lo_df_new.rated_current[i] * lo_df_new.eff[i], 1),
@@ -1106,7 +1104,7 @@ def xl_to_sld():
                             'VFD_TAG': lo_df_new.VFD_TAG[i],
                             'HEATER-CABLE_TAG': lo_df_new['HEATER-CABLE_TAG'][i].replace('.0m', 'm'),
                             'HEATER-CABLE_TYPE': lo_df_new['HEATER-CABLE_TYPE'][i].replace('.0m', 'm').replace('.0/',
-                                                                                                                  '/'),
+                                                                                                               '/'),
                             'LCS1-CABLE_TAG1': lo_df_new['LCS1-CABLE_TAG1'][i].replace('.0m', 'm'),
                             'LCS1-CABLE_TYPE1': lo_df_new['LCS1-CABLE_TYPE1'][i].replace('.0m', 'm'),
                             'LCS1-CABLE_TAG2': lo_df_new['LCS1-CABLE_TAG2'][i].replace('.0m', 'm'),
@@ -1132,24 +1130,23 @@ def xl_to_sld():
 
                         point += step
 
-
-                    add_gen_data(msp, lo_df, lo_df_new, point)
+                    add_gen_data(msp, lo_df, lo_df_new, point, max_sc, peak_sc)
+                    # msp, loads_df, loads_df_new, point, max_sc, peak_sc
 
                     sld_dxf_file = doc.saveas(f'temp_dxf/{sld_file_name}.dxf')
 
-
                     st.success('SLD is ready. Please Download')
-                #
-                #
-                #     # buffer_2 = io.BytesIO()
-                #     #
-                #     # buffer_2.write(sld_dxf_file)
-                #
-                #     # st.download_button('Get SLD', data=sld_dxf_file,
-                #     #                    file_name=f'SLD {datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}.xlsx',
-                #     #                    mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
-                #     #                    disabled=False, use_container_width=False)
-                #
+                    #
+                    #
+                    #     # buffer_2 = io.BytesIO()
+                    #     #
+                    #     # buffer_2.write(sld_dxf_file)
+                    #
+                    #     # st.download_button('Get SLD', data=sld_dxf_file,
+                    #     #                    file_name=f'SLD {datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}.xlsx',
+                    #     #                    mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
+                    #     #                    disabled=False, use_container_width=False)
+                    #
                     if sld_dxf_file:
                         st.download_button(
                             'Get SLD here',
@@ -1162,4 +1159,3 @@ def xl_to_sld():
                         with os.scandir('temp_dxf/') as entries:
                             for entry in entries:
                                 st.info(entry.name)
-
