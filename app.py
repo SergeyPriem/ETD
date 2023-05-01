@@ -842,7 +842,6 @@ def prepare_menus():
                                    icons=st.session_state.icons,
                                    menu_icon="bi bi-plug")
 
-            st.write(st.session_state.proj_scope)
             if st.session_state.rights == 'supervisor' and st.checkbox("Show states"):
                 show_states()
     else:
