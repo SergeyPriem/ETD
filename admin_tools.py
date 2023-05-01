@@ -101,11 +101,10 @@ def manage_projects():
                     client = lc.text_input('Client',
                                            value=proj_ser.client.to_numpy()[0], max_chars=50).strip()
                     manager = rc.text_input('Manager',
-                                            value=proj_ser.client.to_numpy()[0], max_chars=50).strip()
+                                            value=proj_ser.manager.to_numpy()[0], max_chars=50).strip()
                     responsible_el = lc.selectbox('Responsible Person',
                                                   st.session_state.appl_logins,
-                                                  get_list_index(st.session_state.appl_logins,
-                                                  prev_responsible))
+                                                  get_list_index(st.session_state.appl_logins, prev_responsible))
 
                     rc.text('')
                     status = rc.radio('Status', proj_statuses,
