@@ -6,6 +6,7 @@ from admin_tools import get_list_index
 from models import SOD
 from utilities import sod_revisions, sod_statuses, stages
 from projects import get_trans_nums, update_sod, add_sod, get_table
+from users import err_handler
 
 
 def drawing_sets():
@@ -105,7 +106,11 @@ def drawing_sets():
 
         proj_id = proj_df[proj_df.short_name == proj_selected].index.to_numpy()[0]
         trans_list = []
-        # trans_list_check = trans_df[trans_df.project == proj_id, 'trans_num'].tolist()
+        try:
+            trans_list_check = trans_df[trans_df.project == proj_id, 'trans_num'].tolist()
+        except Exception as e:
+            st.write(err_handler(e))
+            st.stop()
 
         if st.session_state.user == 'sergey.priemshiy':
             st.write(proj_df)
