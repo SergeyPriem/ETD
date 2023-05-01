@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import pandas as pd
+
 import streamlit as st
-from models import Project, Task, VisitLog, SOD, Users, Trans, Speciality
+from models import Project
 from utilities import proj_statuses
 from projects import create_project, get_table, update_projects
-from datetime import datetime
 
 from send_emails import send_mail
 

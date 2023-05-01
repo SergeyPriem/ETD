@@ -17,7 +17,7 @@ sod_statuses = (
 sod_revisions = ('R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7', 'R8', 'R9', 'R10', 'R11', 'R12',
                  'A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11', 'A12')
 
-proj_statuses = ('current', 'perspective', 'completed', 'final stage', 'cancelled', 'suspended')
+proj_statuses = ('current', 'perspective', 'final stage', 'completed', 'suspended', 'cancelled')
 
 trans_stat = ("Open", "Closed", "For Info", "Not Enough Data", "In Progress", "Issued Docs")
 
