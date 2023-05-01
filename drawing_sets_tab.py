@@ -339,7 +339,7 @@ def manage_units():
 
             u_df = st.session_state.adb['sod']
 
-            u_list = u_df.loc[u_df.project.id == proj_id, 'set_name'].tolist()
+            u_list = u_df.loc[u_df.project_id == proj_id, 'set_name'].tolist()
 
             unit_name = lc.selectbox('Select Unit', u_list)
             current_stage = ""
