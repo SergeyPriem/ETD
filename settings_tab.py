@@ -77,7 +77,7 @@ def settings_content():
                 scope_conf_but = st.form_submit_button('Apply Selected Scope', use_container_width=True)
 
             if scope_conf_but:
-
+                st.session_state.proj_scope = scope
                 st.write(f'{st.session_state.proj_scope}: Under Development')
                 st.write(f'{scope}: Under Development')
 
