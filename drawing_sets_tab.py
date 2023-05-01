@@ -5,12 +5,11 @@ import streamlit as st
 from admin_tools import get_list_index
 from models import SOD
 from utilities import sod_revisions, sod_statuses, stages
-from projects import get_trans_nums, update_sod, add_sod, get_table
+from projects import update_sod, add_sod, get_table, update_unit_name_stage
 from users import err_handler
 
 
 def drawing_sets():
-
     st.markdown("""
         <style>
             div[data-testid="column"]:nth-of-type(1)
@@ -133,7 +132,6 @@ def drawing_sets():
             status = l_c.selectbox('Status', sod_statuses,
                                    index=get_list_index(sod_statuses, df_edit.status.to_numpy()[0]))
 
-
             r_c.text('')
             r_c.text('')
             upd_trans_chb = r_c.checkbox("Add Transmittal")
@@ -254,8 +252,10 @@ def drawing_sets():
                             st.warning("Select specialities for request")
 
 
-def manage_units():
 
+
+
+def manage_units():
     st.markdown("""
         <style>
             div[data-testid="column"]:nth-of-type(1)
@@ -274,7 +274,6 @@ def manage_units():
             } 
         </style>
         """, unsafe_allow_html=True)
-
 
     empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
     with empty_sets_1:
@@ -330,9 +329,9 @@ def manage_units():
                     st.warning(reply)
 
         with tab_update:
-            lc, rc = st.columns(2, gap='medium')
+            l_c, r_c = st.columns(2, gap='medium')
 
-            proj_short = lc.selectbox('Select Project', st.session_state.proj_names)
+            proj_short = l_c.selectbox('Select Project', st.session_state.proj_names)
 
             proj_df = st.session_state.adb['project']
             proj_id = proj_df.loc[proj_df.short_name == proj_short].index.to_numpy()[0]
@@ -341,8 +340,9 @@ def manage_units():
 
             u_list = u_df.loc[u_df.project_id == proj_id, 'set_name'].tolist()
 
-            unit_name = lc.selectbox('Select Unit', u_list)
-            current_stage = ""
+            unit_name = r_c.selectbox('Select Unit', u_list)
+
+            current_stage = u_df.loc[u_df.set_name == unit_name, 'stage'].to_numpy()[0]
 
             with st.form('update_unit'):
                 lc, rc = st.columns(2, gap='medium')
@@ -352,5 +352,10 @@ def manage_units():
                 upd_unit_but = st.form_submit_button("Update Unit Details", use_container_width=True)
 
             if upd_unit_but:
-                st.write(new_unit_name)
-                st.write(new_stage)
+                reply = update_unit_name_stage(unit_name, new_unit_name, new_stage)
+
+                if reply['status'] == 201:
+                    st.session_state.adb['sod'] = reply['sod']
+
+                else:
+                    st.warning(reply)

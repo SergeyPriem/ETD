@@ -818,7 +818,8 @@ def get_all():
             if st.session_state.proj_scope == "Only Current Projects":
                 proj = select(u for u in Project if u.status in ['current', 'perspective', 'final stage'])[:]
                 sod = select(u for u in SOD if u.project_id.status in ['current', 'perspective', 'final stage'])[:]
-                task = select(u for u in Task if u.s_o_d.project_id.status in ['current', 'perspective', 'final stage'])[:]
+                task = select(
+                    u for u in Task if u.s_o_d.project_id.status in ['current', 'perspective', 'final stage'])[:]
 
                 trans = select(u for u in Trans if u.project.status in ['current', 'perspective', 'final stage'])[:]
 
@@ -838,6 +839,31 @@ def get_all():
                 'trans': tab_to_df(trans),
                 'users': tab_to_df(users),
                 'speciality': tab_to_df(spec)
+            }
+
+        except Exception as e:
+            return err_handler(e)
+
+
+def update_unit_name_stage(unit_name, new_name, new_stage):
+    with db_session:
+        try:
+            unit = SOD.get(set_name=unit_name)
+            unit.set_name = new_name
+            unit.stage = new_stage
+
+            if st.session_state.proj_scope == "All Projects":
+                sod = (select(u for u in SOD)[:])
+
+            if st.session_state.proj_scope == "Only Current Projects":
+                sod = select(u for u in SOD if u.project_id.status in ['current', 'perspective', 'final stage'])[:]
+
+            if st.session_state.proj_scope == "All excluding cancelled and suspended":
+                sod = select(u for u in SOD if u.project_id.status not in ['suspended', 'cancelled'])[:]
+
+            return {
+                'status': 201,
+                'sod': tab_to_df(sod),
             }
 
         except Exception as e:
