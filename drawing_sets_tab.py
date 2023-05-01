@@ -99,6 +99,21 @@ def drawing_sets():
 
         all_logins = st.session_state.adb['users'].login.tolist()
 
+        trans_df = st.session_state.adb['trans']
+
+        proj_df = st.session_state.adb['project']
+
+        proj_id = proj_df[proj_df.short_name == proj_selected].index.to_numpy()[0]
+        trans_list = []
+        trans_list_check = trans_df[trans_df.project == proj_id, 'trans_num'].tolist()
+
+        if st.session_state.user == 'sergey.priemshiy':
+            st.write(proj_df)
+            st.write(proj_id)
+            if trans_list_check:
+                st.write(trans_list_check)
+            st.write(trans_df)
+
         with st.form("edit-unit_details"):
             l_c, r_c = st.columns(2, gap='medium')
             coord = l_c.selectbox("Coordinator", all_logins,
@@ -109,20 +124,6 @@ def drawing_sets():
                                 index=get_list_index(sod_revisions, df_edit.revision.to_numpy()[0]))
             status = l_c.selectbox('Status', sod_statuses,
                                    index=get_list_index(sod_statuses, df_edit.status.to_numpy()[0]))
-            trans_df = st.session_state.adb['trans']
-
-            proj_df = st.session_state.adb['project']
-
-            proj_id = proj_df[proj_df.short_name == proj_selected].index.to_numpy()[0]
-            trans_list = []
-            trans_list_check = trans_df[trans_df.project == proj_id, 'trans_num'].tolist()
-
-            if st.session_state.user == 'sergey.priemshiy':
-                st.write(proj_df)
-                st.write(proj_id)
-                if trans_list_check:
-                    st.write(trans_list_check)
-                st.write(trans_df)
 
             trans_list.insert(0, 'Not required')
             r_c.text('')
