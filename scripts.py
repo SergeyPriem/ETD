@@ -10,6 +10,10 @@ import os
 
 from users import err_handler
 
+p_rat_a = 0
+p_rat_b = 0
+p_rat_em = 0
+
 cab_dict = {
     1.5: 1.5, 2.5: 2.5, 4: 4,
     6: 6, 10: 10, 16: 16,
@@ -239,7 +243,8 @@ def incom_sect_cb_calc(loads_df: pd.DataFrame) -> pd.DataFrame:
     loads_df.loc[(loads_df.equip == 'SECT_BREAKER'), 'rated_current_pe'] = (
             rated_current_pe * (loads_df.loc[(loads_df.equip == 'INCOMER'), 'rated_current'].max()
                                 ) / (loads_df.loc[(loads_df.equip == 'INCOMER'), 'rated_current'].sum()))
-    global p_rat_a, p_rat_b, p_rat_em
+
+
     p_rat_a = round(loads_df.loc[(loads_df.equip != 'INCOMER') & (loads_df.equip != 'SECT_BREAKER') & (
             loads_df.bus == 'A'), 'rated_power'].sum(), 1)
     p_rat_b = round(loads_df.loc[(loads_df.equip != 'INCOMER') & (loads_df.equip != 'SECT_BREAKER') & (
