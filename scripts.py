@@ -1163,3 +1163,4 @@ def xl_to_sld():
                     with os.scandir('temp_dxf/') as entries:
                         for entry in entries:
                             st.info(entry.name)
+                            st.info(entry.__sizeof__())
