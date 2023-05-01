@@ -64,15 +64,15 @@ def settings_content():
 
         with scope_tab:
             with st.form('change_scope'):
-                # l_c, r_c = st.columns(2, gap='medium')
-                scope = st.radio("Choose the Preferred Scope loaded from DB",
+                l_c, r_c = st.columns(2, gap='medium')
+                scope = l_c.radio("Choose the Preferred Scope loaded from DB",
                                  ['Only Current Projects', 'All Projects', 'All excluding cancelled and suspended'],
                                  index=get_list_index(
                                      ['Only Current Projects', 'All Projects', 'All excluding cancelled and suspended'],
                                      st.session_state.proj_scope
                                  ),
                                  horizontal=True)
-                scope_conf_but = st.form_submit_button('Apply Selected Scope', use_container_width=True)
+                scope_conf_but = r_c.form_submit_button('Apply Selected Scope', use_container_width=True)
 
             if scope_conf_but:
                 st.session_state.proj_scope = scope
