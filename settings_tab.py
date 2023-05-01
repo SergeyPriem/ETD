@@ -2,6 +2,7 @@
 import streamlit as st
 import random
 
+from admin_tools import get_list_index
 from models import Users
 from projects import get_table
 from send_emails import send_mail
@@ -67,12 +68,17 @@ def settings_content():
             with st.form('change_scope'):
                 # l_c, r_c = st.columns(2, gap='medium')
                 scope = st.radio("Choose the Preferred Scope loaded from DB",
-                                 ['All Projects', 'Only Current Projects', "All excluding cancelled and suspended"],
+                                 ['Only Current Projects', 'All Projects', 'All excluding cancelled and suspended'],
+                                 index=get_list_index(
+                                     ['Only Current Projects', 'All Projects', 'All excluding cancelled and suspended'],
+                                     st.session_state.proj_scope
+                                 ),
                                  horizontal=True)
                 scope_conf_but = st.form_submit_button('Apply Selected Scope', use_container_width=True)
 
             if scope_conf_but:
 
+                st.write(f'{st.session_state.proj_scope}: Under Development')
                 st.write(f'{scope}: Under Development')
 
 

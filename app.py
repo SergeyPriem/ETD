@@ -130,6 +130,9 @@ def create_states():
     if 'loads_df' not in st.session_state:
         st.session_state.loads_df = None
 
+    if 'proj_scope' not in st.session_state:
+        st.session_state.proj_scope = 'Only Current Projects'
+
     if 'all' not in st.session_state:
         st.session_state.all = True
 
