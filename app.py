@@ -768,6 +768,7 @@ def del_file(file_to_del,lc, rc):
         if os.path.exists(f"temp_dxf/{file_to_del}"):
             if file_to_del == 'info.txt':
                 lc.warning('File is Protected!')
+                time.sleep(1)
                 st.experimental_rerun()
             lc.devider()
             rc.devider()
@@ -778,11 +779,14 @@ def del_file(file_to_del,lc, rc):
                 try:
                     os.remove(f"temp_dxf/{file_to_del}")
                     lc.warning(f'File {file_to_del} Deleted')
+                    time.sleep(1)
                     st.experimental_rerun()
                 except Exception as e:
                     lc.error(err_handler(e))
 
             if no_but:
+                rc.warning('U-f-f-f-f-f...')
+                time.sleep(1)
                 st.experimental_rerun()
 
         else:
