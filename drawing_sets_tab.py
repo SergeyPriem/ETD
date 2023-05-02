@@ -370,7 +370,7 @@ def manage_units():
 
             if len(u_list) == 0:
                 r_c.text("")
-                # r_c.text("")
+                r_c.write("")
                 r_c.warning("No Units available for Selected Project")
                 st.stop()
 
