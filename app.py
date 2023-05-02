@@ -818,7 +818,7 @@ def manage_storage():
         file_to_del = st.text_input("Enter file name to delete")
         but_to_del = st.button("Enter file name to delete", type='primary')
         if but_to_del and len(file_to_del):
-            st.write(f'File {file_to_del} Deleted')
+            st.error(f'File {file_to_del} Deleted')
 
 
 
