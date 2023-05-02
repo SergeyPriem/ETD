@@ -760,6 +760,7 @@ def download_file(file_name, rc):
                 st.experimental_rerun()
     else:
         st.warning('File Does Not Exist')
+        time.sleep(1)
         st.experimental_rerun()
 
 
