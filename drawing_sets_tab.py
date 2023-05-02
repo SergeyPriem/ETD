@@ -296,10 +296,9 @@ def manage_units():
                 performer = r_c.selectbox("Performer", st.session_state.appl_logins)
                 set_start_date = l_c.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
                 stage = r_c.radio("Select the Stage", stages, horizontal=True)
-                status = r_c.select_slider("Select the Current Status", sod_statuses, value='0%')
-                notes = l_c.text_area("Add Notes", max_chars=500).strip()
-                # r_c.text('')
                 r_c.text('')
+                status = r_c.select_slider("Select the Current Status", sod_statuses, value='0%')
+                notes = l_c.text_area("Add Notes", max_chars=500, height=130).strip()
                 create_sod_but = r_c.form_submit_button("Create", use_container_width=True)
 
             res_l, res_r = st.columns(2, gap='medium')
