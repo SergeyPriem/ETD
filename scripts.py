@@ -1138,7 +1138,7 @@ def xl_to_sld():
                     add_gen_data(msp, lo_df, lo_df_new, point, max_sc, peak_sc)
                     # msp, loads_df, loads_df_new, point, max_sc, peak_sc
 
-                    # doc.saveas(f'temp_dxf/{sld_file_name}.dxf')
+                    doc.saveas(f'temp_dxf/{sld_file_name}.dxf')
 
                     st.success('SLD is ready. Please Download')
 
@@ -1165,14 +1165,14 @@ def xl_to_sld():
                     #     #                    disabled=False, use_container_width=False)
                     #
 
-                    buffer_2 = io.BytesIO()
+                    # buffer_2 = io.BytesIO()
 
-                    doc.saveas(buffer_2)
+                    # doc.saveas(buffer_2)
 
 
                     st.download_button(
                         'Get SLD here',
-                        data=buffer_2,
+                        data=f'temp_dxf/{sld_file_name}.dxf',
                         file_name=f'{sld_file_name} {datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}.dxf',
                         mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
                         disabled=False, use_container_width=False
