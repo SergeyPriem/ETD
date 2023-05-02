@@ -730,7 +730,7 @@ def fresh_data():
 def manage_storage():
     center_style()
 
-    stor_left, stor_cont, stor_right = st.columns([5, 3, 5])
+    stor_left, stor_cont, stor_right = st.columns([5, 5, 5])
 
     with stor_cont:
         st.title(':orange[Storage]')
@@ -749,8 +749,7 @@ def manage_storage():
                           on_click=del_file, args=(entry.name,))
 
                 rc.button(f"Download: {entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB",
-                          use_container_width=True, type='primary',
-                          on_click=download_file, args=(entry.name,))
+                          use_container_width=True, on_click=download_file, args=(entry.name,))
 
 
 def download_file(file_name):
