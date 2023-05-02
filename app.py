@@ -815,7 +815,7 @@ def manage_storage():
             for entry in entries:
                 st.info(f"{entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB")
 
-        file_name = f"temp_dxf/{st.text_input('Enter file name to Download (with extension')}"
+        file_name = f"temp_dxf/{st.text_input('Enter file name to Download (with extension)')}"
 
         if len(file_name) and '.' in file_name:
 
@@ -827,6 +827,7 @@ def manage_storage():
                     mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
                     disabled=False, use_container_width=False
                 )
+                st.experimental_rerun()
 
         file_to_del = st.text_input("Enter File Name to Delete (with extension)")
         but_to_del = st.button("Delete File", type='primary', use_container_width=True)
@@ -840,6 +841,7 @@ def manage_storage():
                 try:
                     os.remove(f"temp_dxf/{file_to_del}")
                     st.warning(f'File {file_to_del} Deleted')
+                    st.experimental_rerun()
                 except Exception as e:
                     st.error(err_handler(e))
             else:
