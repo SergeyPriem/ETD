@@ -771,8 +771,6 @@ def del_file(file_to_del,lc, rc):
                 lc.warning('File is Protected!')
                 time.sleep(1)
                 st.experimental_rerun()
-            lc.devider()
-            rc.devider()
             yes_but = lc.button('YES, DELETE', type='primary')
             no_but = rc.button('NO, ESCAPE')
 
