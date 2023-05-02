@@ -744,7 +744,7 @@ def manage_storage():
             for entry in entries:
                 lc.button(f"Delete: {entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB",
                           use_container_width=True, type='primary',
-                          on_click=prepare_to_del, args=(entry.name, lc, rc))
+                          on_click=prepare_to_del, args=(entry.name,))
 
                 rc.button(f"Download: {entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB",
                           use_container_width=True, on_click=download_file, args=(entry.name, rc))
