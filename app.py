@@ -769,7 +769,7 @@ def del_file(file_to_del, lc, rc):
         lc.warning('yes, file is here')
         if file_to_del == 'info.txt':
             lc.warning('File is Protected!')
-            st.button('Return')
+            lc.button('Return')
             # time.sleep(1)
             st.stop()
 
@@ -777,6 +777,7 @@ def del_file(file_to_del, lc, rc):
         no_but = rc.button('NO, ESCAPE')
 
         if yes_but:
+            lc.write('yes but clicked')
             try:
                 os.remove(f"temp_dxf/{file_to_del}")
                 lc.warning(f'File {file_to_del} Deleted')
