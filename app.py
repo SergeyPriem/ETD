@@ -689,10 +689,13 @@ def manage_users():
                 lc, rc = st.columns(2, gap='medium')
                 user_access_level = lc.radio('Access level',
                                              ('performer', 'admin', 'super'), horizontal=True)
+                rc.text('')
+                rc.text('')
                 script_acc_chb_init = rc.checkbox('Access to Scripts', key="acc_to_scr", value=0)
                 st.markdown("---")
-                user_start_date = lc.date_input('Start Date', datetime.date.today())
-                create_appl_user_but = rc.form_submit_button('Create New User', use_container_width=True)
+                l_c, r_c = st.columns(2, gap='medium')
+                user_start_date = l_c.date_input('Start Date', datetime.date.today())
+                create_appl_user_but = r_c.form_submit_button('Create New User', use_container_width=True)
 
             if create_appl_user_but:
                 script_acc_init = 1 if script_acc_chb_init else 0
