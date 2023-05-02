@@ -145,6 +145,9 @@ def get_menus():
 
 
 def create_states():
+    if 'del_conf' not in st.session_state:
+        st.session_state.del_conf = None
+
     if 'loads_df' not in st.session_state:
         st.session_state.loads_df = None
 
@@ -760,26 +763,24 @@ def download_file(file_name, rc):
 
 
 def del_file(file_to_del, lc, rc):
+
+    st.session_state.del_conf = file_to_del
+
     if os.path.exists(f"temp_dxf/{file_to_del}"):
         if file_to_del == 'info.txt':
             lc.warning('File is Protected!')
         else:
-            if 'del_conf' not in st.session_state:
-                st.session_state.del_conf = False
-
-            if rc.button('Confirm'):
-                st.session_state.del_conf = True
-
-            if lc.button('Escape'):
-                st.session_state.del_conf = False
-                rc.warning('Uf-f-f-f...')
 
             st.write(f"conf_but={st.session_state.del_conf}")
-            if st.session_state.del_conf is True:
+
+            if lc.button('Escape'):
+                st.session_state.del_conf = None
+                rc.warning('Uf-f-f-f...')
+            if rc.button('Confirm') and st.session_state.del_conf:
                 try:
                     os.remove(f"temp_dxf/{file_to_del}")
                     lc.warning(f'File {file_to_del} Deleted')
-                    st.session_state.del_conf = False
+                    st.session_state.del_conf = None
                 except Exception as e:
                     lc.error(err_handler(e))
 
