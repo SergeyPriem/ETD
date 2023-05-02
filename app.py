@@ -771,16 +771,17 @@ def prepare_to_del(file_to_del):
 def del_file(lc, rc):
     if lc.button('Escape'):
         st.session_state.del_conf = None
-        rc.warning('Uf-f-f-f...')
+        lc.warning('Uf-f-f-f...')
         st.stop()
 
     if rc.button('Confirm') and st.session_state.del_conf:
         try:
             os.remove(f"temp_dxf/{st.session_state.del_conf}")
-            lc.warning(f'File {st.session_state.del_conf} Deleted')
+            rc.warning(f'File {st.session_state.del_conf} Deleted')
+            st.button("OK", key='close_after_del')
             st.session_state.del_conf = None
         except Exception as e:
-            lc.error(err_handler(e))
+            rc.error(err_handler(e))
 
 
 def home():
