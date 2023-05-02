@@ -323,6 +323,7 @@ def manage_units():
                     st.write(cc_rec)
 
                     cur_user_email = u_df.loc[u_df.login == st.session_state.login, 'email']
+                    st.write(cur_user_email)
 
                     subj = f"{proj_short}: {unit_name}. New Unit | Новый комплект чертежей"
 
