@@ -814,7 +814,7 @@ def manage_storage():
         with os.scandir('temp_dxf/') as entries:
             for entry in entries:
                 st.success(entry)
-                st.info(f"{entry.name}: {os.stat(entry).st_size}")
+                st.info(f"{entry.name}: {os.stat(entry).st_size / 1024} kB")
 
         file_to_del = st.text_input("Enter file name to delete")
         but_to_del = st.button("Enter file name to delete")
