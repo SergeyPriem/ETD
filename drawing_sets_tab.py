@@ -316,8 +316,10 @@ def manage_units():
                     proj_id = proj_df.loc[proj_df.short_name == proj_short].index.to_numpy()[0]
                     set_id = sod_df.loc[(sod_df.set_name == unit_name) & (sod_df.project_id == proj_id)].index.to_numpy()[0]
 
-                    receiver = u_df.loc[sod_df.loc[set_id, 'coord_id'], 'email']
-                    cc_rec = u_df.loc[sod_df.loc[set_id, 'perf_id'], 'email']
+                    receiver = u_df.loc[sod_df.loc[set_id, 'coord_id'], 'email'].to_numpy()[0]
+                    cc_rec = u_df.loc[sod_df.loc[set_id, 'perf_id'], 'email'].to_numpy()[0]
+
+
 
                     cur_user_email = u_df.loc[u_df.login == st.session_state.login, 'email']
 
