@@ -37,7 +37,7 @@ def drawing_sets():
         st.empty()
 
     with content:
-        st.title(':orange[Units]')
+        st.title(':orange[Drawings]')
         st.divider()
 
         ds_left, lc, ds_center, cr, ds_rigth = st.columns([5, 6, 4, 5, 5])
