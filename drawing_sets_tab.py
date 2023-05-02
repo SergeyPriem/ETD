@@ -307,7 +307,7 @@ def manage_units():
                     res_l.success(f"New Set '{unit_name}' for Project '{proj_short}' is added to DataBase")
 
                     st.session_state.adb['sod'] = reply['sod']
-                    proj_df = st.session_state['project']
+                    proj_df = st.session_state.adb['project']
                     sod_df = st.session_state.adb['sod']
                     u_df = st.session_state.adb['users']
                     proj_id = proj_df.loc[proj_df.short_name == proj_short].index
