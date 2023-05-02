@@ -753,11 +753,13 @@ def manage_storage():
 
 
 def download_file(file_name):
-    if len(file_name) and '.' in file_name:
-        with open(file_name, 'rb') as f:
+    if os.path.exists(f"temp_dxf/{file_name}"):
+        with open(f"temp/{file_name}", 'rb') as f:
             if st.download_button('Download selected file', data=f, file_name=file_name,
                                   disabled=False, use_container_width=False, ):
                 st.experimental_rerun()
+    else:
+        st.warning('File Does Not Exist')
 
 
 def del_file(file_to_del):
@@ -782,7 +784,7 @@ def del_file(file_to_del):
                 st.experimental_rerun()
 
         else:
-            st.warning("The file does not exist")
+            st.warning('File Does Not Exist')
 
 
 def home():
