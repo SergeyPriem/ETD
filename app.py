@@ -738,12 +738,7 @@ def manage_storage():
         st.header("Now in Temporary Folder:")
         with os.scandir('temp_dxf/') as entries:
             lc, rc = st.columns(2)
-            # lc.success('File Name')
-            # rc.success('File Size')
             for entry in entries:
-                # lc.info(entry.name)
-                # rc.info(f"{round(os.stat(entry).st_size / 1024, 3)} kB")
-
                 lc.button(f"Delete: {entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB",
                           use_container_width=True, type='primary',
                           on_click=del_file, args=(entry.name,lc, rc))
@@ -764,16 +759,18 @@ def download_file(file_name, rc):
         # st.experimental_rerun()
 
 
-def del_file(file_to_del, lc, rc):
+def del_file(file_to_del, lc):
+    conf_status = False
     if os.path.exists(f"temp_dxf/{file_to_del}"):
         if file_to_del == 'info.txt':
             lc.warning('File is Protected!')
         else:
-            try:
-                os.remove(f"temp_dxf/{file_to_del}")
-                lc.warning(f'File {file_to_del} Deleted')
-            except Exception as e:
-                lc.error(err_handler(e))
+            if lc.checkbox("Confirm", value=conf_status):
+                try:
+                    os.remove(f"temp_dxf/{file_to_del}")
+                    lc.warning(f'File {file_to_del} Deleted')
+                except Exception as e:
+                    lc.error(err_handler(e))
 
 
     else:
