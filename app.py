@@ -812,10 +812,15 @@ def manage_storage():
         st.divider()
         st.header("Now in Temporary Folder:")
         with os.scandir('temp_dxf/') as entries:
+            lc, rc = st.columns(2)
+            lc.succes('File Name')
+            rc.succes('File Size')
             for entry in entries:
-                st.info(f"{entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB")
+                lc.info(entry.name)
+                rc.info(f"{round(os.stat(entry).st_size / 1024, 3)} kB")
 
-        file_name = f"temp_dxf/{st.text_input('Enter file name to Download (with extension)')}"
+        st.divider()
+        file_name = f"temp_dxf/{st.text_input('Enter File Name to Download (with extension)')}"
 
         if len(file_name) and '.' in file_name:
 
@@ -829,15 +834,17 @@ def manage_storage():
                 )
                 st.experimental_rerun()
 
+        st.divider()
         file_to_del = st.text_input("Enter File Name to Delete (with extension)")
-        but_to_del = st.button("Delete File", type='primary', use_container_width=True)
 
-        if but_to_del and len(file_to_del):
+        if os.path.exists(f"temp_dxf/{file_to_del}"):
             if file_to_del == 'info.txt':
                 st.warning('File is Protected!')
                 st.stop()
 
-            if os.path.exists(f"temp_dxf/{file_to_del}"):
+            but_to_del = st.button("Delete File", type='primary', use_container_width=True)
+
+            if but_to_del:
                 try:
                     os.remove(f"temp_dxf/{file_to_del}")
                     st.warning(f'File {file_to_del} Deleted')
