@@ -270,9 +270,19 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
     :return:
     """
     if len(set_name) < 2:
-        return f"Wrong Set / Unit name: {set_name}"
+        return {
+            'status': 400,
+            'sod': None,
+            'err_descr': f"Unit name: {set_name} should be at least 3 symbols length",
+        }
+
     if proj_short in get_projects_names() and set_name in get_sets_names(proj_short):
-        return f"Set of Drawings '{set_name}' for Project '{proj_short}' is already in DataBase"
+        return {
+            'status': 400,
+            'sod': None,
+            'err_descr': f"Set of Drawings '{set_name}' for Project '{proj_short}' is already in DataBase",
+            }
+
 
     with db_session:
         try:
