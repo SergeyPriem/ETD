@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 import time
 import pandas as pd
 import streamlit as st
@@ -808,6 +809,17 @@ def manage_storage():
 
     with stor_cont:
         st.title(':orange[Storage]')
+        st.divider()
+        st.header("Now in Temporary Folder:")
+        with os.scandir('temp_dxf/') as entries:
+            for entry in entries:
+                st.success(entry)
+                st.info(f"{entry.name}: {os.stat(entry).st_size}")
+
+        file_to_del = st.text_input("Enter file name to delete")
+        but_to_del = st.button("Enter file name to delete")
+        if but_to_del and len(file_to_del):
+            st.write(f'File {file_to_del} Deleted')
 
 
 

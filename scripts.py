@@ -1143,7 +1143,6 @@ def xl_to_sld():
                     st.success('SLD is ready. Please Download')
 
                     with open(f'temp_dxf/{sld_file_name}.dxf', 'rb') as f:
-                        # st.download_button('Download Zip', f, file_name='archive.zip')
                         st.download_button(
                             'Get SLD here',
                             data=f,
@@ -1151,10 +1150,4 @@ def xl_to_sld():
                             mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
                             disabled=False, use_container_width=False
                         )
-                    st.divider()
-                    with os.scandir('temp_dxf/') as entries:
-                        for entry in entries:
-                            st.success(entry)
-                            st.info(entry.name)
-                            file_stat = os.stat(entry)
-                            st.success(f'File Size in Bytes is {file_stat.st_size}')
+
