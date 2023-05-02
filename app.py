@@ -738,17 +738,17 @@ def manage_storage():
         st.header("Now in Temporary Folder:")
         with os.scandir('temp_dxf/') as entries:
             lc, rc = st.columns(2)
-            lc.success('File Name')
-            rc.success('File Size')
+            # lc.success('File Name')
+            # rc.success('File Size')
             for entry in entries:
-                lc.info(entry.name)
-                rc.info(f"{round(os.stat(entry).st_size / 1024, 3)} kB")
+                # lc.info(entry.name)
+                # rc.info(f"{round(os.stat(entry).st_size / 1024, 3)} kB")
 
-                lc.button(f"Delete: {entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB ?",
+                lc.button(f"Delete: {entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB",
                           use_container_width=True, type='primary',
                           on_click=del_file, args=(entry.name,))
 
-                rc.button(f"Delete: {entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB ?",
+                rc.button(f"Download: {entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB",
                           use_container_width=True, type='primary',
                           on_click=download_file, args=(entry.name,))
 
