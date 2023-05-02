@@ -369,6 +369,7 @@ def manage_units():
             u_list = sod_df.loc[sod_df.project_id == proj_id, 'set_name'].tolist()
 
             if len(u_list) == 0:
+                r_c.write("")
                 r_c.warning("No Units available for Selected Project")
                 st.stop()
 
