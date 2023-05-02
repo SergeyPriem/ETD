@@ -7,28 +7,11 @@ from models import Users
 from projects import get_table, get_all
 from send_emails import send_mail
 from users import update_settings, update_user_reg_data
+from utilities import center_style
 
 
 def settings_content():
-    st.markdown("""
-        <style>
-            div[data-testid="column"]:nth-of-type(1)
-            {
-                text-align: center;
-            } 
-
-            div[data-testid="column"]:nth-of-type(2)
-            {
-                text-align: center;
-            } 
-
-            div[data-testid="column"]:nth-of-type(3)
-            {
-                text-align: center;
-            } 
-        </style>
-        """, unsafe_allow_html=True)
-
+    center_style()
     empty1_set, content_set, empty2_set = st.columns([1, 4, 1])
     with empty1_set:
         st.empty()

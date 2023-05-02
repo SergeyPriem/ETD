@@ -3,7 +3,7 @@
 
 import streamlit as st
 from models import Project
-from utilities import proj_statuses
+from utilities import proj_statuses, center_style
 from projects import create_project, get_table, update_projects
 
 from send_emails import send_mail
@@ -26,24 +26,8 @@ def manage_projects():
 
     with content_proj:
         st.title(':orange[Projects]')
-        st.markdown("""
-            <style>
-                div[data-testid="column"]:nth-of-type(1)
-                {
-                    text-align: center;
-                } 
 
-                div[data-testid="column"]:nth-of-type(2)
-                {
-                    text-align: center;
-                } 
-
-                div[data-testid="column"]:nth-of-type(3)
-                {
-                    text-align: center;
-                } 
-            </style>
-            """, unsafe_allow_html=True)
+        center_style()
 
         create_proj_tab, edit_proj_tab, viewer_tab = st.tabs(['Create Project', 'Edit Existing Project', 'View Tables'])
 

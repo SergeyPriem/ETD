@@ -5,30 +5,14 @@ import streamlit as st
 from admin_tools import get_list_index
 from models import SOD
 from send_emails import send_mail
-from utilities import sod_revisions, sod_statuses, stages
+from utilities import sod_revisions, sod_statuses, stages, center_style
 from projects import update_sod, add_sod, get_table, update_unit_name_stage
 from users import err_handler
 
 
 def drawing_sets():
-    st.markdown("""
-        <style>
-            div[data-testid="column"]:nth-of-type(1)
-            {
-                text-align: center;
-            } 
 
-            div[data-testid="column"]:nth-of-type(2)
-            {
-                text-align: center;
-            } 
-
-            div[data-testid="column"]:nth-of-type(3)
-            {
-                text-align: center;
-            } 
-        </style>
-        """, unsafe_allow_html=True)
+    # center_style()
 
     empty1, content, empty2 = st.columns([1, 30, 1])
     with empty1:
@@ -112,13 +96,6 @@ def drawing_sets():
         except Exception as e:
             st.write(err_handler(e))
             st.stop()
-
-        # if st.session_state.login == 'sergey.priemshiy':
-        #     st.write(proj_df)
-        #     st.write(proj_id)
-        #     if trans_list:
-        #         st.write(trans_list)
-        #     st.write(trans_df)
 
         trans_list.insert(0, 'Not required')
 
@@ -257,24 +234,8 @@ def drawing_sets():
 
 
 def manage_units():
-    st.markdown("""
-        <style>
-            div[data-testid="column"]:nth-of-type(1)
-            {
-                text-align: center;
-            } 
 
-            div[data-testid="column"]:nth-of-type(2)
-            {
-                text-align: center;
-            } 
-
-            div[data-testid="column"]:nth-of-type(3)
-            {
-                text-align: center;
-            } 
-        </style>
-        """, unsafe_allow_html=True)
+    center_style()
 
     empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
     with empty_sets_1:
