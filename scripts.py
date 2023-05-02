@@ -1169,14 +1169,15 @@ def xl_to_sld():
 
                     # doc.saveas(buffer_2)
 
-
-                    st.download_button(
-                        'Get SLD here',
-                        data=f'temp_dxf/{sld_file_name}.dxf',
-                        file_name=f'{sld_file_name} {datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}.dxf',
-                        mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
-                        disabled=False, use_container_width=False
-                    )
+                    with open(f'temp_dxf/{sld_file_name}.dxf', 'rb') as f:
+                        # st.download_button('Download Zip', f, file_name='archive.zip')
+                        st.download_button(
+                            'Get SLD here',
+                            data=f,
+                            file_name=f'{sld_file_name} {datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}.dxf',
+                            mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
+                            disabled=False, use_container_width=False
+                        )
                     st.divider()
                     with os.scandir('temp_dxf/') as entries:
                         for entry in entries:
