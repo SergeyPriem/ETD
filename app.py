@@ -754,7 +754,7 @@ def manage_storage():
 
 def download_file(file_name, rc):
     if os.path.exists(f"temp_dxf/{file_name}"):
-        with open(f"temp/{file_name}", 'rb') as f:
+        with open(f"temp_dxf/{file_name}", 'rb') as f:
             if rc.download_button('Download selected file', data=f, file_name=file_name,
                                   disabled=False, use_container_width=False, ):
                 st.experimental_rerun()
