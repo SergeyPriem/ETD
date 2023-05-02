@@ -815,18 +815,20 @@ def manage_storage():
             for entry in entries:
                 st.info(f"{entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB")
 
-        file_name = f"temp_dxf/{st.text_input('Enter file name to Download')}"
+        file_name = f"temp_dxf/{st.text_input('Enter file name to Download (with extension')}"
 
-        with open(file_name, 'rb') as f:
-            st.download_button(
-                'Download selected file',
-                data=f,
-                file_name=file_name,
-                mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
-                disabled=False, use_container_width=False
-            )
+        if len(file_name) and '.' in file_name:
 
-        file_to_del = st.text_input("Enter file name to delete")
+            with open(file_name, 'rb') as f:
+                st.download_button(
+                    'Download selected file',
+                    data=f,
+                    file_name=file_name,
+                    mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
+                    disabled=False, use_container_width=False
+                )
+
+        file_to_del = st.text_input("Enter File Name to Delete (with extension)")
         but_to_del = st.button("Enter file name to delete", type='primary', use_container_width=True)
 
         if but_to_del and len(file_to_del):
