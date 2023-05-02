@@ -755,7 +755,7 @@ def manage_storage():
 def download_file(file_name, rc):
     if os.path.exists(f"temp_dxf/{file_name}"):
         with open(f"temp_dxf/{file_name}", 'rb') as f:
-            if rc.download_button('Download selected file', data=f, file_name=file_name,
+            if rc.download_button(f'{file_name} - OK', data=f, file_name=file_name,
                                   disabled=False, use_container_width=False, ):
                 st.experimental_rerun()
     else:
@@ -770,7 +770,7 @@ def del_file(file_to_del,lc, rc):
             if file_to_del == 'info.txt':
                 lc.warning('File is Protected!')
                 time.sleep(1)
-                st.experimental_rerun()
+                st.stop()
             yes_but = lc.button('YES, DELETE', type='primary')
             no_but = rc.button('NO, ESCAPE')
 
