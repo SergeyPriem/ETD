@@ -815,10 +815,31 @@ def manage_storage():
             for entry in entries:
                 st.info(f"{entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB")
 
+        file_name = f"temp_dxf/{st.text_input('Enter file name to Download')}"
+
+        with open(file_name, 'rb') as f:
+            st.download_button(
+                'Download selected file',
+                data=f,
+                file_name=file_name,
+                mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
+                disabled=False, use_container_width=False
+            )
+
         file_to_del = st.text_input("Enter file name to delete")
-        but_to_del = st.button("Enter file name to delete", type='primary')
+        but_to_del = st.button("Enter file name to delete", type='primary', use_container_width=True)
+
         if but_to_del and len(file_to_del):
-            st.error(f'File {file_to_del} Deleted')
+            if os.path.exists(f"temp_dxf/{file_to_del}"):
+                try:
+                    os.remove(f"temp_dxf/{file_to_del}")
+                    st.warning(f'File {file_to_del} Deleted')
+                except Exception as e:
+                    st.error(err_handler(e))
+
+            else:
+                st.warning("The file does not exist")
+
 
 
 
