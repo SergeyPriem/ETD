@@ -103,7 +103,7 @@ def show_duration():
 
 def get_menus():
 
-    performer_menu = ["Home", "Units", "Transmittals", "Tasks", 'Scripts', 'Reading',
+    performer_menu = ["Home", "Drawings", "Transmittals", "Tasks", 'Scripts', 'Reading',
                       'Knowledge', 'Settings', 'Refresh']
 
     performer_icons = ['house', 'bi bi-file-earmark-spreadsheet-fill', 'bi bi-file-arrow-down',
@@ -804,7 +804,7 @@ def win_selector(selected):
         "Projects": manage_projects,
         "Transmittals": transmittals_content,
         "Tasks": tasks_content,
-        "Units": drawing_sets,
+        "Drawings": drawing_sets,
         "Reading": just_for_fun,
         "Scripts": xl_to_sld,
         "Users": manage_users,
