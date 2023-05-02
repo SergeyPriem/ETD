@@ -299,7 +299,7 @@ def manage_units():
                 notes = st.text_area("Add Notes", max_chars=500).strip()
                 create_sod_but = st.form_submit_button("Create", use_container_width=True)
 
-            res_l, res_r = st.colums(2, gap='medium')
+            res_l, res_r = st.columns(2, gap='medium')
 
             if create_sod_but:
                 reply = add_sod(proj_short, unit_name, stage, status, set_start_date, coordinator, performer, notes)
@@ -366,8 +366,6 @@ def manage_units():
 
             u_list = sod_df.loc[sod_df.project_id == proj_id, 'set_name'].tolist()
 
-
-
             unit_name = r_c.selectbox('Select Unit', u_list)
 
             current_stage = sod_df.loc[sod_df.set_name == unit_name, 'stage'].to_numpy()[0]
@@ -421,9 +419,6 @@ def manage_units():
 
                     u_df = st.session_state.adb['users']
 
-                    # st.write(sod_df[u_id, 'coord_id'].to_numpy()[0])
-                    # st.write(sod_df[u_id, 'coord_id'].to_numpy()[0])
-                    #
                     receiver = u_df.loc[sod_df.loc[u_id, 'coord_id'], 'email']
                     cc_rec = u_df.loc[sod_df.loc[u_id, 'perf_id'], 'email']
 
