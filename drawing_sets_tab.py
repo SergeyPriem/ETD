@@ -299,7 +299,7 @@ def manage_units():
                 stage = r_c.radio("Select the Stage", stages, horizontal=True)
                 r_c.text('')
                 status = r_c.select_slider("Select the Current Status", sod_statuses, value='0%')
-                notes = l_c.text_area("Add Notes", max_chars=500, height=130).strip()
+                notes = l_c.text_area("Add Notes", max_chars=500, height=120).strip()
                 create_sod_but = r_c.form_submit_button("Create", use_container_width=True)
 
             res_l, res_r = st.columns(2, gap='medium')
