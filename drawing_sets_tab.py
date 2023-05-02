@@ -319,7 +319,7 @@ def manage_units():
                     receiver = u_df.loc[sod_df.loc[sod_df.index == set_id, 'coord_id'], 'email']
                     cc_rec = u_df.loc[sod_df.loc[sod_df.index == set_id, 'perf_id'], 'email']
 
-                    cur_user_email = u_df.loc[u_df.login == st.session_state.user, 'email']
+                    cur_user_email = u_df.loc[u_df.login == st.session_state.login, 'email']
 
                     subj = f"{proj_short}: {unit_name}. New Unit | Новый комплект чертежей"
 
