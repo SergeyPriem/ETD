@@ -117,7 +117,7 @@ def get_menus():
     super_icons = ["bi bi-briefcase", "bi bi-person-lines-fill"]
 
     dev_menu = ["Storage"]
-    dev_icons = ["bi bi-hdd"]
+    dev_icons = ["bi bi-database"]
 
     if not st.session_state.rights:
         st.warning('Rights not available...')
