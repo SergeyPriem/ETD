@@ -292,7 +292,7 @@ def manage_units():
                 l_c, r_c = st.columns(2, gap='medium')
                 proj_short = l_c.selectbox('Select a Project', st.session_state.proj_names)
                 unit_name = r_c.text_input("Enter the Name for new Set of Drawings / Unit", max_chars=200).strip()
-                stage = st.radio("Select the Stage", stages, horizontal=True)
+                stage = r_c.radio("Select the Stage", stages, horizontal=True)
                 coordinator = l_c.selectbox("Coordinator", st.session_state.appl_logins)
                 performer = r_c.selectbox("Performer", st.session_state.appl_logins)
                 set_start_date = l_c.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
