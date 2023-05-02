@@ -695,6 +695,8 @@ def manage_users():
                 st.markdown("---")
                 l_c, r_c = st.columns(2, gap='medium')
                 user_start_date = l_c.date_input('Start Date', datetime.date.today())
+                r_c.text('')
+                r_c.text('')
                 create_appl_user_but = r_c.form_submit_button('Create New User', use_container_width=True)
 
             if create_appl_user_but:
