@@ -290,7 +290,7 @@ def manage_units():
         with tab_create:
             with st.form('new_sod'):
                 proj_short = st.selectbox('Select a Project', st.session_state.proj_names)
-                set_name = st.text_input("Enter the Name for new Set of Drawings / Unit", max_chars=200).strip()
+                unit_name = st.text_input("Enter the Name for new Set of Drawings / Unit", max_chars=200).strip()
                 stage = st.radio("Select the Stage", stages, horizontal=True)
                 coordinator = st.selectbox("Coordinator", st.session_state.appl_logins)
                 performer = st.selectbox("Performer", st.session_state.appl_logins)
@@ -299,35 +299,60 @@ def manage_units():
                 notes = st.text_area("Add Notes", max_chars=500).strip()
                 create_sod_but = st.form_submit_button("Create", use_container_width=True)
 
+            res_l, res_r = st.colums(2, gap='medium')
+
             if create_sod_but:
-                reply = add_sod(proj_short, set_name, stage, status, set_start_date, coordinator, performer, notes)
-                if reply == 201:
-                    st.success(f"New Set '{set_name}' for Project '{proj_short}' is added to DataBase")
-                    # sod_df = st.session_state.adb['sod']
-                    # u_df = st.session_state.adb['users']
-                    # proj_df = st.session_state.adb['project']
-                    #
-                    # next_id = sod_df.index.max() + 1
-                    #
-                    # project_id = proj_df.query('short_name == @proj_short').index.to_numpy()[0]
-                    # coord_id = u_df.query('login == @coordinator').index.to_numpy()[0]
-                    # perf_id = u_df.query('login == @performer').index.to_numpy()[0]
-                    #
-                    # dict_df = pd.DataFrame(
-                    #     [
-                    #         {
-                    #             'id': next_id, 'project_id': project_id, 'set_name': set_name, 'coord_id': coord_id,
-                    #             'perf_id': perf_id, 'stage': stage, 'revision': "R1", 'current_status': status,
-                    #             'notes': notes, 'aux': f"{st.session_state.login}: {str(datetime.datetime.now())[:-10]}"
-                    #         }
-                    #     ]
-                    # )
-                    #
-                    # st.session_state.adb['sod'] = sod_df.append(dict_df)
-                    st.session_state.adb['sod'] = get_table(SOD)
+                reply = add_sod(proj_short, unit_name, stage, status, set_start_date, coordinator, performer, notes)
+                if reply['status'] == 201:
+                    res_l.success(f"New Set '{unit_name}' for Project '{proj_short}' is added to DataBase")
+
+                    st.session_state.adb['sod'] = reply['sod']
+                    proj_df = st.session_state['project']
+                    sod_df = st.session_state.adb['sod']
+                    u_df = st.session_state.adb['users']
+                    proj_id = proj_df.loc[proj_df.short_name == proj_short].index
+                    set_id = sod_df.loc[(sod_df.set_name == unit_name) & (sod_df.project_id == proj_id)]
+
+                    receiver = u_df.loc[sod_df.loc[sod_df.index == set_id, 'coord_id'], 'email']
+                    cc_rec = u_df.loc[sod_df.loc[sod_df.index == set_id, 'perf_id'], 'email']
+
+                    cur_user_email = u_df.loc[u_df.login == st.session_state.user, 'email']
+
+                    subj = f"{proj_short}: {unit_name}. New Unit | Новый комплект чертежей"
+
+                    html = f"""
+                        <html>
+                          <head></head>
+                          <body>
+                            <h3>
+                              Hello, Colleague!
+                              <hr>
+                            </h3>
+                            <h5>
+                              You got this message because you are responsible for New Unit: 
+                              <b>{proj_short}: {unit_name}</b>
+                            </h5>
+                            <p>
+                            <hr>
+                            Best regards, Administration 😎
+                            </p>
+                          </body>
+                        </html>
+                    """
+
+                    if receiver == cc_rec:
+                        cc_rec = 'sergey.priemshiy@uzliti-en.com'
+
+                    if receiver == cur_user_email:
+                        receiver = 'sergey.priemshiy@uzliti-en.com'
+
+                    reply_2 = send_mail(receiver, cc_rec, subj, html)
+
+                    if reply_2 == 200:
+                        res_r.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
 
                 else:
-                    st.warning(reply)
+                    st.warning(reply['err_descr'])
 
         with tab_update:
             l_c, r_c = st.columns(2, gap='medium')

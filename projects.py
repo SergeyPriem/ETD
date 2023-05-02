@@ -291,9 +291,28 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
                 aux=f"<{st.session_state.login}*{str(datetime.now())[:-10]}>"
 
             )
-            return 201
+
+            if st.session_state.proj_scope == "All Projects":
+                sod = (select(u for u in SOD)[:])
+
+            if st.session_state.proj_scope == "Only Current Projects":
+                sod = select(u for u in SOD if u.project_id.status in ['current', 'perspective', 'final stage'])[:]
+
+            if st.session_state.proj_scope == "All excluding cancelled and suspended":
+                sod = select(u for u in SOD if u.project_id.status not in ['suspended', 'cancelled'])[:]
+
+            return {
+                'status': 201,
+                'sod': tab_to_df(sod),
+                'err_descr': None,
+            }
+
         except Exception as e:
-            return err_handler(e)
+            return {'status': 404,
+                    'sod': None,
+                    'err_descr': err_handler(e),
+                    }
+
 
 
 def get_set_to_edit(selected_project, selected_set):
@@ -841,6 +860,8 @@ def get_all():
 
         except Exception as e:
             return err_handler(e)
+
+
 
 
 def update_unit_name_stage(unit_id, new_name, new_stage):
