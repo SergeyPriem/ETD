@@ -758,7 +758,6 @@ def download_file(file_name, rc):
         with open(f"temp_dxf/{file_name}", 'rb') as f:
             rc.download_button(f'{file_name} - OK', data=f, file_name=file_name,
                                disabled=False, use_container_width=False, )
-            # st.experimental_rerun()
     else:
         st.warning('File Does Not Exist')
 
@@ -772,7 +771,8 @@ def del_file(lc, rc):
     if lc.button('Escape'):
         st.session_state.del_conf = None
         lc.warning('Uf-f-f-f...')
-        st.stop()
+        time.sleep(1)
+        st.experimental_rerun()
 
     if rc.button('Confirm') and st.session_state.del_conf:
         try:
@@ -782,6 +782,8 @@ def del_file(lc, rc):
             st.session_state.del_conf = None
         except Exception as e:
             rc.error(err_handler(e))
+            time.sleep(3)
+        st.experimental_rerun()
 
 
 def home():
