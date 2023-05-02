@@ -116,7 +116,7 @@ def get_menus():
     super_menu = ["Projects", "Users"]
     super_icons = ["bi bi-briefcase", "bi bi-person-lines-fill"]
 
-    dev_menu = ["Storage"]
+    dev_menu = ["Server"]
     dev_icons = ["bi bi-database"]
 
     if not st.session_state.rights:
