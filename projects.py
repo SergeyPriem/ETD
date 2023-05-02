@@ -477,7 +477,7 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
             sod = SOD[s_o_d]
 
             if (Users.get(login=st.session_state.login) in (sod.coord_id, sod.perf_id)) \
-                    or Users.get(login=st.session_state.login).access_level == "supervisor":
+                    or Users.get(login=st.session_state.login).access_level == "super":
                 sod.coord_id = Users.get(login=coord)
                 sod.perf_id = Users.get(login=perf)
                 sod.revision = rev

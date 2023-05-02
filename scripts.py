@@ -1142,33 +1142,6 @@ def xl_to_sld():
 
                     st.success('SLD is ready. Please Download')
 
-                    # buffer = io.BytesIO()
-                    #
-                    # with pd.ExcelWriter(buffer) as writer:
-                    #     cl_df.to_excel(writer)
-                    #
-                    # st.download_button('Get Cable List here', data=buffer,
-                    #                    file_name=f'Cable List {datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}.xlsx',
-                    #                    mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
-                    #                    disabled=False, use_container_width=False)
-
-
-                    #
-                    #
-                    #     # buffer_2 = io.BytesIO()
-                    #     #
-                    #     # buffer_2.write(sld_dxf_file)
-                    #
-                    #     # st.download_button('Get SLD', data=sld_dxf_file,
-                    #     #                    file_name=f'SLD {datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}.xlsx',
-                    #     #                    mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
-                    #     #                    disabled=False, use_container_width=False)
-                    #
-
-                    # buffer_2 = io.BytesIO()
-
-                    # doc.saveas(buffer_2)
-
                     with open(f'temp_dxf/{sld_file_name}.dxf', 'rb') as f:
                         # st.download_button('Download Zip', f, file_name='archive.zip')
                         st.download_button(

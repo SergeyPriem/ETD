@@ -90,7 +90,7 @@ def show_duration():
     st.sidebar.markdown(f"<h5 style='text-align: center; color: #fcf403;'>You can chose another Mode in Settings -> Scope of Load</h5>",
                         unsafe_allow_html=True)
 
-    if access_level == 'supervisor':
+    if access_level == 'dev':
         with st.sidebar:
             td = datetime.datetime.now() - st.session_state.r_now
             delta = f"{td.total_seconds()}"
@@ -118,6 +118,9 @@ def get_menus():
     super_menu = ["Manage Projects", "Manage Users"]
     super_icons = ["bi bi-briefcase", "bi bi-person-lines-fill"]
 
+    dev_menu = ["Manage Storage", "Statistics"]
+    dev_icons = ["bi bi-database-fill-gear", "bi bi-graph-up-arrow"]
+
     if not st.session_state.rights:
         st.warning('Rights not available...')
 
@@ -129,9 +132,13 @@ def get_menus():
         menu = [*performer_menu, *admin_menu]
         icons = [*performer_icons, *admin_icons]
 
-    if st.session_state.rights == "supervisor":
+    if st.session_state.rights == "super":
         menu = [*performer_menu, *admin_menu, *super_menu]
         icons = [*performer_icons, *admin_icons, *super_icons]
+
+    if st.session_state.rights ==  "dev":
+        menu = [*performer_menu, *admin_menu, *super_menu, *dev_menu]
+        icons = [*performer_icons, *admin_icons, *super_icons, *dev_icons]
 
     return menu, icons
 
@@ -659,7 +666,7 @@ def manage_users():
                 user_department = st.radio('Department', departments, horizontal=True)
                 st.markdown("---")
                 user_access_level = st.radio('Access level',
-                                             ('performer', 'admin', 'supervisor'), horizontal=True)
+                                             ('performer', 'admin', 'super'), horizontal=True)
                 st.markdown("---")
                 script_acc_chb_init = st.checkbox('Access to Scripts', key="acc_to_scr", value=0)
                 user_start_date = st.date_input('Start Date', datetime.date.today())
@@ -699,7 +706,7 @@ def manage_users():
                                           index=get_list_index(departments, appl_user.branch.to_numpy()[0]))
                     st.markdown("---")
 
-                    access_tuple = ('performer', 'admin', 'supervisor', 'prohibited')
+                    access_tuple = ('performer', 'admin', 'super', 'prohibited')
 
                     access_level = st.radio('Access level', access_tuple, horizontal=True,
                                             key='edit_access_level',
@@ -849,7 +856,7 @@ def prepare_menus():
                                    icons=st.session_state.icons,
                                    menu_icon="bi bi-plug")
 
-            if st.session_state.rights == 'supervisor' and st.checkbox("Show states"):
+            if st.session_state.rights == 'dev' and st.checkbox("Show states"):
                 show_states()
     else:
         selected = option_menu(None,
