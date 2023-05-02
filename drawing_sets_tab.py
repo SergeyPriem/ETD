@@ -371,7 +371,9 @@ def manage_units():
             if len(u_list) == 0:
                 r_c.text("")
                 r_c.text("")
-                r_c.warning("No Units available for Selected Project")
+                r_c.markdown(f"<h4 style='text-align: center; color: yellow;'>"
+                             f"No Units available for Selected Project</h4>",
+                        unsafe_allow_html=True)
                 st.stop()
 
             unit_name = r_c.selectbox('Select Unit', u_list)
