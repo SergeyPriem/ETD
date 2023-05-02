@@ -368,7 +368,13 @@ def manage_units():
 
             u_list = sod_df.loc[sod_df.project_id == proj_id, 'set_name'].tolist()
 
+            if len(u_list) == 0:
+                st.warning("No Units available for Selected Project")
+                st.stop()
+
+
             unit_name = r_c.selectbox('Select Unit', u_list)
+
 
             current_stage = sod_df.loc[sod_df.set_name == unit_name, 'stage'].to_numpy()[0]
 
