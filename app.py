@@ -773,7 +773,7 @@ def manage_storage():
                     st.warning('File is Protected!')
                     st.stop()
 
-                if st.button("Delete File", type='primary', use_container_width=True)
+                if st.button("Delete File", type='primary', use_container_width=True):
                     try:
                         os.remove(f"temp_dxf/{file_to_del}")
                         st.warning(f'File {file_to_del} Deleted')
