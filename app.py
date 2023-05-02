@@ -774,6 +774,7 @@ def del_file(file_to_del, lc, rc):
                 st.session_state.del_conf = False
                 rc.warning('Uf-f-f-f...')
 
+            st.write(f"conf_but={st.session_state.del_conf}")
             if st.session_state.del_conf is True:
                 try:
                     os.remove(f"temp_dxf/{file_to_del}")
