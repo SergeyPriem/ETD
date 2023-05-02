@@ -107,7 +107,7 @@ def get_menus():
                       'Knowledge', 'Settings', 'Refresh']
 
     performer_icons = ['house', 'bi bi-file-earmark-spreadsheet-fill', 'bi bi-file-arrow-down',
-                       'bi bi-file-check', 'bi bi-diagram-3', 'bi bi-info-circle', 'bi bi-pen', 'bi bi-gear',
+                       'bi bi-file-check', 'bi bi-diagram-3', 'bi bi-book', 'bi bi-pen', 'bi bi-gear',
                        'bi bi-arrow-clockwise']
 
     admin_menu = ["Units"]
