@@ -118,8 +118,8 @@ def get_menus():
     super_menu = ["Manage Projects", "Manage Users"]
     super_icons = ["bi bi-briefcase", "bi bi-person-lines-fill"]
 
-    dev_menu = ["Manage Storage", "Statistics"]
-    dev_icons = ["bi bi-database-fill-gear", "bi bi-graph-up-arrow"]
+    dev_menu = ["Manage Storage"]
+    dev_icons = ["bi bi-database-fill-gear"]
 
     if not st.session_state.rights:
         st.warning('Rights not available...')
@@ -136,7 +136,7 @@ def get_menus():
         menu = [*performer_menu, *admin_menu, *super_menu]
         icons = [*performer_icons, *admin_icons, *super_icons]
 
-    if st.session_state.rights ==  "dev":
+    if st.session_state.rights == "dev":
         menu = [*performer_menu, *admin_menu, *super_menu, *dev_menu]
         icons = [*performer_icons, *admin_icons, *super_icons, *dev_icons]
 
