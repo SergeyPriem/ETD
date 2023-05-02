@@ -1180,7 +1180,7 @@ def xl_to_sld():
                     st.divider()
                     with os.scandir('temp_dxf/') as entries:
                         for entry in entries:
-                            st.success(type(entry))
+                            st.success(entry)
                             st.info(entry.name)
                             file_stat = os.stat(entry)
                             st.success(f'File Size in Bytes is {file_stat.st_size}')
