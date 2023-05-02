@@ -311,7 +311,7 @@ def manage_units():
                     sod_df = st.session_state.adb['sod']
                     u_df = st.session_state.adb['users']
                     proj_id = proj_df.loc[proj_df.short_name == proj_short].index
-                    set_id = sod_df.loc[(sod_df.set_name == unit_name) & (sod_df.project_id == proj_id)]
+                    set_id = sod_df.loc[(sod_df.set_name == unit_name) & (sod_df.project_id == proj_id)].index
 
                     receiver = u_df.loc[sod_df.loc[sod_df.index == set_id, 'coord_id'], 'email']
                     cc_rec = u_df.loc[sod_df.loc[sod_df.index == set_id, 'perf_id'], 'email']
