@@ -730,7 +730,7 @@ def fresh_data():
 def manage_storage():
     center_style()
 
-    stor_left, stor_cont, stor_right = st.columns([5, 5, 5])
+    stor_left, stor_cont, stor_right = st.columns([5, 7, 5])
 
     with stor_cont:
         st.title(':orange[Storage]')
