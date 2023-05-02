@@ -304,7 +304,6 @@ def manage_units():
             if create_sod_but:
                 reply = add_sod(proj_short, unit_name, stage, status, set_start_date, coordinator, performer, notes)
 
-                st.write(reply)
 
                 if reply['status'] == 201:
                     res_l.success(f"New Set '{unit_name}' for Project '{proj_short}' is added to DataBase")
@@ -319,11 +318,7 @@ def manage_units():
                     receiver = u_df.loc[sod_df.loc[set_id, 'coord_id'], 'email']
                     cc_rec = u_df.loc[sod_df.loc[set_id, 'perf_id'], 'email']
 
-                    st.write(receiver)
-                    st.write(cc_rec)
-
                     cur_user_email = u_df.loc[u_df.login == st.session_state.login, 'email'].to_numpy()[0]
-                    st.write(cur_user_email)
 
                     subj = f"{proj_short}: {unit_name}. New Unit | Новый комплект чертежей"
 
