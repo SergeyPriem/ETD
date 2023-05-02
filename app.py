@@ -681,12 +681,12 @@ def manage_users():
         users_tab1, users_tab2 = st.tabs(['Add New User', 'Edit User Details'])
         with users_tab1:
             with st.form("Add_new_user"):
-                lc, rc = st.columns(2, gap='medium')
                 user_email = st.text_input('Email')
                 user_position = st.radio('Position', positions, horizontal=True)
                 st.markdown("---")
                 user_department = st.radio('Department', departments, horizontal=True)
                 st.markdown("---")
+                lc, rc = st.columns(2, gap='medium')
                 user_access_level = lc.radio('Access level',
                                              ('performer', 'admin', 'super'), horizontal=True)
                 script_acc_chb_init = rc.checkbox('Access to Scripts', key="acc_to_scr", value=0)
