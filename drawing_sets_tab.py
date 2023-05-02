@@ -295,6 +295,7 @@ def manage_units():
                 coordinator = l_c.selectbox("Coordinator", st.session_state.appl_logins)
                 performer = r_c.selectbox("Performer", st.session_state.appl_logins)
                 set_start_date = l_c.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
+                r_c.text('')
                 stage = r_c.radio("Select the Stage", stages, horizontal=True)
                 r_c.text('')
                 status = r_c.select_slider("Select the Current Status", sod_statuses, value='0%')
