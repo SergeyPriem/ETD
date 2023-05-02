@@ -741,18 +741,18 @@ def manage_storage():
             for entry in entries:
                 lc.button(f"Delete: {entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB",
                           use_container_width=True, type='primary',
-                          on_click=del_file, args=(entry.name,lc, rc))
+                          on_click=del_file, args=(entry.name, lc, rc))
 
                 rc.button(f"Download: {entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB",
-                          use_container_width=True, on_click=download_file, args=(entry.name,rc))
+                          use_container_width=True, on_click=download_file, args=(entry.name, rc))
 
 
 def download_file(file_name, rc):
     if os.path.exists(f"temp_dxf/{file_name}"):
         with open(f"temp_dxf/{file_name}", 'rb') as f:
             rc.download_button(f'{file_name} - OK', data=f, file_name=file_name,
-                                  disabled=False, use_container_width=False, )
-                # st.experimental_rerun()
+                               disabled=False, use_container_width=False, )
+            # st.experimental_rerun()
     else:
         st.warning('File Does Not Exist')
         # time.sleep(1)
@@ -760,7 +760,6 @@ def download_file(file_name, rc):
 
 
 def del_file(file_to_del, lc, rc):
-
     if os.path.exists(f"temp_dxf/{file_to_del}"):
         if file_to_del == 'info.txt':
             lc.warning('File is Protected!')
@@ -775,8 +774,7 @@ def del_file(file_to_del, lc, rc):
                 st.session_state.del_conf = False
                 rc.warning('Uf-f-f-f...')
 
-
-            if st.session_state.del_conf:
+            if st.session_state.del_conf is True:
                 try:
                     os.remove(f"temp_dxf/{file_to_del}")
                     lc.warning(f'File {file_to_del} Deleted')
