@@ -37,7 +37,7 @@ def drawing_sets():
         st.empty()
 
     with content:
-        st.title(':orange[Drawing Sets]')
+        st.title(':orange[Units]')
         st.divider()
 
         ds_left, lc, ds_center, cr, ds_rigth = st.columns([5, 6, 4, 5, 5])
@@ -283,7 +283,7 @@ def manage_units():
         st.empty()
 
     with content_sets:
-        st.title(':orange[Manage Units]')
+        st.title(':orange[Units]')
 
         tab_create, tab_update = st.tabs(['Create New Unit', 'Edit Existing Unit'])
 

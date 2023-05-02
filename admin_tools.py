@@ -25,7 +25,7 @@ def manage_projects():
         st.empty()
 
     with content_proj:
-        st.title(':orange[Manage Projects]')
+        st.title(':orange[Projects]')
         create_proj_tab, edit_proj_tab, viewer_tab = st.tabs(['Create Project', 'Edit Existing Project', 'View Tables'])
 
         with create_proj_tab:

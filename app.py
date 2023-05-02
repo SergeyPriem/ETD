@@ -103,20 +103,20 @@ def show_duration():
 
 def get_menus():
 
-    performer_menu = ["Home", "Drawing Sets", "Transmittals", "Tasks", 'Scripts', 'Just for fun',
-                      'Lessons Learned', 'Settings', 'Refresh Data']
+    performer_menu = ["Home", "Units", "Transmittals", "Tasks", 'Scripts', 'Reading',
+                      'Knowledge', 'Settings', 'Refresh']
 
     performer_icons = ['house', 'bi bi-file-earmark-spreadsheet-fill', 'bi bi-file-arrow-down',
                        'bi bi-file-check', 'bi bi-diagram-3', 'bi bi-info-circle', 'bi bi-pen', 'bi bi-gear',
                        'bi bi-arrow-clockwise']
 
-    admin_menu = ["Manage Units"]
+    admin_menu = ["Units"]
     admin_icons = ['bi bi-folder-plus']
 
-    super_menu = ["Manage Projects", "Manage Users"]
+    super_menu = ["Projects", "Users"]
     super_icons = ["bi bi-briefcase", "bi bi-person-lines-fill"]
 
-    dev_menu = ["Manage Storage"]
+    dev_menu = ["Storage"]
     dev_icons = ["bi bi-hdd"]
 
     if not st.session_state.rights:
@@ -657,7 +657,7 @@ def manage_users():
     with users_1:
         st.empty()
     with users_content:
-        st.title(':orange[Manage Users]')
+        st.title(':orange[Users]')
 
         users_tab1, users_tab2 = st.tabs(['Add New User', 'Edit User Details'])
         with users_tab1:
@@ -782,7 +782,7 @@ def manage_storage():
     stor_left, stor_cont, stor_right = st.columns([5, 3, 5])
 
     with stor_cont:
-        st.title(':orange[Manage Storage]')
+        st.title(':orange[Storage]')
 
 
 
@@ -796,23 +796,23 @@ def home():
 def win_selector(selected):
     st.session_state.r_now = datetime.datetime.now()
 
-    if selected != "Refresh Data":
+    if selected != "Refresh":
         st.session_state.selected = selected
 
     tab_dict = {
         "Home": home,
-        "Manage Projects": manage_projects,
+        "Projects": manage_projects,
         "Transmittals": transmittals_content,
         "Tasks": tasks_content,
-        "Drawing Sets": drawing_sets,
-        "Just for fun": just_for_fun,
+        "Units": drawing_sets,
+        "Reading": just_for_fun,
         "Scripts": xl_to_sld,
-        "Manage Users": manage_users,
-        "Lessons Learned": lessons_content,
+        "Users": manage_users,
+        "Knowledge": lessons_content,
         "Settings": settings_content,
-        "Refresh Data": fresh_data,
-        "Manage Units": manage_units,
-        "Manage Storage": manage_storage,
+        "Refresh": fresh_data,
+        "Units": manage_units,
+        "Storage": manage_storage,
     }
 
     tab_dict.get(selected)()

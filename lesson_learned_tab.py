@@ -31,7 +31,7 @@ def lessons_content():
         st.empty()
 
     with content:
-        st.title(':orange[Lessons Learned] - under Development')
+        st.title(':orange[Knowledge] - under Development')
         st.write('It would be great to collect, store and share experiences of technical'
                  ' solutions from which lessons can be learned')
 
