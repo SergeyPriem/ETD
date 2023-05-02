@@ -90,6 +90,7 @@ def manage_projects():
                 reply = create_project(proj_short, proj_full, client, proj_man, responsible_el,
                                        proj_status, proj_tech_ass, proj_tech_conditions,
                                        proj_surveys, proj_mdr, proj_notes)
+
                 if 'is added to DataBase' in reply:
                     st.info(reply)
                     st.session_state.adb['project'] = get_table(Project)
@@ -154,8 +155,6 @@ def manage_projects():
                     reply = update_projects(proj_ser.index.to_numpy()[0], short_name, full_name, client,
                                             manager, responsible_el, status, assignment, tech_conditions,
                                             surveys, mdr, notes)
-
-                    st.write(reply['updated_projects'])
 
                     l_rep, r_rep = st.columns(2, gap='medium')
                     if reply['status'] == 201:
