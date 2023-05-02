@@ -882,11 +882,11 @@ def prepare_menus():
         with st.sidebar:
             image = Image.open("images/big_logo.jpg")
             st.image(image, use_column_width=True)
-            selected = option_menu("ET Department",
+            selected = option_menu(None,
                                    options=st.session_state.menu,
                                    default_index=0,
                                    icons=st.session_state.icons,
-                                   menu_icon="bi bi-plug")
+                                   )
 
             # if st.session_state.rights == 'dev' and st.checkbox("Show states"):
             #     show_states()
