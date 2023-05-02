@@ -829,16 +829,19 @@ def manage_storage():
                 )
 
         file_to_del = st.text_input("Enter File Name to Delete (with extension)")
-        but_to_del = st.button("Enter file name to delete", type='primary', use_container_width=True)
+        but_to_del = st.button("Delete File", type='primary', use_container_width=True)
 
         if but_to_del and len(file_to_del):
+            if file_to_del == 'info.txt':
+                st.warning('File is Protected!')
+                st.stop()
+
             if os.path.exists(f"temp_dxf/{file_to_del}"):
                 try:
                     os.remove(f"temp_dxf/{file_to_del}")
                     st.warning(f'File {file_to_del} Deleted')
                 except Exception as e:
                     st.error(err_handler(e))
-
             else:
                 st.warning("The file does not exist")
 
