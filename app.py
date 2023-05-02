@@ -119,7 +119,7 @@ def get_menus():
     super_icons = ["bi bi-briefcase", "bi bi-person-lines-fill"]
 
     dev_menu = ["Manage Storage"]
-    dev_icons = ["bi bi-database-fill"]
+    dev_icons = ["bi bi-database-check"]
 
     if not st.session_state.rights:
         st.warning('Rights not available...')
@@ -127,20 +127,24 @@ def get_menus():
     if st.session_state.rights == "performer":
         menu = [*performer_menu]
         icons = [*performer_icons]
+        return menu, icons
 
     if st.session_state.rights == "admin":
         menu = [*performer_menu, *admin_menu]
         icons = [*performer_icons, *admin_icons]
+        return menu, icons
 
     if st.session_state.rights == "super":
         menu = [*performer_menu, *admin_menu, *super_menu]
         icons = [*performer_icons, *admin_icons, *super_icons]
+        return menu, icons
 
     if st.session_state.rights == "dev":
         menu = [*performer_menu, *admin_menu, *super_menu, *dev_menu]
         icons = [*performer_icons, *admin_icons, *super_icons, *dev_icons]
+        return menu, icons
 
-    return menu, icons
+
 
 
 def create_states():
@@ -818,55 +822,55 @@ def win_selector(selected):
     show_duration()
 
 
-def show_states():
-    st.text('appl_logins')
-    st.write(st.session_state.appl_logins)
-    st.text('-----------------------')
-    st.text('adb')
-    st.write(st.session_state.adb)
-    st.text('-----------------------')
-    st.write('menu')
-    st.write(st.session_state.menu)
-    st.text('-----------------------')
-    st.write('icons')
-    st.write(st.session_state.icons)
-    st.text('-----------------------')
-    st.write('rights')
-    st.write(st.session_state.rights)
-    st.text('-----------------------')
-    st.write('registered_logins')
-    st.write(st.session_state.registered_logins)
-    st.text('-----------------------')
-    st.write("preview_proj_stat")
-    st.write(st.session_state.preview_proj_stat)
-    st.text('-----------------------')
-    st.write("logged")
-    st.write(st.session_state.logged)
-    st.text('-----------------------')
-    st.write('code_sent')
-    st.write(st.session_state.code_sent)
-    st.text('-----------------------')
-    st.write('upd_code_sent')
-    st.write(st.session_state.upd_code_sent)
-    st.text('-----------------------')
-    st.write('vert_menu')
-    st.write(st.session_state.vert_menu)
-    st.text('-----------------------')
-    st.write('user')
-    st.write(st.session_state['user'])
-    st.text('-----------------------')
-    st.write('task_preview')
-    st.write(st.session_state.task_preview)
-    st.text('-----------------------')
-    st.write('proj_names')
-    st.write(st.session_state.proj_names)
-    st.text('-----------------------')
-    st.write('trans_status')
-    st.write(st.session_state.trans_status)
-    st.text('-----------------------')
-    st.write('spec')
-    st.write(st.session_state.spec)
-    st.text('-----------------------')
+# def show_states():
+#     st.text('appl_logins')
+#     st.write(st.session_state.appl_logins)
+#     st.text('-----------------------')
+#     st.text('adb')
+#     st.write(st.session_state.adb)
+#     st.text('-----------------------')
+#     st.write('menu')
+#     st.write(st.session_state.menu)
+#     st.text('-----------------------')
+#     st.write('icons')
+#     st.write(st.session_state.icons)
+#     st.text('-----------------------')
+#     st.write('rights')
+#     st.write(st.session_state.rights)
+#     st.text('-----------------------')
+#     st.write('registered_logins')
+#     st.write(st.session_state.registered_logins)
+#     st.text('-----------------------')
+#     st.write("preview_proj_stat")
+#     st.write(st.session_state.preview_proj_stat)
+#     st.text('-----------------------')
+#     st.write("logged")
+#     st.write(st.session_state.logged)
+#     st.text('-----------------------')
+#     st.write('code_sent')
+#     st.write(st.session_state.code_sent)
+#     st.text('-----------------------')
+#     st.write('upd_code_sent')
+#     st.write(st.session_state.upd_code_sent)
+#     st.text('-----------------------')
+#     st.write('vert_menu')
+#     st.write(st.session_state.vert_menu)
+#     st.text('-----------------------')
+#     st.write('user')
+#     st.write(st.session_state['user'])
+#     st.text('-----------------------')
+#     st.write('task_preview')
+#     st.write(st.session_state.task_preview)
+#     st.text('-----------------------')
+#     st.write('proj_names')
+#     st.write(st.session_state.proj_names)
+#     st.text('-----------------------')
+#     st.write('trans_status')
+#     st.write(st.session_state.trans_status)
+#     st.text('-----------------------')
+#     st.write('spec')
+#     st.write(st.session_state.spec)
+#     st.text('-----------------------')
 
 
 def prepare_menus():
@@ -884,8 +888,8 @@ def prepare_menus():
                                    icons=st.session_state.icons,
                                    menu_icon="bi bi-plug")
 
-            if st.session_state.rights == 'dev' and st.checkbox("Show states"):
-                show_states()
+            # if st.session_state.rights == 'dev' and st.checkbox("Show states"):
+            #     show_states()
     else:
         selected = option_menu(None,
                                options=st.session_state.menu,
