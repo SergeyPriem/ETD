@@ -21,6 +21,7 @@ from users import check_user, add_to_log, create_appl_user, update_users_in_db, 
     err_handler
 from projects import confirm_task, confirm_trans, trans_status_to_db, get_all, get_table
 from models import Users, Task, Trans
+
 # import openpyxl
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
@@ -88,14 +89,14 @@ def show_duration():
                         unsafe_allow_html=True)
     st.sidebar.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>{st.session_state.proj_scope}</h3>",
                         unsafe_allow_html=True)
-    st.sidebar.markdown(f"<h5 style='text-align: center; color: #fcf403;'>You can chose another Mode in Settings -> Scope of Load</h5>",
-                        unsafe_allow_html=True)
+    st.sidebar.markdown(
+        f"<h5 style='text-align: center; color: #fcf403;'>You can chose another Mode in Settings -> Scope of Load</h5>",
+        unsafe_allow_html=True)
 
     if access_level == 'dev':
         with st.sidebar:
             td = datetime.datetime.now() - st.session_state.r_now
             delta = f"{td.total_seconds()}"
-
 
             st.sidebar.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>{delta[:-3]} s.</h3>",
                                 unsafe_allow_html=True)
@@ -103,7 +104,6 @@ def show_duration():
 
 
 def get_menus():
-
     performer_menu = ["Home", "Drawings", "Transmittals", "Tasks", 'Scripts', 'Reading',
                       'Knowledge', 'Settings', 'Refresh']
 
@@ -142,8 +142,6 @@ def get_menus():
         menu = [*performer_menu, *admin_menu, *super_menu, *dev_menu]
         icons = [*performer_icons, *admin_icons, *super_icons, *dev_icons]
         return menu, icons
-
-
 
 
 def create_states():
@@ -446,8 +444,6 @@ def home_content():
                         st.write('No New Transmittals')
 
 
-
-
 def login_register():
     center_style()
     reg_left, log_content, reg_right = st.columns([5, 3, 5])
@@ -732,7 +728,6 @@ def fresh_data():
 
 
 def manage_storage():
-
     center_style()
 
     stor_left, stor_cont, stor_right = st.columns([5, 3, 5])
@@ -755,14 +750,11 @@ def manage_storage():
         if len(file_name) and '.' in file_name:
 
             with open(file_name, 'rb') as f:
-                st.download_button(
-                    'Download selected file',
-                    data=f,
-                    file_name=file_name,
-                    mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
-                    disabled=False, use_container_width=False
-                )
-                st.experimental_rerun()
+                if st.download_button(
+                        'Download selected file', data=f, file_name=file_name,
+                        disabled=False, use_container_width=False,
+                ):
+                    st.experimental_rerun()
 
         st.divider()
         file_to_del = st.text_input("Enter File Name to Delete (with extension)")
@@ -782,8 +774,6 @@ def manage_storage():
                         st.error(err_handler(e))
             else:
                 st.warning("The file does not exist")
-
-
 
 
 def home():
