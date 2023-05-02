@@ -750,6 +750,8 @@ def manage_storage():
                           use_container_width=True, on_click=download_file, args=(entry.name, rc))
 
 
+
+
 def download_file(file_name, rc):
     if os.path.exists(f"temp_dxf/{file_name}"):
         with open(f"temp_dxf/{file_name}", 'rb') as f:
@@ -762,31 +764,36 @@ def download_file(file_name, rc):
         # st.experimental_rerun()
 
 
+
+
 def del_file(file_to_del, lc, rc):
 
     st.session_state.del_conf = file_to_del
 
-    if os.path.exists(f"temp_dxf/{file_to_del}"):
+    if os.path.exists(f"temp_dxf/{st.session_state.del_conf}"):
         if file_to_del == 'info.txt':
             lc.warning('File is Protected!')
-        else:
-
-            st.write(f"conf_but={st.session_state.del_conf}")
-
-            if lc.button('Escape'):
-                st.session_state.del_conf = None
-                rc.warning('Uf-f-f-f...')
-            if rc.button('Confirm') and st.session_state.del_conf:
-                try:
-                    os.remove(f"temp_dxf/{file_to_del}")
-                    lc.warning(f'File {file_to_del} Deleted')
-                    st.session_state.del_conf = None
-                except Exception as e:
-                    lc.error(err_handler(e))
-
-
+            st.session_state.del_conf = None
+            st.stop()
     else:
         st.warning('File Does Not Exist')
+        st.session_state.del_conf = None
+        st.stop()
+        # else:
+        #     st.write(f"conf_but={st.session_state.del_conf}")
+
+    if lc.button('Escape'):
+        st.session_state.del_conf = None
+        rc.warning('Uf-f-f-f...')
+        st.stop()
+
+    if rc.button('Confirm') and st.session_state.del_conf:
+        try:
+            os.remove(f"temp_dxf/{st.session_state.del_conf}")
+            lc.warning(f'File {st.session_state.del_conf} Deleted')
+            st.session_state.del_conf = None
+        except Exception as e:
+            lc.error(err_handler(e))
 
 
 def home():
