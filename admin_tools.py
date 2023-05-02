@@ -26,6 +26,25 @@ def manage_projects():
 
     with content_proj:
         st.title(':orange[Projects]')
+        st.markdown("""
+            <style>
+                div[data-testid="column"]:nth-of-type(1)
+                {
+                    text-align: center;
+                } 
+
+                div[data-testid="column"]:nth-of-type(2)
+                {
+                    text-align: center;
+                } 
+
+                div[data-testid="column"]:nth-of-type(3)
+                {
+                    text-align: center;
+                } 
+            </style>
+            """, unsafe_allow_html=True)
+
         create_proj_tab, edit_proj_tab, viewer_tab = st.tabs(['Create Project', 'Edit Existing Project', 'View Tables'])
 
         with create_proj_tab:

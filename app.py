@@ -651,6 +651,25 @@ def login_register():
 
 
 def manage_users():
+    st.markdown("""
+        <style>
+            div[data-testid="column"]:nth-of-type(1)
+            {
+                text-align: center;
+            } 
+
+            div[data-testid="column"]:nth-of-type(2)
+            {
+                text-align: center;
+            } 
+
+            div[data-testid="column"]:nth-of-type(3)
+            {
+                text-align: center;
+            } 
+        </style>
+        """, unsafe_allow_html=True)
+
     users_1, users_content, users_2 = st.columns([1, 2, 1])
     with users_1:
         st.empty()
