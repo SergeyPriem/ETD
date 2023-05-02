@@ -741,7 +741,7 @@ def manage_storage():
             for entry in entries:
                 lc.button(f"Delete: {entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB",
                           use_container_width=True, type='primary',
-                          on_click=del_file, args=(entry.name,lc))
+                          on_click=del_file, args=(entry.name,lc, rc))
 
                 rc.button(f"Download: {entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB",
                           use_container_width=True, on_click=download_file, args=(entry.name,rc))
@@ -759,16 +759,28 @@ def download_file(file_name, rc):
         # st.experimental_rerun()
 
 
-def del_file(file_to_del, lc):
-    conf_status = False
+def del_file(file_to_del, lc, rc):
+
     if os.path.exists(f"temp_dxf/{file_to_del}"):
         if file_to_del == 'info.txt':
             lc.warning('File is Protected!')
         else:
-            if lc.checkbox("Confirm", value=conf_status):
+            if 'del_conf' not in st.session_state:
+                st.session_state.del_conf = False
+
+            if rc.button('Confirm'):
+                st.session_state.del_conf = True
+
+            if lc.button('Escape'):
+                st.session_state.del_conf = False
+                rc.warning('Uf-f-f-f...')
+
+
+            if st.session_state.del_conf:
                 try:
                     os.remove(f"temp_dxf/{file_to_del}")
                     lc.warning(f'File {file_to_del} Deleted')
+                    st.session_state.del_conf = False
                 except Exception as e:
                     lc.error(err_handler(e))
 
