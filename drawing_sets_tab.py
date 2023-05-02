@@ -289,15 +289,18 @@ def manage_units():
 
         with tab_create:
             with st.form('new_sod'):
-                proj_short = st.selectbox('Select a Project', st.session_state.proj_names)
-                unit_name = st.text_input("Enter the Name for new Set of Drawings / Unit", max_chars=200).strip()
+                l_c, r_c = st.columns(2, gap='medium')
+                proj_short = l_c.selectbox('Select a Project', st.session_state.proj_names)
+                unit_name = r_c.text_input("Enter the Name for new Set of Drawings / Unit", max_chars=200).strip()
                 stage = st.radio("Select the Stage", stages, horizontal=True)
-                coordinator = st.selectbox("Coordinator", st.session_state.appl_logins)
-                performer = st.selectbox("Performer", st.session_state.appl_logins)
-                set_start_date = st.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
-                status = st.select_slider("Select the Current Status", sod_statuses, value='0%')
-                notes = st.text_area("Add Notes", max_chars=500).strip()
-                create_sod_but = st.form_submit_button("Create", use_container_width=True)
+                coordinator = l_c.selectbox("Coordinator", st.session_state.appl_logins)
+                performer = r_c.selectbox("Performer", st.session_state.appl_logins)
+                set_start_date = l_c.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
+                status = r_c.select_slider("Select the Current Status", sod_statuses, value='0%')
+                notes = l_c.text_area("Add Notes", max_chars=500).strip()
+                r_c.text('')
+                r_c.text('')
+                create_sod_but = r_c.form_submit_button("Create", use_container_width=True)
 
             res_l, res_r = st.columns(2, gap='medium')
 
