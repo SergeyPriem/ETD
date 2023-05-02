@@ -744,36 +744,46 @@ def manage_storage():
                 lc.info(entry.name)
                 rc.info(f"{round(os.stat(entry).st_size / 1024, 3)} kB")
 
-        st.divider()
-        file_name = f"temp_dxf/{st.text_input('Enter File Name to Download (with extension)')}"
+                lc.button(f"Delete: {entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB ?",
+                          use_container_width=True, type='primary',
+                          on_click=del_file, args=(entry.name,))
 
-        if len(file_name) and '.' in file_name:
+                rc.button(f"Delete: {entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB ?",
+                          use_container_width=True, type='primary',
+                          on_click=download_file, args=(entry.name,))
 
-            with open(file_name, 'rb') as f:
-                if st.download_button(
-                        'Download selected file', data=f, file_name=file_name,
-                        disabled=False, use_container_width=False,
-                ):
+
+def download_file(file_name):
+    if len(file_name) and '.' in file_name:
+        with open(file_name, 'rb') as f:
+            if st.download_button('Download selected file', data=f, file_name=file_name,
+                                  disabled=False, use_container_width=False, ):
+                st.experimental_rerun()
+
+
+def del_file(file_to_del):
+    if len(file_to_del):
+        if os.path.exists(f"temp_dxf/{file_to_del}"):
+            if file_to_del == 'info.txt':
+                st.warning('File is Protected!')
+                st.stop()
+
+            lb, rb = st.columns(2, gap='medium')
+            yes_but = lb.button('YES, DELETE', type='primary')
+            no_but = rb.button('NO, ESCAPE')
+
+            if yes_but:
+                try:
+                    os.remove(f"temp_dxf/{file_to_del}")
+                    st.warning(f'File {file_to_del} Deleted')
                     st.experimental_rerun()
+                except Exception as e:
+                    st.error(err_handler(e))
+            if no_but:
+                st.experimental_rerun()
 
-        st.divider()
-        file_to_del = st.text_input("Enter File Name to Delete (with extension)")
-
-        if len(file_to_del):
-            if os.path.exists(f"temp_dxf/{file_to_del}"):
-                if file_to_del == 'info.txt':
-                    st.warning('File is Protected!')
-                    st.stop()
-
-                if st.button("Delete File", type='primary', use_container_width=True):
-                    try:
-                        os.remove(f"temp_dxf/{file_to_del}")
-                        st.warning(f'File {file_to_del} Deleted')
-                        st.experimental_rerun()
-                    except Exception as e:
-                        st.error(err_handler(e))
-            else:
-                st.warning("The file does not exist")
+        else:
+            st.warning("The file does not exist")
 
 
 def home():
