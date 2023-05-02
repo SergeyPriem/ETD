@@ -813,11 +813,10 @@ def manage_storage():
         st.header("Now in Temporary Folder:")
         with os.scandir('temp_dxf/') as entries:
             for entry in entries:
-                st.success(entry)
                 st.info(f"{entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB")
 
         file_to_del = st.text_input("Enter file name to delete")
-        but_to_del = st.button("Enter file name to delete")
+        but_to_del = st.button("Enter file name to delete", type='primary')
         if but_to_del and len(file_to_del):
             st.write(f'File {file_to_del} Deleted')
 
