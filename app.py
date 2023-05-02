@@ -13,7 +13,7 @@ from tasks_tab import tasks_content
 from drawing_sets_tab import drawing_sets, manage_units
 from just_for_fun_tab import just_for_fun
 from lesson_learned_tab import lessons_content
-from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, get_cur_u_id
+from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, get_cur_u_id, center_style
 from send_emails import send_mail
 from settings_tab import settings_content
 from transmittals_tab import transmittals_content
@@ -21,7 +21,7 @@ from users import check_user, add_to_log, create_appl_user, update_users_in_db, 
     err_handler
 from projects import confirm_task, confirm_trans, trans_status_to_db, get_all, get_table
 from models import Users, Task, Trans
-import openpyxl
+# import openpyxl
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
 
@@ -247,25 +247,7 @@ def form_for_trans():
 
 
 def home_content():
-    st.markdown("""
-        <style>
-            div[data-testid="column"]:nth-of-type(1)
-            {
-                text-align: center;
-            } 
-
-            div[data-testid="column"]:nth-of-type(2)
-            {
-                text-align: center;
-            } 
-
-            div[data-testid="column"]:nth-of-type(3)
-            {
-                text-align: center;
-            } 
-        </style>
-        """, unsafe_allow_html=True)
-
+    center_style()
     home_left, home_cont, home_right = st.columns([5, 3, 5])
     empty21, content2, empty22 = st.columns([1, 20, 1])
 
@@ -467,25 +449,7 @@ def home_content():
 
 
 def login_register():
-    st.markdown("""
-        <style>
-            div[data-testid="column"]:nth-of-type(1)
-            {
-                text-align: center;
-            } 
-
-            div[data-testid="column"]:nth-of-type(2)
-            {
-                text-align: center;
-            } 
-
-            div[data-testid="column"]:nth-of-type(3)
-            {
-                text-align: center;
-            } 
-        </style>
-        """, unsafe_allow_html=True)
-
+    center_style()
     reg_left, log_content, reg_right = st.columns([5, 3, 5])
     with reg_left:
         st.empty()
@@ -652,25 +616,7 @@ def login_register():
 
 
 def manage_users():
-    st.markdown("""
-        <style>
-            div[data-testid="column"]:nth-of-type(1)
-            {
-                text-align: center;
-            } 
-
-            div[data-testid="column"]:nth-of-type(2)
-            {
-                text-align: center;
-            } 
-
-            div[data-testid="column"]:nth-of-type(3)
-            {
-                text-align: center;
-            } 
-        </style>
-        """, unsafe_allow_html=True)
-
+    center_style()
     users_1, users_content, users_2 = st.columns([1, 2, 1])
     with users_1:
         st.empty()
@@ -786,24 +732,8 @@ def fresh_data():
 
 
 def manage_storage():
-    st.markdown("""
-        <style>
-            div[data-testid="column"]:nth-of-type(1)
-            {
-                text-align: center;
-            } 
 
-            div[data-testid="column"]:nth-of-type(2)
-            {
-                text-align: center;
-            } 
-
-            div[data-testid="column"]:nth-of-type(3)
-            {
-                text-align: center;
-            } 
-        </style>
-        """, unsafe_allow_html=True)
+    center_style()
 
     stor_left, stor_cont, stor_right = st.columns([5, 3, 5])
 
@@ -813,8 +743,8 @@ def manage_storage():
         st.header("Now in Temporary Folder:")
         with os.scandir('temp_dxf/') as entries:
             lc, rc = st.columns(2)
-            lc.succes('File Name')
-            rc.succes('File Size')
+            lc.success('File Name')
+            rc.success('File Size')
             for entry in entries:
                 lc.info(entry.name)
                 rc.info(f"{round(os.stat(entry).st_size / 1024, 3)} kB")

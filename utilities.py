@@ -34,6 +34,27 @@ def appearance_settings():
     st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 
+def center_style():
+    return st.markdown("""
+        <style>
+            div[data-testid="column"]:nth-of-type(1)
+            {
+                text-align: center;
+            } 
+
+            div[data-testid="column"]:nth-of-type(2)
+            {
+                text-align: center;
+            } 
+
+            div[data-testid="column"]:nth-of-type(3)
+            {
+                text-align: center;
+            } 
+        </style>
+        """, unsafe_allow_html=True)
+
+
 # if 'delay' not in st.session_state:
 #     st.session_state.delay = 3
 
@@ -73,6 +94,7 @@ def get_cur_u_id():
     u_id = u_df[u_df.login == st.session_state.login].index.to_numpy()[0]
 
     return u_id
+
 
 def mail_to_name(mail):
     try:
