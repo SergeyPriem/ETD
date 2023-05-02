@@ -746,40 +746,42 @@ def manage_storage():
 
                 lc.button(f"Delete: {entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB",
                           use_container_width=True, type='primary',
-                          on_click=del_file, args=(entry.name,))
+                          on_click=del_file, args=(entry.name,lc))
 
                 rc.button(f"Download: {entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB",
-                          use_container_width=True, on_click=download_file, args=(entry.name,))
+                          use_container_width=True, on_click=download_file, args=(entry.name,rc))
 
 
-def download_file(file_name):
+def download_file(file_name, rc):
     if os.path.exists(f"temp_dxf/{file_name}"):
         with open(f"temp/{file_name}", 'rb') as f:
-            if st.download_button('Download selected file', data=f, file_name=file_name,
+            if rc.download_button('Download selected file', data=f, file_name=file_name,
                                   disabled=False, use_container_width=False, ):
                 st.experimental_rerun()
     else:
         st.warning('File Does Not Exist')
+        st.experimental_rerun()
 
 
-def del_file(file_to_del):
+def del_file(file_to_del,lc, rc):
     if len(file_to_del):
         if os.path.exists(f"temp_dxf/{file_to_del}"):
             if file_to_del == 'info.txt':
-                st.warning('File is Protected!')
-                st.stop()
-
-            lb, rb = st.columns(2, gap='medium')
-            yes_but = lb.button('YES, DELETE', type='primary')
-            no_but = rb.button('NO, ESCAPE')
+                lc.warning('File is Protected!')
+                lc.experimental_rerun()
+            lc.devider()
+            rc.devider()
+            yes_but = lc.button('YES, DELETE', type='primary')
+            no_but = rc.button('NO, ESCAPE')
 
             if yes_but:
                 try:
                     os.remove(f"temp_dxf/{file_to_del}")
-                    st.warning(f'File {file_to_del} Deleted')
-                    st.experimental_rerun()
+                    lc.warning(f'File {file_to_del} Deleted')
+                    lc.experimental_rerun()
                 except Exception as e:
-                    st.error(err_handler(e))
+                    lc.error(err_handler(e))
+
             if no_but:
                 st.experimental_rerun()
 
