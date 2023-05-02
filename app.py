@@ -119,7 +119,7 @@ def get_menus():
     super_icons = ["bi bi-briefcase", "bi bi-person-lines-fill"]
 
     dev_menu = ["Manage Storage"]
-    dev_icons = ["bi bi-database-fill-gear"]
+    dev_icons = ["bi bi-database-fill"]
 
     if not st.session_state.rights:
         st.warning('Rights not available...')
@@ -757,6 +757,33 @@ def fresh_data():
     plaho.empty()
 
 
+def manage_storage():
+    st.markdown("""
+        <style>
+            div[data-testid="column"]:nth-of-type(1)
+            {
+                text-align: center;
+            } 
+
+            div[data-testid="column"]:nth-of-type(2)
+            {
+                text-align: center;
+            } 
+
+            div[data-testid="column"]:nth-of-type(3)
+            {
+                text-align: center;
+            } 
+        </style>
+        """, unsafe_allow_html=True)
+
+    stor_left, stor_cont, stor_right = st.columns([5, 3, 5])
+
+    with stor_cont:
+        st.title(':orange[Manage Storage]')
+
+
+
 def home():
     if st.session_state.trans_status:
         form_for_trans()
@@ -783,6 +810,7 @@ def win_selector(selected):
         "Settings": settings_content,
         "Refresh Data": fresh_data,
         "Manage Units": manage_units,
+        "Manage Storage": manage_storage,
     }
 
     tab_dict.get(selected)()
