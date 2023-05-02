@@ -764,32 +764,34 @@ def download_file(file_name, rc):
         st.experimental_rerun()
 
 
-def del_file(file_to_del,lc, rc):
-    if len(file_to_del):
-        if os.path.exists(f"temp_dxf/{file_to_del}"):
-            if file_to_del == 'info.txt':
-                lc.warning('File is Protected!')
-                time.sleep(1)
-                st.stop()
-            yes_but = lc.button('YES, DELETE', type='primary')
-            no_but = rc.button('NO, ESCAPE')
+def del_file(file_to_del, lc, rc):
+    if os.path.exists(f"temp_dxf/{file_to_del}"):
+        lc.warning('yes, file is here')
+        if file_to_del == 'info.txt':
+            lc.warning('File is Protected!')
+            st.button('Return')
+            # time.sleep(1)
+            st.stop()
 
-            if yes_but:
-                try:
-                    os.remove(f"temp_dxf/{file_to_del}")
-                    lc.warning(f'File {file_to_del} Deleted')
-                    time.sleep(1)
-                    st.experimental_rerun()
-                except Exception as e:
-                    lc.error(err_handler(e))
+        yes_but = lc.button('YES, DELETE', type='primary')
+        no_but = rc.button('NO, ESCAPE')
 
-            if no_but:
-                rc.warning('U-f-f-f-f-f...')
+        if yes_but:
+            try:
+                os.remove(f"temp_dxf/{file_to_del}")
+                lc.warning(f'File {file_to_del} Deleted')
                 time.sleep(1)
                 st.experimental_rerun()
+            except Exception as e:
+                lc.error(err_handler(e))
 
-        else:
-            st.warning('File Does Not Exist')
+        if no_but:
+            rc.warning('U-f-f-f-f-f...')
+            time.sleep(1)
+            st.experimental_rerun()
+
+    else:
+        st.warning('File Does Not Exist')
 
 
 def home():
