@@ -303,6 +303,9 @@ def manage_units():
 
             if create_sod_but:
                 reply = add_sod(proj_short, unit_name, stage, status, set_start_date, coordinator, performer, notes)
+
+                st.write(reply)
+
                 if reply['status'] == 201:
                     res_l.success(f"New Set '{unit_name}' for Project '{proj_short}' is added to DataBase")
 
