@@ -455,19 +455,19 @@ def update_projects(proj_id, short_name, full_name, client, manager, responsible
 def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb):
     with db_session:
         try:
-            sod = SOD[s_o_d]
+            unit = SOD[s_o_d]
 
-            if (Users.get(login=st.session_state.login) in (sod.coord_id, sod.perf_id)) \
+            if (Users.get(login=st.session_state.login) in (unit.coord_id, unit.perf_id)) \
                     or Users.get(login=st.session_state.login).access_level in ["super", "dev"]:
-                sod.coord_id = Users.get(login=coord)
-                sod.perf_id = Users.get(login=perf)
-                sod.revision = rev
-                sod.current_status = status
+                unit.coord_id = Users.get(login=coord)
+                unit.perf_id = Users.get(login=perf)
+                unit.revision = rev
+                unit.current_status = status
 
                 if upd_trans_chb and trans_num != "Not required":
-                    sod.trans_num += f"<{str(trans_num)}>"
+                    unit.trans_num += f"<{str(trans_num)}>"
 
-                sod.notes = notes
+                unit.notes = notes
 
                 if st.session_state.proj_scope == "All Projects":
                     sod = (select(u for u in SOD)[:])
@@ -482,8 +482,8 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
                     'status': 201,
                     'sod': tab_to_df(sod),
                     'err_descr': None,
-                    'coord_email': sod.coord_id.email,
-                    'perf_email': sod.perf_id.email,
+                    'coord_email': unit.coord_id.email,
+                    'perf_email': unit.perf_id.email,
                 }
 
             else:
