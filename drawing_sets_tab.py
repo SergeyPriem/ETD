@@ -210,12 +210,12 @@ def drawing_sets():
 
                 u_df = st.session_state.adb['users']
 
-                coord_email = u_df.loc[u_df.login == coord, 'email']
-                perf_email = u_df.loc[u_df.login == perf, 'email']
+                coord_email = u_df.loc[u_df.login == coord, 'email'].to_numpy()[0]
+                perf_email = u_df.loc[u_df.login == perf, 'email'].to_numpy()[0]
 
-                st.write(coord_email)
-                st.write(perf_email)
-
+                # st.write(coord_email)
+                # st.write(perf_email)
+                #
                 if '@' not in coord_email:
                     st.warning("Can't get Coordinator email")
                     st.stop()
