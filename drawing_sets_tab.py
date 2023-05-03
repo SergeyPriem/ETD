@@ -142,8 +142,6 @@ def drawing_sets():
 
             reply = update_sod(unit_id, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
 
-            st.write(reply)
-
             if reply['status'] == 201:
 
                 lc, rc = st.columns(2, gap='medium')
