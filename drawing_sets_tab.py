@@ -144,7 +144,7 @@ def drawing_sets():
 
             st.write(reply)
 
-            if reply == 201:
+            if reply['status'] == 201:
 
                 lc, rc = st.columns(2, gap='medium')
 
