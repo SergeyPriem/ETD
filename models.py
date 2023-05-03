@@ -40,7 +40,7 @@ class SOD(db.Entity):
     trans_num = Optional(str, 1000, nullable=True)
     trans_date = Optional(date, nullable=True)
     notes = Optional(str, 1500, nullable=True)
-    aux = Optional(date, 200, nullable=True)
+    aux = Optional(date, nullable=True)
     assigs = Set('Task')
 
 
