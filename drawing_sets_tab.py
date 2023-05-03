@@ -256,7 +256,7 @@ def drawing_sets():
 
                 if reply2 == 200:
                     lc, rc = st.columns(2, gap='medium')
-                    lc.succes(f'Informational e-mail was sent to {coord_email}, {perf_email}')
+                    lc.success(f'Informational e-mail was sent to {coord_email}, {perf_email}')
                     rc.button('O K', key='close_request_reply')
 
         st.write("")
