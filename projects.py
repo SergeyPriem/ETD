@@ -469,7 +469,8 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
                     unit.trans_num += f"<{str(trans_num)}>"
 
                 if len(notes) > 3:
-                    unit.notes = unit.notes + f"<{datetime.today()}: {notes}>"
+                    t_date = datetime.today().strftime("%Y-%m-%d")
+                    unit.notes = unit.notes + f"<{t_date}: {notes}>"
                 unit.aux = datetime.today()
 
                 if st.session_state.proj_scope == "All Projects":
