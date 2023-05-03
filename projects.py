@@ -441,34 +441,15 @@ def update_projects(proj_id, short_name, full_name, client, manager, responsible
             if st.session_state.proj_scope == "All excluding cancelled and suspended":
                 proj = select(u for u in Project if u.status not in ['suspended', 'cancelled'])[:]
 
-            return {"status": 201, "updated_projects": tab_to_df(proj)}
+            return {"status": 201,
+                    "updated_projects": tab_to_df(proj),
+                    "err_descr": None
+                    }
         except Exception as e:
-            return err_handler(e)
-
-
-def update_sets(edited_set_df):
-    for ind, row in edited_set_df.iterrows():
-        if row.edit:
-            if row.to_del:
-                delete_table_row(SOD, ind)
-                continue
-            if (not ('@' in row.coord_id)) or (not ('@' in row.perf_id)):
-                return f"Wrong email for Coordinator or Performer"
-            with db_session:
-                try:
-                    set_to_edit = select(s for s in SOD if (s.project_id == Project[row.project_id]
-                                                            and s.set_name == row.set_name)).first()
-                    set_to_edit.stage = row.stage
-                    set_to_edit.coord_id = Users[row.coord_id]
-                    set_to_edit.perf_id = Users[row.perf_id]
-                    set_to_edit.revision = row.revision
-                    set_to_edit.start_date = row.start_date
-                    if isinstance(row.notes, str):
-                        set_to_edit.notes += "=>" + row.notes
-                    set_to_edit.current_status = row.current_status
-                except Exception as e:
-                    return err_handler(e)
-    return "Updated Successfully"
+            return {"status": 404,
+                    "updated_projects": None,
+                    "err_descr": err_handler(e)
+                    }
 
 
 def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb):
@@ -482,17 +463,40 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
                 sod.perf_id = Users.get(login=perf)
                 sod.revision = rev
                 sod.current_status = status
+
                 if upd_trans_chb and trans_num != "Not required":
                     sod.trans_num += f"<{str(trans_num)}>"
-                    # sod.trans_date = trans_date
+
                 sod.notes = notes
 
-                st.session_state.adb['sod'] = tab_to_df(select(u for u in SOD)[:])
-                return 200
+                if st.session_state.proj_scope == "All Projects":
+                    sod = (select(u for u in SOD)[:])
+
+                if st.session_state.proj_scope == "Only Current Projects":
+                    sod = select(u for u in SOD if u.project_id.status in ['current', 'perspective', 'final stage'])[:]
+
+                if st.session_state.proj_scope == "All excluding cancelled and suspended":
+                    sod = select(u for u in SOD if u.project_id.status not in ['suspended', 'cancelled'])[:]
+
+                return {
+                    'status': 201,
+                    'sod': tab_to_df(sod),
+                    'err_descr': None,
+                    'coord_email': sod.coord_id.email,
+                    'perf_email': sod.perf_id.email,
+                }
+
             else:
-                return "You haven't right to edit 😡"
+                return {'status': 403,
+                        'sod': None,
+                        'err_descr': "You haven't right to change Status of the Unit",
+                        }
+
         except Exception as e:
-            return err_handler(e)
+            return {'status': 404,
+                    'sod': None,
+                    'err_descr': err_handler(e),
+                    }
 
 
 def get_sets(login):

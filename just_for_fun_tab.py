@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import streamlit as st
+from utilities import center_style
 
 
 # @st.cache_data(ttl=60 * 60 * 12)
@@ -36,7 +37,6 @@ import streamlit as st
 #
 #         emojis = fetch_emojis()
 #         st.table(emojis)
-from utilities import center_style
 
 
 def just_for_fun():
@@ -57,5 +57,3 @@ def just_for_fun():
                  "_%D0%BC%D0%B5%D1%85%D0%B0%D0%BD%D0%B8%D0%B7%D0%BC)")
 
         st.write("check out this [Сверление квадратных отверстий](https://etudes.ru/etudes/drilling-square-holes/)")
-
-

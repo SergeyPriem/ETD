@@ -90,7 +90,7 @@ def show_duration():
     st.sidebar.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>{st.session_state.proj_scope}</h3>",
                         unsafe_allow_html=True)
     st.sidebar.markdown(
-        f"<h5 style='text-align: center; color: #fcf403;'>You can chose another Mode in Settings -> Scope of Load</h5>",
+        f"<h5 style='text-align: center; color: #fcf403;'>You can chose another Mode: Settings -> Scope of Load</h5>",
         unsafe_allow_html=True)
 
     if access_level == 'dev':

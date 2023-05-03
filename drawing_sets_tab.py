@@ -97,18 +97,23 @@ def drawing_sets():
             st.write(err_handler(e))
             st.stop()
 
+        old_coord = df_edit.coordinator.to_numpy()[0]
+        old_perf = df_edit.performer.to_numpy()[0]
+        old_rev = df_edit.revision.to_numpy()[0]
+        old_status = df_edit.status.to_numpy()[0]
+        old_notes = df_edit.notes.to_numpy()[0]
         trans_list.insert(0, 'Not required')
 
         with st.form("edit-unit_details"):
             l_c, r_c = st.columns(2, gap='medium')
             coord = l_c.selectbox("Coordinator", all_logins,
-                                  index=get_list_index(all_logins, df_edit.coordinator.to_numpy()[0]))
+                                  index=get_list_index(all_logins, old_coord))
             perf = l_c.selectbox("Performer", all_logins,
-                                 index=get_list_index(all_logins, df_edit.performer.to_numpy()[0]))
+                                 index=get_list_index(all_logins, old_perf))
             rev = l_c.selectbox("Revision", sod_revisions,
-                                index=get_list_index(sod_revisions, df_edit.revision.to_numpy()[0]))
+                                index=get_list_index(sod_revisions, old_rev))
             status = l_c.selectbox('Status', sod_statuses,
-                                   index=get_list_index(sod_statuses, df_edit.status.to_numpy()[0]))
+                                   index=get_list_index(sod_statuses, old_status))
 
             r_c.text('')
             r_c.text('')
@@ -116,22 +121,79 @@ def drawing_sets():
             r_c.text('')
             trans_num = r_c.selectbox("New Transmittal Number", trans_list)
             notes = r_c.text_area("Notes (don't delete, just add to previous)",
-                                  value=df_edit.notes.to_numpy()[0], max_chars=1500, height=127)
+                                  value=old_notes, max_chars=1500, height=127)
             upd_unit_but = st.form_submit_button("Update Unit Details")
 
         if upd_unit_but:
+            if all([
+                old_coord == coord,
+                old_perf == perf,
+                old_rev == rev,
+                old_status == status,
+                old_notes == notes,
+                not upd_trans_chb
+            ]):
+                st.warning('Nothing to Update')
+                st.stop()
+
             if upd_trans_chb and trans_num == "Not required":
                 st.warning("Select right Transmittal Number")
                 st.stop()
-            else:
-                reply = update_sod(unit_id, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
 
-            if reply == 200:
-                st.success("Updated!")
-                st.session_state.adb['sod'] = get_table(SOD)
+            reply = update_sod(unit_id, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
 
+            if reply == 201:
+
+                lc, rc = st.columns(2, gap='medium')
+
+                lc.success("Updated!")
+                st.session_state.adb['sod'] = reply['sod']
+
+                coord_email = reply['coord_email']
+                perf_email = reply['perf_email']
+
+                trans_report = trans_num if upd_trans_chb else "-"
+
+                subj = f"{proj_selected}: {unit_selected}. Changes"
+
+                html = f"""
+                    <html>
+                      <head></head>
+                      <body>
+                        <h3>
+                          Hello, Colleague!
+                          <hr>
+                        </h3>
+                        <h5>
+                          You got this message because you are involved in the project : 
+                          <b>{proj_selected}: {unit_selected}</b>
+                        </h5>
+                        <p>Some data for the Unit were updated</p>
+                        <br>
+                        <p>Coordinator: <b>{old_coord} -> {coord}</b></p>
+                        <p>Performer: <b>{old_perf} -> {perf}</b></p>
+                        <p>Revision: <b>{old_rev} -> {rev}</b></p>
+                        <p>Status: <b>{old_status} -> {status}</b></p>
+                        <p>Transmittal: <b>{trans_report}</b></p>
+                        <p>Notes: <b>{old_notes} -> {notes}</b></p>
+                        <p>
+                        <hr>
+                        Best regards, Administration 😎
+                        </p>
+                      </body>
+                    </html>
+                """
+
+                reply2 = send_mail(coord_email, perf_email, subj, html)
+
+                if reply2 == 200:
+                    rc.success(f'Informational e-mail was sent to {coord_email}, {perf_email}')
             else:
-                st.warning(reply)
+                st.warning(reply['err_descr'])
+
+
+
+
 
         st.write("")
 
