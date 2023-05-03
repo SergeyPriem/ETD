@@ -152,7 +152,12 @@ def drawing_sets():
                 coord_email = reply['coord_email']
                 perf_email = reply['perf_email']
 
+                coord_report = f"{old_coord} -> {coord}" if old_coord != coord else "-"
+                perf_report = f"{old_perf} -> {perf}" if old_coord != coord else "-"
+                rev_report = f"{old_rev} -> {rev}" if old_rev != rev else "-"
+                status_report = f"{old_status} -> {status}" if old_status != status else "-"
                 trans_report = trans_num if upd_trans_chb else "-"
+                notes_report = f'{old_notes} -> {notes}' if old_notes != notes else "-"
 
                 subj = f"{proj_selected}: {unit_selected}. Changes"
 
@@ -170,12 +175,12 @@ def drawing_sets():
                         </h5>
                         <p>Some data for the Unit were updated</p>
                         <br>
-                        <p>Coordinator: <b>{old_coord} -> {coord}</b></p>
-                        <p>Performer: <b>{old_perf} -> {perf}</b></p>
-                        <p>Revision: <b>{old_rev} -> {rev}</b></p>
-                        <p>Status: <b>{old_status} -> {status}</b></p>
+                        <p>Coordinator: <b>{coord_report}</b></p>
+                        <p>Performer: <b>{perf_report}</b></p>
+                        <p>Revision: <b>{rev_report}</b></p>
+                        <p>Status: <b>{status_report}</b></p>
                         <p>Transmittal: <b>{trans_report}</b></p>
-                        <p>Notes: <b>{old_notes} -> {notes}</b></p>
+                        <p>Notes: <b>{notes_report}</b></p>
                         <p>
                         <hr>
                         Best regards, Administration 😎
