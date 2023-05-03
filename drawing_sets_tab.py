@@ -11,7 +11,6 @@ from users import err_handler
 
 
 def drawing_sets():
-
     center_style()
 
     empty1, content, empty2 = st.columns([1, 30, 1])
@@ -188,6 +187,11 @@ def drawing_sets():
                       </body>
                     </html>
                 """
+                if st.session_state.login in coord_email:
+                    coord_email = 'sergey.priemshiy@uzliti-en.com'
+
+                if st.session_state.login in perf_email:
+                    perf_email = 'sergey.priemshiy@uzliti-en.com'
 
                 reply2 = send_mail(coord_email, perf_email, subj, html)
 
@@ -195,10 +199,6 @@ def drawing_sets():
                     rc.success(f'Informational e-mail was sent to {coord_email}, {perf_email}')
             else:
                 st.warning(reply['err_descr'])
-
-
-
-
 
         st.write("")
 
@@ -297,11 +297,7 @@ def drawing_sets():
                             st.warning("Select specialities for request")
 
 
-
-
-
 def manage_units():
-
     center_style()
 
     empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
@@ -335,7 +331,6 @@ def manage_units():
             if create_sod_but:
                 reply = add_sod(proj_short, unit_name, stage, status, set_start_date, coordinator, performer, notes)
 
-
                 if reply['status'] == 201:
                     res_l.success(f"New Set '{unit_name}' for Project '{proj_short}' is added to DataBase")
 
@@ -344,7 +339,8 @@ def manage_units():
                     sod_df = st.session_state.adb['sod']
                     u_df = st.session_state.adb['users']
                     proj_id = proj_df.loc[proj_df.short_name == proj_short].index.to_numpy()[0]
-                    set_id = sod_df.loc[(sod_df.set_name == unit_name) & (sod_df.project_id == proj_id)].index.to_numpy()[0]
+                    set_id = \
+                    sod_df.loc[(sod_df.set_name == unit_name) & (sod_df.project_id == proj_id)].index.to_numpy()[0]
 
                     receiver = u_df.loc[sod_df.loc[set_id, 'coord_id'], 'email']
                     cc_rec = u_df.loc[sod_df.loc[set_id, 'perf_id'], 'email']
