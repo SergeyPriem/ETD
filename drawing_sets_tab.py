@@ -159,12 +159,12 @@ def drawing_sets():
                     coord_email = reply['coord_email']
                     perf_email = reply['perf_email']
 
-                    coord_report = f"{old_coord} -> {coord}" if old_coord != coord else "-"
-                    perf_report = f"{old_perf} -> {perf}" if old_perf != perf else "-"
-                    rev_report = f"{old_rev} -> {rev}" if old_rev != rev else "-"
-                    status_report = f"{old_status} -> {status}" if old_status != status else "-"
-                    trans_report = trans_num if upd_trans_chb else "-"
-                    notes_report = f'{old_notes} -> {notes}' if old_notes != notes else "-"
+                    coord_report = f"{old_coord} >> {coord}" if old_coord != coord else "no changes"
+                    perf_report = f"{old_perf} >> {perf}" if old_perf != perf else "no changes"
+                    rev_report = f"{old_rev} >> {rev}" if old_rev != rev else "no changes"
+                    status_report = f"{old_status} >> {status}" if old_status != status else "no changes"
+                    trans_report = trans_num if upd_trans_chb else "no changes"
+                    notes_report = f'{old_notes} >> {notes}' if old_notes != notes else "no changes"
 
                     subj = f"{proj_selected}: {unit_selected}. Changes"
 
