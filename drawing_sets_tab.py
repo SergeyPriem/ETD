@@ -123,7 +123,7 @@ def drawing_sets():
                                   value=old_notes, max_chars=1500, height=127)
             if st.session_state.rights in ['admin', 'super', 'dev']:
                 request_but = l_c.checkbox('Request for Update')
-            upd_unit_but = r_c.form_submit_button("Update Unit Details")
+            upd_unit_but = r_c.form_submit_button("Update Unit Details", use_container_width=True)
 
         if upd_unit_but:
             if not request_but:
