@@ -122,6 +122,8 @@ def drawing_sets():
             r_c.text_area("Notes (existing)", value=old_notes, max_chars=1500, height=127, disabled=True)
             notes = l_c.text_input("Notes (add new one)", max_chars=250)
             if st.session_state.rights in ['admin', 'super', 'dev']:
+                r_c.text('')
+                r_c.text('')
                 request_chb = r_c.checkbox('Request for Update')
                 upd_unit_but = st.form_submit_button("Update Unit Details", use_container_width=True)
             else:
