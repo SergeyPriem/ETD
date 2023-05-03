@@ -122,14 +122,14 @@ def drawing_sets():
             notes = r_c.text_area("Notes (don't delete, just add to previous)",
                                   value=old_notes, max_chars=1500, height=127)
             if st.session_state.rights in ['admin', 'super', 'dev']:
-                request_but = l_c.checkbox('Request for Update')
+                request_chb = l_c.checkbox('Request for Update')
                 upd_unit_but = r_c.form_submit_button("Update Unit Details", use_container_width=True)
             else:
-                request_but = False
+                request_chb = False
                 upd_unit_but = st.form_submit_button("Update Unit Details", use_container_width=True)
 
         if upd_unit_but:
-            if not request_but:
+            if not request_chb:
                 if all([
                     old_coord == coord,
                     old_perf == perf,
@@ -206,12 +206,12 @@ def drawing_sets():
                 else:
                     st.warning(reply['err_descr'])
 
-            if request_but:
+            if request_chb:
 
                 u_df = st.session_state.adb['users']
 
-                coord_email = u_df.loc[u_df.coord_id == coord, 'email']
-                perf_email = u_df.loc[u_df.perf_id == perf, 'email']
+                coord_email = u_df.loc[u_df.login == coord, 'email']
+                perf_email = u_df.loc[u_df.login == perf, 'email']
 
                 st.write(coord_email)
                 st.write(perf_email)
@@ -324,10 +324,10 @@ def drawing_sets():
                                                              num_rows='fixed', key='tasks', disabled=False)
 
                 with but_col:
-                    request_but = st.button('Create Request')
+                    request_chb = st.button('Create Request')
 
                 with request_col:
-                    if request_but:
+                    if request_chb:
                         if len(request_df[request_df.request].index):
                             st.subheader("Draft of e-mail")
                             st.markdown("""<u>Тема:</u>""", unsafe_allow_html=True)
