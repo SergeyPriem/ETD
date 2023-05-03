@@ -12,7 +12,7 @@ from users import err_handler
 
 def drawing_sets():
 
-    # center_style()
+    center_style()
 
     empty1, content, empty2 = st.columns([1, 30, 1])
     with empty1:
