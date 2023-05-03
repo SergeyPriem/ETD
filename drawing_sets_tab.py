@@ -125,6 +125,7 @@ def drawing_sets():
                 request_but = l_c.checkbox('Request for Update')
                 upd_unit_but = r_c.form_submit_button("Update Unit Details", use_container_width=True)
             else:
+                request_but = False
                 upd_unit_but = st.form_submit_button("Update Unit Details", use_container_width=True)
 
         if upd_unit_but:
