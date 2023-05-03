@@ -3,18 +3,10 @@
 
 import streamlit as st
 from models import Project
-from utilities import proj_statuses, center_style
+from utilities import proj_statuses, center_style, get_list_index
 from projects import create_project, get_table, update_projects
 
 from send_emails import send_mail
-
-
-def get_list_index(a_list: list, elem: str) -> int:
-    try:
-        ind = a_list.index(elem)
-        return ind
-    except:
-        return 0
 
 
 def manage_projects():

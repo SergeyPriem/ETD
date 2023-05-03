@@ -127,7 +127,6 @@ def get_logged_rights(login):
             return err_handler(e)
 
 
-
 ##### CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE #################
 def create_appl_user(email, position, branch, access_level, status, start_date, script_acc_init):
     if '@' not in email or len(email) < 12:

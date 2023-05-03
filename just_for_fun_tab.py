@@ -36,27 +36,11 @@ import streamlit as st
 #
 #         emojis = fetch_emojis()
 #         st.table(emojis)
+from utilities import center_style
 
 
 def just_for_fun():
-    st.markdown("""
-        <style>
-            div[data-testid="column"]:nth-of-type(1)
-            {
-                text-align: center;
-            } 
-
-            div[data-testid="column"]:nth-of-type(2)
-            {
-                text-align: center;
-            } 
-
-            div[data-testid="column"]:nth-of-type(3)
-            {
-                text-align: center;
-            } 
-        </style>
-        """, unsafe_allow_html=True)
+    center_style()
 
     fun_1, fun_content, fun_2 = st.columns([1, 9, 1])
     with fun_1:

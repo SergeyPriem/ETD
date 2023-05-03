@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
 import streamlit as st
-
 from utilities import trans_types, get_cur_u_id
-from projects import add_new_trans, get_trans_for_preview
-from users import get_logins_for_current
+from projects import add_new_trans
+
 
 def det_trans_from_df(login=None):
     u_id = get_cur_u_id()
@@ -198,7 +197,6 @@ def transmittals_content():
                 status = "Open"
                 in_out = "In"
 
-
             if st.button('Add to DataBase'):
                 reply = add_new_trans(project, trans_num, ref_trans, t_type, subj, link, trans_date, ans_required,
                                       reply_date, author, responsible, notes, status, in_out)
@@ -225,5 +223,3 @@ def transmittals_content():
                 else:
                     st.info("No Tansmittals in DataBase")
                     st.stop()
-
-

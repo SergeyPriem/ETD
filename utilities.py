@@ -34,6 +34,14 @@ def appearance_settings():
     st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 
+def get_list_index(a_list: list, elem: str) -> int:
+    try:
+        ind = a_list.index(elem)
+        return ind
+    except:
+        return 0
+
+
 def center_style():
     return st.markdown("""
         <style>
