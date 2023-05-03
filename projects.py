@@ -468,7 +468,8 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
                 if upd_trans_chb and trans_num != "Not required":
                     unit.trans_num += f"<{str(trans_num)}>"
 
-                unit.notes = notes
+                if len(notes) > 3:
+                    unit.notes = unit.notes + f"<{datetime.today()}: {notes}>"
                 unit.aux = datetime.today()
 
                 if st.session_state.proj_scope == "All Projects":
