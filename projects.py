@@ -298,7 +298,7 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
                 current_status=status,
                 start_date=set_start_date,
                 notes=notes,
-                aux=f"<{st.session_state.login}*{str(datetime.now())[:-10]}>"
+                aux=datetime.today()
 
             )
 
@@ -463,11 +463,13 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
                 unit.perf_id = Users.get(login=perf)
                 unit.revision = rev
                 unit.current_status = status
+                unit.aux = datetime.today()
 
                 if upd_trans_chb and trans_num != "Not required":
                     unit.trans_num += f"<{str(trans_num)}>"
 
                 unit.notes = notes
+                unit.aux = datetime.today()
 
                 if st.session_state.proj_scope == "All Projects":
                     sod = (select(u for u in SOD)[:])
@@ -499,63 +501,63 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
                     }
 
 
-def get_sets(login):
-    with db_session:
-        try:
-            if login:
-                sods = select(
-                    (
-                        s.id,
-                        s.project_id.short_name,
-                        s.set_name,
-                        s.coord_id.login,
-                        s.perf_id.login,
-                        s.stage,
-                        s.revision,
-                        s.start_date,
-                        s.current_status,
-                        s.trans_num,
-                        s.trans_date,
-                        s.notes
-                    )
-                    for s in SOD
-                    if (s.coord_id == Users.get(login=login) or s.perf_id == Users.get(login=login)))[:]
-            else:
-                sods = select(
-                    (
-                        s.id,
-                        s.project_id.short_name,
-                        s.set_name,
-                        s.coord_id.login,
-                        s.perf_id.login,
-                        s.stage,
-                        s.revision,
-                        s.start_date,
-                        s.current_status,
-                        s.trans_num,
-                        s.trans_date,
-                        s.notes
-                    )
-                    for s in SOD)[:]
-
-            df = pd.DataFrame(sods, columns=[
-                "id",
-                "project",
-                "unit",
-                "coordinator",
-                "performer",
-                "stage",
-                "revision",
-                "start_date",
-                "status",
-                "transmittal",
-                "trans_date",
-                "notes"
-            ])
-
-            return df
-        except Exception as e:
-            return err_handler(e)
+# def get_sets(login):
+#     with db_session:
+#         try:
+#             if login:
+#                 sods = select(
+#                     (
+#                         s.id,
+#                         s.project_id.short_name,
+#                         s.set_name,
+#                         s.coord_id.login,
+#                         s.perf_id.login,
+#                         s.stage,
+#                         s.revision,
+#                         s.start_date,
+#                         s.current_status,
+#                         s.trans_num,
+#                         s.trans_date,
+#                         s.notes
+#                     )
+#                     for s in SOD
+#                     if (s.coord_id == Users.get(login=login) or s.perf_id == Users.get(login=login)))[:]
+#             else:
+#                 sods = select(
+#                     (
+#                         s.id,
+#                         s.project_id.short_name,
+#                         s.set_name,
+#                         s.coord_id.login,
+#                         s.perf_id.login,
+#                         s.stage,
+#                         s.revision,
+#                         s.start_date,
+#                         s.current_status,
+#                         s.trans_num,
+#                         s.trans_date,
+#                         s.notes
+#                     )
+#                     for s in SOD)[:]
+#
+#             df = pd.DataFrame(sods, columns=[
+#                 "id",
+#                 "project",
+#                 "unit",
+#                 "coordinator",
+#                 "performer",
+#                 "stage",
+#                 "revision",
+#                 "start_date",
+#                 "status",
+#                 "transmittal",
+#                 "trans_date",
+#                 "notes"
+#             ])
+#
+#             return df
+#         except Exception as e:
+#             return err_handler(e)
 
 
 def get_own_tasks(set_id):
@@ -884,6 +886,7 @@ def update_unit_name_stage(unit_id, new_name, new_stage):
             unit = SOD[unit_id]
             unit.set_name = new_name
             unit.stage = new_stage
+
 
             if st.session_state.proj_scope == "All Projects":
                 sod = (select(u for u in SOD)[:])
