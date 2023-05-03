@@ -187,6 +187,8 @@ def manage_projects():
                         else:
                             r_rep.warning(reply2)
 
+                        st.experimental_rerun()
+
                     else:
                         st.warning(reply)
 
