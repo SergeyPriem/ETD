@@ -119,12 +119,11 @@ def drawing_sets():
             upd_trans_chb = r_c.checkbox("Add Transmittal")
             r_c.text('')
             trans_num = r_c.selectbox("New Transmittal Number", trans_list)
-            r_c.text_area("Notes (existing)",
-                                  value=old_notes, max_chars=1500, height=127, disabled=True)
-            notes = r_c.text_input("Notes (add new one)", max_chars=250, height=127)
+            r_c.text_area("Notes (existing)", value=old_notes, max_chars=1500, height=127, disabled=True)
+            notes = r_c.text_input("Notes (add new one)", max_chars=250)
             if st.session_state.rights in ['admin', 'super', 'dev']:
                 request_chb = l_c.checkbox('Request for Update')
-                upd_unit_but = r_c.form_submit_button("Update Unit Details", use_container_width=True)
+                upd_unit_but = l_c.form_submit_button("Update Unit Details", use_container_width=True)
             else:
                 request_chb = False
                 upd_unit_but = st.form_submit_button("Update Unit Details", use_container_width=True)
