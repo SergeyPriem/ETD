@@ -121,44 +121,107 @@ def drawing_sets():
             trans_num = r_c.selectbox("New Transmittal Number", trans_list)
             notes = r_c.text_area("Notes (don't delete, just add to previous)",
                                   value=old_notes, max_chars=1500, height=127)
-            upd_unit_but = st.form_submit_button("Update Unit Details")
+            if st.session_state.rights in ['admin', 'super', 'dev']:
+                request_but = st.checkbox('Request for Update')
+            upd_unit_but = r_c.form_submit_button("Update Unit Details")
 
         if upd_unit_but:
-            if all([
-                old_coord == coord,
-                old_perf == perf,
-                old_rev == rev,
-                old_status == status,
-                old_notes == notes,
-                not upd_trans_chb
-            ]):
-                st.warning('Nothing to Update')
-                st.stop()
+            if not request_but:
+                if all([
+                    old_coord == coord,
+                    old_perf == perf,
+                    old_rev == rev,
+                    old_status == status,
+                    old_notes == notes,
+                    not upd_trans_chb
+                ]):
+                    st.warning('Nothing to Update')
+                    st.stop()
 
-            if upd_trans_chb and trans_num == "Not required":
-                st.warning("Select right Transmittal Number")
-                st.stop()
+                if upd_trans_chb and trans_num == "Not required":
+                    st.warning("Select right Transmittal Number")
+                    st.stop()
 
-            reply = update_sod(unit_id, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
+                reply = update_sod(unit_id, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
 
-            if reply['status'] == 201:
+                if reply['status'] == 201:
 
-                lc, rc = st.columns(2, gap='medium')
+                    lc, rc = st.columns(2, gap='medium')
 
-                lc.success("Updated!")
-                st.session_state.adb['sod'] = reply['sod']
+                    lc.success("Updated!")
+                    st.session_state.adb['sod'] = reply['sod']
 
-                coord_email = reply['coord_email']
-                perf_email = reply['perf_email']
+                    coord_email = reply['coord_email']
+                    perf_email = reply['perf_email']
 
-                coord_report = f"{old_coord} -> {coord}" if old_coord != coord else "-"
-                perf_report = f"{old_perf} -> {perf}" if old_perf != perf else "-"
-                rev_report = f"{old_rev} -> {rev}" if old_rev != rev else "-"
-                status_report = f"{old_status} -> {status}" if old_status != status else "-"
-                trans_report = trans_num if upd_trans_chb else "-"
-                notes_report = f'{old_notes} -> {notes}' if old_notes != notes else "-"
+                    coord_report = f"{old_coord} -> {coord}" if old_coord != coord else "-"
+                    perf_report = f"{old_perf} -> {perf}" if old_perf != perf else "-"
+                    rev_report = f"{old_rev} -> {rev}" if old_rev != rev else "-"
+                    status_report = f"{old_status} -> {status}" if old_status != status else "-"
+                    trans_report = trans_num if upd_trans_chb else "-"
+                    notes_report = f'{old_notes} -> {notes}' if old_notes != notes else "-"
 
-                subj = f"{proj_selected}: {unit_selected}. Changes"
+                    subj = f"{proj_selected}: {unit_selected}. Changes"
+
+                    html = f"""
+                        <html>
+                          <head></head>
+                          <body>
+                            <h3>
+                              Hello, Colleague!
+                              <hr>
+                            </h3>
+                            <h5>
+                              You got this message because you are involved in the project : 
+                              <b>{proj_selected}: {unit_selected}</b>
+                            </h5>
+                            <p>Some data for the Unit were updated</p>
+                            <br>
+                            <p>Coordinator: <b>{coord_report}</b></p>
+                            <p>Performer: <b>{perf_report}</b></p>
+                            <p>Revision: <b>{rev_report}</b></p>
+                            <p>Status: <b>{status_report}</b></p>
+                            <p>Transmittal: <b>{trans_report}</b></p>
+                            <p>Notes: <b>{notes_report}</b></p>
+                            <p>
+                            <hr>
+                            Best regards, Administration 😎
+                            </p>
+                          </body>
+                        </html>
+                    """
+                    if st.session_state.login in coord_email:
+                        coord_email = 'sergey.priemshiy@uzliti-en.com'
+
+                    if st.session_state.login in perf_email:
+                        perf_email = 'sergey.priemshiy@uzliti-en.com'
+
+                    reply2 = send_mail(coord_email, perf_email, subj, html)
+
+                    if reply2 == 200:
+                        rc.success(f'Informational e-mail was sent to {coord_email}, {perf_email}')
+                else:
+                    st.warning(reply['err_descr'])
+
+            if request_but:
+
+                u_df = st.session_state.adb['users']
+
+                coord_email = u_df.loc[u_df.coord_id == coord, 'email']
+                perf_email = u_df.loc[u_df.perf_id == perf, 'email']
+
+                st.write(coord_email)
+                st.write(perf_email)
+
+                if '@' not in coord_email:
+                    st.warning("Can't get Coordinator email")
+                    st.stop()
+
+                if '@' not in perf_email:
+                    st.warning("Can't get Performer email")
+                    st.stop()
+
+                subj = f"{proj_selected}: {unit_selected}. Request for Data Update"
 
                 html = f"""
                     <html>
@@ -172,14 +235,12 @@ def drawing_sets():
                           You got this message because you are involved in the project : 
                           <b>{proj_selected}: {unit_selected}</b>
                         </h5>
-                        <p>Some data for the Unit were updated</p>
-                        <br>
-                        <p>Coordinator: <b>{coord_report}</b></p>
-                        <p>Performer: <b>{perf_report}</b></p>
-                        <p>Revision: <b>{rev_report}</b></p>
-                        <p>Status: <b>{status_report}</b></p>
-                        <p>Transmittal: <b>{trans_report}</b></p>
-                        <p>Notes: <b>{notes_report}</b></p>
+                        
+                        <h3>
+                            Please update Unit Details by link:
+                              <a href="https://e-design.streamlit.app/">e-design.streamlit.app</a>
+                        </h3>
+                        
                         <p>
                         <hr>
                         Best regards, Administration 😎
@@ -187,18 +248,13 @@ def drawing_sets():
                       </body>
                     </html>
                 """
-                if st.session_state.login in coord_email:
-                    coord_email = 'sergey.priemshiy@uzliti-en.com'
-
-                if st.session_state.login in perf_email:
-                    perf_email = 'sergey.priemshiy@uzliti-en.com'
 
                 reply2 = send_mail(coord_email, perf_email, subj, html)
 
                 if reply2 == 200:
-                    rc.success(f'Informational e-mail was sent to {coord_email}, {perf_email}')
-            else:
-                st.warning(reply['err_descr'])
+                    lc, rc = st.columns(2, gap='medium')
+                    lc.succes(f'Informational e-mail was sent to {coord_email}, {perf_email}')
+                    rc.button('O K', key='close_request_reply')
 
         st.write("")
 
