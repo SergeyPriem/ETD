@@ -5,18 +5,19 @@ from utilities import trans_types, get_cur_u_id, center_style
 from projects import add_new_trans
 
 
-def check_trans_data(project, trans_num, ref_trans, t_type, subj, link, ans_required,
+def check_trans_data(project, trans_num, ref_trans, t_type, subj, link,
                      author, responsible, in_out):
-    if project == '-- Type right here or select from list --':
+    if project == '-- Type right here or select from list --' or\
+            responsible == '-- Type right here or select from list --':
         st.info('Make proper selection...')
         st.stop()
 
-    variabless = (project, trans_num, ref_trans, t_type, subj, link, ans_required,
-                  author, responsible, in_out)
-    names = ("project", "trans_num", "ref_trans", "t_type", "subj", "link", "ans_required",
-             "author", "responsible", "status", "in_out")
+    variables = (project, trans_num, ref_trans, t_type, subj, link,
+                 author, responsible, in_out)
+    names = ("Project", "Transmittal Number", "In reply to", "Transmittal Type", "Subject", "Link",
+             "Originator of the Transmittal", "responsible", "status", "in_out")
 
-    field_dict = dict(zip(names, variabless))
+    field_dict = dict(zip(names, variables))
 
     check_sum = 0
     for k, v in field_dict.items():
@@ -74,6 +75,9 @@ def transmittals_content():
             proj_list = st.session_state.proj_names
             proj_list.insert(0, '-- Type right here or select from list --')
 
+            responsible_list = st.session_state.appl_logins
+            responsible_list.insert(0, '-- Type right here or select from list --')
+
             with st.form("add_trans"):
                 lc, cc, rc = st.columns([5, 4, 4], gap='medium')
                 project = lc.selectbox("Project", proj_list)
@@ -84,7 +88,7 @@ def transmittals_content():
                 subj = cc.text_input("Subject")
                 ans_required = cc.radio("Reply required", ('Yes', 'No'), horizontal=True)
                 cc.write("")
-                responsible = cc.selectbox("Responsible Employee", st.session_state.appl_logins)
+                responsible = cc.selectbox("Responsible Employee", responsible_list)
                 cc.write("")
                 link = rc.text_input("Link")
                 reply_date = rc.date_input("Due Date")
@@ -165,8 +169,8 @@ def transmittals_content():
 
             if st.button('Add to DataBase'):
 
-                trans_checker = check_trans_data(project, trans_num, ref_trans, t_type, subj, link, ans_required,
-                                                 author, responsible, status)
+                trans_checker = check_trans_data(project, trans_num, ref_trans, t_type, subj, link, author, responsible,
+                                                 status)
 
                 if trans_checker:
 
