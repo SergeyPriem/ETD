@@ -22,7 +22,6 @@ def check_trans_data(project, trans_num, ref_trans, t_type, subj, link,
     check_sum = 0
     for k, v in field_dict.items():
         if len(v) < 2:
-            st.write(f"The field '{k}' is too short...")
             st.markdown(f":red[The field '{k}' is too short...]")
             check_sum += 1
 
@@ -178,7 +177,7 @@ def transmittals_content():
                                           reply_date, author, responsible, notes, status, in_out)
                     st.info(reply)
                 else:
-                    st.warning(trans_checker)
+                    st.warning("Please Update fields properly...")
 
         with view_trans_tab:
             my_all_tr = st.radio("Select the Option", ["My Transmittals", 'All Transmittals'], horizontal=True)
