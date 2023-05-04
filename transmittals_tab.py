@@ -6,13 +6,13 @@ from projects import add_new_trans
 
 
 def check_trans_data(project, trans_num, ref_trans, t_type, subj, link, ans_required,
-                     author, responsible, status, in_out):
+                     author, responsible, in_out):
     if project == '-- Type right here or select from list --':
         st.info('Make proper selection...')
         st.stop()
 
     variabless = (project, trans_num, ref_trans, t_type, subj, link, ans_required,
-                  author, responsible, status, in_out)
+                  author, responsible, in_out)
     names = ("project", "trans_num", "ref_trans", "t_type", "subj", "link", "ans_required",
              "author", "responsible", "status", "in_out")
 
@@ -21,7 +21,8 @@ def check_trans_data(project, trans_num, ref_trans, t_type, subj, link, ans_requ
     check_sum = 0
     for k, v in field_dict.items():
         if len(v) < 2:
-            st.warning(f"The field '{k}' is too short...")
+            st.write(f"The field '{k}' is too short...")
+            st.markdown(f":red[The field '{k}' is too short...]")
             check_sum += 1
 
     if check_sum > 0:
@@ -165,7 +166,7 @@ def transmittals_content():
             if st.button('Add to DataBase'):
 
                 trans_checker = check_trans_data(project, trans_num, ref_trans, t_type, subj, link, ans_required,
-                                                 author, responsible, notes, status)
+                                                 author, responsible, status)
 
                 if trans_checker:
 
