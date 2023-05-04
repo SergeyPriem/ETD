@@ -62,7 +62,7 @@ def transmittals_content():
         with add_trans_tab:
 
             proj_list = st.session_state.proj_names
-            proj_list.insert(0, '-- Type right here --')
+            proj_list.insert(0, '-- Type right here or select from list --')
 
             with st.form("add_trans"):
                 lc, cc, rc = st.columns([5, 4, 4], gap='medium')
