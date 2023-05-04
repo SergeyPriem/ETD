@@ -61,10 +61,12 @@ def transmittals_content():
 
         with add_trans_tab:
 
+            proj_list = st.session_state.proj_names
+            proj_list.insert(0, '-- Type right here --')
+
             with st.form("add_trans"):
                 lc, cc, rc = st.columns([5, 4, 4], gap='medium')
-                project = lc.selectbox("Project",
-                                       st.session_state.proj_names.insert(0, '-- Type first letters right here --'))
+                project = lc.selectbox("Project", proj_list)
                 t_type = lc.radio("Transmittal Type", trans_types, horizontal=True)
                 lc.write("")
                 ref_trans = rc.text_input("In reply to")
