@@ -22,7 +22,7 @@ def check_trans_data(project, trans_num, ref_trans, t_type, subj, link,
     check_sum = 0
     for k, v in field_dict.items():
         if len(v) < 2:
-            st.markdown(f":red[The field '{k}' is too short...]")
+            st.markdown(f"The field :red['{k}'] is too short...")
             check_sum += 1
 
     if check_sum > 0:
