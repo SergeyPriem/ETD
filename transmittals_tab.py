@@ -1,8 +1,28 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
 import streamlit as st
-from utilities import trans_types, get_cur_u_id
+from utilities import trans_types, get_cur_u_id, center_style
 from projects import add_new_trans
+
+
+def check_trans_data(project, trans_num, ref_trans, t_type, subj, link, trans_date, ans_required,
+                     author, responsible, status, in_out):
+    if project == '-- Type right here or select from list --':
+        st.info('Make proper selection...')
+        st.stop()
+
+    check_sum = 0
+    for i in (project, trans_num, ref_trans, t_type, subj, link, trans_date, ans_required,
+              author, responsible, status, in_out):
+
+        if len(i) < 2:
+            st.warning(f"The field '{i}' is too short...")
+            check_sum += 1
+
+    if check_sum > 0:
+        return False
+    else:
+        return True
 
 
 def det_trans_from_df(login=None):
@@ -36,24 +56,8 @@ def transmittals_content():
         st.empty()
 
     with tr_content:
-        st.markdown("""
-            <style>
-                div[data-testid="column"]:nth-of-type(1)
-                {
-                    text-align: center;
-                } 
 
-                div[data-testid="column"]:nth-of-type(2)
-                {
-                    text-align: center;
-                } 
-
-                div[data-testid="column"]:nth-of-type(3)
-                {
-                    text-align: center;
-                } 
-            </style>
-            """, unsafe_allow_html=True)
+        center_style()
 
         st.title(':orange[Transmittals]')
 
@@ -146,7 +150,6 @@ def transmittals_content():
                     st.info('Make proper selection...')
                     st.stop()
 
-
             if t_type == "Design Docs":
                 status = "Issued Docs"
                 in_out = "Out"
@@ -155,14 +158,17 @@ def transmittals_content():
                 in_out = "In"
 
             if st.button('Add to DataBase'):
-                if project != '-- Type right here or select from list --':
+
+                trans_checker = check_trans_data(project, trans_num, ref_trans, t_type, subj, link, trans_date,
+                                                 ans_required, author, responsible, notes, status)
+
+                if trans_checker:
+
                     reply = add_new_trans(project, trans_num, ref_trans, t_type, subj, link, trans_date, ans_required,
                                           reply_date, author, responsible, notes, status, in_out)
-                    # reporter(reply)
                     st.info(reply)
                 else:
-                    st.info('Make proper selection...')
-                    st.stop()
+                    st.warning(trans_checker)
 
         with view_trans_tab:
             my_all_tr = st.radio("Select the Option", ["My Transmittals", 'All Transmittals'], horizontal=True)
