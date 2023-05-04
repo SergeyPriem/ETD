@@ -155,10 +155,14 @@ def transmittals_content():
                 in_out = "In"
 
             if st.button('Add to DataBase'):
-                reply = add_new_trans(project, trans_num, ref_trans, t_type, subj, link, trans_date, ans_required,
-                                      reply_date, author, responsible, notes, status, in_out)
-                # reporter(reply)
-                st.info(reply)
+                if project != '-- Type right here or select from list --':
+                    reply = add_new_trans(project, trans_num, ref_trans, t_type, subj, link, trans_date, ans_required,
+                                          reply_date, author, responsible, notes, status, in_out)
+                    # reporter(reply)
+                    st.info(reply)
+                else:
+                    st.info('Make proper selection...')
+                    st.stop()
 
         with view_trans_tab:
             my_all_tr = st.radio("Select the Option", ["My Transmittals", 'All Transmittals'], horizontal=True)
