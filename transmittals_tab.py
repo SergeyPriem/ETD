@@ -63,7 +63,8 @@ def transmittals_content():
 
             with st.form("add_trans"):
                 lc, cc, rc = st.columns([5, 4, 4], gap='medium')
-                project = lc.selectbox("Project", st.session_state.proj_names)
+                project = lc.selectbox("Project",
+                                       st.session_state.proj_names.insert(0, '-- Type first letters right here --'))
                 t_type = lc.radio("Transmittal Type", trans_types, horizontal=True)
                 lc.write("")
                 ref_trans = rc.text_input("In reply to")
@@ -81,7 +82,7 @@ def transmittals_content():
 
                 add_trans_but = lc.form_submit_button("Preview Transmittal's Data", use_container_width=True)
 
-            if add_trans_but:
+            if add_trans_but and project != '-- Type first letters right here --':
                 l_prev, r_prev = st.columns([1, 8])
 
                 st.markdown("""<style>
@@ -138,57 +139,6 @@ def transmittals_content():
                 </table>
                 """, unsafe_allow_html=True)
 
-                # l_prev.markdown(f"""
-                #             Project:
-                #
-                #             Transmittal Number:
-                #
-                #             In reply to:
-                #
-                #             Transmittal Type:
-                #
-                #             Subject:
-                #
-                #             Link:
-                #
-                #             Transmittal Date:
-                #
-                #             Reply required:
-                #
-                #             Due Date:
-                #
-                #             Originator:
-                #
-                #             Responsible Employee:
-                #
-                #             Notes:
-                #             """)
-                #
-                # r_prev.markdown(f"""
-                #             **:blue[{project}]**
-                #
-                #             **:blue[{trans_num}]**
-                #
-                #             **:blue[{ref_trans}]**
-                #
-                #             **:blue[{t_type}]**
-                #
-                #             **:blue[{subj}]**
-                #
-                #             **:blue[{link}]**
-                #
-                #             **:blue[{trans_date}]**
-                #
-                #             **:blue[{ans_required}]**
-                #
-                #             **:blue[{reply_date}]**
-                #
-                #             **:blue[{author}]**
-                #
-                #             **:blue[{responsible}]**
-                #
-                #             **:blue[{notes}]**
-                #             """)
 
             if t_type == "Design Docs":
                 status = "Issued Docs"
