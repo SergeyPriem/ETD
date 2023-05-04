@@ -86,7 +86,7 @@ def transmittals_content():
 
             if add_trans_but:
                 if project != '-- Type right here or select from list --':
-                    l_prev, r_prev = st.columns([1, 8])
+                    # l_prev, r_prev = st.columns([1, 8])
 
                     st.markdown("""<style>
                                     .task_preview table, tr {
