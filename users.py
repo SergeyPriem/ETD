@@ -144,9 +144,13 @@ def create_appl_user(email, position, branch, access_level, status, start_date, 
                 script_acc=script_acc_init,
                 status=status,
                 start_date=start_date)
-            return f"User {email} is added to Applied Users"
+            return {"status": 201,
+                    "message": f"User {email} is added to Applied Users",
+                    }
         except Exception as e:
-            return err_handler(e)
+            return {"status": 404,
+                    "message": err_handler(e),
+                    }
 
 
 def register_user(name, surname, phone, telegram, login, password):

@@ -645,13 +645,50 @@ def manage_users():
                 r_c.text('')
                 create_appl_user_but = r_c.form_submit_button('Create New User', use_container_width=True)
 
+            lc, rc = st.columns(2, gap='medium')
+
             if create_appl_user_but:
                 script_acc_init = 1 if script_acc_chb_init else 0
                 reply = create_appl_user(
                     user_email, user_position, user_department, user_access_level, "current",
                     user_start_date, script_acc_init)
-                st.info(reply)
-                st.session_state.adb['users'] = get_table(Users)
+                if reply['status'] == 201:
+                    lc.success(reply['message'])
+                    st.session_state.adb['users'] = get_table(Users)
+
+                    subj = 'You were added to Electrical Department Database'
+
+                    html = f"""
+                        <html>
+                          <head></head>
+                          <body>
+                            <h3>
+                              Hello, Colleague!
+                              <hr>
+                            </h3>
+                            <h5>
+                              You got this message because of want to use the <a href="https://e-design.streamlit.app/">
+                              Site of Electrical Department </a>
+                            </h5>
+                            <p>
+                                Now you can register.
+                                <br>
+                                <br>
+                                <hr>
+                                Best regards, Administration 😎
+                            </p>
+                          </body>
+                        </html>
+                    """
+
+                    reply_2 = send_mail(user_email, 'sergey.priemshiy@uzliti-en.com', subj, html)
+
+                    if reply_2 == 200:
+                        rc.write(f'Informational e-mail was sent to {user_email}, sergey.priemshiy@uzliti-en.com')
+                    else:
+                        rc.warning(reply_2)
+                else:
+                    lc.warning(reply['message'])
 
         with users_tab2:
 
