@@ -740,7 +740,7 @@ def manage_users():
 
                     reply = update_users_in_db(employee_to_edit, position, department,
                                                start_date, access_level, script_acc)
-                    st.info(reply)
+                    st.write(reply)
                     st.session_state.adb['users'] = get_table(Users)
 
             if edit_move == 'Move to Former Users':
