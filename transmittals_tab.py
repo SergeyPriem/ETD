@@ -11,12 +11,17 @@ def check_trans_data(project, trans_num, ref_trans, t_type, subj, link, ans_requ
         st.info('Make proper selection...')
         st.stop()
 
-    check_sum = 0
-    for i in (project, trans_num, ref_trans, t_type, subj, link, ans_required,
-              author, responsible, status, in_out):
+    variabless = (project, trans_num, ref_trans, t_type, subj, link, ans_required,
+                  author, responsible, status, in_out)
+    names = ("project", "trans_num", "ref_trans", "t_type", "subj", "link", "ans_required",
+             "author", "responsible", "status", "in_out")
 
-        if len(i) < 2:
-            st.warning(f"The field '{i}' is too short...")
+    field_dict = dict(zip(names, variabless))
+
+    check_sum = 0
+    for k, v in field_dict.items():
+        if len(v) < 2:
+            st.warning(f"The field '{k}' is too short...")
             check_sum += 1
 
     if check_sum > 0:
