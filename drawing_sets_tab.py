@@ -532,6 +532,6 @@ def manage_units():
 
         with tab_preview:
             sod_df = st.session_state.adb['sod']
-            st.write(sod_df)
+            st.dataframe(sod_df,use_container_width=True)
 
             proj_df = st.session_state.adb['project']
