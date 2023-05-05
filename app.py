@@ -476,7 +476,7 @@ def login_register():
                                                   use_container_width=True)
                 if login_but:
                     if login == "-- Type right here or select from list --":
-                        st.warning('Select proper login...')
+                        st.warning('Select proper Login...')
                         st.stop()
 
                     if len(password) < 3:

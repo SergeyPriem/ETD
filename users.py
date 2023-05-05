@@ -14,17 +14,17 @@ def err_handler(e):
     return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
 
-def move_to_former(email, end_date):
+def move_to_former(login, end_date):
     with db_session:
         try:
-            hero = Users[email]
+            hero = Users.get(login=login)
             hero.access_level = 'prohibited'
             hero.status = 'former'
             hero.end_date = end_date
         except Exception as e:
             return err_handler(e)
 
-        return f'''**{email}** moved to Former Users
+        return f'''**{login}** moved to Former Users
         by date **{end_date}**.
         Access status: **:red[{hero.access_level}]**'''
 
