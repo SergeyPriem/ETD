@@ -455,6 +455,7 @@ def manage_units():
             proj_id = proj_df.loc[proj_df.short_name == proj_short].index.to_numpy()[0]
 
             st.write(proj_df)
+            st.write(sod_df)
             u_list = sod_df.loc[sod_df.project_id == proj_id, 'set_name'].tolist()
             st.write(u_list)
 
