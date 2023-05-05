@@ -358,6 +358,22 @@ def manage_units():
     center_style()
 
     u_df = st.session_state.adb['users']
+    proj_df = st.session_state.adb['project']
+    sod_df = st.session_state.adb['sod']
+
+    proj_df.responsible_el = proj_df.responsible_el.apply(lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0])
+
+    sod_df.project_id = sod_df.project_id.apply(
+        lambda x: proj_df.loc[proj_df.index == x, 'short_name'].to_numpy()[0]
+    )
+
+    sod_df.coord_id = sod_df.coord_id.apply(
+        lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
+    )
+
+    sod_df.perf_id = sod_df.perf_id.apply(
+        lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
+    )
 
     empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
 
@@ -372,8 +388,8 @@ def manage_units():
         tab_create, tab_update, tab_preview = st.tabs(['Create New Unit', 'Edit Existing Unit', 'View All Units'])
 
         with tab_create:
-            proj_df = st.session_state.adb['project']
-            sod_df = st.session_state.adb['sod']
+            # proj_df = st.session_state.adb['project']
+            # sod_df = st.session_state.adb['sod']
 
             with st.form('new_sod'):
                 l_c, r_c = st.columns(2, gap='medium')
@@ -445,27 +461,25 @@ def manage_units():
                     st.warning(reply['err_descr'])
 
         with tab_update:
-            proj_df = st.session_state.adb['project']
-            sod_df = st.session_state.adb['sod']
 
             l_c, r_c = st.columns(2, gap='medium')
 
             proj_short = l_c.selectbox('Select Project', st.session_state.proj_names)
 
-            proj_id = proj_df.loc[proj_df.short_name == proj_short].index.to_numpy()[0]
+            # proj_id = proj_df.loc[proj_df.short_name == proj_short].index.to_numpy()[0]
 
             st.write(proj_df)
             st.write(sod_df)
-            u_list = sod_df.loc[sod_df.project_id == proj_id, 'set_name'].tolist()
-            st.write(u_list)
+            unit_list = sod_df.loc[sod_df.project_id == proj_short, 'set_name'].tolist()
+            st.write(unit_list)
 
-            if len(u_list) == 0:
+            if len(unit_list) == 0:
                 r_c.text("")
                 r_c.write("")
                 r_c.warning("No Units available for Selected Project")
                 st.stop()
 
-            unit_name = r_c.selectbox('Select Unit', u_list)
+            unit_name = r_c.selectbox('Select Unit', unit_list)
 
             current_stage = sod_df.loc[sod_df.set_name == unit_name, 'stage'].to_numpy()[0]
 
@@ -477,7 +491,7 @@ def manage_units():
                 upd_unit_but = st.form_submit_button("Update Details for Unit", use_container_width=True)
 
             if upd_unit_but:
-                u_id = sod_df.loc[(sod_df.project_id == proj_id) & (sod_df.set_name == unit_name)].index.to_numpy()[0]
+                u_id = sod_df.loc[(sod_df.project_id == proj_short) & (sod_df.set_name == unit_name)].index.to_numpy()[0]
                 reply = update_unit_name_stage(u_id, new_unit_name, new_stage)
 
                 l_rep, r_rep = st.columns(2, gap='medium')
@@ -532,19 +546,5 @@ def manage_units():
                     st.warning(reply['err_descr'])
 
         with tab_preview:
-            proj_df = st.session_state.adb['project']
-            sod_df = st.session_state.adb['sod']
-
-            sod_df.project_id = sod_df.project_id.apply(
-                lambda x: proj_df.loc[proj_df.index == x, 'short_name'].to_numpy()[0]
-            )
-
-            sod_df.coord_id = sod_df.coord_id.apply(
-                lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
-            )
-
-            sod_df.perf_id = sod_df.perf_id.apply(
-                lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
-            )
 
             st.dataframe(sod_df, use_container_width=True)
