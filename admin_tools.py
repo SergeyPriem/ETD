@@ -21,7 +21,8 @@ def manage_projects():
 
         center_style()
 
-        create_proj_tab, edit_proj_tab, viewer_tab = st.tabs(['Create Project', 'Edit Existing Project', 'View Tables'])
+        create_proj_tab, edit_proj_tab, viewer_tab = st.tabs(['Create Project', 'Edit Existing Project',
+                                                              'View All Projects'])
 
         with create_proj_tab:
             # st.subheader('Add New Project')
@@ -193,29 +194,15 @@ def manage_projects():
                         st.warning(reply)
 
         with viewer_tab:
-            # col_list = ['project', 'sod', 'task', 'trans', 'users']
-            #
-            # cols = st.columns(len(col_list))
-            #
-            # adb = st.session_state.adb
-            # for k, v in enumerate(col_list):
-            #     if cols[k].button(v, use_container_width=True):
-            #         st.subheader(f":blue[Q-ty of Records: {len(adb[v])}]")
-            #         if v == 'users':
-            #             st.experimental_data_editor(adb[v].drop(columns=['hashed_pass']),
-            #                                         use_container_width=True, height=1500)
-            #         else:
-            #             st.experimental_data_editor(adb[v], use_container_width=True, height=1500)
 
             proj_df = st.session_state.adb['project']
-            sod_df = st.session_state.adb['sod']
-            task_df = st.session_state.adb['task']
+            # sod_df = st.session_state.adb['sod']
+            # task_df = st.session_state.adb['task']
             u_df = st.session_state.adb['users']
 
             proj_df = proj_df.merge(u_df.login, how='left', left_on='responsible_el', right_on='id')
             proj_df.responsible_el = proj_df.login
             proj_df.drop(columns=['login'], inplace=True)
 
-            if st.button('Projects'):
-                st.experimental_data_editor(proj_df, use_container_width=True, height=1500)
+            st.experimental_data_editor(proj_df, use_container_width=True, height=1500)
 

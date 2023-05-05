@@ -631,7 +631,8 @@ def manage_users():
     with users_content:
         st.title(':orange[Users]')
 
-        users_tab1, users_tab2 = st.tabs(['Add New User', 'Edit User Details'])
+        users_tab1, users_tab2, users_tab3 = st.tabs(['Add New User', 'Edit User Details', 'View All Users'])
+
         with users_tab1:
             with st.form("Add_new_user"):
                 user_email = st.text_input('Email')
@@ -757,6 +758,11 @@ def manage_users():
                     reply = move_to_former(employee_to_edit, end_date)
                     st.info(reply)
                     st.session_state.adb['users'] = get_table(Users)
+
+        with users_tab3:
+            u_df = st.session_state.adb['users']
+
+            st.experimental_data_editor(u_df, use_container_width=True, height=1500)
 
 
 def fresh_data():
