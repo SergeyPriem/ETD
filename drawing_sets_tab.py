@@ -360,7 +360,7 @@ def manage_units():
     sod_df = st.session_state.adb['sod']
 
     st.write(u_df)
-    st.write(sod_df)
+
 
     # def change_resp(x):
     #     print(x)
@@ -374,17 +374,20 @@ def manage_units():
 
 
     #
-    # sod_df.project_id = sod_df.project_id.apply(
-    #     lambda x: proj_df.loc[proj_df.index == x, 'short_name'].to_numpy()[0]
-    # )
-    #
-    # sod_df.coord_id = sod_df.coord_id.apply(
-    #     lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
-    # )
-    #
-    # sod_df.perf_id = sod_df.perf_id.apply(
-    #     lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
-    # )
+    sod_df.project_id = sod_df.project_id.apply(
+        lambda x: proj_df.loc[proj_df.index == x, 'short_name'].to_numpy()[0]
+    )
+
+    sod_df.coord_id = sod_df.coord_id.apply(
+        lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
+    )
+
+    sod_df.perf_id = sod_df.perf_id.apply(
+        lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
+    )
+
+    st.write(sod_df)
+
     #
     # empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
     #
