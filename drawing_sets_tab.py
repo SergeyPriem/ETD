@@ -11,7 +11,12 @@ from users import err_handler
 
 
 def drawing_sets():
+
     center_style()
+
+    u_df = st.session_state.adb['users']
+    proj_df = st.session_state.adb['project']
+    sod_df = st.session_state.adb['sod']
 
     empty1, content, empty2 = st.columns([1, 30, 1])
     with empty1:
@@ -29,47 +34,44 @@ def drawing_sets():
         my_all = ds_center.radio("Select the Option", ["My Units", 'All Units'],
                                  horizontal=True, label_visibility='collapsed')
 
-        u_df = st.session_state.adb['users']
-        proj_df = st.session_state.adb['project']
-        df = st.session_state.adb['sod']
 
         if my_all == "My Units":
             user_login = st.session_state.login
             user_id = u_df.loc[u_df.login == user_login].index.to_numpy()[0]
-            df = df[(df.coord_id == user_id) | (df.perf_id == user_id)]
+            sod_df = sod_df[(sod_df.coord_id == user_id) | (sod_df.perf_id == user_id)]
 
-        df.loc[:, 'unit_id'] = df.index
-        df = df.set_index('project_id').join(proj_df['short_name'])
-        df = df.set_index('coord_id').join(u_df['login'])
+        sod_df.loc[:, 'unit_id'] = sod_df.index
+        sod_df = sod_df.set_index('project_id').join(proj_df['short_name'])
+        sod_df = sod_df.set_index('coord_id').join(u_df['login'])
 
-        df = df.set_index('perf_id').join(u_df['login'], lsuffix='_coord', rsuffix='_perf')
+        sod_df = sod_df.set_index('perf_id').join(u_df['login'], lsuffix='_coord', rsuffix='_perf')
 
-        df.rename(columns={'short_name': 'project', 'set_name': 'unit',
+        sod_df.rename(columns={'short_name': 'project', 'set_name': 'unit',
                            'login_coord': 'coordinator', 'login_perf': 'performer',
                            'current_status': 'status', 'trans_num': 'transmittal'}, inplace=True)
         #
-        df = df[['unit_id', 'project', 'unit', 'coordinator', 'performer', 'stage', 'revision', 'start_date',
+        sod_df = sod_df[['unit_id', 'project', 'unit', 'coordinator', 'performer', 'stage', 'revision', 'start_date',
                  'status', 'request_date', 'transmittal', 'trans_date', 'notes']]
 
-        proj_list = df['project'].drop_duplicates()
+        proj_list = sod_df['project'].drop_duplicates()
 
-        ds_left.subheader(f"{my_all}: {len(df)}")
+        ds_left.subheader(f"{my_all}: {len(sod_df)}")
 
         ds_rigth.text('')
         units_ch_b = ds_rigth.checkbox("Show Units Table")
 
         if units_ch_b:
-            st.experimental_data_editor(df.set_index('unit_id'), use_container_width=True)
+            st.experimental_data_editor(sod_df.set_index('unit_id'), use_container_width=True)
 
         proj_col, unit_col = st.columns(2, gap='medium')
 
         proj_selected = proj_col.selectbox("Project for Search", proj_list)
 
-        units_list = df[df.project == proj_selected]['unit']
+        units_list = sod_df[sod_df.project == proj_selected]['unit']
 
         unit_selected = unit_col.selectbox("Unit for Search", units_list)
 
-        df_edit = df.loc[(df.unit == unit_selected) & (df.project == proj_selected)]
+        df_edit = sod_df.loc[(sod_df.unit == unit_selected) & (sod_df.project == proj_selected)]
 
         st.divider()
         st.subheader(f"Project: :red[{proj_selected}]")
@@ -84,8 +86,6 @@ def drawing_sets():
         all_logins = st.session_state.adb['users'].login.tolist()
 
         trans_df = st.session_state.adb['trans']
-
-        proj_df = st.session_state.adb['project']
 
         proj_id = proj_df[proj_df.short_name == proj_selected].index.to_numpy()[0]
 
@@ -212,14 +212,9 @@ def drawing_sets():
 
             if request_chb:
 
-                u_df = st.session_state.adb['users']
-
                 coord_email = u_df.loc[u_df.login == coord, 'email'].to_numpy()[0]
                 perf_email = u_df.loc[u_df.login == perf, 'email'].to_numpy()[0]
 
-                # st.write(coord_email)
-                # st.write(perf_email)
-                #
                 if '@' not in coord_email:
                     st.warning("Can't get Coordinator email")
                     st.stop()
@@ -265,7 +260,6 @@ def drawing_sets():
 
         st.write("")
 
-        # units_tasks = get_own_tasks(unit_id) ###
         task_df = st.session_state.adb['task']
 
         spec_df = st.session_state.adb['speciality']
