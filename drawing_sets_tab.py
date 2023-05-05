@@ -11,7 +11,6 @@ from users import err_handler
 
 
 def drawing_sets():
-
     center_style()
 
     u_df = st.session_state.adb['users']
@@ -34,7 +33,6 @@ def drawing_sets():
         my_all = ds_center.radio("Select the Option", ["My Units", 'All Units'],
                                  horizontal=True, label_visibility='collapsed')
 
-
         if my_all == "My Units":
             user_login = st.session_state.login
             user_id = u_df.loc[u_df.login == user_login].index.to_numpy()[0]
@@ -47,11 +45,11 @@ def drawing_sets():
         sod_df = sod_df.set_index('perf_id').join(u_df['login'], lsuffix='_coord', rsuffix='_perf')
 
         sod_df.rename(columns={'short_name': 'project', 'set_name': 'unit',
-                           'login_coord': 'coordinator', 'login_perf': 'performer',
-                           'current_status': 'status', 'trans_num': 'transmittal'}, inplace=True)
+                               'login_coord': 'coordinator', 'login_perf': 'performer',
+                               'current_status': 'status', 'trans_num': 'transmittal'}, inplace=True)
         #
         sod_df = sod_df[['unit_id', 'project', 'unit', 'coordinator', 'performer', 'stage', 'revision', 'start_date',
-                 'status', 'request_date', 'transmittal', 'trans_date', 'notes']]
+                         'status', 'request_date', 'transmittal', 'trans_date', 'notes']]
 
         proj_list = sod_df['project'].drop_duplicates()
 
@@ -361,7 +359,14 @@ def manage_units():
     proj_df = st.session_state.adb['project']
     sod_df = st.session_state.adb['sod']
 
-    proj_df.responsible_el = proj_df.responsible_el.apply(lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0])
+    def change_resp(x):
+        print(x)
+        ret_val = u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
+        return ret_val
+
+    proj_df.responsible_el = proj_df.responsible_el.apply(change_resp)
+
+    # proj_df.responsible_el = proj_df.responsible_el.apply(lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0])
 
     sod_df.project_id = sod_df.project_id.apply(
         lambda x: proj_df.loc[proj_df.index == x, 'short_name'].to_numpy()[0]
@@ -491,7 +496,8 @@ def manage_units():
                 upd_unit_but = st.form_submit_button("Update Details for Unit", use_container_width=True)
 
             if upd_unit_but:
-                u_id = sod_df.loc[(sod_df.project_id == proj_short) & (sod_df.set_name == unit_name)].index.to_numpy()[0]
+                u_id = sod_df.loc[(sod_df.project_id == proj_short) & (sod_df.set_name == unit_name)].index.to_numpy()[
+                    0]
                 reply = update_unit_name_stage(u_id, new_unit_name, new_stage)
 
                 l_rep, r_rep = st.columns(2, gap='medium')
