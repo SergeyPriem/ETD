@@ -403,7 +403,7 @@ def manage_units():
                     u_df = st.session_state.adb['users']
                     proj_id = proj_df.loc[proj_df.short_name == proj_short].index.to_numpy()[0]
                     set_id = \
-                    sod_df.loc[(sod_df.set_name == unit_name) & (sod_df.project_id == proj_id)].index.to_numpy()[0]
+                        sod_df.loc[(sod_df.set_name == unit_name) & (sod_df.project_id == proj_id)].index.to_numpy()[0]
 
                     receiver = u_df.loc[sod_df.loc[set_id, 'coord_id'], 'email']
                     cc_rec = u_df.loc[sod_df.loc[set_id, 'perf_id'], 'email']
@@ -532,6 +532,9 @@ def manage_units():
 
         with tab_preview:
             sod_df = st.session_state.adb['sod']
-            st.dataframe(sod_df,use_container_width=True)
 
             proj_df = st.session_state.adb['project']
+
+            sod_df.project_id.apply(lambda x: proj_df.loc[proj_df.index == x, 'short_name'])
+
+            st.dataframe(sod_df, use_container_width=True)
