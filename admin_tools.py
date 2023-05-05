@@ -214,6 +214,8 @@ def manage_projects():
 
             proj_df = proj_df.merge(u_df.login, how='left', left_on='responsible_el', right_on='id')
 
+            proj_df.responsible_el = proj_df.login
+
             if st.button('Projects'):
                 st.experimental_data_editor(proj_df, use_container_width=True, height=1500)
 
