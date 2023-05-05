@@ -355,9 +355,9 @@ def drawing_sets():
 def manage_units():
     center_style()
 
-    u_df = st.session_state.adb['users']
-    proj_df = st.session_state.adb['project']
-    sod_df = st.session_state.adb['sod']
+    u_df = st.session_state.adb['users'].copy()
+    proj_df = st.session_state.adb['project'].copy()
+    sod_df = st.session_state.adb['sod'].copy()
 
     st.write(u_df)
 
