@@ -463,15 +463,22 @@ def login_register():
         st.write("The Site is designed to help you in everyday routines")
         login_tab, reg_tab = st.tabs(["Log In", 'Registration'])
 
+        reg_logins = st.session_state.registered_logins
+        reg_logins.insert(0, "-- Type right here or select from list --")
+
         with login_tab:
             with st.form('log_in'):
-                login = st.selectbox("Select Your Login", st.session_state.registered_logins,
+                login = st.selectbox("Select Your Login", reg_logins,
                                      disabled=st.session_state.logged)
                 st.write("Not in list? Register first 👆")
                 password = st.text_input('Password', type='password', disabled=st.session_state.logged)
                 login_but = st.form_submit_button('Log In', disabled=st.session_state.logged,
                                                   use_container_width=True)
                 if login_but:
+                    if login == "-- Type right here or select from list --":
+                        st.warning('Select proper login...')
+                        st.stop()
+
                     if len(password) < 3:
                         st.warning("Password should be at least 3 symbols")
                         st.stop()
@@ -495,7 +502,7 @@ def login_register():
 
                         else:
                             st.session_state.logged = False
-                            st.warning('Wrong Password')
+                            st.warning('Wrong Login or Password...')
                             st.session_state.rights = None
                             st.session_state.login = None
 

@@ -5,15 +5,14 @@ from utilities import trans_types, get_cur_u_id, center_style
 from projects import add_new_trans
 
 
-def check_trans_data(project, trans_num, ref_trans, t_type, subj, link,
+def check_trans_data(project, trans_num, t_type, subj, link,
                      author, responsible, in_out):
     if project == '-- Type right here or select from list --' or\
             responsible == '-- Type right here or select from list --':
         st.info('Make proper selection...')
         st.stop()
 
-    variables = (project, trans_num, ref_trans, t_type, subj, link,
-                 author, responsible, in_out)
+    variables = (project, trans_num, t_type, subj, link, author, responsible, in_out)
     names = ("Project", "Transmittal Number", "In reply to", "Transmittal Type", "Subject", "Link",
              "Originator of the Transmittal", "responsible", "status", "in_out")
 
@@ -168,8 +167,7 @@ def transmittals_content():
 
             if st.button('Add to DataBase'):
 
-                trans_checker = check_trans_data(project, trans_num, ref_trans, t_type, subj, link, author, responsible,
-                                                 status)
+                trans_checker = check_trans_data(project, trans_num, t_type, subj, link, author, responsible, status)
 
                 if trans_checker:
 
