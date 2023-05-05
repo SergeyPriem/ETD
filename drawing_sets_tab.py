@@ -372,7 +372,7 @@ def manage_units():
     with content_sets:
         st.title(':orange[Units]')
 
-        tab_create, tab_update = st.tabs(['Create New Unit', 'Edit Existing Unit'])
+        tab_create, tab_update, tab_preview = st.tabs(['Create New Unit', 'Edit Existing Unit', 'View All Units'])
 
         with tab_create:
             with st.form('new_sod'):
@@ -529,3 +529,6 @@ def manage_units():
                         r_rep.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
                 else:
                     st.warning(reply['err_descr'])
+
+        with tab_preview:
+            sod_df = st.session_state.adb['sod']
