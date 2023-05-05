@@ -99,20 +99,6 @@ def get_table(table_name):
             return err_handler(e)
 
 
-# def get_proj_table():
-#     with db_session:
-#         try:
-#             if st.session_state.proj_scope == "All Projects":
-#                 proj = select(u for u in Project)[:]
-#             if st.session_state.proj_scope == "Only Current Projects":
-#                 proj = select(u for u in Project if u.status in ['current', 'perspective', 'final stage'])[:]
-#             if st.session_state.proj_scope == "All excluding cancelled and suspended":
-#                 proj = select(u for u in Project if u.status not in ['suspended', 'cancelled'])[:]
-#             return tab_to_df(proj)
-#         except Exception as e:
-#             return err_handler(e)
-
-
 @st.cache_data(ttl=300, show_spinner='Getting Data from DB...')
 def get_tasks(user=None):
     # print(email)
@@ -503,7 +489,7 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
                     }
 
 
-# def get_sets(login):
+# def get_sets():
 #     with db_session:
 #         try:
 #             if login:
@@ -910,3 +896,4 @@ def update_unit_name_stage(unit_id, new_name, new_stage):
                     'sod': None,
                     'err_descr': err_handler(e),
                     }
+

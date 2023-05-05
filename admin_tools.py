@@ -193,16 +193,27 @@ def manage_projects():
                         st.warning(reply)
 
         with viewer_tab:
-            col_list = ['project', 'sod', 'task', 'trans', 'users']
+            # col_list = ['project', 'sod', 'task', 'trans', 'users']
+            #
+            # cols = st.columns(len(col_list))
+            #
+            # adb = st.session_state.adb
+            # for k, v in enumerate(col_list):
+            #     if cols[k].button(v, use_container_width=True):
+            #         st.subheader(f":blue[Q-ty of Records: {len(adb[v])}]")
+            #         if v == 'users':
+            #             st.experimental_data_editor(adb[v].drop(columns=['hashed_pass']),
+            #                                         use_container_width=True, height=1500)
+            #         else:
+            #             st.experimental_data_editor(adb[v], use_container_width=True, height=1500)
 
-            cols = st.columns(len(col_list))
+            proj_df = st.session_state.adb['project']
+            sod_df = st.session_state.adb['sod']
+            task_df = st.session_state.adb['task']
+            u_df = st.session_state.adb['users']
 
-            adb = st.session_state.adb
-            for k, v in enumerate(col_list):
-                if cols[k].button(v, use_container_width=True):
-                    st.subheader(f":blue[Q-ty of Records: {len(adb[v])}]")
-                    if v == 'users':
-                        st.experimental_data_editor(adb[v].drop(columns=['hashed_pass']),
-                                                    use_container_width=True, height=1500)
-                    else:
-                        st.experimental_data_editor(adb[v], use_container_width=True, height=1500)
+            proj_df.responsible_el = u_df.loc[u_df.id == proj_df.responsible_el, 'login']
+
+            if st.button('Projects'):
+                st.experimental_data_editor(proj_df, use_container_width=True, height=1500)
+
