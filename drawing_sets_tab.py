@@ -365,17 +365,16 @@ def manage_units():
 
     proj_df.responsible_el = proj_df.responsible_el.apply(change_resp)
 
+    def change_sod_resp(x):
+        return u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
+
     sod_df.project_id = sod_df.project_id.apply(
         lambda x: proj_df.loc[proj_df.index == x, 'short_name'].to_numpy()[0]
     )
 
-    sod_df.coord_id = sod_df.coord_id.apply(
-        lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
-    )
+    sod_df.coord_id = sod_df.coord_id.apply(change_sod_resp)
 
-    sod_df.perf_id = sod_df.perf_id.apply(
-        lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
-    )
+    sod_df.perf_id = sod_df.perf_id.apply(change_sod_resp)
 
     st.text(datetime.datetime.now() - start_time)
     empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
