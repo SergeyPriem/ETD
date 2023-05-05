@@ -401,8 +401,9 @@ def manage_units():
                     # sod_df = st.session_state.adb['sod']
                     # u_df = st.session_state.adb['users']
                     proj_id = proj_df.loc[proj_df.short_name == proj_short].index.to_numpy()[0]
-                    set_id = \
-                        sod_df.loc[(sod_df.set_name == unit_name) & (sod_df.project_id == proj_id)].index.to_numpy()[0]
+                    set_id = sod_df.loc[
+                        (sod_df.set_name == unit_name) & (sod_df.project_id == proj_id)
+                        ].index.to_numpy()[0]
 
                     receiver = u_df.loc[sod_df.loc[set_id, 'coord_id'], 'email']
                     cc_rec = u_df.loc[sod_df.loc[set_id, 'perf_id'], 'email']
@@ -452,7 +453,9 @@ def manage_units():
 
             proj_id = proj_df.loc[proj_df.short_name == proj_short].index.to_numpy()[0]
 
+            st.write(proj_df)
             u_list = sod_df.loc[sod_df.project_id == proj_id, 'set_name'].tolist()
+            st.write(u_list)
 
             if len(u_list) == 0:
                 r_c.text("")
