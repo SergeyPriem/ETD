@@ -359,198 +359,202 @@ def manage_units():
     proj_df = st.session_state.adb['project']
     sod_df = st.session_state.adb['sod']
 
-    def change_resp(x):
-        print(x)
-        ret_val = u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
-        return ret_val
+    st.write(u_df)
+    st.write(proj_df)
+    st.write(sod_df)
 
-    proj_df.responsible_el = proj_df.responsible_el.apply(change_resp)
-
-    # proj_df.responsible_el = proj_df.responsible_el.apply(lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0])
-
-    sod_df.project_id = sod_df.project_id.apply(
-        lambda x: proj_df.loc[proj_df.index == x, 'short_name'].to_numpy()[0]
-    )
-
-    sod_df.coord_id = sod_df.coord_id.apply(
-        lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
-    )
-
-    sod_df.perf_id = sod_df.perf_id.apply(
-        lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
-    )
-
-    empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
-
-    with empty_sets_1:
-        st.empty()
-    with empty_sets_2:
-        st.empty()
-
-    with content_sets:
-        st.title(':orange[Units]')
-
-        tab_create, tab_update, tab_preview = st.tabs(['Create New Unit', 'Edit Existing Unit', 'View All Units'])
-
-        with tab_create:
-            # proj_df = st.session_state.adb['project']
-            # sod_df = st.session_state.adb['sod']
-
-            with st.form('new_sod'):
-                l_c, r_c = st.columns(2, gap='medium')
-                proj_short = l_c.selectbox('Select a Project', st.session_state.proj_names)
-                unit_name = r_c.text_input("Enter the Name for new Set of Drawings / Unit", max_chars=200).strip()
-                coordinator = l_c.selectbox("Coordinator", st.session_state.appl_logins)
-                performer = r_c.selectbox("Performer", st.session_state.appl_logins)
-                set_start_date = l_c.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
-                r_c.text('')
-                stage = r_c.radio("Select the Stage", stages, horizontal=True)
-                r_c.text('')
-                status = r_c.select_slider("Select the Current Status", sod_statuses, value='0%')
-                notes = l_c.text_area("Add Notes", max_chars=500, height=120).strip()
-                create_sod_but = r_c.form_submit_button("Create", use_container_width=True)
-
-            res_l, res_r = st.columns(2, gap='medium')
-
-            if create_sod_but:
-                reply = add_sod(proj_short, unit_name, stage, status, set_start_date, coordinator, performer, notes)
-
-                if reply['status'] == 201:
-                    res_l.success(f"New Set '{unit_name}' for Project '{proj_short}' is added to DataBase")
-
-                    st.session_state.adb['sod'] = reply['sod']
-                    proj_id = proj_df.loc[proj_df.short_name == proj_short].index.to_numpy()[0]
-                    set_id = sod_df.loc[
-                        (sod_df.set_name == unit_name) & (sod_df.project_id == proj_id)
-                        ].index.to_numpy()[0]
-
-                    receiver = u_df.loc[sod_df.loc[set_id, 'coord_id'], 'email']
-                    cc_rec = u_df.loc[sod_df.loc[set_id, 'perf_id'], 'email']
-
-                    cur_user_email = u_df.loc[u_df.login == st.session_state.login, 'email'].to_numpy()[0]
-
-                    subj = f"{proj_short}: {unit_name}. New Unit | Новый комплект чертежей"
-
-                    html = f"""
-                        <html>
-                          <head></head>
-                          <body>
-                            <h3>
-                              Hello, Colleague!
-                              <hr>
-                            </h3>
-                            <h5>
-                              You got this message because you are responsible for New Unit: 
-                              <b>{proj_short}: {unit_name}</b>
-                            </h5>
-                            <p>
-                            <hr>
-                            Best regards, Administration 😎
-                            </p>
-                          </body>
-                        </html>
-                    """
-
-                    if receiver == cc_rec:
-                        cc_rec = 'sergey.priemshiy@uzliti-en.com'
-
-                    if receiver == cur_user_email:
-                        receiver = 'sergey.priemshiy@uzliti-en.com'
-
-                    reply_2 = send_mail(receiver, cc_rec, subj, html)
-
-                    if reply_2 == 200:
-                        res_r.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
-
-                else:
-                    st.warning(reply['err_descr'])
-
-        with tab_update:
-
-            l_c, r_c = st.columns(2, gap='medium')
-
-            proj_short = l_c.selectbox('Select Project', st.session_state.proj_names)
-
-            # proj_id = proj_df.loc[proj_df.short_name == proj_short].index.to_numpy()[0]
-
-            st.write(proj_df)
-            st.write(sod_df)
-            unit_list = sod_df.loc[sod_df.project_id == proj_short, 'set_name'].tolist()
-            st.write(unit_list)
-
-            if len(unit_list) == 0:
-                r_c.text("")
-                r_c.write("")
-                r_c.warning("No Units available for Selected Project")
-                st.stop()
-
-            unit_name = r_c.selectbox('Select Unit', unit_list)
-
-            current_stage = sod_df.loc[sod_df.set_name == unit_name, 'stage'].to_numpy()[0]
-
-            with st.form('update_unit'):
-                lc, rc = st.columns(2, gap='medium')
-                new_unit_name = lc.text_input('New Name for Unit', value=unit_name)
-                new_stage = rc.selectbox("New Stage for Unit", stages, index=get_list_index(stages, current_stage))
-
-                upd_unit_but = st.form_submit_button("Update Details for Unit", use_container_width=True)
-
-            if upd_unit_but:
-                u_id = sod_df.loc[(sod_df.project_id == proj_short) & (sod_df.set_name == unit_name)].index.to_numpy()[
-                    0]
-                reply = update_unit_name_stage(u_id, new_unit_name, new_stage)
-
-                l_rep, r_rep = st.columns(2, gap='medium')
-
-                if reply['status'] == 201:
-                    st.session_state.adb['sod'] = reply['sod']
-
-                    l_rep.success('Unit Details Updated')
-
-                    subj = f"{proj_short}: {unit_name}. Changes"
-
-                    html = f"""
-                        <html>
-                          <head></head>
-                          <body>
-                            <h3>
-                              Hello, Colleague!
-                              <hr>
-                            </h3>
-                            <h5>
-                              You got this message because you are involved in the project : 
-                              <b>{proj_short}</b>
-                            </h5>
-                            <p>Some data for the Project were updated</p>
-                            <br>
-                            <p>Project short name: <b>{proj_short}</b></p>
-                            <p>Old Unit name: <b>{unit_name}</b></p>
-                            <p>New Unit Name: <b>{new_unit_name}</b></p>
-                            <p>Old Project Stage: <b>{current_stage}</b></p>
-                            <p>New Project Stage: <b>{new_stage}</b></p>
-                            <p>
-                            <hr>
-                            Best regards, Administration 😎
-                            </p>
-                          </body>
-                        </html>
-                    """
-
-                    u_df = st.session_state.adb['users']
-
-                    receiver = u_df.loc[sod_df.loc[u_id, 'coord_id'], 'email']
-                    cc_rec = u_df.loc[sod_df.loc[u_id, 'perf_id'], 'email']
-
-                    if receiver == cc_rec:
-                        cc_rec = 'sergey.priemshiy@uzliti-en.com'
-
-                    reply2 = send_mail(receiver, cc_rec, subj, html)
-
-                    if reply2 == 200:
-                        r_rep.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
-                else:
-                    st.warning(reply['err_descr'])
-
-        with tab_preview:
-
-            st.dataframe(sod_df, use_container_width=True)
+    # def change_resp(x):
+    #     print(x)
+    #     ret_val = u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
+    #     return ret_val
+    #
+    # proj_df.responsible_el = proj_df.responsible_el.apply(change_resp)
+    #
+    # # proj_df.responsible_el = proj_df.responsible_el.apply(lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0])
+    #
+    # sod_df.project_id = sod_df.project_id.apply(
+    #     lambda x: proj_df.loc[proj_df.index == x, 'short_name'].to_numpy()[0]
+    # )
+    #
+    # sod_df.coord_id = sod_df.coord_id.apply(
+    #     lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
+    # )
+    #
+    # sod_df.perf_id = sod_df.perf_id.apply(
+    #     lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
+    # )
+    #
+    # empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
+    #
+    # with empty_sets_1:
+    #     st.empty()
+    # with empty_sets_2:
+    #     st.empty()
+    #
+    # with content_sets:
+    #     st.title(':orange[Units]')
+    #
+    #     tab_create, tab_update, tab_preview = st.tabs(['Create New Unit', 'Edit Existing Unit', 'View All Units'])
+    #
+    #     with tab_create:
+    #         # proj_df = st.session_state.adb['project']
+    #         # sod_df = st.session_state.adb['sod']
+    #
+    #         with st.form('new_sod'):
+    #             l_c, r_c = st.columns(2, gap='medium')
+    #             proj_short = l_c.selectbox('Select a Project', st.session_state.proj_names)
+    #             unit_name = r_c.text_input("Enter the Name for new Set of Drawings / Unit", max_chars=200).strip()
+    #             coordinator = l_c.selectbox("Coordinator", st.session_state.appl_logins)
+    #             performer = r_c.selectbox("Performer", st.session_state.appl_logins)
+    #             set_start_date = l_c.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
+    #             r_c.text('')
+    #             stage = r_c.radio("Select the Stage", stages, horizontal=True)
+    #             r_c.text('')
+    #             status = r_c.select_slider("Select the Current Status", sod_statuses, value='0%')
+    #             notes = l_c.text_area("Add Notes", max_chars=500, height=120).strip()
+    #             create_sod_but = r_c.form_submit_button("Create", use_container_width=True)
+    #
+    #         res_l, res_r = st.columns(2, gap='medium')
+    #
+    #         if create_sod_but:
+    #             reply = add_sod(proj_short, unit_name, stage, status, set_start_date, coordinator, performer, notes)
+    #
+    #             if reply['status'] == 201:
+    #                 res_l.success(f"New Set '{unit_name}' for Project '{proj_short}' is added to DataBase")
+    #
+    #                 st.session_state.adb['sod'] = reply['sod']
+    #                 proj_id = proj_df.loc[proj_df.short_name == proj_short].index.to_numpy()[0]
+    #                 set_id = sod_df.loc[
+    #                     (sod_df.set_name == unit_name) & (sod_df.project_id == proj_id)
+    #                     ].index.to_numpy()[0]
+    #
+    #                 receiver = u_df.loc[sod_df.loc[set_id, 'coord_id'], 'email']
+    #                 cc_rec = u_df.loc[sod_df.loc[set_id, 'perf_id'], 'email']
+    #
+    #                 cur_user_email = u_df.loc[u_df.login == st.session_state.login, 'email'].to_numpy()[0]
+    #
+    #                 subj = f"{proj_short}: {unit_name}. New Unit | Новый комплект чертежей"
+    #
+    #                 html = f"""
+    #                     <html>
+    #                       <head></head>
+    #                       <body>
+    #                         <h3>
+    #                           Hello, Colleague!
+    #                           <hr>
+    #                         </h3>
+    #                         <h5>
+    #                           You got this message because you are responsible for New Unit:
+    #                           <b>{proj_short}: {unit_name}</b>
+    #                         </h5>
+    #                         <p>
+    #                         <hr>
+    #                         Best regards, Administration 😎
+    #                         </p>
+    #                       </body>
+    #                     </html>
+    #                 """
+    #
+    #                 if receiver == cc_rec:
+    #                     cc_rec = 'sergey.priemshiy@uzliti-en.com'
+    #
+    #                 if receiver == cur_user_email:
+    #                     receiver = 'sergey.priemshiy@uzliti-en.com'
+    #
+    #                 reply_2 = send_mail(receiver, cc_rec, subj, html)
+    #
+    #                 if reply_2 == 200:
+    #                     res_r.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
+    #
+    #             else:
+    #                 st.warning(reply['err_descr'])
+    #
+    #     with tab_update:
+    #
+    #         l_c, r_c = st.columns(2, gap='medium')
+    #
+    #         proj_short = l_c.selectbox('Select Project', st.session_state.proj_names)
+    #
+    #         # proj_id = proj_df.loc[proj_df.short_name == proj_short].index.to_numpy()[0]
+    #
+    #         st.write(proj_df)
+    #         st.write(sod_df)
+    #         unit_list = sod_df.loc[sod_df.project_id == proj_short, 'set_name'].tolist()
+    #         st.write(unit_list)
+    #
+    #         if len(unit_list) == 0:
+    #             r_c.text("")
+    #             r_c.write("")
+    #             r_c.warning("No Units available for Selected Project")
+    #             st.stop()
+    #
+    #         unit_name = r_c.selectbox('Select Unit', unit_list)
+    #
+    #         current_stage = sod_df.loc[sod_df.set_name == unit_name, 'stage'].to_numpy()[0]
+    #
+    #         with st.form('update_unit'):
+    #             lc, rc = st.columns(2, gap='medium')
+    #             new_unit_name = lc.text_input('New Name for Unit', value=unit_name)
+    #             new_stage = rc.selectbox("New Stage for Unit", stages, index=get_list_index(stages, current_stage))
+    #
+    #             upd_unit_but = st.form_submit_button("Update Details for Unit", use_container_width=True)
+    #
+    #         if upd_unit_but:
+    #             u_id = sod_df.loc[(sod_df.project_id == proj_short) & (sod_df.set_name == unit_name)].index.to_numpy()[
+    #                 0]
+    #             reply = update_unit_name_stage(u_id, new_unit_name, new_stage)
+    #
+    #             l_rep, r_rep = st.columns(2, gap='medium')
+    #
+    #             if reply['status'] == 201:
+    #                 st.session_state.adb['sod'] = reply['sod']
+    #
+    #                 l_rep.success('Unit Details Updated')
+    #
+    #                 subj = f"{proj_short}: {unit_name}. Changes"
+    #
+    #                 html = f"""
+    #                     <html>
+    #                       <head></head>
+    #                       <body>
+    #                         <h3>
+    #                           Hello, Colleague!
+    #                           <hr>
+    #                         </h3>
+    #                         <h5>
+    #                           You got this message because you are involved in the project :
+    #                           <b>{proj_short}</b>
+    #                         </h5>
+    #                         <p>Some data for the Project were updated</p>
+    #                         <br>
+    #                         <p>Project short name: <b>{proj_short}</b></p>
+    #                         <p>Old Unit name: <b>{unit_name}</b></p>
+    #                         <p>New Unit Name: <b>{new_unit_name}</b></p>
+    #                         <p>Old Project Stage: <b>{current_stage}</b></p>
+    #                         <p>New Project Stage: <b>{new_stage}</b></p>
+    #                         <p>
+    #                         <hr>
+    #                         Best regards, Administration 😎
+    #                         </p>
+    #                       </body>
+    #                     </html>
+    #                 """
+    #
+    #                 u_df = st.session_state.adb['users']
+    #
+    #                 receiver = u_df.loc[sod_df.loc[u_id, 'coord_id'], 'email']
+    #                 cc_rec = u_df.loc[sod_df.loc[u_id, 'perf_id'], 'email']
+    #
+    #                 if receiver == cc_rec:
+    #                     cc_rec = 'sergey.priemshiy@uzliti-en.com'
+    #
+    #                 reply2 = send_mail(receiver, cc_rec, subj, html)
+    #
+    #                 if reply2 == 200:
+    #                     r_rep.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
+    #             else:
+    #                 st.warning(reply['err_descr'])
+    #
+    #     with tab_preview:
+    #
+    #         st.dataframe(sod_df, use_container_width=True)
