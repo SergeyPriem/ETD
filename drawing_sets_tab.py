@@ -360,7 +360,6 @@ def manage_units():
     sod_df = st.session_state.adb['sod']
 
     st.write(u_df)
-    st.write(proj_df)
     st.write(sod_df)
 
     # def change_resp(x):
@@ -370,7 +369,10 @@ def manage_units():
     #
     # proj_df.responsible_el = proj_df.responsible_el.apply(change_resp)
     #
-    # # proj_df.responsible_el = proj_df.responsible_el.apply(lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0])
+    proj_df.responsible_el = proj_df.responsible_el.apply(lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0])
+    st.write(proj_df)
+
+
     #
     # sod_df.project_id = sod_df.project_id.apply(
     #     lambda x: proj_df.loc[proj_df.index == x, 'short_name'].to_numpy()[0]
