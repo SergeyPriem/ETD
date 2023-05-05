@@ -532,11 +532,19 @@ def manage_units():
 
         with tab_preview:
             sod_df = st.session_state.adb['sod']
-
+            u_df = st.session_state.adb['users']
             proj_df = st.session_state.adb['project']
 
             sod_df.project_id = sod_df.project_id.apply(
                 lambda x: proj_df.loc[proj_df.index == x, 'short_name'].to_numpy()[0]
+            )
+
+            sod_df.coord_id = sod_df.coord_id.apply(
+                lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
+            )
+
+            sod_df.perf_id = sod_df.perf_id.apply(
+                lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
             )
 
             st.dataframe(sod_df, use_container_width=True)
