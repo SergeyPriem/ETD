@@ -370,6 +370,8 @@ def manage_units():
     # proj_df.responsible_el = proj_df.responsible_el.apply(change_resp)
     #
     # proj_df.responsible_el = proj_df.responsible_el.apply(lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0])
+    st.write(st.session_state.adb['project'])
+    st.divider()
     st.write(proj_df)
 
 
