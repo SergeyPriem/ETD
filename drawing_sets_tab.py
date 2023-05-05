@@ -357,8 +357,6 @@ def drawing_sets():
 def manage_units():
     center_style()
 
-    proj_df = st.session_state.adb['project']
-    sod_df = st.session_state.adb['sod']
     u_df = st.session_state.adb['users']
 
     empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
@@ -374,6 +372,9 @@ def manage_units():
         tab_create, tab_update, tab_preview = st.tabs(['Create New Unit', 'Edit Existing Unit', 'View All Units'])
 
         with tab_create:
+            proj_df = st.session_state.adb['project']
+            sod_df = st.session_state.adb['sod']
+
             with st.form('new_sod'):
                 l_c, r_c = st.columns(2, gap='medium')
                 proj_short = l_c.selectbox('Select a Project', st.session_state.proj_names)
@@ -397,9 +398,6 @@ def manage_units():
                     res_l.success(f"New Set '{unit_name}' for Project '{proj_short}' is added to DataBase")
 
                     st.session_state.adb['sod'] = reply['sod']
-                    # proj_df = st.session_state.adb['project']
-                    # sod_df = st.session_state.adb['sod']
-                    # u_df = st.session_state.adb['users']
                     proj_id = proj_df.loc[proj_df.short_name == proj_short].index.to_numpy()[0]
                     set_id = sod_df.loc[
                         (sod_df.set_name == unit_name) & (sod_df.project_id == proj_id)
@@ -447,6 +445,9 @@ def manage_units():
                     st.warning(reply['err_descr'])
 
         with tab_update:
+            proj_df = st.session_state.adb['project']
+            sod_df = st.session_state.adb['sod']
+
             l_c, r_c = st.columns(2, gap='medium')
 
             proj_short = l_c.selectbox('Select Project', st.session_state.proj_names)
@@ -530,6 +531,8 @@ def manage_units():
                     st.warning(reply['err_descr'])
 
         with tab_preview:
+            proj_df = st.session_state.adb['project']
+            sod_df = st.session_state.adb['sod']
 
             sod_df.project_id = sod_df.project_id.apply(
                 lambda x: proj_df.loc[proj_df.index == x, 'short_name'].to_numpy()[0]
