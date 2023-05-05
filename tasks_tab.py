@@ -3,7 +3,7 @@
 import streamlit as st
 
 from models import Task
-from utilities import get_cur_u_id
+from utilities import get_cur_u_id, center_style
 from projects import add_in_to_db, add_out_to_db, get_table
 from send_emails import send_mail
 
@@ -13,24 +13,8 @@ def disable_add_task(cur_stat):
 
 
 def tasks_content():
-    st.markdown("""
-        <style>
-            div[data-testid="column"]:nth-of-type(1)
-            {
-                text-align: center;
-            } 
 
-            div[data-testid="column"]:nth-of-type(2)
-            {
-                text-align: center;
-            } 
-
-            div[data-testid="column"]:nth-of-type(3)
-            {
-                text-align: center;
-            } 
-        </style>
-        """, unsafe_allow_html=True)
+    center_style()
 
     task_l, task_cont, task_r = st.columns([1, 15, 1])
     with task_l:
@@ -338,5 +322,5 @@ def view_tasks(ass_tab2, my_all):
                 df_orig = df_orig.loc[df_temp.unit.str.contains(set_val.upper())]
 
         df_orig.sort_values(by=['task_id'], ascending=False)
-        st.write(f"{len(df_orig)} records found")
+        st.write(f"{len(df_orig)} records found for '{st.session_state.proj_scope}' mode")
         st.experimental_data_editor(df_orig, use_container_width=True)
