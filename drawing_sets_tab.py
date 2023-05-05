@@ -364,6 +364,11 @@ def manage_units():
     center_style()
 
     empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
+
+    proj_df = st.session_state.adb['project']
+    sod_df = st.session_state.adb['sod']
+    u_df = st.session_state.adb['users']
+
     with empty_sets_1:
         st.empty()
     with empty_sets_2:
@@ -451,10 +456,7 @@ def manage_units():
 
             proj_short = l_c.selectbox('Select Project', st.session_state.proj_names)
 
-            proj_df = st.session_state.adb['project']
             proj_id = proj_df.loc[proj_df.short_name == proj_short].index.to_numpy()[0]
-
-            sod_df = st.session_state.adb['sod']
 
             u_list = sod_df.loc[sod_df.project_id == proj_id, 'set_name'].tolist()
 
@@ -531,9 +533,6 @@ def manage_units():
                     st.warning(reply['err_descr'])
 
         with tab_preview:
-            sod_df = st.session_state.adb['sod']
-            u_df = st.session_state.adb['users']
-            proj_df = st.session_state.adb['project']
 
             sod_df.project_id = sod_df.project_id.apply(
                 lambda x: proj_df.loc[proj_df.index == x, 'short_name'].to_numpy()[0]
