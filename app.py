@@ -793,7 +793,7 @@ def manage_storage():
             for entry in entries:
                 lc.button(f"Delete: {entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB",
                           use_container_width=True, type='primary',
-                          on_click=prepare_to_del, args=(entry.name,))
+                          on_click=prepare_to_del, args=(entry.name,lc,rc))
 
                 rc.button(f"Download: {entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB",
                           use_container_width=True, on_click=download_file, args=(entry.name, rc))
@@ -811,12 +811,13 @@ def download_file(file_name, rc):
         st.warning('File Does Not Exist')
 
 
-def prepare_to_del(file_to_del):
+def prepare_to_del(file_to_del, lc, rc):
     if os.path.exists(f"temp_dxf/{file_to_del}"):
         if file_to_del != 'info.txt':
             st.session_state.del_conf = file_to_del
         else:
-            st.warning("Ups...Protected file!")
+            lc.warning("Ups...Protected file!")
+            rc.button("OK", key='close_protected_label')
 
 
 def del_file(lc, rc):
