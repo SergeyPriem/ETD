@@ -61,6 +61,7 @@ def settings_content():
             if scope_conf_but:
                 st.session_state.proj_scope = scope
                 st.session_state.adb = get_all()
+                st.experimental_rerun()
 
         with change_pass_tab:
             with st.form("UpData"):
