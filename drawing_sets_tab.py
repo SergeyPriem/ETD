@@ -354,6 +354,8 @@ def drawing_sets():
 def manage_units():
     center_style()
 
+    start_time = datetime.now()
+
     u_df = st.session_state.adb['users'].copy()
     proj_df = st.session_state.adb['project'].copy()
     sod_df = st.session_state.adb['sod'].copy()
@@ -372,8 +374,7 @@ def manage_units():
         lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
     )
 
-
-
+    st.text(datetime.now() - start_time)
     empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
 
     with empty_sets_1:
