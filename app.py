@@ -100,6 +100,8 @@ def show_duration():
 
             st.sidebar.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>{delta[:-3]} s.</h3>",
                                 unsafe_allow_html=True)
+
+            st.sidebar.write(st.experimental_get_query_params())
     pass
 
 
