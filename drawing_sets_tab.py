@@ -358,8 +358,6 @@ def manage_units():
     proj_df = st.session_state.adb['project'].copy()
     sod_df = st.session_state.adb['sod'].copy()
 
-    st.write(u_df)
-
     proj_df.responsible_el = proj_df.responsible_el.apply(lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0])
 
     sod_df.project_id = sod_df.project_id.apply(
