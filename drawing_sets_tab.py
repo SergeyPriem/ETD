@@ -360,7 +360,10 @@ def manage_units():
     proj_df = st.session_state.adb['project'].copy()
     sod_df = st.session_state.adb['sod'].copy()
 
-    proj_df.responsible_el = proj_df.responsible_el.apply(lambda x: u_df.loc[u_df.index == x, 'login'].to_numpy()[0])
+    def change_resp(x):
+        return u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
+
+    proj_df.responsible_el = proj_df.responsible_el.apply(change_resp)
 
     sod_df.project_id = sod_df.project_id.apply(
         lambda x: proj_df.loc[proj_df.index == x, 'short_name'].to_numpy()[0]
