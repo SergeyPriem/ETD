@@ -363,11 +363,11 @@ def drawing_sets():
 def manage_units():
     center_style()
 
-    empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
-
     proj_df = st.session_state.adb['project']
     sod_df = st.session_state.adb['sod']
     u_df = st.session_state.adb['users']
+
+    empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
 
     with empty_sets_1:
         st.empty()
@@ -403,9 +403,9 @@ def manage_units():
                     res_l.success(f"New Set '{unit_name}' for Project '{proj_short}' is added to DataBase")
 
                     st.session_state.adb['sod'] = reply['sod']
-                    proj_df = st.session_state.adb['project']
-                    sod_df = st.session_state.adb['sod']
-                    u_df = st.session_state.adb['users']
+                    # proj_df = st.session_state.adb['project']
+                    # sod_df = st.session_state.adb['sod']
+                    # u_df = st.session_state.adb['users']
                     proj_id = proj_df.loc[proj_df.short_name == proj_short].index.to_numpy()[0]
                     set_id = \
                         sod_df.loc[(sod_df.set_name == unit_name) & (sod_df.project_id == proj_id)].index.to_numpy()[0]
