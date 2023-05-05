@@ -535,6 +535,6 @@ def manage_units():
 
             proj_df = st.session_state.adb['project']
 
-            sod_df.project_id.apply(lambda x: proj_df.loc[proj_df.index == x, 'short_name'].to_numpy()[0])
+            sod_df.project_id = sod_df.project_id.apply(lambda x: proj_df.loc[proj_df.index == x, 'short_name'].to_numpy()[0])
 
             st.dataframe(sod_df, use_container_width=True)
