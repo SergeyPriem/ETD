@@ -812,8 +812,11 @@ def download_file(file_name, rc):
 
 
 def prepare_to_del(file_to_del):
-    if os.path.exists(f"temp_dxf/{file_to_del}") and file_to_del != 'info.txt':
-        st.session_state.del_conf = file_to_del
+    if os.path.exists(f"temp_dxf/{file_to_del}"):
+        if file_to_del != 'info.txt':
+            st.session_state.del_conf = file_to_del
+        else:
+            st.warning("Ups...Protected file!")
 
 
 def del_file(lc, rc):
