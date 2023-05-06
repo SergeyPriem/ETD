@@ -89,7 +89,6 @@ def drawing_sets():
 
         try:
             trans_list = trans_df.loc[trans_df.project == proj_id, 'trans_num'].tolist()
-            # st.write(trans_list)
         except Exception as e:
             st.write(err_handler(e))
             st.stop()
