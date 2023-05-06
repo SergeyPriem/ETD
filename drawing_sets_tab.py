@@ -605,7 +605,7 @@ def manage_units():
 
         with tab_preview:
 
-            st.session_state.req_lines_avail = 500
+            st.session_state.req_lines_avail += 1
             units_for_request = show_all_units(sod_df)
 
             sod_to_request = show_units_for_request(units_for_request)

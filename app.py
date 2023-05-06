@@ -230,8 +230,11 @@ def create_states():
     if 'vert_menu' not in st.session_state:
         st.session_state.vert_menu = 1
 
+    if 'req_lines_avail' not in st.session_state:
+        st.session_state.req_lines_avail = 500
+
     state_list = ['del_conf', 'loads_df', 'login', 'proj_names', 'trans_status', 'appl_logins', 'adb', 'spec', 'menu',
-                  'icons', 'rights', 'registered_logins', 'req_lines_avail']
+                  'icons', 'rights', 'registered_logins']
 
     for state in state_list:
         if state not in st.session_state:
