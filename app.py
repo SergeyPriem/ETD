@@ -940,7 +940,6 @@ def prepare_menus(menu, icons, vert_menu):
                                    default_index=0,
                                    icons=icons,
                                    )
-
     else:
         selected = option_menu(None,
                                options=menu,
@@ -948,7 +947,6 @@ def prepare_menus(menu, icons, vert_menu):
                                icons=icons,
                                menu_icon=None,
                                orientation='horizontal')
-
     return selected
 
 
@@ -1018,7 +1016,9 @@ def initial():
 
         st.session_state.icons = get_menus(st.session_state.rights)[1]
 
-        win_selector(prepare_menus(st.session_state.menu, st.session_state.icons, st.session_state.vert_menu))
+        prepared_menus = prepare_menus(st.session_state.menu, st.session_state.icons, st.session_state.vert_menu)
+
+        win_selector(prepared_menus)
 
 
 if __name__ == "__main__":
