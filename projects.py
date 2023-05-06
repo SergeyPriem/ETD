@@ -20,7 +20,7 @@ def delete_table_row(table, row_id):
             del_row.delete()
             return f"Record with id {row_id} is deleted"
         except Exception as e:
-            return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+            return err_handler(e)
 
 
 def create_backup_string(source_link, backup_folder, task_num):
@@ -78,7 +78,7 @@ def get_projects_names():
             prog_name_list = select(p.short_name for p in Project)
             return list(prog_name_list)
     except Exception as e:
-        return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+        return err_handler(e)
 
 
 def get_sets_for_project(proj):
@@ -87,7 +87,7 @@ def get_sets_for_project(proj):
             sets_list = select(sod.set_name for sod in SOD if sod.project_id == Project.get(short_name=proj))
             return list(sets_list)
     except Exception as e:
-        return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+        return err_handler(e)
 
 
 def get_table(table_name):
@@ -168,7 +168,7 @@ def get_tasks(user=None):
             ])
             return df
         except Exception as e:
-            return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+            return err_handler(e)
 
 
 def get_pers_tasks() -> pd.DataFrame:
@@ -225,7 +225,7 @@ def get_pers_tasks() -> pd.DataFrame:
             ])
             return df
         except Exception as e:
-            return f"🔧 {type(e).__name__} {getattr(e, 'args', None)}"
+            return err_handler(e)
 
 
 def get_sets_names(selected_project):

@@ -21,12 +21,14 @@ def move_to_former(login, end_date):
             hero.access_level = 'prohibited'
             hero.status = 'former'
             hero.end_date = end_date
+
+            return f'''**{login}** moved to Former Users
+            by date **{end_date}**.
+            Access status: **:red[{hero.access_level}]**'''
+
         except Exception as e:
             return err_handler(e)
 
-        return f'''**{login}** moved to Former Users
-        by date **{end_date}**.
-        Access status: **:red[{hero.access_level}]**'''
 
 
 ### GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET #################

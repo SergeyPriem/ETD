@@ -7,6 +7,7 @@ from send_emails import send_mail
 from utilities import sod_revisions, sod_statuses, stages, center_style
 from projects import update_sod, add_sod, update_unit_name_stage
 from users import err_handler
+from functools import lru_cache
 
 
 def drawing_sets():
@@ -349,8 +350,6 @@ def drawing_sets():
                             """)
                         else:
                             st.warning("Select specialities for request")
-
-from functools import lru_cache
 
 
 def manage_units():
