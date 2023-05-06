@@ -873,7 +873,7 @@ def win_selector(selected):
 
     tab_dict.get(selected)()
 
-    show_duration()
+
 
 
 # def show_states():
@@ -1021,3 +1021,4 @@ def initial():
 
 if __name__ == "__main__":
     initial()
+    show_duration()

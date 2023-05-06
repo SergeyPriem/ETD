@@ -375,9 +375,7 @@ def manage_units():
         return proj_df.loc[proj_df.index == x, 'short_name'].to_numpy()[0]
 
     sod_df.project_id = sod_df.project_id.apply(change_shortname)
-
     sod_df.coord_id = sod_df.coord_id.apply(change_sod_resp)
-
     sod_df.perf_id = sod_df.perf_id.apply(change_sod_resp)
 
     st.text(datetime.datetime.now() - start_time)
@@ -472,12 +470,7 @@ def manage_units():
 
             proj_short = l_c.selectbox('Select Project', st.session_state.proj_names)
 
-            # proj_id = proj_df.loc[proj_df.short_name == proj_short].index.to_numpy()[0]
-
-            # st.write(proj_df)
-            # st.write(sod_df)
             unit_list = sod_df.loc[sod_df.project_id == proj_short, 'set_name'].tolist()
-            # st.write(unit_list)
 
             if len(unit_list) == 0:
                 r_c.text("")
