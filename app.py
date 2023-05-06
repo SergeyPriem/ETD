@@ -103,7 +103,8 @@ def show_duration():
             st.sidebar.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>{delta[:-3]} s.</h3>",
                                 unsafe_allow_html=True)
 
-@lru_cache(5)
+
+@lru_cache(14)
 def get_menus(rights):
     performer_menu = ["Home", "Drawings", "Transmittals", "Tasks", 'Scripts', 'Reading',
                       'Knowledge', 'Settings', 'Refresh']
@@ -925,28 +926,28 @@ def win_selector(selected):
 #     st.text('-----------------------')
 
 
-def prepare_menus():
-    st.session_state.menu = get_menus(st.session_state.rights)[0]
+def prepare_menus(menu, icons, vert_menu):
+    # st.session_state.menu = get_menus(st.session_state.rights)[0]
+    #
+    # st.session_state.icons = get_menus(st.session_state.rights)[1]
 
-    st.session_state.icons = get_menus(st.session_state.rights)[1]
-
-    if st.session_state.vert_menu == 1:
+    if vert_menu == 1:
         with st.sidebar:
             image = Image.open("images/big_logo.jpg")
             st.image(image, use_column_width=True)
             selected = option_menu(None,
-                                   options=st.session_state.menu,
+                                   options=menu,
                                    default_index=0,
-                                   icons=st.session_state.icons,
+                                   icons=icons,
                                    )
 
             # if st.session_state.rights == 'dev' and st.checkbox("Show states"):
             #     show_states()
     else:
         selected = option_menu(None,
-                               options=st.session_state.menu,
+                               options=menu,
                                default_index=0,
-                               icons=st.session_state.icons,
+                               icons=icons,
                                menu_icon=None,
                                orientation='horizontal')
 
@@ -1014,7 +1015,11 @@ def initial():
             st.sidebar.warning('Something wrong with menu settings')
             st.sidebar.warning(err_handler(e))
 
-        win_selector(prepare_menus())
+        st.session_state.menu = get_menus(st.session_state.rights)[0]
+
+        st.session_state.icons = get_menus(st.session_state.rights)[1]
+
+        win_selector(prepare_menus(st.session_state.menu, st.session_state.icons, st.session_state.vert_menu))
 
 
 if __name__ == "__main__":
