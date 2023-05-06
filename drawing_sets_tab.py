@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import datetime
+import time
+
 import pandas as pd
 import streamlit as st
 from admin_tools import get_list_index
@@ -389,6 +391,7 @@ def request_updates(temp_sod, sod_df, placeholder):
         if request_but:
             for ind, row in temp_sod.iterrows():
                 rc.success(f"Requests for {row.project_id}: {row.set_name}")
+                time.sleep(1)
         st.success('All Requests Sent')
 
 
