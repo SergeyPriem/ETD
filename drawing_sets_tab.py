@@ -550,21 +550,16 @@ def manage_units():
 
                     u_df = st.session_state.adb['users']
 
-                    st.write(u_id)
-                    st.write(sod_df.loc[u_id, 'coord_id'])
+                    receiver = u_df.loc[u_df.login == sod_df.loc[u_id, 'coord_id'], 'email']
+                    cc_rec = u_df.loc[u_df.login == sod_df.loc[u_id, 'perf_id'], 'email']
 
-                    # receiver = u_df.loc[sod_df.loc[u_id, 'coord_id'], 'email']
-                    # receiver = u_df.loc[sod_df.loc[u_id, 'coord_id'], 'email']
-                    #
-                    # cc_rec = u_df.loc[sod_df.loc[u_id, 'perf_id'], 'email']
-                    #
-                    # if receiver == cc_rec:
-                    #     cc_rec = 'sergey.priemshiy@uzliti-en.com'
-                    #
-                    # reply2 = send_mail(receiver, cc_rec, subj, html)
-                    #
-                    # if reply2 == 200:
-                    #     r_rep.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
+                    if receiver == cc_rec:
+                        cc_rec = 'sergey.priemshiy@uzliti-en.com'
+
+                    reply2 = send_mail(receiver, cc_rec, subj, html)
+
+                    if reply2 == 200:
+                        r_rep.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
                 else:
                     st.warning(reply['err_descr'])
 
