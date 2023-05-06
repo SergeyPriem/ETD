@@ -401,11 +401,7 @@ def request_updates(temp_sod):
             st.experimental_rerun()
 
         if i:
-            rc.button(f'{i} Requests Sent - O K')
-
-
-
-
+            rc.button(f'{i} Requests Sent - O K', use_container_width=True)
 
 
 def manage_units():
