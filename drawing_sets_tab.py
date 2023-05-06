@@ -394,8 +394,9 @@ def request_updates(temp_sod, sod_df, placeholder):
                 rc.success(f"Requests for {row.project_id}: {row.set_name} sent")
                 time.sleep(1)
                 i+=1
-        st.success(f'{i} Requests Sent')
-        st.button("O K", key='reset_requests_report')
+        if i:
+            rc.success(f'{i} Requests Sent')
+            rc.button("O K", key='reset_requests_report')
 
 
 def manage_units():
