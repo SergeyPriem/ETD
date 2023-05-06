@@ -925,7 +925,7 @@ def win_selector(selected):
 #     st.write(st.session_state.spec)
 #     st.text('-----------------------')
 
-
+@lru_cache(24)
 def prepare_menus(menu, icons, vert_menu):
     # st.session_state.menu = get_menus(st.session_state.rights)[0]
     #
