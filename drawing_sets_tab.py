@@ -544,4 +544,4 @@ def manage_units():
 
         with tab_preview:
 
-            st.dataframe(sod_df, use_container_width=True, height=1500)
+            st.dataframe(sod_df, use_container_width=True, height=1200)
