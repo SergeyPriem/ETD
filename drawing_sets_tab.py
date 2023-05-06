@@ -575,5 +575,5 @@ def manage_units():
             if len(sod_to_request_new_df):
                 st.session_state.req_lines_avail = True
 
-            reset_request()
+            reset_request(sod_to_request_new_df)
 
