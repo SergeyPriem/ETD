@@ -358,16 +358,14 @@ def drawing_sets():
                             st.warning("Select specialities for request")
 
 
-def show_all_units(sod_df, placeholder):
-
-    placeholder.empty()
-
+def show_all_units(sod_df):
     temp_sod = sod_df.copy()
     temp_sod['request_update'] = False
-    with placeholder.container():
-        sod_to_request = st.experimental_data_editor(temp_sod, use_container_width=True,
-                                                     key='show_all_units',height=800)
+    unique_key = str(time.time() * 1000)
+    sod_to_request = st.experimental_data_editor(temp_sod, use_container_width=True,
+                                                 key=unique_key, height=800)
     return sod_to_request
+
 
 def show_units_for_request(units):
     sod_to_request = units[units.request_update]
@@ -381,22 +379,24 @@ def show_units_for_request(units):
     return sod_to_request
 
 
-def request_updates(temp_sod, sod_df, placeholder):
+def request_updates(temp_sod):
     if len(temp_sod):
         st.divider()
 
         lc, rc = st.columns(2, gap='medium')
         request_but = lc.button('Request for Update', use_container_width=True)
 
-        i=0
+        i = 0
         if request_but:
             for ind, row in temp_sod.iterrows():
                 rc.info(f"Requests for {row.project_id}: {row.set_name} sent")
                 time.sleep(1)
-                i+=1
+                i += 1
         if i:
             rc.success(f'{i} Requests Sent')
+
             rc.button("O K", key='reset_requests_report')
+
 
 
 def manage_units():
@@ -600,10 +600,8 @@ def manage_units():
 
         with tab_preview:
 
-            placeholder = st.empty()
-
-            units_for_request = show_all_units(sod_df, placeholder)
+            units_for_request = show_all_units(sod_df)
 
             sod_to_request = show_units_for_request(units_for_request)
 
-            request_updates(sod_to_request, sod_df, placeholder)
+            request_updates(sod_to_request)
