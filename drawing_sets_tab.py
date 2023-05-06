@@ -351,10 +351,12 @@ def drawing_sets():
                             st.warning("Select specialities for request")
 
 
-def show_units(temp_sod):
+def show_all_units(temp_sod):
     sod_to_request = st.experimental_data_editor(temp_sod, use_container_width=True, height=800)
+    return sod_to_request
 
-    sod_to_request = sod_to_request[sod_to_request.request_update]
+def show_units_for_request(units):
+    sod_to_request = units[units.request_update]
 
     if len(sod_to_request):
         st.session_state.req_lines_avail = True
@@ -587,11 +589,11 @@ def manage_units():
                     st.warning(reply['err_descr'])
 
         with tab_preview:
-            sod_df['request_update'] = False
             temp_sod = sod_df.copy()
+            temp_sod['request_update'] = False
 
-            temp_sod.request_update = True
+            units_for_request = show_all_units(temp_sod)
 
-            sod_to_request = show_units(temp_sod)
+            sod_to_request = show_units_for_request(temp_sod)
 
             reset_request(sod_to_request)
