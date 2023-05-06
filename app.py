@@ -81,7 +81,8 @@ def home_trans():
     return trans_df
 
 
-def show_duration():
+def show_sidebar_info():
+
     u_df = st.session_state.adb['users']
 
     if st.session_state.login and st.session_state.proj_scope:
@@ -1022,6 +1023,6 @@ def initial():
 
 
 if __name__ == "__main__":
-    initial()
     st.session_state.r_now = datetime.datetime.now()
-    show_duration()
+    initial()
+    show_sidebar_info()
