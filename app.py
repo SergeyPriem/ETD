@@ -104,7 +104,7 @@ def show_duration():
                                 unsafe_allow_html=True)
 
 
-@lru_cache(14)
+@lru_cache(128)
 def get_menus(rights):
     performer_menu = ["Home", "Drawings", "Transmittals", "Tasks", 'Scripts', 'Reading',
                       'Knowledge', 'Settings', 'Refresh']
