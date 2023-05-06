@@ -559,12 +559,12 @@ def manage_units():
                 request_but = rc.button('Request for Update', use_container_width=True)
 
             if reset_but:
-                sod_df['request_update'] = False
+                sod_to_request_df['request_update'] = False
                 st.experimental_rerun()
 
             if request_but:
                 # send_upd_request()
                 st.write("Requests sent")
-                sod_df['request_update'] = False
+                sod_to_request_df['request_update'] = False
                 st.experimental_rerun()
 
