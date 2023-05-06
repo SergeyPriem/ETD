@@ -401,8 +401,8 @@ def request_updates(temp_sod):
             st.experimental_rerun()
 
         if i:
-            rc.success(f'{i} Requests Sent')
-            rc.button("O K", key='reset_requests_report')
+            rc.button(f'{i} Requests Sent - O K')
+
 
 
 
