@@ -594,6 +594,6 @@ def manage_units():
 
             units_for_request = show_all_units(temp_sod)
 
-            sod_to_request = show_units_for_request(temp_sod)
+            sod_to_request = show_units_for_request(units_for_request)
 
             reset_request(sod_to_request)
