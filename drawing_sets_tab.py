@@ -372,26 +372,24 @@ def show_units_for_request(units):
 
     if len(sod_to_request):
         st.divider()
-        st.subheader("Do you want to request?")
+        st.subheader(f"Send request for {len(sod_to_request)} Units?")
         st.dataframe(sod_to_request, use_container_width=True)
 
         # st.session_state.req_lines_avail = True
     return sod_to_request
 
 
-def reset_or_request(temp_sod, sod_df, placeholder):
+def request_updates(temp_sod, sod_df, placeholder):
     if len(temp_sod):
         st.divider()
 
         lc, rc = st.columns(2, gap='medium')
-        reset_but = lc.button('Reset Selected', use_container_width=True)
-        request_but = rc.button('Request for Update', use_container_width=True)
-
-        if reset_but:
-            st.write("reset")
+        request_but = lc.button('Request for Update', use_container_width=True)
 
         if request_but:
-            st.write("Requests sent")
+            for ind, row in temp_sod.iterrows():
+                rc.success(f"Requests for {row.project_id}: {row.set_name}")
+        st.success('All Requests Sent')
 
 
 def manage_units():
@@ -601,4 +599,4 @@ def manage_units():
 
             sod_to_request = show_units_for_request(units_for_request)
 
-            reset_or_request(sod_to_request, sod_df, placeholder)
+            request_updates(sod_to_request, sod_df, placeholder)
