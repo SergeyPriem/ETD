@@ -376,13 +376,13 @@ def reset_request(temp_sod):
             st.write("reset")
             st.session_state.req_lines_avail = False
             temp_sod.request_update = False
-            show_units(temp_sod)
+            # show_units(temp_sod)
 
         if request_but:
             # send_upd_request()
             st.write("Requests sent")
             temp_sod.request_update = False
-            show_units(temp_sod)
+            # show_units(temp_sod)
 
             st.session_state.req_lines_avail = False
             st.experimental_rerun()
