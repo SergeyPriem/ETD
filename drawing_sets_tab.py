@@ -3,6 +3,7 @@ import datetime
 import pandas as pd
 import streamlit as st
 from admin_tools import get_list_index
+from app import win_selector
 from send_emails import send_mail
 from utilities import sod_revisions, sod_statuses, stages, center_style
 from projects import update_sod, add_sod, update_unit_name_stage
@@ -389,11 +390,13 @@ def reset_or_request(temp_sod, sod_df, placeholder):
 
         if reset_but:
             st.write("reset")
-            show_all_units(sod_df, placeholder)
+            win_selector("Reading")
+            win_selector("Units")
 
         if request_but:
             st.write("Requests sent")
-            show_all_units(sod_df, placeholder)
+            win_selector("Reading")
+            win_selector("Units")
 
 
 def manage_units():
