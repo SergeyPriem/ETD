@@ -353,11 +353,11 @@ def drawing_sets():
 
 def reset_request(sod_to_request_new_df):
 
-    # if st.session_state.req_lines_avail:
-    lc, rc = st.columns(2, gap='medium')
-    #     st.dataframe(sod_to_request_new_df, use_container_width=True)
-    reset_but = lc.button('Reset Selected', use_container_width=True)
-    request_but = rc.button('Request for Update', use_container_width=True)
+    if st.session_state.req_lines_avail:
+        lc, rc = st.columns(2, gap='medium')
+        st.dataframe(sod_to_request_new_df, use_container_width=True)
+        reset_but = lc.button('Reset Selected', use_container_width=True)
+        request_but = rc.button('Request for Update', use_container_width=True)
 
     if reset_but:
         st.write("reset")
@@ -565,7 +565,9 @@ def manage_units():
 
         with tab_preview:
 
-            sod_df['request_update'] = False
+            if not st.session_state.req_lines_avail:
+                sod_df['request_update'] = False
+
             sod_to_request_df = st.experimental_data_editor(sod_df, use_container_width=True, height=800)
 
             sod_to_request_df = sod_to_request_df[sod_to_request_df.request_update]
