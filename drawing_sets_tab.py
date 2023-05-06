@@ -390,9 +390,10 @@ def request_updates(temp_sod, sod_df, placeholder):
 
         if request_but:
             for ind, row in temp_sod.iterrows():
-                rc.success(f"Requests for {row.project_id}: {row.set_name}")
+                rc.success(f"Requests for {row.project_id}: {row.set_name} sent")
                 time.sleep(1)
         st.success('All Requests Sent')
+        st.button("O K", key='reset_requests_report')
 
 
 def manage_units():
