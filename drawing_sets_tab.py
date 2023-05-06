@@ -383,24 +383,25 @@ def request_updates(temp_sod):
     if len(temp_sod):
         st.divider()
 
-        lc, rc = st.columns(2, gap='medium')
+        lc, cc, rc = st.columns(2, gap='medium')
         request_but = lc.button('Request for Update', use_container_width=True)
+        cancel_but = rc.button('Request for Update', use_container_width=True)
 
         i = 0
         if request_but:
-
             for ind, row in temp_sod.iterrows():
-                rc.info(f"Requests for {row.project_id}: {row.set_name} sent")
+                cc.info(f"Requests for {row.project_id}: {row.set_name} sent")
                 time.sleep(1)
                 i += 1
 
             st.session_state.req_lines_avail += 1
 
+        if cancel_but:
+            st.session_state.req_lines_avail += 1
+
         if i:
-            rc.success(f'{i} Requests Sent')
-
-
-            rc.button("O K", key='reset_requests_report')
+            cc.success(f'{i} Requests Sent')
+            cc.button("O K", key='reset_requests_report')
 
 
 
