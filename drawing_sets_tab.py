@@ -388,14 +388,18 @@ def request_updates(temp_sod):
 
         i = 0
         if request_but:
+
             for ind, row in temp_sod.iterrows():
                 rc.info(f"Requests for {row.project_id}: {row.set_name} sent")
                 time.sleep(1)
                 i += 1
+
+            st.session_state.req_lines_avail += 1
+
         if i:
             rc.success(f'{i} Requests Sent')
 
-            st.session_state.req_lines_avail += 1
+
             rc.button("O K", key='reset_requests_report')
 
 
@@ -605,7 +609,7 @@ def manage_units():
 
         with tab_preview:
 
-            st.session_state.req_lines_avail += 1
+            # st.session_state.req_lines_avail += 1
             units_for_request = show_all_units(sod_df)
 
             sod_to_request = show_units_for_request(units_for_request)
