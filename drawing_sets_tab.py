@@ -550,6 +550,9 @@ def manage_units():
 
             lc, cc, rc = st.columns(3, gap='medium')
 
+            reset_but = None
+            request_but = None
+
             if len(sod_to_request_df):
                 st.dataframe(sod_to_request_df, use_container_width=True)
                 reset_but = lc.button('Reset Selected')
