@@ -388,11 +388,13 @@ def request_updates(temp_sod, sod_df, placeholder):
         lc, rc = st.columns(2, gap='medium')
         request_but = lc.button('Request for Update', use_container_width=True)
 
+        i=0
         if request_but:
             for ind, row in temp_sod.iterrows():
                 rc.success(f"Requests for {row.project_id}: {row.set_name} sent")
                 time.sleep(1)
-        st.success('All Requests Sent')
+                i+=1
+        st.success(f'{i} Requests Sent')
         st.button("O K", key='reset_requests_report')
 
 
