@@ -578,6 +578,8 @@ def manage_units():
                 if len(sod_to_request_df):
                     st.session_state.req_lines_avail = True
 
+                return sod_to_request_df
+
             sod_to_request = preview_units(sod_df)
 
             reset_request(sod_to_request)
