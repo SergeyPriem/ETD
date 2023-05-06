@@ -235,7 +235,7 @@ def create_states():
 
     for state in state_list:
         if state not in st.session_state:
-            st.session_state[state] = False
+            st.session_state[state] = False #None
 
     state_list = ['logged', 'code_sent', 'upd_code_sent', 'conf_num', 'task_preview']
     for state in state_list:
@@ -803,7 +803,7 @@ def fresh_data():
 
     time.sleep(1)
     placeholder.empty()
-
+    win_selector(st.session_state.selected)
 
 def manage_storage():
     center_style()
