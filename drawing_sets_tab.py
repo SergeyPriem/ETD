@@ -363,15 +363,15 @@ def reset_request(sod_to_request_new_df):
             st.write("reset")
             st.session_state.req_lines_avail = False
             # sod_to_request_df['request_update'] = False
-            # st.experimental_rerun()
+            st.experimental_rerun()
 
         if request_but:
             # send_upd_request()
             st.write("Requests sent")
             # sod_to_request_df['request_update'] = False
-            # st.experimental_rerun()
+            #
             st.session_state.req_lines_avail = False
-
+            st.experimental_rerun()
 def manage_units():
     center_style()
 
@@ -552,6 +552,14 @@ def manage_units():
 
                     receiver = u_df.loc[u_df.login == sod_df.loc[u_id, 'coord_id'], 'email'].to_numpy()[0]
                     cc_rec = u_df.loc[u_df.login == sod_df.loc[u_id, 'perf_id'], 'email'].to_numpy()[0]
+
+                    if not (isinstance(receiver, str) and "@" in receiver):
+                        st.warning("Can't get Coordinator e-mail...")
+                        st.stop()
+
+                    if not (isinstance(cc_rec, str) and "@" in cc_rec):
+                        st.warning("Can't get Coordinator e-mail...")
+                        st.stop()
 
                     if receiver == cc_rec:
                         cc_rec = 'sergey.priemshiy@uzliti-en.com'
