@@ -396,8 +396,7 @@ def request_updates(temp_sod):
             rc.success(f'{i} Requests Sent')
 
             rc.button("O K", key='reset_requests_report')
-            unique_key = str(time.time() * 1000)
-            st.session_state.req_lines_avail = unique_key
+            st.session_state.req_lines_avail +=1
 
 
 
@@ -603,8 +602,8 @@ def manage_units():
                     st.warning(reply['err_descr'])
 
         with tab_preview:
-            unique_key = str(time.time() * 1000)
-            st.session_state.req_lines_avail = unique_key
+
+            st.session_state.req_lines_avail = 500
             units_for_request = show_all_units(sod_df)
 
             sod_to_request = show_units_for_request(units_for_request)
