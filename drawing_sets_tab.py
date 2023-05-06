@@ -550,21 +550,25 @@ def manage_units():
 
                     u_df = st.session_state.adb['users']
 
-                    receiver = u_df.loc[sod_df.loc[u_id, 'coord_id'], 'email']
-                    cc_rec = u_df.loc[sod_df.loc[u_id, 'perf_id'], 'email']
+                    st.write(u_id)
+                    st.write(sod_df.loc[u_id, 'coord_id'])
 
-                    if receiver == cc_rec:
-                        cc_rec = 'sergey.priemshiy@uzliti-en.com'
-
-                    reply2 = send_mail(receiver, cc_rec, subj, html)
-
-                    if reply2 == 200:
-                        r_rep.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
+                    # receiver = u_df.loc[sod_df.loc[u_id, 'coord_id'], 'email']
+                    # receiver = u_df.loc[sod_df.loc[u_id, 'coord_id'], 'email']
+                    #
+                    # cc_rec = u_df.loc[sod_df.loc[u_id, 'perf_id'], 'email']
+                    #
+                    # if receiver == cc_rec:
+                    #     cc_rec = 'sergey.priemshiy@uzliti-en.com'
+                    #
+                    # reply2 = send_mail(receiver, cc_rec, subj, html)
+                    #
+                    # if reply2 == 200:
+                    #     r_rep.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
                 else:
                     st.warning(reply['err_descr'])
 
         with tab_preview:
-
             sod_df['request_update'] = False
 
             def preview_units(sod_df):
@@ -577,7 +581,6 @@ def manage_units():
 
                 if len(sod_to_request_df):
                     st.session_state.req_lines_avail = True
-
                 return sod_to_request_df
 
             sod_to_request = preview_units(sod_df)
