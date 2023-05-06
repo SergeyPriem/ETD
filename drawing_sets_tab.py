@@ -543,7 +543,7 @@ def manage_units():
                     st.warning(reply['err_descr'])
 
         with tab_preview:
-            sod_df['request_udate'] = False
+            sod_df['request_update'] = False
             sod_to_request_df = st.experimental_data_editor(sod_df, use_container_width=True, height=1200)
 
             if st.button('Preview Selected'):
