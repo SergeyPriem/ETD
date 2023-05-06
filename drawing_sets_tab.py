@@ -367,7 +367,7 @@ def show_units_for_request(units):
 
 
 def reset_or_request(temp_sod):
-    if st.session_state.req_lines_avail and len(temp_sod):
+    if len(temp_sod):
         st.divider()
 
         lc, rc = st.columns(2, gap='medium')
