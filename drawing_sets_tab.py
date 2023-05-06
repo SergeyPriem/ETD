@@ -361,9 +361,9 @@ def drawing_sets():
 def show_all_units(sod_df):
     temp_sod = sod_df.copy()
     temp_sod['request_update'] = False
-    unique_key = str(time.time() * 1000)
+
     sod_to_request = st.experimental_data_editor(temp_sod, use_container_width=True,
-                                                 key=unique_key, height=800)
+                                                 key=st.session_state.req_lines_avail, height=800)
     return sod_to_request
 
 
@@ -396,6 +396,10 @@ def request_updates(temp_sod):
             rc.success(f'{i} Requests Sent')
 
             rc.button("O K", key='reset_requests_report')
+            unique_key = str(time.time() * 1000)
+            st.session_state.req_lines_avail = unique_key
+
+
 
 
 
@@ -599,7 +603,8 @@ def manage_units():
                     st.warning(reply['err_descr'])
 
         with tab_preview:
-
+            unique_key = str(time.time() * 1000)
+            st.session_state.req_lines_avail = unique_key
             units_for_request = show_all_units(sod_df)
 
             sod_to_request = show_units_for_request(units_for_request)
