@@ -805,6 +805,7 @@ def fresh_data():
     placeholder.empty()
     win_selector(st.session_state.selected)
 
+
 def manage_storage():
     center_style()
 
