@@ -21,6 +21,7 @@ from users import check_user, add_to_log, create_appl_user, update_users_in_db, 
     err_handler
 from projects import confirm_task, confirm_trans, trans_status_to_db, get_all, get_table
 from models import Users, Task, Trans
+from functools import lru_cache
 
 # import openpyxl
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
@@ -38,7 +39,6 @@ def home_tasks():
     task_df.loc[:, 'new_id'] = task_df.index
     task_df = task_df.merge(sod_df[['project_id', 'set_name', 'coord_id', 'perf_id']],
                             how='left', left_on='s_o_d', right_on='id')
-
 
     task_df = task_df[(task_df.coord_id == u_id) | (task_df.perf_id == u_id)]
     task_df = task_df.merge(proj_df[['short_name']], how='left', left_on='project_id', right_on='id')
@@ -769,16 +769,16 @@ def manage_users():
 def fresh_data():
     st.session_state.adb = get_all()
 
-    plaho = st.empty()
+    placeholder = st.empty()
 
-    with plaho.container():
+    with placeholder.container():
         st.header("")
         st.header("")
         st.header("")
         st.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>", unsafe_allow_html=True)
 
     time.sleep(1)
-    plaho.empty()
+    placeholder.empty()
 
 
 def manage_storage():
@@ -795,7 +795,7 @@ def manage_storage():
             for entry in entries:
                 lc.button(f"Delete: {entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB",
                           use_container_width=True, type='primary',
-                          on_click=prepare_to_del, args=(entry.name,lc,rc))
+                          on_click=prepare_to_del, args=(entry.name, lc, rc))
 
                 rc.button(f"Download: {entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB",
                           use_container_width=True, on_click=download_file, args=(entry.name, rc))
@@ -848,6 +848,7 @@ def home():
         home_content()
 
 
+@lru_cache(15)
 def win_selector(selected):
     st.session_state.r_now = datetime.datetime.now()
 
