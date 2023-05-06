@@ -148,78 +148,96 @@ def get_menus(rights):
         return menu, icons
 
 
+# def create_states():
+#     if 'del_conf' not in st.session_state:
+#         st.session_state.del_conf = None
+#
+#     if 'loads_df' not in st.session_state:
+#         st.session_state.loads_df = None
+#
+#     if 'proj_scope' not in st.session_state:
+#         st.session_state.proj_scope = 'Only Current Projects'
+#
+#     if 'r_now' not in st.session_state:
+#         st.session_state.r_now = datetime.datetime.now()
+#
+#     if 'selected' not in st.session_state:
+#         st.session_state.selected = 'Home'
+#
+#     if 'adb' not in st.session_state:
+#         st.session_state.adb = None
+#
+#     if 'spec' not in st.session_state:
+#         st.session_state.spec = None
+#
+#     if 'menu' not in st.session_state:
+#         st.session_state.menu = None
+#
+#     if 'icons' not in st.session_state:
+#         st.session_state.icons = None
+#
+#     if 'rights' not in st.session_state:
+#         st.session_state.rights = None
+#
+#     if 'registered_logins' not in st.session_state:
+#         st.session_state.registered_logins = None
+#
+#     if "preview_proj_stat" not in st.session_state:
+#         st.session_state.preview_proj_stat = False
+#
+#     if "logged" not in st.session_state:
+#         st.session_state.logged = False
+#
+#     if 'code_sent' not in st.session_state:
+#         st.session_state.code_sent = False
+#
+#     if 'upd_code_sent' not in st.session_state:
+#         st.session_state.upd_code_sent = False
+#
+#     if 'vert_menu' not in st.session_state:
+#         st.session_state.vert_menu = 1
+#
+#     if 'login' not in st.session_state:
+#         st.session_state.login = None
+#
+#     if 'task_preview' not in st.session_state:
+#         st.session_state.task_preview = False
+#
+#     if 'proj_names' not in st.session_state:
+#         st.session_state.proj_names = None
+#
+#     if 'trans_status' not in st.session_state:
+#         st.session_state.trans_status = None
+#
+#     if 'appl_logins' not in st.session_state:
+#         st.session_state.appl_logins = None
+#
+#     if 'disable_add_task' not in st.session_state:
+#         st.session_state.disable_add_task = True
+#
+#     if 'conf_num' not in st.session_state:
+#         st.session_state.conf_num = False
+
 def create_states():
-    if 'del_conf' not in st.session_state:
-        st.session_state.del_conf = None
-
-    if 'loads_df' not in st.session_state:
-        st.session_state.loads_df = None
-
-    if 'proj_scope' not in st.session_state:
-        st.session_state.proj_scope = 'Only Current Projects'
-
-    if 'all' not in st.session_state:
-        st.session_state.all = True
-
-    if 'r_now' not in st.session_state:
-        st.session_state.r_now = datetime.datetime.now()
-
-    if 'selected' not in st.session_state:
-        st.session_state.selected = 'Home'
-
-    if 'adb' not in st.session_state:
-        st.session_state.adb = None
-
-    if 'spec' not in st.session_state:
-        st.session_state.spec = None
-
-    if 'menu' not in st.session_state:
-        st.session_state.menu = None
-
-    if 'icons' not in st.session_state:
-        st.session_state.icons = None
-
-    if 'rights' not in st.session_state:
-        st.session_state.rights = None
-
-    if 'registered_logins' not in st.session_state:
-        st.session_state.registered_logins = None
-
-    if "preview_proj_stat" not in st.session_state:
-        st.session_state.preview_proj_stat = False
-
-    if "logged" not in st.session_state:
-        st.session_state.logged = False
-
-    if 'code_sent' not in st.session_state:
-        st.session_state.code_sent = False
-
-    if 'upd_code_sent' not in st.session_state:
-        st.session_state.upd_code_sent = False
-
-    if 'vert_menu' not in st.session_state:
-        st.session_state.vert_menu = 1
-
-    if 'login' not in st.session_state:
-        st.session_state.login = None
-
-    if 'task_preview' not in st.session_state:
-        st.session_state.task_preview = False
-
-    if 'proj_names' not in st.session_state:
-        st.session_state.proj_names = None
-
-    if 'trans_status' not in st.session_state:
-        st.session_state.trans_status = None
-
-    if 'appl_logins' not in st.session_state:
-        st.session_state.appl_logins = None
 
     if 'disable_add_task' not in st.session_state:
         st.session_state.disable_add_task = True
+    if 'proj_scope' not in st.session_state:
+        st.session_state.proj_scope = 'Only Current Projects'
+    if 'r_now' not in st.session_state:
+        st.session_state.r_now = datetime.datetime.now()
+    if 'selected' not in st.session_state:
+        st.session_state.selected = 'Home'
+    if 'vert_menu' not in st.session_state:
+        st.session_state.vert_menu = 1
 
-    if 'conf_num' not in st.session_state:
-        st.session_state.conf_num = False
+    state_list = ['del_conf', 'loads_df', 'login', 'proj_names', 'trans_status', 'appl_logins', 'adb',
+                  'spec', 'menu', 'icons', 'rights', 'registered_logins', 'logged', 'code_sent', 'upd_code_sent',
+                  'conf_num', 'task_preview']
+
+    for state in state_list:
+        if state not in st.session_state:
+            st.session_state[state] = None
 
 
 def update_trans_status(trans_num):
