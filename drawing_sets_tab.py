@@ -546,15 +546,15 @@ def manage_units():
             sod_df['request_update'] = False
             sod_to_request_df = st.experimental_data_editor(sod_df, use_container_width=True, height=800)
 
-            sod_to_request_df = sod_to_request_df[sod_to_request_df.request_update]
+            sod_to_request_new_df = sod_to_request_df[sod_to_request_df.request_update]
 
             lc, cc, rc = st.columns(3, gap='medium')
 
             reset_but = None
             request_but = None
 
-            if len(sod_to_request_df):
-                st.dataframe(sod_to_request_df, use_container_width=True)
+            if len(sod_to_request_new_df):
+                st.dataframe(sod_to_request_new_df, use_container_width=True)
                 reset_but = lc.button('Reset Selected', use_container_width=True)
                 request_but = rc.button('Request for Update', use_container_width=True)
 
