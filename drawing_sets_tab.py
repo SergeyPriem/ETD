@@ -359,11 +359,12 @@ def show_units_for_request(units):
     sod_to_request = units[units.request_update]
 
     if len(sod_to_request):
-        st.session_state.req_lines_avail = True
+        st.dataframe(sod_to_request, use_container_width=True)
+        # st.session_state.req_lines_avail = True
     return sod_to_request
 
 
-def reset_request(temp_sod):
+def reset_or_request(temp_sod):
     if st.session_state.req_lines_avail and len(temp_sod):
         st.divider()
         st.subheader("Do you want to request?")
@@ -596,4 +597,4 @@ def manage_units():
 
             sod_to_request = show_units_for_request(units_for_request)
 
-            reset_request(sod_to_request)
+            reset_or_request(sod_to_request)
