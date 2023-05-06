@@ -566,7 +566,7 @@ def manage_units():
         with tab_preview:
             sod_df['request_update'] = False
 
-            st.sidebar(st.session_state.req_lines_avail)
+            st.header(st.session_state.req_lines_avail)
 
             def show_units(sod_df):
                 if not st.session_state.req_lines_avail:
