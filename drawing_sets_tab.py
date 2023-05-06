@@ -351,8 +351,14 @@ def drawing_sets():
                             st.warning("Select specialities for request")
 
 
-def show_all_units(temp_sod):
-    sod_to_request = st.experimental_data_editor(temp_sod, use_container_width=True, height=800)
+placeholder = st.empty()
+
+def show_all_units(sod_df):
+
+    temp_sod = sod_df.copy()
+    temp_sod['request_update'] = False
+    with placeholder.container():
+        sod_to_request = st.experimental_data_editor(temp_sod, use_container_width=True, height=800)
     return sod_to_request
 
 def show_units_for_request(units):
@@ -367,7 +373,7 @@ def show_units_for_request(units):
     return sod_to_request
 
 
-def reset_or_request(temp_sod):
+def reset_or_request(temp_sod, sod_df):
     if len(temp_sod):
         st.divider()
 
@@ -377,18 +383,16 @@ def reset_or_request(temp_sod):
 
         if reset_but:
             st.write("reset")
-            st.session_state.req_lines_avail = False
-            temp_sod.request_update = False
-            # show_units(temp_sod)
+            placeholder.empty()
+
+            with placeholder.container():
+                show_all_units(sod_df)
 
         if request_but:
-            # send_upd_request()
             st.write("Requests sent")
-            temp_sod.request_update = False
-            # show_units(temp_sod)
 
-            st.session_state.req_lines_avail = False
-            st.experimental_rerun()
+            with placeholder.container():
+                show_all_units(sod_df)
 
 
 def manage_units():
@@ -591,11 +595,10 @@ def manage_units():
                     st.warning(reply['err_descr'])
 
         with tab_preview:
-            temp_sod = sod_df.copy()
-            temp_sod['request_update'] = False
 
-            units_for_request = show_all_units(temp_sod)
+
+            units_for_request = show_all_units(sod_df)
 
             sod_to_request = show_units_for_request(units_for_request)
 
-            reset_or_request(sod_to_request)
+            reset_or_request(sod_to_request, sod_df)
