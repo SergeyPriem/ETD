@@ -84,24 +84,25 @@ def home_trans():
 def show_duration():
     u_df = st.session_state.adb['users']
 
-    access_level = u_df.loc[u_df.login == st.session_state.login, 'access_level'].to_numpy()[0]
+    if st.session_state.login and st.session_state.proj_scope:
+        access_level = u_df.loc[u_df.login == st.session_state.login, 'access_level'].to_numpy()[0]
 
-    st.sidebar.text("")
-    st.sidebar.markdown(f"<h4 style='text-align: center; color: #00bbf9;'>Current Mode:</h4>",
-                        unsafe_allow_html=True)
-    st.sidebar.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>{st.session_state.proj_scope}</h3>",
-                        unsafe_allow_html=True)
-    st.sidebar.markdown(
-        f"<h5 style='text-align: center; color: #fcf403;'>You can chose another Mode: Settings -> Scope of Load</h5>",
-        unsafe_allow_html=True)
+        st.sidebar.text("")
+        st.sidebar.markdown(f"<h4 style='text-align: center; color: #00bbf9;'>Current Mode:</h4>",
+                            unsafe_allow_html=True)
+        st.sidebar.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>{st.session_state.proj_scope}</h3>",
+                            unsafe_allow_html=True)
+        st.sidebar.markdown(
+            f"<h5 style='text-align: center; color: #fcf403;'>You can chose another Mode: Settings -> Scope of Load</h5>",
+            unsafe_allow_html=True)
 
-    if access_level == 'dev':
-        with st.sidebar:
-            td = datetime.datetime.now() - st.session_state.r_now
-            delta = f"{int(td.total_seconds()*1000)}"
+        if access_level == 'dev':
+            with st.sidebar:
+                td = datetime.datetime.now() - st.session_state.r_now
+                delta = f"{int(td.total_seconds()*1000)}"
 
-            st.sidebar.markdown(f"<h2 style='text-align: center; color: #fcf403;'>{delta} ms</h2>",
-                                unsafe_allow_html=True)
+                st.sidebar.markdown(f"<h2 style='text-align: center; color: #fcf403;'>{delta} ms</h2>",
+                                    unsafe_allow_html=True)
 
 
 # @lru_cache(128)
@@ -851,7 +852,6 @@ def home():
 
 @lru_cache(15)
 def win_selector(selected):
-    st.session_state.r_now = datetime.datetime.now()
 
     if selected != "Refresh":
         st.session_state.selected = selected
@@ -1023,4 +1023,5 @@ def initial():
 
 if __name__ == "__main__":
     initial()
+    st.session_state.r_now = datetime.datetime.now()
     show_duration()
