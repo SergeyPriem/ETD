@@ -395,8 +395,8 @@ def request_updates(temp_sod):
         if i:
             rc.success(f'{i} Requests Sent')
 
-            rc.button("O K", key='reset_requests_report')
             st.session_state.req_lines_avail += 1
+            rc.button("O K", key='reset_requests_report')
 
 
 
