@@ -359,18 +359,18 @@ def reset_request(sod_to_request_new_df):
         reset_but = lc.button('Reset Selected', use_container_width=True)
         request_but = rc.button('Request for Update', use_container_width=True)
 
-        if reset_but:
-            st.write("reset")
-            st.session_state.req_lines_avail = False
-            # sod_to_request_df['request_update'] = False
-            st.experimental_rerun()
+    if reset_but:
+        st.write("reset")
+        st.session_state.req_lines_avail = False
+        # sod_to_request_df['request_update'] = False
+        st.experimental_rerun()
 
-        if request_but:
-            # send_upd_request()
-            st.write("Requests sent")
-            # sod_to_request_df['request_update'] = False
-            st.experimental_rerun()
-            st.session_state.req_lines_avail = False
+    if request_but:
+        # send_upd_request()
+        st.write("Requests sent")
+        # sod_to_request_df['request_update'] = False
+        st.experimental_rerun()
+        st.session_state.req_lines_avail = False
 
 def manage_units():
     center_style()
@@ -568,12 +568,10 @@ def manage_units():
             sod_df['request_update'] = False
             sod_to_request_df = st.experimental_data_editor(sod_df, use_container_width=True, height=800)
 
-            sod_to_request_new_df = sod_to_request_df[sod_to_request_df.request_update].copy()
+            sod_to_request_df = sod_to_request_df[sod_to_request_df.request_update]
 
-
-
-            if len(sod_to_request_new_df):
+            if len(sod_to_request_df):
                 st.session_state.req_lines_avail = True
 
-            reset_request(sod_to_request_new_df)
+            reset_request(sod_to_request_df)
 
