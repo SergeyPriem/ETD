@@ -98,9 +98,9 @@ def show_duration():
     if access_level == 'dev':
         with st.sidebar:
             td = datetime.datetime.now() - st.session_state.r_now
-            delta = f"{td.total_seconds()*1000}"
+            delta = f"{int(td.total_seconds()*1000)}"
 
-            st.sidebar.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>{delta} s.</h3>",
+            st.sidebar.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>{delta} ms.</h3>",
                                 unsafe_allow_html=True)
 
 
