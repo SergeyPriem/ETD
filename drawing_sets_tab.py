@@ -359,6 +359,7 @@ def show_units_for_request(units):
     sod_to_request = units[units.request_update]
 
     if len(sod_to_request):
+        st.divider()
         st.subheader("Do you want to request?")
         st.dataframe(sod_to_request, use_container_width=True)
 
