@@ -557,15 +557,21 @@ def manage_units():
                 st.dataframe(sod_to_request_new_df, use_container_width=True)
                 reset_but = lc.button('Reset Selected', use_container_width=True)
                 request_but = rc.button('Request for Update', use_container_width=True)
+                st.session_state.req_lines_avail = True
 
-            if reset_but:
-                st.write("pssss")
-                sod_to_request_df['request_update'] = False
-                st.experimental_rerun()
+            def reset_request():
+                if st.session_state.req_lines_avail:
+                    if reset_but:
+                        st.write("reset")
+                        st.session_state.req_lines_avail = False
+                        # sod_to_request_df['request_update'] = False
+                        # st.experimental_rerun()
 
-            if request_but:
-                # send_upd_request()
-                st.write("Requests sent")
-                sod_to_request_df['request_update'] = False
-                st.experimental_rerun()
+                    if request_but:
+                        # send_upd_request()
+                        st.write("Requests sent")
+                        # sod_to_request_df['request_update'] = False
+                        # st.experimental_rerun()
+                        st.session_state.req_lines_avail = False
+            reset_request()
 
