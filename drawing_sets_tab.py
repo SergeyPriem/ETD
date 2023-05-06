@@ -555,8 +555,8 @@ def manage_units():
 
             if len(sod_to_request_df):
                 st.dataframe(sod_to_request_df, use_container_width=True)
-                reset_but = lc.button('Reset Selected')
-                request_but = rc.button('Request for Update')
+                reset_but = lc.button('Reset Selected', use_container_width=True)
+                request_but = rc.button('Request for Update', use_container_width=True)
 
             if reset_but:
                 sod_df['request_update'] = False
