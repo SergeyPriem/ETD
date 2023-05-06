@@ -941,8 +941,6 @@ def prepare_menus(menu, icons, vert_menu):
                                    icons=icons,
                                    )
 
-            # if st.session_state.rights == 'dev' and st.checkbox("Show states"):
-            #     show_states()
     else:
         selected = option_menu(None,
                                options=menu,
@@ -1006,7 +1004,7 @@ def initial():
     if not st.session_state.logged:
         login_register()
 
-    if st.session_state.logged and st.session_state.login:
+    if st.session_state.logged and st.session_state.login and st.session_state.rights:
         try:
             st.session_state.vert_menu = int(u_df.loc[u_df.login == st.session_state.login, 'vert_menu'].to_numpy()[0])
         except Exception as e:
@@ -1014,6 +1012,7 @@ def initial():
 
             st.sidebar.warning('Something wrong with menu settings')
             st.sidebar.warning(err_handler(e))
+
 
         st.session_state.menu = get_menus(st.session_state.rights)[0]
 
