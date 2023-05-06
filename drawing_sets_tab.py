@@ -565,6 +565,8 @@ def manage_units():
 
         with tab_preview:
 
+            sod_df['request_update'] = False
+
             if not st.session_state.req_lines_avail:
                 sod_df['request_update'] = False
 
