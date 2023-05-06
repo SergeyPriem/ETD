@@ -356,9 +356,9 @@ def drawing_sets():
                             st.warning("Select specialities for request")
 
 
-
-
 def show_all_units(sod_df, placeholder):
+
+    placeholder.empty()
 
     temp_sod = sod_df.copy()
     temp_sod['request_update'] = False
@@ -389,16 +389,11 @@ def reset_or_request(temp_sod, sod_df, placeholder):
 
         if reset_but:
             st.write("reset")
-            placeholder.empty()
-
-            with placeholder.container():
-                show_all_units(sod_df, placeholder)
+            show_all_units(sod_df, placeholder)
 
         if request_but:
             st.write("Requests sent")
-
-            with placeholder.container():
-                show_all_units(sod_df, placeholder)
+            show_all_units(sod_df, placeholder)
 
 
 def manage_units():
