@@ -384,8 +384,8 @@ def request_updates(temp_sod):
         st.divider()
 
         lc, cc, rc = st.columns(3, gap='medium')
-        request_but = lc.button('Request for Update', use_container_width=True)
-        cancel_but = cc.button('Request for Cancel', use_container_width=True)
+        cancel_but = lc.button('Request for Cancel', use_container_width=True)
+        request_but = cc.button('Request for Update', use_container_width=True)
 
         i = 0
         if request_but:
