@@ -354,8 +354,10 @@ def drawing_sets():
 def reset_request(sod_to_request_new_df):
 
     if st.session_state.req_lines_avail and len(sod_to_request_new_df):
-        lc, rc = st.columns(2, gap='medium')
+
         st.dataframe(sod_to_request_new_df, use_container_width=True)
+
+        lc, rc = st.columns(2, gap='medium')
         reset_but = lc.button('Reset Selected', use_container_width=True)
         request_but = rc.button('Request for Update', use_container_width=True)
 
