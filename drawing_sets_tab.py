@@ -437,6 +437,8 @@ def manage_units():
     with content_sets:
         st.title(':orange[Units]')
 
+        st.text(st.session_state.req_lines_avail)
+
         tab_create, tab_update, tab_preview = st.tabs(['Create New Unit', 'Edit Existing Unit', 'View All Units'])
 
         with tab_create:
