@@ -103,8 +103,8 @@ def show_duration():
             st.sidebar.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>{delta[:-3]} s.</h3>",
                                 unsafe_allow_html=True)
 
-
-def get_menus():
+@lru_cache(5)
+def get_menus(rights):
     performer_menu = ["Home", "Drawings", "Transmittals", "Tasks", 'Scripts', 'Reading',
                       'Knowledge', 'Settings', 'Refresh']
 
@@ -121,25 +121,25 @@ def get_menus():
     dev_menu = ["Storage"]
     dev_icons = ["bi bi-hdd"]
 
-    if not st.session_state.rights:
+    if not rights:
         st.warning('Rights not available...')
 
-    if st.session_state.rights == "performer":
+    if rights == "performer":
         menu = [*performer_menu]
         icons = [*performer_icons]
         return menu, icons
 
-    if st.session_state.rights == "admin":
+    if rights == "admin":
         menu = [*performer_menu, *admin_menu]
         icons = [*performer_icons, *admin_icons]
         return menu, icons
 
-    if st.session_state.rights == "super":
+    if rights == "super":
         menu = [*performer_menu, *admin_menu, *super_menu]
         icons = [*performer_icons, *admin_icons, *super_icons]
         return menu, icons
 
-    if st.session_state.rights == "dev":
+    if rights == "dev":
         menu = [*performer_menu, *admin_menu, *super_menu, *dev_menu]
         icons = [*performer_icons, *admin_icons, *super_icons, *dev_icons]
         return menu, icons
@@ -874,8 +874,6 @@ def win_selector(selected):
     tab_dict.get(selected)()
 
 
-
-
 # def show_states():
 #     st.text('appl_logins')
 #     st.write(st.session_state.appl_logins)
@@ -928,9 +926,9 @@ def win_selector(selected):
 
 
 def prepare_menus():
-    st.session_state.menu = get_menus()[0]
+    st.session_state.menu = get_menus(st.session_state.rights)[0]
 
-    st.session_state.icons = get_menus()[1]
+    st.session_state.icons = get_menus(st.session_state.rights)[1]
 
     if st.session_state.vert_menu == 1:
         with st.sidebar:
