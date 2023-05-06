@@ -350,13 +350,23 @@ def drawing_sets():
                         else:
                             st.warning("Select specialities for request")
 
+def show_units(temp_sod):
 
-def reset_request(sod_to_request_new_df):
+    sod_to_request = st.experimental_data_editor(temp_sod, use_container_width=True, height=800)
 
-    if st.session_state.req_lines_avail and len(sod_to_request_new_df):
+    sod_to_request = sod_to_request[sod_to_request.request_update]
+
+    if len(sod_to_request):
+        st.session_state.req_lines_avail = True
+    return sod_to_request
+
+
+def reset_request(temp_sod):
+
+    if st.session_state.req_lines_avail and len(temp_sod):
         st.divider()
         st.subheader("Do you want to request?")
-        st.dataframe(sod_to_request_new_df, use_container_width=True)
+        st.dataframe(temp_sod, use_container_width=True)
 
         lc, rc = st.columns(2, gap='medium')
         reset_but = lc.button('Reset Selected', use_container_width=True)
@@ -365,14 +375,15 @@ def reset_request(sod_to_request_new_df):
         if reset_but:
             st.write("reset")
             st.session_state.req_lines_avail = False
-            # sod_to_request_df['request_update'] = False
-            st.experimental_rerun()
+            temp_sod.request_update = False
+            show_units(temp_sod)
 
         if request_but:
             # send_upd_request()
             st.write("Requests sent")
-            # sod_to_request_df['request_update'] = False
-            #
+            temp_sod.request_update = False
+            show_units(temp_sod)
+
             st.session_state.req_lines_avail = False
             st.experimental_rerun()
 def manage_units():
@@ -576,22 +587,10 @@ def manage_units():
 
         with tab_preview:
             sod_df['request_update'] = False
+            temp_sod = sod_df.copy()
 
-            st.header(st.session_state.req_lines_avail)
 
-            def show_units(sod_df):
-                if not st.session_state.req_lines_avail:
-                    sod_df['request_update'] = False
-
-                sod_to_request_df = st.experimental_data_editor(sod_df, use_container_width=True, height=800)
-
-                sod_to_request_df = sod_to_request_df[sod_to_request_df.request_update]
-
-                if len(sod_to_request_df):
-                    st.session_state.req_lines_avail = True
-                return sod_to_request_df
-
-            sod_to_request = show_units(sod_df)
+            sod_to_request = show_units(temp_sod)
 
             reset_request(sod_to_request)
 
