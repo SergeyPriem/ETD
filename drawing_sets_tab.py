@@ -354,8 +354,6 @@ def drawing_sets():
 def manage_units():
     center_style()
 
-    start_time = datetime.datetime.now()
-
     u_df = st.session_state.adb['users'].copy()
     proj_df = st.session_state.adb['project'].copy()
     sod_df = st.session_state.adb['sod'].copy()
@@ -378,7 +376,6 @@ def manage_units():
     sod_df.coord_id = sod_df.coord_id.apply(change_sod_resp)
     sod_df.perf_id = sod_df.perf_id.apply(change_sod_resp)
 
-    st.text(datetime.datetime.now() - start_time)
     empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 9, 1])
 
     with empty_sets_1:
