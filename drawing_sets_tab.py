@@ -318,9 +318,10 @@ def drawing_sets():
                 not_aval_col, empty_col, but_col, request_col = st.columns([4, 1, 3, 10])
                 with not_aval_col:
                     request_df = st.experimental_data_editor(not_aval_df, use_container_width=True,
-                                                             key='show_request_df',
                                                              height=600,
-                                                             num_rows='fixed', key='tasks', disabled=False)
+                                                             num_rows='fixed',
+                                                             key='tasks',
+                                                             disabled=False)
 
                 with but_col:
                     request_chb = st.button('Create Request')
