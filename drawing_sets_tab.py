@@ -59,7 +59,9 @@ def drawing_sets():
         units_ch_b = ds_rigth.checkbox("Show Units Table")
 
         if units_ch_b:
-            st.experimental_data_editor(sod_df.set_index('unit_id'), use_container_width=True)
+            st.experimental_data_editor(sod_df.set_index('unit_id'),
+                                        key='show_units_for_drawings',
+                                        use_container_width=True)
 
         proj_col, unit_col = st.columns(2, gap='medium')
 
@@ -315,7 +317,9 @@ def drawing_sets():
                 st.subheader("Not available Tasks for Specialities. Here you can create request for assignments")
                 not_aval_col, empty_col, but_col, request_col = st.columns([4, 1, 3, 10])
                 with not_aval_col:
-                    request_df = st.experimental_data_editor(not_aval_df, use_container_width=True, height=600,
+                    request_df = st.experimental_data_editor(not_aval_df, use_container_width=True,
+                                                             key='show_request_df',
+                                                             height=600,
                                                              num_rows='fixed', key='tasks', disabled=False)
 
                 with but_col:
@@ -358,7 +362,8 @@ def show_all_units(sod_df, placeholder):
     temp_sod = sod_df.copy()
     temp_sod['request_update'] = False
     with placeholder.container():
-        sod_to_request = st.experimental_data_editor(temp_sod, use_container_width=True, height=800)
+        sod_to_request = st.experimental_data_editor(temp_sod, use_container_width=True,
+                                                     key='show_all_units',height=800)
     return sod_to_request
 
 def show_units_for_request(units):
