@@ -544,4 +544,8 @@ def manage_units():
 
         with tab_preview:
             sod_df['request_udate'] = False
-            st.dataframe(sod_df, use_container_width=True, height=1200)
+            st.experimental_data_editor(sod_df, use_container_width=True, height=1200)
+
+            if st.button('Preview Selected'):
+                sod_to_request_df = sod_df[sod_df.request_update]
+                st.dataframe(sod_to_request_df, use_container_width=True)
