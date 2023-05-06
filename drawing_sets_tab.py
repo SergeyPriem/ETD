@@ -429,7 +429,7 @@ def manage_units():
     sod_df.coord_id = sod_df.coord_id.apply(change_sod_resp)
     sod_df.perf_id = sod_df.perf_id.apply(change_sod_resp)
 
-    empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 10, 1])
+    empty_sets_1, content_sets, empty_sets_2 = st.columns([1, 14, 1])
 
     with empty_sets_1:
         st.empty()
