@@ -543,6 +543,7 @@ def manage_units():
                     st.warning(reply['err_descr'])
 
         with tab_preview:
+
             sod_df['request_update'] = False
             sod_to_request_df = st.experimental_data_editor(sod_df, use_container_width=True, height=800)
 
@@ -550,17 +551,15 @@ def manage_units():
 
             lc, cc, rc = st.columns(3, gap='medium')
 
-            reset_but = None
-            request_but = None
-
             if len(sod_to_request_new_df):
-                st.dataframe(sod_to_request_new_df, use_container_width=True)
-                reset_but = lc.button('Reset Selected', use_container_width=True)
-                request_but = rc.button('Request for Update', use_container_width=True)
                 st.session_state.req_lines_avail = True
 
             def reset_request():
                 if st.session_state.req_lines_avail:
+                    st.dataframe(sod_to_request_new_df, use_container_width=True)
+                    reset_but = lc.button('Reset Selected', use_container_width=True)
+                    request_but = rc.button('Request for Update', use_container_width=True)
+
                     if reset_but:
                         st.write("reset")
                         st.session_state.req_lines_avail = False
