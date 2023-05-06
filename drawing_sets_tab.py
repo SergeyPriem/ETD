@@ -543,5 +543,5 @@ def manage_units():
                     st.warning(reply['err_descr'])
 
         with tab_preview:
-
+            sod_df['request_udate'] = False
             st.dataframe(sod_df, use_container_width=True, height=1200)
