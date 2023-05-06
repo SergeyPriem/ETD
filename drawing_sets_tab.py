@@ -350,6 +350,8 @@ def drawing_sets():
                         else:
                             st.warning("Select specialities for request")
 
+from functools import lru_cache
+
 
 def manage_units():
     center_style()
@@ -360,11 +362,13 @@ def manage_units():
     proj_df = st.session_state.adb['project'].copy()
     sod_df = st.session_state.adb['sod'].copy()
 
+    @lru_cache(100)
     def change_resp(x):
         return u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
 
     proj_df.responsible_el = proj_df.responsible_el.apply(change_resp)
 
+    @lru_cache(100)
     def change_sod_resp(x):
         return u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
 
