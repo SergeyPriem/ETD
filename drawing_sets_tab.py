@@ -363,15 +363,16 @@ def manage_units():
     sod_df = st.session_state.adb['sod'].copy()
 
     @lru_cache(100)
-    def change_resp(x):
+    def change_proj_resp(x):
         return u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
 
-    proj_df.responsible_el = proj_df.responsible_el.apply(change_resp)
+    proj_df.responsible_el = proj_df.responsible_el.apply(change_proj_resp)
 
     @lru_cache(100)
     def change_sod_resp(x):
         return u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
 
+    @lru_cache(100)
     def change_shortname(x):
         return proj_df.loc[proj_df.index == x, 'short_name'].to_numpy()[0]
 
