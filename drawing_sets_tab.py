@@ -566,4 +566,5 @@ def manage_units():
                 # send_upd_request()
                 st.write("Requests sent")
                 sod_df['request_update'] = False
+                st.experimental_rerun()
 
