@@ -566,7 +566,9 @@ def manage_units():
         with tab_preview:
             sod_df['request_update'] = False
 
-            def preview_units(sod_df):
+            st.sidebar(f"req_lines_avail={st.session_state.req_lines_avail}")
+
+            def show_units(sod_df):
                 if not st.session_state.req_lines_avail:
                     sod_df['request_update'] = False
 
@@ -578,7 +580,7 @@ def manage_units():
                     st.session_state.req_lines_avail = True
                 return sod_to_request_df
 
-            sod_to_request = preview_units(sod_df)
+            sod_to_request = show_units(sod_df)
 
             reset_request(sod_to_request)
 
