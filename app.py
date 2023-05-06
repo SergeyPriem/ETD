@@ -1023,4 +1023,4 @@ def initial():
 
 if __name__ == "__main__":
     initial()
-    # show_duration()
+    show_duration()
