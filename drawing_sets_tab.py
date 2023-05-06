@@ -383,7 +383,7 @@ def request_updates(temp_sod):
     if len(temp_sod):
         st.divider()
 
-        lc, cc, rc = st.columns(2, gap='medium')
+        lc, cc, rc = st.columns(3, gap='medium')
         request_but = lc.button('Request for Update', use_container_width=True)
         cancel_but = rc.button('Request for Update', use_container_width=True)
 
@@ -441,8 +441,6 @@ def manage_units():
 
     with content_sets:
         st.title(':orange[Units]')
-
-        st.text(st.session_state.req_lines_avail)
 
         tab_create, tab_update, tab_preview = st.tabs(['Create New Unit', 'Edit Existing Unit', 'View All Units'])
 
