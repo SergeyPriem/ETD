@@ -576,5 +576,5 @@ def manage_units():
 
 
 
-            reset_request(lc, rc)
+            reset_request(lc, rc, sod_to_request_new_df)
 
