@@ -351,8 +351,10 @@ def drawing_sets():
                             st.warning("Select specialities for request")
 
 
-def reset_request(lc, rc, sod_to_request_new_df):
+def reset_request(sod_to_request_new_df):
+
     if st.session_state.req_lines_avail:
+        lc, rc = st.columns(2, gap='medium')
         st.dataframe(sod_to_request_new_df, use_container_width=True)
         reset_but = lc.button('Reset Selected', use_container_width=True)
         request_but = rc.button('Request for Update', use_container_width=True)
@@ -568,13 +570,10 @@ def manage_units():
 
             sod_to_request_new_df = sod_to_request_df[sod_to_request_df.request_update].copy()
 
-            lc, cc, rc = st.columns(3, gap='medium')
+
 
             if len(sod_to_request_new_df):
                 st.session_state.req_lines_avail = True
 
-
-
-
-            reset_request(lc, rc, sod_to_request_new_df)
+            reset_request()
 
