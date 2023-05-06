@@ -384,7 +384,7 @@ def request_updates(temp_sod):
         st.divider()
 
         lc, cc, rc = st.columns(3, gap='medium')
-        cancel_but = lc.button('Request for Cancel', use_container_width=True)
+        cancel_but = lc.button('Cancel Request', use_container_width=True)
         request_but = cc.button('Request for Update', use_container_width=True)
 
         i = 0
@@ -398,6 +398,7 @@ def request_updates(temp_sod):
 
         if cancel_but:
             st.session_state.req_lines_avail += 1
+            st.experimental_rerun()
 
         if i:
             rc.success(f'{i} Requests Sent')
