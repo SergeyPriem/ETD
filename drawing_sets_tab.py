@@ -390,13 +390,9 @@ def reset_or_request(temp_sod, sod_df, placeholder):
 
         if reset_but:
             st.write("reset")
-            win_selector("Reading")
-            win_selector("Units")
 
         if request_but:
             st.write("Requests sent")
-            win_selector("Reading")
-            win_selector("Units")
 
 
 def manage_units():
