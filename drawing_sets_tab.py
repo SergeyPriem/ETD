@@ -372,9 +372,10 @@ def manage_units():
     def change_sod_resp(x):
         return u_df.loc[u_df.index == x, 'login'].to_numpy()[0]
 
-    sod_df.project_id = sod_df.project_id.apply(
-        lambda x: proj_df.loc[proj_df.index == x, 'short_name'].to_numpy()[0]
-    )
+    def change_shortname(x):
+        return proj_df.loc[proj_df.index == x, 'short_name'].to_numpy()[0]
+
+    sod_df.project_id = sod_df.project_id.apply(change_shortname)
 
     sod_df.coord_id = sod_df.coord_id.apply(change_sod_resp)
 
