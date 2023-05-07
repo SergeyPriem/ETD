@@ -389,8 +389,9 @@ def request_updates(temp_sod):
 
         i = 0
         if request_but:
+            st.subheader("Sent Requests:")
             for ind, row in temp_sod.iterrows():
-                st.info(f"Requests for {row.project_id}: {row.set_name} sent")
+                st.write(f":green[{row.project_id}: {row.set_name}]")
                 time.sleep(1)
                 i += 1
 
