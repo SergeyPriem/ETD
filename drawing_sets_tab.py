@@ -392,7 +392,7 @@ def request_updates(temp_sod):
             st.subheader("Sent Requests:")
             for ind, row in temp_sod.iterrows():
                 st.write(f":green[{row.project_id}: {row.set_name}]")
-                st.write(🐼)
+                st.write('🐼')
                 time.sleep(1)
                 i += 1
 
