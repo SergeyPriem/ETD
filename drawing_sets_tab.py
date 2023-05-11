@@ -383,14 +383,16 @@ def request_updates(temp_sod):
     if len(temp_sod):
         st.divider()
 
-        lc, cc, rc = st.columns(3, gap='medium')
+        lc, rc = st.columns(2, gap='medium')
         cancel_but = lc.button('Cancel Request', use_container_width=True)
-        request_but = cc.button('Request for Update', use_container_width=True)
+        request_but = rc.button('Request for Update', use_container_width=True)
 
         i = 0
         if request_but:
+            st.subheader("Sent Requests:")
             for ind, row in temp_sod.iterrows():
-                rc.info(f"Requests for {row.project_id}: {row.set_name} sent")
+                st.write(f":green[{row.project_id}: {row.set_name}]")
+                st.write('🐼')
                 time.sleep(1)
                 i += 1
 
@@ -401,7 +403,7 @@ def request_updates(temp_sod):
             st.experimental_rerun()
 
         if i:
-            rc.button(f'{i} Requests Sent - O K', use_container_width=True)
+            st.button(f'{i} Requests Sent - O K', use_container_width=True)
 
 
 def manage_units():
