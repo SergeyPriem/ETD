@@ -381,7 +381,7 @@ def show_units_for_request(units):
 
 def request_updates(temp_sod):
 
-    u_df = st.session_state('users')
+    u_df = st.session_state.adb['users']
 
     if len(temp_sod):
         st.divider()
