@@ -426,7 +426,7 @@ def request_updates(temp_sod):
                 if reply == 200:
                     st.write(f":green[{row.project_id}: {row.set_name}]")
                     st.write(f":green[Sent to {receiver}, {cc_rec}]")
-                    st.write('***')
+
                     i += 1
                 else:
                     st.warning(reply)
