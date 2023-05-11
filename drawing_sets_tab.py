@@ -380,6 +380,9 @@ def show_units_for_request(units):
 
 
 def request_updates(temp_sod):
+
+    u_df = st.session_state('users')
+
     if len(temp_sod):
         st.divider()
 
@@ -391,10 +394,42 @@ def request_updates(temp_sod):
         if request_but:
             st.subheader("Sent Requests:")
             for ind, row in temp_sod.iterrows():
-                st.write(f":green[{row.project_id}: {row.set_name}]")
-                st.write('🐼')
-                time.sleep(1)
-                i += 1
+
+                subj = f"{row.project_id}: {row.set_name}. Request for status update | Запрос на обновление статуса"
+
+                html = f"""
+                    <html>
+                      <head></head>
+                      <body>
+                        <h3>
+                          Hello, Colleague!
+                          <hr>
+                        </h3>
+                        <h5>
+                          Please update the Status of Unit: {row.project_id}: {row.set_name} at Site <a href="https://e-design.streamlit.app/">e-design.streamlit.app</a>
+                        </h5>
+                        <h5>
+                          Пожалуйста, обновите Статус Комплекта: {row.project_id}: {row.set_name} на Сайте <a href="https://e-design.streamlit.app/">e-design.streamlit.app</a>
+                        </h5>
+                            <hr>
+                            Best regards, Administration 😎
+                        </p>
+                      </body>
+                    </html>
+                """
+
+                receiver = u_df.loc[u_df.login == row.coord_id, 'email'].to_numpy()[0]
+                cc_rec = u_df.loc[u_df.login == row.perf_id, 'email'].to_numpy()[0]
+
+                reply = send_mail(receiver=receiver, cc_rec=cc_rec, subj=subj, html=html)
+
+                if reply == 200:
+                    st.write(f":green[{row.project_id}: {row.set_name}]")
+                    st.write(f":green[Sent to {receiver}, {cc_rec}]")
+                    st.write('***')
+                    i += 1
+                else:
+                    st.warning(reply)
 
             st.session_state.req_lines_avail += 1
 
@@ -403,7 +438,7 @@ def request_updates(temp_sod):
             st.experimental_rerun()
 
         if i:
-            st.button(f'{i} Requests Sent - O K', use_container_width=True)
+            st.button(f'{i} Requests Sent - OK', use_container_width=True)
 
 
 def manage_units():
