@@ -365,7 +365,7 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
             new_ass.backup_copy = result[0]
 
             return f"""
-            New Task #{int(new_ass_id) + 1} for {new_ass.s_o_d.project_id.short_name}: {new_ass.s_o_d.set_name} is added to DataBase  
+            New Task #{new_ass_id} for {new_ass.s_o_d.project_id.short_name}: {new_ass.s_o_d.set_name} is added to DataBase  
             
             Copy backup string 👇 to Clipboard<*>
             {result[1]}
