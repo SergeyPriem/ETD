@@ -651,7 +651,7 @@ def login_register():
 
 def manage_users():
     center_style()
-    users_1, users_content, users_2 = st.columns([1, 2, 1])
+    users_1, users_content, users_2 = st.columns([1, 4, 1])
     with users_1:
         st.empty()
     with users_1:
