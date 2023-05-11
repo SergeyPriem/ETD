@@ -420,6 +420,7 @@ def request_updates(temp_sod):
                     </html>
                 """
 
+
                 receiver = u_df.loc[u_df.login == row.coord_id, 'email'].to_numpy()[0]
                 cc_rec = u_df.loc[u_df.login == row.perf_id, 'email'].to_numpy()[0]
 
