@@ -406,10 +406,10 @@ def request_updates(temp_sod):
                           <hr>
                         </h3>
                         <h5>
-                          Please update the Status of Unit: {row.project_id}: {row.set_name} at Site <a href="https://e-design.streamlit.app/">e-design.streamlit.app</a>
+                          Please update the Status of Unit: <u>{row.project_id}: {row.set_name}</u> at Site <a href="https://e-design.streamlit.app/">e-design.streamlit.app</a>
                         </h5>
                         <h5>
-                          Пожалуйста, обновите Статус Комплекта: {row.project_id}: {row.set_name} на Сайте <a href="https://e-design.streamlit.app/">e-design.streamlit.app</a>
+                          Пожалуйста, обновите Статус Комплекта: <u>{row.project_id}: {row.set_name}</u> на Сайте <a href="https://e-design.streamlit.app/">e-design.streamlit.app</a>
                         </h5>
                             <hr>
                             Best regards, Administration 😎
