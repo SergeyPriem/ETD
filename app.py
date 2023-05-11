@@ -720,7 +720,7 @@ def manage_users():
                     reply_2 = send_mail(user_email, 'sergey.priemshiy@uzliti-en.com', subj, html)
 
                     if reply_2 == 200:
-                        rc.write(f'Informational e-mail was sent to {user_email}, sergey.priemshiy@uzliti-en.com')
+                        rc.success(f'Informational e-mail was sent to {user_email}, sergey.priemshiy@uzliti-en.com')
                     else:
                         rc.warning(reply_2)
                 else:
