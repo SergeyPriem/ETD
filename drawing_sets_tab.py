@@ -508,9 +508,9 @@ def manage_units():
                     res_l.success(f"New Set '{unit_name}' for Project '{proj_short}' is added to DataBase")
 
                     st.session_state.adb['sod'] = reply['sod']
-                    proj_id = proj_df.loc[proj_df.short_name == proj_short].index.to_numpy()[0]
+                    # proj_id = proj_df.loc[proj_df.short_name == proj_short].index.to_numpy()[0]
                     set_id = sod_df.loc[
-                        (sod_df.set_name == unit_name) & (sod_df.project_id == proj_id)
+                        (sod_df.set_name == unit_name) & (sod_df.project_id == proj_short)
                         ].index.to_numpy()[0]
 
                     receiver = u_df.loc[sod_df.loc[set_id, 'coord_id'], 'email']
