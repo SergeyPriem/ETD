@@ -625,12 +625,16 @@ def confirm_task(task_id):
 
 
 def confirm_trans(trans_num):
+
     with db_session:
         try:
             tr = Trans.get(trans_num=trans_num)
 
             if tr.received:
                 prev_record = tr.received.replace('-', '')
+            else:
+                prev_record = tr.received
+
             tr.received = f"{prev_record}<{st.session_state.login}*{str(datetime.now())[:-10]}>"
             st.session_state.adb['trans'] = get_table(Trans)
             st.experimental_rerun()
