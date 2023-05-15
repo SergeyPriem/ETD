@@ -468,7 +468,7 @@ def home_content():
                                       on_click=update_trans_status,
                                       args=((row.trans_num,)))
                             st.session_state.adb['trans'] = get_table(Trans)
-                            st.experimental_rerun()
+                            # st.experimental_rerun()
                             st.text("")
 
                     else:
