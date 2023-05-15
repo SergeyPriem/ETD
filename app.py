@@ -22,6 +22,7 @@ from users import check_user, add_to_log, create_appl_user, update_users_in_db, 
 from projects import confirm_task, confirm_trans, trans_status_to_db, get_all, get_table
 from models import Users, Task, Trans
 from functools import lru_cache
+from streamlit_autorefresh import st_autorefresh
 
 # import openpyxl
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
@@ -93,7 +94,8 @@ def show_sidebar_info():
         st.sidebar.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>{st.session_state.proj_scope}</h3>",
                             unsafe_allow_html=True)
         st.sidebar.markdown(
-            f"<h5 style='text-align: center; color: #fcf403;'>You can chose another Mode: Settings -> Scope of Load</h5>",
+            f"""<h5 style='text-align: center; color: #fcf403;'>You can chose another Mode:
+             Settings -> Scope of Load</h5>""",
             unsafe_allow_html=True)
 
         if access_level == 'dev':
@@ -247,7 +249,7 @@ def create_states():
 
     for state in state_list:
         if state not in st.session_state:
-            st.session_state[state] = False #None
+            st.session_state[state] = False  #None
 
     state_list = ['logged', 'code_sent', 'upd_code_sent', 'conf_num', 'task_preview']
     for state in state_list:
@@ -283,7 +285,8 @@ def form_for_trans():
 
             st.markdown(
                 """
-                <h6>If your Reply Transmittal not in list or list is empty, please add your transmittal to DataBase first</h6>
+                <h6>If your Reply Transmittal not in list or list is empty,
+                please add your transmittal to DataBase first</h6>
                 """,
                 unsafe_allow_html=True
             )
@@ -422,7 +425,7 @@ def home_content():
                             but_key1 = f"Confirm Task: {row.id}"
                             task_id = row.id
                             if st.button(label=but_key1, key=but_key1, type='primary', on_click=confirm_task,
-                                         args=((row.id,))):
+                                         args=(row.id,)):
                                 st.info(f"Task {task_id} confirmed!!")
                                 st.session_state.adb['task'] = get_table(Task)
                                 st.experimental_rerun()
@@ -523,7 +526,7 @@ def home_content():
                                 if st.session_state.login not in row.received:
                                     st.button(label=but_key1, key=but_key1, type='secondary',
                                               on_click=confirm_trans,
-                                              args=((row.trans_num,)))
+                                              args=(row.trans_num,))
 
                             st.button(label=but_key2, key=but_key2, type='primary',
                                       on_click=update_trans_status,
@@ -1107,6 +1110,9 @@ def initial():
 
 
 if __name__ == "__main__":
+
+    count = st_autorefresh(interval=10000, limit=100, key="refresher")
+
     st.session_state.r_now = datetime.datetime.now()
     initial()
     show_sidebar_info()
