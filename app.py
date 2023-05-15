@@ -105,6 +105,9 @@ def show_sidebar_info():
 
                 st.sidebar.markdown(f"<h2 style='text-align: center; color: #fcf403;'>{delta} ms</h2>",
                                     unsafe_allow_html=True)
+                st.sidebar.markdown(f"<h4 style='text-align: center; color: #59E314;'>Refresh: {refresh_count} ms</h4>",
+                                    unsafe_allow_html=True)
+
 
 
 # @lru_cache(128)
@@ -1109,9 +1112,9 @@ def initial():
         win_selector(prepared_menus)
 
 
-if __name__ == "__main__":
+refresh_count = st_autorefresh(interval=10000, limit=100, key="refresher")
 
-    count = st_autorefresh(interval=10000, limit=100, key="refresher")
+if __name__ == "__main__":
 
     st.session_state.r_now = datetime.datetime.now()
     initial()
