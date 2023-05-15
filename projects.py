@@ -638,23 +638,23 @@ def confirm_trans(trans_num):
 
 
 def trans_status_to_db():
-    trans_num, status, out_note = st.session_state.trans_status
+    trans_l = st.session_state.trans_status
     with db_session:
         try:
-            trans = Trans.get(trans_num=trans_num)
+            trans = Trans.get(trans_num=trans_l['trans_num'])
 
             prev_notes = trans.notes
 
-            if prev_notes:
-                new_notes = prev_notes + "<" + str(out_note) + ">"
+            if len(trans_l['out_note']):
+                new_notes = prev_notes + "<" + str(trans_l['out_num']) + ': ' + str(trans_l['out_note']) + ">"
             else:
-                new_notes = " >>" + str(out_note)
+                new_notes = prev_notes + "<" + str(trans_l['out_num']) + ">"
 
             if st.session_state.login not in trans.received:
                 trans.received = f"{trans.received.replace('-', '')}<{st.session_state.login}*{str(datetime.now())[:-10]}>"
 
             trans.notes = new_notes
-            trans.status = status
+            trans.status = trans_l['status']
             return 'Status Updated'
         except Exception as e:
             return err_handler(e)

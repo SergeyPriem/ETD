@@ -246,35 +246,53 @@ def create_states():
             st.session_state[state] = False
 
 
-def update_trans_status(trans_num):
-    st.session_state.trans_status = trans_num
+def update_trans_status(trans_num, trans_proj):
+    st.session_state.trans_status = {
+        'trans_num': trans_num,
+        'out_num': None,
+        'project': trans_proj,
+        'status': None,
+        'out_note': None,
+    }
 
 
 def form_for_trans():
     trans_df = st.session_state.adb['trans']
-    trans_num_list = trans_df.trans_num.tolist()
+
+    trans_num_list = trans_df.loc[trans_df.project == st.session_state.trans_status['project'], 'trans_num'].tolist()
+
     empty1, content, empty2 = st.columns([5, 3, 5])
     with content:
         with st.form('confirm_trans', clear_on_submit=True):
-            st.subheader(f'Close Transmittal {st.session_state.trans_status}')
+            st.subheader(f"Close Transmittal {st.session_state.trans_status['trans_num']}")
             out_num = st.selectbox('Number of reply Transmittal', trans_num_list)
-            out_date = st.date_input('Date of reply Transmittal')
+            # out_date = st.date_input('Date of reply Transmittal')
             status = st.radio("Transmittal Status", trans_stat)
             comment = st.text_area('Comments')
-            out_note = f"{out_num} by {out_date}: {comment}"
+            out_note = f"{out_num}: {comment}"
             st.divider()
             conf_but = st.form_submit_button('Update', type='primary', use_container_width=True)
 
         if conf_but:
-            st.session_state.trans_status = (st.session_state.trans_status, status, out_note)
+
+            st.session_state.trans_status['status'] = status
+            st.session_state.trans_status['out_note'] = out_note
+            st.session_state.trans_status['out_num'] = out_num
+
             reply = trans_status_to_db()
-            st.info(reply)
-            st.session_state.trans_status = None
-            st.experimental_rerun()
+
+            if reply == 'Status Updated':
+                st.success(reply)
+                time.sleep(1)
+                st.session_state.trans_status = None
+                st.experimental_rerun()
+
+            else:
+                st.warning(reply)
 
         if st.button('Escape', use_container_width=True):
             st.session_state.trans_status = None
-            st.experimental_rerun()
+            # st.experimental_rerun()
 
 
 def home_content():
@@ -473,7 +491,7 @@ def home_content():
 
                             st.button(label=but_key2, key=but_key2, type='primary',
                                       on_click=update_trans_status,
-                                      args=((row.trans_num,)))
+                                      args=((row.trans_num, row.short_name)))
                             st.session_state.adb['trans'] = get_table(Trans)
                             # st.experimental_rerun()
                             st.text("")
