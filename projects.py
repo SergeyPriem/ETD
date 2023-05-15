@@ -874,6 +874,47 @@ def get_all():
             return err_handler(e)
 
 
+def get_proj_repeat():
+    with db_session:
+        try:
+            if st.session_state.proj_scope == "All Projects":
+                proj = (select(u for u in Project)[:])
+
+            if st.session_state.proj_scope == "Only Current Projects":
+                proj = select(u for u in Project if u.status in ['current', 'perspective', 'final stage'])[:]
+
+            if st.session_state.proj_scope == "All excluding cancelled and suspended":
+                proj = select(u for u in Project if u.status not in ['suspended', 'cancelled'])[:]
+
+            return {
+                'status': 200,
+                'sod': tab_to_df(proj),
+            }
+
+        except Exception as e:
+            return err_handler(e)
+
+
+def get_sod_repeat():
+    with db_session:
+        try:
+            if st.session_state.proj_scope == "All Projects":
+                sod = (select(u for u in SOD)[:])
+
+            if st.session_state.proj_scope == "Only Current Projects":
+                sod = select(u for u in SOD if u.project_id.status in ['current', 'perspective', 'final stage'])[:]
+
+            if st.session_state.proj_scope == "All excluding cancelled and suspended":
+                sod = select(u for u in SOD if u.project_id.status not in ['suspended', 'cancelled'])[:]
+
+            return {
+                'status': 200,
+                'sod': tab_to_df(sod),
+            }
+        except Exception as e:
+            return err_handler(e)
+
+
 def get_tasks_repeat():
     with db_session:
         try:

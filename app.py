@@ -19,7 +19,8 @@ from settings_tab import settings_content
 from transmittals_tab import transmittals_content
 from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, register_user, \
     err_handler
-from projects import confirm_task, confirm_trans, trans_status_to_db, get_all, get_table, get_tasks_repeat
+from projects import confirm_task, confirm_trans, trans_status_to_db, get_all, get_table, get_tasks_repeat, \
+    get_sod_repeat, get_proj_repeat
 from models import Users, Task, Trans
 from functools import lru_cache
 from streamlit_autorefresh import st_autorefresh
@@ -1122,22 +1123,23 @@ def refresher():
             return 'Tasks Updated'
 
     if refresh_count % 15 == 0:
-        # reply = get_tasks_repeat()
-        # if reply['status'] == 200:
-        #     st.session_state.adb['task'] = reply['task']
+        reply = get_sod_repeat()
+        if reply['status'] == 200:
+            st.session_state.adb['sod'] = reply['sod']
         return 'SOD Updated'
 
     if refresh_count % 20 == 0:
-        # reply = get_tasks_repeat()
-        # if reply['status'] == 200:
-        #     st.session_state.adb['task'] = reply['task']
+        reply = get_proj_repeat()
+        if reply['status'] == 200:
+            st.session_state.adb['project'] = reply['proj']
         return 'Projects Updated'
 
     if refresh_count % 12 == 0:
-        # reply = get_tasks_repeat()
-        # if reply['status'] == 200:
-        #     st.session_state.adb['task'] = reply['task']
+        reply = get_tasks_repeat()
+        if reply['status'] == 200:
+            st.session_state.adb['task'] = reply['task']
         return 'Projects Updated'
+
     return f"No changes: {refresh_count}"
 
 
