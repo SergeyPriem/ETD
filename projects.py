@@ -267,8 +267,7 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
             'status': 400,
             'sod': None,
             'err_descr': f"Set of Drawings '{set_name}' for Project '{proj_short}' is already in DataBase",
-            }
-
+        }
 
     with db_session:
         try:
@@ -308,7 +307,6 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
                     'sod': None,
                     'err_descr': err_handler(e),
                     }
-
 
 
 def get_set_to_edit(selected_project, selected_set):
@@ -630,7 +628,9 @@ def confirm_trans(trans_num):
     with db_session:
         try:
             tr = Trans.get(trans_num=trans_num)
-            prev_record = tr.received.replace('-', '')
+
+            if tr.received:
+                prev_record = tr.received.replace('-', '')
             tr.received = f"{prev_record}<{st.session_state.login}*{str(datetime.now())[:-10]}>"
             st.session_state.adb['trans'] = get_table(Trans)
             st.experimental_rerun()
@@ -869,15 +869,12 @@ def get_all():
             return err_handler(e)
 
 
-
-
 def update_unit_name_stage(unit_id, new_name, new_stage):
     with db_session:
         try:
             unit = SOD[unit_id]
             unit.set_name = new_name
             unit.stage = new_stage
-
 
             if st.session_state.proj_scope == "All Projects":
                 sod = (select(u for u in SOD)[:])
@@ -899,4 +896,3 @@ def update_unit_name_stage(unit_id, new_name, new_stage):
                     'sod': None,
                     'err_descr': err_handler(e),
                     }
-
