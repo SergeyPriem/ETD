@@ -266,12 +266,14 @@ def update_trans_status(trans_num, trans_proj):
 
 
 def form_for_trans():
+    center_style()
     trans_df = st.session_state.adb['trans']
     proj_df = st.session_state.adb['project']
 
     proj_id = proj_df[proj_df.short_name == st.session_state.trans_status['project']].index.to_numpy()[0]
 
     trans_num_list = trans_df.loc[trans_df.project == proj_id, 'trans_num'].tolist()
+    trans_num_list.insert(0, "Not Required")
     st.header(trans_num_list)
     empty1, content, empty2 = st.columns([5, 3, 5])
     with content:
@@ -291,10 +293,16 @@ def form_for_trans():
             status = st.radio("Transmittal Status", trans_stat)
             comment = st.text_area('Comments')
             out_note = f"{out_num}: {comment}"
+            check_number = st.checkbox('Reply Transmittal Number is not Required')
             st.divider()
             conf_but = st.form_submit_button('Update', type='primary', use_container_width=True)
 
         if conf_but:
+
+            if out_num == "Not Required" and status == "Closed":
+                if not check_number:
+                    st.warning("Please Confirm that Transmittal Number is not Required")
+                    st.stop()
 
             st.session_state.trans_status['status'] = status
             st.session_state.trans_status['out_note'] = out_note
