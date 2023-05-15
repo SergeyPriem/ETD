@@ -654,10 +654,10 @@ def trans_status_to_db():
 
             prev_notes = trans.notes
 
-            if len(trans_l['out_note']):
-                new_notes = prev_notes + "<" + str(trans_l['out_num']) + ': ' + str(trans_l['out_note']) + ">"
+            if prev_notes:
+                new_notes = prev_notes + "<" + str(trans_l['out_note']) + ">"
             else:
-                new_notes = prev_notes + "<" + str(trans_l['out_num']) + ">"
+                new_notes = "<" + str(trans_l['out_note']) + ">"
 
             if st.session_state.login not in trans.received:
                 trans.received = f"{trans.received.replace('-', '')}<{st.session_state.login}*{str(datetime.now())[:-10]}>"

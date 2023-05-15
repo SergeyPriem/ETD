@@ -236,7 +236,7 @@ def create_states():
     if 'trans_status' not in st.session_state:
         st.session_state.trans_status = {
             'trans_num': None,
-            'out_num': None,
+            # 'out_num': None,
             'project': None,
             'status': None,
             'out_note': None,
@@ -258,7 +258,7 @@ def create_states():
 def update_trans_status(trans_num, trans_proj):
     st.session_state.trans_status = {
         'trans_num': trans_num,
-        'out_num': None,
+        # 'out_num': None,
         'project': trans_proj,
         'status': None,
         'out_note': None,
@@ -292,7 +292,7 @@ def form_for_trans():
             # out_date = st.date_input('Date of reply Transmittal')
             status = st.radio("Transmittal Status", trans_stat)
             comment = st.text_area('Comments')
-            out_note = f"{out_num}: {comment}"
+
             check_number = st.checkbox('Reply Transmittal Number is not Required')
             st.divider()
             conf_but = st.form_submit_button('Update', type='primary', use_container_width=True)
@@ -304,9 +304,10 @@ def form_for_trans():
                     st.warning("Please Confirm that Transmittal Number is not Required")
                     st.stop()
 
+            out_note = f"{out_num}: {comment}"
             st.session_state.trans_status['status'] = status
             st.session_state.trans_status['out_note'] = out_note
-            st.session_state.trans_status['out_num'] = out_num
+            # st.session_state.trans_status['out_num'] = out_num
 
             reply = trans_status_to_db()
 
