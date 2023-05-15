@@ -658,8 +658,12 @@ def trans_status_to_db():
             else:
                 new_notes = f"<{str(trans_l['out_note'])}*{str(datetime.now())[:-10]}>"
 
-            if st.session_state.login not in trans.received:
-                trans.received = f"{trans.received.replace('-', '')}<{st.session_state.login}*{str(datetime.now())[:-10]}>"
+            if trans.received:
+                if st.session_state.login not in trans.received:
+                    trans.received = \
+                        f"{trans.received.replace('-', '')}<{st.session_state.login}*{str(datetime.now())[:-10]}>"
+            else:
+                f"{trans.received.replace('None', '')}<{st.session_state.login}*{str(datetime.now())[:-10]}>"
 
             trans.notes = new_notes
             trans.status = trans_l['status']
