@@ -888,7 +888,7 @@ def get_proj_repeat():
 
             return {
                 'status': 200,
-                'sod': tab_to_df(proj),
+                'proj': tab_to_df(proj),
             }
 
         except Exception as e:
