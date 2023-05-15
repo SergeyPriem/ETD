@@ -277,7 +277,12 @@ def form_for_trans():
     with content:
         with st.form('confirm_trans', clear_on_submit=True):
             st.subheader(f"Update Status for Transmittal: {st.session_state.trans_status['trans_num']}")
-            st.write("If your transmittal not in list or list is empty, please add your transmittal to DataBase first")
+            st.markdown(
+                """
+                <h5>If your transmittal not in list or list is empty, please add your transmittal to DataBase first</h5>
+                """,
+                unsafe_allow_html=True
+            )
             out_num = st.selectbox('Number of reply Transmittal', trans_num_list)
             # out_date = st.date_input('Date of reply Transmittal')
             status = st.radio("Transmittal Status", trans_stat)
