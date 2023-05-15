@@ -459,7 +459,7 @@ def home_content():
                             but_key1 = f"Confirm receiving: {row.trans_num}"
                             but_key2 = f"Update Status for: {row.trans_num}"
 
-                            if isinstance(row.received, 'NoneType'):
+                            if isinstance(row.received, None):
                                 st.button(label=but_key1, key=but_key1, type='secondary',
                                           on_click=confirm_trans,
                                           args=((row.trans_num,)))
