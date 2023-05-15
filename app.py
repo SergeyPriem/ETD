@@ -274,7 +274,7 @@ def form_for_trans():
 
     trans_num_list = trans_df.loc[trans_df.project == proj_id, 'trans_num'].tolist()
     trans_num_list.insert(0, "Reply is Not Required")
-    st.header(trans_num_list)
+
     empty1, content, empty2 = st.columns([5, 3, 5])
     with content:
         with st.form('confirm_trans', clear_on_submit=True):
