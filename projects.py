@@ -625,7 +625,6 @@ def confirm_task(task_id):
 
 
 def confirm_trans(trans_num):
-
     with db_session:
         try:
             tr = Trans.get(trans_num=trans_num)
@@ -871,6 +870,29 @@ def get_all():
                 'speciality': tab_to_df(spec)
             }
 
+        except Exception as e:
+            return err_handler(e)
+
+
+def get_tasks_repeat():
+    with db_session:
+        try:
+            if st.session_state.proj_scope == "All Projects":
+                task = (select(u for u in Task)[:])
+
+            if st.session_state.proj_scope == "Only Current Projects":
+                task = select(
+                    u for u in Task if u.s_o_d.project_id.status in ['current', 'perspective', 'final stage'])[:]
+
+            if st.session_state.proj_scope == "All excluding cancelled and suspended":
+                task = select(u for u in Task if u.s_o_d.project_id.status not in ['suspended', 'cancelled'])[:]
+
+            st.session_state.adb['task'] = tab_to_df(task)
+
+            return {
+                'status': 200,
+                'task': tab_to_df(task),
+            }
         except Exception as e:
             return err_handler(e)
 

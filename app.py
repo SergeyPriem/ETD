@@ -19,7 +19,7 @@ from settings_tab import settings_content
 from transmittals_tab import transmittals_content
 from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, register_user, \
     err_handler
-from projects import confirm_task, confirm_trans, trans_status_to_db, get_all, get_table
+from projects import confirm_task, confirm_trans, trans_status_to_db, get_all, get_table, get_tasks_repeat
 from models import Users, Task, Trans
 from functools import lru_cache
 from streamlit_autorefresh import st_autorefresh
@@ -1114,6 +1114,24 @@ def initial():
 
 
 refresh_count = st_autorefresh(interval=10000, limit=100, key="refresher")
+
+if refresh_count % 10 == 0:
+    reply = get_tasks_repeat()
+    if reply['status'] == 200:
+        st.session_state.adb['task'] = reply['task']
+        st.sidebar.text('Tasks Updated')
+
+if refresh_count % 15 == 0:
+    # reply = get_tasks_repeat()
+    # if reply['status'] == 200:
+    #     st.session_state.adb['task'] = reply['task']
+    st.sidebar.text('SOD Updated')
+
+if refresh_count % 20 == 0:
+    # reply = get_tasks_repeat()
+    # if reply['status'] == 200:
+    #     st.session_state.adb['task'] = reply['task']
+    st.sidebar.text('SOD Updated')
 
 if __name__ == "__main__":
 
