@@ -873,6 +873,28 @@ def get_all():
         except Exception as e:
             return err_handler(e)
 
+def get_trans_repeat():
+    with db_session:
+        try:
+            if st.session_state.proj_scope == "All Projects":
+                trans = (select(u for u in Trans)[:])
+
+            if st.session_state.proj_scope == "Only Current Projects":
+                trans = select(u for u in Trans if u.project.status in ['current', 'perspective', 'final stage'])[:]
+
+            if st.session_state.proj_scope == "All excluding cancelled and suspended":
+                trans = select(u for u in Trans if u.project.status not in ['suspended', 'cancelled'])[:]
+
+            return {
+                'status': 200,
+                'trans': tab_to_df(trans),
+            }
+
+        except Exception as e:
+            return {
+                'status': err_handler(e),
+                'trans': None,
+            }
 
 def get_proj_repeat():
     with db_session:
@@ -892,7 +914,10 @@ def get_proj_repeat():
             }
 
         except Exception as e:
-            return err_handler(e)
+            return {
+                'status': err_handler(e),
+                'proj': None,
+            }
 
 
 def get_sod_repeat():
@@ -912,7 +937,10 @@ def get_sod_repeat():
                 'sod': tab_to_df(sod),
             }
         except Exception as e:
-            return err_handler(e)
+            return {
+                'status': err_handler(e),
+                'sod': None,
+            }
 
 
 def get_tasks_repeat():
@@ -935,7 +963,10 @@ def get_tasks_repeat():
                 'task': tab_to_df(task),
             }
         except Exception as e:
-            return err_handler(e)
+            return {
+                'status': err_handler(e),
+                'task': None,
+            }
 
 
 def update_unit_name_stage(unit_id, new_name, new_stage):
