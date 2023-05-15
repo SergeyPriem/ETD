@@ -283,7 +283,7 @@ def form_for_trans():
 
             st.markdown(
                 """
-                <h6>If your transmittal not in list or list is empty, please add your transmittal to DataBase first</h6>
+                <h6>If your Reply Transmittal not in list or list is empty, please add your transmittal to DataBase first</h6>
                 """,
                 unsafe_allow_html=True
             )
@@ -322,7 +322,7 @@ def form_for_trans():
 
         if st.button('Escape', use_container_width=True):
             st.session_state.trans_status = None
-            # st.experimental_rerun()
+            st.experimental_rerun()
 
 
 def home_content():
