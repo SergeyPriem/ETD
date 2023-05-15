@@ -1116,7 +1116,7 @@ def initial():
 def refresher():
     refresh_count = st_autorefresh(interval=10 * 1000, limit=4000, key="refresher")
 
-    if refresh_count % 10 == 0:
+    if refresh_count % 9 == 0:
         reply = get_tasks_repeat()
         if reply['status'] == 200:
             st.session_state.adb['task'] = reply['task']
