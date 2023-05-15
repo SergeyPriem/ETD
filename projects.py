@@ -634,9 +634,9 @@ def confirm_trans(trans_num):
             tr.received = f"{prev_record}<{st.session_state.login}*{str(datetime.now())[:-10]}>"
             st.session_state.adb['trans'] = get_table(Trans)
             st.experimental_rerun()
-            print(f"Transmittal {trans_num} confirmed")
+            st.header(f"Transmittal {trans_num} confirmed")
         except Exception as e:
-            print(err_handler(e))
+            st.header(err_handler(e))
             return err_handler(e)
 
 
