@@ -82,7 +82,7 @@ def home_trans():
     return trans_df
 
 
-def show_sidebar_info():
+def show_sidebar_info(sidebar_rep):
     u_df = st.session_state.adb['users']
 
     if st.session_state.login and st.session_state.proj_scope:
@@ -105,10 +105,9 @@ def show_sidebar_info():
 
                 st.sidebar.markdown(f"<h2 style='text-align: center; color: #fcf403;'>{delta} ms</h2>",
                                     unsafe_allow_html=True)
-                st.sidebar.markdown(f"<h4 style='text-align: center; color: #59E314;'>"
-                                    f"Refreshed {refresh_count} times</h4>",
-                                    unsafe_allow_html=True)
 
+                st.sidebar.markdown(f"<h4 style='text-align: center; color: #59E314;'>"
+                                    f"Refreshed {sidebar_rep} times</h4>", unsafe_allow_html=True)
 
 
 # @lru_cache(128)
@@ -253,7 +252,7 @@ def create_states():
 
     for state in state_list:
         if state not in st.session_state:
-            st.session_state[state] = False  #None
+            st.session_state[state] = False  # None
 
     state_list = ['logged', 'code_sent', 'upd_code_sent', 'conf_num', 'task_preview']
     for state in state_list:
@@ -1113,28 +1112,37 @@ def initial():
         win_selector(prepared_menus)
 
 
-refresh_count = st_autorefresh(interval=10000, limit=100, key="refresher")
+def refresher():
+    refresh_count = st_autorefresh(interval=10 * 1000, limit=4000, key="refresher")
 
-if refresh_count % 10 == 0:
-    reply = get_tasks_repeat()
-    if reply['status'] == 200:
-        st.session_state.adb['task'] = reply['task']
-        st.sidebar.text('Tasks Updated')
+    if refresh_count % 10 == 0:
+        reply = get_tasks_repeat()
+        if reply['status'] == 200:
+            st.session_state.adb['task'] = reply['task']
+            return 'Tasks Updated'
 
-if refresh_count % 15 == 0:
-    # reply = get_tasks_repeat()
-    # if reply['status'] == 200:
-    #     st.session_state.adb['task'] = reply['task']
-    st.sidebar.text('SOD Updated')
+    if refresh_count % 15 == 0:
+        # reply = get_tasks_repeat()
+        # if reply['status'] == 200:
+        #     st.session_state.adb['task'] = reply['task']
+        return 'SOD Updated'
 
-if refresh_count % 20 == 0:
-    # reply = get_tasks_repeat()
-    # if reply['status'] == 200:
-    #     st.session_state.adb['task'] = reply['task']
-    st.sidebar.text('SOD Updated')
+    if refresh_count % 20 == 0:
+        # reply = get_tasks_repeat()
+        # if reply['status'] == 200:
+        #     st.session_state.adb['task'] = reply['task']
+        return 'Projects Updated'
+
+    if refresh_count % 12 == 0:
+        # reply = get_tasks_repeat()
+        # if reply['status'] == 200:
+        #     st.session_state.adb['task'] = reply['task']
+        return 'Projects Updated'
+    return f"No changes: {refresh_count}"
+
 
 if __name__ == "__main__":
-
     st.session_state.r_now = datetime.datetime.now()
+    sidebar_report = refresher()
     initial()
-    show_sidebar_info()
+    show_sidebar_info(sidebar_report)
