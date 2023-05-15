@@ -304,7 +304,6 @@ def form_for_trans():
                     st.warning("Please Confirm that Transmittal Number is not Required")
                     st.stop()
 
-
             st.session_state.trans_status['status'] = status
             st.session_state.trans_status['out_note'] = out_note
             st.session_state.trans_status['out_num'] = out_num
