@@ -857,7 +857,7 @@ def del_file(lc, rc):
         time.sleep(1)
         st.experimental_rerun()
 
-    if rc.button('Confirm') and st.session_state.del_conf:
+    if rc.button('Confirm', type='primary') and st.session_state.del_conf:
         try:
             os.remove(f"temp_dxf/{st.session_state.del_conf}")
             rc.warning(f'File {st.session_state.del_conf} Deleted')
