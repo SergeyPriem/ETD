@@ -314,10 +314,12 @@ def form_for_trans():
             if reply == 'Status Updated':
                 st.success(reply)
                 time.sleep(1)
-                st.session_state.trans_status = None
+                st.session_state.trans_status['trans_num'] = None
                 st.experimental_rerun()
             else:
                 st.warning(reply)
+                time.sleep(2)
+                st.session_state.trans_status['trans_num'] = None
 
         if st.button('Escape', use_container_width=True):
             st.session_state.trans_status['trans_num'] = None
