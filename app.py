@@ -315,7 +315,6 @@ def form_for_trans():
                 time.sleep(1)
                 st.session_state.trans_status = None
                 st.experimental_rerun()
-
             else:
                 st.warning(reply)
 
