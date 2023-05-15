@@ -278,6 +278,7 @@ def form_for_trans():
         with st.form('confirm_trans', clear_on_submit=True):
             st.subheader(f"Update Status for Transmittal:")
             st.subheader(f":red[{st.session_state.trans_status['trans_num']}]")
+
             st.markdown(
                 """
                 <h6>If your transmittal not in list or list is empty, please add your transmittal to DataBase first</h6>
