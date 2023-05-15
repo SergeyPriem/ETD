@@ -482,7 +482,7 @@ def home_content():
                             if row.received is None:
                                 st.button(label=but_key1, key=but_key1, type='secondary',
                                           on_click=confirm_trans,
-                                          args=((row.trans_num,)))
+                                          args=(row.trans_num,))
                             else:
                                 if st.session_state.login not in row.received:
                                     st.button(label=but_key1, key=but_key1, type='secondary',
