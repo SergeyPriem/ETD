@@ -283,6 +283,7 @@ def form_for_trans():
                 """,
                 unsafe_allow_html=True
             )
+
             out_num = st.selectbox('Number of reply Transmittal', trans_num_list)
             # out_date = st.date_input('Date of reply Transmittal')
             status = st.radio("Transmittal Status", trans_stat)
