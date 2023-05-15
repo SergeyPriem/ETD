@@ -663,7 +663,7 @@ def trans_status_to_db():
                     trans.received = \
                         f"{trans.received.replace('-', '')}<{st.session_state.login}*{str(datetime.now())[:-10]}>"
             else:
-                f"{trans.received.replace('None', '')}<{st.session_state.login}*{str(datetime.now())[:-10]}>"
+                f"{trans.received}<{st.session_state.login}*{str(datetime.now())[:-10]}>"
 
             trans.notes = new_notes
             trans.status = trans_l['status']
