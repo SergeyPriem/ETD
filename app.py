@@ -233,7 +233,16 @@ def create_states():
     if 'req_lines_avail' not in st.session_state:
         st.session_state.req_lines_avail = 500
 
-    state_list = ['del_conf', 'loads_df', 'login', 'proj_names', 'trans_status', 'appl_logins', 'adb', 'spec', 'menu',
+    if 'trans_status' not in st.session_state:
+        st.session_state.trans_status = {
+            'trans_num': None,
+            'out_num': None,
+            'project': None,
+            'status': None,
+            'out_note': None,
+        }
+
+    state_list = ['del_conf', 'loads_df', 'login', 'proj_names', 'appl_logins', 'adb', 'spec', 'menu',
                   'icons', 'rights', 'registered_logins']
 
     for state in state_list:
@@ -264,7 +273,7 @@ def form_for_trans():
     empty1, content, empty2 = st.columns([5, 3, 5])
     with content:
         with st.form('confirm_trans', clear_on_submit=True):
-            st.subheader(f"Close Transmittal {st.session_state.trans_status['trans_num']}")
+            st.subheader(f"Update Status for Transmittal: {st.session_state.trans_status['trans_num']}")
             out_num = st.selectbox('Number of reply Transmittal', trans_num_list)
             # out_date = st.date_input('Date of reply Transmittal')
             status = st.radio("Transmittal Status", trans_stat)
@@ -895,7 +904,7 @@ def del_file(lc, rc):
 
 
 def home():
-    if st.session_state.trans_status:
+    if st.session_state.trans_status['trans_num']:
         form_for_trans()
     else:
         home_content()
