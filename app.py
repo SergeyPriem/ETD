@@ -315,6 +315,7 @@ def form_for_trans():
                 st.success(reply)
                 time.sleep(1)
                 st.session_state.trans_status['trans_num'] = None
+                st.session_state.adb['trans'] = get_table(Trans)
                 st.experimental_rerun()
             else:
                 st.warning(reply)
