@@ -273,7 +273,7 @@ def form_for_trans():
     proj_id = proj_df[proj_df.short_name == st.session_state.trans_status['project']].index.to_numpy()[0]
 
     trans_num_list = trans_df.loc[trans_df.project == proj_id, 'trans_num'].tolist()
-    trans_num_list.insert(0, "Not Required")
+    trans_num_list.insert(0, "Reply is Not Required")
     st.header(trans_num_list)
     empty1, content, empty2 = st.columns([5, 3, 5])
     with content:
@@ -293,15 +293,15 @@ def form_for_trans():
             status = st.radio("Transmittal Status", trans_stat)
             comment = st.text_area('Comments')
 
-            check_number = st.checkbox('Reply Transmittal Number is not Required')
+            check_number = st.checkbox('Reply Transmittal is not Required')
             st.divider()
             conf_but = st.form_submit_button('Update', type='primary', use_container_width=True)
 
         if conf_but:
 
-            if out_num == "Not Required" and status == "Closed":
+            if out_num == "Reply is Not Required" and status == "Closed":
                 if not check_number:
-                    st.warning("Please Confirm that Transmittal Number is not Required")
+                    st.warning("Please Confirm that Reply is Not Required")
                     st.stop()
 
             out_note = f"{out_num}: {comment}"
