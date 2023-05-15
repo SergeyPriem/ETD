@@ -269,7 +269,7 @@ def form_for_trans():
     trans_df = st.session_state.adb['trans']
 
     trans_num_list = trans_df.loc[trans_df.project == st.session_state.trans_status['project'], 'trans_num'].tolist()
-
+    st.header(trans_num_list)
     empty1, content, empty2 = st.columns([5, 3, 5])
     with content:
         with st.form('confirm_trans', clear_on_submit=True):
