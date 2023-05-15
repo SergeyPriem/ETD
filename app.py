@@ -267,8 +267,11 @@ def update_trans_status(trans_num, trans_proj):
 
 def form_for_trans():
     trans_df = st.session_state.adb['trans']
+    proj_df = st.session_state.adb['project']
 
-    trans_num_list = trans_df.loc[trans_df.project == st.session_state.trans_status['project'], 'trans_num'].tolist()
+    proj_id = proj_df[proj_df.short_name == st.session_state.trans_status['project']].index.to_numpy()[0]
+
+    trans_num_list = trans_df.loc[trans_df.project == proj_id, 'trans_num'].tolist()
     st.header(trans_num_list)
     empty1, content, empty2 = st.columns([5, 3, 5])
     with content:
