@@ -107,7 +107,7 @@ def show_sidebar_info(sidebar_rep):
                                     unsafe_allow_html=True)
 
                 st.sidebar.markdown(f"<h4 style='text-align: center; color: #59E314;'>"
-                                    f"Refreshed {sidebar_rep} times</h4>", unsafe_allow_html=True)
+                                    f"{sidebar_rep}</h4>", unsafe_allow_html=True)
 
 
 # @lru_cache(128)
