@@ -276,10 +276,11 @@ def form_for_trans():
     empty1, content, empty2 = st.columns([5, 3, 5])
     with content:
         with st.form('confirm_trans', clear_on_submit=True):
-            st.subheader(f"Update Status for Transmittal: {st.session_state.trans_status['trans_num']}")
+            st.subheader(f"Update Status for Transmittal:")
+            st.subheader(f":red[{st.session_state.trans_status['trans_num']}]")
             st.markdown(
                 """
-                <h5>If your transmittal not in list or list is empty, please add your transmittal to DataBase first</h5>
+                <h6>If your transmittal not in list or list is empty, please add your transmittal to DataBase first</h6>
                 """,
                 unsafe_allow_html=True
             )
