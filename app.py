@@ -251,11 +251,13 @@ def update_trans_status(trans_num):
 
 
 def form_for_trans():
+    trans_df = st.session_state.adb['trans']
+    trans_num_list = trans_df.trans_num.tolist()
     empty1, content, empty2 = st.columns([5, 3, 5])
     with content:
         with st.form('confirm_trans', clear_on_submit=True):
             st.subheader(f'Close Transmittal {st.session_state.trans_status}')
-            out_num = st.text_input('Number of reply Transmittal')
+            out_num = st.selectbox('Number of reply Transmittal', trans_num_list)
             out_date = st.date_input('Date of reply Transmittal')
             status = st.radio("Transmittal Status", trans_stat)
             comment = st.text_area('Comments')
