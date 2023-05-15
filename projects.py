@@ -627,12 +627,13 @@ def confirm_task(task_id):
 
 
 def confirm_trans(trans_num):
-    user = st.session_state.login
     with db_session:
         try:
             tr = Trans.get(trans_num=trans_num)
             prev_record = tr.received.replace('-', '')
-            tr.received = f"{prev_record}<{user}*{str(datetime.now())[:-10]}>"
+            tr.received = f"{prev_record}<{st.session_state.login}*{str(datetime.now())[:-10]}>"
+            st.session_state.adb['trans'] = get_table(Trans)
+            st.experimental_rerun()
         except Exception as e:
             return err_handler(e)
 

@@ -491,7 +491,7 @@ def home_content():
 
                             st.button(label=but_key2, key=but_key2, type='primary',
                                       on_click=update_trans_status,
-                                      args=((row.trans_num, row.short_name)))
+                                      args=(row.trans_num, row.short_name,))
                             st.session_state.adb['trans'] = get_table(Trans)
                             # st.experimental_rerun()
                             st.text("")
