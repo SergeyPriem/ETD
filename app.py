@@ -105,7 +105,8 @@ def show_sidebar_info():
 
                 st.sidebar.markdown(f"<h2 style='text-align: center; color: #fcf403;'>{delta} ms</h2>",
                                     unsafe_allow_html=True)
-                st.sidebar.markdown(f"<h4 style='text-align: center; color: #59E314;'>Refresh: {refresh_count} ms</h4>",
+                st.sidebar.markdown(f"<h4 style='text-align: center; color: #59E314;'>"
+                                    f"Refreshed {refresh_count} times</h4>",
                                     unsafe_allow_html=True)
 
 
