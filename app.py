@@ -304,7 +304,11 @@ def form_for_trans():
                     st.warning("Please Confirm that Reply is Not Required")
                     st.stop()
 
-            out_note = f"{out_num}: {comment}"
+            if len(comment):
+                out_note = f"{out_num}: {comment}"
+            else:
+                out_note = f"{out_num}"
+
             st.session_state.trans_status['status'] = status
             st.session_state.trans_status['out_note'] = out_note
             # st.session_state.trans_status['out_num'] = out_num
