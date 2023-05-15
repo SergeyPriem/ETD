@@ -9,3 +9,4 @@ PyMySQL==1.0.2
 streamlit-profiler==0.2.4
 openpyxl==3.1.2
 ezdxf==1.0.3
+streamlit-autorefresh==0.0.1

@@ -299,7 +299,7 @@ def form_for_trans():
 
         if conf_but:
 
-            if out_num == "Reply is Not Required" and status == "Closed":
+            if out_num == "Reply is Not Required" and (status == "Closed" or status == "Issued Docs"):
                 if not check_number:
                     st.warning("Please Confirm that Reply is Not Required")
                     st.stop()
