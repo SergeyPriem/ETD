@@ -126,7 +126,8 @@ def drawing_sets():
                 r_c.text('')
                 r_c.text('')
                 request_chb = r_c.checkbox('Request for Update')
-                upd_unit_but = st.form_submit_button("Update Unit Details", use_container_width=True)
+                upd_unit_but = st.form_submit_button("Update Unit Details or Request for Update (if selected)",
+                                                     use_container_width=True)
             else:
                 request_chb = False
                 r_c.text('')
