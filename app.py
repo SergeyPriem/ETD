@@ -110,7 +110,7 @@ def show_sidebar_info(sidebar_rep):
                                     unsafe_allow_html=True)
 
             st.sidebar.markdown(f"<h4 style='text-align: center; color: #59E314;'>"
-                                f"{sidebar_rep}</h4>", unsafe_allow_html=True)
+                                f"{st.session_state.refresh_status}</h4>", unsafe_allow_html=True)
 
 
 # @lru_cache(128)
@@ -192,7 +192,7 @@ def create_states():
         }
 
     state_list = ['del_conf', 'loads_df', 'login', 'proj_names', 'appl_logins', 'adb', 'spec', 'menu',
-                  'icons', 'rights', 'registered_logins']
+                  'icons', 'rights', 'registered_logins', 'refresh_status']
 
     for state in state_list:
         if state not in st.session_state:
@@ -1024,35 +1024,35 @@ def refresher():
             reply = get_proj_repeat()
             if reply['status'] == 200:
                 st.session_state.adb['project'] = reply['proj']
-                return f'Projects Updated by {upd_login}'
+                st.session_state.refresh_status = f'Projects Updated by {upd_login}'
             else:
-                return f"{reply['status']} by {upd_login}"
+                st.session_state.refresh_status =  f"{reply['status']} by {upd_login}"
 
         if server_state.db_changes['table'] == 'task':
             reply = get_tasks_repeat()
             if reply['status'] == 200:
                 st.session_state.adb['task'] = reply['task']
-                return f'Tasks Updated by {upd_login}'
+                st.session_state.refresh_status =  f'Tasks Updated by {upd_login}'
             else:
-                return f"{reply['status']} by {upd_login}"
+                st.session_state.refresh_status =  f"{reply['status']} by {upd_login}"
 
         if server_state.db_changes['table'] == 'trans':
             reply = get_trans_repeat()
             if reply['status'] == 200:
                 st.session_state.adb['trans'] = reply['trans']
-                return f'Transmittals Updated by {upd_login}'
+                st.session_state.refresh_status =  f'Transmittals Updated by {upd_login}'
             else:
-                return f"{reply['status']} by {upd_login}"
+                st.session_state.refresh_status =  f"{reply['status']} by {upd_login}"
 
         if server_state.db_changes['table'] == 'sod':
             reply = get_sod_repeat()
             if reply['status'] == 200:
                 st.session_state.adb['sod'] = reply['sod']
-                return f'SOD Updated by {upd_login}'
+                st.session_state.refresh_status =  f'SOD Updated by {upd_login}'
             else:
-                return f"{reply['status']} by {upd_login}"
-
-    return None
+                st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
+    else:
+        st.session_state.refresh_status = 'No changes in the DataBase since you logged in'
     #
 
 
@@ -1060,11 +1060,6 @@ if __name__ == "__main__":
     st.session_state.r_now = datetime.datetime.now()
     initial()
 
-    refresh_result = refresher()
+    refresher()
 
-    if refresh_result:
-        st.experimental_rerun()
-        sidebar_report = refresh_result
-    else:
-        sidebar_report = 'No changes in the DataBase since you logged in'
-    show_sidebar_info(sidebar_report)
+    show_sidebar_info()
