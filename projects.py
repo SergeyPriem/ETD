@@ -443,7 +443,7 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
                 if upd_trans_chb and trans_num != "Not required":
                     unit.trans_num += f"<{str(trans_num)}>"
 
-                if len(notes) > 4:
+                if len(notes) > 3:
                     t_date = datetime.today().strftime("%Y-%m-%d")
                     unit.notes = str(unit.notes).replace('None', '') + f"<{t_date}: {notes}>"
                 unit.aux = datetime.today()

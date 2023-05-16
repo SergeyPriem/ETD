@@ -100,7 +100,6 @@ def show_sidebar_info():
              Settings -> Scope of Load</h5>""",
             unsafe_allow_html=True)
 
-
         with st.sidebar:
             if access_level == 'dev':
                 td = datetime.datetime.now() - st.session_state.r_now
@@ -156,7 +155,6 @@ def get_menus(rights):
 
 
 def create_states():
-
     with server_state_lock["db_changes"]:
         if "db_changes" not in server_state:
             server_state.db_changes = {
@@ -194,10 +192,8 @@ def create_states():
             'out_note': None,
         }
 
-
-
     state_list = ['del_conf', 'loads_df', 'login', 'proj_names', 'appl_logins', 'adb', 'spec', 'menu',
-                  'icons', 'rights', 'registered_logins',]
+                  'icons', 'rights', 'registered_logins', ]
 
     for state in state_list:
         if state not in st.session_state:
@@ -287,7 +283,6 @@ def form_for_trans():
 
 
 def home_content():
-
     center_style()
     home_left, home_cont, home_right = st.columns([5, 3, 5])
     empty21, content2, empty22 = st.columns([1, 20, 1])
@@ -917,7 +912,6 @@ def win_selector(selected):
     tab_dict.get(selected)()
 
 
-
 # @lru_cache(128)
 def prepare_menus(menu, icons, vert_menu):
     # st.session_state.menu = get_menus(st.session_state.rights)[0]
@@ -1031,29 +1025,29 @@ def refresher():
                 st.session_state.adb['project'] = reply['proj']
                 st.session_state.refresh_status = f'Projects Updated by {upd_login}'
             else:
-                st.session_state.refresh_status =  f"{reply['status']} by {upd_login}"
+                st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
         if server_state.db_changes['table'] == 'task':
             reply = get_tasks_repeat()
             if reply['status'] == 200:
                 st.session_state.adb['task'] = reply['task']
-                st.session_state.refresh_status =  f'Tasks Updated by {upd_login}'
+                st.session_state.refresh_status = f'Tasks Updated by {upd_login}'
             else:
-                st.session_state.refresh_status =  f"{reply['status']} by {upd_login}"
+                st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
         if server_state.db_changes['table'] == 'trans':
             reply = get_trans_repeat()
             if reply['status'] == 200:
                 st.session_state.adb['trans'] = reply['trans']
-                st.session_state.refresh_status =  f'Transmittals Updated by {upd_login}'
+                st.session_state.refresh_status = f'Transmittals Updated by {upd_login}'
             else:
-                st.session_state.refresh_status =  f"{reply['status']} by {upd_login}"
+                st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
         if server_state.db_changes['table'] == 'sod':
             reply = get_sod_repeat()
             if reply['status'] == 200:
                 st.session_state.adb['sod'] = reply['sod']
-                st.session_state.refresh_status =  f'SOD Updated by {upd_login}'
+                st.session_state.refresh_status = f'SOD Updated by {upd_login}'
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
