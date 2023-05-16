@@ -1051,6 +1051,8 @@ def refresher():
                 return f'SOD Updated by {upd_login}'
             else:
                 return f"{reply['status']} by {upd_login}"
+
+    return None
     #
 
 
@@ -1061,9 +1063,8 @@ if __name__ == "__main__":
     refresh_result = refresher()
 
     if refresh_result:
-        sidebar_report = refresh_result
         st.experimental_rerun()
+        sidebar_report = refresh_result
     else:
         sidebar_report = 'No changes in the DataBase since you logged in'
-
     show_sidebar_info(sidebar_report)
