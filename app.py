@@ -1018,7 +1018,7 @@ def refresher():
 
         if server_state.db_changes['table'] == 'proj':
             # st.session_state.adb['project'] = get_proj_repeat()
-            # st.write(st.session_state.adb['project'])
+            st.write(get_proj_repeat())
             return "Projects Updated"
     #
         # st.session_state.db_timer = server_state.db_changes['time_marker']
