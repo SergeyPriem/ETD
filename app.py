@@ -1016,6 +1016,8 @@ def refresher():
 
         if server_state.db_changes['login']:
             upd_login = server_state.db_changes['login']
+        else:
+            upd_login = "User not Available"
 
         if server_state.db_changes['table'] == 'proj':
             reply = get_proj_repeat()
