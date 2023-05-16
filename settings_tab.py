@@ -6,7 +6,7 @@ from admin_tools import get_list_index
 from models import Users
 from projects import get_table, get_all
 from send_emails import send_mail
-from users import update_settings, update_user_reg_data
+from users import update_settings, update_user_reg_data, update_refresh_delay
 from utilities import center_style
 
 
@@ -23,7 +23,8 @@ def settings_content():
         st.title(':orange[Settings]')
         st.write('This page is intended to make some adjustments for more comfortable use of Application')
 
-        menu_pos_tab, scope_tab, change_pass_tab = st.tabs(['Menu Position', 'Scope of Load', 'Change Password'])
+        menu_pos_tab, scope_tab, update_set_tab, change_pass_tab = st.tabs(['Menu Position', 'Scope of Load',
+                                                                            'Update Settings', 'Change Password'])
 
         with menu_pos_tab:
             with st.form('adjust_settings'):
@@ -33,9 +34,9 @@ def settings_content():
                                           index=st.session_state.vert_menu, horizontal=True)
                 r_f.write('')
 
-                appl_set_but = r_f.form_submit_button('Apply menu position', use_container_width=True)
+                appl_upd_set_but = r_f.form_submit_button('Apply menu position', use_container_width=True)
 
-            if appl_set_but:
+            if appl_upd_set_but:
                 if menu_position == 'Left':
                     st.session_state.vert_menu = 1
                 else:
@@ -49,18 +50,39 @@ def settings_content():
             with st.form('change_scope'):
                 l_c, r_c = st.columns(2, gap='medium')
                 scope = l_c.radio("Choose the Preferred Scope loaded from DB",
-                                 ['Only Current Projects', 'All Projects', 'All excluding cancelled and suspended'],
-                                 index=get_list_index(
-                                     ['Only Current Projects', 'All Projects', 'All excluding cancelled and suspended'],
-                                     st.session_state.proj_scope
-                                 ),
-                                 horizontal=True)
+                                  ['Only Current Projects', 'All Projects', 'All excluding cancelled and suspended'],
+                                  index=get_list_index(
+                                      ['Only Current Projects', 'All Projects',
+                                       'All excluding cancelled and suspended'],
+                                      st.session_state.proj_scope
+                                  ),
+                                  horizontal=True)
                 r_c.text("")
                 scope_conf_but = r_c.form_submit_button('Apply Selected Scope', use_container_width=True)
 
             if scope_conf_but:
                 st.session_state.proj_scope = scope
                 st.session_state.adb = get_all()
+                st.experimental_rerun()
+
+        with update_set_tab:
+            with st.form('site_refresh_settings'):
+                l_f, r_f = st.columns(2)
+
+                delay_time = l_f.radio('Time between requests', ("Turn Off", 5, 7, 10, 15),
+                                       index=2, horizontal=True)
+                r_f.write('')
+
+                appl_upd_set_but = r_f.form_submit_button('Apply New Settings', use_container_width=True)
+
+            if appl_upd_set_but:
+                if delay_time == "Turn Off":
+                    st.session_state.refresh_delay = 3600
+                else:
+                    st.session_state.refresh_delay = int(delay_time)
+
+                update_refresh_delay()
+                st.session_state.adb['users'] = get_table(Users)
                 st.experimental_rerun()
 
         with change_pass_tab:

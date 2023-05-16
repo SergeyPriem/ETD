@@ -168,8 +168,13 @@ def create_states():
 
     if 'disable_add_task' not in st.session_state:
         st.session_state.disable_add_task = True
+
     if 'proj_scope' not in st.session_state:
         st.session_state.proj_scope = 'Only Current Projects'
+
+    if 'refresh_delay' not in st.session_state:
+        st.session_state.refresh_delay = 7
+
     if 'r_now' not in st.session_state:
         st.session_state.r_now = datetime.datetime.now()
     if 'selected' not in st.session_state:

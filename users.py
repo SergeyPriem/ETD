@@ -230,6 +230,15 @@ def update_settings(login, menu):
             return err_handler(e)
         return "Settings Updated"
 
+def update_refresh_delay():
+    with db_session:
+        try:
+            hero = Users.get(login=st.session_state.login)
+            hero.refresh_delay = st.session_state.refresh_delay
+        except Exception as e:
+            return err_handler(e)
+        return "Settings Updated"
+
 
 def update_script_acc(login, acc):
     with db_session:
