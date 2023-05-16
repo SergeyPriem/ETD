@@ -2,6 +2,8 @@
 
 import streamlit as st
 from pathlib import Path
+import time
+from streamlit_server_state import server_state, server_state_lock
 
 positions = ('Trainee', 'III cat.', 'II cat.', 'I cat.', 'Lead', 'Group Head', 'Senior', 'Dep. Head')
 departments = ('UzLITI Engineering', 'En-Solut', 'En-Concept', 'En-Smart', 'Remote')
@@ -116,3 +118,13 @@ def mail_to_name(mail):
 
 
 BACKUP_FOLDER: Path = Path('//uz-fs/Uzle/Work/Отдел ЭЛ/Архив заданий/')
+
+
+def change_global_state(changed_table: str):
+    new_state = {
+        'time_marker': time.time(),
+        'table': changed_table,
+    }
+
+    with server_state_lock['db_changes']:
+        server_state_lock['db_changes'] = new_state
