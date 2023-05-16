@@ -1051,6 +1051,8 @@ def refresher():
                 st.session_state.refresh_status =  f'SOD Updated by {upd_login}'
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
+
+        st.experimental_rerun()
     else:
         st.session_state.refresh_status = 'No changes in the DataBase since you logged in'
     #
@@ -1059,6 +1061,5 @@ def refresher():
 if __name__ == "__main__":
     st.session_state.r_now = datetime.datetime.now()
     initial()
-    if refresher() != 'No changes in the DataBase since you logged in':
-        # st.experimental_rerun()
+    refresher()
     show_sidebar_info()
