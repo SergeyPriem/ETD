@@ -129,12 +129,12 @@ def change_global_state(changed_table: str):
             'login': st.session_state.login
         }
 
-        with server_state_lock["db_changes"]:
-            server_state.db_changes = new_state
-
-
-        # with no_rerun:
+        # with server_state_lock["db_changes"]:
         #     server_state.db_changes = new_state
         #
+
+        with no_rerun:
+            server_state.db_changes = new_state
+
         #
 
