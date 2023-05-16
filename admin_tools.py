@@ -137,7 +137,7 @@ def manage_projects():
                     if reply['status'] == 201:
                         l_rep.success('Updated')
 
-                        st.session_state.adb['project'] = reply['updated_projects']
+                        # st.session_state.adb['project'] = reply['updated_projects']
 
                         html = f"""
                             <html>

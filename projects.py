@@ -5,7 +5,7 @@ from models import Project, SOD, Task, Users, Speciality, Trans
 import pandas as pd
 from datetime import date, datetime
 import streamlit as st
-from utilities import BACKUP_FOLDER
+from utilities import BACKUP_FOLDER, change_global_state
 from users import err_handler
 
 set_sql_debug(False)
@@ -418,20 +418,22 @@ def update_projects(proj_id, short_name, full_name, client, manager, responsible
             proj_for_upd.mdr = mdr
             proj_for_upd.notes = notes
 
-            if st.session_state.proj_scope == "All Projects":
-                proj = select(u for u in Project)[:]
-            if st.session_state.proj_scope == "Only Current Projects":
-                proj = select(u for u in Project if u.status in ['current', 'perspective', 'final stage'])[:]
-            if st.session_state.proj_scope == "All excluding cancelled and suspended":
-                proj = select(u for u in Project if u.status not in ['suspended', 'cancelled'])[:]
+            # if st.session_state.proj_scope == "All Projects":
+            #     proj = select(u for u in Project)[:]
+            # if st.session_state.proj_scope == "Only Current Projects":
+            #     proj = select(u for u in Project if u.status in ['current', 'perspective', 'final stage'])[:]
+            # if st.session_state.proj_scope == "All excluding cancelled and suspended":
+            #     proj = select(u for u in Project if u.status not in ['suspended', 'cancelled'])[:]
+
+            change_global_state('proj')
 
             return {"status": 201,
-                    "updated_projects": tab_to_df(proj),
+                    # "updated_projects": tab_to_df(proj),
                     "err_descr": None
                     }
         except Exception as e:
             return {"status": 404,
-                    "updated_projects": None,
+                    # "updated_projects": None,
                     "err_descr": err_handler(e)
                     }
 
