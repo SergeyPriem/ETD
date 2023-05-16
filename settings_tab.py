@@ -70,7 +70,8 @@ def settings_content():
                 l_f, r_f = st.columns(2)
 
                 delay_time = l_f.radio('Time between requests', ("Turn Off", 5, 7, 10, 15),
-                                       index=get_list_index(st.session_state.refresh_delay), horizontal=True)
+                                       index=get_list_index(("Turn Off", 5, 7, 10, 15),
+                                                            st.session_state.refresh_delay), horizontal=True)
                 r_f.write('')
 
                 appl_upd_set_but = r_f.form_submit_button('Apply New Settings', use_container_width=True)
