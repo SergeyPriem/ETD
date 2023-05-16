@@ -468,6 +468,8 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
                 # if st.session_state.proj_scope == "All excluding cancelled and suspended":
                 #     sod = select(u for u in SOD if u.project_id.status not in ['suspended', 'cancelled'])[:]
 
+                change_global_state('sod')
+
                 return {
                     'status': 201,
                     # 'sod': tab_to_df(sod),
