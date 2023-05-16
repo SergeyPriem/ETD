@@ -483,8 +483,6 @@ def manage_units():
         tab_create, tab_update, tab_preview = st.tabs(['Create New Unit', 'Edit Existing Unit', 'View All Units'])
 
         with tab_create:
-            # proj_df = st.session_state.adb['project']
-            # sod_df = st.session_state.adb['sod']
 
             with st.form('new_sod'):
                 l_c, r_c = st.columns(2, gap='medium')
@@ -507,12 +505,6 @@ def manage_units():
 
                 if reply['status'] == 201:
                     res_l.success(f"New Set '{unit_name}' for Project '{proj_short}' is added to DataBase")
-
-                    st.session_state.adb['sod'] = reply['sod']
-                    # proj_id = proj_df.loc[proj_df.short_name == proj_short].index.to_numpy()[0]
-                    set_id = sod_df.loc[
-                        (sod_df.set_name == unit_name) & (sod_df.project_id == proj_short)
-                        ].index.to_numpy()[0]
 
                     receiver = u_df.loc[u_df.login == coordinator, 'email'].to_numpy()[0]
                     cc_rec = u_df.loc[u_df.login == performer, 'email'].to_numpy()[0]
@@ -588,7 +580,6 @@ def manage_units():
                 l_rep, r_rep = st.columns(2, gap='medium')
 
                 if reply['status'] == 201:
-                    st.session_state.adb['sod'] = reply['sod']
 
                     l_rep.success('Unit Details Updated')
 

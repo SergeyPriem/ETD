@@ -67,6 +67,9 @@ def create_project(proj_short, proj_full, client, proj_man, responsible_el, proj
                 mdr=proj_mdr,
                 notes=proj_notes
             )
+
+            change_global_state('proj')
+
             return f'New Project {proj_short} is added to DataBase'
         except Exception as e:
             return err_handler(e)
@@ -258,14 +261,12 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
     if len(set_name) < 2:
         return {
             'status': 400,
-            'sod': None,
             'err_descr': f"Unit name: {set_name} should be at least 3 symbols length",
         }
 
     if proj_short in get_projects_names() and set_name in get_sets_names(proj_short):
         return {
             'status': 400,
-            'sod': None,
             'err_descr': f"Set of Drawings '{set_name}' for Project '{proj_short}' is already in DataBase",
         }
 
@@ -283,28 +284,18 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
                 current_status=status,
                 start_date=set_start_date,
                 notes=notes,
-                aux=datetime.today()
-
+                aux=datetime.today(),
             )
 
-            if st.session_state.proj_scope == "All Projects":
-                sod = (select(u for u in SOD)[:])
-
-            if st.session_state.proj_scope == "Only Current Projects":
-                sod = select(u for u in SOD if u.project_id.status in ['current', 'perspective', 'final stage'])[:]
-
-            if st.session_state.proj_scope == "All excluding cancelled and suspended":
-                sod = select(u for u in SOD if u.project_id.status not in ['suspended', 'cancelled'])[:]
+            change_global_state('sod')
 
             return {
                 'status': 201,
-                'sod': tab_to_df(sod),
                 'err_descr': None,
-            }
+                }
 
         except Exception as e:
             return {'status': 404,
-                    'sod': None,
                     'err_descr': err_handler(e),
                     }
 
@@ -362,6 +353,8 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
             result = create_backup_string(link, BACKUP_FOLDER, new_ass_id)
             new_ass.backup_copy = result[0]
 
+            change_global_state('task')
+
             return f"""
             New Task #{new_ass_id} for {new_ass.s_o_d.project_id.short_name}: {new_ass.s_o_d.set_name} is added to DataBase  
             
@@ -393,6 +386,9 @@ def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, de
                 comment=comment,
                 added_by=st.session_state.login
             )
+
+            change_global_state('task')
+
             return f"""
             New Task #{int(last_id) + 1} for {sod_name} -> {speciality} is added to DataBase  
             """
@@ -417,13 +413,6 @@ def update_projects(proj_id, short_name, full_name, client, manager, responsible
             proj_for_upd.surveys = surveys
             proj_for_upd.mdr = mdr
             proj_for_upd.notes = notes
-
-            # if st.session_state.proj_scope == "All Projects":
-            #     proj = select(u for u in Project)[:]
-            # if st.session_state.proj_scope == "Only Current Projects":
-            #     proj = select(u for u in Project if u.status in ['current', 'perspective', 'final stage'])[:]
-            # if st.session_state.proj_scope == "All excluding cancelled and suspended":
-            #     proj = select(u for u in Project if u.status not in ['suspended', 'cancelled'])[:]
 
             change_global_state('proj')
 
@@ -456,23 +445,13 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
 
                 if len(notes) > 4:
                     t_date = datetime.today().strftime("%Y-%m-%d")
-                    unit.notes = str(unit.notes) + f"<{t_date}: {notes}>"
+                    unit.notes = str(unit.notes).replace('None', '') + f"<{t_date}: {notes}>"
                 unit.aux = datetime.today()
-
-                # if st.session_state.proj_scope == "All Projects":
-                #     sod = (select(u for u in SOD)[:])
-                #
-                # if st.session_state.proj_scope == "Only Current Projects":
-                #     sod = select(u for u in SOD if u.project_id.status in ['current', 'perspective', 'final stage'])[:]
-                #
-                # if st.session_state.proj_scope == "All excluding cancelled and suspended":
-                #     sod = select(u for u in SOD if u.project_id.status not in ['suspended', 'cancelled'])[:]
 
                 change_global_state('sod')
 
                 return {
                     'status': 201,
-                    # 'sod': tab_to_df(sod),
                     'err_descr': None,
                     'coord_email': unit.coord_id.email,
                     'perf_email': unit.perf_id.email,
@@ -480,13 +459,11 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
 
             else:
                 return {'status': 403,
-                        # 'sod': None,
                         'err_descr': "You haven't right to change Status of the Unit",
                         }
 
         except Exception as e:
             return {'status': 404,
-                    # 'sod': None,
                     'err_descr': err_handler(e),
                     }
 
@@ -619,6 +596,8 @@ def confirm_task(task_id):
                 else:
                     Task[task_id].perf_log = f"<{user}*{str(datetime.now())[:-10]}>"
 
+            change_global_state('task')
+
         except Exception as e:
             with st.sidebar:
                 st.text(err_handler(e))
@@ -643,6 +622,8 @@ def confirm_trans(trans_num):
             st.header(tr.received)
             st.session_state.adb['trans'] = get_table(Trans)
             st.header(f"Transmittal {trans_num} confirmed")
+
+            change_global_state('trans')
 
         except Exception as e:
             st.header(err_handler(e))
@@ -671,6 +652,9 @@ def trans_status_to_db():
 
             trans.notes = new_notes
             trans.status = trans_l['status']
+
+            change_global_state('trans')
+
             return 'Status Updated'
         except Exception as e:
             return err_handler(e)
@@ -822,6 +806,9 @@ def add_new_trans(project, trans_num, out_trans, t_type, subj, link, trans_date,
                 status=status,
                 in_out=in_out
             )
+
+            change_global_state('trans')
+
             return f"""
             New Transmittal {trans_num} is added to DataBase  
             """
@@ -993,14 +980,14 @@ def update_unit_name_stage(unit_id, new_name, new_stage):
             if st.session_state.proj_scope == "All excluding cancelled and suspended":
                 sod = select(u for u in SOD if u.project_id.status not in ['suspended', 'cancelled'])[:]
 
+            change_global_state('sod')
+
             return {
                 'status': 201,
-                'sod': tab_to_df(sod),
                 'err_descr': None,
             }
 
         except Exception as e:
             return {'status': 404,
-                    'sod': None,
                     'err_descr': err_handler(e),
                     }

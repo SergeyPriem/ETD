@@ -124,6 +124,7 @@ def change_global_state(changed_table: str):
     new_state = {
         'time_marker': time.time(),
         'table': changed_table,
+        'login': st.session_state.login
     }
 
     with no_rerun:

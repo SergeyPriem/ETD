@@ -161,6 +161,7 @@ def create_states():
             server_state.db_changes = {
                 'time_marker': time.time(),
                 'table': None,
+                'login': None
             }
 
     if 'db_timer' not in st.session_state:
@@ -1010,53 +1011,44 @@ def initial():
 
 def refresher():
     st_autorefresh(interval=5 * 1000, limit=4000, key="refresher")
-    # st.header(st.session_state.db_timer)
-    # return st.session_state.db_timer
+
     if st.session_state.db_timer != server_state.db_changes['time_marker']:
 
         st.session_state.db_timer = server_state.db_changes['time_marker']
+        upd_login = server_state.db_changes['login']
 
         if server_state.db_changes['table'] == 'proj':
             reply = get_proj_repeat()
             if reply['status'] == 200:
                 st.session_state.adb['project'] = reply['proj']
-                return 'Projects Updated'
+                return f'Projects Updated by {upd_login}'
             else:
-                return reply['status']
+                return f"{reply['status']} by {upd_login}"
 
         if server_state.db_changes['table'] == 'task':
             reply = get_tasks_repeat()
             if reply['status'] == 200:
                 st.session_state.adb['task'] = reply['task']
-                return 'Tasks Updated'
+                return f'Tasks Updated by {upd_login}'
             else:
-                return reply['status']
+                return f"{reply['status']} by {upd_login}"
 
         if server_state.db_changes['table'] == 'trans':
             reply = get_trans_repeat()
             if reply['status'] == 200:
                 st.session_state.adb['trans'] = reply['trans']
-                return 'Transmittals Updated'
+                return f'Transmittals Updated by {upd_login}'
             else:
-                return reply['status']
-    #
+                return f"{reply['status']} by {upd_login}"
+
         if server_state.db_changes['table'] == 'sod':
             reply = get_sod_repeat()
             if reply['status'] == 200:
                 st.session_state.adb['sod'] = reply['sod']
-                return 'SOD Updated'
+                return f'SOD Updated by {upd_login}'
             else:
-                return reply['status']
+                return f"{reply['status']} by {upd_login}"
     #
-    # if refresh_count % 20 == 0:
-    #     reply = get_proj_repeat()
-    #     if reply['status'] == 200:
-    #         st.session_state.adb['project'] = reply['proj']
-    #         return 'Projects Updated'
-    #     else:
-    #         return reply['status']
-    #
-    # return f"No changes: {refresh_count}"
 
 
 if __name__ == "__main__":
