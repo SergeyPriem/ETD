@@ -921,7 +921,7 @@ def get_proj_repeat():
 
         except Exception as e:
             return {
-                'status': err_handler(e),
+                'status': 'get_proj_repeat:'+str(err_handler(e)),
                 'proj': None,
             }
 
