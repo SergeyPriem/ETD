@@ -1052,7 +1052,7 @@ def refresher():
             reply = get_sod_repeat()
             if reply['status'] == 200:
                 st.session_state.adb['sod'] = reply['sod']
-                st.session_state.refresh_status = f'SOD Updated by {upd_login}'
+                st.session_state.refresh_status = f'Units Updated by {upd_login}'
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
