@@ -3,7 +3,7 @@
 import streamlit as st
 from pathlib import Path
 import time
-from streamlit_server_state import server_state, server_state_lock
+from streamlit_server_state import server_state, server_state_lock, no_rerun
 
 positions = ('Trainee', 'III cat.', 'II cat.', 'I cat.', 'Lead', 'Group Head', 'Senior', 'Dep. Head')
 departments = ('UzLITI Engineering', 'En-Solut', 'En-Concept', 'En-Smart', 'Remote')
@@ -126,7 +126,7 @@ def change_global_state(changed_table: str):
         'table': changed_table,
     }
 
-    with server_state_lock['db_changes']:
+    with no_rerun:
         server_state.db_changes = new_state
 
 
