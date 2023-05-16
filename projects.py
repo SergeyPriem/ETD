@@ -938,7 +938,7 @@ def get_tasks_repeat():
     with db_session:
         try:
             if st.session_state.proj_scope == "All Projects":
-                task = (select(u for u in Task)[:])
+                task = select(u for u in Task)[:]
 
             if st.session_state.proj_scope == "Only Current Projects":
                 task = select(

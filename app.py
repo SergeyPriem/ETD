@@ -179,6 +179,9 @@ def create_states():
     if 'vert_menu' not in st.session_state:
         st.session_state.vert_menu = 1
 
+    if 'refresh_status' not in st.session_state:
+        st.session_state.refresh_status = 'No changes in the DataBase since you logged in'
+
     if 'req_lines_avail' not in st.session_state:
         st.session_state.req_lines_avail = 500
 
@@ -191,8 +194,10 @@ def create_states():
             'out_note': None,
         }
 
+
+
     state_list = ['del_conf', 'loads_df', 'login', 'proj_names', 'appl_logins', 'adb', 'spec', 'menu',
-                  'icons', 'rights', 'registered_logins', 'refresh_status']
+                  'icons', 'rights', 'registered_logins',]
 
     for state in state_list:
         if state not in st.session_state:
@@ -1053,9 +1058,9 @@ def refresher():
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
         # st.experimental_rerun()
-    else:
-        st.session_state.refresh_status = 'No changes in the DataBase since you logged in'
-    #
+    # else:
+    #     st.session_state.refresh_status = 'No changes in the DataBase since you logged in'
+    # #
 
 
 if __name__ == "__main__":
