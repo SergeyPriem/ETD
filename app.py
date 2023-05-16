@@ -1060,5 +1060,5 @@ if __name__ == "__main__":
     st.session_state.r_now = datetime.datetime.now()
     initial()
     if refresher() != 'No changes in the DataBase since you logged in':
-        st.experimental_rerun()
+        # st.experimental_rerun()
     show_sidebar_info()
