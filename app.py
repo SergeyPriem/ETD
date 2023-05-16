@@ -1014,9 +1014,9 @@ def refresher():
 
         st.session_state.db_timer = server_state.db_changes['time_marker']
 
-        if server_state.db_changes['login']:
+        try:
             upd_login = server_state.db_changes['login']
-        else:
+        except:
             upd_login = "User not Available"
 
         if server_state.db_changes['table'] == 'proj':
