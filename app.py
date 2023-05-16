@@ -1013,7 +1013,9 @@ def refresher():
     if st.session_state.db_timer != server_state.db_changes['time_marker']:
 
         st.session_state.db_timer = server_state.db_changes['time_marker']
-        upd_login = server_state.db_changes['login']
+
+        if server_state.db_changes['login']:
+            upd_login = server_state.db_changes['login']
 
         if server_state.db_changes['table'] == 'proj':
             reply = get_proj_repeat()
