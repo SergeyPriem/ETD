@@ -1010,7 +1010,7 @@ def initial():
 
 def refresher():
     st_autorefresh(interval=15 * 1000, limit=4000, key="refresher")
-    st.header(st.session_state.db_timer)
+    # st.header(st.session_state.db_timer)
     # return st.session_state.db_timer
     if st.session_state.db_timer != server_state.db_changes['time_marker']:
 
@@ -1023,33 +1023,30 @@ def refresher():
                 return 'Projects Updated'
             else:
                 return reply['status']
-    #
-        # st.session_state.db_timer = server_state.db_changes['time_marker']
 
+        if server_state.db_changes['table'] == 'task':
+            reply = get_tasks_repeat()
+            if reply['status'] == 200:
+                st.session_state.adb['task'] = reply['task']
+                return 'Tasks Updated'
+            else:
+                return reply['status']
 
-    # if refresh_count % 9 == 0:
-    #     reply = get_tasks_repeat()
-    #     if reply['status'] == 200:
-    #         st.session_state.adb['task'] = reply['task']
-    #         return 'Tasks Updated'
-    #     else:
-    #         return reply['status']
+        if server_state.db_changes['table'] == 'trans':
+            reply = get_trans_repeat()
+            if reply['status'] == 200:
+                st.session_state.adb['trans'] = reply['trans']
+                return 'Transmittals Updated'
+            else:
+                return reply['status']
     #
-    # if refresh_count % 12 == 0:
-    #     reply = get_trans_repeat()
-    #     if reply['status'] == 200:
-    #         st.session_state.adb['trans'] = reply['trans']
-    #         return 'Transmittals Updated'
-    #     else:
-    #         return reply['status']
-    #
-    # if refresh_count % 15 == 0:
-    #     reply = get_sod_repeat()
-    #     if reply['status'] == 200:
-    #         st.session_state.adb['sod'] = reply['sod']
-    #         return 'SOD Updated'
-    #     else:
-    #         return reply['status']
+        if server_state.db_changes['table'] == 'sod':
+            reply = get_sod_repeat()
+            if reply['status'] == 200:
+                st.session_state.adb['sod'] = reply['sod']
+                return 'SOD Updated'
+            else:
+                return reply['status']
     #
     # if refresh_count % 20 == 0:
     #     reply = get_proj_repeat()
