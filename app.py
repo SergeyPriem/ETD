@@ -1051,10 +1051,7 @@ def refresher():
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
-        # st.experimental_rerun()
-    # else:
-    #     st.session_state.refresh_status = 'No changes in the DataBase since you logged in'
-    # #
+        st.experimental_rerun()
 
 
 if __name__ == "__main__":
