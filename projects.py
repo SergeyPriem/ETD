@@ -611,7 +611,6 @@ def confirm_trans(trans_num):
     with db_session:
         try:
             tr = Trans.get(trans_num=trans_num)
-            st.header(tr)
             if tr.received:
                 prev_record = tr.received.replace('-', '')
             else:
@@ -619,14 +618,11 @@ def confirm_trans(trans_num):
 
             received_value = f"{prev_record}<{st.session_state.login}*{str(datetime.now())[:-10]}>"
             tr.received = received_value.replace('None', '')
-            st.header(tr.received)
             st.session_state.adb['trans'] = get_table(Trans)
-            st.header(f"Transmittal {trans_num} confirmed")
 
             change_global_state('trans')
 
         except Exception as e:
-            st.header(err_handler(e))
             return err_handler(e)
 
 

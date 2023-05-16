@@ -282,8 +282,6 @@ def form_for_trans():
 
 def home_content():
 
-    st.title(server_state.db_changes)
-
     center_style()
     home_left, home_cont, home_right = st.columns([5, 3, 5])
     empty21, content2, empty22 = st.columns([1, 20, 1])
