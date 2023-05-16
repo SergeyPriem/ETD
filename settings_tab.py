@@ -69,7 +69,7 @@ def settings_content():
             with st.form('site_refresh_settings'):
                 l_f, r_f = st.columns(2)
 
-                delay_time = l_f.radio('Time between requests', ("Turn Off", 5, 7, 10, 15),
+                delay_time = l_f.radio('Time between requests, s.', ("Turn Off", 5, 7, 10, 15),
                                        index=get_list_index(("Turn Off", 5, 7, 10, 15),
                                                             st.session_state.refresh_delay), horizontal=True)
                 r_f.write('')
