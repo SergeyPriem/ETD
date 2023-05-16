@@ -127,4 +127,7 @@ def change_global_state(changed_table: str):
     }
 
     with server_state_lock['db_changes']:
-        server_state_lock['db_changes'] = new_state
+        server_state.db_changes = new_state
+
+
+
