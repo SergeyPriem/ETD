@@ -24,6 +24,7 @@ from projects import confirm_task, confirm_trans, trans_status_to_db, get_all, g
 from models import Users, Task, Trans
 from functools import lru_cache
 from streamlit_autorefresh import st_autorefresh
+from streamlit_server_state import server_state, server_state_lock
 
 # import openpyxl
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
@@ -154,6 +155,14 @@ def get_menus(rights):
 
 
 def create_states():
+
+    with server_state_lock["db_changes"]:
+        if "db_changes" not in server_state:
+            server_state.db_changes = {
+                'time_marker': time.time(),
+                'table': None,
+            }
+
     if 'disable_add_task' not in st.session_state:
         st.session_state.disable_add_task = True
     if 'proj_scope' not in st.session_state:
