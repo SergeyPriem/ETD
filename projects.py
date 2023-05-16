@@ -619,7 +619,6 @@ def confirm_trans(trans_num):
             received_value = f"{prev_record}<{st.session_state.login}*{str(datetime.now())[:-10]}>"
             tr.received = received_value.replace('None', '')
             st.session_state.adb['trans'] = get_table(Trans)
-
             change_global_state('trans')
 
         except Exception as e:
