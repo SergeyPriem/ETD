@@ -29,7 +29,7 @@ def drawing_sets():
         st.title(':orange[Drawings]')
         st.divider()
 
-        ds_left, lc, ds_center, cr, ds_rigth = st.columns([5, 6, 4, 5, 5])
+        ds_left, lc, ds_center, cr, ds_right = st.columns([5, 6, 4, 5, 5])
         ds_center.text('')
 
         my_all = ds_center.radio("Select the Option", ["My Units", 'All Units'],
@@ -57,8 +57,8 @@ def drawing_sets():
 
         ds_left.subheader(f"{my_all}: {len(sod_df)}")
 
-        ds_rigth.text('')
-        units_ch_b = ds_rigth.checkbox("Show Units Table")
+        ds_right.text('')
+        units_ch_b = ds_right.checkbox("Show Units Table")
 
         if units_ch_b:
             st.experimental_data_editor(sod_df.set_index('unit_id'),

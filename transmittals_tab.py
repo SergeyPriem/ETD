@@ -13,7 +13,7 @@ def check_trans_data(project, trans_num, t_type, subj, link,
         st.stop()
 
     variables = (project, trans_num, t_type, subj, link, author, responsible, in_out)
-    names = ("Project", "Transmittal Number", "In reply to", "Transmittal Type", "Subject", "Link",
+    names = ("Project", "Transmittal Number", "Transmittal Type", "Subject", "Link",
              "Originator of the Transmittal", "responsible", "status", "in_out")
 
     field_dict = dict(zip(names, variables))
