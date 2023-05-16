@@ -1008,7 +1008,7 @@ def initial():
 
 
 def refresher():
-    st_autorefresh(interval=7 * 1000, limit=4000, key="refresher")
+    st_autorefresh(interval=10 * 1000, limit=4000, key="refresher")
 
     if st.session_state.db_timer != server_state.db_changes['time_marker']:
 
