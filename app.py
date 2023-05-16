@@ -1062,5 +1062,7 @@ if __name__ == "__main__":
     if refresh_result:
         sidebar_report = refresh_result
         st.experimental_rerun()
+    else:
+        sidebar_report = 'No changes'
 
     show_sidebar_info(sidebar_report)
