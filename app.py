@@ -153,77 +153,6 @@ def get_menus(rights):
         return menu, icons
 
 
-# def create_states():
-#     if 'del_conf' not in st.session_state:
-#         st.session_state.del_conf = None
-#
-#     if 'loads_df' not in st.session_state:
-#         st.session_state.loads_df = None
-#
-#     if 'proj_scope' not in st.session_state:
-#         st.session_state.proj_scope = 'Only Current Projects'
-#
-#     if 'r_now' not in st.session_state:
-#         st.session_state.r_now = datetime.datetime.now()
-#
-#     if 'selected' not in st.session_state:
-#         st.session_state.selected = 'Home'
-#
-#     if 'adb' not in st.session_state:
-#         st.session_state.adb = None
-#
-#     if 'spec' not in st.session_state:
-#         st.session_state.spec = None
-#
-#     if 'menu' not in st.session_state:
-#         st.session_state.menu = None
-#
-#     if 'icons' not in st.session_state:
-#         st.session_state.icons = None
-#
-#     if 'rights' not in st.session_state:
-#         st.session_state.rights = None
-#
-#     if 'registered_logins' not in st.session_state:
-#         st.session_state.registered_logins = None
-#
-#     if "preview_proj_stat" not in st.session_state:
-#         st.session_state.preview_proj_stat = False
-#
-#     if "logged" not in st.session_state:
-#         st.session_state.logged = False
-#
-#     if 'code_sent' not in st.session_state:
-#         st.session_state.code_sent = False
-#
-#     if 'upd_code_sent' not in st.session_state:
-#         st.session_state.upd_code_sent = False
-#
-#     if 'vert_menu' not in st.session_state:
-#         st.session_state.vert_menu = 1
-#
-#     if 'login' not in st.session_state:
-#         st.session_state.login = None
-#
-#     if 'task_preview' not in st.session_state:
-#         st.session_state.task_preview = False
-#
-#     if 'proj_names' not in st.session_state:
-#         st.session_state.proj_names = None
-#
-#     if 'trans_status' not in st.session_state:
-#         st.session_state.trans_status = None
-#
-#     if 'appl_logins' not in st.session_state:
-#         st.session_state.appl_logins = None
-#
-#     if 'disable_add_task' not in st.session_state:
-#         st.session_state.disable_add_task = True
-#
-#     if 'conf_num' not in st.session_state:
-#         st.session_state.conf_num = False
-
-
 def create_states():
     if 'disable_add_task' not in st.session_state:
         st.session_state.disable_add_task = True
@@ -968,55 +897,6 @@ def win_selector(selected):
     tab_dict.get(selected)()
 
 
-# def show_states():
-#     st.text('appl_logins')
-#     st.write(st.session_state.appl_logins)
-#     st.text('-----------------------')
-#     st.text('adb')
-#     st.write(st.session_state.adb)
-#     st.text('-----------------------')
-#     st.write('menu')
-#     st.write(st.session_state.menu)
-#     st.text('-----------------------')
-#     st.write('icons')
-#     st.write(st.session_state.icons)
-#     st.text('-----------------------')
-#     st.write('rights')
-#     st.write(st.session_state.rights)
-#     st.text('-----------------------')
-#     st.write('registered_logins')
-#     st.write(st.session_state.registered_logins)
-#     st.text('-----------------------')
-#     st.write("preview_proj_stat")
-#     st.write(st.session_state.preview_proj_stat)
-#     st.text('-----------------------')
-#     st.write("logged")
-#     st.write(st.session_state.logged)
-#     st.text('-----------------------')
-#     st.write('code_sent')
-#     st.write(st.session_state.code_sent)
-#     st.text('-----------------------')
-#     st.write('upd_code_sent')
-#     st.write(st.session_state.upd_code_sent)
-#     st.text('-----------------------')
-#     st.write('vert_menu')
-#     st.write(st.session_state.vert_menu)
-#     st.text('-----------------------')
-#     st.write('user')
-#     st.write(st.session_state['user'])
-#     st.text('-----------------------')
-#     st.write('task_preview')
-#     st.write(st.session_state.task_preview)
-#     st.text('-----------------------')
-#     st.write('proj_names')
-#     st.write(st.session_state.proj_names)
-#     st.text('-----------------------')
-#     st.write('trans_status')
-#     st.write(st.session_state.trans_status)
-#     st.text('-----------------------')
-#     st.write('spec')
-#     st.write(st.session_state.spec)
-#     st.text('-----------------------')
 
 # @lru_cache(128)
 def prepare_menus(menu, icons, vert_menu):
