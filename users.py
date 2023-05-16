@@ -30,7 +30,6 @@ def move_to_former(login, end_date):
             return err_handler(e)
 
 
-
 ### GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET GET #################
 def get_all_emails():
     with db_session:
@@ -230,14 +229,15 @@ def update_settings(login, menu):
             return err_handler(e)
         return "Settings Updated"
 
+
 def update_refresh_delay():
     with db_session:
         try:
             hero = Users.get(login=st.session_state.login)
             hero.refresh_delay = st.session_state.refresh_delay
+            return "Settings Updated"
         except Exception as e:
             return err_handler(e)
-        return "Settings Updated"
 
 
 def update_script_acc(login, acc):
