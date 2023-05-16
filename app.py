@@ -1011,14 +1011,14 @@ def initial():
 def refresher():
     st_autorefresh(interval=5 * 1000, limit=4000, key="refresher")
     st.header(st.session_state.db_timer)
-    return st.session_state.db_timer
-    # if st.session_state.db_timer != server_state.db_changes['time_marker']:
-    #
-    #     st.session_state.db_timer = server_state.db_changes['time_marker']
-    #
-    #     if server_state.db_changes['table'] == 'proj':
-    #         st.session_state.adb['project'] = get_proj_repeat()
-    #         return "Projects Updated"
+    # return st.session_state.db_timer
+    if st.session_state.db_timer != server_state.db_changes['time_marker']:
+
+        st.session_state.db_timer = server_state.db_changes['time_marker']
+
+        if server_state.db_changes['table'] == 'proj':
+            st.session_state.adb['project'] = get_proj_repeat()
+            return "Projects Updated"
     #
         # st.session_state.db_timer = server_state.db_changes['time_marker']
 
