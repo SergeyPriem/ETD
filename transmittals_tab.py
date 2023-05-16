@@ -14,7 +14,7 @@ def check_trans_data(project, trans_num, t_type, subj, link,
 
     variables = (project, trans_num, t_type, subj, link, author, responsible, in_out)
     names = ("Project", "Transmittal Number", "Transmittal Type", "Subject", "Link",
-             "Originator of the Transmittal", "responsible", "status", "in_out")
+             "Originator of the Transmittal", "responsible", "in_out")
 
     field_dict = dict(zip(names, variables))
 
