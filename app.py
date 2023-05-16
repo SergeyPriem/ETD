@@ -84,7 +84,7 @@ def home_trans():
     return trans_df
 
 
-def show_sidebar_info(sidebar_rep):
+def show_sidebar_info():
     u_df = st.session_state.adb['users']
 
     if st.session_state.login and st.session_state.proj_scope:
