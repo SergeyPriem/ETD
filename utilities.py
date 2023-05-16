@@ -121,14 +121,16 @@ BACKUP_FOLDER: Path = Path('//uz-fs/Uzle/Work/Отдел ЭЛ/Архив зад�
 
 
 def change_global_state(changed_table: str):
-    new_state = {
-        'time_marker': time.time(),
-        'table': changed_table,
-        'login': st.session_state.login
-    }
 
-    with no_rerun:
-        server_state.db_changes = new_state
+    if st.session_state.login:
+        new_state = {
+            'time_marker': time.time(),
+            'table': changed_table,
+            'login': st.session_state.login
+        }
+
+        with no_rerun:
+            server_state.db_changes = new_state
 
 
 
