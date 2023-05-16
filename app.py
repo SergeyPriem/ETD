@@ -161,7 +161,7 @@ def create_states():
             server_state.db_changes = {
                 'time_marker': time.time(),
                 'table': None,
-                'login': None
+                'login': 'X-user',
             }
 
     if 'db_timer' not in st.session_state:
