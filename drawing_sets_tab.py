@@ -158,7 +158,7 @@ def drawing_sets():
                     lc, rc = st.columns(2, gap='medium')
 
                     lc.success("Updated!")
-                    st.session_state.adb['sod'] = reply['sod']
+                    # st.session_state.adb['sod'] = reply['sod']
 
                     coord_email = reply['coord_email']
                     perf_email = reply['perf_email']

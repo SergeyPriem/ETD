@@ -459,18 +459,18 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
                     unit.notes = unit.notes + f"<{t_date}: {notes}>"
                 unit.aux = datetime.today()
 
-                if st.session_state.proj_scope == "All Projects":
-                    sod = (select(u for u in SOD)[:])
-
-                if st.session_state.proj_scope == "Only Current Projects":
-                    sod = select(u for u in SOD if u.project_id.status in ['current', 'perspective', 'final stage'])[:]
-
-                if st.session_state.proj_scope == "All excluding cancelled and suspended":
-                    sod = select(u for u in SOD if u.project_id.status not in ['suspended', 'cancelled'])[:]
+                # if st.session_state.proj_scope == "All Projects":
+                #     sod = (select(u for u in SOD)[:])
+                #
+                # if st.session_state.proj_scope == "Only Current Projects":
+                #     sod = select(u for u in SOD if u.project_id.status in ['current', 'perspective', 'final stage'])[:]
+                #
+                # if st.session_state.proj_scope == "All excluding cancelled and suspended":
+                #     sod = select(u for u in SOD if u.project_id.status not in ['suspended', 'cancelled'])[:]
 
                 return {
                     'status': 201,
-                    'sod': tab_to_df(sod),
+                    # 'sod': tab_to_df(sod),
                     'err_descr': None,
                     'coord_email': unit.coord_id.email,
                     'perf_email': unit.perf_id.email,
@@ -478,13 +478,13 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
 
             else:
                 return {'status': 403,
-                        'sod': None,
+                        # 'sod': None,
                         'err_descr': "You haven't right to change Status of the Unit",
                         }
 
         except Exception as e:
             return {'status': 404,
-                    'sod': None,
+                    # 'sod': None,
                     'err_descr': err_handler(e),
                     }
 
