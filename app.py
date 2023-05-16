@@ -163,6 +163,9 @@ def create_states():
                 'table': None,
             }
 
+    if 'db_timer' not in st.session_state:
+        st.session_state.db_timer = time.time()
+
     if 'disable_add_task' not in st.session_state:
         st.session_state.disable_add_task = True
     if 'proj_scope' not in st.session_state:
@@ -1006,41 +1009,52 @@ def initial():
 
 
 def refresher():
-    refresh_count = st_autorefresh(interval=10 * 1000, limit=4000, key="refresher")
+    refresh_count = st_autorefresh(interval=5 * 1000, limit=4000, key="refresher")
 
-    if refresh_count % 9 == 0:
-        reply = get_tasks_repeat()
-        if reply['status'] == 200:
-            st.session_state.adb['task'] = reply['task']
-            return 'Tasks Updated'
-        else:
-            return reply['status']
+    if st.session_state.db_timer != server_state.db_changes['time_marker']:
 
-    if refresh_count % 12 == 0:
-        reply = get_trans_repeat()
-        if reply['status'] == 200:
-            st.session_state.adb['trans'] = reply['trans']
-            return 'Transmittals Updated'
-        else:
-            return reply['status']
+        st.session_state.db_timer = server_state.db_changes['time_marker']
 
-    if refresh_count % 15 == 0:
-        reply = get_sod_repeat()
-        if reply['status'] == 200:
-            st.session_state.adb['sod'] = reply['sod']
-            return 'SOD Updated'
-        else:
-            return reply['status']
+        if server_state.db_changes['table'] == 'proj':
+            st.session_state.adb['project'] = get_proj_repeat()
+            return "Projects Updated"
 
-    if refresh_count % 20 == 0:
-        reply = get_proj_repeat()
-        if reply['status'] == 200:
-            st.session_state.adb['project'] = reply['proj']
-            return 'Projects Updated'
-        else:
-            return reply['status']
+        st.session_state.db_timer = server_state.db_changes['time_marker']
 
-    return f"No changes: {refresh_count}"
+
+    # if refresh_count % 9 == 0:
+    #     reply = get_tasks_repeat()
+    #     if reply['status'] == 200:
+    #         st.session_state.adb['task'] = reply['task']
+    #         return 'Tasks Updated'
+    #     else:
+    #         return reply['status']
+    #
+    # if refresh_count % 12 == 0:
+    #     reply = get_trans_repeat()
+    #     if reply['status'] == 200:
+    #         st.session_state.adb['trans'] = reply['trans']
+    #         return 'Transmittals Updated'
+    #     else:
+    #         return reply['status']
+    #
+    # if refresh_count % 15 == 0:
+    #     reply = get_sod_repeat()
+    #     if reply['status'] == 200:
+    #         st.session_state.adb['sod'] = reply['sod']
+    #         return 'SOD Updated'
+    #     else:
+    #         return reply['status']
+    #
+    # if refresh_count % 20 == 0:
+    #     reply = get_proj_repeat()
+    #     if reply['status'] == 200:
+    #         st.session_state.adb['project'] = reply['proj']
+    #         return 'Projects Updated'
+    #     else:
+    #         return reply['status']
+    #
+    # return f"No changes: {refresh_count}"
 
 
 if __name__ == "__main__":
