@@ -100,16 +100,17 @@ def show_sidebar_info(sidebar_rep):
              Settings -> Scope of Load</h5>""",
             unsafe_allow_html=True)
 
-        if access_level == 'dev':
-            with st.sidebar:
+
+        with st.sidebar:
+            if access_level == 'dev':
                 td = datetime.datetime.now() - st.session_state.r_now
                 delta = f"{int(td.total_seconds() * 1000)}"
 
                 st.sidebar.markdown(f"<h2 style='text-align: center; color: #fcf403;'>{delta} ms</h2>",
                                     unsafe_allow_html=True)
 
-                st.sidebar.markdown(f"<h4 style='text-align: center; color: #59E314;'>"
-                                    f"{sidebar_rep}</h4>", unsafe_allow_html=True)
+            st.sidebar.markdown(f"<h4 style='text-align: center; color: #59E314;'>"
+                                f"{sidebar_rep}</h4>", unsafe_allow_html=True)
 
 
 # @lru_cache(128)
@@ -1063,6 +1064,6 @@ if __name__ == "__main__":
         sidebar_report = refresh_result
         st.experimental_rerun()
     else:
-        sidebar_report = 'No changes'
+        sidebar_report = 'No changes in the DataBase since you logged in'
 
     show_sidebar_info(sidebar_report)
