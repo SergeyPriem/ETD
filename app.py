@@ -1056,5 +1056,11 @@ def refresher():
 if __name__ == "__main__":
     st.session_state.r_now = datetime.datetime.now()
     initial()
-    sidebar_report = refresher()
+
+    refresh_result = refresher()
+
+    if refresh_result:
+        sidebar_report = refresh_result
+        st.experimental_rerun()
+
     show_sidebar_info(sidebar_report)
