@@ -88,16 +88,17 @@ def mail_to_name(mail):
 BACKUP_FOLDER: Path = Path('//uz-fs/Uzle/Work/Отдел ЭЛ/Архив заданий/')
 
 
-def change_global_state(changed_table: str):
-    st.session_state.temp_log.append('change_global_state')
-    st.session_state.new_state = {
-        "serial": int(server_state.db_changes['serial']) + 1,
-        "table": changed_table,
-        "login": st.session_state.login,
-    }
+def change_global_state():
 
-    st.session_state.temp_log.append(f"new_state = {st.session_state.new_state}")
-    st.session_state.temp_log.append(f"st.session_state.local_marker = {st.session_state.local_marker}")
+    # st.session_state.temp_log.append('change_global_state')
+    # # st.session_state.new_state = {
+    # #     "serial": int(server_state.db_changes['serial']) + 1,
+    # #     "table": changed_table,
+    # #     "login": st.session_state.login,
+    # # }
+    #
+    # st.session_state.temp_log.append(f"new_state = {st.session_state.new_state}")
+    # st.session_state.temp_log.append(f"st.session_state.local_marker = {st.session_state.local_marker}")
 
     if int(st.session_state.local_marker['serial']) != int(st.session_state.new_state['serial']):
 
@@ -114,7 +115,6 @@ def change_global_state(changed_table: str):
         # st.session_state.temp_log.append(
         #     f"BEFORE WITH server_state.db_changes={server_state.db_changes}"
         # )
-
 
         with server_state_lock['db_changes']:
             server_state.db_changes = copy.deepcopy(st.session_state.new_state)

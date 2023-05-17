@@ -186,7 +186,11 @@ def manage_projects():
                         else:
                             r_rep.warning(reply2)
 
-                        change_global_state('proj')
+                        # change_global_state('proj')
+
+                        st.session_state.new_state['serial'] += 1
+                        st.session_state.new_state['table'] = 'proj'
+                        st.session_state.new_state['login'] = st.session_state.login
 
                     else:
                         st.warning(reply)
