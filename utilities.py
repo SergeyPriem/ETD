@@ -135,8 +135,7 @@ def change_global_state(changed_table: str):
 
         server_state.db_changes = new_state
 
-        if st.session_state.db_timer != server_state.db_changes['time_marker']:
-            force_rerun_bound_sessions('db_changes')
+
 
         #
 

@@ -24,7 +24,7 @@ from projects import confirm_task, confirm_trans, trans_status_to_db, get_all, g
 from models import Users, Task, Trans
 from functools import lru_cache
 from streamlit_autorefresh import st_autorefresh
-from streamlit_server_state import server_state, server_state_lock
+from streamlit_server_state import server_state, server_state_lock, force_rerun_bound_sessions
 
 # import openpyxl
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
@@ -1056,7 +1056,7 @@ def refresher():
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
-        st.experimental_rerun()
+        force_rerun_bound_sessions('db_changes')
 
 
 if __name__ == "__main__":
