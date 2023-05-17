@@ -214,7 +214,7 @@ def create_states():
         if state not in st.session_state:
             st.session_state[state] = False
 
-
+    st.write(f"st.session_state.new_state={st.session_state.new_state}")
 def update_trans_status(trans_num, trans_proj):
     st.session_state.trans_status = {
         'trans_num': trans_num,
