@@ -160,11 +160,11 @@ def get_menus(rights):
 
 def create_states():
 
-    server_state.db_changes = {
-            "serial": 0,
-            "table": "Not_aval",
-            "login": "No_Login",
-        }
+    # server_state.db_changes = {
+    #         "serial": 0,
+    #         "table": "Not_aval",
+    #         "login": "No_Login",
+    #     }
 
     with server_state_lock["db_changes"]:
         if "db_changes" not in server_state:
