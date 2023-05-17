@@ -161,6 +161,7 @@ def get_menus(rights):
 
 
 def create_states():
+
     with server_state_lock["db_changes"]:
         if "db_changes" not in server_state:
             server_state.db_changes = {
@@ -1097,6 +1098,8 @@ if __name__ == "__main__":
     # st.session_state.temp_log.append('create_states')
     st.session_state.r_now = datetime.datetime.now()
     check_global_state()
+    st.write("in main:")
+    st.write(server_state.db_changes)
     refresher()
     initial()
     show_sidebar_info()
