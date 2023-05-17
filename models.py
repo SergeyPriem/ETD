@@ -56,7 +56,7 @@ class Users(db.Entity):
     phone = Optional(str, 13, nullable=True)
     telegram = Optional(str, 80, nullable=True)
     vert_menu = Optional(int, size=8)
-    refresh_delay = Optional(int, size=8, nullable=True)
+    refresh_delay = Optional(int, size=16, nullable=True)
     script_acc = Optional(int, size=8)
     hashed_pass = Optional(str, 60)
     projects = Set(Project)
