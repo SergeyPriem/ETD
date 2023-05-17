@@ -104,8 +104,22 @@ def change_global_state(changed_table: str):
             f"INSIDE the condition {int(server_state.db_changes['serial']) != int(new_state['serial'])}"
         )
 
+
+
+        st.session_state.temp_log.append(
+            f"INSIDE the condition {int(server_state.db_changes['serial']) != int(new_state['serial'])}"
+        )
+
+        server_state.db_changes = copy.deepcopy(new_state)
+
+        st.session_state.temp_log.append(
+            f"BEFORE WITH server_state.db_changes={server_state.db_changes}"
+        )
+
+
         with server_state_lock['db_changes']:
-            server_state['db_changes'] = copy.deepcopy(new_state)
+
+            server_state.db_changes = copy.deepcopy(new_state)
 
     else:
         st.session_state.temp_log.append(
