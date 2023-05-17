@@ -1056,7 +1056,7 @@ def refresher():
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
-        force_rerun_bound_sessions('db_changes')
+        # force_rerun_bound_sessions('db_changes')
 
 
 if __name__ == "__main__":
