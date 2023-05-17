@@ -123,9 +123,6 @@ BACKUP_FOLDER: Path = Path('//uz-fs/Uzle/Work/Отдел ЭЛ/Архив зад�
 
 def change_global_state(changed_table: str):
 
-    st.session_state.temp_log.append(
-        f"Refresher with local_marker {st.session_state.local_marker}; new state {st.session_state.new_state};"
-        f" server_state {server_state.db_changes}")
 
     if st.session_state.login:
 
@@ -135,16 +132,20 @@ def change_global_state(changed_table: str):
             'login': st.session_state.login
         }
 
+        st.session_state.temp_log.append(
+            f"Refresher with local_marker {st.session_state.local_marker}; "
+            f"new state {st.session_state.new_state}; "
+            f"server_state {server_state.db_changes}")
 
         if server_state.db_changes['server_marker'] != st.session_state.new_state['server_marker']:
 
-            st.session_state.temp_log.append("server_state.db_changes['server_marker'] != st.session_state.new_state['server_marker']")
+            st.session_state.temp_log.append("НЕРАВЕНСТВО SERVER AND NEW STATE")
             server_state.db_changes['server_marker'] = copy.deepcopy(st.session_state.new_state['server_marker'])
 
             with server_state_lock["db_changes"]:
                 server_state.db_changes = copy.deepcopy(st.session_state.new_state)
 
-            st.session_state.temp_log.append("И СЮДА ДОШЛО")
+        st.session_state.temp_log.append("И СЮДА ДОШЛО")
 
 
 
