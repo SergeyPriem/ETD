@@ -1013,7 +1013,7 @@ def initial():
 
 
 def refresher():
-    st_autorefresh(interval=int(st.session_state.refresh_delay) * 1000, limit=4000, key="refresher")
+    # st_autorefresh(interval=int(st.session_state.refresh_delay) * 1000, limit=4000, key="refresher")
 
     if st.session_state.db_timer != server_state.db_changes['time_marker']:
 
@@ -1056,7 +1056,7 @@ def refresher():
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
-        # force_rerun_bound_sessions('db_changes')
+        force_rerun_bound_sessions('db_changes')
 
 
 
@@ -1065,3 +1065,5 @@ if __name__ == "__main__":
     initial()
     refresher()
     show_sidebar_info()
+
+
