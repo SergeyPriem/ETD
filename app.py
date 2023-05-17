@@ -1101,6 +1101,6 @@ if __name__ == "__main__":
     initial()
     show_sidebar_info()
 
-    st.write(st.session_state.temp_log)
+    # st.write(st.session_state.temp_log)
 
 
