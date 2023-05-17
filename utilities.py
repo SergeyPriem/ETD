@@ -96,15 +96,15 @@ def change_global_state(changed_table: str):
         "login": st.session_state.login,
     }
 
-    st.session_state.temp_log.append(new_state)
+    st.session_state.temp_log.append(f"new_state = {new_state}")
 
     if int(server_state.db_changes['serial']) != int(new_state['serial']):
         st.session_state.temp_log.append(
             f"INSIDE the condition {int(server_state.db_changes['serial']) != int(new_state['serial'])}"
         )
 
-        with server_state_lock.db_changes:
-            server_state.db_changes = copy.deepcopy(new_state)
+        with server_state_lock['db_changes']:
+            server_state['db_changes'] = copy.deepcopy(new_state)
 
     else:
         st.session_state.temp_log.append(
