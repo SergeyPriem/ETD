@@ -124,24 +124,21 @@ def change_global_state(changed_table: str):
 
     if st.session_state.login:
 
-        new_state = {
+        st.session_state.new_state = {
             'server_marker': int(server_state.db_changes['server_marker']) + 1,
             'table': changed_table,
             'login': st.session_state.login
         }
 
-        if st.session_state.local_marker != server_state.db_changes['server_marker']:
+#st.session_state.local_marker == st.session_state.new_state['server_marker'] and
+
+        if server_state.db_changes['server_marker'] != st.session_state.new_state:
 
             with server_state_lock["db_changes"]:
-                server_state['db_changes'] = new_state
+                server_state['db_changes'] = st.session_state.new_state
 
-            # st.session_state.local_marker = server_state.db_changes['server_marker']
+            server_state.db_changes['server_marker'] = st.session_state.new_state
 
-
-        # time.sleep(1)
-        #
-
-        # server_state.db_changes = new_state
 
 
 

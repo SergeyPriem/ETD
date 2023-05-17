@@ -203,7 +203,7 @@ def create_states():
         }
 
     state_list = ['del_conf', 'loads_df', 'login', 'proj_names', 'appl_logins', 'adb', 'spec', 'menu',
-                  'icons', 'rights', 'registered_logins', ]
+                  'icons', 'rights', 'registered_logins', 'new_state']
 
     for state in state_list:
         if state not in st.session_state:
@@ -1020,9 +1020,9 @@ def initial():
 def refresher():
     # st_autorefresh(interval=int(st.session_state.refresh_delay) * 1000, limit=4000, key="refresher")
 
-    if st.session_state.local_marker != server_state.db_changes['server_marker']:
+    if st.session_state.local_marker != st.session_state.new_state:
 
-        st.session_state.local_marker = server_state.db_changes['server_marker']
+        st.session_state.local_marker = st.session_state.new_state
 
         try:
             upd_login = server_state.db_changes['login']
