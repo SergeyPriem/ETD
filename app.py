@@ -162,7 +162,7 @@ def create_states():
                 'table': None,
                 'login': 'X-user',
             }
-    st.write(server_state.db_changes)
+    st.write(f"server_state.db_changes['server_marker']={server_state.db_changes['server_marker']}")
 
     if 'local_marker' not in st.session_state:
         st.session_state.local_marker = server_state.db_changes['server_marker']
