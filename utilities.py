@@ -66,39 +66,6 @@ def center_style():
         """, unsafe_allow_html=True)
 
 
-# if 'delay' not in st.session_state:
-#     st.session_state.delay = 3
-
-
-# def reporter(text: str, duration=int(st.session_state.delay)) -> None:  #: int = st.session_state.delay
-#     placeholder = st.empty()
-#     if isinstance(text, str):
-#         text_lower = text.lower()
-#
-#         yellow_list = {'already', 'mistake', 'slow', 'empty', 'warning', 'prohibited', '**prohibited**', 'moved',
-#                        'no', 'should'}
-#         yellow_words = set(text_lower.split()) & yellow_list
-#
-#         red_list = {'error', 'mistake', 'problem', 'wrong', 'failed', 'fail'}
-#         red_words = set(text_lower.split()) & red_list
-#     else:
-#         red_words = True
-#         yellow_words = False
-#
-#     if red_words:
-#         for i in range(duration, 0, -1):
-#             placeholder.error(text, icon="⚡")
-#             time.sleep(1)
-#     elif yellow_words:
-#         for i in range(duration, 0, -1):
-#             placeholder.warning(text, icon='⚠️')
-#             time.sleep(1)
-#     else:
-#         for i in range(duration, 0, -1):
-#             placeholder.success(text, icon="✅")
-#             time.sleep(1)
-#
-#     placeholder.empty()
 
 def get_cur_u_id():
     u_df = st.session_state.adb['users']
