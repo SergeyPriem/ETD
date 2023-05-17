@@ -125,12 +125,8 @@ def change_global_state(changed_table: str):
     st.session_state.temp_log.append('change_global_state')
 
     if st.session_state.login:
-        state_num = int(server_state.db_changes.split('*')[0])
-        state_table = str(server_state.db_changes.split('*')[1])
 
-        state_num += 1
-
-        st.session_state.new_state = f"{state_num}*{changed_table}"
+        st.session_state.new_state = (server_state.db_changes[0]+1, changed_table, st.session_state.login)
 
         # st.session_state.new_state = {
         #     'server_marker': int(server_state.db_changes['server_marker']) + 1,
@@ -139,7 +135,7 @@ def change_global_state(changed_table: str):
         # }
 
 
-        if server_state.db_changes != st.session_state.new_state:
+        if server_state.db_changes[0] != st.session_state.new_state[0]:
 
             with server_state_lock["db_changes"]:
                 server_state.db_changes = st.session_state.new_state
