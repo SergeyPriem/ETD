@@ -1033,20 +1033,8 @@ def initial():
 
 
 def refresher():
-    # st.session_state.temp_log.append('refresher')
-    # st_autorefresh(interval=int(st.session_state.refresh_delay) * 1000, limit=4000, key="refresher")
-
-    st.title(f"just inside refresher")
-
-    st.title(f"st.session_state.local_marker['serial']={st.session_state.local_marker['serial']}")
-    st.title(f"server_state.db_changes['serial']={server_state.db_changes['serial']}")
-
-    # time.sleep(5)
 
     if st.session_state.local_marker['serial'] != server_state.db_changes['serial']:
-
-        st.title('YES')
-        # time.sleep(7)
 
         try:
             upd_login = server_state.db_changes['login']
@@ -1086,9 +1074,6 @@ def refresher():
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
         st.session_state.local_marker['serial'] = server_state.db_changes['serial']
-
-        st.title(f"rerun inside refresher. local_marker={st.session_state.local_marker}")
-        st.title(f"rerun inside refresher. server_state.db_changes={server_state.db_changes}")
 
         st.experimental_rerun()
 
