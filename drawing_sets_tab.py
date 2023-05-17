@@ -153,6 +153,8 @@ def drawing_sets():
 
                 reply = update_sod(unit_id, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
 
+                st.title(f"update sent. Reply: {reply}")
+
                 if reply['status'] == 201:
 
                     lc, rc = st.columns(2, gap='medium')
@@ -207,7 +209,11 @@ def drawing_sets():
 
                     reply2 = send_mail(coord_email, perf_email, subj, html)
 
+                    st.title(f"Email sent. Reply: {reply}")
+
                     if reply2 == 200:
+
+
                         rc.success(f'Informational e-mail was sent to {coord_email}, {perf_email}')
 
                     change_global_number('sod')
@@ -576,14 +582,16 @@ def manage_units():
                 upd_unit_but = st.form_submit_button("Update Details for Unit", use_container_width=True)
 
             if upd_unit_but:
-                u_id = sod_df.loc[(sod_df.project_id == proj_short) & (sod_df.set_name == unit_name)].index.to_numpy()[
-                    0]
+                u_id = sod_df.loc[(sod_df.project_id == proj_short) &
+                                  (sod_df.set_name == unit_name)].index.to_numpy()[0]
                 reply = update_unit_name_stage(u_id, new_unit_name, new_stage)
+
+                st.title("sent update to db")
 
                 l_rep, r_rep = st.columns(2, gap='medium')
 
                 if reply['status'] == 201:
-
+                    st.title(f"DB Update confirmed {reply}")
                     l_rep.success('Unit Details Updated')
 
                     subj = f"{proj_short}: {unit_name}. Changes"
@@ -632,9 +640,11 @@ def manage_units():
                         cc_rec = 'sergey.priemshiy@uzliti-en.com'
 
                     reply2 = send_mail(receiver, cc_rec, subj, html)
+                    st.title('Email sent')
 
                     if reply2 == 200:
                         r_rep.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
+                        st.title('Email confirmed')
 
                         change_global_number('sod')
 
