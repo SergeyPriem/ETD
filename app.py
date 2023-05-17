@@ -31,9 +31,6 @@ from streamlit_server_state import server_state, server_state_lock, force_rerun_
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
 
-
-temp_log = []
-
 def home_tasks():
     u_id = get_cur_u_id()
     task_df = st.session_state.adb['task']
@@ -221,6 +218,9 @@ def create_states():
             st.session_state[state] = False
 
     st.write(f"st.session_state.new_state={st.session_state.new_state}")
+
+    if 'temp_log' not in st.session_state:
+        st.session_state.temp_log = []
 def update_trans_status(trans_num, trans_proj):
     st.session_state.trans_status = {
         'trans_num': trans_num,
@@ -1087,7 +1087,7 @@ if __name__ == "__main__":
     initial()
     refresher()
     show_sidebar_info()
-    temp_log.append(f"Refresher with local_marker {st.session_state.local_marker}; new state {st.session_state.new_state}; server_state {server_state.db_changes}")
+    st.session_state.temp_log.append(f"Refresher with local_marker {st.session_state.local_marker}; new state {st.session_state.new_state}; server_state {server_state.db_changes}")
     st.write(temp_log)
 
 
