@@ -196,7 +196,7 @@ def manage_projects():
                         st.session_state.new_state['login'] = st.session_state.login
 
                         st.session_state.temp_log.append(f"State after DB update {st.session_state.new_state}")
-
+                        st.experimental_rerun()
                     else:
                         st.warning(reply)
 
