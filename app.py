@@ -1045,22 +1045,17 @@ def refresher():
     # st_autorefresh(interval=int(st.session_state.refresh_delay) * 1000, limit=4000, key="refresher")
 
 
-    if st.session_state.local_marker['serial'] != st.session_state.new_state['serial']:
+    if st.session_state.local_marker['serial'] != server_state.db_changes['serial']:
 
         st.title('YES')
 
-        st.session_state.local_marker = copy.deepcopy(st.session_state.new_state)
-
-        st.session_state.temp_log.append(f"st.session_state.local_marker ={st.session_state.local_marker =} VS"
-                                f" st.session_state.new_state={st.session_state.new_state}")
-
 
         try:
-            upd_login = st.session_state.new_state['login']
+            upd_login = server_state.db_changes['login']
         except:
             upd_login = "User not Available"
 
-        if st.session_state.new_state['table'] == 'proj':
+        if server_state.db_changes['table'] == 'proj':
             reply = get_proj_repeat()
             if reply['status'] == 200:
                 st.session_state.adb['project'] = reply['proj']
@@ -1068,7 +1063,7 @@ def refresher():
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
-        if st.session_state.new_state['table'] == 'task':
+        if server_state.db_changes['table'] == 'task':
             reply = get_tasks_repeat()
             if reply['status'] == 200:
                 st.session_state.adb['task'] = reply['task']
@@ -1076,7 +1071,7 @@ def refresher():
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
-        if st.session_state.new_state['table'] == 'trans':
+        if server_state.db_changes['table'] == 'trans':
             reply = get_trans_repeat()
             if reply['status'] == 200:
                 st.session_state.adb['trans'] = reply['trans']
@@ -1084,7 +1079,7 @@ def refresher():
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
-        if st.session_state.new_state['table'] == 'sod':
+        if server_state.db_changes['table'] == 'sod':
             reply = get_sod_repeat()
             if reply['status'] == 200:
                 st.session_state.adb['sod'] = reply['sod']
@@ -1092,10 +1087,8 @@ def refresher():
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
-        # st.session_state.local_marker = st.session_state.new_state
+        st.session_state.local_marker = copy.deepcopy(server_state.db_changes)
 
-    else:
-        st.title('NO')
 
 
 
