@@ -158,13 +158,13 @@ def create_states():
     with server_state_lock["db_changes"]:
         if "db_changes" not in server_state:
             server_state.db_changes = {
-                'time_marker': time.time(),
+                'server_marker': 0,
                 'table': None,
                 'login': 'X-user',
             }
 
-    if 'db_timer' not in st.session_state:
-        st.session_state.db_timer = time.time()
+    if 'local_marker' not in st.session_state:
+        st.session_state.local_marker = server_state.db_changes['server_marker']
 
     if 'disable_add_task' not in st.session_state:
         st.session_state.disable_add_task = True
@@ -1015,9 +1015,9 @@ def initial():
 def refresher():
     # st_autorefresh(interval=int(st.session_state.refresh_delay) * 1000, limit=4000, key="refresher")
 
-    if st.session_state.db_timer != server_state.db_changes['time_marker']:
+    if st.session_state.local_marker != server_state.db_changes['server_marker']:
 
-        st.session_state.db_timer = server_state.db_changes['time_marker']
+        st.session_state.local_marker = server_state.db_changes['server_marker']
 
         try:
             upd_login = server_state.db_changes['login']
