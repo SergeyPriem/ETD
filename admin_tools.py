@@ -186,7 +186,7 @@ def manage_projects():
                         else:
                             r_rep.warning(reply2)
 
-                        # change_global_state('proj')
+                        change_global_state('proj')
 
                     else:
                         st.warning(reply)
