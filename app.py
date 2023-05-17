@@ -32,6 +32,8 @@ st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
 
 
+temp_log = []
+
 def home_tasks():
     u_id = get_cur_u_id()
     task_df = st.session_state.adb['task']
@@ -1026,6 +1028,7 @@ def refresher():
 
     st.sidebar.write(f"Refresher with local_marker {st.session_state.local_marker} and new state {st.session_state.new_state}")
 
+
     if st.session_state.local_marker != st.session_state.new_state['server_marker']:
 
         st.title('YES')
@@ -1084,6 +1087,7 @@ if __name__ == "__main__":
     initial()
     refresher()
     show_sidebar_info()
-    # st.stop()
+    temp_log.append(f"Refresher with local_marker {st.session_state.local_marker}; new state {st.session_state.new_state}; server_state {server_state.db_changes}")
+    st.write(temp_log)
 
 
