@@ -178,8 +178,10 @@ def create_states():
 
     if 'r_now' not in st.session_state:
         st.session_state.r_now = datetime.datetime.now()
+
     if 'selected' not in st.session_state:
         st.session_state.selected = 'Home'
+
     if 'vert_menu' not in st.session_state:
         st.session_state.vert_menu = 1
 

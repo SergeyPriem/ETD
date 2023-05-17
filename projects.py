@@ -68,7 +68,7 @@ def create_project(proj_short, proj_full, client, proj_man, responsible_el, proj
                 notes=proj_notes
             )
 
-            change_global_state('proj')
+            # change_global_state('proj')
 
             return f'New Project {proj_short} is added to DataBase'
         except Exception as e:
@@ -287,7 +287,7 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
                 aux=datetime.today(),
             )
 
-            change_global_state('sod')
+            # change_global_state('sod')
 
             return {
                 'status': 201,
@@ -353,7 +353,7 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
             result = create_backup_string(link, BACKUP_FOLDER, new_ass_id)
             new_ass.backup_copy = result[0]
 
-            change_global_state('task')
+            # change_global_state('task')
 
             return f"""
             New Task #{new_ass_id} for {new_ass.s_o_d.project_id.short_name}: {new_ass.s_o_d.set_name} is added to DataBase  
@@ -387,7 +387,7 @@ def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, de
                 added_by=st.session_state.login
             )
 
-            change_global_state('task')
+            # change_global_state('task')
 
             return f"""
             New Task #{int(last_id) + 1} for {sod_name} -> {speciality} is added to DataBase  
@@ -448,7 +448,7 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
                     unit.notes = str(unit.notes).replace('None', '') + f"<{t_date}: {notes}>"
                 unit.aux = datetime.today()
 
-                change_global_state('sod')
+                # change_global_state('sod')
 
                 return {
                     'status': 201,
@@ -596,7 +596,7 @@ def confirm_task(task_id):
                 else:
                     Task[task_id].perf_log = f"<{user}*{str(datetime.now())[:-10]}>"
 
-            change_global_state('task')
+            # change_global_state('task')
 
         except Exception as e:
             with st.sidebar:
@@ -620,7 +620,7 @@ def confirm_trans(trans_num):
             tr.received = received_value.replace('None', '')
             st.session_state.adb['trans'] = get_table(Trans)
 
-            change_global_state('trans')
+            # change_global_state('trans')
 
         except Exception as e:
             return err_handler(e)
@@ -649,7 +649,7 @@ def trans_status_to_db():
             trans.notes = new_notes
             trans.status = trans_l['status']
 
-            change_global_state('trans')
+            # change_global_state('trans')
 
             return 'Status Updated'
         except Exception as e:
@@ -803,7 +803,7 @@ def add_new_trans(project, trans_num, out_trans, t_type, subj, link, trans_date,
                 in_out=in_out
             )
 
-            change_global_state('trans')
+            # change_global_state('trans')
 
             return f"""
             New Transmittal {trans_num} is added to DataBase  
@@ -976,7 +976,7 @@ def update_unit_name_stage(unit_id, new_name, new_stage):
             if st.session_state.proj_scope == "All excluding cancelled and suspended":
                 sod = select(u for u in SOD if u.project_id.status not in ['suspended', 'cancelled'])[:]
 
-            change_global_state('sod')
+            # change_global_state('sod')
 
             return {
                 'status': 201,
