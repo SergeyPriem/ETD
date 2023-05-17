@@ -159,7 +159,7 @@ def get_menus(rights):
 
 
 def create_states():
-
+    server_state.db_changes = '0*None'
     with server_state_lock["db_changes"]:
         if "db_changes" not in server_state:
             server_state.db_changes = '0*None'
