@@ -11,7 +11,7 @@ from send_emails import send_mail
 
 def manage_projects():
 
-    st.session_state.temp_log.append('manage_projects')
+    # st.session_state.temp_log.append('manage_projects')
 
     empty_proj_1, content_proj, empty_proj_2 = st.columns([1, 12, 1])
     with empty_proj_1:

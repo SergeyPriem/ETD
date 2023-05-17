@@ -66,7 +66,6 @@ def center_style():
         """, unsafe_allow_html=True)
 
 
-
 def get_cur_u_id():
     u_df = st.session_state.adb['users']
     u_id = u_df[u_df.login == st.session_state.login].index.to_numpy()[0]
@@ -89,35 +88,8 @@ BACKUP_FOLDER: Path = Path('//uz-fs/Uzle/Work/Отдел ЭЛ/Архив зад�
 
 
 def check_global_state():
-    st.session_state.temp_log.append('change_global_state')
 
-    st.title(f"вошли в глобал стейт {st.session_state.local_marker['serial']} VS st.session_state.new_state['serial']")
-
-    # # st.session_state.new_state = {
-    # #     "serial": int(server_state.db_changes['serial']) + 1,
-    # #     "table": changed_table,
-    # #     "login": st.session_state.login,
-    # # }
-    #
-    # st.session_state.temp_log.append(f"new_state = {st.session_state.new_state}")
-    # st.session_state.temp_log.append(f"st.session_state.local_marker = {st.session_state.local_marker}")
-
-    if int(st.session_state.local_marker['serial']) != int(st.session_state.new_state['serial']):
-        st.title("работаем в глобал стейт")
-
-        # st.session_state.temp_log.append(
-        #     f"INSIDE the condition {int(server_state.db_changes['serial']) != int(new_state['serial'])}"
-        # )
-        #
-        # st.session_state.temp_log.append(
-        #     f"INSIDE the condition {int(server_state.db_changes['serial']) != int(new_state['serial'])}"
-        # )
-
-        # server_state.db_changes = copy.deepcopy(new_state)
-        #
-        # st.session_state.temp_log.append(
-        #     f"BEFORE WITH server_state.db_changes={server_state.db_changes}"
-        # )
+    if int(st.session_state.local_marker['serial']) != int(server_state.db_changes['serial']):
 
         with server_state_lock['db_changes']:
             server_state.db_changes = copy.deepcopy(st.session_state.new_state)

@@ -32,8 +32,9 @@ from streamlit_server_state import server_state, server_state_lock, force_rerun_
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
                    page_title='ET Department', initial_sidebar_state='auto')
 
+
 def home_tasks():
-    st.session_state.temp_log.append('home_tasks')
+    # st.session_state.temp_log.append('home_tasks')
     u_id = get_cur_u_id()
     task_df = st.session_state.adb['task']
     sod_df = st.session_state.adb['sod']
@@ -68,7 +69,7 @@ def home_tasks():
 
 
 def home_trans():
-    st.session_state.temp_log.append('home_trans')
+    # st.session_state.temp_log.append('home_trans')
     u_id = get_cur_u_id()
     trans_df = st.session_state.adb['trans']
 
@@ -88,7 +89,7 @@ def home_trans():
 
 
 def show_sidebar_info():
-    st.session_state.temp_log.append('show_sidebar_info')
+    # st.session_state.temp_log.append('show_sidebar_info')
     u_df = st.session_state.adb['users']
 
     if st.session_state.login and st.session_state.proj_scope:
@@ -118,7 +119,7 @@ def show_sidebar_info():
 
 # @lru_cache(128)
 def get_menus(rights):
-    st.session_state.temp_log.append('get_menus')
+    # st.session_state.temp_log.append('get_menus')
     performer_menu = ["Home", "Drawings", "Transmittals", "Tasks", 'Scripts', 'Reading',
                       'Knowledge', 'Settings', 'Refresh']
 
@@ -160,30 +161,19 @@ def get_menus(rights):
 
 
 def create_states():
-
-    # server_state.db_changes = {
-    #         "serial": 0,
-    #         "table": "Not_aval",
-    #         "login": "No_Login",
-    #     }
-
     with server_state_lock["db_changes"]:
         if "db_changes" not in server_state:
             server_state.db_changes = {
-                    "serial": 0,
-                    "table": "Not_aval",
-                    "login": "No_Login",
-                }
+                "serial": 0,
+                "table": "Not_aval",
+                "login": "No_Login",
+            }
 
     if 'local_marker' not in st.session_state:
         st.session_state.local_marker = copy.deepcopy(server_state.db_changes)
 
     if 'new_state' not in st.session_state:
         st.session_state.new_state = copy.deepcopy(server_state.db_changes)
-
-    st.write(f"server_state.db_changes={server_state.db_changes}")
-    st.write(f'st.session_state.local_marker={st.session_state.local_marker}')
-    st.write(f"st.session_state.new_state={st.session_state.new_state}")
 
     if 'disable_add_task' not in st.session_state:
         st.session_state.disable_add_task = True
@@ -230,8 +220,9 @@ def create_states():
         if state not in st.session_state:
             st.session_state[state] = False
 
-    if 'temp_log' not in st.session_state:
-        st.session_state.temp_log = []
+    # if 'temp_log' not in st.session_state:
+        # st.session_state.temp_log = []
+
 
 def update_trans_status(trans_num, trans_proj):
     st.session_state.trans_status = {
@@ -311,7 +302,7 @@ def form_for_trans():
 
 
 def home_content():
-    st.session_state.temp_log.append('home_content')
+    # st.session_state.temp_log.append('home_content')
     center_style()
     home_left, home_cont, home_right = st.columns([5, 3, 5])
     empty21, content2, empty22 = st.columns([1, 20, 1])
@@ -911,7 +902,7 @@ def del_file(lc, rc):
 
 
 def home():
-    st.session_state.temp_log.append('home')
+    # st.session_state.temp_log.append('home')
     if st.session_state.trans_status['trans_num']:
         form_for_trans()
     else:
@@ -920,7 +911,7 @@ def home():
 
 # @lru_cache(15)
 def win_selector(selected):
-    st.session_state.temp_log.append('win_selector')
+    # st.session_state.temp_log.append('win_selector')
     if selected != "Refresh":
         st.session_state.selected = selected
 
@@ -945,7 +936,7 @@ def win_selector(selected):
 
 # @lru_cache(128)
 def prepare_menus(menu, icons, vert_menu):
-    st.session_state.temp_log.append('prepare_menus')
+    # st.session_state.temp_log.append('prepare_menus')
     # st.session_state.menu = get_menus(st.session_state.rights)[0]
     #
     # st.session_state.icons = get_menus(st.session_state.rights)[1]
@@ -970,7 +961,7 @@ def prepare_menus(menu, icons, vert_menu):
 
 
 def initial():
-    st.session_state.temp_log.append('initial')
+    # st.session_state.temp_log.append('initial')
 
     appearance_settings()
 
@@ -1041,14 +1032,12 @@ def initial():
 
 
 def refresher():
-    st.session_state.temp_log.append('refresher')
+    # st.session_state.temp_log.append('refresher')
     # st_autorefresh(interval=int(st.session_state.refresh_delay) * 1000, limit=4000, key="refresher")
-
 
     if st.session_state.local_marker['serial'] != server_state.db_changes['serial']:
 
         st.title('YES')
-
 
         try:
             upd_login = server_state.db_changes['login']
@@ -1090,17 +1079,13 @@ def refresher():
         st.session_state.local_marker = copy.deepcopy(server_state.db_changes)
 
 
-
-
 if __name__ == "__main__":
     create_states()
-    st.session_state.temp_log.append('create_states')
+    # st.session_state.temp_log.append('create_states')
     st.session_state.r_now = datetime.datetime.now()
     check_global_state()
     refresher()
     initial()
     show_sidebar_info()
 
-    # st.write(st.session_state.temp_log)
-
-
+    # st.write(# st.session_state.temp_log)
