@@ -1078,6 +1078,10 @@ def refresher():
 
         st.session_state.local_marker = copy.deepcopy(server_state.db_changes)
 
+        st.title(f"rerun inside refresher. local_marker={st.session_state.local_marker}")
+
+        st.experimental_rerun()
+
 
 if __name__ == "__main__":
     create_states()
