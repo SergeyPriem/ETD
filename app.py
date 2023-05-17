@@ -288,13 +288,13 @@ def form_for_trans():
 
             if reply == 'Status Updated':
                 st.success(reply)
-                time.sleep(1)
+                # time.sleep(1)
                 st.session_state.trans_status['trans_num'] = None
                 st.session_state.adb['trans'] = get_table(Trans)
                 st.experimental_rerun()
             else:
                 st.warning(reply)
-                time.sleep(2)
+                # time.sleep(2)
                 st.session_state.trans_status['trans_num'] = None
 
         if st.button('Escape', use_container_width=True):
@@ -837,7 +837,7 @@ def fresh_data():
         st.header("")
         st.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>", unsafe_allow_html=True)
 
-    time.sleep(1)
+    # time.sleep(1)
     placeholder.empty()
     win_selector(st.session_state.selected)
 
@@ -887,7 +887,7 @@ def del_file(lc, rc):
     if lc.button('Escape'):
         st.session_state.del_conf = None
         lc.warning('Uf-f-f-f...')
-        time.sleep(1)
+        # time.sleep(1)
         st.experimental_rerun()
 
     if rc.button('Confirm', type='primary') and st.session_state.del_conf:
@@ -898,7 +898,7 @@ def del_file(lc, rc):
             st.session_state.del_conf = None
         except Exception as e:
             rc.error(err_handler(e))
-            time.sleep(3)
+            # time.sleep(3)
         st.experimental_rerun()
 
 
@@ -1041,12 +1041,12 @@ def refresher():
     st.title(f"st.session_state.local_marker['serial']={st.session_state.local_marker['serial']}")
     st.title(f"server_state.db_changes['serial']={server_state.db_changes['serial']}")
 
-    time.sleep(5)
+    # time.sleep(5)
 
     if st.session_state.local_marker['serial'] != server_state.db_changes['serial']:
 
         st.title('YES')
-        time.sleep(7)
+        # time.sleep(7)
 
         try:
             upd_login = server_state.db_changes['login']

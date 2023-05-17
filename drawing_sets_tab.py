@@ -154,7 +154,7 @@ def drawing_sets():
                 reply = update_sod(unit_id, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
 
                 st.title(f"update sent. Reply: {reply}")
-                time.sleep(5)
+                # time.sleep(5)
 
                 if reply['status'] == 201:
 
@@ -212,7 +212,7 @@ def drawing_sets():
 
                     st.title(f"Email sent. Reply: {reply}")
 
-                    time.sleep(5)
+                    # time.sleep(5)
 
                     if reply2 == 200:
 
@@ -590,14 +590,14 @@ def manage_units():
                 reply = update_unit_name_stage(u_id, new_unit_name, new_stage)
 
                 st.title("sent update to db")
-                time.sleep(5)
+                # time.sleep(5)
 
                 l_rep, r_rep = st.columns(2, gap='medium')
 
                 if reply['status'] == 201:
 
                     st.title(f"DB Update confirmed {reply}")
-                    time.sleep(5)
+                    # time.sleep(5)
 
                     l_rep.success('Unit Details Updated')
 
@@ -649,7 +649,7 @@ def manage_units():
                     reply2 = send_mail(receiver, cc_rec, subj, html)
 
                     st.title(f'Email sent. Reply: {reply2}')
-                    time.sleep(5)
+                    # time.sleep(5)
 
                     if reply2 == 200:
                         r_rep.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
