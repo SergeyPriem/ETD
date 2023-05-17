@@ -1066,5 +1066,6 @@ if __name__ == "__main__":
     initial()
     refresher()
     show_sidebar_info()
+    st.stop()
 
 

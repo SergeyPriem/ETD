@@ -133,7 +133,7 @@ def change_global_state(changed_table: str):
         with server_state_lock["db_changes"]:
             server_state['db_changes'] = new_state
 
-        time.sleep(1)
+        # time.sleep(1)
         #
 
         # server_state.db_changes = new_state
