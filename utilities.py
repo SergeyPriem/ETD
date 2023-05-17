@@ -91,12 +91,15 @@ BACKUP_FOLDER: Path = Path('//uz-fs/Uzle/Work/Отдел ЭЛ/Архив зад�
 def change_global_state(changed_table: str):
 
     new_state = {
-        "serial": int(server_state.db_changes[-1]['serial']) + 1,
+        "serial": int(server_state.db_changes['serial']) + 1,
         "table": changed_table,
         "login": st.session_state.login,
     }
-    with server_state_lock.db_changes:
-        server_state.db_changes += [new_state]
+
+    if int(new_state['serial']) != int(new_state['serial']):
+
+        with server_state_lock.db_changes:
+            server_state.db_changes = copy.deepcopy(new_state)
 
 
 
