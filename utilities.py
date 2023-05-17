@@ -97,6 +97,7 @@ def change_global_state(changed_table: str):
     }
 
     st.session_state.temp_log.append(f"new_state = {new_state}")
+    st.session_state.temp_log.append(f"new_state = {server_state.db_changes}")
 
     if int(server_state.db_changes['serial']) != int(new_state['serial']):
         st.session_state.temp_log.append(
