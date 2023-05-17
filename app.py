@@ -162,20 +162,22 @@ def create_states():
 
     with server_state_lock["db_changes"]:
         if "db_changes" not in server_state:
-            server_state.db_changes = {
-                'server_marker': 0,
-                'table': None,
-                'login': 'X-user',
-            }
+            server_state.db_changes = '0*None'
+            # server_state.db_changes = {
+            #     'server_marker': 0,
+            #     'table': None,
+            #     'login': 'X-user',
+            # }
     st.write(f"server_state.db_changes={server_state.db_changes}")
 
     if 'local_marker' not in st.session_state:
-        st.session_state.local_marker = copy.deepcopy(server_state.db_changes['server_marker'])
+        st.session_state.local_marker = server_state.db_changes
+        # st.session_state.local_marker = copy.deepcopy(server_state.db_changes['server_marker'])
 
     if 'new_state' not in st.session_state:
-        st.session_state.new_state = copy.deepcopy(server_state.db_changes)
+        st.session_state.new_state = server_state.db_changes
 
-    st.write(f"st.session_state.local_marker={st.session_state.local_marker}")
+    st.write(f"st.session_state={st.session_state}")
 
     if 'disable_add_task' not in st.session_state:
         st.session_state.disable_add_task = True
@@ -1040,11 +1042,11 @@ def refresher():
     st.sidebar.write(f"Refresher with local_marker {st.session_state.local_marker} and new state {st.session_state.new_state}")
 
 
-    if st.session_state.local_marker != st.session_state.new_state['server_marker']:
+    if st.session_state.local_marker != st.session_state.new_state:
 
         st.title('YES')
 
-        st.session_state.local_marker = st.session_state.new_state['server_marker']
+        st.session_state.local_marker = st.session_state.new_state
 
         st.sidebar.write(
             f"Refresher 2 with local_marker {st.session_state.local_marker} and new state {st.session_state.new_state}")

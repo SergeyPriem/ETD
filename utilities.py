@@ -125,37 +125,24 @@ def change_global_state(changed_table: str):
     st.session_state.temp_log.append('change_global_state')
 
     if st.session_state.login:
+        state_num = int(server_state.db_changes.split('*')[0])
+        state_table = str(server_state.db_changes.split('*')[1])
 
-        st.session_state.new_state = {
-            'server_marker': int(server_state.db_changes['server_marker']) + 1,
-            'table': changed_table,
-            'login': st.session_state.login
-        }
+        state_num += 1
 
-        st.session_state.temp_log.append(
-            f"Refresher with local_marker {st.session_state.local_marker}; "
-            f"new state {st.session_state.new_state}; "
-            f"server_state {server_state.db_changes}")
+        st.session_state.new_state = f"{state_num}*{changed_table}"
 
-        if server_state.db_changes['server_marker'] != st.session_state.new_state['server_marker']:
+        # st.session_state.new_state = {
+        #     'server_marker': int(server_state.db_changes['server_marker']) + 1,
+        #     'table': changed_table,
+        #     'login': st.session_state.login
+        # }
 
-            # st.session_state.temp_log.append("НЕРАВЕНСТВО SERVER AND NEW STATE")
-            server_state.db_changes['server_marker'] = copy.deepcopy(st.session_state.new_state['server_marker'])
 
-            # if server_state.db_changes['server_marker'] == st.session_state.new_state['server_marker']:
-            #     # st.session_state.temp_log.append("сервер и нью стейт сравнялись")
-            #
-            # else:
-            #     st.session_state.temp_log.append("не сравнялись, суки")
+        if server_state.db_changes != st.session_state.new_state:
 
             with server_state_lock["db_changes"]:
-                # st.session_state.temp_log.append("Перед присвоением")
-                server_state.db_changes = copy.deepcopy(st.session_state.new_state)
-                # st.session_state.temp_log.append("после присвоения")
-
-
-        # st.session_state.temp_log.append("И СЮДА ДОШЛО")
-
+                server_state.db_changes = st.session_state.new_state
 
 
 
