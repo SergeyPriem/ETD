@@ -89,7 +89,7 @@ BACKUP_FOLDER: Path = Path('//uz-fs/Uzle/Work/Отдел ЭЛ/Архив зад�
 
 
 def change_global_state(changed_table: str):
-
+    st.session_state.temp_log.append('change_global_state')
     st.session_state.new_state = {
         "serial": int(server_state.db_changes['serial']) + 1,
         "table": changed_table,
