@@ -88,7 +88,7 @@ def mail_to_name(mail):
 BACKUP_FOLDER: Path = Path('//uz-fs/Uzle/Work/Отдел ЭЛ/Архив заданий/')
 
 
-def change_global_state():
+def check_global_state():
     st.session_state.temp_log.append('change_global_state')
 
     # # st.session_state.new_state = {
@@ -120,6 +120,11 @@ def change_global_state():
             server_state.db_changes = copy.deepcopy(st.session_state.new_state)
 
 
+def change_global_number(tab_name: str):
+    st.session_state.new_state['serial'] += 1
+    st.session_state.new_state['table'] = tab_name
+    st.session_state.new_state['login'] = st.session_state.login
+    st.experimental_rerun()
 
 
 

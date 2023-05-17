@@ -3,7 +3,7 @@
 
 import streamlit as st
 from models import Project
-from utilities import proj_statuses, center_style, get_list_index, change_global_state
+from utilities import proj_statuses, center_style, get_list_index, check_global_state, change_global_number
 from projects import create_project, get_table, update_projects
 
 from send_emails import send_mail
@@ -189,14 +189,9 @@ def manage_projects():
                         else:
                             r_rep.warning(reply2)
 
-                        # change_global_state('proj')
+                        change_global_number('proj')
 
-                        st.session_state.new_state['serial'] += 1
-                        st.session_state.new_state['table'] = 'proj'
-                        st.session_state.new_state['login'] = st.session_state.login
 
-                        st.session_state.temp_log.append(f"State after DB update {st.session_state.new_state}")
-                        st.experimental_rerun()
                     else:
                         st.warning(reply)
 

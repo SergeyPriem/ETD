@@ -5,7 +5,7 @@ from models import Project, SOD, Task, Users, Speciality, Trans
 import pandas as pd
 from datetime import date, datetime
 import streamlit as st
-from utilities import BACKUP_FOLDER, change_global_state
+from utilities import BACKUP_FOLDER, check_global_state
 from users import err_handler
 
 set_sql_debug(False)
