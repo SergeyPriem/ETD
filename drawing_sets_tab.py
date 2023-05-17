@@ -635,6 +635,9 @@ def manage_units():
 
                     if reply2 == 200:
                         r_rep.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
+
+                        change_global_number('sod')
+
                 else:
                     st.warning(reply['err_descr'])
 
