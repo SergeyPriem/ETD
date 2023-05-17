@@ -14,8 +14,8 @@ from tasks_tab import tasks_content
 from drawing_sets_tab import drawing_sets, manage_units
 from just_for_fun_tab import just_for_fun
 from lesson_learned_tab import lessons_content
-from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, get_cur_u_id, center_style, \
-    check_global_state
+from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, get_cur_u_id, \
+    center_style, check_global_state
 from send_emails import send_mail
 from settings_tab import settings_content
 from transmittals_tab import transmittals_content

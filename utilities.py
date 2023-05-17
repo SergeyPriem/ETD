@@ -91,6 +91,8 @@ BACKUP_FOLDER: Path = Path('//uz-fs/Uzle/Work/Отдел ЭЛ/Архив зад�
 def check_global_state():
     st.session_state.temp_log.append('change_global_state')
 
+    st.title(f"вошли в глобал стейт {st.session_state.local_marker['serial']} VS st.session_state.new_state['serial']")
+
     # # st.session_state.new_state = {
     # #     "serial": int(server_state.db_changes['serial']) + 1,
     # #     "table": changed_table,
@@ -101,6 +103,7 @@ def check_global_state():
     # st.session_state.temp_log.append(f"st.session_state.local_marker = {st.session_state.local_marker}")
 
     if int(st.session_state.local_marker['serial']) != int(st.session_state.new_state['serial']):
+        st.title("работаем в глобал стейт")
 
         # st.session_state.temp_log.append(
         #     f"INSIDE the condition {int(server_state.db_changes['serial']) != int(new_state['serial'])}"
