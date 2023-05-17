@@ -1030,6 +1030,9 @@ def refresher():
 
         st.session_state.local_marker = copy.deepcopy(st.session_state.new_state['server_marker'])
 
+        st.sidebar.write(
+            f"Refresher 2 with local_marker {st.session_state.local_marker} and new state {st.session_state.new_state}")
+
         try:
             upd_login = server_state.db_changes['login']
         except:
