@@ -1050,7 +1050,9 @@ def refresher():
 
         st.title('YES')
 
-        st.session_state.local_marker = copy.deepcopy(st.session_state.new_state)
+        # st.session_state.local_marker = copy.deepcopy(st.session_state.new_state)
+
+        st.session_state.local_marker['serial'] = int(st.session_state.new_state['serial'])
 
         st.sidebar.write(
             f"Refresher 2 with local_marker {st.session_state.local_marker} and new state {st.session_state.new_state}")

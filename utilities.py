@@ -90,41 +90,35 @@ BACKUP_FOLDER: Path = Path('//uz-fs/Uzle/Work/Отдел ЭЛ/Архив зад�
 
 def change_global_state(changed_table: str):
 
-    new_state = {
+    st.session_state.new_state = {
         "serial": int(server_state.db_changes['serial']) + 1,
         "table": changed_table,
         "login": st.session_state.login,
     }
 
-    st.session_state.temp_log.append(f"new_state = {new_state}")
-    st.session_state.temp_log.append(f"new_state = {server_state.db_changes}")
+    st.session_state.temp_log.append(f"new_state = {st.session_state.new_state}")
+    st.session_state.temp_log.append(f"server_state.db_change = {server_state.db_changes}")
 
-    if int(server_state.db_changes['serial']) != int(new_state['serial']):
-        st.session_state.temp_log.append(
-            f"INSIDE the condition {int(server_state.db_changes['serial']) != int(new_state['serial'])}"
-        )
+    if int(st.session_state.local_marker['serial']) != int(st.session_state.new_state['serial']):
 
+        # st.session_state.temp_log.append(
+        #     f"INSIDE the condition {int(server_state.db_changes['serial']) != int(new_state['serial'])}"
+        # )
+        #
+        # st.session_state.temp_log.append(
+        #     f"INSIDE the condition {int(server_state.db_changes['serial']) != int(new_state['serial'])}"
+        # )
 
-
-        st.session_state.temp_log.append(
-            f"INSIDE the condition {int(server_state.db_changes['serial']) != int(new_state['serial'])}"
-        )
-
-        server_state.db_changes = copy.deepcopy(new_state)
-
-        st.session_state.temp_log.append(
-            f"BEFORE WITH server_state.db_changes={server_state.db_changes}"
-        )
+        # server_state.db_changes = copy.deepcopy(new_state)
+        #
+        # st.session_state.temp_log.append(
+        #     f"BEFORE WITH server_state.db_changes={server_state.db_changes}"
+        # )
 
 
         with server_state_lock['db_changes']:
+            server_state.db_changes = copy.deepcopy(st.session_state.new_state)
 
-            server_state.db_changes = copy.deepcopy(new_state)
-
-    else:
-        st.session_state.temp_log.append(
-            f"OUTSIDE the condition {int(new_state['serial']) != int(new_state['serial'])}"
-        )
 
 
 
