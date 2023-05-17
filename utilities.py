@@ -89,7 +89,7 @@ BACKUP_FOLDER: Path = Path('//uz-fs/Uzle/Work/Отдел ЭЛ/Архив зад�
 
 def check_global_state():
 
-    if int(st.session_state.local_marker['serial']) != int(server_state.db_changes['serial']):
+    if int(st.session_state.local_marker['serial']) != int(st.session_state.new_state['serial']):
 
         st.title(f"changing {server_state.db_changes} to {st.session_state.new_state}")
         time.sleep(5)
