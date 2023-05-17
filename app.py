@@ -1084,7 +1084,7 @@ def refresher():
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
-        st.session_state.local_marker = copy.deepcopy(server_state.db_changes)
+        st.session_state.local_marker +=1
 
         st.title(f"rerun inside refresher. local_marker={st.session_state.local_marker}")
         st.title(f"rerun inside refresher. server_state.db_changes={server_state.db_changes}")
