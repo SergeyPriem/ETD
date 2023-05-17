@@ -103,6 +103,7 @@ def change_global_state(changed_table: str):
 
 
         if server_state.db_changes[0] != st.session_state.new_state[0]:
+            server_state.db_changes = st.session_state.new_state
 
             with server_state_lock["db_changes"]:
                 server_state.db_changes = st.session_state.new_state
