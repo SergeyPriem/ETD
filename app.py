@@ -166,10 +166,10 @@ def create_states():
     st.write(f"server_state.db_changes['server_marker']={server_state.db_changes['server_marker']}")
 
     if 'local_marker' not in st.session_state:
-        st.session_state.local_marker = server_state.db_changes['server_marker']
+        st.session_state.local_marker = copy.deepcopy(server_state.db_changes['server_marker'])
 
     if 'new_state' not in st.session_state:
-        st.session_state.new_state = server_state.db_changes['server_marker']
+        st.session_state.new_state = copy.deepcopy(server_state.db_changes)
 
     st.write(f"st.session_state.local_marker={st.session_state.local_marker}")
 
