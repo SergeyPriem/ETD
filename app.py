@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import copy
 import os
 import time
 import pandas as pd
@@ -1025,7 +1026,7 @@ def refresher():
 
     if st.session_state.local_marker != st.session_state.new_state:
 
-        st.session_state.local_marker = st.session_state.new_state
+        st.session_state.local_marker = copy.deepcopy(st.session_state.new_state['server_marker'])
 
         try:
             upd_login = server_state.db_changes['login']

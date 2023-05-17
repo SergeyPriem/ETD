@@ -3,6 +3,7 @@
 import streamlit as st
 from pathlib import Path
 import time
+import copy
 from streamlit_server_state import server_state, server_state_lock, no_rerun, force_rerun_bound_sessions
 
 positions = ('Trainee', 'III cat.', 'II cat.', 'I cat.', 'Lead', 'Group Head', 'Senior', 'Dep. Head')
@@ -135,7 +136,7 @@ def change_global_state(changed_table: str):
         if server_state.db_changes['server_marker'] != st.session_state.new_state['server_marker']:
 
             with server_state_lock["db_changes"]:
-                server_state.db_changes = st.session_state.new_state
+                server_state.db_changes = copy.deepcopy(st.session_state.new_state)
 
             server_state.db_changes['server_marker'] = st.session_state.new_state['server_marker']
 
