@@ -414,7 +414,7 @@ def update_projects(proj_id, short_name, full_name, client, manager, responsible
             proj_for_upd.mdr = mdr
             proj_for_upd.notes = notes
 
-            change_global_state('proj')
+            # change_global_state('proj')
 
             return {"status": 201,
                     # "updated_projects": tab_to_df(proj),
