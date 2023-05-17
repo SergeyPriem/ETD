@@ -139,10 +139,12 @@ def change_global_state(changed_table: str):
         if server_state.db_changes['server_marker'] != st.session_state.new_state['server_marker']:
 
             st.session_state.temp_log.append("server_state.db_changes['server_marker'] != st.session_state.new_state['server_marker']")
-            server_state.db_changes['server_marker'] = st.session_state.new_state['server_marker']
+            server_state.db_changes['server_marker'] = copy.deepcopy(st.session_state.new_state['server_marker'])
 
             with server_state_lock["db_changes"]:
                 server_state.db_changes = copy.deepcopy(st.session_state.new_state)
+
+            st.session_state.temp_log.append("И СЮДА ДОШЛО")
 
 
 
