@@ -172,7 +172,8 @@ def create_states():
 
     if 'local_marker' not in st.session_state:
         st.session_state.local_marker = server_state.db_changes
-        # st.session_state.local_marker = copy.deepcopy(server_state.db_changes['server_marker'])
+
+    st.write(f'st.session_state.local_marker={st.session_state.local_marker}')
 
     if 'new_state' not in st.session_state:
         st.session_state.new_state = server_state.db_changes
@@ -224,10 +225,9 @@ def create_states():
         if state not in st.session_state:
             st.session_state[state] = False
 
-    st.write(f"st.session_state.new_state={st.session_state.new_state}")
-
     if 'temp_log' not in st.session_state:
         st.session_state.temp_log = []
+
 def update_trans_status(trans_num, trans_proj):
     st.session_state.trans_status = {
         'trans_num': trans_num,
