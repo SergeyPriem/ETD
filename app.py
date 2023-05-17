@@ -1024,7 +1024,7 @@ def initial():
 def refresher():
     # st_autorefresh(interval=int(st.session_state.refresh_delay) * 1000, limit=4000, key="refresher")
 
-    st.header(f"Refresher with local_marker {st.session_state.local_marker} and new state {st.session_state.new_state}")
+    st.sidebar.write(f"Refresher with local_marker {st.session_state.local_marker} and new state {st.session_state.new_state}")
 
     if st.session_state.local_marker != st.session_state.new_state['server_marker']:
 
