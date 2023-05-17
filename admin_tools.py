@@ -3,7 +3,7 @@
 
 import streamlit as st
 from models import Project
-from utilities import proj_statuses, center_style, get_list_index
+from utilities import proj_statuses, center_style, get_list_index, change_global_state
 from projects import create_project, get_table, update_projects
 
 from send_emails import send_mail
@@ -186,7 +186,7 @@ def manage_projects():
                         else:
                             r_rep.warning(reply2)
 
-                        st.experimental_rerun()
+                        change_global_state('proj')
 
                     else:
                         st.warning(reply)
