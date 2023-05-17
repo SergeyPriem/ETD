@@ -177,7 +177,7 @@ def create_states():
     if 'new_state' not in st.session_state:
         st.session_state.new_state = server_state.db_changes
 
-    st.write(f"st.session_state={st.session_state}")
+    st.write(f"st.session_state.new_state={st.session_state.new_state}")
 
     if 'disable_add_task' not in st.session_state:
         st.session_state.disable_add_task = True
