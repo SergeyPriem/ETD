@@ -139,22 +139,22 @@ def change_global_state(changed_table: str):
 
         if server_state.db_changes['server_marker'] != st.session_state.new_state['server_marker']:
 
-            st.session_state.temp_log.append("НЕРАВЕНСТВО SERVER AND NEW STATE")
+            # st.session_state.temp_log.append("НЕРАВЕНСТВО SERVER AND NEW STATE")
             server_state.db_changes['server_marker'] = copy.deepcopy(st.session_state.new_state['server_marker'])
 
-            if server_state.db_changes['server_marker'] == st.session_state.new_state['server_marker']:
-                st.session_state.temp_log.append("сервер и нью стейт сравнялись")
-
-            else:
-                st.session_state.temp_log.append("не сравнялись, суки")
+            # if server_state.db_changes['server_marker'] == st.session_state.new_state['server_marker']:
+            #     # st.session_state.temp_log.append("сервер и нью стейт сравнялись")
+            #
+            # else:
+            #     st.session_state.temp_log.append("не сравнялись, суки")
 
             with server_state_lock["db_changes"]:
-                st.session_state.temp_log.append("Перед присвоением")
+                # st.session_state.temp_log.append("Перед присвоением")
                 server_state.db_changes = copy.deepcopy(st.session_state.new_state)
-                st.session_state.temp_log.append("после присвоения")
+                # st.session_state.temp_log.append("после присвоения")
 
 
-        st.session_state.temp_log.append("И СЮДА ДОШЛО")
+        # st.session_state.temp_log.append("И СЮДА ДОШЛО")
 
 
 
