@@ -1050,7 +1050,7 @@ def refresher():
 
         st.session_state.local_marker = copy.deepcopy(st.session_state.new_state)
 
-        st.session_state.append(f"st.session_state.local_marker ={st.session_state.local_marker =} VS"
+        st.session_state.temp_log.append(f"st.session_state.local_marker ={st.session_state.local_marker =} VS"
                                 f" st.session_state.new_state={st.session_state.new_state}")
 
 
