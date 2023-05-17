@@ -1088,6 +1088,6 @@ if __name__ == "__main__":
     refresher()
     show_sidebar_info()
     st.session_state.temp_log.append(f"Refresher with local_marker {st.session_state.local_marker}; new state {st.session_state.new_state}; server_state {server_state.db_changes}")
-    st.write(temp_log)
+    st.write(st.session_state.temp_log)
 
 
