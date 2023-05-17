@@ -163,8 +163,9 @@ def create_states():
                 'login': 'X-user',
             }
     st.write(server_state.db_changes)
-    # if 'local_marker' not in st.session_state:
-    #     st.session_state.local_marker = server_state.db_changes['server_marker']
+
+    if 'local_marker' not in st.session_state:
+        st.session_state.local_marker = server_state.db_changes['server_marker']
 
 
     if 'disable_add_task' not in st.session_state:
