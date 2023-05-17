@@ -89,27 +89,15 @@ BACKUP_FOLDER: Path = Path('//uz-fs/Uzle/Work/Отдел ЭЛ/Архив зад�
 
 
 def change_global_state(changed_table: str):
-    st.session_state.temp_log.append('change_global_state')
 
-    if st.session_state.login:
-
-        st.session_state.new_state = (server_state.db_changes[0]+1, changed_table, st.session_state.login)
-
-        # st.session_state.new_state = {
-        #     'server_marker': int(server_state.db_changes['server_marker']) + 1,
-        #     'table': changed_table,
-        #     'login': st.session_state.login
-        # }
-
-
-        if server_state.db_changes[0] != st.session_state.new_state[0]:
-            server_state.db_changes = st.session_state.new_state
-
-            with server_state_lock["db_changes"]:
-                server_state.db_changes = st.session_state.new_state
+    new_state = {
+        "serial": int(server_state.db_changes[-1]['serial']) + 1,
+        "table": changed_table,
+        "login": st.session_state.login,
+    }
+    with server_state_lock.db_changes:
+        server_state.db_changes += [new_state]
 
 
 
-
-        #
 

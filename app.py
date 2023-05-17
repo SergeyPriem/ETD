@@ -159,21 +159,30 @@ def get_menus(rights):
 
 
 def create_states():
-    # server_state.db_changes = (0, None, None)
+
+    server_state.db_changes = [
+        {
+            "serial": 0,
+            "table": "Not_aval",
+            "login": "No_Login",
+        }
+    ]
+
     with server_state_lock["db_changes"]:
         if "db_changes" not in server_state:
-            server_state.db_changes = (0, None, None)
-            # server_state.db_changes = {
-            #     'server_marker': 0,
-            #     'table': None,
-            #     'login': 'X-user',
-            # }
+            server_state.db_changes = [
+                {
+                    "serial": 0,
+                    "table": "Not_aval",
+                    "login": "No_Login",
+                }
+            ]
 
     if 'local_marker' not in st.session_state:
-        st.session_state.local_marker = server_state.db_changes
+        st.session_state.local_marker = copy.deepcopy(server_state.db_changes)
 
     if 'new_state' not in st.session_state:
-        st.session_state.new_state = server_state.db_changes
+        st.session_state.new_state = copy.deepcopy(server_state.db_changes)
 
     st.write(f"server_state.db_changes={server_state.db_changes}")
     st.write(f'st.session_state.local_marker={st.session_state.local_marker}')
@@ -1041,21 +1050,21 @@ def refresher():
     st.sidebar.write(f"Refresher with local_marker {st.session_state.local_marker} and new state {st.session_state.new_state}")
 
 
-    if st.session_state.local_marker != st.session_state.new_state:
+    if st.session_state.local_marker['serial'] != st.session_state.new_state['serial']:
 
         st.title('YES')
 
-        st.session_state.local_marker = st.session_state.new_state
+        st.session_state.local_marker = copy.deepcopy(st.session_state.new_state)
 
         st.sidebar.write(
             f"Refresher 2 with local_marker {st.session_state.local_marker} and new state {st.session_state.new_state}")
 
         try:
-            upd_login = server_state.db_changes[2]
+            upd_login = st.session_state.new_state['login']
         except:
             upd_login = "User not Available"
 
-        if server_state.db_changes[1] == 'proj':
+        if st.session_state.new_state['table'] == 'proj':
             reply = get_proj_repeat()
             if reply['status'] == 200:
                 st.session_state.adb['project'] = reply['proj']
@@ -1063,7 +1072,7 @@ def refresher():
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
-        if server_state.db_changes[1] == 'task':
+        if st.session_state.new_state['table'] == 'task':
             reply = get_tasks_repeat()
             if reply['status'] == 200:
                 st.session_state.adb['task'] = reply['task']
@@ -1071,7 +1080,7 @@ def refresher():
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
-        if server_state.db_changes[1] == 'trans':
+        if st.session_state.new_state['table'] == 'trans':
             reply = get_trans_repeat()
             if reply['status'] == 200:
                 st.session_state.adb['trans'] = reply['trans']
@@ -1079,7 +1088,7 @@ def refresher():
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
-        if server_state.db_changes[1] == 'sod':
+        if st.session_state.new_state['table'] == 'sod':
             reply = get_sod_repeat()
             if reply['status'] == 200:
                 st.session_state.adb['sod'] = reply['sod']
@@ -1087,7 +1096,7 @@ def refresher():
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
-        st.session_state.local_marker = st.session_state.new_state
+        # st.session_state.local_marker = st.session_state.new_state
 
     else:
         st.title('NO')
