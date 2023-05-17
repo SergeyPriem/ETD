@@ -167,6 +167,9 @@ def create_states():
     if 'local_marker' not in st.session_state:
         st.session_state.local_marker = server_state.db_changes['server_marker']
 
+    if 'new_state' not in st.session_state:
+        st.session_state.new_state = server_state.db_changes['server_marker']
+
     st.write(f"st.session_state.local_marker={st.session_state.local_marker}")
 
     if 'disable_add_task' not in st.session_state:
@@ -203,7 +206,7 @@ def create_states():
         }
 
     state_list = ['del_conf', 'loads_df', 'login', 'proj_names', 'appl_logins', 'adb', 'spec', 'menu',
-                  'icons', 'rights', 'registered_logins', 'new_state']
+                  'icons', 'rights', 'registered_logins']
 
     for state in state_list:
         if state not in st.session_state:
