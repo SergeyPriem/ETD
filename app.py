@@ -1059,6 +1059,7 @@ def refresher():
         # force_rerun_bound_sessions('db_changes')
 
 
+
 if __name__ == "__main__":
     st.session_state.r_now = datetime.datetime.now()
     initial()
