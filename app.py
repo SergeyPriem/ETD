@@ -894,7 +894,7 @@ def home():
         home_content()
 
 
-@lru_cache(15)
+# @lru_cache(15)
 def win_selector(selected):
     if selected != "Refresh":
         st.session_state.selected = selected
@@ -1066,6 +1066,6 @@ if __name__ == "__main__":
     initial()
     refresher()
     show_sidebar_info()
-    st.stop()
+    # st.stop()
 
 
