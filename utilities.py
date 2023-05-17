@@ -97,7 +97,7 @@ def change_global_state(changed_table: str):
     }
 
     st.session_state.temp_log.append(f"new_state = {st.session_state.new_state}")
-    st.session_state.temp_log.append(f"server_state.db_change = {server_state.db_changes}")
+    st.session_state.temp_log.append(f"st.session_state.local_marker = {st.session_state.local_marker}")
 
     if int(st.session_state.local_marker['serial']) != int(st.session_state.new_state['serial']):
 
