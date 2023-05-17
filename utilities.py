@@ -149,9 +149,10 @@ def change_global_state(changed_table: str):
                 st.session_state.temp_log.append("не сравнялись, суки")
 
             with server_state_lock["db_changes"]:
+                st.session_state.temp_log.append("Перед присвоением")
                 server_state.db_changes = copy.deepcopy(st.session_state.new_state)
+                st.session_state.temp_log.append("после присвоения")
 
-            st.session_state.temp_log.append("за обновлением сервер стейт")
 
         st.session_state.temp_log.append("И СЮДА ДОШЛО")
 
