@@ -1040,7 +1040,7 @@ def refresher():
     st.title(f"st.session_state.local_marker['serial']={st.session_state.local_marker['serial']}")
     st.title(f"server_state.db_changes['serial']={server_state.db_changes['serial']}")
 
-    time.sleep(15)
+    time.sleep(5)
 
     if st.session_state.local_marker['serial'] != server_state.db_changes['serial']:
 
@@ -1087,6 +1087,7 @@ def refresher():
         st.session_state.local_marker = copy.deepcopy(server_state.db_changes)
 
         st.title(f"rerun inside refresher. local_marker={st.session_state.local_marker}")
+        st.title(f"rerun inside refresher. server_state.db_changes={server_state.db_changes}")
 
         st.experimental_rerun()
 
