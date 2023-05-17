@@ -91,6 +91,9 @@ def check_global_state():
 
     if int(st.session_state.local_marker['serial']) != int(server_state.db_changes['serial']):
 
+        st.title(f"changing {server_state.db_changes} to {st.session_state.new_state}")
+        time.sleep(5)
+
         with server_state_lock['db_changes']:
             server_state.db_changes = copy.deepcopy(st.session_state.new_state)
 
@@ -99,6 +102,9 @@ def change_global_number(tab_name: str):
     st.session_state.new_state['serial'] += 1
     st.session_state.new_state['table'] = tab_name
     st.session_state.new_state['login'] = st.session_state.login
+
+    st.title(f"New values of new state {st.session_state.new_state}")
+    time.sleep(5)
     st.experimental_rerun()
 
 
