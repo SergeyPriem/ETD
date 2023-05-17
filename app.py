@@ -1105,8 +1105,8 @@ if __name__ == "__main__":
     create_states()
     st.session_state.temp_log.append('create_states')
     st.session_state.r_now = datetime.datetime.now()
-    initial()
     refresher()
+    initial()
     show_sidebar_info()
 
     st.write(st.session_state.temp_log)
