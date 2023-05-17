@@ -1028,6 +1028,8 @@ def refresher():
 
     if st.session_state.local_marker != st.session_state.new_state['server_marker']:
 
+        st.title('YES')
+
         st.session_state.local_marker = st.session_state.new_state['server_marker']
 
         st.sidebar.write(
@@ -1071,6 +1073,9 @@ def refresher():
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
         # force_rerun_bound_sessions('db_changes')
+
+    else:
+        st.title('NO')
 
 
 
