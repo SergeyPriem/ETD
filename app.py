@@ -117,7 +117,9 @@ def show_sidebar_info():
                                     f"Table {st.session_state.new_state['table']} "
                                     f"Updated by {st.session_state.new_state['user']}</h4>", unsafe_allow_html=True)
 
-                if st.sidebar.button('Update Tables', key='vert_update', type='primary', use_container_width=True):
+                but_name = f"Table {st.session_state.new_state['table']} Updated by {st.session_state.new_state['user']}"
+
+                if st.sidebar.button(label=but_name, key='vert_update', type='primary', use_container_width=True):
                     update_tables()
 
 
