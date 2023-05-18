@@ -3,7 +3,7 @@
 import streamlit as st
 
 from models import Task
-from utilities import get_cur_u_id, center_style
+from utilities import get_cur_u_id, center_style, update_state
 from projects import add_in_to_db, add_out_to_db, get_table
 from send_emails import send_mail
 
@@ -226,6 +226,7 @@ def add_task(task_content):
                                 if reply == 200:
                                     st.write(f"Notifications sent by emails: {perf_email}, {coord_email}")
                                     st.divider()
+                                    update_state('task')
                                 else:
                                     st.warning(reply)
                             else:
@@ -242,6 +243,8 @@ def add_task(task_content):
                                 st.warning(reply)
                             else:
                                 st.info(reply)
+
+                            update_state('task')
 
                             st.divider()
                 st.session_state.task_preview = False

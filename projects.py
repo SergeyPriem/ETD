@@ -649,8 +649,6 @@ def trans_status_to_db():
             trans.notes = new_notes
             trans.status = trans_l['status']
 
-            Condition(table_name='trans', user_login=st.session_state.login)
-
             return 'Status Updated'
         except Exception as e:
             return err_handler(e)
@@ -805,8 +803,6 @@ def add_new_trans(project, trans_num, out_trans, t_type, subj, link, trans_date,
 
             Condition(table_name='trans', user_login=st.session_state.login)
 
-            upd_json('trans')
-
             return f"""
             New Transmittal {trans_num} is added to DataBase  
             """
@@ -854,9 +850,6 @@ def get_all():
             users = (select(u for u in Users)[:])
             spec = (select(s for s in Speciality)[:])
 
-            # cond_id = max(s.id for s in Condition)
-            # cond = Condition[cond_id]
-
             return {
                 'project': tab_to_df(proj),
                 'sod': tab_to_df(sod),
@@ -864,13 +857,6 @@ def get_all():
                 'trans': tab_to_df(trans),
                 'users': tab_to_df(users),
                 'speciality': tab_to_df(spec),
-                # 'condition': {
-                #     'status': 201,
-                #     'id': cond_id,
-                #     'table': cond.table_name,
-                #     'user': cond.user_login,
-                #     'err_descr': None,
-                #     }
             }
 
         except Exception as e:
@@ -974,26 +960,26 @@ def get_tasks_repeat():
             }
 
 
-def get_condition():
-    with db_session:
-        try:
-            cond_id = max(s.id for s in Condition)
-            cond = Condition[cond_id]
-            return {
-                'status': 201,
-                'id': cond_id,
-                'table': cond.table_name,
-                'user': cond.user_login,
-                'err_descr': None,
-            }
-        except Exception as e:
-            return {
-                'status': 404,
-                'id': None,
-                'table': None,
-                'user': None,
-                'err_descr': err_handler(e),
-                }
+# def get_condition():
+#     with db_session:
+#         try:
+#             cond_id = max(s.id for s in Condition)
+#             cond = Condition[cond_id]
+#             return {
+#                 'status': 201,
+#                 'id': cond_id,
+#                 'table': cond.table_name,
+#                 'user': cond.user_login,
+#                 'err_descr': None,
+#             }
+#         except Exception as e:
+#             return {
+#                 'status': 404,
+#                 'id': None,
+#                 'table': None,
+#                 'user': None,
+#                 'err_descr': err_handler(e),
+#                 }
 
 
 def update_unit_name_stage(unit_id, new_name, new_stage):
@@ -1012,7 +998,6 @@ def update_unit_name_stage(unit_id, new_name, new_stage):
             # if st.session_state.proj_scope == "All excluding cancelled and suspended":
             #     sod = select(u for u in SOD if u.project_id.status not in ['suspended', 'cancelled'])[:]
 
-            Condition(table_name='sod', user_login=st.session_state.login)
 
             return {
                 'status': 201,

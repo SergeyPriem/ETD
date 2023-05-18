@@ -3,7 +3,7 @@
 
 import streamlit as st
 from models import Project
-from utilities import proj_statuses, center_style, get_list_index
+from utilities import proj_statuses, center_style, get_list_index, update_state
 from projects import create_project, get_table, update_projects
 
 from send_emails import send_mail
@@ -73,7 +73,8 @@ def manage_projects():
 
                 if 'is added to DataBase' in reply:
                     st.info(reply)
-                    st.session_state.adb['project'] = get_table(Project)
+                    # st.session_state.adb['project'] = get_table(Project)
+                    update_state('proj')
                 else:
                     st.warning(reply)
                     st.stop()
@@ -186,8 +187,13 @@ def manage_projects():
 
                         if reply2 == 200:
                             r_rep.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
+
+                            update_state('proj')
+
                         else:
                             r_rep.warning(reply2)
+
+
 
                     else:
                         st.warning(reply)

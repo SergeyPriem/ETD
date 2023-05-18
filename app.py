@@ -24,7 +24,7 @@ from transmittals_tab import transmittals_content
 from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, register_user, \
     err_handler
 from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, get_cur_u_id, center_style, \
-    get_state, set_init_state
+    get_state, set_init_state, update_state
 
 # import openpyxl
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
@@ -313,7 +313,8 @@ def form_for_trans():
                 st.success(reply)
                 # time.sleep(1)
                 st.session_state.trans_status['trans_num'] = None
-                st.session_state.adb['trans'] = get_table(Trans)
+                # st.session_state.adb['trans'] = get_table(Trans)
+                update_state('trans')
                 st.experimental_rerun()
             else:
                 st.warning(reply)

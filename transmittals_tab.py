@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
 import streamlit as st
-from utilities import trans_types, get_cur_u_id, center_style
+from utilities import trans_types, get_cur_u_id, center_style, update_state
 from projects import add_new_trans
 
 
@@ -174,6 +174,9 @@ def transmittals_content():
                     reply = add_new_trans(project, trans_num, ref_trans, t_type, subj, link, trans_date, ans_required,
                                           reply_date, author, responsible, notes, status, in_out)
                     st.info(reply)
+
+                    update_state('trans')
+
                 else:
                     st.warning("Please Update fields properly...")
 

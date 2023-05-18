@@ -207,6 +207,8 @@ def drawing_sets():
 
                     if reply2 == 200:
                         rc.success(f'Informational e-mail was sent to {coord_email}, {perf_email}')
+
+                        update_state('sod')
                 else:
                     st.warning(reply['err_descr'])
 
@@ -256,6 +258,7 @@ def drawing_sets():
                 if reply2 == 200:
                     lc, rc = st.columns(2, gap='medium')
                     lc.success(f'Informational e-mail was sent to {coord_email}, {perf_email}')
+
                     rc.button('O K', key='close_request_reply')
 
         st.write("")
@@ -540,6 +543,8 @@ def manage_units():
                     if reply_2 == 200:
                         res_r.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
 
+                    update_state('sod')
+
                 else:
                     st.warning(reply['err_descr'])
 
@@ -629,7 +634,7 @@ def manage_units():
                     if reply2 == 200:
                         r_rep.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
 
-                    update_state('proj')
+                    update_state('sod')
                 else:
                     st.warning(reply['err_descr'])
 
