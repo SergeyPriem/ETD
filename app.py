@@ -178,8 +178,14 @@ def create_states():
 
     if 'local_marker' not in st.session_state:
         reply = get_condition()
+
+        if reply['status'] == 404:
+            st.write(reply)
+            st.stop()
         st.session_state.local_marker = reply['id']
         # st.session_state.local_marker = copy.deepcopy(server_state.db_changes)
+
+
 
     if 'new_state' not in st.session_state:
         st.session_state.new_state = reply
