@@ -177,9 +177,8 @@ def create_states():
     if 'proj_scope' not in st.session_state:
         st.session_state.proj_scope = 'Only Current Projects'
 
-    if not st.session_state.adb:
+    if 'adb' not in st.session_state.adb:
         st.session_state.adb = get_all()
-
 
     reply = None
 
@@ -1118,4 +1117,3 @@ if __name__ == "__main__":
     refresher()
     initial()
     show_sidebar_info()
-
