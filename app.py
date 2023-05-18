@@ -1109,13 +1109,8 @@ def refresher():
 
 if __name__ == "__main__":
     create_states()
-    # st.session_state.temp_log.append('create_states')
     st.session_state.r_now = datetime.datetime.now()
-    # check_global_state()
-    st.write("in main:")
-    st.write(server_state.db_changes)
     refresher()
     initial()
     show_sidebar_info()
 
-    # st.write(# st.session_state.temp_log)
