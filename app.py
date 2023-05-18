@@ -119,7 +119,7 @@ def show_sidebar_info():
 
                 but_name = f"Table {st.session_state.new_state['table']} " \
                            f"Updated by {st.session_state.new_state['user']} \n" \
-                           f"Update - ?"
+                           f"... Hit here to Update"
 
                 if st.sidebar.button(label=but_name, key='vert_update', type='primary', use_container_width=True):
                     update_tables()
@@ -994,7 +994,7 @@ def prepare_menus(menu, icons, vert_menu):
 
             but_name = f"Table {st.session_state.new_state['table']} " \
                        f"Updated by {st.session_state.new_state['user']} \n" \
-                       f"Update - ?"
+                       f"... Hit here to Update"
 
             if st.button(label=but_name, key='horiz_update', type='primary', use_container_width=True):
                 update_tables()
