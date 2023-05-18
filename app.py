@@ -16,7 +16,7 @@ from lesson_learned_tab import lessons_content
 from models import Users, Task, Trans
 from projects import confirm_task, confirm_trans, trans_status_to_db, get_all, get_table, get_tasks_repeat, \
     get_sod_repeat, get_proj_repeat, get_trans_repeat
-from scripts import xl_to_sld
+from scripts import scripts_tab
 from send_emails import send_mail
 from settings_tab import settings_content
 from tasks_tab import tasks_content
@@ -950,7 +950,7 @@ def win_selector(selected):
         "Tasks": tasks_content,
         "Drawings": drawing_sets,
         "Reading": just_for_fun,
-        "Scripts": xl_to_sld,
+        "Scripts": scripts_tab,
         "Users": manage_users,
         "Knowledge": lessons_content,
         "Settings": settings_content,

@@ -841,7 +841,10 @@ def add_gen_data(msp, loads_df, loads_df_new, point, max_sc, peak_sc):
     ins_block.add_auto_attribs(att_values)
 
 
-def xl_to_sld():
+def scripts_tab():
+
+    st.session_state.refresh_delay = 3600
+
     dxf_template = None
     COS_START = 0.4
     # K_START = 1
@@ -1150,4 +1153,6 @@ def xl_to_sld():
                             mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
                             disabled=False, use_container_width=False
                         )
+
+    st.session_state.refresh_delay = 7
 
