@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st
 from admin_tools import get_list_index
 from send_emails import send_mail
-from utilities import sod_revisions, sod_statuses, stages, center_style
+from utilities import sod_revisions, sod_statuses, stages, center_style, update_state
 from projects import update_sod, add_sod, update_unit_name_stage
 from utilities import err_handler
 from functools import lru_cache
@@ -628,6 +628,8 @@ def manage_units():
 
                     if reply2 == 200:
                         r_rep.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
+
+                    update_state('proj')
                 else:
                     st.warning(reply['err_descr'])
 

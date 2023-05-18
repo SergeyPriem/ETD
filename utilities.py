@@ -147,7 +147,7 @@ def update_state(tab_name: str):
             new_data = {
                 'id': new_id,
                 'table': tab_name,
-                'user': 'sergey.priemshiy',#st.session_state.login,
+                'user': st.session_state.login,
             }
             try:
                 with open("temp_dxf/state.json", "w", encoding="utf-8") as f:
