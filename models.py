@@ -143,7 +143,7 @@ class Trans(db.Entity):
 class Condition(db.Entity):
     id = PrimaryKey(int, size=24, auto=True)
     table_name = Required(str, 20)
-    user_login = Required(str, 20)
+    user_login = Required(str, 50)
 
 set_sql_debug(False)
 

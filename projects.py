@@ -961,10 +961,11 @@ def get_tasks_repeat():
                 'task': None,
             }
 
+
 def get_condition():
     with db_session:
         try:
-            cond_id = max(s.id for s in SOD)
+            cond_id = max(s.id for s in Condition)
             cond = Condition[cond_id]
             return {
                 'status': 201,
@@ -998,7 +999,6 @@ def update_unit_name_stage(unit_id, new_name, new_stage):
             # if st.session_state.proj_scope == "All excluding cancelled and suspended":
             #     sod = select(u for u in SOD if u.project_id.status not in ['suspended', 'cancelled'])[:]
 
-
             Condition(table_name='sod', user_login=st.session_state.login)
 
             return {
@@ -1010,4 +1010,3 @@ def update_unit_name_stage(unit_id, new_name, new_stage):
             return {'status': 404,
                     'err_descr': err_handler(e),
                     }
-
