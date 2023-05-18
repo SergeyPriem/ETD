@@ -184,6 +184,9 @@ def create_states():
     if 'new_state' not in st.session_state:
         st.session_state.new_state = reply
 
+    if 'adb' not in st.session_state:
+        st.session_state.adb = get_all()
+
     if 'disable_add_task' not in st.session_state:
         st.session_state.disable_add_task = True
 
