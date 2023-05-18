@@ -1133,9 +1133,9 @@ def refresher():
 
 if __name__ == "__main__":
     create_states()
-    st.write(f"count: {st.session_state.count}")
-    st.write(f"New state: {st.session_state.new_state}")
-    st.write(f"Local Marker: {st.session_state.local_marker}")
+    # st.write(f"count: {st.session_state.count}")
+    # st.write(f"New state: {st.session_state.new_state}")
+    # st.write(f"Local Marker: {st.session_state.local_marker}")
     st.session_state.r_now = datetime.datetime.now()
     refresher()
     initial()
