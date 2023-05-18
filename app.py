@@ -185,8 +185,6 @@ def create_states():
         st.session_state.local_marker = reply['id']
         # st.session_state.local_marker = copy.deepcopy(server_state.db_changes)
 
-
-
     if 'new_state' not in st.session_state:
         st.session_state.new_state = reply
 
