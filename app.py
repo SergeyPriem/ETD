@@ -174,10 +174,17 @@ def create_states():
     #             "login": "No_Login",
     #         }
 
+    if 'proj_scope' not in st.session_state:
+        st.session_state.proj_scope = 'Only Current Projects'
+
+    if not st.session_state.adb:
+        st.session_state.adb = get_all()
+
+
     reply = None
 
     if 'local_marker' not in st.session_state:
-        reply = get_condition()
+        reply = st.session_state.adb['condition']
 
         if reply['status'] == 404:
             st.write(reply)
@@ -188,14 +195,11 @@ def create_states():
     if 'new_state' not in st.session_state:
         st.session_state.new_state = reply
 
-    if 'adb' not in st.session_state:
-        st.session_state.adb = get_all()
-
+    # if 'adb' not in st.session_state:
+    #     st.session_state.adb = get_all()
+    #
     if 'disable_add_task' not in st.session_state:
         st.session_state.disable_add_task = True
-
-    if 'proj_scope' not in st.session_state:
-        st.session_state.proj_scope = 'Only Current Projects'
 
     if 'refresh_delay' not in st.session_state:
         st.session_state.refresh_delay = 7
@@ -985,9 +989,6 @@ def initial():
     appearance_settings()
 
     u_df = None
-
-    if not st.session_state.adb:
-        st.session_state.adb = get_all()
 
     if not isinstance(st.session_state.adb, dict):
         st.warning(st.session_state.adb)
