@@ -117,7 +117,7 @@ def show_sidebar_info():
                                     f"Table {st.session_state.new_state['table']} "
                                     f"Updated by {st.session_state.new_state['user']}</h4>", unsafe_allow_html=True)
 
-                if st.sidebar.button('Update Tables', type='primary', use_container_width=True):
+                if st.sidebar.button('Update Tables', key='vert_update', type='primary', use_container_width=True):
                     update_tables()
 
 
@@ -988,7 +988,7 @@ def prepare_menus(menu, icons, vert_menu):
                                 f"Table {st.session_state.new_state['table']} "
                                 f"Updated by {st.session_state.new_state['user']}</h4>", unsafe_allow_html=True)
 
-            if st.button('Update Tables', type='primary', use_container_width=True):
+            if st.button('Update Tables', key='horiz_update', type='primary', use_container_width=True):
                 update_tables()
 
     return selected
