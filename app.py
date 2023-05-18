@@ -24,7 +24,8 @@ from tasks_tab import tasks_content
 from transmittals_tab import transmittals_content
 from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, register_user, \
     err_handler
-from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, get_cur_u_id, center_style
+from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, get_cur_u_id, center_style, \
+    get_json, set_json
 
 # import openpyxl
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
@@ -183,11 +184,13 @@ def create_states():
     reply = None
 
     if 'local_marker' not in st.session_state:
-        reply = st.session_state.adb['condition']
+        reply = get_json()
 
-        if reply['status'] == 404:
-            st.write(reply)
-            st.stop()
+        if reply == "File does not exist":
+            set_json({'id': 1, 'table': None, 'user': None,})
+
+            reply = get_json()
+
         st.session_state.local_marker = reply['id']
         # st.session_state.local_marker = copy.deepcopy(server_state.db_changes)
 

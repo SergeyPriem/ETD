@@ -852,8 +852,8 @@ def get_all():
             users = (select(u for u in Users)[:])
             spec = (select(s for s in Speciality)[:])
 
-            cond_id = max(s.id for s in Condition)
-            cond = Condition[cond_id]
+            # cond_id = max(s.id for s in Condition)
+            # cond = Condition[cond_id]
 
             return {
                 'project': tab_to_df(proj),
@@ -862,13 +862,13 @@ def get_all():
                 'trans': tab_to_df(trans),
                 'users': tab_to_df(users),
                 'speciality': tab_to_df(spec),
-                'condition': {
-                    'status': 201,
-                    'id': cond_id,
-                    'table': cond.table_name,
-                    'user': cond.user_login,
-                    'err_descr': None,
-                    }
+                # 'condition': {
+                #     'status': 201,
+                #     'id': cond_id,
+                #     'table': cond.table_name,
+                #     'user': cond.user_login,
+                #     'err_descr': None,
+                #     }
             }
 
         except Exception as e:
@@ -985,12 +985,13 @@ def get_condition():
                 'err_descr': None,
             }
         except Exception as e:
-            return {'status': 404,
-                    'id': None,
-                    'table': None,
-                    'user': None,
-                    'err_descr': err_handler(e),
-                    }
+            return {
+                'status': 404,
+                'id': None,
+                'table': None,
+                'user': None,
+                'err_descr': err_handler(e),
+                }
 
 
 def update_unit_name_stage(unit_id, new_name, new_stage):

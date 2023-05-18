@@ -2,9 +2,12 @@
 
 import streamlit as st
 from pathlib import Path
+import json, os
 import time
 import copy
 from streamlit_server_state import server_state, server_state_lock, no_rerun, force_rerun_bound_sessions
+
+from users import err_handler
 
 positions = ('Trainee', 'III cat.', 'II cat.', 'I cat.', 'Lead', 'Group Head', 'Senior', 'Dep. Head')
 departments = ('UzLITI Engineering', 'En-Solut', 'En-Concept', 'En-Smart', 'Remote')
@@ -87,15 +90,39 @@ def mail_to_name(mail):
 BACKUP_FOLDER: Path = Path('//uz-fs/Uzle/Work/Отдел ЭЛ/Архив заданий/')
 
 
-# def check_global_state():
-#     if int(st.session_state.local_marker['serial']) != int(st.session_state.new_state['serial']):
-#         with server_state_lock['db_changes']:
-#             server_state.db_changes = copy.deepcopy(st.session_state.new_state)
-#
-#
-# def change_global_number(tab_name: str):
-#     st.session_state.new_state['serial'] += 1
-#     st.session_state.new_state['table'] = tab_name
-#     st.session_state.new_state['login'] = st.session_state.login
-#
-#     st.experimental_rerun()
+def get_json():
+    if os.path.exists("temp_dxf/state.json"):
+        try:
+            with open("state.json", "r") as state_file:
+                state_json = state_file.read()
+            cur_state = json.loads(state_json)
+            return cur_state
+        except Exception as e:
+            return err_handler(e)
+    else:
+        return "File does not exist"
+
+def set_json(data=None):
+    if isinstance(data, dict):
+        if os.path.exists("temp_dxf/state.json"):
+            try:
+                with open("state.json", "w") as state_file:
+                    json.dump(data, state_file)
+                return
+            except Exception as e:
+                return err_handler(e)
+        else:
+            data = {
+                'id': 1,
+                'table': None,
+                'user': None,
+            }
+            try:
+                with open("temp_dxf/state.json", "w") as state_file:
+                    json.dump(data, state_file)
+                return "File Created"
+            except Exception as e:
+                return err_handler(e)
+    else:
+        return "Wrong Data Format"
+
