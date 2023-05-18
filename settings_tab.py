@@ -31,7 +31,7 @@ def settings_content():
                 l_f, r_f = st.columns(2)
 
                 menu_position = l_f.radio('Location of menu', ("Top", "Left"),
-                                          index=st.session_state.user['vert_menul'], horizontal=True)
+                                          index=st.session_state.user['vert_menu'], horizontal=True)
                 r_f.write('')
 
                 appl_upd_set_but = r_f.form_submit_button('Apply menu position', use_container_width=True)
