@@ -206,6 +206,9 @@ def create_states():
     if 'vert_menu' not in st.session_state:
         st.session_state.vert_menu = 1
 
+    if 'count' not in st.session_state:
+        st.session_state.count = 0
+
     if 'refresh_status' not in st.session_state:
         st.session_state.refresh_status = 'No changes in the DataBase since you logged in'
 
@@ -1101,8 +1104,9 @@ def refresher():
 
     count = st_autorefresh(interval=timer * 1000, limit=10000, key="fizzbuzzcounter")
 
-    if count % timer == 0:
+    if count != st.session_state.count:
         st.session_state.new_state = get_condition()
+        st.session_state.count = count
 
 
 
