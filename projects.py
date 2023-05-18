@@ -965,18 +965,19 @@ def get_condition():
     with db_session:
         try:
             cond_id = max(s.id for s in SOD)
-
             cond = Condition[cond_id]
-
             return {
                 'status': 201,
+                'id': cond_id,
                 'table': cond.table_name,
                 'user': cond.user_login,
                 'err_descr': None,
             }
-
         except Exception as e:
             return {'status': 404,
+                    'id': None,
+                    'table': None,
+                    'user': None,
                     'err_descr': err_handler(e),
                     }
 
@@ -1010,23 +1011,3 @@ def update_unit_name_stage(unit_id, new_name, new_stage):
                     'err_descr': err_handler(e),
                     }
 
-
-
-
-# def set_condition(table_name: str):
-#     with db_session:
-#         try:
-#             # cond_id = max(s.id for s in SOD)
-#
-#             Condition(
-#                 table_name=table_name,
-#                 user_login=st.session_state.login
-#             )
-#             return {
-#                 'status': 201,
-#             }
-#
-#         except Exception as e:
-#             return {'status': 404,
-#                     'err_descr': err_handler(e),
-#                     }

@@ -22,7 +22,7 @@ from transmittals_tab import transmittals_content
 from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, register_user, \
     err_handler
 from projects import confirm_task, confirm_trans, trans_status_to_db, get_all, get_table, get_tasks_repeat, \
-    get_sod_repeat, get_proj_repeat, get_trans_repeat
+    get_sod_repeat, get_proj_repeat, get_trans_repeat, get_condition
 from models import Users, Task, Trans
 from functools import lru_cache
 from streamlit_autorefresh import st_autorefresh
@@ -113,8 +113,16 @@ def show_sidebar_info():
                 st.sidebar.markdown(f"<h2 style='text-align: center; color: #fcf403;'>{delta} ms</h2>",
                                     unsafe_allow_html=True)
 
-            st.sidebar.markdown(f"<h4 style='text-align: center; color: #59E314;'>"
-                                f"{st.session_state.refresh_status}</h4>", unsafe_allow_html=True)
+                if st.session_state.local_marker != st.session_state.new_state['id']:
+
+                    st.sidebar.markdown(f"<h4 style='text-align: center; color: red;'>"
+                                        f"New Data Available. Please Update</h4>", unsafe_allow_html=True)
+
+                    if st.sidebar.button('Update Tables', type='primary'):
+                        update_tables()
+                        st.sidebar.markdown(f"<h4 style='text-align: center; color: #59E314;'>"
+                                            f"New Data Available. Please REFRESH</h4>", unsafe_allow_html=True)
+
 
 
 # @lru_cache(128)
@@ -162,19 +170,23 @@ def get_menus(rights):
 
 def create_states():
 
-    with server_state_lock["db_changes"]:
-        if "db_changes" not in server_state:
-            server_state.db_changes = {
-                "serial": 0,
-                "table": "Not_aval",
-                "login": "No_Login",
-            }
+    # with server_state_lock["db_changes"]:
+    #     if "db_changes" not in server_state:
+    #         server_state.db_changes = {
+    #             "serial": 0,
+    #             "table": "Not_aval",
+    #             "login": "No_Login",
+    #         }
+
+    reply = None
 
     if 'local_marker' not in st.session_state:
-        st.session_state.local_marker = copy.deepcopy(server_state.db_changes)
+        reply = get_condition()
+        st.session_state.local_marker = reply['id']
+        # st.session_state.local_marker = copy.deepcopy(server_state.db_changes)
 
     if 'new_state' not in st.session_state:
-        st.session_state.new_state = copy.deepcopy(server_state.db_changes)
+        st.session_state.new_state = reply
 
     if 'disable_add_task' not in st.session_state:
         st.session_state.disable_add_task = True
@@ -1032,50 +1044,66 @@ def initial():
         win_selector(prepared_menus)
 
 
+def update_tables():
+    # if st.session_state.local_marker != st.session_state.new_state['id']:
+
+    try:
+        upd_login = st.session_state.new_state['user']
+        upd_table = st.session_state.new_state['table']
+    except:
+        upd_login = None
+        upd_table = None
+
+    if upd_table == 'proj':
+        reply = get_proj_repeat()
+        if reply['status'] == 200:
+            st.session_state.adb['project'] = reply['proj']
+            st.session_state.refresh_status = f'Projects Updated by {upd_login}'
+        else:
+            st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
+
+    if upd_table == 'task':
+        reply = get_tasks_repeat()
+        if reply['status'] == 200:
+            st.session_state.adb['task'] = reply['task']
+            st.session_state.refresh_status = f'Tasks Updated by {upd_login}'
+        else:
+            st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
+
+    if upd_table == 'trans':
+        reply = get_trans_repeat()
+        if reply['status'] == 200:
+            st.session_state.adb['trans'] = reply['trans']
+            st.session_state.refresh_status = f'Transmittals Updated by {upd_login}'
+        else:
+            st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
+
+    if upd_table == 'sod':
+        reply = get_sod_repeat()
+        if reply['status'] == 200:
+            st.session_state.adb['sod'] = reply['sod']
+            st.session_state.refresh_status = f'Units Updated by {upd_login}'
+        else:
+            st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
+
+    if upd_table:
+        st.session_state.local_marker = st.session_state.new_state['id']
+
+    st.experimental_rerun()
+
+
 def refresher():
 
-    if st.session_state.local_marker['serial'] != server_state.db_changes['serial']:
+    if isinstance(st.session_state.refresh_delay, int):
+        timer = st.session_state.refresh_delay
+    else:
+        timer = 3600
 
-        try:
-            upd_login = server_state.db_changes['login']
-        except:
-            upd_login = "User not Available"
+    count = st_autorefresh(interval=timer * 1000, limit=10000, key="fizzbuzzcounter")
 
-        if server_state.db_changes['table'] == 'proj':
-            reply = get_proj_repeat()
-            if reply['status'] == 200:
-                st.session_state.adb['project'] = reply['proj']
-                st.session_state.refresh_status = f'Projects Updated by {upd_login}'
-            else:
-                st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
+    if count % timer == 0:
+        st.session_state.new_state = get_condition()
 
-        if server_state.db_changes['table'] == 'task':
-            reply = get_tasks_repeat()
-            if reply['status'] == 200:
-                st.session_state.adb['task'] = reply['task']
-                st.session_state.refresh_status = f'Tasks Updated by {upd_login}'
-            else:
-                st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
-
-        if server_state.db_changes['table'] == 'trans':
-            reply = get_trans_repeat()
-            if reply['status'] == 200:
-                st.session_state.adb['trans'] = reply['trans']
-                st.session_state.refresh_status = f'Transmittals Updated by {upd_login}'
-            else:
-                st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
-
-        if server_state.db_changes['table'] == 'sod':
-            reply = get_sod_repeat()
-            if reply['status'] == 200:
-                st.session_state.adb['sod'] = reply['sod']
-                st.session_state.refresh_status = f'Units Updated by {upd_login}'
-            else:
-                st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
-
-        st.session_state.local_marker['serial'] = server_state.db_changes['serial']
-
-        st.experimental_rerun()
 
 
 if __name__ == "__main__":
