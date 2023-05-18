@@ -116,7 +116,7 @@ def show_sidebar_info():
                     st.sidebar.markdown(f"<h4 style='text-align: center; color: red;'>"
                                         f"New Data Available. Please Update</h4>", unsafe_allow_html=True)
 
-                    if st.sidebar.button('Update Tables', type='primary'):
+                    if st.sidebar.button('Update Tables', type='primary', use_container_width=True):
                         update_tables()
                         st.sidebar.markdown(f"<h4 style='text-align: center; color: #59E314;'>"
                                             f"New Data Available. Please REFRESH</h4>", unsafe_allow_html=True)
