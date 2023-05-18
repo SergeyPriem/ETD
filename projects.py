@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 
 from pony.orm import *
-from models import Project, SOD, Task, Users, Speciality, Trans
+from models import Project, SOD, Task, Users, Speciality, Trans, Condition
 import pandas as pd
 from datetime import date, datetime
 import streamlit as st
@@ -68,7 +68,7 @@ def create_project(proj_short, proj_full, client, proj_man, responsible_el, proj
                 notes=proj_notes
             )
 
-            # change_global_state('proj')
+            Condition(table_name='proj', user_login=st.session_state.login)
 
             return f'New Project {proj_short} is added to DataBase'
         except Exception as e:
@@ -287,12 +287,12 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
                 aux=datetime.today(),
             )
 
-            # change_global_state('sod')
+            Condition(table_name='sod', user_login=st.session_state.login)
 
             return {
                 'status': 201,
                 'err_descr': None,
-                }
+            }
 
         except Exception as e:
             return {'status': 404,
@@ -353,7 +353,7 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
             result = create_backup_string(link, BACKUP_FOLDER, new_ass_id)
             new_ass.backup_copy = result[0]
 
-            # change_global_state('task')
+            Condition(table_name='task', user_login=st.session_state.login)
 
             return f"""
             New Task #{new_ass_id} for {new_ass.s_o_d.project_id.short_name}: {new_ass.s_o_d.set_name} is added to DataBase  
@@ -387,7 +387,7 @@ def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, de
                 added_by=st.session_state.login
             )
 
-            # change_global_state('task')
+            Condition(table_name='task', user_login=st.session_state.login)
 
             return f"""
             New Task #{int(last_id) + 1} for {sod_name} -> {speciality} is added to DataBase  
@@ -414,7 +414,7 @@ def update_projects(proj_id, short_name, full_name, client, manager, responsible
             proj_for_upd.mdr = mdr
             proj_for_upd.notes = notes
 
-            # change_global_state('proj')
+            Condition(table_name='proj', user_login=st.session_state.login)
 
             return {"status": 201,
                     # "updated_projects": tab_to_df(proj),
@@ -445,10 +445,10 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
 
                 if len(notes) > 3:
                     t_date = datetime.today().strftime("%Y-%m-%d")
-                    unit.notes = str(unit.notes).replace('None', '') + f"<{t_date}: {notes}>"
+                    unit.notes = f"{str(unit.notes).replace('None', '')}<{t_date}: {notes}>"
                 unit.aux = datetime.today()
 
-                # change_global_state('sod')
+                Condition(table_name='sod', user_login=st.session_state.login)
 
                 return {
                     'status': 201,
@@ -596,7 +596,7 @@ def confirm_task(task_id):
                 else:
                     Task[task_id].perf_log = f"<{user}*{str(datetime.now())[:-10]}>"
 
-            # change_global_state('task')
+            Condition(table_name='task', user_login=st.session_state.login)
 
         except Exception as e:
             with st.sidebar:
@@ -620,7 +620,7 @@ def confirm_trans(trans_num):
             tr.received = received_value.replace('None', '')
             st.session_state.adb['trans'] = get_table(Trans)
 
-            # change_global_state('trans')
+            Condition(table_name='trans', user_login=st.session_state.login)
 
         except Exception as e:
             return err_handler(e)
@@ -649,7 +649,7 @@ def trans_status_to_db():
             trans.notes = new_notes
             trans.status = trans_l['status']
 
-            # change_global_state('trans')
+            Condition(table_name='trans', user_login=st.session_state.login)
 
             return 'Status Updated'
         except Exception as e:
@@ -803,7 +803,7 @@ def add_new_trans(project, trans_num, out_trans, t_type, subj, link, trans_date,
                 in_out=in_out
             )
 
-            # change_global_state('trans')
+            Condition(table_name='trans', user_login=st.session_state.login)
 
             return f"""
             New Transmittal {trans_num} is added to DataBase  
@@ -864,6 +864,7 @@ def get_all():
         except Exception as e:
             return err_handler(e)
 
+
 def get_trans_repeat():
     with db_session:
         try:
@@ -887,6 +888,7 @@ def get_trans_repeat():
                 'trans': None,
             }
 
+
 def get_proj_repeat():
     with db_session:
         try:
@@ -906,7 +908,7 @@ def get_proj_repeat():
 
         except Exception as e:
             return {
-                'status': 'get_proj_repeat:'+str(err_handler(e)),
+                'status': 'get_proj_repeat:' + str(err_handler(e)),
                 'proj': None,
             }
 
@@ -959,6 +961,25 @@ def get_tasks_repeat():
                 'task': None,
             }
 
+def get_condition():
+    with db_session:
+        try:
+            cond_id = max(s.id for s in SOD)
+
+            cond = Condition[cond_id]
+
+            return {
+                'status': 201,
+                'table': cond.table_name,
+                'user': cond.user_login,
+                'err_descr': None,
+            }
+
+        except Exception as e:
+            return {'status': 404,
+                    'err_descr': err_handler(e),
+                    }
+
 
 def update_unit_name_stage(unit_id, new_name, new_stage):
     with db_session:
@@ -967,16 +988,17 @@ def update_unit_name_stage(unit_id, new_name, new_stage):
             unit.set_name = new_name
             unit.stage = new_stage
 
-            if st.session_state.proj_scope == "All Projects":
-                sod = (select(u for u in SOD)[:])
+            # if st.session_state.proj_scope == "All Projects":
+            #     sod = (select(u for u in SOD)[:])
+            #
+            # if st.session_state.proj_scope == "Only Current Projects":
+            #     sod = select(u for u in SOD if u.project_id.status in ['current', 'perspective', 'final stage'])[:]
+            #
+            # if st.session_state.proj_scope == "All excluding cancelled and suspended":
+            #     sod = select(u for u in SOD if u.project_id.status not in ['suspended', 'cancelled'])[:]
 
-            if st.session_state.proj_scope == "Only Current Projects":
-                sod = select(u for u in SOD if u.project_id.status in ['current', 'perspective', 'final stage'])[:]
 
-            if st.session_state.proj_scope == "All excluding cancelled and suspended":
-                sod = select(u for u in SOD if u.project_id.status not in ['suspended', 'cancelled'])[:]
-
-            # change_global_state('sod')
+            Condition(table_name='sod', user_login=st.session_state.login)
 
             return {
                 'status': 201,
@@ -987,3 +1009,24 @@ def update_unit_name_stage(unit_id, new_name, new_stage):
             return {'status': 404,
                     'err_descr': err_handler(e),
                     }
+
+
+
+
+# def set_condition(table_name: str):
+#     with db_session:
+#         try:
+#             # cond_id = max(s.id for s in SOD)
+#
+#             Condition(
+#                 table_name=table_name,
+#                 user_login=st.session_state.login
+#             )
+#             return {
+#                 'status': 201,
+#             }
+#
+#         except Exception as e:
+#             return {'status': 404,
+#                     'err_descr': err_handler(e),
+#                     }

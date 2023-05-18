@@ -140,6 +140,11 @@ class Trans(db.Entity):
     status = Optional(str, 50, nullable=True)
 
 
+class Condition(db.Entity):
+    id = PrimaryKey(int, size=24, auto=True)
+    table_name = Required(str, 20)
+    user_login = Required(str, 20)
+
 set_sql_debug(False)
 
 
