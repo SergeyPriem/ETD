@@ -111,15 +111,15 @@ def show_sidebar_info():
                 st.sidebar.markdown(f"<h2 style='text-align: center; color: #fcf403;'>{delta} ms</h2>",
                                     unsafe_allow_html=True)
 
-                if st.session_state.local_marker != st.session_state.new_state['id']:
+            if st.session_state.local_marker != st.session_state.new_state['id']:
 
-                    st.sidebar.markdown(f"<h4 style='text-align: center; color: red;'>"
-                                        f"New Data Available. Please Update</h4>", unsafe_allow_html=True)
+                st.sidebar.markdown(f"<h4 style='text-align: center; color: red;'>"
+                                    f"New Data Available. Please Update</h4>", unsafe_allow_html=True)
 
-                    if st.sidebar.button('Update Tables', type='primary', use_container_width=True):
-                        update_tables()
-                        st.sidebar.markdown(f"<h4 style='text-align: center; color: #59E314;'>"
-                                            f"New Data Available. Please REFRESH</h4>", unsafe_allow_html=True)
+                if st.sidebar.button('Update Tables', type='primary', use_container_width=True):
+                    update_tables()
+                    st.sidebar.markdown(f"<h4 style='text-align: center; color: #59E314;'>"
+                                        f"New Data Available. Please REFRESH</h4>", unsafe_allow_html=True)
 
 
 # @lru_cache(128)
@@ -1054,51 +1054,51 @@ def initial():
 
 
 def update_tables():
-    # if st.session_state.local_marker != st.session_state.new_state['id']:
+    if st.session_state.local_marker != st.session_state.new_state['id']:
 
-    try:
-        upd_login = st.session_state.new_state['user']
-        upd_table = st.session_state.new_state['table']
-    except:
-        upd_login = None
-        upd_table = None
+        try:
+            upd_login = st.session_state.new_state['user']
+            upd_table = st.session_state.new_state['table']
+        except:
+            upd_login = None
+            upd_table = None
 
-    if upd_table == 'proj':
-        reply = get_proj_repeat()
-        if reply['status'] == 200:
-            st.session_state.adb['project'] = reply['proj']
-            st.session_state.refresh_status = f'Projects Updated by {upd_login}'
-        else:
-            st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
+        if upd_table == 'proj':
+            reply = get_proj_repeat()
+            if reply['status'] == 200:
+                st.session_state.adb['project'] = reply['proj']
+                st.session_state.refresh_status = f'Projects Updated by {upd_login}'
+            else:
+                st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
-    if upd_table == 'task':
-        reply = get_tasks_repeat()
-        if reply['status'] == 200:
-            st.session_state.adb['task'] = reply['task']
-            st.session_state.refresh_status = f'Tasks Updated by {upd_login}'
-        else:
-            st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
+        if upd_table == 'task':
+            reply = get_tasks_repeat()
+            if reply['status'] == 200:
+                st.session_state.adb['task'] = reply['task']
+                st.session_state.refresh_status = f'Tasks Updated by {upd_login}'
+            else:
+                st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
-    if upd_table == 'trans':
-        reply = get_trans_repeat()
-        if reply['status'] == 200:
-            st.session_state.adb['trans'] = reply['trans']
-            st.session_state.refresh_status = f'Transmittals Updated by {upd_login}'
-        else:
-            st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
+        if upd_table == 'trans':
+            reply = get_trans_repeat()
+            if reply['status'] == 200:
+                st.session_state.adb['trans'] = reply['trans']
+                st.session_state.refresh_status = f'Transmittals Updated by {upd_login}'
+            else:
+                st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
-    if upd_table == 'sod':
-        reply = get_sod_repeat()
-        if reply['status'] == 200:
-            st.session_state.adb['sod'] = reply['sod']
-            st.session_state.refresh_status = f'Units Updated by {upd_login}'
-        else:
-            st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
+        if upd_table == 'sod':
+            reply = get_sod_repeat()
+            if reply['status'] == 200:
+                st.session_state.adb['sod'] = reply['sod']
+                st.session_state.refresh_status = f'Units Updated by {upd_login}'
+            else:
+                st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
-    # if upd_table:
-    st.session_state.local_marker = st.session_state.new_state['id']
+        # if upd_table:
+        st.session_state.local_marker = st.session_state.new_state['id']
 
-    st.experimental_rerun()
+        st.experimental_rerun()
 
 
 def refresher():
