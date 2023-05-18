@@ -6,7 +6,7 @@ import pandas as pd
 from datetime import date, datetime
 import streamlit as st
 from utilities import BACKUP_FOLDER
-from users import err_handler
+from utilities import err_handler
 
 set_sql_debug(False)
 

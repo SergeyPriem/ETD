@@ -5,13 +5,10 @@ import bcrypt
 from models import Users, VisitLog
 from pony.orm import *
 
-from utilities import mail_to_name
+from utilities import mail_to_name, err_handler
 
 set_sql_debug(False)
 
-
-def err_handler(e):
-    return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
 
 def move_to_former(login, end_date):

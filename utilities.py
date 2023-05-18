@@ -2,12 +2,12 @@
 
 import streamlit as st
 from pathlib import Path
-import json, os
-import time
-import copy
-from streamlit_server_state import server_state, server_state_lock, no_rerun, force_rerun_bound_sessions
+import json
+import os
+# import time
+# import copy
+# from streamlit_server_state import server_state, server_state_lock, no_rerun, force_rerun_bound_sessions
 
-from users import err_handler
 
 positions = ('Trainee', 'III cat.', 'II cat.', 'I cat.', 'Lead', 'Group Head', 'Senior', 'Dep. Head')
 departments = ('UzLITI Engineering', 'En-Solut', 'En-Concept', 'En-Smart', 'Remote')
@@ -125,4 +125,7 @@ def set_json(data=None):
                 return err_handler(e)
     else:
         return "Wrong Data Format"
+
+def err_handler(e):
+    return f"{type(e).__name__}{getattr(e, 'args', None)}"
 

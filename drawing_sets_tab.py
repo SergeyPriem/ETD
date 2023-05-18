@@ -6,7 +6,7 @@ from admin_tools import get_list_index
 from send_emails import send_mail
 from utilities import sod_revisions, sod_statuses, stages, center_style
 from projects import update_sod, add_sod, update_unit_name_stage
-from users import err_handler
+from utilities import err_handler
 from functools import lru_cache
 
 
