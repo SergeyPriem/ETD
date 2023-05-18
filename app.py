@@ -1092,8 +1092,8 @@ def update_tables():
         else:
             st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
-    if upd_table:
-        st.session_state.local_marker = st.session_state.new_state['id']
+    # if upd_table:
+    st.session_state.local_marker = st.session_state.new_state['id']
 
     st.experimental_rerun()
 
