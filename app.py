@@ -1,32 +1,30 @@
 # -*- coding: utf-8 -*-
-import copy
+import datetime
 import os
-import time
+import random
+
 import pandas as pd
 import streamlit as st
 from PIL import Image
-import datetime
-import random
+from streamlit_autorefresh import st_autorefresh
 from streamlit_option_menu import option_menu
+from streamlit_server_state import server_state
+
 from admin_tools import manage_projects, get_list_index
-from scripts import xl_to_sld
-from tasks_tab import tasks_content
 from drawing_sets_tab import drawing_sets, manage_units
 from just_for_fun_tab import just_for_fun
 from lesson_learned_tab import lessons_content
-from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, get_cur_u_id, \
-    center_style, check_global_state
+from models import Users, Task, Trans
+from projects import confirm_task, confirm_trans, trans_status_to_db, get_all, get_table, get_tasks_repeat, \
+    get_sod_repeat, get_proj_repeat, get_trans_repeat, get_condition
+from scripts import xl_to_sld
 from send_emails import send_mail
 from settings_tab import settings_content
+from tasks_tab import tasks_content
 from transmittals_tab import transmittals_content
 from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, register_user, \
     err_handler
-from projects import confirm_task, confirm_trans, trans_status_to_db, get_all, get_table, get_tasks_repeat, \
-    get_sod_repeat, get_proj_repeat, get_trans_repeat, get_condition
-from models import Users, Task, Trans
-from functools import lru_cache
-from streamlit_autorefresh import st_autorefresh
-from streamlit_server_state import server_state, server_state_lock, force_rerun_bound_sessions
+from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, get_cur_u_id, center_style
 
 # import openpyxl
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
@@ -124,7 +122,6 @@ def show_sidebar_info():
                                             f"New Data Available. Please REFRESH</h4>", unsafe_allow_html=True)
 
 
-
 # @lru_cache(128)
 def get_menus(rights):
     # st.session_state.temp_log.append('get_menus')
@@ -169,7 +166,6 @@ def get_menus(rights):
 
 
 def create_states():
-
     # with server_state_lock["db_changes"]:
     #     if "db_changes" not in server_state:
     #         server_state.db_changes = {
@@ -237,7 +233,7 @@ def create_states():
             st.session_state[state] = False
 
     # if 'temp_log' not in st.session_state:
-        # st.session_state.temp_log = []
+    # st.session_state.temp_log = []
 
 
 def update_trans_status(trans_num, trans_proj):
@@ -1096,7 +1092,6 @@ def update_tables():
 
 
 def refresher():
-
     if isinstance(st.session_state.refresh_delay, int):
         timer = st.session_state.refresh_delay
     else:
@@ -1109,12 +1104,11 @@ def refresher():
         st.session_state.count = count
 
 
-
 if __name__ == "__main__":
     create_states()
     # st.session_state.temp_log.append('create_states')
     st.session_state.r_now = datetime.datetime.now()
-    check_global_state()
+    # check_global_state()
     st.write("in main:")
     st.write(server_state.db_changes)
     refresher()

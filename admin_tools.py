@@ -3,7 +3,7 @@
 
 import streamlit as st
 from models import Project
-from utilities import proj_statuses, center_style, get_list_index, check_global_state, change_global_number
+from utilities import proj_statuses, center_style, get_list_index
 from projects import create_project, get_table, update_projects
 
 from send_emails import send_mail
@@ -189,9 +189,6 @@ def manage_projects():
                         else:
                             r_rep.warning(reply2)
 
-                        change_global_number('proj')
-
-
                     else:
                         st.warning(reply)
 
@@ -207,4 +204,3 @@ def manage_projects():
             proj_df.drop(columns=['login'], inplace=True)
 
             st.experimental_data_editor(proj_df, use_container_width=True, height=1500)
-

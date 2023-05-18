@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 import datetime
-import time
-
 import pandas as pd
 import streamlit as st
 from admin_tools import get_list_index
 from send_emails import send_mail
-from utilities import sod_revisions, sod_statuses, stages, center_style, change_global_number
+from utilities import sod_revisions, sod_statuses, stages, center_style
 from projects import update_sod, add_sod, update_unit_name_stage
 from users import err_handler
 from functools import lru_cache
@@ -207,14 +205,8 @@ def drawing_sets():
 
                     reply2 = send_mail(coord_email, perf_email, subj, html)
 
-
                     if reply2 == 200:
-
-
                         rc.success(f'Informational e-mail was sent to {coord_email}, {perf_email}')
-
-                    change_global_number('sod')
-
                 else:
                     st.warning(reply['err_descr'])
 
@@ -387,7 +379,6 @@ def show_units_for_request(units):
 
 
 def request_updates(temp_sod):
-
     u_df = st.session_state.adb['users']
 
     if len(temp_sod):
@@ -426,7 +417,6 @@ def request_updates(temp_sod):
                       </body>
                     </html>
                 """
-
 
                 receiver = u_df.loc[u_df.login == row.coord_id, 'email'].to_numpy()[0]
                 cc_rec = u_df.loc[u_df.login == row.perf_id, 'email'].to_numpy()[0]
@@ -638,9 +628,6 @@ def manage_units():
 
                     if reply2 == 200:
                         r_rep.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
-
-                        change_global_number('sod')
-
                 else:
                     st.warning(reply['err_descr'])
 
