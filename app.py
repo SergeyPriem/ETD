@@ -16,7 +16,7 @@ from just_for_fun_tab import just_for_fun
 from lesson_learned_tab import lessons_content
 from models import Users, Task, Trans
 from projects import confirm_task, confirm_trans, trans_status_to_db, get_all, get_table, get_tasks_repeat, \
-    get_sod_repeat, get_proj_repeat, get_trans_repeat, get_condition
+    get_sod_repeat, get_proj_repeat, get_trans_repeat
 from scripts import xl_to_sld
 from send_emails import send_mail
 from settings_tab import settings_content
@@ -1110,7 +1110,7 @@ def refresher():
     count = st_autorefresh(interval=timer * 1000, limit=10000, key="fizzbuzzcounter")
 
     if count != st.session_state.count:
-        st.session_state.new_state = get_condition()
+        st.session_state.new_state = get_json()
         st.session_state.count = count
 
 
