@@ -119,8 +119,6 @@ def show_sidebar_info():
 
                 if st.sidebar.button('Update Tables', type='primary', use_container_width=True):
                     update_tables()
-                    st.sidebar.markdown(f"<h4 style='text-align: center; color: #59E314;'>"
-                                        f"New Data Available. Please REFRESH</h4>", unsafe_allow_html=True)
 
 
 # @lru_cache(128)
@@ -983,6 +981,16 @@ def prepare_menus(menu, icons, vert_menu):
                                icons=icons,
                                menu_icon=None,
                                orientation='horizontal')
+
+        if st.session_state.local_marker != st.session_state.new_state['id']:
+
+            st.markdown(f"<h4 style='text-align: center; color: red;'>"
+                                f"Table {st.session_state.new_state['table']} "
+                                f"Updated by {st.session_state.new_state['user']}</h4>", unsafe_allow_html=True)
+
+            if st.button('Update Tables', type='primary', use_container_width=True):
+                update_tables()
+
     return selected
 
 
