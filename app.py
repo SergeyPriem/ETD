@@ -113,13 +113,13 @@ def show_sidebar_info():
 
             if st.session_state.local_marker != st.session_state.new_state['id']:
 
-                st.sidebar.markdown(f"<h4 style='text-align: center; color: red;'>"
-                                    f"Table {st.session_state.new_state['table']} "
-                                    f"Updated by {st.session_state.new_state['user']}</h4>", unsafe_allow_html=True)
+                # st.sidebar.markdown(f"<h4 style='text-align: center; color: red;'>"
+                #                     f"Table {st.session_state.new_state['table']} "
+                #                     f"Updated by {st.session_state.new_state['user']}</h4>", unsafe_allow_html=True)
 
-                # but_name = f"Table {st.session_state.new_state['table']} " \
-                #            f"Updated by {st.session_state.new_state['user']} \n" \
-                #            f"Update - ?"
+                but_name = f"Table {st.session_state.new_state['table']} " \
+                           f"Updated by {st.session_state.new_state['user']} \n" \
+                           f"Update - ?"
 
                 if st.sidebar.button(label=but_name, key='vert_update', type='primary', use_container_width=True):
                     update_tables()
