@@ -996,7 +996,7 @@ def prepare_menus(menu, icons, vert_menu):
                        f"Updated by {st.session_state.new_state['user']} \n" \
                        f"Update - ?"
 
-            if st.button(label=but_name, key='horiz_update', type='primary'):
+            if st.button(label=but_name, key='horiz_update', type='primary', use_container_width=True):
                 update_tables()
 
     return selected
