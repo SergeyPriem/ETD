@@ -4,6 +4,7 @@ import streamlit as st
 from pathlib import Path
 import json
 import os
+
 # import time
 # import copy
 # from streamlit_server_state import server_state, server_state_lock, no_rerun, force_rerun_bound_sessions
@@ -90,11 +91,12 @@ def mail_to_name(mail):
 BACKUP_FOLDER: Path = Path('//uz-fs/Uzle/Work/Отдел ЭЛ/Архив заданий/')
 
 
-def get_json():
+def get_state():
     if os.path.exists("temp_dxf/state.json"):
+        print('file exists')
         try:
-            with open("state.json", "r") as state_file:
-                state_json = state_file.read()
+            with open("temp_dxf/state.json", "r", encoding="utf-8") as f:
+                state_json = f.read()
             cur_state = json.loads(state_json)
             return cur_state
         except Exception as e:
@@ -102,13 +104,14 @@ def get_json():
     else:
         return "File does not exist"
 
-def set_json(data=None):
+
+def set_init_state(data=None):
     if isinstance(data, dict):
         if os.path.exists("temp_dxf/state.json"):
             try:
-                with open("state.json", "w") as state_file:
-                    json.dump(data, state_file)
-                return
+                with open("temp_dxf/state.json", "w", encoding="utf-8") as f:
+                    json.dump(data, f)
+                return 'Data is set'
             except Exception as e:
                 return err_handler(e)
         else:
@@ -118,14 +121,45 @@ def set_json(data=None):
                 'user': None,
             }
             try:
-                with open("temp_dxf/state.json", "w") as state_file:
-                    json.dump(data, state_file)
+                with open("temp_dxf/state.json", "w", encoding="utf-8") as f:
+                    json.dump(data, f)
                 return "File Created"
             except Exception as e:
                 return err_handler(e)
     else:
         return "Wrong Data Format"
 
+
+def update_state(tab_name: str):
+    if isinstance(tab_name, str):
+        if os.path.exists("temp_dxf/state.json"):
+            try:
+                with open("temp_dxf/state.json", "r", encoding="utf-8") as f:
+                    state_json = f.read()
+                    data = json.loads(state_json)
+                new_id = int(data['id']) + 1
+
+                print(new_id)
+
+            except Exception as e:
+                return f"Can't open file{err_handler(e)}"
+
+            new_data = {
+                'id': new_id,
+                'table': tab_name,
+                'user': 'sergey.priemshiy',#st.session_state.login,
+            }
+            try:
+                with open("temp_dxf/state.json", "w", encoding="utf-8") as f:
+                    json.dump(new_data, f)
+                return 'Data is updated'
+            except Exception as e:
+                return f"Can't save file{err_handler(e)}"
+        else:
+            return "File not found"
+    else:
+        return "Wrong Data Format"
+
+
 def err_handler(e):
     return f"{type(e).__name__}{getattr(e, 'args', None)}"
-

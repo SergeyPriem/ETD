@@ -8,7 +8,6 @@ import streamlit as st
 from PIL import Image
 from streamlit_autorefresh import st_autorefresh
 from streamlit_option_menu import option_menu
-from streamlit_server_state import server_state
 
 from admin_tools import manage_projects, get_list_index
 from drawing_sets_tab import drawing_sets, manage_units
@@ -25,7 +24,7 @@ from transmittals_tab import transmittals_content
 from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, register_user, \
     err_handler
 from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, get_cur_u_id, center_style, \
-    get_json, set_json
+    get_state, set_init_state
 
 # import openpyxl
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
@@ -184,12 +183,12 @@ def create_states():
     reply = None
 
     if 'local_marker' not in st.session_state:
-        reply = get_json()
+        reply = get_state()
 
         if reply == "File does not exist":
-            set_json({'id': 1, 'table': None, 'user': None,})
+            set_init_state({'id': 1, 'table': None, 'user': None, })
 
-            reply = get_json()
+            reply = get_state()
 
         st.session_state.local_marker = reply['id']
         # st.session_state.local_marker = copy.deepcopy(server_state.db_changes)
@@ -1110,11 +1109,14 @@ def refresher():
     count = st_autorefresh(interval=timer * 1000, limit=10000, key="fizzbuzzcounter")
 
     if count != st.session_state.count:
-        st.session_state.new_state = get_json()
+        st.session_state.new_state = get_state()
         st.session_state.count = count
 
 
 if __name__ == "__main__":
+    st.write(f"count: {st.session_state.count}")
+    st.write(f"New state: {st.session_state.new_state}")
+    st.write(f"Local Marker: {st.session_state.local_marker}")
     create_states()
     st.session_state.r_now = datetime.datetime.now()
     refresher()

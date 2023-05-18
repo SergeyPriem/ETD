@@ -805,6 +805,8 @@ def add_new_trans(project, trans_num, out_trans, t_type, subj, link, trans_date,
 
             Condition(table_name='trans', user_login=st.session_state.login)
 
+            upd_json('trans')
+
             return f"""
             New Transmittal {trans_num} is added to DataBase  
             """
