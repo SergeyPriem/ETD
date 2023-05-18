@@ -115,7 +115,7 @@ def show_sidebar_info():
 
                 st.sidebar.markdown(f"<h4 style='text-align: center; color: red;'>"
                                     f"Table {st.session_state.new_state['table']} "
-                                    f"Updated by {st.session_state.new_state['table']}</h4>", unsafe_allow_html=True)
+                                    f"Updated by {st.session_state.new_state['user']}</h4>", unsafe_allow_html=True)
 
                 if st.sidebar.button('Update Tables', type='primary', use_container_width=True):
                     update_tables()
