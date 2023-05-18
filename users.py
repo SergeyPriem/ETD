@@ -115,15 +115,15 @@ def get_user_data(login):
         return err_handler(e)
 
 
-def get_logged_rights(login):
-    with db_session:
-        try:
-            hero = Users.get(login=login)
-            return hero.access_level
-        except Exception as e:
-            # return "🔧 Connection to DB is failed"
-            return err_handler(e)
-
+# def get_logged_rights(login):
+#     with db_session:
+#         try:
+#             hero = Users.get(login=login)
+#             return hero.access_level
+#         except Exception as e:
+#             # return "🔧 Connection to DB is failed"
+#             return err_handler(e)
+#
 
 ##### CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE #################
 def create_appl_user(email, position, branch, access_level, status, start_date, script_acc_init):
@@ -230,7 +230,7 @@ def update_settings(login, menu):
 def update_refresh_delay():
     with db_session:
         try:
-            hero = Users.get(login=st.session_state.login)
+            hero = Users.get(login=st.session_state.user['login'])
             hero.refresh_delay = st.session_state.refresh_delay
             return "Settings Updated"
         except Exception as e:

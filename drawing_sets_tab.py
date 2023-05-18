@@ -34,7 +34,7 @@ def drawing_sets():
                                  horizontal=True, label_visibility='collapsed')
 
         if my_all == "My Units":
-            user_login = st.session_state.login
+            user_login = st.session_state.user['login']
             user_id = u_df.loc[u_df.login == user_login].index.to_numpy()[0]
             sod_df = sod_df[(sod_df.coord_id == user_id) | (sod_df.perf_id == user_id)]
 
@@ -120,7 +120,7 @@ def drawing_sets():
             trans_num = r_c.selectbox("New Transmittal Number", trans_list)
             r_c.text_area("Notes (existing)", value=old_notes, max_chars=1500, height=127, disabled=True)
             notes = l_c.text_input("Notes (add new one)", max_chars=250)
-            if st.session_state.rights in ['admin', 'super', 'dev']:
+            if st.session_state.user['access_level'] in ['admin', 'super', 'dev']:
                 r_c.text('')
                 r_c.text('')
                 request_chb = r_c.checkbox('Request for Update')
@@ -197,10 +197,10 @@ def drawing_sets():
                           </body>
                         </html>
                     """
-                    if st.session_state.login in coord_email:
+                    if st.session_state.user['login'] in coord_email:
                         coord_email = 'sergey.priemshiy@uzliti-en.com'
 
-                    if st.session_state.login in perf_email:
+                    if st.session_state.user['login'] in perf_email:
                         perf_email = 'sergey.priemshiy@uzliti-en.com'
 
                     reply2 = send_mail(coord_email, perf_email, subj, html)
@@ -508,7 +508,7 @@ def manage_units():
                     receiver = u_df.loc[u_df.login == coordinator, 'email'].to_numpy()[0]
                     cc_rec = u_df.loc[u_df.login == performer, 'email'].to_numpy()[0]
 
-                    cur_user_email = u_df.loc[u_df.login == st.session_state.login, 'email'].to_numpy()[0]
+                    cur_user_email = u_df.loc[u_df.login == st.session_state.user['login'], 'email'].to_numpy()[0]
 
                     subj = f"{proj_short}: {unit_name}. New Unit | Новый комплект чертежей"
 

@@ -23,8 +23,8 @@ from tasks_tab import tasks_content
 from transmittals_tab import transmittals_content
 from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, register_user, \
     err_handler
-from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, get_cur_u_id, center_style, \
-    get_state, set_init_state, update_state
+from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, get_cur_u_id,\
+    center_style, get_state, set_init_state, update_state
 
 # import openpyxl
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
@@ -51,10 +51,10 @@ def home_tasks():
 
     df = task_df.loc[
         ((task_df.coord_id == u_id) & (~task_df.coord_log.str.contains('confirmed')) & (
-            ~task_df.coord_log.str.contains(st.session_state.login)))
+            ~task_df.coord_log.str.contains(st.session_state.user['login'])))
         |
         ((task_df.perf_id == u_id) & (~task_df.perf_log.str.contains('confirmed')) & (
-            ~task_df.perf_log.str.contains(st.session_state.login)))
+            ~task_df.perf_log.str.contains(st.session_state.user['login'])))
         ]
 
     df.rename(columns={
@@ -88,10 +88,8 @@ def home_trans():
 
 def show_sidebar_info():
     # st.session_state.temp_log.append('show_sidebar_info')
-    u_df = st.session_state.adb['users']
 
-    if st.session_state.login and st.session_state.proj_scope:
-        access_level = u_df.loc[u_df.login == st.session_state.login, 'access_level'].to_numpy()[0]
+    if st.session_state.user['login'] and st.session_state.proj_scope:
 
         st.sidebar.text("")
         st.sidebar.markdown(f"<h4 style='text-align: center; color: #00bbf9;'>Current Mode:</h4>",
@@ -104,7 +102,7 @@ def show_sidebar_info():
             unsafe_allow_html=True)
 
         with st.sidebar:
-            if access_level == 'dev':
+            if st.session_state.user['access_level'] == 'dev':
                 td = datetime.datetime.now() - st.session_state.r_now
                 delta = f"{int(td.total_seconds() * 1000)}"
 
@@ -199,9 +197,19 @@ def create_states():
     if 'new_state' not in st.session_state:
         st.session_state.new_state = reply
 
-    # if 'adb' not in st.session_state:
-    #     st.session_state.adb = get_all()
-    #
+    if 'user' not in st.session_state:
+        st.session_state.user = {
+            'login': None,
+            'name': None,
+            'surname': None,
+            'position': None,
+            'vert_menu': 1,
+            'script_acc': 0,
+            'access_level': 'prohibited',
+            'status': 'former',
+            'tg_id': None,
+        }
+
     if 'disable_add_task' not in st.session_state:
         st.session_state.disable_add_task = True
 
@@ -213,9 +221,6 @@ def create_states():
 
     if 'selected' not in st.session_state:
         st.session_state.selected = 'Home'
-
-    if 'vert_menu' not in st.session_state:
-        st.session_state.vert_menu = 1
 
     if 'count' not in st.session_state:
         st.session_state.count = 0
@@ -235,7 +240,7 @@ def create_states():
             'out_note': None,
         }
 
-    state_list = ['del_conf', 'loads_df', 'login', 'proj_names', 'appl_logins', 'adb', 'spec', 'menu',
+    state_list = ['del_conf', 'loads_df', 'proj_names', 'appl_logins', 'adb', 'spec', 'menu',
                   'icons', 'rights', 'registered_logins']
 
     for state in state_list:
@@ -339,7 +344,7 @@ def home_content():
         st.title(':orange[Electrical Department]')
 
         u_df = st.session_state.adb["users"]
-        u_df = u_df.loc[u_df.login == st.session_state.login]
+        u_df = u_df.loc[u_df.login == st.session_state.user['login']]
         username = f"{u_df.name.to_numpy()[0]} {u_df.surname.to_numpy()[0]}"
         st.header(f'Welcome, {username}!')
 
@@ -430,8 +435,8 @@ def home_content():
                         st.write('No New Tasks')
 
                 with trans_col:
-                    # df = get_my_trans(st.session_state.login)
-                    df = home_trans()  # st.session_state.login
+                    # df = get_my_trans(st.session_state.user['login'])
+                    df = home_trans()  # st.session_state.user['login']
 
                     # st.write(df)
 
@@ -519,7 +524,7 @@ def home_content():
                                           on_click=confirm_trans,
                                           args=(row.trans_num,))
                             else:
-                                if st.session_state.login not in row.received:
+                                if st.session_state.user['login'] not in row.received:
                                     st.button(label=but_key1, key=but_key1, type='secondary',
                                               on_click=confirm_trans,
                                               args=(row.trans_num,))
@@ -573,10 +578,12 @@ def login_register():
                     else:
                         if check_user(login, password):
                             st.session_state.logged = True
-                            st.session_state.login = login
+                            st.session_state.user['login'] = login
                             u_df = st.session_state.adb['users']
-                            st.session_state.rights = u_df.loc[
+                            st.session_state.user['access_level'] = u_df.loc[
                                 u_df.login == login, 'access_level'].to_numpy()[0]
+                            # st.session_state.rights = u_df.loc[
+                            #     u_df.login == login, 'access_level'].to_numpy()[0]
                             reply = add_to_log(login)
 
                             if 'ERROR' in reply.upper():
@@ -591,8 +598,8 @@ def login_register():
                         else:
                             st.session_state.logged = False
                             st.warning('Wrong Login or Password...')
-                            st.session_state.rights = None
-                            st.session_state.login = None
+                            st.session_state.user['access_level'] = None
+                            st.session_state.user['login'] = None
 
         with reg_tab:
             appl_logins = st.session_state.appl_logins
@@ -943,6 +950,11 @@ def win_selector(selected):
     if selected != "Refresh":
         st.session_state.selected = selected
 
+    # if selected == "Scripts":
+    #     st.session_state.refresh_delay = 3600
+    # else:
+    #     st.session_state.refresh_delay = st.session_state.user['request_delay']
+
     tab_dict = {
         "Home": home,
         "Projects": manage_projects,
@@ -964,10 +976,6 @@ def win_selector(selected):
 
 # @lru_cache(128)
 def prepare_menus(menu, icons, vert_menu):
-    # st.session_state.temp_log.append('prepare_menus')
-    # st.session_state.menu = get_menus(st.session_state.rights)[0]
-    #
-    # st.session_state.icons = get_menus(st.session_state.rights)[1]
 
     if vert_menu == 1:
         with st.sidebar:
@@ -1052,20 +1060,24 @@ def initial():
     if not st.session_state.logged:
         login_register()
 
-    if st.session_state.logged and st.session_state.login and st.session_state.rights:
+    if st.session_state.logged and st.session_state.user['login'] and st.session_state.user['access_level']:
         try:
-            st.session_state.vert_menu = int(u_df.loc[u_df.login == st.session_state.login, 'vert_menu'].to_numpy()[0])
+            st.session_state.user['vert_menu'] = int(
+                u_df.loc[u_df.login == st.session_state.user['login'], 'vert_menu'].to_numpy()[0]
+            )
         except Exception as e:
-            st.session_state.vert_menu = 1
+            st.session_state.user['vert_menu'] = 1
 
             st.sidebar.warning('Something wrong with menu settings')
             st.sidebar.warning(err_handler(e))
 
-        st.session_state.menu = get_menus(st.session_state.rights)[0]
+        st.session_state.menu = get_menus(st.session_state.user['access_level'])[0]
 
-        st.session_state.icons = get_menus(st.session_state.rights)[1]
+        st.session_state.icons = get_menus(st.session_state.user['access_level'])[1]
 
-        prepared_menus = prepare_menus(st.session_state.menu, st.session_state.icons, st.session_state.vert_menu)
+        prepared_menus = prepare_menus(
+            st.session_state.menu, st.session_state.icons, st.session_state.user['vert_menu']
+        )
 
         win_selector(prepared_menus)
 

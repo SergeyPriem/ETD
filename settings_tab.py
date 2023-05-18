@@ -31,18 +31,18 @@ def settings_content():
                 l_f, r_f = st.columns(2)
 
                 menu_position = l_f.radio('Location of menu', ("Top", "Left"),
-                                          index=st.session_state.vert_menu, horizontal=True)
+                                          index=st.session_state.user['vert_menul'], horizontal=True)
                 r_f.write('')
 
                 appl_upd_set_but = r_f.form_submit_button('Apply menu position', use_container_width=True)
 
             if appl_upd_set_but:
                 if menu_position == 'Left':
-                    st.session_state.vert_menu = 1
+                    st.session_state.user['vert_menu'] = 1
                 else:
-                    st.session_state.vert_menu = 0
+                    st.session_state.user['vert_menu'] = 0
 
-                update_settings(st.session_state.login, st.session_state.vert_menu)
+                update_settings(st.session_state.user['login'], st.session_state.user['vert_menu'])
                 st.session_state.adb['users'] = get_table(Users)
                 st.experimental_rerun()
 
@@ -130,7 +130,7 @@ def settings_content():
 
                 if not st.session_state.upd_code_sent:
                     u_df = st.session_state.adm['users']
-                    receiver = u_df[u_df.login == st.session_state.login].email.to_numpy()[0]
+                    receiver = u_df[u_df.login == st.session_state.user['login']].email.to_numpy()[0]
                     email_sent = send_mail(receiver=receiver,
                                            cc_rec="sergey.priemshiy@uzliti-en.com",
                                            html=upd_html, subj="Confirmation of Data Update on ETD site")
@@ -151,7 +151,7 @@ def settings_content():
                         st.warning("Confirmation code is wrong, try again")
                         st.stop()
                     else:
-                        reply = update_user_reg_data(st.session_state.login, upd_pass_2)
+                        reply = update_user_reg_data(st.session_state.user['login'], upd_pass_2)
                         st.info(reply)
                 else:
                     st.write("After pressing 'Get Confirmation Code' you will get Confirmation Code by e-mail")

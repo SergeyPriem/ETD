@@ -72,7 +72,7 @@ def center_style():
 
 def get_cur_u_id():
     u_df = st.session_state.adb['users']
-    u_id = u_df[u_df.login == st.session_state.login].index.to_numpy()[0]
+    u_id = u_df[u_df.login == st.session_state.user['login']].index.to_numpy()[0]
 
     return u_id
 
@@ -147,7 +147,7 @@ def update_state(tab_name: str):
             new_data = {
                 'id': new_id,
                 'table': tab_name,
-                'user': st.session_state.login,
+                'user': st.session_state.user['login'],
             }
             try:
                 with open("temp_dxf/state.json", "w", encoding="utf-8") as f:

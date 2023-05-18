@@ -68,7 +68,7 @@ def create_project(proj_short, proj_full, client, proj_man, responsible_el, proj
                 notes=proj_notes
             )
 
-            Condition(table_name='proj', user_login=st.session_state.login)
+            Condition(table_name='proj', user_login=st.session_state.user['login'])
 
             return f'New Project {proj_short} is added to DataBase'
         except Exception as e:
@@ -179,7 +179,7 @@ def get_pers_tasks() -> pd.DataFrame:
     Returns coordinator's or performer's tasks which is not confirmed
     :return: DataFrame
     """
-    login = st.session_state.login
+    login = st.session_state.user['login']
 
     with db_session:
         try:
@@ -287,8 +287,6 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
                 aux=datetime.today(),
             )
 
-            Condition(table_name='sod', user_login=st.session_state.login)
-
             return {
                 'status': 201,
                 'err_descr': None,
@@ -342,10 +340,10 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
                 link=link,
                 backup_copy='NA',
                 source=source,
-                coord_log=f"<{st.session_state.login}*{str(datetime.now())[:-10]}>",
-                perf_log=f"<{st.session_state.login}*{str(datetime.now())[:-10]}>",
+                coord_log=f"<{st.session_state.user['login']}*{str(datetime.now())[:-10]}>",
+                perf_log=f"<{st.session_state.user['login']}*{str(datetime.now())[:-10]}>",
                 comment=comment,
-                added_by=f"<{str(st.session_state.login)}*{str(datetime.now())[:-10]}>"
+                added_by=f"<{str(st.session_state.user['login'])}*{str(datetime.now())[:-10]}>"
             )
 
             new_ass_id = max(n.id for n in Task)
@@ -353,7 +351,7 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
             result = create_backup_string(link, BACKUP_FOLDER, new_ass_id)
             new_ass.backup_copy = result[0]
 
-            Condition(table_name='task', user_login=st.session_state.login)
+            Condition(table_name='task', user_login=st.session_state.user['login'])
 
             return f"""
             New Task #{new_ass_id} for {new_ass.s_o_d.project_id.short_name}: {new_ass.s_o_d.set_name} is added to DataBase  
@@ -384,10 +382,10 @@ def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, de
                 backup_copy='NA',
                 source=source,
                 comment=comment,
-                added_by=st.session_state.login
+                added_by=st.session_state.user['login']
             )
 
-            Condition(table_name='task', user_login=st.session_state.login)
+            Condition(table_name='task', user_login=st.session_state.user['login'])
 
             return f"""
             New Task #{int(last_id) + 1} for {sod_name} -> {speciality} is added to DataBase  
@@ -414,7 +412,7 @@ def update_projects(proj_id, short_name, full_name, client, manager, responsible
             proj_for_upd.mdr = mdr
             proj_for_upd.notes = notes
 
-            Condition(table_name='proj', user_login=st.session_state.login)
+            Condition(table_name='proj', user_login=st.session_state.user['login'])
 
             return {"status": 201,
                     # "updated_projects": tab_to_df(proj),
@@ -432,8 +430,8 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
         try:
             unit = SOD[s_o_d]
 
-            if (Users.get(login=st.session_state.login) in (unit.coord_id, unit.perf_id)) \
-                    or Users.get(login=st.session_state.login).access_level in ["super", "dev"]:
+            if (Users.get(login=st.session_state.user['login']) in (unit.coord_id, unit.perf_id)) \
+                    or Users.get(login=st.session_state.user['login']).access_level in ["super", "dev"]:
                 unit.coord_id = Users.get(login=coord)
                 unit.perf_id = Users.get(login=perf)
                 unit.revision = rev
@@ -448,7 +446,6 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
                     unit.notes = f"{str(unit.notes).replace('None', '')}<{t_date}: {notes}>"
                 unit.aux = datetime.today()
 
-                Condition(table_name='sod', user_login=st.session_state.login)
 
                 return {
                     'status': 201,
@@ -575,7 +572,7 @@ def get_own_tasks(set_id):
 
 
 def confirm_task(task_id):
-    user = st.session_state.login
+    user = st.session_state.user['login']
     with db_session:
         try:
 
@@ -596,8 +593,6 @@ def confirm_task(task_id):
                 else:
                     Task[task_id].perf_log = f"<{user}*{str(datetime.now())[:-10]}>"
 
-            Condition(table_name='task', user_login=st.session_state.login)
-
         except Exception as e:
             with st.sidebar:
                 st.text(err_handler(e))
@@ -616,11 +611,11 @@ def confirm_trans(trans_num):
             else:
                 prev_record = tr.received
 
-            received_value = f"{prev_record}<{st.session_state.login}*{str(datetime.now())[:-10]}>"
+            received_value = f"{prev_record}<{st.session_state.user['login']}*{str(datetime.now())[:-10]}>"
             tr.received = received_value.replace('None', '')
             st.session_state.adb['trans'] = get_table(Trans)
 
-            Condition(table_name='trans', user_login=st.session_state.login)
+            Condition(table_name='trans', user_login=st.session_state.user['login'])
 
         except Exception as e:
             return err_handler(e)
@@ -640,11 +635,11 @@ def trans_status_to_db():
                 new_notes = f"<{str(trans_l['out_note'])}*{str(datetime.now())[:-10]}>"
 
             if trans.received:
-                if st.session_state.login not in trans.received:
+                if st.session_state.user['login'] not in trans.received:
                     trans.received = \
-                        f"{trans.received.replace('-', '')}<{st.session_state.login}*{str(datetime.now())[:-10]}>"
+                        f"{trans.received.replace('-', '')}<{st.session_state.user['login']}*{str(datetime.now())[:-10]}>"
             else:
-                f"{trans.received}<{st.session_state.login}*{str(datetime.now())[:-10]}>"
+                f"{trans.received}<{st.session_state.user['login']}*{str(datetime.now())[:-10]}>"
 
             trans.notes = new_notes
             trans.status = trans_l['status']
@@ -796,12 +791,10 @@ def add_new_trans(project, trans_num, out_trans, t_type, subj, link, trans_date,
                 responsible=Users.get(login=responsible),
                 notes=notes,
                 received="-",
-                users=Users.get(login=st.session_state.login),
+                users=Users.get(login=st.session_state.user['login']),
                 status=status,
                 in_out=in_out
             )
-
-            Condition(table_name='trans', user_login=st.session_state.login)
 
             return f"""
             New Transmittal {trans_num} is added to DataBase  
