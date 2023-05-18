@@ -114,7 +114,8 @@ def show_sidebar_info():
             if st.session_state.local_marker != st.session_state.new_state['id']:
 
                 st.sidebar.markdown(f"<h4 style='text-align: center; color: red;'>"
-                                    f"New Data Available. Please Update</h4>", unsafe_allow_html=True)
+                                    f"Table {st.session_state.new_state['table']} "
+                                    f"Updated by {st.session_state.new_state['table']}</h4>", unsafe_allow_html=True)
 
                 if st.sidebar.button('Update Tables', type='primary', use_container_width=True):
                     update_tables()
