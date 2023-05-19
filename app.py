@@ -1005,9 +1005,6 @@ def prepare_menus(menu, icons, vert_menu):
 
         if st.session_state.local_marker != st.session_state.new_state['id']:
 
-            # st.markdown(f"<h4 style='text-align: center; color: red;'>"
-            #                     f"Table {st.session_state.new_state['table']} "
-            #                     f"Updated by {st.session_state.new_state['user']}</h4>", unsafe_allow_html=True)
 
             but_name = f"Table {st.session_state.new_state['table']} " \
                        f"Updated by {st.session_state.new_state['user']} \n" \
@@ -1020,7 +1017,6 @@ def prepare_menus(menu, icons, vert_menu):
 
 
 def initial():
-    # st.session_state.temp_log.append('initial')
 
     appearance_settings()
 

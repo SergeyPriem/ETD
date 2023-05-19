@@ -53,6 +53,9 @@ def det_trans_from_df(login=None):
 
 
 def transmittals_content():
+
+    center_style()
+
     tr_empty1, tr_content, tr_empty2 = st.columns([1, 15, 1])
     with tr_empty1:
         st.empty()
@@ -60,8 +63,6 @@ def transmittals_content():
         st.empty()
 
     with tr_content:
-
-        center_style()
 
         st.title(':orange[Transmittals]')
 
