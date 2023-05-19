@@ -915,7 +915,7 @@ def scripts_tab():
                     min_sect = rc.selectbox('Min. Cross_section of Power Cable wire', ['1.5', '2.5', '4'], index=1)
                     incom_margin = rc.selectbox("Margin for Incomer's Rated Current",
                                                 ['1.0', '1.05', '1.1', '1.15', '1.2'],
-                                                index=1)
+                                                index=2)
 
                     show_settings = lc.checkbox("Show CB settings at SLD")
 
