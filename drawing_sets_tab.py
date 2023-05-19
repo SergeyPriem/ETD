@@ -138,8 +138,7 @@ def drawing_sets():
                 check_disabled =True
                 button_label = "Update Unit Details"
 
-
-            l_c.text_area(label="Transmittals' History", value=old_trans)
+            l_c.text_area(label="Transmittals' History", value=old_trans, disabled=True)
 
             l_c.text('')
             request_chb = l_c.checkbox('Request for Update', disabled=check_disabled)
