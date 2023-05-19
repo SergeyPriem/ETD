@@ -189,7 +189,7 @@ def add_to_log(login):
         try:
             logger = VisitLog(login_time=datetime.datetime.now(), users=Users.get(login=login))
         except Exception as e:
-            return err_handler(e)
+            return f"ERROR: {err_handler(e)}"
     return f"Hello, {mail_to_name(logger.users.id)}. Do your best and forget the rest 😎"
 
 

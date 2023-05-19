@@ -590,7 +590,7 @@ def login_register():
                             time.sleep(10)
                             reply = add_to_log(login)
 
-                            if 'ERROR' in reply.upper():
+                            if 'ERROR' in reply:
                                 st.write(f"""Please sent error below to sergey.priemshiy@uzliti-en.com
                                             or by telegram +998909598030:
                                             {reply}""")
