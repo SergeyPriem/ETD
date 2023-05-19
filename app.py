@@ -1132,7 +1132,7 @@ def update_tables():
 
 def refresher():
 
-    if isinstance(st.session_state.refresh_delay, int):
+    if isinstance(st.session_state.temp_refresh_delay, int):
         timer = st.session_state.temp_refresh_delay
     else:
         timer = 3600
