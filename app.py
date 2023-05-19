@@ -2,6 +2,7 @@
 import datetime
 import os
 import random
+import time
 
 import pandas as pd
 import streamlit as st
@@ -583,12 +584,10 @@ def login_register():
 
                             cur_user_df = cur_user_df.drop(columns=['patronymic', 'hashed_pass', 'end_date'])
 
-                            current_user = cur_user_df.to_dict('records')
+                            st.session_state.user = cur_user_df.to_dict('records')
+                            st.write(st.session_state.user)
 
-                            st.write(current_user)
-
-                            st.session_state.user = current_user
-
+                            time.sleep(10)
                             reply = add_to_log(login)
 
                             if 'ERROR' in reply.upper():
