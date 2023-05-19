@@ -111,7 +111,6 @@ def show_sidebar_info():
 
             if st.session_state.local_marker != st.session_state.new_state['id']:
 
-
                 but_name = f"Table {st.session_state.new_state['table']} " \
                            f"Updated by {st.session_state.new_state['user']} \n" \
                            f"... Hit here to Update"
@@ -187,25 +186,23 @@ def create_states():
         st.session_state.new_state = reply
 
     if 'user' not in st.session_state:
-        st.session_state.user = None
-
-        # {
-        #     "login": "sergey.priemshiy",
-        #     "email": "sergey.priemshiy@uzliti-en.com",
-        #     "name": "Serhii",
-        #     "surname": "Pryiemshyi",
-        #     "position": "Dep. Head",
-        #     "branch": "UzLITI Engineering",
-        #     "phone": "+998909598030",
-        #     "telegram": "+998909598030",
-        #     "vert_menu": 1,
-        #     "refresh_delay": 3600,
-        #     "script_acc": 1,
-        #     "access_level": "dev",
-        #     "status": "current",
-        #     "start_date": "datetime.date(2017, 10, 17)",
-        #     "tg_id": "387022717"
-        # }
+        st.session_state.user = {
+            "login": None,
+            "email": None,
+            "name": None,
+            "surname": None,
+            "position": None,
+            "branch": None,
+            "phone": None,
+            "telegram": None,
+            "vert_menu": 1,
+            "refresh_delay": 7,
+            "script_acc": 1,
+            "access_level": None,
+            "status": None,
+            "start_date": None,
+            "tg_id": None
+        }
 
     if 'disable_add_task' not in st.session_state:
         st.session_state.disable_add_task = True
