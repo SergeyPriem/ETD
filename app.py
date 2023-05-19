@@ -801,7 +801,10 @@ def manage_users():
 
             lc, rc = st.columns(2, gap='medium')
             employee_to_edit = lc.selectbox('Select User', list_appl_users)
-            rc.text_input('Selected User', disabled=True)
+
+            if employee_to_edit:
+                rc.text_input('Selected User', value=employee_to_edit, disabled=True)
+
             edit_move = st.radio('Action', ('Edit', 'Move to Former Users'), horizontal=True)
 
             if edit_move == 'Edit':
