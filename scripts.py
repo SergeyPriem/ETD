@@ -875,7 +875,7 @@ def scripts_tab():
 
         st.title(':orange[Create SLD from Load List]')
         st.divider()
-        st.write("You can find required templates in folder below  👇 You can update SLD template "
+        st.write("Please find required templates in folder below  👇 You can update SLD template "
                  "according to your Project Requirements, but keep blocks attributes' names")
         st.code(r'\\uz-fs\Uzle\WORK\Отдел ЭЛ\01 Малая Автоматизация\Шаблоны')
         st.write("")
