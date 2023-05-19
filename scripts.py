@@ -876,7 +876,7 @@ def scripts_tab():
         st.title(':orange[Create SLD from Load List]')
         st.divider()
         st.write('You can find required templates in folder:')
-        st.code('\\uz-fs\Uzle\WORK\Отдел ЭЛ\01 Малая Автоматизация\Шаблоны')
+        st.code(r'\\uz-fs\Uzle\WORK\Отдел ЭЛ\01 Малая Автоматизация\Шаблоны')
         st.write("You can update SLD template according to your Project Requirements, "
                  "but keep blocks attributes' names")
         if st.session_state.user['script_acc']:
