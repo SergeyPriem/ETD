@@ -96,7 +96,12 @@ def drawing_sets():
 
         old_coord = df_edit.coordinator.to_numpy()[0]
         old_perf = df_edit.performer.to_numpy()[0]
-        old_rev = df_edit.revision.to_numpy()[0]
+
+        old_rev = df_edit.revision.to_numpy()[0].split(" - ")
+
+        if len(old_rev) != 2:
+            old_rev = [old_rev, old_rev]
+
         old_status = df_edit.status.to_numpy()[0]
         old_notes = df_edit.notes.to_numpy()[0]
         trans_list.insert(0, 'Not required')
@@ -109,14 +114,13 @@ def drawing_sets():
                                  index=get_list_index(all_logins, old_perf))
 
             rev_min = l_c.selectbox("Revision (earliest)", sod_revisions,
-                                   index=get_list_index(sod_revisions, old_rev))
+                                    index=get_list_index(sod_revisions, old_rev[0]))
 
             rev_max = c_c.selectbox("Revision (most recent)", sod_revisions,
-                                   index=get_list_index(sod_revisions, old_rev))
+                                    index=get_list_index(sod_revisions, old_rev[1]))
 
             status = r_c.selectbox('Status', sod_statuses,
                                    index=get_list_index(sod_statuses, old_status))
-
 
             l_c.text('')
             l_c.text('')
@@ -127,18 +131,18 @@ def drawing_sets():
             r_c.text_area("Notes (existing)", value=old_notes, max_chars=1500, height=127, disabled=True)
 
             if st.session_state.user['access_level'] in ['admin', 'super', 'dev']:
-                l_c.text('')
-                l_c.text('')
-                request_chb = l_c.checkbox('Request for Update')
-
-                c_c.text('')
-                upd_unit_but = c_c.form_submit_button("Update Unit Details or Request for Update (if selected)",
-                                                     use_container_width=True)
+                check_disabled =False
+                button_label = "Update Unit Details or Request for Update (if selected)"
             else:
-                request_chb = False
+                check_disabled =True
+                button_label = "Update Unit Details"
 
-                c_c.text('')
-                upd_unit_but = c_c.form_submit_button("Update Unit Details", use_container_width=True)
+
+            l_c.text('')
+            l_c.text('')
+            request_chb = l_c.checkbox('Request for Update', disabled=check_disabled)
+            c_c.text('')
+            upd_unit_but = c_c.form_submit_button(label=button_label, use_container_width=True)
 
         if upd_unit_but:
             rev = f"{rev_min} - {rev_max}"
