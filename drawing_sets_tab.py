@@ -104,6 +104,7 @@ def drawing_sets():
 
         old_status = df_edit.status.to_numpy()[0]
         old_notes = df_edit.notes.to_numpy()[0]
+        old_trans = df_edit.trans_num.to_numpy()[0]
         trans_list.insert(0, 'Not required')
 
         with st.form("edit-unit_details"):
@@ -123,7 +124,6 @@ def drawing_sets():
                                    index=get_list_index(sod_statuses, old_status))
 
             l_c.text('')
-            l_c.text('')
             upd_trans_chb = l_c.checkbox("Add Transmittal")
 
             trans_num = c_c.selectbox("New Transmittal Number", trans_list)
@@ -139,8 +139,9 @@ def drawing_sets():
 
 
             l_c.text('')
-            l_c.text('')
             request_chb = l_c.checkbox('Request for Update', disabled=check_disabled)
+
+            l_c.text_area(label="Transmittals' History", value=old_trans)
             c_c.text('')
             c_c.text('')
             upd_unit_but = c_c.form_submit_button(label=button_label, use_container_width=True)
