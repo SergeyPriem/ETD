@@ -584,10 +584,8 @@ def login_register():
 
                             cur_user_df = cur_user_df.drop(columns=['patronymic', 'hashed_pass', 'end_date'])
 
-                            user_id = cur_user_df.index.to_numpy()[0]
-
                             st.session_state.user = cur_user_df.to_dict('records')[0]
-                            st.session_state.user['id'] = cur_user_df.index.to_numpy()[0]
+                            st.session_state.user['id'] = int(cur_user_df.index.to_numpy()[0])
 
                             st.write(st.session_state.user)
 
