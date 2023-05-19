@@ -111,9 +111,6 @@ def show_sidebar_info():
 
             if st.session_state.local_marker != st.session_state.new_state['id']:
 
-                # st.sidebar.markdown(f"<h4 style='text-align: center; color: red;'>"
-                #                     f"Table {st.session_state.new_state['table']} "
-                #                     f"Updated by {st.session_state.new_state['user']}</h4>", unsafe_allow_html=True)
 
                 but_name = f"Table {st.session_state.new_state['table']} " \
                            f"Updated by {st.session_state.new_state['user']} \n" \
@@ -167,13 +164,6 @@ def get_menus(rights):
 
 
 def create_states():
-    # with server_state_lock["db_changes"]:
-    #     if "db_changes" not in server_state:
-    #         server_state.db_changes = {
-    #             "serial": 0,
-    #             "table": "Not_aval",
-    #             "login": "No_Login",
-    #         }
 
     if 'proj_scope' not in st.session_state:
         st.session_state.proj_scope = 'Only Current Projects'
@@ -192,7 +182,6 @@ def create_states():
             reply = get_state()
 
         st.session_state.local_marker = reply['id']
-        # st.session_state.local_marker = copy.deepcopy(server_state.db_changes)
 
     if 'new_state' not in st.session_state:
         st.session_state.new_state = reply
