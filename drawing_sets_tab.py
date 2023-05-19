@@ -123,8 +123,8 @@ def drawing_sets():
             status = r_c.selectbox('Status', sod_statuses,
                                    index=get_list_index(sod_statuses, old_status))
 
-            l_c.text('')
-            upd_trans_chb = l_c.checkbox("Add Transmittal")
+            c_c.text('')
+            upd_trans_chb = c_c.checkbox("Add Transmittal")
 
             trans_num = c_c.selectbox("New Transmittal Number", trans_list)
             notes = r_c.text_input("Notes (add new one)", max_chars=250)
