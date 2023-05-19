@@ -962,6 +962,8 @@ def win_selector(selected):
     st.subheader(f"History: {st.session_state.selection_history}")
 
     if len(st.session_state.selection_history) > 1:
+        if len(st.session_state.selection_history) > 3:
+            del st.session_state.selection_history[:2]
         if st.session_state.selection_history[-2] == "Scripts" and st.session_state.selection_history[-1] != "Scripts":
 
             st.title(f"Was {st.session_state.selection_history[-2]} Became {st.session_state.selection_history[-1]}")
