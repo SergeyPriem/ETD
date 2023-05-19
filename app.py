@@ -182,6 +182,9 @@ def create_states():
     if 'new_state' not in st.session_state:
         st.session_state.new_state = reply
 
+    if 'selection_prev_value' not in st.session_state:
+        st.session_state.selection_history = []
+
     if 'user' not in st.session_state:
         st.session_state.user = {
             "login": None,
@@ -946,7 +949,9 @@ def home():
 
 # @lru_cache(15)
 def win_selector(selected):
-    # st.session_state.temp_log.append('win_selector')
+
+    st.session_state.selection_history.append(selected)
+
     if selected != "Refresh":
         st.session_state.selected = selected
 
@@ -954,6 +959,15 @@ def win_selector(selected):
         st.session_state.temp_refresh_delay = 3600
     else:
         st.session_state.temp_refresh_delay = st.session_state.user['refresh_delay']
+
+    if st.session_state.selection_history[-2] == "Scripts" and st.session_state.selection_history[-1] != "Scripts":
+
+        st.title(f"was {st.session_state.selection_history[-2]} became {st.session_state.selection_history[-1]}")
+        st.subheader(f"Histoty: {st.session_state.selection_history}")
+
+        st.experimental_rerun()
+
+
 
     tab_dict = {
         "Home": home,
