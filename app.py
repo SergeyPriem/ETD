@@ -341,10 +341,7 @@ def home_content():
     with home_cont:
         st.title(':orange[Electrical Department]')
 
-        u_df = st.session_state.adb["users"]
-        u_df = u_df.loc[u_df.login == st.session_state.user['login']]
-
-        username = f"{u_df.name.to_numpy()[0]} {u_df.surname.to_numpy()[0]}"
+        username = f"{st.session_state.user['name']} {st.session_state.user['surname']}"
         st.header(f'Welcome, {username}!')
 
         if st.session_state.logged:
@@ -966,8 +963,6 @@ def win_selector(selected):
 
         if st.session_state.selection_history[-2] == "Scripts" and st.session_state.selection_history[-1] != "Scripts":
             st.experimental_rerun()
-
-
 
     tab_dict = {
         "Home": home,
