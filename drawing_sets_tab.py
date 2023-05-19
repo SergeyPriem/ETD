@@ -123,7 +123,7 @@ def drawing_sets():
             c_c.text('')
             trans_num = c_c.selectbox("New Transmittal Number", trans_list)
             c_c.text_area("Notes (existing)", value=old_notes, max_chars=1500, height=127, disabled=True)
-            notes = l_c.text_input("Notes (add new one)", max_chars=250)
+            notes = r_c.text_input("Notes (add new one)", max_chars=250)
             if st.session_state.user['access_level'] in ['admin', 'super', 'dev']:
                 r_c.text('')
                 r_c.text('')
