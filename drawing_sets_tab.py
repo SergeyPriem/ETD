@@ -102,28 +102,27 @@ def drawing_sets():
         trans_list.insert(0, 'Not required')
 
         with st.form("edit-unit_details"):
-            l_c, r_c = st.columns(2, gap='medium')
+            l_c, c_c, r_c = st.columns(3, gap='medium')
             coord = l_c.selectbox("Coordinator", all_logins,
                                   index=get_list_index(all_logins, old_coord))
-            perf = l_c.selectbox("Performer", all_logins,
+            perf = c_c.selectbox("Performer", all_logins,
                                  index=get_list_index(all_logins, old_perf))
-            with l_c:
-                lc, rc = st.columns(2, gap='medium')
-                rev_min = lc.selectbox("Revision (earliest)", sod_revisions,
-                                       index=get_list_index(sod_revisions, old_rev))
 
-                rev_max = rc.selectbox("Revision (most recent)", sod_revisions,
-                                       index=get_list_index(sod_revisions, old_rev))
+            rev_min = l_c.selectbox("Revision (earliest)", sod_revisions,
+                                   index=get_list_index(sod_revisions, old_rev))
 
-                status = l_c.selectbox('Status', sod_statuses,
-                                       index=get_list_index(sod_statuses, old_status))
+            rev_max = c_c.selectbox("Revision (most recent)", sod_revisions,
+                                   index=get_list_index(sod_revisions, old_rev))
 
-            r_c.text('')
-            r_c.text('')
-            upd_trans_chb = r_c.checkbox("Add Transmittal")
-            r_c.text('')
-            trans_num = r_c.selectbox("New Transmittal Number", trans_list)
-            r_c.text_area("Notes (existing)", value=old_notes, max_chars=1500, height=127, disabled=True)
+            status = r_c.selectbox('Status', sod_statuses,
+                                   index=get_list_index(sod_statuses, old_status))
+
+            l_c.text('')
+            l_c.text('')
+            upd_trans_chb = l_c.checkbox("Add Transmittal")
+            c_c.text('')
+            trans_num = c_c.selectbox("New Transmittal Number", trans_list)
+            c_c.text_area("Notes (existing)", value=old_notes, max_chars=1500, height=127, disabled=True)
             notes = l_c.text_input("Notes (add new one)", max_chars=250)
             if st.session_state.user['access_level'] in ['admin', 'super', 'dev']:
                 r_c.text('')
