@@ -99,8 +99,11 @@ def drawing_sets():
 
         old_rev = df_edit.revision.to_numpy()[0].split(" - ")
 
-        if len(old_rev) != 2:
-            old_rev = [old_rev, old_rev]
+        try:
+            if len(old_rev) != 2:
+                old_rev = [old_rev[0], old_rev[0]]
+        except:
+            old_rev = ['R1', 'R1']
 
         old_status = df_edit.status.to_numpy()[0]
         old_notes = df_edit.notes.to_numpy()[0]
