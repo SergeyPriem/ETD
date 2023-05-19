@@ -71,16 +71,16 @@ def settings_content():
 
                 delay_time = l_f.radio('Time between requests, s.', ("Turn Off", 5, 7, 10, 15),
                                        index=get_list_index(("Turn Off", 5, 7, 10, 15),
-                                                            st.session_state.refresh_delay), horizontal=True)
+                                                            st.session_state.user['refresh_delay']), horizontal=True)
                 r_f.write('')
 
                 appl_upd_set_but = r_f.form_submit_button('Apply New Settings', use_container_width=True)
 
             if appl_upd_set_but:
                 if delay_time == "Turn Off":
-                    st.session_state.refresh_delay = 3600
+                    st.session_state.user['refresh_delay'] = 3600
                 else:
-                    st.session_state.refresh_delay = int(delay_time)
+                    st.session_state.user['refresh_delay'] = int(delay_time)
 
                 reply = update_refresh_delay()
                 st.success(reply)

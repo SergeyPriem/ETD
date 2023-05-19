@@ -204,8 +204,8 @@ def create_states():
     if 'disable_add_task' not in st.session_state:
         st.session_state.disable_add_task = True
 
-    if 'refresh_delay' not in st.session_state:
-        st.session_state.refresh_delay = 7
+    if 'temp_refresh_delay' not in st.session_state:
+        st.session_state.temp_refresh_delay = 7
 
     if 'r_now' not in st.session_state:
         st.session_state.r_now = datetime.datetime.now()
@@ -950,10 +950,10 @@ def win_selector(selected):
     if selected != "Refresh":
         st.session_state.selected = selected
 
-    # if selected == "Scripts":
-    #     st.session_state.refresh_delay = 3600
-    # else:
-    #     st.session_state.refresh_delay = st.session_state.user['request_delay']
+    if selected == "Scripts":
+        st.session_state.temp_refresh_delay = 3600
+    else:
+        st.session_state.temp_refresh_delay = st.session_state.user['refresh_delay']
 
     tab_dict = {
         "Home": home,
@@ -1131,8 +1131,9 @@ def update_tables():
 
 
 def refresher():
+
     if isinstance(st.session_state.refresh_delay, int):
-        timer = st.session_state.refresh_delay
+        timer = st.session_state.temp_refresh_delay
     else:
         timer = 3600
 
