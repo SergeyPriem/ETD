@@ -198,18 +198,25 @@ def create_states():
         st.session_state.new_state = reply
 
     if 'user' not in st.session_state:
-        st.session_state.user = {
-            'id': None,
-            'login': None,
-            'name': None,
-            'surname': None,
-            'position': None,
-            'vert_menu': 1,
-            'script_acc': 0,
-            'access_level': 'prohibited',
-            'status': 'former',
-            'tg_id': None,
-        }
+        st.session_state.user = None
+
+        # {
+        #     "login": "sergey.priemshiy",
+        #     "email": "sergey.priemshiy@uzliti-en.com",
+        #     "name": "Serhii",
+        #     "surname": "Pryiemshyi",
+        #     "position": "Dep. Head",
+        #     "branch": "UzLITI Engineering",
+        #     "phone": "+998909598030",
+        #     "telegram": "+998909598030",
+        #     "vert_menu": 1,
+        #     "refresh_delay": 3600,
+        #     "script_acc": 1,
+        #     "access_level": "dev",
+        #     "status": "current",
+        #     "start_date": "datetime.date(2017, 10, 17)",
+        #     "tg_id": "387022717"
+        # }
 
     if 'disable_add_task' not in st.session_state:
         st.session_state.disable_add_task = True
@@ -588,13 +595,13 @@ def login_register():
 
                             cur_user_df = u_df[u_df.login == login]
 
+                            cur_user_df = cur_user_df.drop(columns=['patronymic', 'hashed_pass', 'end_date'])
+
                             current_user = cur_user_df.to_dict('records')
 
                             st.write(current_user)
 
-                            st.stop() ####
-
-                            st.session_state.user['access_level'] = u_df.loc[u_df.login == login, 'access_level'].to_numpy()[0]
+                            st.session_state.user = current_user
 
                             reply = add_to_log(login)
 
