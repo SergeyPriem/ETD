@@ -182,7 +182,7 @@ def create_states():
     if 'new_state' not in st.session_state:
         st.session_state.new_state = reply
 
-    if 'selection_prev_value' not in st.session_state:
+    if 'selection_history' not in st.session_state:
         st.session_state.selection_history = []
 
     if 'user' not in st.session_state:
@@ -949,7 +949,6 @@ def home():
 
 # @lru_cache(15)
 def win_selector(selected):
-
     st.session_state.selection_history.append(selected)
 
     if selected != "Refresh":
@@ -960,7 +959,7 @@ def win_selector(selected):
     else:
         st.session_state.temp_refresh_delay = st.session_state.user['refresh_delay']
 
-    st.subheader(f"Histoty: {st.session_state.selection_history}")
+    st.subheader(f"History: {st.session_state.selection_history}")
 
     if len(st.session_state.selection_history) > 1:
         if st.session_state.selection_history[-2] == "Scripts" and st.session_state.selection_history[-1] != "Scripts":
