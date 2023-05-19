@@ -125,7 +125,7 @@ def drawing_sets():
 
             l_c.text('')
             upd_trans_chb = l_c.checkbox("Add Transmittal")
-            l_c.text('')
+
 
             trans_num = c_c.selectbox("New Transmittal Number", trans_list)
             notes = r_c.text_input("Notes (add new one)", max_chars=250)
@@ -138,11 +138,12 @@ def drawing_sets():
                 check_disabled =True
                 button_label = "Update Unit Details"
 
-            l_c.text('')
+            c_c.text('')
             request_chb = c_c.checkbox('Request for Update', disabled=check_disabled)
 
+            l_c.text('')
             l_c.text_area(label="Transmittals' History", value=old_trans)
-            c_c.text('')
+
             c_c.text('')
             upd_unit_but = c_c.form_submit_button(label=button_label, use_container_width=True)
 
