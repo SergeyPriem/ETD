@@ -94,7 +94,7 @@ def transmittals_content():
                 trans_date = lc.date_input("Transmittal Date")
                 author = lc.text_input('Originator of the Transmittal', max_chars=50)
 
-                add_trans_but = lc.form_submit_button("Preview Transmittal's Data", use_container_width=True)
+                add_trans_but = st.form_submit_button("Preview Transmittal's Data", use_container_width=True)
 
             if add_trans_but:
                 if project != '-- Type right here or select from list --':
@@ -165,7 +165,7 @@ def transmittals_content():
                 status = "Open"
                 in_out = "In"
 
-            if st.button('Add to DataBase'):
+            if st.button('Add to DataBase', use_container_width=True):
 
                 trans_checker = check_trans_data(project, trans_num, t_type, subj, link, author, responsible, status)
 
