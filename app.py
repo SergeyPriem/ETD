@@ -588,7 +588,7 @@ def login_register():
 
                             cur_user_df = u_df[u_df.login == login]
 
-                            current_user = cur_user_df.to_dict('index')
+                            current_user = cur_user_df.to_dict('records')
 
                             st.write(current_user)
 
