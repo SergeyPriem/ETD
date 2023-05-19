@@ -843,7 +843,6 @@ def add_gen_data(msp, loads_df, loads_df_new, point, max_sc, peak_sc):
 
 def scripts_tab():
 
-    dxf_template = None
     COS_START = 0.4
     # K_START = 1
     SIN_START = math.sin(math.acos(COS_START))
@@ -874,7 +873,7 @@ def scripts_tab():
             </style>
             """, unsafe_allow_html=True)
 
-        st.title(':orange[Create SLD from Load List] - under Development')
+        st.title(':orange[Create SLD from Load List]')
         st.divider()
 
         if st.session_state.user['script_acc']:
