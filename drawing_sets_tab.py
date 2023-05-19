@@ -35,7 +35,7 @@ def drawing_sets():
 
         if my_all == "My Units":
 
-            user_id = u_df.loc[u_df.login == st.session_state.user['login']].index.to_numpy()[0]
+            user_id = st.session_state.user['id']
             sod_df = sod_df[(sod_df.coord_id == user_id) | (sod_df.perf_id == user_id)]
 
         sod_df.loc[:, 'unit_id'] = sod_df.index
@@ -512,7 +512,7 @@ def manage_units():
                     receiver = u_df.loc[u_df.login == coordinator, 'email'].to_numpy()[0]
                     cc_rec = u_df.loc[u_df.login == performer, 'email'].to_numpy()[0]
 
-                    cur_user_email = u_df.loc[u_df.login == st.session_state.user['login'], 'email'].to_numpy()[0]
+                    cur_user_email = st.session_state.user['email']
 
                     subj = f"{proj_short}: {unit_name}. New Unit | Новый комплект чертежей"
 

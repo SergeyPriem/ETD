@@ -3,7 +3,7 @@
 import streamlit as st
 
 from models import Task
-from utilities import get_cur_u_id, center_style, update_state
+from utilities import center_style, update_state
 from projects import add_in_to_db, add_out_to_db, get_table
 from send_emails import send_mail
 
@@ -283,10 +283,8 @@ def view_tasks(ass_tab2, my_all):
         df = df[['project', 'unit', 'stage', 'in_out', 'date', 'speciality', 'description', 'link',
                  'backup_copy', 'source', 'coord_log', 'perf_log', 'comment', 'added_by', 'coord_id', 'perf_id']]
 
-        u_id = get_cur_u_id()
-
         if my_all == 'My':
-            df = df[(df.coord_id == u_id) | (df.perf_id == u_id)]
+            df = df[(df.coord_id == st.session_state.user['id']) | (df.perf_id == st.session_state.user['id'])]
 
         df_orig = df.copy()
 

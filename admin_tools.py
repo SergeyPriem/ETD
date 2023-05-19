@@ -2,9 +2,8 @@
 
 
 import streamlit as st
-from models import Project
 from utilities import proj_statuses, center_style, get_list_index, update_state
-from projects import create_project, get_table, update_projects
+from projects import create_project, update_projects
 
 from send_emails import send_mail
 
@@ -210,8 +209,6 @@ def manage_projects():
         with viewer_tab:
 
             proj_df = st.session_state.adb['project']
-            # sod_df = st.session_state.adb['sod']
-            # task_df = st.session_state.adb['task']
             u_df = st.session_state.adb['users']
 
             proj_df = proj_df.merge(u_df.login, how='left', left_on='responsible_el', right_on='id')

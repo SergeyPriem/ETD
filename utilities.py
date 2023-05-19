@@ -70,13 +70,6 @@ def center_style():
         """, unsafe_allow_html=True)
 
 
-def get_cur_u_id():
-    u_df = st.session_state.adb['users']
-    u_id = u_df[u_df.login == st.session_state.user['login']].index.to_numpy()[0]
-
-    return u_id
-
-
 def mail_to_name(mail):
     try:
         head = mail.split("@")[0]
@@ -162,7 +155,6 @@ def update_state(tab_name: str):
     else:
         # st.title("Wrong Data Format")
         return "Wrong Data Format"
-
 
 
 def err_handler(e):

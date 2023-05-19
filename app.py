@@ -2,8 +2,6 @@
 import datetime
 import os
 import random
-import time
-
 import pandas as pd
 import streamlit as st
 from PIL import Image
@@ -24,7 +22,7 @@ from tasks_tab import tasks_content
 from transmittals_tab import transmittals_content
 from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, register_user, \
     err_handler
-from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, get_cur_u_id,\
+from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, \
     center_style, get_state, set_init_state, update_state
 
 # import openpyxl
@@ -34,7 +32,7 @@ st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
 
 def home_tasks():
     # st.session_state.temp_log.append('home_tasks')
-    u_id = get_cur_u_id()
+    u_id = st.session_state.user['id']
     task_df = st.session_state.adb['task']
     sod_df = st.session_state.adb['sod']
     proj_df = st.session_state.adb['project']
@@ -68,15 +66,13 @@ def home_tasks():
 
 
 def home_trans():
-    # st.session_state.temp_log.append('home_trans')
-    u_id = get_cur_u_id()
     trans_df = st.session_state.adb['trans']
 
     proj_df = st.session_state.adb['project']
     u_df = st.session_state.adb['users']
 
     trans_df = trans_df[
-        (trans_df.responsible == u_id)
+        (trans_df.responsible == st.session_state.user['id'])
         & (trans_df.status != "Closed")
         & (trans_df.status != "Issued Docs")]
 
@@ -344,6 +340,7 @@ def home_content():
 
         u_df = st.session_state.adb["users"]
         u_df = u_df.loc[u_df.login == st.session_state.user['login']]
+
         username = f"{u_df.name.to_numpy()[0]} {u_df.surname.to_numpy()[0]}"
         st.header(f'Welcome, {username}!')
 
@@ -587,9 +584,6 @@ def login_register():
                             st.session_state.user = cur_user_df.to_dict('records')[0]
                             st.session_state.user['id'] = int(cur_user_df.index.to_numpy()[0])
 
-                            st.write(st.session_state.user)
-
-                            time.sleep(10)
                             reply = add_to_log(login)
 
                             if 'ERROR' in reply:

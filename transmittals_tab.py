@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
 import streamlit as st
-from utilities import trans_types, get_cur_u_id, center_style, update_state
+from utilities import trans_types, center_style, update_state
 from projects import add_new_trans
 
 
@@ -31,14 +31,13 @@ def check_trans_data(project, trans_num, t_type, subj, link,
 
 
 def det_trans_from_df(login=None):
-    u_id = get_cur_u_id()
     trans_df = st.session_state.adb['trans']
 
     proj_df = st.session_state.adb['project']
     u_df = st.session_state.adb['users']
 
     if login:
-        trans_df = trans_df[trans_df.responsible == u_id]
+        trans_df = trans_df[trans_df.responsible == st.session_state.user['id']]
 
     trans_df = trans_df.merge(proj_df[['short_name']], how='left', left_on="project", right_on='id')
     trans_df = trans_df.merge(u_df[['login']], how='left', left_on="responsible", right_on='id')
