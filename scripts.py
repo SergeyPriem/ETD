@@ -882,12 +882,12 @@ def scripts_tab():
 
             p_l, p_c, p_r = st.columns(3, gap='medium')
 
-            load_list = p_l.file_uploader("LOAD LIST", type=['xlsx', 'xlsb'],
+            load_list = p_l.file_uploader("LOAD LIST", type=['xlsx'],
                                           accept_multiple_files=False, key=None,
                                           help=None, on_change=None, args=None,
                                           kwargs=None, disabled=False, label_visibility="visible")
 
-            cab_data = p_c.file_uploader("CABLE CATALOG", type=['xlsx', 'xlsb'],
+            cab_data = p_c.file_uploader("CABLE CATALOG", type=['xlsx'],
                                          accept_multiple_files=False, key=None,
                                          help=None, on_change=None, args=None,
                                          kwargs=None, disabled=False, label_visibility="visible")
