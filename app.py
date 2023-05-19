@@ -726,9 +726,9 @@ def manage_users():
     with users_content:
         st.title(':orange[Users]')
 
-        users_tab1, users_tab2, users_tab3 = st.tabs(['Add New User', 'Edit User Details', 'View All Users'])
+        add_tab1, edit_tab2, view_tab3 = st.tabs(['Add New User', 'Edit User Details', 'View All Users'])
 
-        with users_tab1:
+        with add_tab1:
             with st.form("Add_new_user"):
                 user_email = st.text_input('Email')
                 user_position = st.radio('Position', positions, horizontal=True)
@@ -793,13 +793,15 @@ def manage_users():
                 else:
                     lc.warning(reply['message'])
 
-        with users_tab2:
+        with edit_tab2:
 
             u_df = st.session_state.adb['users']
 
             list_appl_users = u_df.login.tolist()
 
-            employee_to_edit = st.selectbox('Select User', list_appl_users)
+            lc, rc = st.columns(2, gap='medium')
+            employee_to_edit = lc.selectbox('Select User', list_appl_users)
+            rc.text_input('Selected User', disabled=True)
             edit_move = st.radio('Action', ('Edit', 'Move to Former Users'), horizontal=True)
 
             if edit_move == 'Edit':
@@ -854,7 +856,7 @@ def manage_users():
                     st.info(reply)
                     st.session_state.adb['users'] = get_table(Users)
 
-        with users_tab3:
+        with view_tab3:
             u_df = st.session_state.adb['users']
             u_df = u_df.drop(columns=['hashed_pass'])
             st.experimental_data_editor(u_df, use_container_width=True, height=1500)
