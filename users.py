@@ -165,7 +165,8 @@ def register_user(name, surname, phone, telegram, login, password):
             user_to_reg.telegram = telegram
             user_to_reg.hashed_pass = hashed_password
             user_to_reg.vert_menu = 1
-            user_to_reg.delay_set = 1
+            user_to_reg.refresh_delay = 7
+            user_to_reg.script_acc = 0
             return f"New User {user_to_reg.name} {user_to_reg.surname} Registered Successfully"
         except Exception as e:
             return err_handler(e)
