@@ -877,11 +877,7 @@ def scripts_tab():
         st.title(':orange[Create SLD from Load List] - under Development')
         st.divider()
 
-        u_df = st.session_state.adb['users']
-
-        user_script_acc = u_df.loc[u_df.login == st.session_state.user['login'], 'script_acc'].to_numpy()[0]
-
-        if user_script_acc:
+        if st.session_state.user['script_acc']:
 
             loads_df = pd.DataFrame()
 
@@ -982,13 +978,6 @@ def scripts_tab():
                         lo_df = st.session_state.loads_df
 
                     dxf_temp_file = save_uploaded_file(dxf_template)
-
-                    # with os.scandir('temp_dxf/') as entries:
-                    #     for entry in entries:
-                    #         st.info(entry.name)
-                    #
-                    # if os.path.exists(f'temp_dxf/{dxf_temp_file}'):
-                    #     st.success(f'temp_dxf/{dxf_temp_file} is Exist!')
 
                     try:
                         doc = ezdxf.readfile(f'temp_dxf/{dxf_temp_file}')

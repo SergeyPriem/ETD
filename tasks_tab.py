@@ -226,7 +226,11 @@ def add_task(task_content):
                                 if reply == 200:
                                     st.write(f"Notifications sent by emails: {perf_email}, {coord_email}")
                                     st.divider()
-                                    update_state('task')
+                                    reply3 = update_state('task')
+
+                                    if reply3 != 'Data is updated':
+                                        st.warning(reply3)
+                                        st.stop()
                                 else:
                                     st.warning(reply)
                             else:
@@ -244,7 +248,11 @@ def add_task(task_content):
                             else:
                                 st.info(reply)
 
-                            update_state('task')
+                            reply3 = update_state('task')
+
+                            if reply3 != 'Data is updated':
+                                st.warning(reply3)
+                                st.stop()
 
                             st.divider()
                 st.session_state.task_preview = False

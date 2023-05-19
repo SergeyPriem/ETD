@@ -140,8 +140,7 @@ def update_state(tab_name: str):
                 new_id = int(data['id']) + 1
 
             except Exception as e:
-
-                st.title(f"Can't open file{err_handler(e)}")
+                # st.title(f"Can't open file{err_handler(e)}")
                 return f"Can't open file{err_handler(e)}"
 
             new_data = {
@@ -152,16 +151,16 @@ def update_state(tab_name: str):
             try:
                 with open("temp_dxf/state.json", "w", encoding="utf-8") as f:
                     json.dump(new_data, f)
-                st.title('Data is updated')
+                # st.title('Data is updated')
                 return 'Data is updated'
             except Exception as e:
-                st.title(f"Can't save file{err_handler(e)}")
+                # st.title(f"Can't save file{err_handler(e)}")
                 return f"Can't save file{err_handler(e)}"
         else:
-            st.title("File not found")
+            # st.title("File not found")
             return "File not found"
     else:
-        st.title("Wrong Data Format")
+        # st.title("Wrong Data Format")
         return "Wrong Data Format"
 
 

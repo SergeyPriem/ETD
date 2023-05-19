@@ -175,7 +175,11 @@ def transmittals_content():
                                           reply_date, author, responsible, notes, status, in_out)
                     st.info(reply)
 
-                    update_state('trans')
+                    reply3 = update_state('trans')
+
+                    if reply3 != 'Data is updated':
+                        st.warning(reply3)
+                        st.stop()
 
                 else:
                     st.warning("Please Update fields properly...")
@@ -188,9 +192,6 @@ def transmittals_content():
             else:
                 user_login = None
 
-            # u_id = get_cur_u_id()
-
-            # df = get_trans_for_preview(user_login)
             df = det_trans_from_df(user_login)
 
             if isinstance(df, pd.DataFrame):

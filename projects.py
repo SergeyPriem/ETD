@@ -412,8 +412,6 @@ def update_projects(proj_id, short_name, full_name, client, manager, responsible
             proj_for_upd.mdr = mdr
             proj_for_upd.notes = notes
 
-            Condition(table_name='proj', user_login=st.session_state.user['login'])
-
             return {"status": 201,
                     # "updated_projects": tab_to_df(proj),
                     "err_descr": None
@@ -614,8 +612,6 @@ def confirm_trans(trans_num):
             received_value = f"{prev_record}<{st.session_state.user['login']}*{str(datetime.now())[:-10]}>"
             tr.received = received_value.replace('None', '')
             st.session_state.adb['trans'] = get_table(Trans)
-
-            Condition(table_name='trans', user_login=st.session_state.user['login'])
 
         except Exception as e:
             return err_handler(e)

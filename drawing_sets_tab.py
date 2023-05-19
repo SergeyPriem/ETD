@@ -34,8 +34,8 @@ def drawing_sets():
                                  horizontal=True, label_visibility='collapsed')
 
         if my_all == "My Units":
-            user_login = st.session_state.user['login']
-            user_id = u_df.loc[u_df.login == user_login].index.to_numpy()[0]
+
+            user_id = u_df.loc[u_df.login == st.session_state.user['login']].index.to_numpy()[0]
             sod_df = sod_df[(sod_df.coord_id == user_id) | (sod_df.perf_id == user_id)]
 
         sod_df.loc[:, 'unit_id'] = sod_df.index
@@ -208,7 +208,11 @@ def drawing_sets():
                     if reply2 == 200:
                         rc.success(f'Informational e-mail was sent to {coord_email}, {perf_email}')
 
-                        update_state('sod')
+                        reply3 = update_state('sod')
+
+                        if reply3 != 'Data is updated':
+                            st.warning(reply3)
+                            st.stop()
                 else:
                     st.warning(reply['err_descr'])
 
@@ -543,7 +547,11 @@ def manage_units():
                     if reply_2 == 200:
                         res_r.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
 
-                    update_state('sod')
+                    reply3 = update_state('sod')
+
+                    if reply3 != 'Data is updated':
+                        st.warning(reply3)
+                        st.stop()
 
                 else:
                     st.warning(reply['err_descr'])
@@ -634,7 +642,11 @@ def manage_units():
                     if reply2 == 200:
                         r_rep.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
 
-                    update_state('sod')
+                    reply3 = update_state('sod')
+
+                    if reply3 != 'Data is updated':
+                        st.warning(reply3)
+                        st.stop()
                 else:
                     st.warning(reply['err_descr'])
 

@@ -73,8 +73,13 @@ def manage_projects():
 
                 if 'is added to DataBase' in reply:
                     st.info(reply)
-                    # st.session_state.adb['project'] = get_table(Project)
-                    update_state('proj')
+
+                    reply3 = update_state('proj')
+
+                    if reply3 != 'Data is updated':
+                        st.warning(reply3)
+                        st.stop()
+
                 else:
                     st.warning(reply)
                     st.stop()
@@ -188,7 +193,11 @@ def manage_projects():
                         if reply2 == 200:
                             r_rep.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
 
-                            update_state('proj')
+                            reply3 = update_state('proj')
+
+                            if reply3 != 'Data is updated':
+                                st.warning(reply3)
+                                st.stop()
 
                         else:
                             r_rep.warning(reply2)

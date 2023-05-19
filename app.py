@@ -199,6 +199,7 @@ def create_states():
 
     if 'user' not in st.session_state:
         st.session_state.user = {
+            'id': None,
             'login': None,
             'name': None,
             'surname': None,
@@ -321,8 +322,12 @@ def form_for_trans():
                 st.success(reply)
                 # time.sleep(1)
                 st.session_state.trans_status['trans_num'] = None
-                # st.session_state.adb['trans'] = get_table(Trans)
-                update_state('trans')
+
+                reply3 = update_state('trans')
+
+                if reply3 != 'Data is updated':
+                    st.warning(reply3)
+                    st.stop()
                 st.experimental_rerun()
             else:
                 st.warning(reply)
@@ -580,10 +585,17 @@ def login_register():
                             st.session_state.logged = True
                             st.session_state.user['login'] = login
                             u_df = st.session_state.adb['users']
-                            st.session_state.user['access_level'] = u_df.loc[
-                                u_df.login == login, 'access_level'].to_numpy()[0]
-                            # st.session_state.rights = u_df.loc[
-                            #     u_df.login == login, 'access_level'].to_numpy()[0]
+
+                            cur_user_df = u_df[u_df.login == login]
+
+                            current_user = cur_user_df.to_dict()
+
+                            st.write(current_user)
+
+                            st.stop() ####
+
+                            st.session_state.user['access_level'] = u_df.loc[u_df.login == login, 'access_level'].to_numpy()[0]
+
                             reply = add_to_log(login)
 
                             if 'ERROR' in reply.upper():
