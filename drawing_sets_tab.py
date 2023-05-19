@@ -34,7 +34,6 @@ def drawing_sets():
                                  horizontal=True, label_visibility='collapsed')
 
         if my_all == "My Units":
-
             user_id = st.session_state.user['id']
             sod_df = sod_df[(sod_df.coord_id == user_id) | (sod_df.perf_id == user_id)]
 
@@ -108,10 +107,16 @@ def drawing_sets():
                                   index=get_list_index(all_logins, old_coord))
             perf = l_c.selectbox("Performer", all_logins,
                                  index=get_list_index(all_logins, old_perf))
-            rev = l_c.selectbox("Revision", sod_revisions,
-                                index=get_list_index(sod_revisions, old_rev))
-            status = l_c.selectbox('Status', sod_statuses,
-                                   index=get_list_index(sod_statuses, old_status))
+            with l_c:
+                lc, rc = st.columns(2, gap='medium')
+                rev_min = lc.selectbox("Revision (earliest)", sod_revisions,
+                                       index=get_list_index(sod_revisions, old_rev))
+
+                rev_max = rc.selectbox("Revision (most recent)", sod_revisions,
+                                       index=get_list_index(sod_revisions, old_rev))
+
+                status = l_c.selectbox('Status', sod_statuses,
+                                       index=get_list_index(sod_statuses, old_status))
 
             r_c.text('')
             r_c.text('')
@@ -133,6 +138,7 @@ def drawing_sets():
                 upd_unit_but = r_c.form_submit_button("Update Unit Details", use_container_width=True)
 
         if upd_unit_but:
+            rev = f"{rev_min} - {rev_max}"
             if not request_chb:
                 if all([
                     old_coord == coord,
