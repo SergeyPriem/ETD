@@ -351,7 +351,7 @@ def drawing_sets():
                                                              disabled=False)
 
                 with but_col:
-                    request_chb = st.button('Create Request')
+                    request_chb = st.checkbox('Create Request')
 
                 with request_col:
                     if request_chb:
