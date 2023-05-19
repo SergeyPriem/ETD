@@ -960,11 +960,13 @@ def win_selector(selected):
     else:
         st.session_state.temp_refresh_delay = st.session_state.user['refresh_delay']
 
+    st.subheader(f"Histoty: {st.session_state.selection_history}")
+
     if len(st.session_state.selection_history) > 1:
         if st.session_state.selection_history[-2] == "Scripts" and st.session_state.selection_history[-1] != "Scripts":
 
             st.title(f"Was {st.session_state.selection_history[-2]} Became {st.session_state.selection_history[-1]}")
-            st.subheader(f"Histoty: {st.session_state.selection_history}")
+
 
             st.experimental_rerun()
 
