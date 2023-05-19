@@ -104,7 +104,7 @@ def drawing_sets():
 
         old_status = df_edit.status.to_numpy()[0]
         old_notes = df_edit.notes.to_numpy()[0]
-        old_trans = df_edit.trans_num.to_numpy()[0]
+        old_trans = df_edit.transmittal.to_numpy()[0]
         trans_list.insert(0, 'Not required')
 
         with st.form("edit-unit_details"):
