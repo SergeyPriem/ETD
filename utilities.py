@@ -112,7 +112,7 @@ def set_init_state(data=None):
                 "sod": {"id": 1, "user": None},
                 "trans": {"id": 1, "user": None},
                 "proj": {"id": 1, "user": None},
-                "units": {"id": 1, "user": None},
+                "task": {"id": 1, "user": None},
             }
             try:
                 with open("temp_dxf/state.json", "w", encoding="utf-8") as f:

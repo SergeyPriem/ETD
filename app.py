@@ -181,7 +181,7 @@ def create_states():
                     "sod": {"id": 1, "user": None},
                     "trans": {"id": 1, "user": None},
                     "proj": {"id": 1, "user": None},
-                    "units": {"id": 1, "user": None},
+                    "task": {"id": 1, "user": None},
                     }
                 )
 
