@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import copy
+
 import datetime
 import os
 import random
@@ -109,16 +109,6 @@ def show_sidebar_info():
                 st.sidebar.markdown(f"<h2 style='text-align: center; color: #fcf403;'>{delta} ms</h2>",
                                     unsafe_allow_html=True)
 
-            # for table in ('sod', 'task', 'trans', 'project'):
-            #     if st.session_state.local_marker[table]['id'] != st.session_state.new_state[table]['id']:
-            #
-            #         but_name = f"Table {table} " \
-            #                    f"Updated by {st.session_state.new_state[table]['user']} \n" \
-            #                    f"... Hit here to Update"
-            #
-            #         if st.sidebar.checkbox(label=but_name, key='horiz_update'):
-            #             update_tables()
-
 
 # @lru_cache(128)
 def get_menus(rights):
@@ -190,7 +180,6 @@ def create_states():
             reply = get_state()
 
         st.session_state.local_marker = reply
-
 
     if 'new_state' not in st.session_state:
         st.session_state.new_state = reply
@@ -1129,46 +1118,12 @@ def update_tables():
 
                 st.sidebar.success(f"Table {table} updated by {upd_login}")
 
-                st.session_state.local_marker[table]['id'] = st.session_state.new_state[table]['id']
-                time.sleep(15)
+                if st.session_state.user['access_level'] == 'dev':
+                    st.session_state.local_marker[table]['id'] = st.session_state.new_state[table]['id']
+                    time.sleep(2)
                 st.experimental_rerun()
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
-
-
-
-
-
-
-        # if upd_table == 'proj':
-        #     reply = get_proj_repeat()
-        #     if reply['status'] == 200:
-        #         st.session_state.adb['project'] = reply['proj']
-        #         st.session_state.refresh_status = f'Projects Updated by {upd_login}'
-        #     else:
-        #         st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
-        #
-        # if upd_table == 'task':
-        #     reply = get_tasks_repeat()
-        #     if reply['status'] == 200:
-        #         st.session_state.adb['task'] = reply['task']
-        #         st.session_state.refresh_status = f'Tasks Updated by {upd_login}'
-        #     else:
-        #         st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
-        #
-        # if upd_table == 'trans':
-        #     reply = get_trans_repeat()
-        #     if reply['status'] == 200:
-        #         st.session_state.adb['trans'] = reply['trans']
-        #         st.session_state.refresh_status = f'Transmittals Updated by {upd_login}'
-        #     else:
-        #         st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
-
-
-        # if upd_table:
-        # st.session_state.local_marker = st.session_state.new_state['id']
-
-    #
 
 
 def refresher():
@@ -1188,7 +1143,7 @@ def refresher():
 if __name__ == "__main__":
     create_states()
     # st.write(f"count: {st.session_state.count}")
-    st.write(f"New state: {st.session_state.new_state}")
+    # st.write(f"New state: {st.session_state.new_state}")
     # st.write(f"Local Marker: {st.session_state.local_marker}")
     st.session_state.r_now = datetime.datetime.now()
     refresher()
