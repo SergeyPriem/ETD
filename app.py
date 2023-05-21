@@ -107,14 +107,15 @@ def show_sidebar_info():
                 st.sidebar.markdown(f"<h2 style='text-align: center; color: #fcf403;'>{delta} ms</h2>",
                                     unsafe_allow_html=True)
 
-            if st.session_state.local_marker != st.session_state.new_state['id']:
+            for table in ('sod', 'task', 'trans', 'proj'):
+                if st.session_state.local_marker[table]['id'] != st.session_state.new_state[table]['id']:
 
-                but_name = f"Table {st.session_state.new_state['table']} " \
-                           f"Updated by {st.session_state.new_state['user']} \n" \
-                           f"... Hit here to Update"
+                    but_name = f"Table {st.session_state.new_state['table']} " \
+                               f"Updated by {st.session_state.new_state['user']} \n" \
+                               f"... Hit here to Update"
 
-                if st.sidebar.button(label=but_name, key='vert_update', type='primary', use_container_width=True):
-                    update_tables()
+                    if st.sidebar.checkbox(label=but_name, key='horiz_update', type='primary', use_container_width=True):
+                        update_tables()
 
 
 # @lru_cache(128)
@@ -1018,15 +1019,15 @@ def prepare_menus(menu, icons, vert_menu):
                                menu_icon=None,
                                orientation='horizontal')
 
-        if st.session_state.local_marker != st.session_state.new_state['id']:
+        for table in ('sod', 'task', 'trans', 'proj'):
+            if st.session_state.local_marker[table]['id'] != st.session_state.new_state[table]['id']:
 
+                but_name = f"Table {st.session_state.new_state['table']} " \
+                           f"Updated by {st.session_state.new_state['user']} \n" \
+                           f"... Hit here to Update"
 
-            but_name = f"Table {st.session_state.new_state['table']} " \
-                       f"Updated by {st.session_state.new_state['user']} \n" \
-                       f"... Hit here to Update"
-
-            if st.button(label=but_name, key='horiz_update', type='primary', use_container_width=True):
-                update_tables()
+                if st.checkbox(label=but_name, key='horiz_update', type='primary', use_container_width=True):
+                    update_tables()
 
     return selected
 
