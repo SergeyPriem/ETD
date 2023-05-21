@@ -1149,7 +1149,7 @@ def layout(*args):
 
     style_hr = styles(
         display="block",
-        margin=px(8, 8, "auto", "auto"),
+        margin=px(4, 4, "auto", "auto"),
         border_style="inset",
         border_width=px(0)
     )
@@ -1178,8 +1178,8 @@ def layout(*args):
 
 def footer():
     myargs = [
-        f"Made by Serhii Pryiemshyi   sergey.priemshiy@uzliti-en.com   Telegram: +998 90 959 80 30   "
-        f"Current Mode: '{st.session_state.proj_scope}'   Refresh Delay: {st.session_state.current_refresh_delay} s.",
+        f"Made by Serhii Pryiemshyi:__sergey.priemshiy@uzliti-en.com,__telegram: +998 90 959 80 30___________________"
+        f"Current Mode: '{st.session_state.proj_scope}'___________________Refresh Delay: {st.session_state.current_refresh_delay} s.",
     ]
     # myargs = [
     #     "Made in ",
