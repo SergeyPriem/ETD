@@ -252,9 +252,6 @@ def create_states():
         if state not in st.session_state:
             st.session_state[state] = False
 
-    # if 'temp_log' not in st.session_state:
-    # st.session_state.temp_log = []
-
 
 def update_trans_status(trans_num, trans_proj):
     st.session_state.trans_status = {
@@ -1179,18 +1176,18 @@ def layout(*args):
 def footer():
     myargs = [
         f"Made by Serhii Pryiemshyi"
-        f"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-        f"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+        f"&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp"
+        f"&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp"
         f"sergey.priemshiy@uzliti-en.com"
-        f"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-        f"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-        f"telegram: +998 90 959 80 30"
-        f"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-        f"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-        f"Current Mode: '{st.session_state.proj_scope}'"
-        f"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-        f"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-        f"Refresh Delay: {st.session_state.current_refresh_delay} s.",
+        f"&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp"
+        f"&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp"
+        f"telegram:&nbsp&nbsp+998 90 959 80 30"
+        f"&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp"
+        f"&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp"
+        f"Current Mode:&nbsp&nbsp'{st.session_state.proj_scope}'"
+        f"&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp"
+        f"&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp"
+        f"Refresh Delay:&nbsp&nbsp{st.session_state.current_refresh_delay} s.",
     ]
     # myargs = [
     #     "Made in ",
@@ -1214,7 +1211,8 @@ if __name__ == "__main__":
     initial()
     show_sidebar_info()
     update_tables()
-    footer()
+    if st.session_state.user['vert_menu'] == 0:
+        footer()
 
 
 
