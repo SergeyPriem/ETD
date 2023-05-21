@@ -1130,7 +1130,7 @@ def update_tables():
                 st.sidebar.success(f"Table {table} updated by {upd_login}")
 
                 st.session_state.local_marker[table]['id'] = st.session_state.new_state[table]['id']
-                time.sleep(1)
+                time.sleep(15)
                 st.experimental_rerun()
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
