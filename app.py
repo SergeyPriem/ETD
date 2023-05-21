@@ -955,9 +955,9 @@ def home():
 def win_selector(selected):
     st.session_state.selection_history.append(selected)
 
-    # if selected != "Refresh":
-    #     st.session_state.selected = selected
-    #
+    if selected != "Refresh":
+        st.session_state.selected = selected
+
     if selected in ("Scripts", "Refresh"):
         st.session_state.temp_refresh_delay = 36000
     else:
