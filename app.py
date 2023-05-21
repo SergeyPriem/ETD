@@ -3,6 +3,8 @@ import copy
 import datetime
 import os
 import random
+import time
+
 import pandas as pd
 import streamlit as st
 from PIL import Image
@@ -1126,7 +1128,7 @@ def update_tables():
                 st.success(f"Table {table} updated by {upd_login}")
 
                 st.session_state.local_marker[table]['id'] = st.session_state.new_state[table]['id']
-
+                time.sleep(1)
                 st.experimental_rerun()
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
