@@ -110,7 +110,7 @@ def show_sidebar_info():
             for table in ('sod', 'task', 'trans', 'proj'):
                 if st.session_state.local_marker[table]['id'] != st.session_state.new_state[table]['id']:
 
-                    but_name = f"Table {st.session_state.new_state['table']} " \
+                    but_name = f"Table {table} " \
                                f"Updated by {st.session_state.new_state['user']} \n" \
                                f"... Hit here to Update"
 
