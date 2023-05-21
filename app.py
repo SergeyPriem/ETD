@@ -1108,7 +1108,7 @@ def update_tables():
     for table in ('sod', 'task', 'trans', 'project'):
         if st.session_state.local_marker[table]['id'] != st.session_state.new_state[table]['id']:
             try:
-                upd_login = st.session_state.new_state['sod']['user']
+                upd_login = st.session_state.new_state[table]['user']
             except:
                 upd_login = None
 
