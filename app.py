@@ -955,11 +955,11 @@ def home():
 def win_selector(selected):
     st.session_state.selection_history.append(selected)
 
-    if selected != "Refresh":
-        st.session_state.selected = selected
-
-    if selected == "Scripts":
-        st.session_state.temp_refresh_delay = 3600
+    # if selected != "Refresh":
+    #     st.session_state.selected = selected
+    #
+    if selected in ("Scripts", "Refresh"):
+        st.session_state.temp_refresh_delay = 36000
     else:
         st.session_state.temp_refresh_delay = st.session_state.user['refresh_delay']
 
@@ -968,8 +968,9 @@ def win_selector(selected):
         if len(st.session_state.selection_history) > 3:
             del st.session_state.selection_history[:2]
 
-        if st.session_state.selection_history[-2] == "Scripts" and st.session_state.selection_history[-1] != "Scripts":
-            st.experimental_rerun()
+        for i in ("Scripts", "Refresh"):
+            if st.session_state.selection_history[-2] == i and st.session_state.selection_history[-1] != i:
+                st.experimental_rerun()
 
     tab_dict = {
         "Home": home,
@@ -1010,14 +1011,6 @@ def prepare_menus(menu, icons, vert_menu):
                                menu_icon=None,
                                orientation='horizontal')
 
-        # for table in ('sod', 'task', 'trans', 'project'):
-        #     if st.session_state.local_marker[table]['id'] != st.session_state.new_state[table]['id']:
-        #
-        #         but_name = f"Table {table} Updated by {st.session_state.new_state[table]['user']} \n" \
-        #                    f"... Hit here to Update"
-        #
-        #         if st.checkbox(label=but_name, key='horiz_update'):
-        #             update_tables()
 
     return selected
 
