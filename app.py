@@ -111,7 +111,7 @@ def show_sidebar_info():
                 if st.session_state.local_marker[table]['id'] != st.session_state.new_state[table]['id']:
 
                     but_name = f"Table {table} " \
-                               f"Updated by {st.session_state.new_state['table']['user']} \n" \
+                               f"Updated by {st.session_state.new_state[table]['user']} \n" \
                                f"... Hit here to Update"
 
                     if st.sidebar.checkbox(label=but_name, key='horiz_update', type='primary', use_container_width=True):
