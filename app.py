@@ -1141,7 +1141,7 @@ def layout(*args):
         bottom=0,
         margin=px(0, 0, 0, 0),
         width=percent(100),
-        color="blue",
+        color="#4272f5",
         text_align="center",
         height="auto",
         opacity=1
