@@ -107,15 +107,15 @@ def show_sidebar_info():
                 st.sidebar.markdown(f"<h2 style='text-align: center; color: #fcf403;'>{delta} ms</h2>",
                                     unsafe_allow_html=True)
 
-            # for table in ('sod', 'task', 'trans', 'proj'):
-            #     if st.session_state.local_marker[table]['id'] != st.session_state.new_state[table]['id']:
-            #
-            #         but_name = f"Table {table} " \
-            #                    f"Updated by {st.session_state.new_state['user']} \n" \
-            #                    f"... Hit here to Update"
-            #
-            #         if st.sidebar.checkbox(label=but_name, key='horiz_update', type='primary', use_container_width=True):
-            #             update_tables()
+            for table in ('sod', 'task', 'trans', 'proj'):
+                if st.session_state.local_marker[table]['id'] != st.session_state.new_state[table]['id']:
+
+                    but_name = f"Table {table} " \
+                               f"Updated by {st.session_state.new_state['user']} \n" \
+                               f"... Hit here to Update"
+
+                    if st.sidebar.checkbox(label=but_name, key='horiz_update', type='primary', use_container_width=True):
+                        update_tables()
 
 
 # @lru_cache(128)
