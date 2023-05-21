@@ -938,7 +938,7 @@ def del_file(lc, rc):
 
 
 def home():
-    # st.session_state.temp_log.append('home')
+
     if st.session_state.trans_status['trans_num']:
         form_for_trans()
     else:
@@ -1114,12 +1114,7 @@ def update_tables():
 
 def refresher():
 
-    if isinstance(st.session_state.temp_refresh_delay, int):
-        timer = st.session_state.temp_refresh_delay
-    else:
-        timer = 3600
-
-    count = st_autorefresh(interval=timer * 1000, limit=10000, key="fizzbuzzcounter")
+    count = st_autorefresh(interval=st.session_state.temp_refresh_delay * 1000, limit=10000, key="fizzbuzzcounter")
 
     if count != st.session_state.count:
         st.session_state.new_state = get_state()
