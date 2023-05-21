@@ -73,7 +73,7 @@ def manage_projects():
                 if 'is added to DataBase' in reply:
                     st.info(reply)
 
-                    reply3 = update_state('proj')
+                    reply3 = update_state('project')
 
                     if reply3 != 'Data is updated':
                         st.warning(reply3)
@@ -192,7 +192,7 @@ def manage_projects():
                         if reply2 == 200:
                             r_rep.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
 
-                            reply3 = update_state('proj')
+                            reply3 = update_state('project')
 
                             if reply3 != 'Data is updated':
                                 st.warning(reply3)
