@@ -1151,7 +1151,7 @@ def layout(*args):
         display="block",
         margin=px(8, 8, "auto", "auto"),
         border_style="inset",
-        border_width=px(2)
+        border_width=px(0)
     )
 
     body = p()
