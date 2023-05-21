@@ -869,18 +869,12 @@ def manage_users():
 
 def fresh_data():
     st.session_state.adb = get_all()
+    st.header("")
+    st.header("")
+    st.header("")
+    st.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>", unsafe_allow_html=True)
+    st.stop()
 
-    placeholder = st.empty()
-
-    with placeholder.container():
-        st.header("")
-        st.header("")
-        st.header("")
-        st.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>", unsafe_allow_html=True)
-
-    # time.sleep(1)
-    placeholder.empty()
-    win_selector(st.session_state.selected)
 
 
 def manage_storage():
