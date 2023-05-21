@@ -1121,6 +1121,8 @@ def update_tables():
 
             reply = reply_dict.get(table)()
 
+            st.write(reply)
+
             if reply['status'] == 200:
                 st.session_state.adb[table] = reply[table]
                 st.session_state.refresh_status = f'Units Updated by {upd_login}'
