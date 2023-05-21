@@ -857,12 +857,17 @@ def scripts_tab():
 
         center_style()
 
+        if st.session_state.user['script_acc'] == 0:
+            st.title(':red[Access Denied...]')
+            st.write('Request for Access by sergey.priemshiy@uzliti-en.com or by telegram +998 90 959 80 30')
+            st.stop()
+
         with st.expander("CREARE CABLE LIST AND SLD FROM LOAD LIST"):
-            st.title(':orange[Create SLD from Load List]')
+            st.title(':orange[Create Cable List & SLD from Load List]')
             st.divider()
             st.write("Please find required templates in folder below  👇 You can update SLD template "
                      "according to your Project Requirements, but keep blocks attributes' names")
-            st.code(r'\\uz-fs\Uzle\WORK\Отдел ЭЛ\01 Малая Автоматизация\Шаблоны')
+            st.code(r'\\uz-fs\Uzle\Work\Отдел ЭЛ\01 Малая Автоматизация\Шаблоны\CABLE_LIST_SLD')
             st.write("")
             if st.session_state.user['script_acc']:
 
@@ -1132,7 +1137,16 @@ def scripts_tab():
             st.title(':orange[Create Table for transferring Load to ETAP - under development...]')
             st.divider()
             st.write("Please find required templates in folder below  👇 ")
-            st.code(r'\\uz-fs\Uzle\WORK\Отдел ЭЛ\01 Малая Автоматизация\Шаблоны')
+            st.code(r'\\uz-fs\Uzle\Work\Отдел ЭЛ\01 Малая Автоматизация\Шаблоны\LOADS_TO_ETAP')
+            st.write("")
+            if st.session_state.user['script_acc']:
+                st.write('Will be later...')
+
+        with st.expander('CREATE CABLEWAY SECTIONS'):
+            st.title(':orange[Create Cableway Sections - under development...]')
+            st.divider()
+            st.write("Please find required templates in folder below  👇 ")
+            st.code(r'\\uz-fs\Uzle\Work\Отдел ЭЛ\01 Малая Автоматизация\Шаблоны\CABLEWAYS')
             st.write("")
             if st.session_state.user['script_acc']:
                 st.write('Will be later...')
