@@ -861,7 +861,9 @@ def scripts_tab():
             st.title(':red[Access Denied...]')
             st.write('Request for Access by sergey.priemshiy@uzliti-en.com or by telegram +998 90 959 80 30')
             st.stop()
-
+        else:
+            st.title(":orange[Let's speed up the Design...]")
+            st.write('Select the required Script')
         with st.expander("CREARE CABLE LIST AND SLD FROM LOAD LIST"):
             st.title(':orange[Create Cable List & SLD from Load List]')
             st.divider()
