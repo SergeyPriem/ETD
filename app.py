@@ -1156,9 +1156,9 @@ def update_tables():
 
 
         # if upd_table:
-        st.session_state.local_marker = st.session_state.new_state['id']
+        # st.session_state.local_marker = st.session_state.new_state['id']
 
-        st.experimental_rerun()
+    st.experimental_rerun()
 
 
 def refresher():
