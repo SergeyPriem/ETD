@@ -154,7 +154,6 @@ def get_menus(rights):
 
 
 def create_states():
-
     if 'proj_scope' not in st.session_state:
         st.session_state.proj_scope = 'Only Current Projects'
 
@@ -174,8 +173,8 @@ def create_states():
                     "trans": {"id": 1, "user": None},
                     "project": {"id": 1, "user": None},
                     "task": {"id": 1, "user": None},
-                    }
-                )
+                }
+            )
 
             reply = get_state()
 
@@ -876,7 +875,6 @@ def fresh_data():
     st.stop()
 
 
-
 def manage_storage():
     center_style()
 
@@ -938,7 +936,6 @@ def del_file(lc, rc):
 
 
 def home():
-
     if st.session_state.trans_status['trans_num']:
         form_for_trans()
     else:
@@ -986,7 +983,6 @@ def win_selector(selected):
 
 # @lru_cache(128)
 def prepare_menus(menu, icons, vert_menu):
-
     if vert_menu == 1:
         with st.sidebar:
             image = Image.open("images/big_logo.jpg")
@@ -1004,12 +1000,10 @@ def prepare_menus(menu, icons, vert_menu):
                                menu_icon=None,
                                orientation='horizontal')
 
-
     return selected
 
 
 def initial():
-
     appearance_settings()
 
     u_df = None
@@ -1111,13 +1105,11 @@ def update_tables():
 
 
 def refresher():
-
     count = st_autorefresh(interval=st.session_state.current_refresh_delay * 1000, limit=100000, key="fizzbuzzcounter")
 
     if count != st.session_state.count:
         st.session_state.new_state = get_state()
         st.session_state.count = count
-
 
 
 if __name__ == "__main__":
