@@ -1096,8 +1096,6 @@ def update_tables():
 
             reply = reply_dict.get(table)()
 
-            st.write(reply[table])
-
             if reply['status'] == 200:
                 st.session_state.adb[table] = reply[table]
                 st.session_state.refresh_status = f'Units Updated by {upd_login}'
@@ -1114,11 +1112,17 @@ def update_tables():
 
 def refresher():
 
-    count = st_autorefresh(interval=st.session_state.temp_refresh_delay * 1000, limit=10000, key="fizzbuzzcounter")
+    if (datetime.datetime.now() - st.session_state.r_now) > st.session_state.user['refresh_delay']:
+        st.write(datetime.datetime.now() - st.session_state.r_now > st.session_state.user['refresh_delay'])
+        time.sleep(3)
+        st.experimental_rerun()
 
-    if count != st.session_state.count:
-        st.session_state.new_state = get_state()
-        st.session_state.count = count
+    # count = st_autorefresh(interval=st.session_state.temp_refresh_delay * 1000, limit=10000, key="fizzbuzzcounter")
+    #
+    # if count != st.session_state.count:
+    #     st.session_state.new_state = get_state()
+    #     st.session_state.count = count
+    #
 
 
 if __name__ == "__main__":
