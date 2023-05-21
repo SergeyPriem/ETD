@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import copy
 import datetime
 import os
 import random
@@ -173,11 +174,20 @@ def create_states():
         reply = get_state()
 
         if reply == "File does not exist":
-            set_init_state({'id': 1, 'table': None, 'user': None, })
+            # set_init_state({'id': 1, 'table': None, 'user': None, })
+            set_init_state(
+                {
+                    "sod": {"id": 1, "user": None},
+                    "trans": {"id": 1, "user": None},
+                    "proj": {"id": 1, "user": None},
+                    "units": {"id": 1, "user": None},
+                    }
+                )
 
             reply = get_state()
 
-        st.session_state.local_marker = reply['id']
+        st.session_state.local_marker = reply
+
 
     if 'new_state' not in st.session_state:
         st.session_state.new_state = reply
@@ -1093,46 +1103,57 @@ def initial():
 
 
 def update_tables():
-    if st.session_state.local_marker != st.session_state.new_state['id']:
+    for table in ('sod', 'task', 'trans', 'proj'):
+        if st.session_state.local_marker[table]['id'] != st.session_state.new_state[table]['id']:
+            try:
+                upd_login = st.session_state.new_state['sod']['user']
+            except:
+                upd_login = None
 
-        try:
-            upd_login = st.session_state.new_state['user']
-            upd_table = st.session_state.new_state['table']
-        except:
-            upd_login = None
-            upd_table = None
+            reply_dict = {
+                'sod': get_sod_repeat,
+                'proj': get_proj_repeat,
+                'task': get_tasks_repeat,
+                'trans': get_trans_repeat,
+            }
 
-        if upd_table == 'proj':
-            reply = get_proj_repeat()
-            if reply['status'] == 200:
-                st.session_state.adb['project'] = reply['proj']
-                st.session_state.refresh_status = f'Projects Updated by {upd_login}'
-            else:
-                st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
+            reply = reply_dict.get(table)()
 
-        if upd_table == 'task':
-            reply = get_tasks_repeat()
-            if reply['status'] == 200:
-                st.session_state.adb['task'] = reply['task']
-                st.session_state.refresh_status = f'Tasks Updated by {upd_login}'
-            else:
-                st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
-
-        if upd_table == 'trans':
-            reply = get_trans_repeat()
-            if reply['status'] == 200:
-                st.session_state.adb['trans'] = reply['trans']
-                st.session_state.refresh_status = f'Transmittals Updated by {upd_login}'
-            else:
-                st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
-
-        if upd_table == 'sod':
-            reply = get_sod_repeat()
             if reply['status'] == 200:
                 st.session_state.adb['sod'] = reply['sod']
                 st.session_state.refresh_status = f'Units Updated by {upd_login}'
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
+
+        st.session_state.local_marker[table] = copy.deepcopy(st.session_state.new_state[table])
+
+
+
+
+        # if upd_table == 'proj':
+        #     reply = get_proj_repeat()
+        #     if reply['status'] == 200:
+        #         st.session_state.adb['project'] = reply['proj']
+        #         st.session_state.refresh_status = f'Projects Updated by {upd_login}'
+        #     else:
+        #         st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
+        #
+        # if upd_table == 'task':
+        #     reply = get_tasks_repeat()
+        #     if reply['status'] == 200:
+        #         st.session_state.adb['task'] = reply['task']
+        #         st.session_state.refresh_status = f'Tasks Updated by {upd_login}'
+        #     else:
+        #         st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
+        #
+        # if upd_table == 'trans':
+        #     reply = get_trans_repeat()
+        #     if reply['status'] == 200:
+        #         st.session_state.adb['trans'] = reply['trans']
+        #         st.session_state.refresh_status = f'Transmittals Updated by {upd_login}'
+        #     else:
+        #         st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
+
 
         # if upd_table:
         st.session_state.local_marker = st.session_state.new_state['id']
@@ -1157,7 +1178,7 @@ def refresher():
 if __name__ == "__main__":
     create_states()
     # st.write(f"count: {st.session_state.count}")
-    # st.write(f"New state: {st.session_state.new_state}")
+    st.write(f"New state: {st.session_state.new_state}")
     # st.write(f"Local Marker: {st.session_state.local_marker}")
     st.session_state.r_now = datetime.datetime.now()
     refresher()

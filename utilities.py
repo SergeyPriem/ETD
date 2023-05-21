@@ -109,9 +109,10 @@ def set_init_state(data=None):
                 return err_handler(e)
         else:
             data = {
-                'id': 1,
-                'table': None,
-                'user': None,
+                "sod": {"id": 1, "user": None},
+                "trans": {"id": 1, "user": None},
+                "proj": {"id": 1, "user": None},
+                "units": {"id": 1, "user": None},
             }
             try:
                 with open("temp_dxf/state.json", "w", encoding="utf-8") as f:
@@ -141,6 +142,15 @@ def update_state(tab_name: str):
                 'table': tab_name,
                 'user': st.session_state.user['login'],
             }
+
+            e_new_data = {
+                "sod": {"id": 7, "user": "sergey.priemshiy"},
+                "trans": {"id": 7, "user": "sergey.priemshiy"},
+                "proj": {"id": 7, "user": "sergey.priemshiy"},
+                "units": {"id": 7, "user": "sergey.priemshiy"},
+            }
+
+
             try:
                 with open("temp_dxf/state.json", "w", encoding="utf-8") as f:
                     json.dump(new_data, f)
