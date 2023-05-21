@@ -209,8 +209,8 @@ def create_states():
     if 'disable_add_task' not in st.session_state:
         st.session_state.disable_add_task = True
 
-    if 'temp_refresh_delay' not in st.session_state:
-        st.session_state.temp_refresh_delay = 7
+    if 'current_refresh_delay' not in st.session_state:
+        st.session_state.current_refresh_delay = 7
 
     if 'r_now' not in st.session_state:
         st.session_state.r_now = datetime.datetime.now()
@@ -953,9 +953,9 @@ def win_selector(selected):
         st.session_state.selected = selected
 
     if selected in ("Scripts", "Refresh"):
-        st.session_state.temp_refresh_delay = 36000
+        st.session_state.current_refresh_delay = 36000
     else:
-        st.session_state.temp_refresh_delay = st.session_state.user['refresh_delay']
+        st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
 
     if len(st.session_state.selection_history) > 1:
 
@@ -1112,17 +1112,12 @@ def update_tables():
 
 def refresher():
 
-    if (datetime.datetime.now() - st.session_state.r_now) > st.session_state.user['refresh_delay']:
-        st.write(datetime.datetime.now() - st.session_state.r_now > st.session_state.user['refresh_delay'])
-        time.sleep(3)
-        st.experimental_rerun()
+    count = st_autorefresh(interval=st.session_state.current_refresh_delay * 1000, limit=100000, key="fizzbuzzcounter")
 
-    # count = st_autorefresh(interval=st.session_state.temp_refresh_delay * 1000, limit=10000, key="fizzbuzzcounter")
-    #
-    # if count != st.session_state.count:
-    #     st.session_state.new_state = get_state()
-    #     st.session_state.count = count
-    #
+    if count != st.session_state.count:
+        st.session_state.new_state = get_state()
+        st.session_state.count = count
+
 
 
 if __name__ == "__main__":
