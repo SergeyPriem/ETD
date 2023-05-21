@@ -1131,8 +1131,7 @@ def scripts_tab():
         with st.expander('CREATE TABLE FOR TRANSFERRING LOADS TO ETAP'):
             st.title(':orange[Create Table for transferring Load to ETAP - under development...]')
             st.divider()
-            st.write("Please find required templates in folder below  👇 You can update SLD template "
-                     "according to your Project Requirements, but keep blocks attributes' names")
+            st.write("Please find required templates in folder below  👇 ")
             st.code(r'\\uz-fs\Uzle\WORK\Отдел ЭЛ\01 Малая Автоматизация\Шаблоны')
             st.write("")
             if st.session_state.user['script_acc']:
