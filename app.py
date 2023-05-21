@@ -1121,7 +1121,7 @@ def update_tables():
 
             reply = reply_dict.get(table)()
 
-            st.write(reply)
+            st.write(reply[table])
 
             if reply['status'] == 200:
                 st.session_state.adb[table] = reply[table]
