@@ -1136,3 +1136,4 @@ def scripts_tab():
             st.code(r'\\uz-fs\Uzle\WORK\Отдел ЭЛ\01 Малая Автоматизация\Шаблоны')
             st.write("")
             if st.session_state.user['script_acc']:
+                st.write('Will be later...')
