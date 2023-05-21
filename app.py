@@ -1178,8 +1178,11 @@ def layout(*args):
 
 def footer():
     myargs = [
-        f"Made by Serhii Pryiemshyi:__sergey.priemshiy@uzliti-en.com,__telegram: +998 90 959 80 30___________________"
-        f"Current Mode: '{st.session_state.proj_scope}'___________________Refresh Delay: {st.session_state.current_refresh_delay} s.",
+        f"Made by Serhii Pryiemshyi:&nbsp&nbspsergey.priemshiy@uzliti-en.com,&nbsp&nbsptelegram: +998 90 959 80 30"
+        f"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+        f"Current Mode: '{st.session_state.proj_scope}'"
+        f"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+        f"Refresh Delay: {st.session_state.current_refresh_delay} s.",
     ]
     # myargs = [
     #     "Made in ",
