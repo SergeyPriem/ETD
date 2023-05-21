@@ -152,6 +152,7 @@ def update_state(tab_name: str):
             #
             #
             data[tab_name]['id'] += 1
+            data[tab_name]['user'] = st.session_state.user['login']
 
 
             try:
