@@ -107,15 +107,15 @@ def show_sidebar_info():
                 st.sidebar.markdown(f"<h2 style='text-align: center; color: #fcf403;'>{delta} ms</h2>",
                                     unsafe_allow_html=True)
 
-            for table in ('sod', 'task', 'trans', 'proj'):
-                if st.session_state.local_marker[table]['id'] != st.session_state.new_state[table]['id']:
-
-                    but_name = f"Table {table} " \
-                               f"Updated by {st.session_state.new_state[table]['user']} \n" \
-                               f"... Hit here to Update"
-
-                    if st.sidebar.checkbox(label=but_name, key='horiz_update'):
-                        update_tables()
+            # for table in ('sod', 'task', 'trans', 'proj'):
+            #     if st.session_state.local_marker[table]['id'] != st.session_state.new_state[table]['id']:
+            #
+            #         but_name = f"Table {table} " \
+            #                    f"Updated by {st.session_state.new_state[table]['user']} \n" \
+            #                    f"... Hit here to Update"
+            #
+            #         if st.sidebar.checkbox(label=but_name, key='horiz_update'):
+            #             update_tables()
 
 
 # @lru_cache(128)
@@ -1019,14 +1019,14 @@ def prepare_menus(menu, icons, vert_menu):
                                menu_icon=None,
                                orientation='horizontal')
 
-        for table in ('sod', 'task', 'trans', 'proj'):
-            if st.session_state.local_marker[table]['id'] != st.session_state.new_state[table]['id']:
-
-                but_name = f"Table {table} Updated by {st.session_state.new_state[table]['user']} \n" \
-                           f"... Hit here to Update"
-
-                if st.checkbox(label=but_name, key='horiz_update'):
-                    update_tables()
+        # for table in ('sod', 'task', 'trans', 'proj'):
+        #     if st.session_state.local_marker[table]['id'] != st.session_state.new_state[table]['id']:
+        #
+        #         but_name = f"Table {table} Updated by {st.session_state.new_state[table]['user']} \n" \
+        #                    f"... Hit here to Update"
+        #
+        #         if st.checkbox(label=but_name, key='horiz_update'):
+        #             update_tables()
 
     return selected
 
@@ -1122,6 +1122,8 @@ def update_tables():
             if reply['status'] == 200:
                 st.session_state.adb[table] = reply[table]
                 st.session_state.refresh_status = f'Units Updated by {upd_login}'
+
+                st.success(f"Table {table} updated by {upd_login}")
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
@@ -1184,3 +1186,4 @@ if __name__ == "__main__":
     refresher()
     initial()
     show_sidebar_info()
+    update_tables()
