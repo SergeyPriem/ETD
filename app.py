@@ -6,7 +6,6 @@ import random
 import time
 
 import pandas as pd
-import streamlit as st
 from PIL import Image
 from streamlit_autorefresh import st_autorefresh
 from streamlit_option_menu import option_menu
@@ -29,9 +28,8 @@ from utilities import appearance_settings, positions, departments, mail_to_name,
     center_style, get_state, set_init_state, update_state
 
 import streamlit as st
-from htbuilder import HtmlElement, div, ul, li, br, hr, a, p, img, styles, classes, fonts
+from htbuilder import HtmlElement, div, hr, a, p, img, styles
 from htbuilder.units import percent, px
-from htbuilder.funcs import rgba, rgb
 
 # import openpyxl
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),
@@ -1176,17 +1174,17 @@ def layout(*args):
 def footer():
     myargs = [
         f"Made by Serhii Pryiemshyi"
-        f"&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp"
-        f"&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp"
+        f"&emsp&emsp&emsp&emsp&emsp"
+        f"&emsp&emsp&emsp&emsp&emsp"
         f"sergey.priemshiy@uzliti-en.com"
-        f"&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp"
-        f"&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp"
+        f"&emsp&emsp&emsp&emsp&emsp"
+        f"&emsp&emsp&emsp&emsp&emsp"
         f"telegram:&nbsp&nbsp+998 90 959 80 30"
-        f"&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp"
-        f"&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp"
+        f"&emsp&emsp&emsp&emsp&emsp"
+        f"&emsp&emsp&emsp&emsp&emsp"
         f"Current Mode:&nbsp&nbsp'{st.session_state.proj_scope}'"
-        f"&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp"
-        f"&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp&ensp"
+        f"&emsp&emsp&emsp&emsp&emsp"
+        f"&emsp&emsp&emsp&emsp&emsp"
         f"Refresh Delay:&nbsp&nbsp{st.session_state.current_refresh_delay} s.",
     ]
     # myargs = [
