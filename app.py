@@ -1022,8 +1022,7 @@ def prepare_menus(menu, icons, vert_menu):
         for table in ('sod', 'task', 'trans', 'proj'):
             if st.session_state.local_marker[table]['id'] != st.session_state.new_state[table]['id']:
 
-                but_name = f"Table {st.session_state.new_state['table']} " \
-                           f"Updated by {st.session_state.new_state['user']} \n" \
+                but_name = f"Table {table} Updated by {st.session_state.new_state[table]['user']} \n" \
                            f"... Hit here to Update"
 
                 if st.checkbox(label=but_name, key='horiz_update', type='primary', use_container_width=True):
