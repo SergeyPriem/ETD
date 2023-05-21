@@ -1126,6 +1126,8 @@ def update_tables():
                 st.success(f"Table {table} updated by {upd_login}")
 
                 st.session_state.local_marker[table]['id'] = st.session_state.new_state[table]['id']
+
+                st.experimental_rerun()
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
@@ -1162,7 +1164,7 @@ def update_tables():
         # if upd_table:
         # st.session_state.local_marker = st.session_state.new_state['id']
 
-    st.experimental_rerun()
+    #
 
 
 def refresher():
