@@ -68,8 +68,6 @@ def create_project(proj_short, proj_full, client, proj_man, responsible_el, proj
                 notes=proj_notes
             )
 
-            Condition(table_name='proj', user_login=st.session_state.user['login'])
-
             return f'New Project {proj_short} is added to DataBase'
         except Exception as e:
             return err_handler(e)
@@ -890,13 +888,13 @@ def get_proj_repeat():
 
             return {
                 'status': 200,
-                'proj': tab_to_df(proj),
+                'project': tab_to_df(proj),
             }
 
         except Exception as e:
             return {
                 'status': 'get_proj_repeat:' + str(err_handler(e)),
-                'proj': None,
+                'project': None,
             }
 
 
