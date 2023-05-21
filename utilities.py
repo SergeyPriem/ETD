@@ -111,7 +111,7 @@ def set_init_state(data=None):
             data = {
                 "sod": {"id": 1, "user": None},
                 "trans": {"id": 1, "user": None},
-                "proj": {"id": 1, "user": None},
+                "project": {"id": 1, "user": None},
                 "task": {"id": 1, "user": None},
             }
             try:

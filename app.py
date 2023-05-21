@@ -109,7 +109,7 @@ def show_sidebar_info():
                 st.sidebar.markdown(f"<h2 style='text-align: center; color: #fcf403;'>{delta} ms</h2>",
                                     unsafe_allow_html=True)
 
-            # for table in ('sod', 'task', 'trans', 'proj'):
+            # for table in ('sod', 'task', 'trans', 'project'):
             #     if st.session_state.local_marker[table]['id'] != st.session_state.new_state[table]['id']:
             #
             #         but_name = f"Table {table} " \
@@ -182,7 +182,7 @@ def create_states():
                 {
                     "sod": {"id": 1, "user": None},
                     "trans": {"id": 1, "user": None},
-                    "proj": {"id": 1, "user": None},
+                    "project": {"id": 1, "user": None},
                     "task": {"id": 1, "user": None},
                     }
                 )
@@ -1021,7 +1021,7 @@ def prepare_menus(menu, icons, vert_menu):
                                menu_icon=None,
                                orientation='horizontal')
 
-        # for table in ('sod', 'task', 'trans', 'proj'):
+        # for table in ('sod', 'task', 'trans', 'project'):
         #     if st.session_state.local_marker[table]['id'] != st.session_state.new_state[table]['id']:
         #
         #         but_name = f"Table {table} Updated by {st.session_state.new_state[table]['user']} \n" \
@@ -1105,7 +1105,7 @@ def initial():
 
 
 def update_tables():
-    for table in ('sod', 'task', 'trans', 'proj'):
+    for table in ('sod', 'task', 'trans', 'project'):
         if st.session_state.local_marker[table]['id'] != st.session_state.new_state[table]['id']:
             try:
                 upd_login = st.session_state.new_state['sod']['user']
@@ -1114,7 +1114,7 @@ def update_tables():
 
             reply_dict = {
                 'sod': get_sod_repeat,
-                'proj': get_proj_repeat,
+                'project': get_proj_repeat,
                 'task': get_tasks_repeat,
                 'trans': get_trans_repeat,
             }
