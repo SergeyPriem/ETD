@@ -859,7 +859,7 @@ def scripts_tab():
 
         if st.session_state.user['script_acc'] == 0:
             st.title(':red[Access Denied...]')
-            st.write('Request for Access by sergey.priemshiy@uzliti-en.com or by telegram +998 90 959 80 30')
+            st.write('Request for Access by sergey.priemshiy@uzliti-en.com or telegram +998 90 959 80 30')
             st.stop()
         else:
             st.title(":orange[Let's speed up the Design...]")
