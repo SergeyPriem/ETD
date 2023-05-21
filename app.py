@@ -111,7 +111,7 @@ def show_sidebar_info():
                 if st.session_state.local_marker[table]['id'] != st.session_state.new_state[table]['id']:
 
                     but_name = f"Table {table} " \
-                               f"Updated by {st.session_state.new_state['user']} \n" \
+                               f"Updated by {st.session_state.new_state['table']['user']} \n" \
                                f"... Hit here to Update"
 
                     if st.sidebar.checkbox(label=but_name, key='horiz_update', type='primary', use_container_width=True):
@@ -1019,14 +1019,14 @@ def prepare_menus(menu, icons, vert_menu):
                                menu_icon=None,
                                orientation='horizontal')
 
-        # for table in ('sod', 'task', 'trans', 'proj'):
-        #     if st.session_state.local_marker[table]['id'] != st.session_state.new_state[table]['id']:
-        #
-        #         but_name = f"Table {table} Updated by {st.session_state.new_state[table]['user']} \n" \
-        #                    f"... Hit here to Update"
-        #
-        #         if st.checkbox(label=but_name, key='horiz_update', type='primary', use_container_width=True):
-        #             update_tables()
+        for table in ('sod', 'task', 'trans', 'proj'):
+            if st.session_state.local_marker[table]['id'] != st.session_state.new_state[table]['id']:
+
+                but_name = f"Table {table} Updated by {st.session_state.new_state[table]['user']} \n" \
+                           f"... Hit here to Update"
+
+                if st.checkbox(label=but_name, key='horiz_update', type='primary', use_container_width=True):
+                    update_tables()
 
     return selected
 
