@@ -1141,7 +1141,7 @@ def layout(*args):
         bottom=0,
         margin=px(0, 0, 0, 0),
         width=percent(100),
-        color="orange",
+        color="blue",
         text_align="center",
         height="auto",
         opacity=1
@@ -1179,7 +1179,7 @@ def layout(*args):
 def footer():
     myargs = [
         f"Made by Serhii Pryiemshyi   sergey.priemshiy@uzliti-en.com   Telegram: +998 90 959 80 30   "
-        f"Current Mode: {st.session_state.proj_scope} Refresh Delay: {st.session_state.current_refresh_delay}",
+        f"Current Mode: '{st.session_state.proj_scope}'   Refresh Delay: {st.session_state.current_refresh_delay} s.",
     ]
     # myargs = [
     #     "Made in ",
