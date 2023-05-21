@@ -114,7 +114,7 @@ def show_sidebar_info():
                                f"Updated by {st.session_state.new_state[table]['user']} \n" \
                                f"... Hit here to Update"
 
-                    if st.sidebar.checkbox(label=but_name, key='horiz_update', type='primary', use_container_width=True):
+                    if st.sidebar.checkbox(label=but_name, key='horiz_update', use_container_width=True):
                         update_tables()
 
 
@@ -1025,7 +1025,7 @@ def prepare_menus(menu, icons, vert_menu):
                 but_name = f"Table {table} Updated by {st.session_state.new_state[table]['user']} \n" \
                            f"... Hit here to Update"
 
-                if st.checkbox(label=but_name, key='horiz_update', type='primary', use_container_width=True):
+                if st.checkbox(label=but_name, key='horiz_update', use_container_width=True):
                     update_tables()
 
     return selected
