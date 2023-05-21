@@ -968,9 +968,8 @@ def win_selector(selected):
         if len(st.session_state.selection_history) > 3:
             del st.session_state.selection_history[:2]
 
-        for i in ("Scripts", "Refresh"):
-            if st.session_state.selection_history[-2] == i and st.session_state.selection_history[-1] != i:
-                st.experimental_rerun()
+        if st.session_state.selection_history[-2] == "Scripts" and st.session_state.selection_history[-1] != "Scripts":
+            st.experimental_rerun()
 
     tab_dict = {
         "Home": home,
