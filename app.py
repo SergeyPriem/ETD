@@ -884,6 +884,8 @@ def fresh_data():
 
 def manage_storage():
     st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
+    st.experimental_rerun()
+
 
     center_style()
 
