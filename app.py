@@ -948,10 +948,10 @@ def win_selector(selected):
     if selected != "Refresh":
         st.session_state.selected = selected
 
-    if selected in ("Scripts", "Refresh"):
-        st.session_state.current_refresh_delay = 36000
-    else:
-        st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
+    # if selected in ("Scripts", "Refresh", ):
+    #     st.session_state.current_refresh_delay = 36000
+    # else:
+    #     st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
 
     if len(st.session_state.selection_history) > 1:
 
