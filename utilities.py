@@ -131,43 +131,22 @@ def update_state(tab_name: str):
                 with open("temp_dxf/state.json", "r", encoding="utf-8") as f:
                     state_json = f.read()
                     data = json.loads(state_json)
-                # new_id = int(data['id']) + 1
 
             except Exception as e:
-                # st.title(f"Can't open file{err_handler(e)}")
                 return f"Can't open file{err_handler(e)}"
 
-            # new_data = {
-            #     'id': new_id,
-            #     'table': tab_name,
-            #     'user': st.session_state.user['login'],
-            # }
-
-            # new_data = {
-            #     "sod": {"id": 1, "user": "sergey.priemshiy"},
-            #     "trans": {"id": 1, "user": "sergey.priemshiy"},
-            #     "proj": {"id": 1, "user": "sergey.priemshiy"},
-            #     "units": {"id": 1, "user": "sergey.priemshiy"},
-            # }
-            #
-            #
             data[tab_name]['id'] += 1
             data[tab_name]['user'] = st.session_state.user['login']
-
 
             try:
                 with open("temp_dxf/state.json", "w", encoding="utf-8") as f:
                     json.dump(data, f)
-                # st.title('Data is updated')
                 return 'Data is updated'
             except Exception as e:
-                # st.title(f"Can't save file{err_handler(e)}")
                 return f"Can't save file{err_handler(e)}"
         else:
-            # st.title("File not found")
             return "File not found"
     else:
-        # st.title("Wrong Data Format")
         return "Wrong Data Format"
 
 

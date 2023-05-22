@@ -14,7 +14,6 @@ def disable_add_task(cur_stat):
 
 
 def tasks_content():
-
     center_style()
 
     task_l, task_cont, task_r = st.columns([1, 15, 1])
@@ -36,6 +35,10 @@ def tasks_content():
 
 
 def add_task(task_content):
+    if st.session_state.current_refresh_delay != 3600:
+        st.session_state.current_refresh_delay = 3600
+        st.experimental_rerun()
+
     u_df = st.session_state.adb['users']
     sod_df = st.session_state.adb['sod']
     proj_df = st.session_state.adb['project']
@@ -227,9 +230,6 @@ def add_task(task_content):
 
                                     reply3 = update_state('task')
 
-                                    st.write(f"reply3={reply3}")
-                                    time.sleep(10)
-
                                     if reply3 != 'Data is updated':
                                         st.warning(reply3)
                                         st.stop()
@@ -262,15 +262,14 @@ def add_task(task_content):
                                 st.stop()
 
                             st.divider()
-                # st.session_state.task_preview = False
-                # st.session_state.adb['task'] = get_table(Task)
+
+                if st.button('Close', key='close_add_task'):
+                    st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
 
             if right_b.button('Escape or Correct Data', use_container_width=True,
                               on_click=disable_add_task, args=(True,)):
                 st.session_state.task_preview = False
                 st.experimental_rerun()
-
-
 
 
 def view_tasks(ass_tab2, my_all):

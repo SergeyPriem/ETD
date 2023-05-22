@@ -169,7 +169,6 @@ def create_states():
         reply = get_state()
 
         if reply == "File does not exist":
-            # set_init_state({'id': 1, 'table': None, 'user': None, })
             set_init_state(
                 {
                     "sod": {"id": 1, "user": None},
