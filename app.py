@@ -1099,7 +1099,7 @@ def update_tables():
                 if st.session_state.user['access_level'] == 'dev':
                     st.sidebar.success(f"Table {table} updated by {upd_login}")
                     time.sleep(2)
-                st.experimental_rerun()
+                # st.experimental_rerun()
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
