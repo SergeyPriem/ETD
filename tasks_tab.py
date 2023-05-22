@@ -36,9 +36,16 @@ def tasks_content():
 
 def add_task(task_content):
 
+    st.write(st.session_state.current_refresh_delay)
+    time.sleep(2)
+
     if st.session_state.current_refresh_delay != 3600:
         st.session_state.current_refresh_delay = 3600
+
         st.experimental_rerun()
+
+    st.session_state('after rerun')
+    time.sleep(2)
 
     u_df = st.session_state.adb['users']
     sod_df = st.session_state.adb['sod']
