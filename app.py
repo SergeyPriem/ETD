@@ -1174,7 +1174,7 @@ def layout(*args):
 def footer():
     myargs = [
         f"&nbsp&nbsp&nbsp&nbsp"
-        f"Made by Serhii Pryiemshyi"
+        f"Developed&nbspby&nbspSerhii&nbspPryiemshyi"
         f"&nbsp&nbsp&nbsp&nbsp "
         f"&nbsp&nbsp&nbsp&nbsp"
         f"sergey.priemshiy@uzliti-en.com"
