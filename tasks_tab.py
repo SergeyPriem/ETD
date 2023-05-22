@@ -36,13 +36,6 @@ def tasks_content():
 
 def add_task(task_content):
 
-    if st.session_state.current_refresh_delay != 3600:
-        st.session_state.current_refresh_delay = 3600
-        st.experimental_rerun()
-
-    st.write('after rerun')
-    time.sleep(2)
-
     u_df = st.session_state.adb['users']
     sod_df = st.session_state.adb['sod']
     proj_df = st.session_state.adb['project']
@@ -70,9 +63,9 @@ def add_task(task_content):
                                            'Adaptation', 'As-built'), horizontal=True)
 
             left_col3, right_col3 = st.columns(2)
-            link = left_col3.text_input('Link', max_chars=499)
-            comments = left_col3.text_input('Comments', max_chars=249)
-            source = right_col3.text_area('Received by:', value='Paper', height=127, max_chars=2499)
+            link = left_col3.text_input('Link', max_chars=500)
+            comments = left_col3.text_input('Comments', max_chars=250)
+            source = right_col3.text_area('Received by:', value='Paper', height=127, max_chars=2500)
 
             task_preview = st.form_submit_button("Preview Task", use_container_width=True,
                                                  on_click=disable_add_task, args=(False,))
