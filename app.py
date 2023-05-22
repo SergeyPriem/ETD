@@ -104,12 +104,11 @@ def show_sidebar_info():
             unsafe_allow_html=True)
 
         with st.sidebar:
-            if st.session_state.user['access_level'] == 'dev':
-                td = datetime.datetime.now() - st.session_state.r_now
-                delta = f"{int(td.total_seconds() * 1000)}"
+            td = datetime.datetime.now() - st.session_state.r_now
+            delta = f"{int(td.total_seconds() * 1000)}"
 
-                st.sidebar.markdown(f"<h2 style='text-align: center; color: #fcf403;'>{delta} ms</h2>",
-                                    unsafe_allow_html=True)
+            st.sidebar.markdown(f"<h2 style='text-align: center; color: #fcf403;'>{delta} ms</h2>",
+                                unsafe_allow_html=True)
 
 
 # @lru_cache(128)
