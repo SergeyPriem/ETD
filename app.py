@@ -179,7 +179,7 @@ def create_states():
         else:
             st.warning("Can't get Registered Users")
 
-        st.write(st.session_state.adb['users'])
+        # st.write(st.session_state.adb['users'])
 
         st.session_state.adb['users'] = st.session_state.adb['users'].drop(
             columns=['patronymic', 'hashed_pass', 'end_date'])
@@ -572,13 +572,14 @@ def login_register():
     with log_content:
         st.title(':orange[Electrical Department]')
 
-        st.header('Welcome, Colleague!')
+        # st.header('Welcome, Colleague!')
 
         st.write("The Site is designed to help you in everyday routines")
         login_tab, reg_tab = st.tabs(["Log In", 'Registration'])
 
         reg_logins = st.session_state.registered_logins
-        reg_logins.insert(0, "-- Type right here or select from list --")
+        if "-- Type right here or select from list --" not in reg_logins:
+            reg_logins.insert(0, "-- Type right here or select from list --")
 
         with login_tab:
             with st.form('log_in'):
