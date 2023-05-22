@@ -161,20 +161,9 @@ def create_states():
         st.session_state.proj_scope = 'Only Current Projects'
 
     if 'adb' not in st.session_state:
-        st.session_state.adb = {
-                'project': None,
-                'sod': None,
-                'task': None,
-                'trans': None,
-                'users': None,
-                'speciality': None,
-            }
+        st.session_state.adb = st.session_state.adb = get_all()
 
-        u_df = get_users_df()
-        u_df = u_df.drop(columns=['hashed_pass'])
-
-        if isinstance(u_df, pd.DataFrame) and len(u_df):
-            st.session_state.adb['users'] = u_df
+        st.session_state.adb['users'] = st.session_state.adb['users'].drop(columns=['hashed_pass'])
 
     if 'appl_logins' not in st.session_state:
         u_df = st.session_state.adb['users']
