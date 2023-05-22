@@ -36,15 +36,8 @@ def tasks_content():
 
 def add_task(task_content):
 
-    st.write(st.session_state.current_refresh_delay)
-    time.sleep(2)
-
     if st.session_state.current_refresh_delay != 3600:
         st.session_state.current_refresh_delay = 3600
-
-        st.write(f'inside if {st.session_state.current_refresh_delay}')
-        time.sleep(2)
-
         st.experimental_rerun()
 
     st.write('after rerun')
@@ -85,6 +78,10 @@ def add_task(task_content):
                                                  on_click=disable_add_task, args=(False,))
 
         if task_preview:
+
+            if st.session_state.current_refresh_delay != 3600:
+                st.session_state.current_refresh_delay = 3600
+                st.experimental_rerun()
 
             if non_task:
                 description = "Non-task"
