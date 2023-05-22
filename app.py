@@ -163,8 +163,6 @@ def create_states():
     if 'adb' not in st.session_state:
         st.session_state.adb = st.session_state.adb = get_all()
 
-        st.session_state.adb['users'] = st.session_state.adb['users'].drop(columns=['hashed_pass'])
-
     if 'appl_logins' not in st.session_state:
         u_df = st.session_state.adb['users']
         appl_logins_list = u_df.loc[u_df.hashed_pass.str.len() < 1, 'login'].tolist()
