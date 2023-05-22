@@ -1173,20 +1173,21 @@ def layout(*args):
 
 def footer():
     myargs = [
-        f"&nbsp&nbsp&nbsp&nbsp"
-        f"Developed&nbspby&nbspSerhii&nbspPryiemshyi"
-        f"&nbsp&nbsp&nbsp&nbsp "
-        f"&nbsp&nbsp&nbsp&nbsp"
-        f"sergey.priemshiy@uzliti-en.com"
-        f"&nbsp&nbsp&nbsp&nbsp "
-        f"&nbsp&nbsp&nbsp&nbsp"
-        f"telegram:&nbsp&nbsp+998&nbsp90&nbsp959&nbsp80&nbsp30"
-        f"&nbsp&nbsp&nbsp&nbsp "
-        f"&nbsp&nbsp&nbsp&nbsp"
+        "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+        "Developed&nbspby&nbspSerhii&nbspPryiemshyi"
+        "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "
+        "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+        "sergey.priemshiy@uzliti-en.com"
+        "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "
+        "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+        "telegram:&nbsp&nbsp+998&nbsp90&nbsp959&nbsp80&nbsp30"
+        "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "
+        "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
         f"Current&nbspMode:&nbsp&nbsp'{st.session_state.proj_scope}'"
-        f"&nbsp&nbsp&nbsp&nbsp "
-        f"&nbsp&nbsp&nbsp&nbsp"
-        f"Refresh&nbspDelay:&nbsp&nbsp{st.session_state.current_refresh_delay}&nbsps.",
+        "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "
+        "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+        f"Refresh&nbspDelay:&nbsp&nbsp{st.session_state.current_refresh_delay}&nbsps."
+        f"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp",
     ]
     # myargs = [
     #     "Made in ",
