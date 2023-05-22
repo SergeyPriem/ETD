@@ -151,12 +151,13 @@ def add_task(task_content):
                 st.text('')
 
         if st.session_state.task_preview:
-            st.session_state.task_preview = False
 
             left_b, right_b = st.columns(2, gap='medium')
 
             if left_b.button('Add Task', type='primary', use_container_width=True,
                              on_click=disable_add_task, args=(True,), disabled=st.session_state.disable_add_task):
+
+                st.session_state.task_preview = False
 
                 if direction == "In":
                     for unit in units:
