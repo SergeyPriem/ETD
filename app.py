@@ -1120,11 +1120,18 @@ def update_tables():
                 st.session_state.adb[table] = reply[table]
                 st.session_state.refresh_status = f'Units Updated by {upd_login}'
                 st.session_state.local_marker[table]['id'] = st.session_state.new_state[table]['id']
-                st.sidebar.success(f"Table {table} was updated by {upd_login}. Data is refreshed")
-                time.sleep(1)
-                st.experimental_rerun()
+                if st.session_state.user['vert_menu'] == 1:
+                    st.sidebar.success(f"Table {table} was updated by {upd_login}. Data is refreshed")
+                    time.sleep(1)
+                    return None
+                else:
+                    return f"Table {table} was updated by {upd_login}. Data is refreshed"
+
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
+                return f"{reply['status']} by {upd_login}"
+
+
 
 
 def refresher():
@@ -1193,21 +1200,43 @@ def layout(*args):
     st.markdown(str(foot), unsafe_allow_html=True)
 
 
-def footer():
-    myargs = [
-        "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-        "sergey.priemshiy@uzliti-en.com"
-        "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "
-        "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-        "telegram:&nbsp&nbsp+998&nbsp90&nbsp959&nbsp80&nbsp30"
-        "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "
-        "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-        f"Current&nbspMode:&nbsp&nbsp'{st.session_state.proj_scope}'"
-        "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "
-        "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-        f"Refresh&nbspDelay:&nbsp&nbsp{st.session_state.current_refresh_delay}&nbsps."
-        f"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp",
-    ]
+def footer(reply):
+    if reply:
+        myargs = [
+            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+            "sergey.priemshiy@uzliti-en.com"
+            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "
+            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+            "telegram:&nbsp&nbsp+998&nbsp90&nbsp959&nbsp80&nbsp30"
+            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "
+            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+            f"Current&nbspMode:&nbsp&nbsp'{st.session_state.proj_scope}'"
+            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "
+            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+            f"Refresh&nbspDelay:&nbsp&nbsp{st.session_state.current_refresh_delay}&nbsps."
+            f"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+            
+            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+            f"{reply}"
+            f"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+        ]
+    else:
+        myargs = [
+            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+            "sergey.priemshiy@uzliti-en.com"
+            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "
+            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+            "telegram:&nbsp&nbsp+998&nbsp90&nbsp959&nbsp80&nbsp30"
+            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "
+            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+            f"Current&nbspMode:&nbsp&nbsp'{st.session_state.proj_scope}'"
+            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "
+            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+            f"Refresh&nbspDelay:&nbsp&nbsp{st.session_state.current_refresh_delay}&nbsps."
+            f"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp",
+        ]
+
+
     # myargs = [
     #     "Made in ",
     #     image('https://avatars3.githubusercontent.com/u/45109972?s=400&v=4',
