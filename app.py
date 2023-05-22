@@ -179,6 +179,8 @@ def create_states():
         else:
             st.warning("Can't get Registered Users")
 
+    st.write(st.session_state.adb['users'])
+
     st.session_state.adb['users'] = st.session_state.adb['users'].drop(columns=['hashed_pass'])
 
     reply = None
