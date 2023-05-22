@@ -231,13 +231,11 @@ def add_task(task_content):
                                     reply3 = update_state('task')
 
                                     st.write(f"reply3={reply3}")
-                                    time.sleep(5)
+                                    st.stop()
 
                                     if reply3 != 'Data is updated':
                                         st.warning(reply3)
                                         st.stop()
-
-
                                 else:
                                     st.warning(reply)
                             else:
@@ -271,7 +269,7 @@ def add_task(task_content):
             if right_b.button('Escape or Correct Data', use_container_width=True,
                               on_click=disable_add_task, args=(True,)):
                 st.session_state.task_preview = False
-                # st.experimental_rerun()
+                st.experimental_rerun()
 
 
 
