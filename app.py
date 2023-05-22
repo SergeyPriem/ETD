@@ -179,8 +179,6 @@ def create_states():
         else:
             st.warning("Can't get Registered Users")
 
-        # st.write(st.session_state.adb['users'])
-
         st.session_state.adb['users'] = st.session_state.adb['users'].drop(
             columns=['patronymic', 'hashed_pass', 'end_date'])
 
@@ -259,8 +257,7 @@ def create_states():
         }
 
 
-    state_list = ['del_conf', 'loads_df', 'proj_names', 'adb', 'spec', 'menu',
-                  'icons', 'rights']
+    state_list = ['del_conf', 'loads_df', 'proj_names', 'adb', 'spec', 'menu', 'icons', 'rights']
 
     for state in state_list:
         if state not in st.session_state:
@@ -1231,12 +1228,10 @@ def footer():
 
 
 if __name__ == "__main__":
+
     st.session_state.r_now = datetime.datetime.now()
+
     create_states()
-    # st.write(f"count: {st.session_state.count}")
-    # st.write(f"New state: {st.session_state.new_state}")
-    # st.write(f"Local Marker: {st.session_state.local_marker}")
-    # st.write(f"Task Preview: {st.session_state.task_preview}")
 
     if not st.session_state.logged:
         login_register()

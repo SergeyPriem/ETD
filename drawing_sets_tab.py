@@ -475,7 +475,9 @@ def request_updates(temp_sod):
 
 
 def manage_units():
-    st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
+
+    make_short_delay()
+
     center_style()
 
     u_df = st.session_state.adb['users'].copy()
@@ -531,6 +533,9 @@ def manage_units():
             res_l, res_r = st.columns(2, gap='medium')
 
             if create_sod_but:
+
+                make_long_delay()
+
                 reply = add_sod(proj_short, unit_name, stage, status, set_start_date, coordinator, performer, notes)
 
                 if reply['status'] == 201:
@@ -582,6 +587,9 @@ def manage_units():
 
                 else:
                     st.warning(reply['err_descr'])
+
+                if st.button("Cloase Report", key='close_units_report'):
+                    make_short_delay()
 
         with tab_update:
 
