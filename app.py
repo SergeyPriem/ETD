@@ -876,7 +876,8 @@ def fresh_data():
     st.header("")
     st.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>", unsafe_allow_html=True)
 
-    if st.button("Close", key="close_fresh_data"):
+    lc, cc, rc = st.columns([10,2,10])
+    if cc.button("Close", key="close_fresh_data", use_container_width=True):
         st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
 
 
