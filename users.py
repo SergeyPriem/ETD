@@ -113,6 +113,17 @@ def get_user_data(login):
     except Exception as e:
         return err_handler(e)
 
+def get_users_df():
+    try:
+        with db_session:
+            users = (select(u for u in Users)[:])
+            return tab_to_df(users)
+    except Exception as e:
+        return err_handler(e)
+
+
+
+
 
 # def get_logged_rights(login):
 #     with db_session:

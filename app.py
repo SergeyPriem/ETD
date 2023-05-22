@@ -23,7 +23,7 @@ from settings_tab import settings_content
 from tasks_tab import tasks_content
 from transmittals_tab import transmittals_content
 from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, register_user, \
-    err_handler, get_registered_logins, get_appl_logins
+    err_handler, get_registered_logins, get_appl_logins, get_users_df
 from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, \
     center_style, get_state, set_init_state, update_state, make_short_delay, make_long_delay
 
@@ -161,7 +161,36 @@ def create_states():
         st.session_state.proj_scope = 'Only Current Projects'
 
     if 'adb' not in st.session_state:
-        st.session_state.adb = None #get_all()
+        st.session_state.adb = {
+                'project': None,
+                'sod': None,
+                'task': None,
+                'trans': None,
+                'users': None,
+                'speciality': None,
+            }
+
+        u_df = get_users_df()
+        u_df = u_df.drop(columns=['hashed_pass'])
+
+        if isinstance(u_df, pd.DataFrame) and len(u_df):
+            st.session_state.adb['users'] = u_df
+
+    if 'appl_logins' not in st.session_state:
+        u_df = st.session_state.adb['users']
+        appl_logins_list = u_df.loc[u_df.hashed_pass.str.len() < 1, 'login'].tolist()
+        if isinstance(appl_logins_list, list) and len(appl_logins_list):
+            st.session_state.appl_logins = appl_logins_list
+        else:
+            st.warning("Can't get Applied Users")
+
+    if 'registered_logins' not in st.session_state:
+        u_df = st.session_state.adb['users']
+        reg_login_list = u_df.loc[(u_df.hashed_pass.str.len() > 50) & (u_df.status == 'current'), 'login'].tolist()
+        if isinstance(reg_login_list, list) and len(reg_login_list):
+            st.session_state.registered_logins = reg_login_list
+        else:
+            st.warning("Can't get Registered Users")
 
     reply = None
 
@@ -237,19 +266,6 @@ def create_states():
             'out_note': None,
         }
 
-    if 'appl_logins' not in st.session_state:
-        reply = get_appl_logins()
-        if isinstance(reply, list) and len(reply):
-            st.session_state.appl_logins = reply
-        else:
-            st.warning("Can't get Applied Users")
-
-    if 'registered_logins' not in st.session_state:
-        reply = get_registered_logins()
-        if isinstance(reply, list) and len(reply):
-            st.session_state.registered_logins = reply
-        else:
-            st.warning("Can't get Registered Users")
 
     state_list = ['del_conf', 'loads_df', 'proj_names', 'adb', 'spec', 'menu',
                   'icons', 'rights']
