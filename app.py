@@ -12,7 +12,7 @@ from streamlit_option_menu import option_menu
 
 from admin_tools import manage_projects, get_list_index
 from drawing_sets_tab import drawing_sets, manage_units
-from just_for_fun_tab import just_for_fun
+from just_for_fun_tab import reading
 from lesson_learned_tab import lessons_content
 from models import Users, Task, Trans
 from projects import confirm_task, confirm_trans, trans_status_to_db, get_all, get_table, get_tasks_repeat, \
@@ -333,6 +333,8 @@ def form_for_trans():
 
 
 def home_content():
+
+    st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
     # st.session_state.temp_log.append('home_content')
     center_style()
     home_left, home_cont, home_right = st.columns([5, 3, 5])
@@ -717,6 +719,9 @@ def login_register():
 
 
 def manage_users():
+
+    st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
+
     center_style()
     users_1, users_content, users_2 = st.columns([1, 4, 1])
     with users_1:
@@ -877,9 +882,9 @@ def fresh_data():
     st.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>", unsafe_allow_html=True)
 
 
-
-
 def manage_storage():
+    st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
+
     center_style()
 
     stor_left, stor_cont, stor_right = st.columns([5, 7, 5])
@@ -948,23 +953,22 @@ def home():
 
 # @lru_cache(15)
 def win_selector(selected):
-    st.session_state.selection_history.append(selected)
-
-    if selected != "Refresh":
-        st.session_state.selected = selected
-
+    # st.session_state.selection_history.append(selected)
+    #
+    # # if selected != "Refresh":
+    # #     st.session_state.selected = selected
+    #
     # if selected in ("Scripts", "Refresh", ):
-    #     st.session_state.current_refresh_delay = 36000
-    # else:
     #     st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
-
-    if len(st.session_state.selection_history) > 1:
-
-        if len(st.session_state.selection_history) > 3:
-            del st.session_state.selection_history[:2]
-
-        if st.session_state.selection_history[-2] == "Scripts" and st.session_state.selection_history[-1] != "Scripts":
-            st.experimental_rerun()
+    #
+    #
+    # if len(st.session_state.selection_history) > 1:
+    #
+    #     if len(st.session_state.selection_history) > 3:
+    #         del st.session_state.selection_history[:2]
+    #
+    #     if st.session_state.selection_history[-2] == "Scripts" and st.session_state.selection_history[-1] != "Scripts":
+    #         st.experimental_rerun()
 
     tab_dict = {
         "Home": home,
@@ -972,7 +976,7 @@ def win_selector(selected):
         "Transmittals": transmittals_content,
         "Tasks": tasks_content,
         "Drawings": drawing_sets,
-        "Reading": just_for_fun,
+        "Reading": reading,
         "Scripts": scripts_tab,
         "Users": manage_users,
         "Knowledge": lessons_content,

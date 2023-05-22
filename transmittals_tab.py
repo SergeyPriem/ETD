@@ -53,7 +53,7 @@ def det_trans_from_df(login=None):
 
 
 def transmittals_content():
-
+    st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
     center_style()
 
     tr_empty1, tr_content, tr_empty2 = st.columns([1, 15, 1])

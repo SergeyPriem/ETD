@@ -2,7 +2,10 @@
 
 import streamlit as st
 
+
 def lessons_content():
+
+    st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
 
     st.markdown("""
         <style>
@@ -22,7 +25,6 @@ def lessons_content():
             } 
         </style>
         """, unsafe_allow_html=True)
-
 
     empty1, content, empty2 = st.columns([1, 30, 1])
     with empty1:

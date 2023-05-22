@@ -468,6 +468,7 @@ def request_updates(temp_sod):
 
 
 def manage_units():
+    st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
     center_style()
 
     u_df = st.session_state.adb['users'].copy()
