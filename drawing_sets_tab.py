@@ -564,7 +564,7 @@ def manage_units():
                     reply_2 = send_mail(receiver, cc_rec, subj, html)
 
                     if reply_2 == 200:
-                        res_r.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
+                        res_r.success(f'Notifications were sent to {receiver}, {cc_rec}')
 
                     reply3 = update_state('sod')
 

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import time
 
 import streamlit as st
 
@@ -41,9 +42,7 @@ def add_task(task_content):
 
     with task_content:
         project = st.selectbox('Select the Project', st.session_state.proj_names)
-
         proj_id = proj_df[proj_df.short_name == project].index.to_numpy()[0]
-
         sod_list = sod_df[sod_df.project_id == proj_id].set_name.tolist()
 
         with st.form(key="add_task"):
@@ -71,11 +70,7 @@ def add_task(task_content):
             task_preview = st.form_submit_button("Preview Task", use_container_width=True,
                                                  on_click=disable_add_task, args=(False,))
 
-        # pr_l, pr_c, pr_r = st.columns([1, 4, 1])
         if task_preview:
-
-            # proj_df = st.session_state.adb['project']
-            # sod_df = st.session_state.adb['sod']
 
             if non_task:
                 description = "Non-task"
@@ -153,12 +148,13 @@ def add_task(task_content):
                 st.text('')
 
         if st.session_state.task_preview:
-
             st.session_state.task_preview = False
 
             left_b, right_b = st.columns(2, gap='medium')
+
             if left_b.button('Add Task', type='primary', use_container_width=True,
                              on_click=disable_add_task, args=(True,), disabled=st.session_state.disable_add_task):
+
                 if direction == "In":
                     for unit in units:
                         for spec in specialities:
@@ -229,11 +225,17 @@ def add_task(task_content):
                                 if reply == 200:
                                     st.write(f"Notifications sent by emails: {perf_email}, {coord_email}")
                                     st.divider()
+
                                     reply3 = update_state('task')
+
+                                    st.write(f"reply3={reply3}")
+                                    time.sleep(5)
 
                                     if reply3 != 'Data is updated':
                                         st.warning(reply3)
                                         st.stop()
+
+
                                 else:
                                     st.warning(reply)
                             else:
@@ -253,19 +255,23 @@ def add_task(task_content):
 
                             reply3 = update_state('task')
 
+                            st.write(f"reply3={reply3}")
+                            time.sleep(5)
+
                             if reply3 != 'Data is updated':
                                 st.warning(reply3)
                                 st.stop()
 
                             st.divider()
                 # st.session_state.task_preview = False
+                # st.session_state.adb['task'] = get_table(Task)
 
             if right_b.button('Escape or Correct Data', use_container_width=True,
                               on_click=disable_add_task, args=(True,)):
                 st.session_state.task_preview = False
-                st.experimental_rerun()
+                # st.experimental_rerun()
 
-            st.session_state.adb['task'] = get_table(Task)
+
 
 
 def view_tasks(ass_tab2, my_all):
