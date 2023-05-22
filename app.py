@@ -1095,11 +1095,8 @@ def update_tables():
                 st.session_state.refresh_status = f'Units Updated by {upd_login}'
 
                 st.session_state.local_marker[table]['id'] = st.session_state.new_state[table]['id']
+                st.sidebar.success(f"Table {table} was updated by {upd_login}. Data is refreshed")
 
-                if st.session_state.user['access_level'] == 'dev':
-                    st.sidebar.success(f"Table {table} updated by {upd_login}")
-                    time.sleep(2)
-                # st.experimental_rerun()
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
 
