@@ -864,6 +864,7 @@ def scripts_tab():
         else:
             st.title(":orange[Let's speed up the Design 🏎️️]")
             st.write('Select the required Script')
+
         with st.expander("CREARE CABLE LIST AND SLD FROM LOAD LIST"):
             st.title(':orange[Create Cable List & SLD from Load List]')
             st.divider()
@@ -871,269 +872,282 @@ def scripts_tab():
                      "according to your Project Requirements, but keep blocks attributes' names")
             st.code(r'\\uz-fs\Uzle\Work\Отдел ЭЛ\01 Малая Автоматизация\Шаблоны\CABLE_LIST_SLD')
             st.write("")
-            if st.session_state.user['script_acc']:
 
-                loads_df = pd.DataFrame()
+            loads_df = pd.DataFrame()
 
-                p_l, p_c, p_r = st.columns(3, gap='medium')
+            p_l, p_c, p_r = st.columns(3, gap='medium')
 
-                load_list = p_l.file_uploader("LOAD LIST", type=['xlsx'],
-                                              accept_multiple_files=False, key=None,
-                                              help=None, on_change=None, args=None,
-                                              kwargs=None, disabled=False, label_visibility="visible")
+            load_list = p_l.file_uploader("LOAD LIST", type=['xlsx'],
+                                          accept_multiple_files=False, key=None,
+                                          help=None, on_change=None, args=None,
+                                          kwargs=None, disabled=False, label_visibility="visible")
 
-                cab_data = p_c.file_uploader("CABLE CATALOG", type=['xlsx'],
+            cab_data = p_c.file_uploader("CABLE CATALOG", type=['xlsx'],
+                                         accept_multiple_files=False, key=None,
+                                         help=None, on_change=None, args=None,
+                                         kwargs=None, disabled=False, label_visibility="visible")
+
+            dxf_template = p_r.file_uploader("SLD template", type=['dxf'],
                                              accept_multiple_files=False, key=None,
                                              help=None, on_change=None, args=None,
                                              kwargs=None, disabled=False, label_visibility="visible")
 
-                dxf_template = p_r.file_uploader("SLD template", type=['dxf'],
-                                                 accept_multiple_files=False, key=None,
-                                                 help=None, on_change=None, args=None,
-                                                 kwargs=None, disabled=False, label_visibility="visible")
+            tab_cl, tab_sld = st.tabs(['Create Cable List', 'Create SLD'])
 
-                tab_cl, tab_sld = st.tabs(['Create Cable List', 'Create SLD'])
+            with tab_cl:
 
-                with tab_cl:
+                with st.form("cab_list"):
+                    lc, rc = st.columns(2, gap='medium')
+                    panelDescr = lc.text_input("Panel Description ('Motor Control Center')", max_chars=20)
+                    max_sc = lc.number_input('Initial Short Circuit Current at the Panel',
+                                             value=65, min_value=6, max_value=150)
+                    peak_sc = lc.number_input('Peak Short Circuit Current at the Panel',
+                                              value=125, min_value=10, max_value=300)
+                    contr_but_len = rc.number_input('Length of cable for Emergency PushButton',
+                                                    value=25, min_value=10, max_value=300)
 
-                    with st.form("cab_list"):
-                        lc, rc = st.columns(2, gap='medium')
-                        panelDescr = lc.text_input("Panel Description ('Motor Control Center')", max_chars=20)
-                        max_sc = lc.number_input('Initial Short Circuit Current at the Panel',
-                                                 value=65, min_value=6, max_value=150)
-                        peak_sc = lc.number_input('Peak Short Circuit Current at the Panel',
-                                                  value=125, min_value=10, max_value=300)
-                        contr_but_len = rc.number_input('Length of cable for Emergency PushButton',
-                                                        value=25, min_value=10, max_value=300)
+                    min_sect = rc.selectbox('Min. Cross_section of Power Cable wire', ['1.5', '2.5', '4'], index=1)
+                    incom_margin = rc.selectbox("Margin for Incomer's Rated Current",
+                                                ['1.0', '1.05', '1.1', '1.15', '1.2'],
+                                                index=2)
 
-                        min_sect = rc.selectbox('Min. Cross_section of Power Cable wire', ['1.5', '2.5', '4'], index=1)
-                        incom_margin = rc.selectbox("Margin for Incomer's Rated Current",
-                                                    ['1.0', '1.05', '1.1', '1.15', '1.2'],
-                                                    index=2)
+                    show_settings = lc.checkbox("Show CB settings at SLD")
 
-                        show_settings = lc.checkbox("Show CB settings at SLD")
+                    make_cablist_but = rc.form_submit_button("Make Cable List", use_container_width=True)
 
-                        make_cablist_but = rc.form_submit_button("Make Cable List", use_container_width=True)
+                if st.session_state.current_refresh_delay != 3600:
+                    st.session_state.current_refresh_delay = 3600
+                    st.experimental_rerun()
 
-                    if load_list and cab_data and make_cablist_but:
-                        if len(panelDescr) < 2:
-                            st.warning('Panel Description is too short')
-                            st.stop()
+                if load_list and cab_data and make_cablist_but:
+                    if len(panelDescr) < 2:
+                        st.warning('Panel Description is too short')
+                        st.stop()
 
-                        cab_df = pd.read_excel(cab_data, sheet_name='cab_data')
-                        diam_df = pd.read_excel(cab_data, sheet_name='PRYSMIAN')
-                        glands_df = pd.read_excel(cab_data, sheet_name='GLANDS')
-                        ex_df = pd.read_excel(cab_data, sheet_name='ExZones')
 
-                        loads_df = pd.read_excel(load_list, sheet_name='loads')
+                    cab_df = pd.read_excel(cab_data, sheet_name='cab_data')
+                    diam_df = pd.read_excel(cab_data, sheet_name='PRYSMIAN')
+                    glands_df = pd.read_excel(cab_data, sheet_name='GLANDS')
+                    ex_df = pd.read_excel(cab_data, sheet_name='ExZones')
 
-                    if len(loads_df):
-                        loads_df = prepare_loads_df(loads_df)
+                    loads_df = pd.read_excel(load_list, sheet_name='loads')
 
-                        check_loads(loads_df)
+                if len(loads_df):
+                    loads_df = prepare_loads_df(loads_df)
 
-                        loads_df = incom_sect_cb_calc(loads_df)
+                    check_loads(loads_df)
 
-                        making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, contr_but_len,
-                                       SIN_START, COS_START, max_sc)
+                    loads_df = incom_sect_cb_calc(loads_df)
 
-                        loads_df = replace_zero(loads_df)
+                    making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, contr_but_len,
+                                   SIN_START, COS_START, max_sc)
 
-                        cl_df = create_cab_list(contr_but_len, loads_df, panelDescr, diam_df, ex_df, glands_df)
+                    loads_df = replace_zero(loads_df)
 
-                        st.session_state.loads_df = loads_df
+                    cl_df = create_cab_list(contr_but_len, loads_df, panelDescr, diam_df, ex_df, glands_df)
 
-                        st.subheader("Cable List is Ready")
-                        st.write(cl_df.head(7))
+                    st.session_state.loads_df = loads_df
 
-                        buffer = io.BytesIO()
+                    st.subheader("Cable List is Ready")
+                    st.write(cl_df.head(7))
 
-                        with pd.ExcelWriter(buffer) as writer:
-                            cl_df.to_excel(writer)
+                    buffer = io.BytesIO()
 
-                        st.download_button('Get Cable List here', data=buffer,
-                                           file_name=f'Cable List {datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}.xlsx',
-                                           mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
-                                           disabled=False, use_container_width=False)
+                    with pd.ExcelWriter(buffer) as writer:
+                        cl_df.to_excel(writer)
 
-                with tab_sld:
-                    with st.form('create_sld'):
-                        lc, cc, rc = st.columns(3, gap='medium')
-                        order = lc.radio("Order of SLD creation", ('By Feeder Type', 'By Load List Order'), horizontal=True)
-                        sld_file_name = cc.text_input('Enter the Name for resulting SLD (without extension)',
-                                                      value="MCCxxx")
-                        rc.text('')
-                        rc.text('')
-                        create_sld_but = rc.form_submit_button('Create SLD', use_container_width=True)
+                    if st.download_button('Get Cable List here', data=buffer,
+                                       file_name=f'Cable List {datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}.xlsx',
+                                       mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
+                                       disabled=False, use_container_width=False):
+                        st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
 
-                    if dxf_template is not None and create_sld_but:
 
-                        if len(st.session_state.loads_df):
-                            lo_df = st.session_state.loads_df
 
-                        dxf_temp_file = save_uploaded_file(dxf_template)
+            with tab_sld:
 
-                        try:
-                            doc = ezdxf.readfile(f'temp_dxf/{dxf_temp_file}')
-                        except IOError as e:
-                            st.warning(f"Not a DXF file or a generic I/O error.")
-                            st.write(err_handler(e))
-                            st.stop()
+                if st.session_state.current_refresh_delay != 3600:
+                    st.session_state.current_refresh_delay = 3600
+                    st.experimental_rerun()
 
-                        except ezdxf.DXFStructureError as e:
-                            st.warning(f"Invalid or corrupted DXF file.")
-                            st.write(err_handler(e))
-                            st.stop()
+                with st.form('create_sld'):
+                    lc, cc, rc = st.columns(3, gap='medium')
+                    order = lc.radio("Order of SLD creation", ('By Feeder Type', 'By Load List Order'), horizontal=True)
+                    sld_file_name = cc.text_input('Enter the Name for resulting SLD (without extension)',
+                                                  value="MCCxxx")
+                    rc.text('')
+                    rc.text('')
+                    create_sld_but = rc.form_submit_button('Create SLD', use_container_width=True)
 
-                        except Exception as e:
-                            st.write('!!!')
-                            st.warning(err_handler(e))
+                if dxf_template is not None and create_sld_but:
 
-                        msp = doc.modelspace()
-                        point = 0
+                    if len(st.session_state.loads_df):
+                        lo_df = st.session_state.loads_df
 
-                        # .astype(str).str.replace('710-', '', regex=True)
+                    dxf_temp_file = save_uploaded_file(dxf_template)
 
-                        lo_df['CONSUM-CABLE_TAG'] = lo_df['CONSUM-CABLE_TAG'].astype(str).str.replace('710-', '',
-                                                                                                      regex=True)
-                        lo_df['CONSUM-CABLE_TAG'] = lo_df['CONSUM-CABLE_TAG'].astype(str).str.replace('715-', '',
-                                                                                                      regex=True)
-                        lo_df['HEATER-CABLE_TAG'] = lo_df['HEATER-CABLE_TAG'].astype(str).str.replace('710-', '',
-                                                                                                      regex=True)
-                        lo_df['HEATER-CABLE_TAG'] = lo_df['HEATER-CABLE_TAG'].astype(str).str.replace('715-', '',
-                                                                                                      regex=True)
-                        lo_df['LCS1-CABLE_TAG1'] = lo_df['LCS1-CABLE_TAG1'].astype(str).str.replace('710-', '',
-                                                                                                    regex=True)
-                        lo_df['LCS1-CABLE_TAG1'] = lo_df['LCS1-CABLE_TAG1'].astype(str).str.replace('715-', '',
-                                                                                                    regex=True)
-                        lo_df['LCS1-CABLE_TAG2'] = lo_df['LCS1-CABLE_TAG2'].astype(str).str.replace('710-', '',
-                                                                                                    regex=True)
-                        lo_df['LCS1-CABLE_TAG2'] = lo_df['LCS1-CABLE_TAG2'].astype(str).str.replace('715-', '',
-                                                                                                    regex=True)
-                        lo_df['LCS2-CABLE_TAG'] = lo_df['LCS2-CABLE_TAG'].astype(str).str.replace('710-', '', regex=True)
-                        lo_df['LCS2-CABLE_TAG'] = lo_df['LCS2-CABLE_TAG'].astype(str).str.replace('715-', '', regex=True)
+                    try:
+                        doc = ezdxf.readfile(f'temp_dxf/{dxf_temp_file}')
+                    except IOError as e:
+                        st.warning(f"Not a DXF file or a generic I/O error.")
+                        st.write(err_handler(e))
+                        st.stop()
 
-                        lo_df_A = lo_df.loc[
-                            (lo_df['bus'] != 'B') & (lo_df['equip'] != 'INCOMER') & (lo_df['equip'] != 'SECT_BREAKER')]
-                        len_A = lo_df_A.shape[0]
-                        lo_df_A.loc[:, 'CB_TAG'] = range(1, len_A + 1)
-                        lo_df_A.loc[:, 'BUS_NUMBER'] = 'A'
-                        # lo_df_A.loc[:, 'CB_TAG'] = str(lo_df_A.CB_TAG) + 'A'
+                    except ezdxf.DXFStructureError as e:
+                        st.warning(f"Invalid or corrupted DXF file.")
+                        st.write(err_handler(e))
+                        st.stop()
 
-                        lo_df_B = lo_df.loc[
-                            (lo_df['bus'] == 'B') & (lo_df['equip'] != 'INCOMER') & (lo_df['equip'] != 'SECT_BREAKER')]
-                        # lo_df_B.loc[:, 'CB_TAG'] = str(lo_df_B.CB_TAG) + 'B'
+                    except Exception as e:
+                        st.write('!!!')
+                        st.warning(err_handler(e))
 
-                        len_B = lo_df_B.shape[0]
-                        if len_B > 0:
-                            lo_df_B.loc[:, 'CB_TAG'] = range(1, len_B + 1)
-                            lo_df_B.loc[:, 'BUS_NUMBER'] = 'B'
+                    msp = doc.modelspace()
+                    point = 0
 
-                        lo_df_inc1 = lo_df.loc[(lo_df['equip'] == 'INCOMER') & (lo_df['bus'] == 'A')]
-                        lo_df_inc1.loc[:, 'CB_TAG'] = 1
-                        lo_df_inc1.loc[:, 'starter_type'] = 'INCOMER'
-                        lo_df_inc1.loc[:, 'BUS_NUMBER'] = 'A'
+                    # .astype(str).str.replace('710-', '', regex=True)
 
-                        lo_df_inc2 = lo_df.loc[(lo_df['equip'] == 'INCOMER') & (lo_df['bus'] == 'B')]
-                        lo_df_inc2.loc[:, 'CB_TAG'] = 1
-                        lo_df_inc2.loc[:, 'starter_type'] = 'INCOMER'
-                        lo_df_inc2.loc[:, 'BUS_NUMBER'] = 'B'
+                    lo_df['CONSUM-CABLE_TAG'] = lo_df['CONSUM-CABLE_TAG'].astype(str).str.replace('710-', '',
+                                                                                                  regex=True)
+                    lo_df['CONSUM-CABLE_TAG'] = lo_df['CONSUM-CABLE_TAG'].astype(str).str.replace('715-', '',
+                                                                                                  regex=True)
+                    lo_df['HEATER-CABLE_TAG'] = lo_df['HEATER-CABLE_TAG'].astype(str).str.replace('710-', '',
+                                                                                                  regex=True)
+                    lo_df['HEATER-CABLE_TAG'] = lo_df['HEATER-CABLE_TAG'].astype(str).str.replace('715-', '',
+                                                                                                  regex=True)
+                    lo_df['LCS1-CABLE_TAG1'] = lo_df['LCS1-CABLE_TAG1'].astype(str).str.replace('710-', '',
+                                                                                                regex=True)
+                    lo_df['LCS1-CABLE_TAG1'] = lo_df['LCS1-CABLE_TAG1'].astype(str).str.replace('715-', '',
+                                                                                                regex=True)
+                    lo_df['LCS1-CABLE_TAG2'] = lo_df['LCS1-CABLE_TAG2'].astype(str).str.replace('710-', '',
+                                                                                                regex=True)
+                    lo_df['LCS1-CABLE_TAG2'] = lo_df['LCS1-CABLE_TAG2'].astype(str).str.replace('715-', '',
+                                                                                                regex=True)
+                    lo_df['LCS2-CABLE_TAG'] = lo_df['LCS2-CABLE_TAG'].astype(str).str.replace('710-', '', regex=True)
+                    lo_df['LCS2-CABLE_TAG'] = lo_df['LCS2-CABLE_TAG'].astype(str).str.replace('715-', '', regex=True)
 
-                        lo_df_sb = pd.DataFrame()
+                    lo_df_A = lo_df.loc[
+                        (lo_df['bus'] != 'B') & (lo_df['equip'] != 'INCOMER') & (lo_df['equip'] != 'SECT_BREAKER')]
+                    len_A = lo_df_A.shape[0]
+                    lo_df_A.loc[:, 'CB_TAG'] = range(1, len_A + 1)
+                    lo_df_A.loc[:, 'BUS_NUMBER'] = 'A'
+                    # lo_df_A.loc[:, 'CB_TAG'] = str(lo_df_A.CB_TAG) + 'A'
 
-                        if lo_df.loc[(lo_df['equip'] == 'SECT_BREAKER')].shape[0] == 1:
-                            lo_df_sb = lo_df.loc[(lo_df['equip'] == 'SECT_BREAKER')]
-                            lo_df_sb.loc[:, 'CB_TAG'] = 1000
-                            lo_df_sb.loc[:, 'BUS_NUMBER'] = 'A/B'
-                            lo_df_sb.loc[:, 'starter_type'] = 'SECT_BREAKER'
+                    lo_df_B = lo_df.loc[
+                        (lo_df['bus'] == 'B') & (lo_df['equip'] != 'INCOMER') & (lo_df['equip'] != 'SECT_BREAKER')]
+                    # lo_df_B.loc[:, 'CB_TAG'] = str(lo_df_B.CB_TAG) + 'B'
 
-                        if order == "By Feeder Type":
-                            lo_df_A = lo_df_A.sort_values(by='starter_type', ascending=False)
-                            lo_df_A.loc[:, 'CB_TAG'] = range(2, len_A + 2)
+                    len_B = lo_df_B.shape[0]
+                    if len_B > 0:
+                        lo_df_B.loc[:, 'CB_TAG'] = range(1, len_B + 1)
+                        lo_df_B.loc[:, 'BUS_NUMBER'] = 'B'
 
-                            lo_df_B = lo_df_B.sort_values(by='starter_type', ascending=False)
-                            lo_df_B.loc[:, 'CB_TAG'] = range(2, len_B + 2)
+                    lo_df_inc1 = lo_df.loc[(lo_df['equip'] == 'INCOMER') & (lo_df['bus'] == 'A')]
+                    lo_df_inc1.loc[:, 'CB_TAG'] = 1
+                    lo_df_inc1.loc[:, 'starter_type'] = 'INCOMER'
+                    lo_df_inc1.loc[:, 'BUS_NUMBER'] = 'A'
 
-                        lo_df_new = pd.concat([lo_df_inc1, lo_df_A, lo_df_sb, lo_df_B, lo_df_inc2])
+                    lo_df_inc2 = lo_df.loc[(lo_df['equip'] == 'INCOMER') & (lo_df['bus'] == 'B')]
+                    lo_df_inc2.loc[:, 'CB_TAG'] = 1
+                    lo_df_inc2.loc[:, 'starter_type'] = 'INCOMER'
+                    lo_df_inc2.loc[:, 'BUS_NUMBER'] = 'B'
 
-                        lo_df_new.loc[:, 'app_num'] = lo_df_new.CB_TAG.astype('str') + lo_df_new.BUS_NUMBER
+                    lo_df_sb = pd.DataFrame()
 
-                        for i in range(lo_df_new.shape[0]):
-                            ins_block = msp.add_blockref(lo_df_new.starter_type[i], insert=(point, -5000))
+                    if lo_df.loc[(lo_df['equip'] == 'SECT_BREAKER')].shape[0] == 1:
+                        lo_df_sb = lo_df.loc[(lo_df['equip'] == 'SECT_BREAKER')]
+                        lo_df_sb.loc[:, 'CB_TAG'] = 1000
+                        lo_df_sb.loc[:, 'BUS_NUMBER'] = 'A/B'
+                        lo_df_sb.loc[:, 'starter_type'] = 'SECT_BREAKER'
 
-                            if lo_df_new.CB_TAG[i] < 10:
-                                feeder_num = '0' + str(lo_df_new.CB_TAG[i])
-                            else:
-                                feeder_num = str(lo_df_new.CB_TAG[i])
+                    if order == "By Feeder Type":
+                        lo_df_A = lo_df_A.sort_values(by='starter_type', ascending=False)
+                        lo_df_A.loc[:, 'CB_TAG'] = range(2, len_A + 2)
 
-                            if lo_df_new.CB_TAG[i] == 1000:
-                                feeder_num = ''
+                        lo_df_B = lo_df_B.sort_values(by='starter_type', ascending=False)
+                        lo_df_B.loc[:, 'CB_TAG'] = range(2, len_B + 2)
 
-                            bus_num = lo_df_new.BUS_NUMBER[i]
+                    lo_df_new = pd.concat([lo_df_inc1, lo_df_A, lo_df_sb, lo_df_B, lo_df_inc2])
 
-                            att_values = {
-                                'CB_RATING': str(lo_df_new.CB_RATING[i]) + 'A',
-                                'CB_NUM': str(bus_num) + str(feeder_num),
-                                'CB_AMPACITY': str(lo_df_new.CB_AMPACITY[i]) + 'A',
-                                'CB_TRIP-UNIT': lo_df_new.CB_SET[i],
-                                'CB_SC-RATING_POLARITY': lo_df_new.RAT_POL[i],
-                                'CONSUM-CABLE_TAG': lo_df_new['CONSUM-CABLE_TAG'][i],
-                                'CONSUM-CABLE_TYPE': lo_df_new['CONSUM-CABLE_TYPE'][i].replace('.0m', 'm').replace('.0/',
-                                                                                                                   '/'),
-                                'CONSUMER_TAG': lo_df_new.index[i],
-                                'CONSUMER_POWER': round(lo_df_new.rated_power[i], 1),
-                                'CONSUMER_AMPACITY': round(lo_df_new.rated_current[i] * lo_df_new.eff[i], 1),
-                                'CONSUMER_COS': round(lo_df_new.power_factor[i], 2),
-                                'CONSUMER_EFFICIENCY': round(lo_df_new.eff[i], 2),
-                                'CONSUMER_OPER-MODE': lo_df_new.load_duty[i],
-                                'SCHEME_TYPE': lo_df_new.SCHEME_TYPE[i],
-                                'CONT_NUM': 'C' + str(feeder_num) + str(bus_num),
-                                'CONT_AMPACITY': lo_df_new.CONT_AMPACITY[i],
-                                'VFD_AMPACITY': lo_df_new.VFD_AMPACITY[i],
-                                'VFD_TAG': lo_df_new.VFD_TAG[i],
-                                'HEATER-CABLE_TAG': lo_df_new['HEATER-CABLE_TAG'][i].replace('.0m', 'm'),
-                                'HEATER-CABLE_TYPE': lo_df_new['HEATER-CABLE_TYPE'][i].replace('.0m', 'm').replace('.0/',
-                                                                                                                   '/'),
-                                'LCS1-CABLE_TAG1': lo_df_new['LCS1-CABLE_TAG1'][i].replace('.0m', 'm'),
-                                'LCS1-CABLE_TYPE1': lo_df_new['LCS1-CABLE_TYPE1'][i].replace('.0m', 'm'),
-                                'LCS1-CABLE_TAG2': lo_df_new['LCS1-CABLE_TAG2'][i].replace('.0m', 'm'),
-                                'LCS1-CABLE_TYPE2': lo_df_new['LCS1-CABLE_TYPE2'][i].replace('.m0', 'm'),
-                                'LCS2-CABLE_TAG': lo_df_new['LCS2-CABLE_TAG'][i].replace('.0m', 'm'),
-                                'LCS2-CABLE_TYPE': lo_df_new['LCS2-CABLE_TYPE'][i].replace('.0m', 'm'),
-                                # 'LCS3-CABLE_TAG':  lo_df_new['LCS3-CABLE_TAG'][i],
-                                # 'LCS3-CABLE_TYPE':  lo_df_new['LCS3-CABLE_TYPE'][i],
-                                'CONSUMER_DESCR': lo_df_new['load_service'][i],
-                                # msp.add_mtext(lo_df_new['load_service'][i], dxfattribs={"style": "OpenSans"})
-                                'MCU_TAG': 'MCU' + str(feeder_num) + str(bus_num)
-                            }
+                    lo_df_new.loc[:, 'app_num'] = lo_df_new.CB_TAG.astype('str') + lo_df_new.BUS_NUMBER
 
-                            ins_block.add_auto_attribs(att_values)
+                    for i in range(lo_df_new.shape[0]):
+                        ins_block = msp.add_blockref(lo_df_new.starter_type[i], insert=(point, -5000))
 
-                            step = 73.25 if lo_df_new.starter_type[i] != 'CB' else 50.25
+                        if lo_df_new.CB_TAG[i] < 10:
+                            feeder_num = '0' + str(lo_df_new.CB_TAG[i])
+                        else:
+                            feeder_num = str(lo_df_new.CB_TAG[i])
 
-                            if lo_df_new.equip[i] == "INCOMER":
-                                step = 52.215
+                        if lo_df_new.CB_TAG[i] == 1000:
+                            feeder_num = ''
 
-                            if lo_df_new.equip[i] == "SECT_BREAKER":
-                                step = 58.472
+                        bus_num = lo_df_new.BUS_NUMBER[i]
 
-                            point += step
+                        att_values = {
+                            'CB_RATING': str(lo_df_new.CB_RATING[i]) + 'A',
+                            'CB_NUM': str(bus_num) + str(feeder_num),
+                            'CB_AMPACITY': str(lo_df_new.CB_AMPACITY[i]) + 'A',
+                            'CB_TRIP-UNIT': lo_df_new.CB_SET[i],
+                            'CB_SC-RATING_POLARITY': lo_df_new.RAT_POL[i],
+                            'CONSUM-CABLE_TAG': lo_df_new['CONSUM-CABLE_TAG'][i],
+                            'CONSUM-CABLE_TYPE': lo_df_new['CONSUM-CABLE_TYPE'][i].replace('.0m', 'm').replace('.0/',
+                                                                                                               '/'),
+                            'CONSUMER_TAG': lo_df_new.index[i],
+                            'CONSUMER_POWER': round(lo_df_new.rated_power[i], 1),
+                            'CONSUMER_AMPACITY': round(lo_df_new.rated_current[i] * lo_df_new.eff[i], 1),
+                            'CONSUMER_COS': round(lo_df_new.power_factor[i], 2),
+                            'CONSUMER_EFFICIENCY': round(lo_df_new.eff[i], 2),
+                            'CONSUMER_OPER-MODE': lo_df_new.load_duty[i],
+                            'SCHEME_TYPE': lo_df_new.SCHEME_TYPE[i],
+                            'CONT_NUM': 'C' + str(feeder_num) + str(bus_num),
+                            'CONT_AMPACITY': lo_df_new.CONT_AMPACITY[i],
+                            'VFD_AMPACITY': lo_df_new.VFD_AMPACITY[i],
+                            'VFD_TAG': lo_df_new.VFD_TAG[i],
+                            'HEATER-CABLE_TAG': lo_df_new['HEATER-CABLE_TAG'][i].replace('.0m', 'm'),
+                            'HEATER-CABLE_TYPE': lo_df_new['HEATER-CABLE_TYPE'][i].replace('.0m', 'm').replace('.0/',
+                                                                                                               '/'),
+                            'LCS1-CABLE_TAG1': lo_df_new['LCS1-CABLE_TAG1'][i].replace('.0m', 'm'),
+                            'LCS1-CABLE_TYPE1': lo_df_new['LCS1-CABLE_TYPE1'][i].replace('.0m', 'm'),
+                            'LCS1-CABLE_TAG2': lo_df_new['LCS1-CABLE_TAG2'][i].replace('.0m', 'm'),
+                            'LCS1-CABLE_TYPE2': lo_df_new['LCS1-CABLE_TYPE2'][i].replace('.m0', 'm'),
+                            'LCS2-CABLE_TAG': lo_df_new['LCS2-CABLE_TAG'][i].replace('.0m', 'm'),
+                            'LCS2-CABLE_TYPE': lo_df_new['LCS2-CABLE_TYPE'][i].replace('.0m', 'm'),
+                            # 'LCS3-CABLE_TAG':  lo_df_new['LCS3-CABLE_TAG'][i],
+                            # 'LCS3-CABLE_TYPE':  lo_df_new['LCS3-CABLE_TYPE'][i],
+                            'CONSUMER_DESCR': lo_df_new['load_service'][i],
+                            # msp.add_mtext(lo_df_new['load_service'][i], dxfattribs={"style": "OpenSans"})
+                            'MCU_TAG': 'MCU' + str(feeder_num) + str(bus_num)
+                        }
 
-                        add_gen_data(msp, lo_df, lo_df_new, point, max_sc, peak_sc)
-                        # msp, loads_df, loads_df_new, point, max_sc, peak_sc
+                        ins_block.add_auto_attribs(att_values)
 
-                        doc.saveas(f'temp_dxf/{sld_file_name}.dxf')
+                        step = 73.25 if lo_df_new.starter_type[i] != 'CB' else 50.25
 
-                        st.success('SLD is ready. Please Download')
+                        if lo_df_new.equip[i] == "INCOMER":
+                            step = 52.215
 
-                        with open(f'temp_dxf/{sld_file_name}.dxf', 'rb') as f:
-                            st.download_button(
-                                'Get SLD here',
-                                data=f,
-                                file_name=f'{sld_file_name} {datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}.dxf',
-                                mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
-                                disabled=False, use_container_width=False
-                            )
+                        if lo_df_new.equip[i] == "SECT_BREAKER":
+                            step = 58.472
+
+                        point += step
+
+                    add_gen_data(msp, lo_df, lo_df_new, point, max_sc, peak_sc)
+                    # msp, loads_df, loads_df_new, point, max_sc, peak_sc
+
+                    doc.saveas(f'temp_dxf/{sld_file_name}.dxf')
+
+                    st.success('SLD is ready. Please Download')
+
+                    with open(f'temp_dxf/{sld_file_name}.dxf', 'rb') as f:
+                        if st.download_button(
+                            'Get SLD here',
+                            data=f,
+                            file_name=f'{sld_file_name} {datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}.dxf',
+                            mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
+                            disabled=False, use_container_width=False
+                        ):
+                            st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
 
         with st.expander('CREATE TABLE FOR TRANSFERRING LOADS TO ETAP'):
             st.title(':orange[Create Table for transferring Load to ETAP - under development...]')

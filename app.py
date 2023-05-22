@@ -866,12 +866,18 @@ def manage_users():
 
 
 def fresh_data():
+    if st.session_state.current_refresh_delay != 3600:
+        st.session_state.current_refresh_delay = 3600
+        st.experimental_rerun()
+
     st.session_state.adb = get_all()
     st.header("")
     st.header("")
     st.header("")
     st.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>", unsafe_allow_html=True)
-    st.stop()
+
+    if st.button("Close", key="close_fresh_data"):
+        st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
 
 
 def manage_storage():
