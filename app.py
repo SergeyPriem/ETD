@@ -1261,6 +1261,6 @@ if __name__ == "__main__":
         refresher()
         initial()
         show_sidebar_info()
-        update_tables()
+        reply = update_tables()
         if st.session_state.user['vert_menu'] == 0:
-            footer()
+            footer(reply)
