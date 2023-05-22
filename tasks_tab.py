@@ -266,6 +266,7 @@ def add_task(task_content):
 
                 if st.button('Close', key='close_add_task'):
                     st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
+                    st.experimental_rerun()
 
             if right_b.button('Escape or Correct Data', use_container_width=True,
                               on_click=disable_add_task, args=(True,)):
