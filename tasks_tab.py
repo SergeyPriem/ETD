@@ -231,15 +231,17 @@ def add_task(task_content):
                                     reply3 = update_state('task')
 
                                     st.write(f"reply3={reply3}")
-                                    st.stop()
+                                    time.sleep(10)
 
                                     if reply3 != 'Data is updated':
                                         st.warning(reply3)
                                         st.stop()
                                 else:
                                     st.warning(reply)
+                                    st.stop()
                             else:
                                 st.warning(reply)
+                                st.stop()
 
                 else:  # Outgoing Tasks
                     for unit in units:

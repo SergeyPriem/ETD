@@ -665,9 +665,12 @@ def manage_units():
 
                     if reply3 != 'Data is updated':
                         st.warning(reply3)
-                        st.stop()
+
+                    st.stop()
+
                 else:
                     st.warning(reply['err_descr'])
+                    st.stop()
 
         with tab_preview:
 

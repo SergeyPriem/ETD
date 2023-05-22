@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 
 from pony.orm import *
-from models import Project, SOD, Task, Users, Speciality, Trans, Condition
+from models import Project, SOD, Task, Users, Speciality, Trans
 import pandas as pd
 from datetime import date, datetime
 import streamlit as st
@@ -349,8 +349,6 @@ def add_in_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, des
             result = create_backup_string(link, BACKUP_FOLDER, new_ass_id)
             new_ass.backup_copy = result[0]
 
-            Condition(table_name='task', user_login=st.session_state.user['login'])
-
             return f"""
             New Task #{new_ass_id} for {new_ass.s_o_d.project_id.short_name}: {new_ass.s_o_d.set_name} is added to DataBase  
             
@@ -382,8 +380,6 @@ def add_out_to_db(proj_name, sod_name, stage, in_out, speciality, issue_date, de
                 comment=comment,
                 added_by=st.session_state.user['login']
             )
-
-            Condition(table_name='task', user_login=st.session_state.user['login'])
 
             return f"""
             New Task #{int(last_id) + 1} for {sod_name} -> {speciality} is added to DataBase  
