@@ -25,7 +25,7 @@ from transmittals_tab import transmittals_content
 from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, register_user, \
     err_handler
 from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, \
-    center_style, get_state, set_init_state, update_state
+    center_style, get_state, set_init_state, update_state, make_short_delay, make_long_delay
 
 import streamlit as st
 from htbuilder import HtmlElement, div, hr, a, p, img, styles
@@ -285,7 +285,6 @@ def form_for_trans():
             )
 
             out_num = st.selectbox('Number of reply Transmittal', trans_num_list)
-            # out_date = st.date_input('Date of reply Transmittal')
             status = st.radio("Transmittal Status", trans_stat)
             comment = st.text_area('Comments')
 
@@ -294,6 +293,7 @@ def form_for_trans():
             conf_but = st.form_submit_button('Update', type='primary', use_container_width=True)
 
         if conf_but:
+            make_long_delay()
 
             if out_num == "Reply is Not Required" and (status == "Closed" or status == "Issued Docs"):
                 if not check_number:
@@ -307,36 +307,37 @@ def form_for_trans():
 
             st.session_state.trans_status['status'] = status
             st.session_state.trans_status['out_note'] = out_note
-            # st.session_state.trans_status['out_num'] = out_num
 
             reply = trans_status_to_db()
 
             if reply == 'Status Updated':
                 st.success(reply)
-                # time.sleep(1)
+                time.sleep(1)
                 st.session_state.trans_status['trans_num'] = None
 
                 reply3 = update_state('trans')
 
                 if reply3 != 'Data is updated':
                     st.warning(reply3)
-                    st.stop()
-                st.experimental_rerun()
+                    time.sleep(1)
+
+                make_long_delay()
             else:
                 st.warning(reply)
-                # time.sleep(2)
                 st.session_state.trans_status['trans_num'] = None
+                make_short_delay()
 
         if st.button('Escape', use_container_width=True):
             st.session_state.trans_status['trans_num'] = None
-            st.experimental_rerun()
+            make_short_delay()
 
 
 def home_content():
 
-    st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
-    # st.session_state.temp_log.append('home_content')
+    make_short_delay()
+
     center_style()
+
     home_left, home_cont, home_right = st.columns([5, 3, 5])
     empty21, content2, empty22 = st.columns([1, 20, 1])
 
@@ -883,9 +884,8 @@ def fresh_data():
 
 
 def manage_storage():
-    if st.session_state.current_refresh_delay != st.session_state.user['refresh_delay']:
-        st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
-        st.experimental_rerun()
+
+    make_short_delay()
 
     center_style()
 

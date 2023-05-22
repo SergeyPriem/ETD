@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
-
+import time
 
 import streamlit as st
-from utilities import proj_statuses, center_style, get_list_index, update_state
+from utilities import proj_statuses, center_style, get_list_index, update_state, make_short_delay, make_long_delay
 from projects import create_project, update_projects
 
 from send_emails import send_mail
 
 
 def manage_projects():
-    st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
-    # st.session_state.temp_log.append('manage_projects')
+
+    make_short_delay()
 
     empty_proj_1, content_proj, empty_proj_2 = st.columns([1, 12, 1])
     with empty_proj_1:
@@ -51,6 +51,9 @@ def manage_projects():
                 proj_prev_but = rc.form_submit_button('Preview Data', use_container_width=True)
 
             if proj_prev_but:
+
+                make_long_delay()
+
                 st.write(f"""
                 Short Name: **:blue[{proj_short}]**  
                 Full Name: **:blue[{proj_full}]**  
@@ -71,7 +74,8 @@ def manage_projects():
                                        proj_surveys, proj_mdr, proj_notes)
 
                 if 'is added to DataBase' in reply:
-                    st.info(reply)
+                    st.success(reply)
+                    make_short_delay()
 
                     reply3 = update_state('project')
 
@@ -133,9 +137,12 @@ def manage_projects():
                     upd_proj_but = rc.form_submit_button('Update Project', use_container_width=True)
 
                 if upd_proj_but:
+
                     if len(short_name) < 3 or len(full_name) < 3:
                         st.write('Too short Name. Should be more than 2 symbols')
                         st.stop()
+
+                    make_short_delay()
 
                     reply = update_projects(proj_ser.index.to_numpy()[0], short_name, full_name, client,
                                             manager, responsible_el, status, assignment, tech_conditions,
@@ -190,7 +197,7 @@ def manage_projects():
                         reply2 = send_mail(receiver, cc_rec, subj, html)
 
                         if reply2 == 200:
-                            r_rep.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
+                            r_rep.success(f'Notifications were sent to {receiver}, {cc_rec}')
 
                             reply3 = update_state('project')
 
@@ -198,15 +205,16 @@ def manage_projects():
                                 st.warning(reply3)
                                 st.stop()
 
+                            make_short_delay()
+
                         else:
                             r_rep.warning(reply2)
-
-
-
                     else:
                         st.warning(reply)
 
         with viewer_tab:
+
+            make_short_delay()
 
             proj_df = st.session_state.adb['project']
             u_df = st.session_state.adb['users']

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
 import streamlit as st
-from utilities import trans_types, center_style, update_state
+from utilities import trans_types, center_style, update_state, make_short_delay, make_long_delay
 from projects import add_new_trans
 
 
@@ -53,7 +53,9 @@ def det_trans_from_df(login=None):
 
 
 def transmittals_content():
-    st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
+
+    make_short_delay()
+
     center_style()
 
     tr_empty1, tr_content, tr_empty2 = st.columns([1, 15, 1])
@@ -97,6 +99,9 @@ def transmittals_content():
                 add_trans_but = st.form_submit_button("Preview Transmittal's Data", use_container_width=True)
 
             if add_trans_but:
+
+                make_long_delay()
+
                 if project != '-- Type right here or select from list --':
                     # l_prev, r_prev = st.columns([1, 8])
 
@@ -180,6 +185,8 @@ def transmittals_content():
                     if reply3 != 'Data is updated':
                         st.warning(reply3)
                         st.stop()
+
+                    make_short_delay()
 
                 else:
                     st.warning("Please Update fields properly...")
