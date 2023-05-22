@@ -79,6 +79,9 @@ def add_task(task_content):
 
             st.session_state.task_preview = True
 
+            st.write(f'st.session_state.task_preview={st.session_state.task_preview}')
+            time.sleep(5)
+
             form_dict = {
                 'Unit': units,
                 'Speciality': specialities,
