@@ -42,6 +42,9 @@ def add_task(task_content):
     if st.session_state.current_refresh_delay != 3600:
         st.session_state.current_refresh_delay = 3600
 
+        st.write(f'inside if {st.session_state.current_refresh_delay}')
+        time.sleep(2)
+
         st.experimental_rerun()
 
     st.session_state('after rerun')
