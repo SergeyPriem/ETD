@@ -94,63 +94,61 @@ def add_task(task_content):
                     st.warning(f"Empty field: {field_name}")
                     st.session_state.task_preview = False
 
-            if st.session_state.task_preview:
-                st.write("")
-
-                st.markdown("""<style>
-                                .task_preview table, tr {
-                                        border-style: hidden;
-                                        margin: auto;
-                                    }
-    
-                                .task_preview td {
-                                        border-style: hidden;
-                                        text-align: left;
-                                    }
-                                  </style>
-                                  """, unsafe_allow_html=True)
-
-                st.markdown(f"""
-                <table class="task_preview">
-                    <tr>
-                        <td>Project:</td><td style="color: #00bbf9;"><b>{project}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Unit:</td><td style="color: #00bbf9;"><b>{units}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Speciality:</td><td style="color: #00bbf9;"><b>{specialities}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Stage:</td><td style="color: #00bbf9;"><b>{stage}</b></td>
-                    </tr>
-                    <tr>
-                        <td>In or Out:</td><td style="color: #00bbf9;"><b>{direction}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Date:</td><td style="color: #00bbf9;"><b>{date}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Description:</td><td style="color: #00bbf9;"><b>{description}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Link:</td><td style="color: #00bbf9;"><b>{link}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Received by:</td><td style="color: #00bbf9;"><b>{source}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Non-Task:</td><td style="color: #00bbf9;"><b>{non_task}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Comments:</td><td style="color: #00bbf9;"><b>{comments}</b></td>
-                    </tr>
-                </table>
-                """, unsafe_allow_html=True)
-
-                st.text('')
-
         if st.session_state.task_preview:
+            st.write("")
+
+            st.markdown("""<style>
+                            .task_preview table, tr {
+                                    border-style: hidden;
+                                    margin: auto;
+                                }
+
+                            .task_preview td {
+                                    border-style: hidden;
+                                    text-align: left;
+                                }
+                              </style>
+                              """, unsafe_allow_html=True)
+
+            st.markdown(f"""
+            <table class="task_preview">
+                <tr>
+                    <td>Project:</td><td style="color: #00bbf9;"><b>{project}</b></td>
+                </tr>
+                <tr>
+                    <td>Unit:</td><td style="color: #00bbf9;"><b>{units}</b></td>
+                </tr>
+                <tr>
+                    <td>Speciality:</td><td style="color: #00bbf9;"><b>{specialities}</b></td>
+                </tr>
+                <tr>
+                    <td>Stage:</td><td style="color: #00bbf9;"><b>{stage}</b></td>
+                </tr>
+                <tr>
+                    <td>In or Out:</td><td style="color: #00bbf9;"><b>{direction}</b></td>
+                </tr>
+                <tr>
+                    <td>Date:</td><td style="color: #00bbf9;"><b>{date}</b></td>
+                </tr>
+                <tr>
+                    <td>Description:</td><td style="color: #00bbf9;"><b>{description}</b></td>
+                </tr>
+                <tr>
+                    <td>Link:</td><td style="color: #00bbf9;"><b>{link}</b></td>
+                </tr>
+                <tr>
+                    <td>Received by:</td><td style="color: #00bbf9;"><b>{source}</b></td>
+                </tr>
+                <tr>
+                    <td>Non-Task:</td><td style="color: #00bbf9;"><b>{non_task}</b></td>
+                </tr>
+                <tr>
+                    <td>Comments:</td><td style="color: #00bbf9;"><b>{comments}</b></td>
+                </tr>
+            </table>
+            """, unsafe_allow_html=True)
+
+            st.text('')
 
             left_b, right_b = st.columns(2, gap='medium')
 
