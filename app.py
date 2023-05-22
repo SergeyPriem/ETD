@@ -90,9 +90,8 @@ def home_trans():
 
 
 def show_sidebar_info():
-    # st.session_state.temp_log.append('show_sidebar_info')
 
-    if st.session_state.user['login'] and st.session_state.proj_scope:
+    if st.session_state.user['login'] and st.session_state.proj_scope and st.session_state.user['vert_menu']:
 
         st.sidebar.text("")
         st.sidebar.markdown(f"<h4 style='text-align: center; color: #00bbf9;'>Current Mode:</h4>",
