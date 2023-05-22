@@ -212,7 +212,7 @@ def create_states():
         st.session_state.disable_add_task = True
 
     if 'current_refresh_delay' not in st.session_state:
-        st.session_state.current_refresh_delay = 7
+        st.session_state.current_refresh_delay = 3600
 
     if 'r_now' not in st.session_state:
         st.session_state.r_now = datetime.datetime.now()
