@@ -256,7 +256,6 @@ def create_states():
             'out_note': None,
         }
 
-
     state_list = ['del_conf', 'loads_df', 'proj_names', 'adb', 'spec', 'menu', 'icons', 'rights']
 
     for state in state_list:
@@ -352,7 +351,6 @@ def form_for_trans():
 
 
 def home_content():
-
     make_short_delay()
 
     center_style()
@@ -743,7 +741,6 @@ def login_register():
 
 
 def manage_users():
-
     st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
 
     center_style()
@@ -907,7 +904,6 @@ def fresh_data():
 
 
 def manage_storage():
-
     make_short_delay()
 
     center_style()
@@ -1081,8 +1077,6 @@ def initial():
     except Exception as e:
         st.warning(err_handler(e))
 
-
-
     if st.session_state.logged and st.session_state.user['login'] and st.session_state.user['access_level']:
         try:
             st.session_state.user['vert_menu'] = int(
@@ -1150,7 +1144,6 @@ def link(link, text, **style):
 
 
 def layout(*args):
-
     style = """
     <style>
       # MainMenu {visibility: hidden;}
@@ -1242,8 +1235,3 @@ if __name__ == "__main__":
         update_tables()
         if st.session_state.user['vert_menu'] == 0:
             footer()
-
-
-
-
-
