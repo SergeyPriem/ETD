@@ -892,7 +892,7 @@ def manage_users():
 
         with view_tab3:
             u_df = st.session_state.adb['users']
-            u_df = u_df.drop(columns=['hashed_pass'])
+            # u_df = u_df.drop(columns=['hashed_pass'])
             st.experimental_data_editor(u_df, use_container_width=True, height=1500)
 
 
