@@ -203,14 +203,14 @@ def manage_projects():
 
                             if reply3 != 'Data is updated':
                                 st.warning(reply3)
-                                st.stop()
-
-                            make_short_delay()
 
                         else:
                             r_rep.warning(reply2)
                     else:
                         st.warning(reply)
+
+                if st.button("OK", key='close_update_project'):
+                    make_short_delay()
 
         with viewer_tab:
 

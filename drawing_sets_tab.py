@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st
 from admin_tools import get_list_index
 from send_emails import send_mail
-from utilities import sod_revisions, sod_statuses, stages, center_style, update_state
+from utilities import sod_revisions, sod_statuses, stages, center_style, update_state, make_long_delay, make_short_delay
 from projects import update_sod, add_sod, update_unit_name_stage
 from utilities import err_handler
 from functools import lru_cache
@@ -151,6 +151,9 @@ def drawing_sets():
             upd_unit_but = c_c.form_submit_button(label=button_label, use_container_width=True)
 
         if upd_unit_but:
+
+            make_long_delay()
+
             rev = f"{rev_min} - {rev_max}"
             if not request_chb:
                 if all([
@@ -225,13 +228,16 @@ def drawing_sets():
                     reply2 = send_mail(coord_email, perf_email, subj, html)
 
                     if reply2 == 200:
-                        rc.success(f'Informational e-mail was sent to {coord_email}, {perf_email}')
+                        rc.success(f'Notifications were sent to {coord_email}, {perf_email}')
 
                         reply3 = update_state('sod')
 
                         if reply3 != 'Data is updated':
                             st.warning(reply3)
                             st.stop()
+
+                        make_short_delay()
+
                 else:
                     st.warning(reply['err_descr'])
 
@@ -280,9 +286,10 @@ def drawing_sets():
 
                 if reply2 == 200:
                     lc, rc = st.columns(2, gap='medium')
-                    lc.success(f'Informational e-mail was sent to {coord_email}, {perf_email}')
+                    lc.success(f'Notifications were sent to {coord_email}, {perf_email}')
 
-                    rc.button('O K', key='close_request_reply')
+                    if rc.button('OK', key='close_request_reply'):
+                        make_short_delay()
 
         st.write("")
 

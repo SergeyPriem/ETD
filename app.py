@@ -23,7 +23,7 @@ from settings_tab import settings_content
 from tasks_tab import tasks_content
 from transmittals_tab import transmittals_content
 from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, register_user, \
-    err_handler
+    err_handler, get_registered_logins, get_appl_logins
 from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, \
     center_style, get_state, set_init_state, update_state, make_short_delay, make_long_delay
 
@@ -161,7 +161,7 @@ def create_states():
         st.session_state.proj_scope = 'Only Current Projects'
 
     if 'adb' not in st.session_state:
-        st.session_state.adb = get_all()
+        st.session_state.adb = None #get_all()
 
     reply = None
 
@@ -237,8 +237,22 @@ def create_states():
             'out_note': None,
         }
 
-    state_list = ['del_conf', 'loads_df', 'proj_names', 'appl_logins', 'adb', 'spec', 'menu',
-                  'icons', 'rights', 'registered_logins']
+    if 'appl_logins' not in st.session_state:
+        reply = get_appl_logins()
+        if isinstance(reply, list) and len(reply):
+            st.session_state.appl_logins = reply
+        else:
+            st.warning("Can't get Applied Users")
+
+    if 'registered_logins' not in st.session_state:
+        reply = get_registered_logins()
+        if isinstance(reply, list) and len(reply):
+            st.session_state.registered_logins = reply
+        else:
+            st.warning("Can't get Registered Users")
+
+    state_list = ['del_conf', 'loads_df', 'proj_names', 'adb', 'spec', 'menu',
+                  'icons', 'rights']
 
     for state in state_list:
         if state not in st.session_state:
@@ -634,6 +648,9 @@ def login_register():
 
             # conf_html = ""
             if get_reg_code:
+
+                make_long_delay()
+
                 if login in st.session_state.registered_logins:
                     st.warning(f'User {login} is already in DataBase')
                     st.stop()
@@ -679,7 +696,6 @@ def login_register():
                     """
 
                 if not st.session_state.code_sent:
-                    # user = get_user_data(login)
 
                     u_df = st.session_state.adb['users']
                     user = u_df.loc[u_df.login == login]
@@ -713,10 +729,11 @@ def login_register():
                         st.write('Error')
                     else:
                         st.warning(reply)
+
                 st.session_state.conf_num = None
                 st.session_state.code_sent = None
-                st.session_state.adb = get_all()
-                st.experimental_rerun()
+                # st.session_state.adb = get_all()
+                make_short_delay()
 
 
 def manage_users():
@@ -1031,18 +1048,18 @@ def initial():
         st.warning(err_handler(e))
         st.stop()
 
-    try:
-        st.session_state.registered_logins = u_df.loc[(u_df.status == 'current') &
-                                                      u_df.hashed_pass, 'login'].tolist()
-
-        st.session_state.appl_logins = u_df.loc[u_df.status == 'current', 'login'].tolist()
-
-        if len(st.session_state.registered_logins) == 0:
-            st.warning("Can't get Registered Users")
-            st.stop()
-    except Exception as e:
-        st.warning(err_handler(e))
-        st.stop()
+    # try:
+    #     st.session_state.registered_logins = u_df.loc[(u_df.status == 'current') &
+    #                                                   u_df.hashed_pass, 'login'].tolist()
+    #
+    #     st.session_state.appl_logins = u_df.loc[u_df.status == 'current', 'login'].tolist()
+    #
+    #     if len(st.session_state.registered_logins) == 0:
+    #         st.warning("Can't get Registered Users")
+    #         st.stop()
+    # except Exception as e:
+    #     st.warning(err_handler(e))
+    #     st.stop()
 
     try:
         st.session_state.proj_names = st.session_state.adb['project'].short_name.tolist()
@@ -1058,8 +1075,7 @@ def initial():
     except Exception as e:
         st.warning(err_handler(e))
 
-    if not st.session_state.logged:
-        login_register()
+
 
     if st.session_state.logged and st.session_state.user['login'] and st.session_state.user['access_level']:
         try:
@@ -1206,19 +1222,22 @@ def footer():
 
 
 if __name__ == "__main__":
+    st.session_state.r_now = datetime.datetime.now()
     create_states()
     # st.write(f"count: {st.session_state.count}")
     # st.write(f"New state: {st.session_state.new_state}")
     # st.write(f"Local Marker: {st.session_state.local_marker}")
     # st.write(f"Task Preview: {st.session_state.task_preview}")
 
-    st.session_state.r_now = datetime.datetime.now()
-    refresher()
-    initial()
-    show_sidebar_info()
-    update_tables()
-    if st.session_state.user['vert_menu'] == 0:
-        footer()
+    if not st.session_state.logged:
+        login_register()
+    else:
+        refresher()
+        initial()
+        show_sidebar_info()
+        update_tables()
+        if st.session_state.user['vert_menu'] == 0:
+            footer()
 
 
 

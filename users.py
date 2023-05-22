@@ -5,6 +5,7 @@ import bcrypt
 from models import Users, VisitLog
 from pony.orm import *
 
+from projects import tab_to_df
 from utilities import mail_to_name, err_handler
 
 set_sql_debug(False)
@@ -60,13 +61,11 @@ def get_appl_logins():
             return err_handler(e)
 
 
-def get_logins_for_registered():
+def get_registered_logins():
     with db_session:
         try:
-            exist_logins = select(
-                u.login for u in Users
-                if len(u.hashed_pass) > 0 and u.status == 'current')[:]
-            return list(exist_logins)
+            registered_logins = select(u for u in Users if len(u.hashed_pass) > 0 and u.status == 'current')[:]
+            return registered_logins
         except Exception as e:
             return err_handler(e)
 
