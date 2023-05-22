@@ -47,7 +47,7 @@ def add_task(task_content):
 
         st.experimental_rerun()
 
-    st.session_state('after rerun')
+    st.write('after rerun')
     time.sleep(2)
 
     u_df = st.session_state.adb['users']
