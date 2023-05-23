@@ -619,6 +619,7 @@ def manage_units():
             if upd_unit_but:
                 u_id = sod_df.loc[(sod_df.project_id == proj_short) &
                                   (sod_df.set_name == unit_name)].index.to_numpy()[0]
+
                 reply = update_unit_name_stage(u_id, new_unit_name, new_stage)
 
                 l_rep, r_rep = st.columns(2, gap='medium')

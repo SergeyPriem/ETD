@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
 import streamlit as st
-from utilities import trans_types, center_style, update_state, make_short_delay, make_long_delay
+from utilities import trans_types, center_style, update_state #, make_short_delay, make_long_delay
 from projects import add_new_trans
 
 
@@ -54,7 +54,7 @@ def det_trans_from_df(login=None):
 
 def transmittals_content():
 
-    make_short_delay()
+    # make_short_delay()
 
     center_style()
 
@@ -100,7 +100,7 @@ def transmittals_content():
 
             if add_trans_but:
 
-                make_long_delay()
+                # make_long_delay()
 
                 if project != '-- Type right here or select from list --':
                     # l_prev, r_prev = st.columns([1, 8])
@@ -186,7 +186,7 @@ def transmittals_content():
                         st.warning(reply3)
                         st.stop()
 
-                    make_short_delay()
+                    # make_short_delay()
 
                 else:
                     st.warning("Please Update fields properly...")

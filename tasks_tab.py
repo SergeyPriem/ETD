@@ -2,7 +2,7 @@
 import time
 
 import streamlit as st
-from utilities import center_style, update_state, make_short_delay, make_long_delay
+from utilities import center_style, update_state #, make_short_delay, make_long_delay
 from projects import add_in_to_db, add_out_to_db, get_table
 from send_emails import send_mail
 
@@ -80,7 +80,7 @@ def add_task(task_content):
 
         if task_preview:
 
-            make_long_delay()
+            # make_long_delay()
 
             if non_task:
                 description = "Non-task"
@@ -278,18 +278,18 @@ def add_task(task_content):
             if not st.session_state.task_preview:
                 if st.button('Close', key='close_add_task'):
                     st.session_state.task_preview = False
-                    make_short_delay()
+                    # make_short_delay()
 
             if right_b.button('Escape or Correct Data', use_container_width=True,
                               on_click=disable_add_task, args=(True,)):
                 st.session_state.task_preview = False
-                make_short_delay()
+                # make_short_delay()
 
 
 def view_tasks(ass_tab2, my_all):
     with ass_tab2:
 
-        make_short_delay()
+        # make_short_delay()
 
         df = st.session_state.adb['task']
         sod_df = st.session_state.adb['sod']

@@ -25,7 +25,7 @@ from transmittals_tab import transmittals_content
 from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, register_user, \
     err_handler, get_registered_logins, get_appl_logins, get_users_df
 from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, \
-    center_style, get_state, set_init_state, update_state, make_short_delay, make_long_delay
+    center_style, get_state, set_init_state, update_state #, make_short_delay, make_long_delay
 
 import streamlit as st
 from htbuilder import HtmlElement, div, hr, a, p, img, styles
@@ -309,7 +309,7 @@ def form_for_trans():
             conf_but = st.form_submit_button('Update', type='primary', use_container_width=True)
 
         if conf_but:
-            make_long_delay()
+            # make_long_delay()
 
             if out_num == "Reply is Not Required" and (status == "Closed" or status == "Issued Docs"):
                 if not check_number:
@@ -337,19 +337,19 @@ def form_for_trans():
                     st.warning(reply3)
                     time.sleep(1)
 
-                make_long_delay()
+                # make_long_delay()
             else:
                 st.warning(reply)
                 st.session_state.trans_status['trans_num'] = None
-                make_short_delay()
+                # make_short_delay()
 
         if st.button('Escape', use_container_width=True):
             st.session_state.trans_status['trans_num'] = None
-            make_short_delay()
+            # make_short_delay()
 
 
 def home_content():
-    make_short_delay()
+    # make_short_delay()
 
     center_style()
 
@@ -651,7 +651,7 @@ def login_register():
             # conf_html = ""
             if get_reg_code:
 
-                make_long_delay()
+                # make_long_delay()
 
                 if login in st.session_state.registered_logins:
                     st.warning(f'User {login} is already in DataBase')
@@ -735,7 +735,7 @@ def login_register():
                 st.session_state.conf_num = None
                 st.session_state.code_sent = None
                 # st.session_state.adb = get_all()
-                make_short_delay()
+                # make_short_delay()
 
 
 def manage_users():
@@ -902,7 +902,7 @@ def fresh_data():
 
 
 def manage_storage():
-    make_short_delay()
+    # make_short_delay()
 
     center_style()
 
@@ -1132,12 +1132,12 @@ def update_tables():
 
 
 
-def refresher():
-    count = st_autorefresh(interval=st.session_state.current_refresh_delay * 1000, limit=100000, key="fizzbuzzcounter")
-
-    if count != st.session_state.count:
-        st.session_state.new_state = get_state()
-        st.session_state.count = count
+# def refresher():
+#     count = st_autorefresh(interval=st.session_state.current_refresh_delay * 1000, limit=100000, key="fizzbuzzcounter")
+#
+#     if count != st.session_state.count:
+#         st.session_state.new_state = get_state()
+#         st.session_state.count = count
 
 
 def image(src_as_string, **style):
@@ -1256,7 +1256,7 @@ if __name__ == "__main__":
     if not st.session_state.logged:
         login_register()
     else:
-        refresher()
+        # refresher()
         initial()
         show_sidebar_info()
         reply = update_tables()
