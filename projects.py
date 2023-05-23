@@ -5,11 +5,13 @@ from models import Project, SOD, Task, Users, Speciality, Trans
 import pandas as pd
 from datetime import date, datetime
 import streamlit as st
-from utilities import BACKUP_FOLDER
 from utilities import err_handler
+from pathlib import Path
 
-set_sql_debug(False)
+set_sql_debug(True)
 
+
+BACKUP_FOLDER: Path = Path('//uz-fs/Uzle/Work/Отдел ЭЛ/Архив заданий/')
 
 def delete_table_row(table, row_id):
     with db_session:

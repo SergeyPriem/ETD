@@ -2,7 +2,6 @@
 import time
 
 import streamlit as st
-from pathlib import Path
 import json
 import os
 
@@ -73,9 +72,6 @@ def mail_to_name(mail):
             return head
     except AttributeError:
         return "Colleague"
-
-
-BACKUP_FOLDER: Path = Path('//uz-fs/Uzle/Work/Отдел ЭЛ/Архив заданий/')
 
 
 def get_state():
