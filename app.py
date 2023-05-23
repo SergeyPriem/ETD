@@ -9,7 +9,7 @@ import pandas as pd
 from PIL import Image
 from streamlit_option_menu import option_menu
 
-from admin_tools import manage_projects, get_list_index
+from admin_tools import manage_projects
 from drawing_sets_tab import drawing_sets, manage_units
 from just_for_fun_tab import reading
 from lesson_learned_tab import lessons_content
@@ -23,7 +23,8 @@ from transmittals_tab import transmittals_content
 from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, register_user, \
     err_handler
 from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, \
-    center_style, get_state, set_init_state, update_state, update_tables  # , make_short_delay, make_long_delay
+    center_style, get_state, set_init_state, update_state, update_tables, \
+    get_list_index  # , make_short_delay, make_long_delay
 
 import streamlit as st
 from htbuilder import HtmlElement, div, hr, a, p, img, styles
