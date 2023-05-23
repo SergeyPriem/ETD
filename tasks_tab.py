@@ -42,14 +42,14 @@ def add_task(task_content):
 
         proj_list = st.session_state.proj_names
 
-        if '-- Type right here or select from list --' not in proj_list:
-            proj_list.insert(0, '-- Type right here or select from list --')
+        # if '-- Type right here or select from list --' not in proj_list:
+        #     proj_list.insert(0, '-- Type right here or select from list --')
 
-        project = st.selectbox('Select the Project', proj_list, on_change=make_long_delay)
+        project = st.selectbox('Select the Project', proj_list)
 
-        if project == '-- Type right here or select from list --':
-            st.stop()
-
+        # if project == '-- Type right here or select from list --':
+        #     st.stop()
+        #
         proj_id = proj_df[proj_df.short_name == project].index.to_numpy()[0]
         sod_list = sod_df[sod_df.project_id == proj_id].set_name.tolist()
 
@@ -80,7 +80,7 @@ def add_task(task_content):
 
         if task_preview:
 
-            # make_long_delay()
+            make_long_delay()
 
             if non_task:
                 description = "Non-task"
