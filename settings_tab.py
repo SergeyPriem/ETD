@@ -5,7 +5,7 @@ import streamlit as st
 
 from admin_tools import get_list_index
 from models import Users
-from projects import get_table
+from projects import get_table, get_all
 from send_emails import send_mail
 from users import update_settings, update_user_reg_data
 from utilities import center_style, update_tables
@@ -62,9 +62,9 @@ def settings_content():
                 scope_conf_but = r_c.form_submit_button('Apply Selected Scope', use_container_width=True)
 
             if scope_conf_but:
-                st.success('Settings Updated')
                 st.session_state.proj_scope = scope
-                update_tables()
+                st.session_state.adb = get_all()
+                st.success('Settings Updated')
 
         with change_pass_tab:
             with st.form("UpData"):
