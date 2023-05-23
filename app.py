@@ -366,7 +366,7 @@ def form_for_trans():
                 st.warning(reply)
                 st.session_state.trans_status['trans_num'] = None
 
-        if st.button('Escape', use_container_width=True):
+        if st.button('Close', use_container_width=True):
             st.session_state.trans_status['trans_num'] = None
             st.experimental_rerun()
 
