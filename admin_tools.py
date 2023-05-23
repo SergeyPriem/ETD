@@ -2,7 +2,7 @@
 import time
 
 import streamlit as st
-from utilities import proj_statuses, center_style, get_list_index, update_state, make_short_delay, make_long_delay
+from utilities import proj_statuses, center_style, get_list_index, update_state #, make_short_delay, make_long_delay
 from projects import create_project, update_projects
 
 from send_emails import send_mail
@@ -10,7 +10,7 @@ from send_emails import send_mail
 
 def manage_projects():
 
-    make_short_delay()
+    # make_short_delay()
 
     empty_proj_1, content_proj, empty_proj_2 = st.columns([1, 12, 1])
     with empty_proj_1:
@@ -52,7 +52,7 @@ def manage_projects():
 
             if proj_prev_but:
 
-                make_long_delay()
+                # make_long_delay()
 
                 st.write(f"""
                 Short Name: **:blue[{proj_short}]**  
@@ -75,7 +75,7 @@ def manage_projects():
 
                 if 'is added to DataBase' in reply:
                     st.success(reply)
-                    make_short_delay()
+                    # make_short_delay()
 
                     reply3 = update_state('project')
 
@@ -142,7 +142,7 @@ def manage_projects():
                         st.write('Too short Name. Should be more than 2 symbols')
                         st.stop()
 
-                    make_short_delay()
+                    # make_short_delay()
 
                     reply = update_projects(proj_ser.index.to_numpy()[0], short_name, full_name, client,
                                             manager, responsible_el, status, assignment, tech_conditions,
@@ -209,12 +209,12 @@ def manage_projects():
                     else:
                         st.warning(reply)
 
-                if st.button("OK", key='close_update_project'):
-                    make_short_delay()
+                # if st.button("OK", key='close_update_project'):
+                    # make_short_delay()
 
         with viewer_tab:
 
-            make_short_delay()
+            # make_short_delay()
 
             proj_df = st.session_state.adb['project']
             u_df = st.session_state.adb['users']

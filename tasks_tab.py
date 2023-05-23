@@ -2,9 +2,10 @@
 import time
 
 import streamlit as st
-from utilities import center_style, update_state #, make_short_delay, make_long_delay
-from projects import add_in_to_db, add_out_to_db, get_table
+
+from projects import add_in_to_db, add_out_to_db
 from send_emails import send_mail
+from utilities import center_style, update_state  # , make_short_delay, make_long_delay
 
 
 def disable_add_task(cur_stat):
@@ -234,18 +235,18 @@ def add_task(task_content):
                                 if reply == 200:
                                     st.write(f"Notifications sent by emails: {perf_email}, {coord_email}")
 
-                                    st.experimental_show(st.session_state.current_refresh_delay)
+                                    # st.experimental_show(st.session_state.current_refresh_delay)
 
                                     reply3 = update_state('task')
-                                    st.experimental_show(reply3)
+                                    # st.experimental_show(reply3)
 
                                     if reply3 != 'Data is updated':
                                         st.warning(reply3)
-                                        st.write(*242)
+                                        # st.write(*242)
                                         st.stop()
                                 else:
                                     st.warning(reply)
-                                    st.write(*246)
+                                    # st.write(*246)
                                     st.stop()
 
                             else:
@@ -275,9 +276,9 @@ def add_task(task_content):
 
                             st.divider()
 
-            if not st.session_state.task_preview:
-                if st.button('Close', key='close_add_task'):
-                    st.session_state.task_preview = False
+            # if not st.session_state.task_preview:
+            #     if st.button('Close', key='close_add_task'):
+            #         st.session_state.task_preview = False
                     # make_short_delay()
 
             if right_b.button('Escape or Correct Data', use_container_width=True,
