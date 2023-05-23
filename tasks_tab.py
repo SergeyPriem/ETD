@@ -235,12 +235,15 @@ def add_task(task_content):
                                     st.write(f"Notifications sent by emails: {perf_email}, {coord_email}")
 
                                     reply3 = update_state('task')
+                                    st.experimental_show(reply3)
 
                                     if reply3 != 'Data is updated':
                                         st.warning(reply3)
+                                        st.write(*242)
                                         st.stop()
                                 else:
                                     st.warning(reply)
+                                    st.write(*246)
                                     st.stop()
                             else:
                                 st.warning(reply)
@@ -269,10 +272,10 @@ def add_task(task_content):
 
                             st.divider()
 
+            if not st.session_state.task_preview:
                 if st.button('Close', key='close_add_task'):
                     st.session_state.task_preview = False
                     make_short_delay()
-
 
             if right_b.button('Escape or Correct Data', use_container_width=True,
                               on_click=disable_add_task, args=(True,)):
