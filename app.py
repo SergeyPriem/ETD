@@ -1132,7 +1132,7 @@ def update_tables():
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
                 return f"{reply['status']} by {upd_login}"
 
-    st.experimental_rerun()
+    # st.experimental_rerun()
 
 
 
