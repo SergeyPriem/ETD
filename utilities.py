@@ -5,17 +5,10 @@ from pathlib import Path
 import json
 import os
 
-# import time
-# import copy
-# from streamlit_server_state import server_state, server_state_lock, no_rerun, force_rerun_bound_sessions
 
 
 positions = ('Trainee', 'III cat.', 'II cat.', 'I cat.', 'Lead', 'Group Head', 'Senior', 'Dep. Head')
 departments = ('UzLITI Engineering', 'En-Solut', 'En-Concept', 'En-Smart', 'Remote')
-# specialities = ('Architecture', 'Civil', 'HVAC', 'WSS', 'Telecom', 'F&G', 'Instrument', 'Process', 'Plot Plan',
-#                 'Building-Process', 'Cathodic Protection', 'Estimators', 'Thermal', 'ProgMan')
-# specialities_rus = ('Архитектура', 'ОВ', 'ВК', 'Связь', 'СПГО', 'КИП', 'Технология',
-#                     'ЭХЗ', 'Сметчики', 'Теплотехники', 'Строители')
 stages = ('Detail Design', 'Basic Design', 'Feed', 'Feasibility Study', 'Adaptation')
 sod_statuses = (
     '0%', "Cancelled", '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '99%', "Squad Check", "Issued",

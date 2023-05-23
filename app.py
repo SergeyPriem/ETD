@@ -7,7 +7,6 @@ import time
 
 import pandas as pd
 from PIL import Image
-from streamlit_autorefresh import st_autorefresh
 from streamlit_option_menu import option_menu
 
 from admin_tools import manage_projects, get_list_index
@@ -23,7 +22,7 @@ from settings_tab import settings_content
 from tasks_tab import tasks_content
 from transmittals_tab import transmittals_content
 from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, register_user, \
-    err_handler, get_registered_logins, get_appl_logins, get_users_df
+    err_handler
 from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, \
     center_style, get_state, set_init_state, update_state  # , make_short_delay, make_long_delay
 
@@ -734,7 +733,7 @@ def login_register():
 
 
 def manage_users():
-a
+
     center_style()
     users_1, users_content, users_2 = st.columns([1, 4, 1])
     with users_1:
