@@ -1,9 +1,10 @@
 [theme]
-primaryColor="#b83112"
+#primaryColor="#b83112"
+primaryColor="#4c90d9"
 backgroundColor="#353838"
 secondaryBackgroundColor="#2d302f"
-# textColor="#ffffff"
-textColor="#4c90d9"
+textColor="#ffffff"
+
 
 [runner]
 fastReruns = true
