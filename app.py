@@ -14,8 +14,7 @@ from drawing_sets_tab import drawing_sets, manage_units
 from just_for_fun_tab import reading
 from lesson_learned_tab import lessons_content
 from models import Users, Task, Trans
-from projects import confirm_task, confirm_trans, trans_status_to_db, get_all, get_table, get_tasks_repeat, \
-    get_sod_repeat, get_proj_repeat, get_trans_repeat
+from projects import confirm_task, confirm_trans, trans_status_to_db, get_all, get_table
 from scripts import scripts_tab
 from send_emails import send_mail
 from settings_tab import settings_content

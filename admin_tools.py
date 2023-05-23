@@ -1,17 +1,13 @@
 # -*- coding: utf-8 -*-
-import time
 
 import streamlit as st
-from utilities import proj_statuses, center_style, get_list_index, update_state #, make_short_delay, make_long_delay
+from utilities import proj_statuses, center_style, get_list_index, update_state
 from projects import create_project, update_projects
 
 from send_emails import send_mail
 
 
 def manage_projects():
-
-    # make_short_delay()
-
     empty_proj_1, content_proj, empty_proj_2 = st.columns([1, 12, 1])
     with empty_proj_1:
         st.empty()
@@ -27,12 +23,10 @@ def manage_projects():
                                                               'View All Projects'])
 
         with create_proj_tab:
-            # st.subheader('Add New Project')
             with st.form("create_project", clear_on_submit=False):
                 lc, rc = st.columns(2, gap='medium')
                 proj_short = lc.text_input('Project Name - short', max_chars=150)
                 proj_full = rc.text_input('Project Name - full', max_chars=200)
-                # responsible_el = st.selectbox('Responsible Person', get_logins_for_current())
                 u_df = st.session_state.adb['users']
                 responsible_el = lc.selectbox('Responsible Person',
                                               u_df.loc[u_df.status == 'current', 'login'].tolist())
@@ -51,9 +45,6 @@ def manage_projects():
                 proj_prev_but = rc.form_submit_button('Preview Data', use_container_width=True)
 
             if proj_prev_but:
-
-                # make_long_delay()
-
                 st.write(f"""
                 Short Name: **:blue[{proj_short}]**  
                 Full Name: **:blue[{proj_full}]**  
@@ -212,10 +203,7 @@ def manage_projects():
                     else:
                         st.warning(reply)
 
-
         with viewer_tab:
-
-            # make_short_delay()
 
             proj_df = st.session_state.adb['project']
             u_df = st.session_state.adb['users']
