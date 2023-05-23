@@ -68,8 +68,6 @@ def transmittals_content():
 
         st.title(':orange[Transmittals]')
 
-        st.experimental_show(st.session_state.proj_names)
-
         add_trans_tab, view_trans_tab = st.tabs(['Add New Transmittal', 'View Existing Transmittals'])
 
         with add_trans_tab:
@@ -79,12 +77,6 @@ def transmittals_content():
             #     proj_list.insert(0, '-- Type right here or select from list --')
 
             responsible_list = st.session_state.appl_logins
-
-            st.experimental_show(responsible_list)
-
-
-            # if '-- Type right here or select from list --' not in responsible_list:
-            #     responsible_list.insert(0, '-- Type right here or select from list --')
 
             with st.form("add_trans"):
                 lc, cc, rc = st.columns([5, 4, 4], gap='medium')

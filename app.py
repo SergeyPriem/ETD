@@ -178,9 +178,6 @@ def create_states():
         else:
             st.warning("Can't get Applied Users")
 
-    st.experimental_show(st.session_state.appl_logins)
-
-
     if 'registered_logins' not in st.session_state:
         u_df = st.session_state.adb['users']
         reg_login_list = u_df.loc[(u_df.hashed_pass.str.len() > 50) & (u_df.status == 'current'), 'login'].tolist()
