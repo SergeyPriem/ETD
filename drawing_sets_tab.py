@@ -474,8 +474,6 @@ def request_updates(temp_sod):
 
 def manage_units():
 
-    # make_short_delay()
-
     center_style()
 
     u_df = st.session_state.adb['users'].copy()
@@ -586,9 +584,6 @@ def manage_units():
                 else:
                     st.warning(reply['err_descr'])
 
-                # if st.button("Cloase Report", key='close_units_report'):
-                    # make_short_delay()
-
         with tab_update:
 
             l_c, r_c = st.columns(2, gap='medium')
@@ -693,8 +688,6 @@ def manage_units():
 
 
         with tab_preview:
-
-            st.experimental_show(sod_df)
 
             units_for_request = show_all_units(sod_df)
 
