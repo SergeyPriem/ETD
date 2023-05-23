@@ -163,11 +163,13 @@ def create_states():
         appl_logins_list = u_df.loc[u_df.status == 'current', 'login'].tolist()
 
         if isinstance(appl_logins_list, list) and len(appl_logins_list):
-            st.session_state.appl_logins = appl_logins_list.insert(0, '-- Type right here or select from list --')
+            appl_logins_list.insert(0, '-- Type right here or select from list --')
+            st.session_state.appl_logins = appl_logins_list
         else:
             st.warning("Can't get Applied Users")
 
     st.experimental_show(st.session_state.appl_logins)
+
 
     if 'registered_logins' not in st.session_state:
         u_df = st.session_state.adb['users']
