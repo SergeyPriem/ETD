@@ -152,8 +152,6 @@ def drawing_sets():
 
         if upd_unit_but:
 
-            # make_long_delay()
-
             rev = f"{rev_min} - {rev_max}"
             if not request_chb:
                 if all([
@@ -175,7 +173,7 @@ def drawing_sets():
 
                 if reply['status'] == 201:
 
-                    lc, rc = st.columns(2, gap='medium')
+                    lc, cc, rc = st.columns([1, 2, 1], gap='medium')
 
                     lc.success("Updated!")
                     # st.session_state.adb['sod'] = reply['sod']
@@ -228,7 +226,7 @@ def drawing_sets():
                     reply2 = send_mail(coord_email, perf_email, subj, html)
 
                     if reply2 == 200:
-                        rc.success(f'Notifications were sent to {coord_email}, {perf_email}')
+                        cc.success(f'Notifications were sent to {coord_email}, {perf_email}')
 
                         reply3 = update_state('sod')
 
@@ -236,7 +234,8 @@ def drawing_sets():
                             st.warning(reply3)
                             st.stop()
 
-                        st.button('OK', key='close_unit_report')
+                        rc.text('')
+                        rc.button('OK', key='close_unit_report')
 
                 else:
                     st.warning(reply['err_descr'])
