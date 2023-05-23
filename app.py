@@ -161,7 +161,7 @@ def create_states():
 
     if 'appl_logins' not in st.session_state:
         u_df = st.session_state.adb['users']
-        appl_logins_list = u_df.loc[u_df.hashed_pass.str.len() < 1, 'login'].tolist()
+        appl_logins_list = u_df.loc[u_df.status == 'current', 'login'].tolist()
         if isinstance(appl_logins_list, list) and len(appl_logins_list):
             st.session_state.appl_logins = appl_logins_list
         else:
@@ -734,7 +734,7 @@ def login_register():
 
 
 def manage_users():
-
+a
     center_style()
     users_1, users_content, users_2 = st.columns([1, 4, 1])
     with users_1:
@@ -1022,18 +1022,6 @@ def initial():
         st.warning(err_handler(e))
         st.stop()
 
-    # try:
-    #     st.session_state.registered_logins = u_df.loc[(u_df.status == 'current') &
-    #                                                   u_df.hashed_pass, 'login'].tolist()
-    #
-    #     st.session_state.appl_logins = u_df.loc[u_df.status == 'current', 'login'].tolist()
-    #
-    #     if len(st.session_state.registered_logins) == 0:
-    #         st.warning("Can't get Registered Users")
-    #         st.stop()
-    # except Exception as e:
-    #     st.warning(err_handler(e))
-    #     st.stop()
 
     try:
         st.session_state.proj_names = st.session_state.adb['project'].short_name.tolist()
