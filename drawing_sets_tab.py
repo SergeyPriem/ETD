@@ -528,11 +528,9 @@ def manage_units():
                 notes = l_c.text_area("Add Notes", max_chars=500, height=120).strip()
                 create_sod_but = r_c.form_submit_button("Create", use_container_width=True)
 
-            res_l, res_r = st.columns(2, gap='medium')
+            res_l, res_c, res_r = st.columns([1, 2, 1], gap='medium')
 
             if create_sod_but:
-
-                # make_long_delay()
 
                 reply = add_sod(proj_short, unit_name, stage, status, set_start_date, coordinator, performer, notes)
 
@@ -575,7 +573,7 @@ def manage_units():
                     reply_2 = send_mail(receiver, cc_rec, subj, html)
 
                     if reply_2 == 200:
-                        res_r.success(f'Notifications were sent to {receiver}, {cc_rec}')
+                        res_c.success(f'Notifications were sent to {receiver}, {cc_rec}')
 
                     reply3 = update_state('sod')
 
@@ -583,7 +581,7 @@ def manage_units():
                         st.warning(reply3)
                         st.stop()
 
-                    st.button('OK', key='close_upd_sod2_report')
+                    res_r.button('OK', key='close_upd_sod2_report', use_container_width=True)
 
                 else:
                     st.warning(reply['err_descr'])
@@ -599,11 +597,7 @@ def manage_units():
 
             unit_list = sod_df.loc[sod_df.project_id == proj_short, 'set_name'].tolist()
 
-            if len(unit_list) != 0:
-                # r_c.text("")
-                # r_c.write("")
-                # r_c.warning("Select a Project")
-                # st.stop()
+            if len(unit_list):
 
                 unit_name = r_c.selectbox('Select Unit', unit_list)
 
@@ -691,6 +685,12 @@ def manage_units():
                     else:
                         st.warning(reply['err_descr'])
                         st.stop()
+
+            else:
+                r_c.text("")
+                r_c.write("")
+                r_c.warning("Select a Project")
+
 
         with tab_preview:
 
