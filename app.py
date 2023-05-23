@@ -257,6 +257,7 @@ def create_states():
                 st.warning("Can't get Project List")
             else:
                 st.session_state.proj_names.insert(0, '-- Type right here or select from list --')
+
         except Exception as e:
             st.warning(err_handler(e))
             st.stop()
