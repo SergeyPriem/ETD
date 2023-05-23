@@ -1098,6 +1098,9 @@ def initial():
 
 
 def update_tables():
+
+    st.session_state.new_state = get_state()
+
     for table in ('sod', 'task', 'trans', 'project'):
         if st.session_state.local_marker[table]['id'] != st.session_state.new_state[table]['id']:
             try:
