@@ -157,10 +157,10 @@ def err_handler(e):
 def make_short_delay():
     if st.session_state.current_refresh_delay != st.session_state.user['refresh_delay']:
         st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
-        st.experimental_rerun()
+        # st.experimental_rerun()
 
 
 def make_long_delay():
     if st.session_state.current_refresh_delay != 3600:
         st.session_state.current_refresh_delay = 3600
-        st.experimental_rerun()
+        # st.experimental_rerun()
