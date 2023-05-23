@@ -148,7 +148,7 @@ def manage_projects():
                                             manager, responsible_el, status, assignment, tech_conditions,
                                             surveys, mdr, notes)
 
-                    l_rep, r_rep = st.columns(2, gap='medium')
+                    l_rep, c_rep, r_rep = st.columns([1, 2, 1], gap='medium')
                     if reply['status'] == 201:
                         l_rep.success('Project Details Updated')
 
@@ -197,22 +197,20 @@ def manage_projects():
                         reply2 = send_mail(receiver, cc_rec, subj, html)
 
                         if reply2 == 200:
-                            r_rep.success(f'Notifications were sent to {receiver}, {cc_rec}')
+                            c_rep.success(f'Notifications were sent to {receiver}, {cc_rec}')
 
                             reply3 = update_state('project')
 
                             if reply3 != 'Data is updated':
                                 st.warning(reply3)
 
-                            st.button('OK', key='close_proj_report')
+                            r_rep.button('OK', key='close_proj_report')
 
                         else:
-                            r_rep.warning(reply2)
+                            st.warning(reply2)
                     else:
                         st.warning(reply)
 
-                # if st.button("OK", key='close_update_project'):
-                    # make_short_delay()
 
         with viewer_tab:
 
