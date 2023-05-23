@@ -25,7 +25,7 @@ from transmittals_tab import transmittals_content
 from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, register_user, \
     err_handler, get_registered_logins, get_appl_logins, get_users_df
 from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, \
-    center_style, get_state, set_init_state, update_state #, make_short_delay, make_long_delay
+    center_style, get_state, set_init_state, update_state  # , make_short_delay, make_long_delay
 
 import streamlit as st
 from htbuilder import HtmlElement, div, hr, a, p, img, styles
@@ -90,9 +90,7 @@ def home_trans():
 
 
 def show_sidebar_info():
-
     if st.session_state.user['login'] and st.session_state.proj_scope:
-
         st.sidebar.text("")
         st.sidebar.markdown(f"<h4 style='text-align: center; color: #00bbf9;'>Current Mode:</h4>",
                             unsafe_allow_html=True)
@@ -1098,11 +1096,15 @@ def initial():
 
 
 def update_tables():
-
     st.session_state.new_state = get_state()
+
+    counter = 0
 
     for table in ('sod', 'task', 'trans', 'project'):
         if st.session_state.local_marker[table]['id'] != st.session_state.new_state[table]['id']:
+
+            counter += 1
+
             try:
                 upd_login = st.session_state.new_state[table]['user']
             except:
@@ -1132,9 +1134,8 @@ def update_tables():
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
                 return f"{reply['status']} by {upd_login}"
 
-    # st.experimental_rerun()
-
-
+    if counter:
+        st.experimental_rerun()
 
 
 # def refresher():
@@ -1218,7 +1219,7 @@ def footer(reply):
             "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
             f"Refresh&nbspDelay:&nbsp&nbsp{st.session_state.current_refresh_delay}&nbsps."
             f"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-            
+
             "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
             f"{reply}"
             f"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
@@ -1238,7 +1239,6 @@ def footer(reply):
             f"Refresh&nbspDelay:&nbsp&nbsp{st.session_state.current_refresh_delay}&nbsps."
             f"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp",
         ]
-
 
     # myargs = [
     #     "Made in ",
