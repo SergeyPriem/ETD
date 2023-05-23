@@ -68,6 +68,8 @@ def transmittals_content():
 
         st.title(':orange[Transmittals]')
 
+        st.experimental_show(st.session_state.proj_names)
+
         add_trans_tab, view_trans_tab = st.tabs(['Add New Transmittal', 'View Existing Transmittals'])
 
         with add_trans_tab:
