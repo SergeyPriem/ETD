@@ -249,7 +249,28 @@ def create_states():
             'out_note': None,
         }
 
-    state_list = ['del_conf', 'loads_df', 'proj_names', 'adb', 'spec', 'menu', 'icons', 'rights']
+    if 'proj_names' not in st.session_state:
+        try:
+            st.session_state.proj_names = st.session_state.adb['project'].short_name.tolist()
+
+            if len(st.session_state.proj_names) == 0:
+                st.warning("Can't get Project List")
+            else:
+                st.session_state.proj_names.insert(0, '-- Type right here or select from list --')
+        except Exception as e:
+            st.warning(err_handler(e))
+            st.stop()
+
+    if 'spec' not in st.session_state:
+        try:
+            st.session_state.spec = st.session_state.adb['speciality'].abbrev.tolist()
+            if len(st.session_state.spec) == 0:
+                st.warning("Can't get Specialities")
+        except Exception as e:
+            st.warning(err_handler(e))
+            st.stop()
+
+    state_list = ['del_conf', 'loads_df', 'menu', 'icons']
 
     for state in state_list:
         if state not in st.session_state:
@@ -264,7 +285,6 @@ def create_states():
 def update_trans_status(trans_num, trans_proj):
     st.session_state.trans_status = {
         'trans_num': trans_num,
-        # 'out_num': None,
         'project': trans_proj,
         'status': None,
         'out_note': None,
@@ -734,7 +754,6 @@ def login_register():
 
 
 def manage_users():
-
     center_style()
     users_1, users_content, users_2 = st.columns([1, 4, 1])
     with users_1:
@@ -884,7 +903,6 @@ def manage_users():
 
 
 def fresh_data():
-
     update_tables()
     st.header("")
     st.header("")
@@ -893,7 +911,6 @@ def fresh_data():
 
 
 def manage_storage():
-
     center_style()
 
     stor_left, stor_cont, stor_right = st.columns([5, 7, 5])
@@ -962,7 +979,6 @@ def home():
 
 # @lru_cache(15)
 def win_selector(selected):
-
     tab_dict = {
         "Home": home,
         "Projects": manage_projects,
@@ -1021,23 +1037,6 @@ def initial():
     except Exception as e:
         st.warning(err_handler(e))
         st.stop()
-
-
-    try:
-        st.session_state.proj_names = st.session_state.adb['project'].short_name.tolist().insert(
-            0,'-- Type right here or select from list --')
-
-        if len(st.session_state.proj_names) == 1:
-            st.warning("Can't get Project List")
-    except Exception as e:
-        st.warning(err_handler(e))
-
-    try:
-        st.session_state.spec = st.session_state.adb['speciality'].abbrev.tolist()
-        if len(st.session_state.spec) == 0:
-            st.warning("Can't get Specialities")
-    except Exception as e:
-        st.warning(err_handler(e))
 
     if st.session_state.logged and st.session_state.user['login'] and st.session_state.user['access_level']:
         try:

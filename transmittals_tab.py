@@ -78,8 +78,8 @@ def transmittals_content():
 
             responsible_list = st.session_state.appl_logins
 
-            if '-- Type right here or select from list --' not in responsible_list:
-                responsible_list.insert(0, '-- Type right here or select from list --')
+            # if '-- Type right here or select from list --' not in responsible_list:
+            #     responsible_list.insert(0, '-- Type right here or select from list --')
 
             with st.form("add_trans"):
                 lc, cc, rc = st.columns([5, 4, 4], gap='medium')
