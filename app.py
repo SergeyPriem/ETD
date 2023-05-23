@@ -335,7 +335,6 @@ def form_for_trans():
             conf_but = st.form_submit_button('Update', type='primary', use_container_width=True)
 
         if conf_but:
-            # make_long_delay()
 
             if out_num == "Reply is Not Required" and (status == "Closed" or status == "Issued Docs"):
                 if not check_number:
@@ -354,24 +353,23 @@ def form_for_trans():
 
             if reply == 'Status Updated':
                 st.success(reply)
-                time.sleep(1)
+
                 st.session_state.trans_status['trans_num'] = None
 
                 reply3 = update_state('trans')
 
                 if reply3 != 'Data is updated':
                     st.warning(reply3)
-                    time.sleep(1)
 
-                # make_long_delay()
+
             else:
                 st.warning(reply)
                 st.session_state.trans_status['trans_num'] = None
-                # make_short_delay()
 
         if st.button('Escape', use_container_width=True):
             st.session_state.trans_status['trans_num'] = None
-            # make_short_delay()
+
+
 
 
 def home_content():
