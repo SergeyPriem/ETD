@@ -81,127 +81,133 @@ def manage_projects():
         with edit_proj_tab:
             proj_to_edit = st.selectbox('Select Projects to Edit', st.session_state.proj_names)
 
-            if proj_to_edit:
-                proj_df = st.session_state.adb['project']
+            if proj_to_edit == '-- Type right here or select from list --':
+                st.stop()
 
-                proj_ser = proj_df[proj_df.short_name == proj_to_edit]
+            proj_df = st.session_state.adb['project']
 
-                u_df = st.session_state.adb['users']
+            proj_ser = proj_df[proj_df.short_name == proj_to_edit]
 
-                u_id = proj_ser.responsible_el.to_numpy()[0]
+            u_df = st.session_state.adb['users']
 
-                prev_responsible = u_df.loc[u_df.index == u_id, 'login'].to_numpy()[0]
+            u_id = proj_ser.responsible_el.to_numpy()[0]
 
-                with st.form('update_project'):
-                    lc, rc = st.columns(2, gap='medium')
-                    short_name = lc.text_input('Project Short Name', value=proj_ser.short_name.to_numpy()[0],
-                                               max_chars=150).strip()
-                    full_name = rc.text_input('Project Full Name',
-                                              value=proj_ser.full_name.to_numpy()[0], max_chars=200).strip()
-                    client = lc.text_input('Client',
-                                           value=proj_ser.client.to_numpy()[0], max_chars=50).strip()
-                    manager = rc.text_input('Manager',
-                                            value=proj_ser.manager.to_numpy()[0], max_chars=50).strip()
-                    responsible_el = lc.selectbox('Responsible Person',
-                                                  st.session_state.appl_logins,
-                                                  get_list_index(st.session_state.appl_logins, prev_responsible))
+            prev_responsible = u_df.loc[u_df.index == u_id, 'login'].to_numpy()[0]
 
-                    rc.text('')
-                    status = rc.radio('Status', proj_statuses,
-                                      get_list_index(proj_statuses, proj_ser.status.to_numpy()[0]),
-                                      horizontal=True)
+            with st.form('update_project'):
+                lc, rc = st.columns(2, gap='medium')
+                short_name = lc.text_input('Project Short Name', value=proj_ser.short_name.to_numpy()[0],
+                                           max_chars=150).strip()
+                full_name = rc.text_input('Project Full Name',
+                                          value=proj_ser.full_name.to_numpy()[0], max_chars=200).strip()
+                client = lc.text_input('Client',
+                                       value=proj_ser.client.to_numpy()[0], max_chars=50).strip()
+                manager = rc.text_input('Manager',
+                                        value=proj_ser.manager.to_numpy()[0], max_chars=50).strip()
+                responsible_el = lc.selectbox('Responsible Person',
+                                              st.session_state.appl_logins,
+                                              get_list_index(st.session_state.appl_logins, prev_responsible))
 
-                    assignment = lc.text_area("Assignment location",
-                                              proj_ser.assignment.to_numpy()[0],
-                                              height=100,
-                                              max_chars=1000).strip()
-                    tech_conditions = rc.text_area("Tech. conditions location",
-                                                   proj_ser.tech_conditions.to_numpy()[0], max_chars=1000).strip()
-                    surveys = lc.text_area("Surveys location", proj_ser.surveys.to_numpy()[0], max_chars=1000).strip()
-                    mdr = rc.text_area("MDR location", proj_ser.mdr.to_numpy()[0], max_chars=250).strip()
-                    notes = lc.text_area("Notes", proj_ser.notes.to_numpy()[0], max_chars=1000).strip()
+                rc.text('')
+                status = rc.radio('Status', proj_statuses,
+                                  get_list_index(proj_statuses, proj_ser.status.to_numpy()[0]),
+                                  horizontal=True)
 
-                    rc.text('')
-                    rc.text('')
-                    rc.text('')
-                    rc.text('')
-                    upd_proj_but = rc.form_submit_button('Update Project', use_container_width=True)
+                assignment = lc.text_area("Assignment location",
+                                          proj_ser.assignment.to_numpy()[0],
+                                          height=100,
+                                          max_chars=1000).strip()
+                tech_conditions = rc.text_area("Tech. conditions location",
+                                               proj_ser.tech_conditions.to_numpy()[0], max_chars=1000).strip()
+                surveys = lc.text_area("Surveys location", proj_ser.surveys.to_numpy()[0], max_chars=1000).strip()
+                mdr = rc.text_area("MDR location", proj_ser.mdr.to_numpy()[0], max_chars=250).strip()
+                notes = lc.text_area("Notes", proj_ser.notes.to_numpy()[0], max_chars=1000).strip()
 
-                if upd_proj_but:
+                rc.text('')
+                rc.text('')
+                rc.text('')
+                rc.text('')
+                upd_proj_but = rc.form_submit_button('Update Project', use_container_width=True)
 
-                    if len(short_name) < 3 or len(full_name) < 3:
-                        st.write('Too short Name. Should be more than 2 symbols')
-                        st.stop()
+            if upd_proj_but:
 
-                    # make_short_delay()
+                if len(short_name) < 3 or len(full_name) < 3:
+                    st.write('Too short Name. Should be more than 2 symbols')
+                    st.stop()
 
-                    reply = update_projects(proj_ser.index.to_numpy()[0], short_name, full_name, client,
-                                            manager, responsible_el, status, assignment, tech_conditions,
-                                            surveys, mdr, notes)
+                # make_short_delay()
 
-                    l_rep, c_rep, r_rep = st.columns([1, 2, 1], gap='medium')
-                    if reply['status'] == 201:
-                        l_rep.success('Project Details Updated')
+                reply = update_projects(proj_ser.index.to_numpy()[0], short_name, full_name, client,
+                                        manager, responsible_el, status, assignment, tech_conditions,
+                                        surveys, mdr, notes)
 
-                        html = f"""
-                            <html>
-                              <head></head>
-                              <body>
-                                <h3>
-                                  Hello, Colleague!
-                                  <hr>
-                                </h3>
-                                <h5>
-                                  You got this message because you are involved in the project : 
-                                  <b>{proj_ser.short_name.to_numpy()[0]}</b>
-                                </h5>
-                                <p>Some data for the Project were updated</p>
-                                <br>
-                                <p>Short name: <b>{short_name}</b></p>
-                                <p>Full name: <b>{full_name}</b></p>
-                                <p>Client: <b>{client}</b></p>
-                                <p>Manager: <b>{manager}</b></p>
-                                <p>Responsible Person: <b>{responsible_el}</b></p>
-                                <p>Project status: <b>{status}</b></p>
-                                <p>Assignment: <b>{assignment}</b></p>
-                                <p>Technical Conditions: <b>{tech_conditions}</b></p>
-                                <p>Surveys: <b>{surveys}</b></p>
-                                <p>MDR: <b>{mdr}</b></p>
-                                <p>Notes: <b>{notes}</b></p>
-                                <p>
-                                    <hr>
-                                    Best regards, Administration 😎
-                                </p>
-                              </body>
-                            </html>
-                        """
+                l_rep, c_rep, r_rep = st.columns([1, 2, 1], gap='medium')
 
-                        if prev_responsible == responsible_el:
-                            receiver = u_df.loc[u_df.login == responsible_el, 'email'].to_numpy()[0]
-                            cc_rec = 'sergey.priemshiy@uzliti-en.com'
-                        else:
-                            receiver = u_df.loc[u_df.login == prev_responsible, 'email'].to_numpy()[0]
-                            cc_rec = u_df.loc[u_df.login == responsible_el, 'email'].to_numpy()[0]
+                if reply['status'] == 201:
+                    l_rep.text('')
+                    l_rep.success('Project Details Updated')
 
-                        subj = f"{short_name}. Changes"
+                    html = f"""
+                        <html>
+                          <head></head>
+                          <body>
+                            <h3>
+                              Hello, Colleague!
+                              <hr>
+                            </h3>
+                            <h5>
+                              You got this message because you are involved in the project : 
+                              <b>{proj_ser.short_name.to_numpy()[0]}</b>
+                            </h5>
+                            <p>Some data for the Project were updated</p>
+                            <br>
+                            <p>Short name: <b>{short_name}</b></p>
+                            <p>Full name: <b>{full_name}</b></p>
+                            <p>Client: <b>{client}</b></p>
+                            <p>Manager: <b>{manager}</b></p>
+                            <p>Responsible Person: <b>{responsible_el}</b></p>
+                            <p>Project status: <b>{status}</b></p>
+                            <p>Assignment: <b>{assignment}</b></p>
+                            <p>Technical Conditions: <b>{tech_conditions}</b></p>
+                            <p>Surveys: <b>{surveys}</b></p>
+                            <p>MDR: <b>{mdr}</b></p>
+                            <p>Notes: <b>{notes}</b></p>
+                            <p>
+                                <hr>
+                                Best regards, Administration 😎
+                            </p>
+                          </body>
+                        </html>
+                    """
 
-                        reply2 = send_mail(receiver, cc_rec, subj, html)
-
-                        if reply2 == 200:
-                            c_rep.success(f'Notifications were sent to {receiver}, {cc_rec}')
-
-                            reply3 = update_state('project')
-
-                            if reply3 != 'Data is updated':
-                                st.warning(reply3)
-
-                            r_rep.text('')
-                            r_rep.button('Close Report', key='close_proj_report', use_container_width=True)
-
-                        else:
-                            st.warning(reply2)
+                    if prev_responsible == responsible_el:
+                        receiver = u_df.loc[u_df.login == responsible_el, 'email'].to_numpy()[0]
+                        cc_rec = 'sergey.priemshiy@uzliti-en.com'
                     else:
-                        st.warning(reply)
+                        receiver = u_df.loc[u_df.login == prev_responsible, 'email'].to_numpy()[0]
+                        cc_rec = u_df.loc[u_df.login == responsible_el, 'email'].to_numpy()[0]
+
+                    subj = f"{short_name}. Changes"
+
+                    reply2 = send_mail(receiver, cc_rec, subj, html)
+
+                    if reply2 == 200:
+                        c_rep.text('')
+                        c_rep.success(f'Notifications were sent to {receiver}, {cc_rec}')
+
+                        reply3 = update_state('project')
+
+                        if reply3 != 'Data is updated':
+                            st.warning(reply3)
+
+                        r_rep.text('')
+                        r_rep.text('')
+                        r_rep.button('Close Report', key='close_proj_report', use_container_width=True)
+
+                    else:
+                        st.warning(reply2)
+                else:
+                    st.warning(reply)
 
         with viewer_tab:
 
