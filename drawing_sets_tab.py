@@ -176,7 +176,6 @@ def drawing_sets():
                     lc, cc, rc = st.columns([1, 2, 1], gap='medium')
 
                     lc.success("Updated!")
-                    # st.session_state.adb['sod'] = reply['sod']
 
                     coord_email = reply['coord_email']
                     perf_email = reply['perf_email']
@@ -235,7 +234,7 @@ def drawing_sets():
                             st.stop()
 
                         rc.text('')
-                        rc.button('OK', key='close_unit_report')
+                        rc.button('Close Report', key='close_unit_report', use_container_width=True)
 
                 else:
                     st.warning(reply['err_descr'])
@@ -284,10 +283,11 @@ def drawing_sets():
                 reply2 = send_mail(coord_email, perf_email, subj, html)
 
                 if reply2 == 200:
-                    lc, rc = st.columns(2, gap='medium')
+                    lc, rc = st.columns([2, 1], gap='medium')
                     lc.success(f'Notifications were sent to {coord_email}, {perf_email}')
 
-                    st.button('OK', key='close_upd_sod2_report')
+                    rc.text('')
+                    rc.button('Close Report', key='close_upd_sod2_report', use_container_width=True)
 
         st.write("")
 
