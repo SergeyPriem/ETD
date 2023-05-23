@@ -586,8 +586,7 @@ def confirm_task(task_id):
                     Task[task_id].perf_log = f"<{user}*{str(datetime.now())[:-10]}>"
 
         except Exception as e:
-            with st.sidebar:
-                st.text(err_handler(e))
+            st.warning(err_handler(e))
             return err_handler(e)
 
     # st.info(f"Task with ID {id} confirmed By user {user}")

@@ -90,22 +90,32 @@ def home_trans():
 
 def show_sidebar_info():
     if st.session_state.user['login'] and st.session_state.proj_scope:
-        st.sidebar.text("")
-        st.sidebar.markdown(f"<h4 style='text-align: center; color: #00bbf9;'>Current Mode:</h4>",
-                            unsafe_allow_html=True)
-        st.sidebar.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>{st.session_state.proj_scope}</h3>",
-                            unsafe_allow_html=True)
-        st.sidebar.markdown(
-            f"""<h5 style='text-align: center; color: #fcf403;'>You can chose another Mode:
-             Settings -> Scope of Load</h5>""",
-            unsafe_allow_html=True)
-
         with st.sidebar:
+            st.text("")
+            st.markdown(f"<h4 style='text-align: center; color: #00bbf9;'>Current Mode:</h4>",
+                                unsafe_allow_html=True)
+            st.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>{st.session_state.proj_scope}</h3>",
+                                unsafe_allow_html=True)
+            st.markdown(
+                f"""<h5 style='text-align: center; color: #fcf403;'>You can chose another Mode:
+                 Settings -> Scope of Load</h5>""",
+                unsafe_allow_html=True)
+
             td = datetime.datetime.now() - st.session_state.r_now
             delta = f"{int(td.total_seconds() * 1000)}"
 
-            st.sidebar.markdown(f"<h2 style='text-align: center; color: #fcf403;'>{delta} ms</h2>",
-                                unsafe_allow_html=True)
+            if st.session_state.user['access_level'] == 'dev':
+                st.markdown(f"<h2 style='text-align: center; color: #fcf403;'>{delta} ms</h2>",
+                            unsafe_allow_html=True)
+
+            st.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>sergey.priemshiy@uzliti-en.com</h3>",
+                        unsafe_allow_html=True)
+
+            st.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>telegram:  +998 90 959 80 30</h3>",
+                        unsafe_allow_html=True)
+
+
+# sergey.priemshiy@uzliti-en.com                         telegram:  +998 90 959 80 30
 
 
 # @lru_cache(128)
@@ -1051,8 +1061,8 @@ def initial():
         except Exception as e:
             st.session_state.user['vert_menu'] = 1
 
-            st.sidebar.warning('Something wrong with menu settings')
-            st.sidebar.warning(err_handler(e))
+            st.warning('Something wrong with menu settings')
+            st.warning(err_handler(e))
 
         st.session_state.menu = get_menus(st.session_state.user['access_level'])[0]
 
