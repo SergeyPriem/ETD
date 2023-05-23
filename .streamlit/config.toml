@@ -1,6 +1,8 @@
 [theme]
-base="dark"
-textColor="#C9C9C9"
+primaryColor="#b83112"
+backgroundColor="#353838"
+secondaryBackgroundColor="#2d302f"
+textColor="#ffffff"
 
 
 [runner]
