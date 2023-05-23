@@ -204,7 +204,7 @@ def manage_projects():
                             if reply3 != 'Data is updated':
                                 st.warning(reply3)
 
-                            r_rep.button('OK', key='close_proj_report')
+                            r_rep.button('Close Report', key='close_proj_report', use_container_width=True)
 
                         else:
                             st.warning(reply2)
