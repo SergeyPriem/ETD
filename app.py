@@ -225,9 +225,6 @@ def create_states():
     if 'disable_add_task' not in st.session_state:
         st.session_state.disable_add_task = True
 
-    if 'current_refresh_delay' not in st.session_state:
-        st.session_state.current_refresh_delay = 3600
-
     if 'r_now' not in st.session_state:
         st.session_state.r_now = datetime.datetime.now()
 
@@ -737,7 +734,6 @@ def login_register():
 
 
 def manage_users():
-    st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
 
     center_style()
     users_1, users_content, users_2 = st.columns([1, 4, 1])
@@ -888,11 +884,8 @@ def manage_users():
 
 
 def fresh_data():
-    if st.session_state.current_refresh_delay != 3600:
-        st.session_state.current_refresh_delay = 3600
-        st.experimental_rerun()
 
-    st.session_state.adb = get_all()
+    update_tables()
     st.header("")
     st.header("")
     st.header("")
@@ -900,7 +893,6 @@ def fresh_data():
 
 
 def manage_storage():
-    # make_short_delay()
 
     center_style()
 
@@ -970,22 +962,6 @@ def home():
 
 # @lru_cache(15)
 def win_selector(selected):
-    # st.session_state.selection_history.append(selected)
-    #
-    # # if selected != "Refresh":
-    # #     st.session_state.selected = selected
-    #
-    # if selected in ("Scripts", "Refresh", ):
-    #     st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
-    #
-    #
-    # if len(st.session_state.selection_history) > 1:
-    #
-    #     if len(st.session_state.selection_history) > 3:
-    #         del st.session_state.selection_history[:2]
-    #
-    #     if st.session_state.selection_history[-2] == "Scripts" and st.session_state.selection_history[-1] != "Scripts":
-    #         st.experimental_rerun()
 
     tab_dict = {
         "Home": home,
@@ -1138,14 +1114,6 @@ def update_tables():
         st.experimental_rerun()
 
 
-# def refresher():
-#     count = st_autorefresh(interval=st.session_state.current_refresh_delay * 1000, limit=100000, key="fizzbuzzcounter")
-#
-#     if count != st.session_state.count:
-#         st.session_state.new_state = get_state()
-#         st.session_state.count = count
-
-
 def image(src_as_string, **style):
     return img(src=src_as_string, style=styles(**style))
 
@@ -1216,9 +1184,6 @@ def footer(reply):
             "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
             f"Current&nbspMode:&nbsp&nbsp'{st.session_state.proj_scope}'"
             "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "
-            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-            f"Refresh&nbspDelay:&nbsp&nbsp{st.session_state.current_refresh_delay}&nbsps."
-            f"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
 
             "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
             f"{reply}"
@@ -1235,9 +1200,6 @@ def footer(reply):
             "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
             f"Current&nbspMode:&nbsp&nbsp'{st.session_state.proj_scope}'"
             "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "
-            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-            f"Refresh&nbspDelay:&nbsp&nbsp{st.session_state.current_refresh_delay}&nbsps."
-            f"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp",
         ]
 
     # myargs = [

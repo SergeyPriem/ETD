@@ -235,21 +235,17 @@ def add_task(task_content):
                                 if reply == 200:
                                     st.write(f"Notifications sent by emails: {perf_email}, {coord_email}")
 
-                                    # st.experimental_show(st.session_state.current_refresh_delay)
 
                                     reply3 = update_state('task')
-                                    # st.experimental_show(reply3)
 
                                     if reply3 != 'Data is updated':
                                         st.warning(reply3)
-                                        # st.write(*242)
                                         st.stop()
 
                                     st.button('OK', key='close_upd_task_report')
 
                                 else:
                                     st.warning(reply)
-                                    # st.write(*246)
                                     st.stop()
 
                             else:
@@ -279,21 +275,14 @@ def add_task(task_content):
 
                             st.divider()
 
-            # if not st.session_state.task_preview:
-            #     if st.button('Close', key='close_add_task'):
-            #         st.session_state.task_preview = False
-                    # make_short_delay()
 
             if right_b.button('Escape or Correct Data', use_container_width=True,
                               on_click=disable_add_task, args=(True,)):
                 st.session_state.task_preview = False
-                # make_short_delay()
 
 
 def view_tasks(ass_tab2, my_all):
     with ass_tab2:
-
-        # make_short_delay()
 
         df = st.session_state.adb['task']
         sod_df = st.session_state.adb['sod']

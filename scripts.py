@@ -915,15 +915,10 @@ def scripts_tab():
 
                     make_cablist_but = rc.form_submit_button("Make Cable List", use_container_width=True)
 
-                if st.session_state.current_refresh_delay != 3600:
-                    st.session_state.current_refresh_delay = 3600
-                    st.experimental_rerun()
-
                 if load_list and cab_data and make_cablist_but:
                     if len(panelDescr) < 2:
                         st.warning('Panel Description is too short')
                         st.stop()
-
 
                     cab_df = pd.read_excel(cab_data, sheet_name='cab_data')
                     diam_df = pd.read_excel(cab_data, sheet_name='PRYSMIAN')
@@ -956,19 +951,12 @@ def scripts_tab():
                     with pd.ExcelWriter(buffer) as writer:
                         cl_df.to_excel(writer)
 
-                    if st.download_button('Get Cable List here', data=buffer,
+                    st.download_button('Get Cable List here', data=buffer,
                                        file_name=f'Cable List {datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}.xlsx',
                                        mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
-                                       disabled=False, use_container_width=False):
-                        st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
-
-
+                                       disabled=False, use_container_width=False)
 
             with tab_sld:
-
-                if st.session_state.current_refresh_delay != 3600:
-                    st.session_state.current_refresh_delay = 3600
-                    st.experimental_rerun()
 
                 with st.form('create_sld'):
                     lc, cc, rc = st.columns(3, gap='medium')
@@ -1140,14 +1128,13 @@ def scripts_tab():
                     st.success('SLD is ready. Please Download')
 
                     with open(f'temp_dxf/{sld_file_name}.dxf', 'rb') as f:
-                        if st.download_button(
+                        st.download_button(
                             'Get SLD here',
                             data=f,
                             file_name=f'{sld_file_name} {datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}.dxf',
                             mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
                             disabled=False, use_container_width=False
-                        ):
-                            st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
+                        )
 
         with st.expander('CREATE TABLE FOR TRANSFERRING LOADS TO ETAP'):
             st.title(':orange[Create Table for transferring Load to ETAP - under development...]')

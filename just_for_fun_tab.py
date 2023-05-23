@@ -41,8 +41,6 @@ from utilities import center_style
 
 def reading():
 
-    st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
-
     center_style()
 
     fun_1, fun_content, fun_2 = st.columns([1, 9, 1])

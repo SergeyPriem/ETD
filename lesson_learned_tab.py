@@ -2,29 +2,12 @@
 
 import streamlit as st
 
+from utilities import center_style
+
 
 def lessons_content():
 
-    st.session_state.current_refresh_delay = st.session_state.user['refresh_delay']
-
-    st.markdown("""
-        <style>
-            div[data-testid="column"]:nth-of-type(1)
-            {
-                text-align: center;
-            } 
-
-            div[data-testid="column"]:nth-of-type(2)
-            {
-                text-align: center;
-            } 
-
-            div[data-testid="column"]:nth-of-type(3)
-            {
-                text-align: center;
-            } 
-        </style>
-        """, unsafe_allow_html=True)
+    center_style()
 
     empty1, content, empty2 = st.columns([1, 30, 1])
     with empty1:
