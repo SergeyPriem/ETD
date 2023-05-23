@@ -108,10 +108,10 @@ def show_sidebar_info():
                 st.markdown(f"<h2 style='text-align: center; color: #fcf403;'>{delta} ms</h2>",
                             unsafe_allow_html=True)
 
-            st.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>sergey.priemshiy@uzliti-en.com</h3>",
+            st.markdown(f"<h5 style='text-align: center; color: #00bbf9;'>sergey.priemshiy@uzliti-en.com</h5>",
                         unsafe_allow_html=True)
 
-            st.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>telegram:  +998 90 959 80 30</h3>",
+            st.markdown(f"<h5 style='text-align: center; color: #00bbf9;'>telegram:  +998 90 959 80 30</h5>",
                         unsafe_allow_html=True)
 
 
