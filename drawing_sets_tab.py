@@ -602,7 +602,7 @@ def manage_units():
             if len(unit_list) == 0:
                 r_c.text("")
                 r_c.write("")
-                r_c.warning("No Units available for Selected Project")
+                r_c.warning("Select a Project")
                 st.stop()
 
             unit_name = r_c.selectbox('Select Unit', unit_list)
@@ -622,7 +622,7 @@ def manage_units():
 
                 reply = update_unit_name_stage(u_id, new_unit_name, new_stage)
 
-                l_rep, r_rep = st.columns(2, gap='medium')
+                l_rep, c_rep, r_rep = st.columns([1, 2, 1], gap='medium')
 
                 if reply['status'] == 201:
 
@@ -676,14 +676,15 @@ def manage_units():
                     reply2 = send_mail(receiver, cc_rec, subj, html)
 
                     if reply2 == 200:
-                        r_rep.success(f'Notifications were sent to {receiver}, {cc_rec}')
+                        c_rep.success(f'Notifications were sent to {receiver}, {cc_rec}')
 
                     reply3 = update_state('sod')
 
                     if reply3 != 'Data is updated':
                         st.warning(reply3)
 
-                    st.button('OK', key='close_upd_unit_report')
+                    r_rep.text('')
+                    r_rep.button('Close Report', key='close_upd_unit_report', use_container_width=True)
 
                     st.stop()
 
