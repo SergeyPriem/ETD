@@ -1,5 +1,5 @@
 ﻿#from pony_users import get_appl_emails, get_registered_emails, create_user, get_settings,check_user, get_appl_user_data
-from pony_projects import get_sets
+# from pony_projects import get_sets
 #import streamlit as st
 
 #print(get_appl_emails())
@@ -25,4 +25,4 @@ from pony_projects import get_sets
 
 # print(create_project('M-55', 'БГПЗ. Инфраструктура 55', 'sgcoc', 'Сим Александр', 'sergey.priemshiy@uzliti-en.com', '44', '', '', '', '', ''))
 
-print(get_sets('sergey.priemshiy@uzliti-en-com'))
+# print(get_sets('sergey.priemshiy@uzliti-en-com'))

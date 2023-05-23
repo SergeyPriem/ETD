@@ -24,7 +24,7 @@ from transmittals_tab import transmittals_content
 from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, register_user, \
     err_handler
 from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, \
-    center_style, get_state, set_init_state, update_state  # , make_short_delay, make_long_delay
+    center_style, get_state, set_init_state, update_state, update_tables  # , make_short_delay, make_long_delay
 
 import streamlit as st
 from htbuilder import HtmlElement, div, hr, a, p, img, styles
@@ -1070,50 +1070,6 @@ def initial():
         )
 
         win_selector(prepared_menus)
-
-
-def update_tables():
-    st.session_state.new_state = get_state()
-
-    counter = 0
-
-    for table in ('sod', 'task', 'trans', 'project'):
-        if st.session_state.local_marker[table]['id'] != st.session_state.new_state[table]['id']:
-
-            counter += 1
-
-            try:
-                upd_login = st.session_state.new_state[table]['user']
-            except:
-                upd_login = None
-
-            reply_dict = {
-                'sod': get_sod_repeat,
-                'project': get_proj_repeat,
-                'task': get_tasks_repeat,
-                'trans': get_trans_repeat,
-            }
-
-            reply = reply_dict.get(table)()
-
-            if reply['status'] == 200:
-                st.session_state.adb[table] = reply[table]
-                st.session_state.refresh_status = f'Units Updated by {upd_login}'
-                st.session_state.local_marker[table]['id'] = st.session_state.new_state[table]['id']
-
-                if st.session_state.user['vert_menu'] == 1:
-                    st.sidebar.success(f"Table {table} was updated by {upd_login}. Data is refreshed")
-                    time.sleep(1)
-                    return None
-                else:
-                    return f"Table {table} was updated by {upd_login}. Data is refreshed"
-
-            else:
-                st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
-                return f"{reply['status']} by {upd_login}"
-
-    if counter:
-        st.experimental_rerun()
 
 
 def image(src_as_string, **style):

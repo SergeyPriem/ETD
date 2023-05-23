@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
-import streamlit as st
 import random
 
+import streamlit as st
+
 from admin_tools import get_list_index
-from app import update_tables
 from models import Users
-from projects import get_table, get_all
+from projects import get_table
 from send_emails import send_mail
-from users import update_settings, update_user_reg_data, update_refresh_delay
-from utilities import center_style
+from users import update_settings, update_user_reg_data
+from utilities import center_style, update_tables
 
 
 def settings_content():
