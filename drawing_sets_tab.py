@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st
 from admin_tools import get_list_index
 from send_emails import send_mail
-from utilities import sod_revisions, sod_statuses, stages, center_style, update_state, make_long_delay, make_short_delay
+from utilities import sod_revisions, sod_statuses, stages, center_style, update_state #, make_long_delay, make_short_delay
 from projects import update_sod, add_sod, update_unit_name_stage
 from utilities import err_handler
 from functools import lru_cache
@@ -152,7 +152,7 @@ def drawing_sets():
 
         if upd_unit_but:
 
-            make_long_delay()
+            # make_long_delay()
 
             rev = f"{rev_min} - {rev_max}"
             if not request_chb:
@@ -236,7 +236,7 @@ def drawing_sets():
                             st.warning(reply3)
                             st.stop()
 
-                        make_short_delay()
+                        # make_short_delay()
 
                 else:
                     st.warning(reply['err_descr'])
@@ -288,8 +288,8 @@ def drawing_sets():
                     lc, rc = st.columns(2, gap='medium')
                     lc.success(f'Notifications were sent to {coord_email}, {perf_email}')
 
-                    if rc.button('OK', key='close_request_reply'):
-                        make_short_delay()
+                    # if rc.button('OK', key='close_request_reply'):
+                    #     make_short_delay()
 
         st.write("")
 
@@ -476,7 +476,7 @@ def request_updates(temp_sod):
 
 def manage_units():
 
-    make_short_delay()
+    # make_short_delay()
 
     center_style()
 
@@ -534,7 +534,7 @@ def manage_units():
 
             if create_sod_but:
 
-                make_long_delay()
+                # make_long_delay()
 
                 reply = add_sod(proj_short, unit_name, stage, status, set_start_date, coordinator, performer, notes)
 
@@ -588,8 +588,8 @@ def manage_units():
                 else:
                     st.warning(reply['err_descr'])
 
-                if st.button("Cloase Report", key='close_units_report'):
-                    make_short_delay()
+                # if st.button("Cloase Report", key='close_units_report'):
+                    # make_short_delay()
 
         with tab_update:
 
