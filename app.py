@@ -1229,7 +1229,7 @@ if __name__ == "__main__":
     else:
         # refresher()
         initial()
-        show_sidebar_info()
+        # show_sidebar_info()
         reply = update_tables()
 
         if st.session_state.user['vert_menu'] == 0:
