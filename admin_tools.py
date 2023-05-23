@@ -204,6 +204,8 @@ def manage_projects():
                             if reply3 != 'Data is updated':
                                 st.warning(reply3)
 
+                            st.button('OK', key='close_proj_report')
+
                         else:
                             r_rep.warning(reply2)
                     else:

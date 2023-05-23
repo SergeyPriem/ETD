@@ -91,7 +91,7 @@ def home_trans():
 
 def show_sidebar_info():
 
-    if st.session_state.user['login'] and st.session_state.proj_scope and st.session_state.user['vert_menu']:
+    if st.session_state.user['login'] and st.session_state.proj_scope:
 
         st.sidebar.text("")
         st.sidebar.markdown(f"<h4 style='text-align: center; color: #00bbf9;'>Current Mode:</h4>",
@@ -1132,6 +1132,8 @@ def update_tables():
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
                 return f"{reply['status']} by {upd_login}"
 
+    st.experimental_rerun()
+
 
 
 
@@ -1263,5 +1265,8 @@ if __name__ == "__main__":
         initial()
         show_sidebar_info()
         reply = update_tables()
+
         if st.session_state.user['vert_menu'] == 0:
             footer(reply)
+        else:
+            show_sidebar_info()

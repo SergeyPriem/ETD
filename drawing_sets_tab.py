@@ -236,7 +236,7 @@ def drawing_sets():
                             st.warning(reply3)
                             st.stop()
 
-                        # make_short_delay()
+                        st.button('OK', key='close_unit_report')
 
                 else:
                     st.warning(reply['err_descr'])
@@ -288,8 +288,7 @@ def drawing_sets():
                     lc, rc = st.columns(2, gap='medium')
                     lc.success(f'Notifications were sent to {coord_email}, {perf_email}')
 
-                    # if rc.button('OK', key='close_request_reply'):
-                    #     make_short_delay()
+                    st.button('OK', key='close_upd_sod2_report')
 
         st.write("")
 
@@ -585,6 +584,8 @@ def manage_units():
                         st.warning(reply3)
                         st.stop()
 
+                    st.button('OK', key='close_upd_sod2_report')
+
                 else:
                     st.warning(reply['err_descr'])
 
@@ -676,12 +677,14 @@ def manage_units():
                     reply2 = send_mail(receiver, cc_rec, subj, html)
 
                     if reply2 == 200:
-                        r_rep.success(f'Informational e-mail was sent to {receiver}, {cc_rec}')
+                        r_rep.success(f'Notifications were sent to {receiver}, {cc_rec}')
 
                     reply3 = update_state('sod')
 
                     if reply3 != 'Data is updated':
                         st.warning(reply3)
+
+                    st.button('OK', key='close_upd_unit_report')
 
                     st.stop()
 

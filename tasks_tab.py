@@ -244,6 +244,9 @@ def add_task(task_content):
                                         st.warning(reply3)
                                         # st.write(*242)
                                         st.stop()
+
+                                    st.button('OK', key='close_upd_task_report')
+
                                 else:
                                     st.warning(reply)
                                     # st.write(*246)
