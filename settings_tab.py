@@ -3,6 +3,7 @@ import streamlit as st
 import random
 
 from admin_tools import get_list_index
+from app import update_tables
 from models import Users
 from projects import get_table, get_all
 from send_emails import send_mail
@@ -23,8 +24,7 @@ def settings_content():
         st.title(':orange[Settings]')
         st.write('This page is intended to make some adjustments for more comfortable use of Application')
 
-        menu_pos_tab, scope_tab, update_set_tab, change_pass_tab = st.tabs(['Menu Position', 'Scope of Load',
-                                                                            'Update Settings', 'Change Password'])
+        menu_pos_tab, scope_tab, change_pass_tab = st.tabs(['Menu Position', 'Scope of Load', 'Change Password'])
 
         with menu_pos_tab:
             with st.form('adjust_settings'):
@@ -42,8 +42,9 @@ def settings_content():
                 else:
                     st.session_state.user['vert_menu'] = 0
 
-                update_settings(st.session_state.user['login'], st.session_state.user['vert_menu'])
+                reply = update_settings(st.session_state.user['login'], st.session_state.user['vert_menu'])
                 st.session_state.adb['users'] = get_table(Users)
+                st.success(reply)
                 st.experimental_rerun()
 
         with scope_tab:
@@ -61,31 +62,9 @@ def settings_content():
                 scope_conf_but = r_c.form_submit_button('Apply Selected Scope', use_container_width=True)
 
             if scope_conf_but:
+                st.success('Settings Updated')
                 st.session_state.proj_scope = scope
-                st.session_state.adb = get_all()
-                st.experimental_rerun()
-
-        with update_set_tab:
-            with st.form('site_refresh_settings'):
-                l_f, r_f = st.columns(2)
-
-                delay_time = l_f.radio('Time between requests, s.', ("Turn Off", 5, 7, 10, 15),
-                                       index=get_list_index(("Turn Off", 5, 7, 10, 15),
-                                                            st.session_state.user['refresh_delay']), horizontal=True)
-                r_f.write('')
-
-                appl_upd_set_but = r_f.form_submit_button('Apply New Settings', use_container_width=True)
-
-            if appl_upd_set_but:
-                if delay_time == "Turn Off":
-                    st.session_state.user['refresh_delay'] = 3600
-                else:
-                    st.session_state.user['refresh_delay'] = int(delay_time)
-
-                reply = update_refresh_delay()
-                st.success(reply)
-                st.session_state.adb['users'] = get_table(Users)
-                st.experimental_rerun()
+                update_tables()
 
         with change_pass_tab:
             with st.form("UpData"):

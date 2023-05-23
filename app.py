@@ -1103,6 +1103,7 @@ def update_tables():
                 st.session_state.adb[table] = reply[table]
                 st.session_state.refresh_status = f'Units Updated by {upd_login}'
                 st.session_state.local_marker[table]['id'] = st.session_state.new_state[table]['id']
+
                 if st.session_state.user['vert_menu'] == 1:
                     st.sidebar.success(f"Table {table} was updated by {upd_login}. Data is refreshed")
                     time.sleep(1)
