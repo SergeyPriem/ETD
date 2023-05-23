@@ -234,6 +234,8 @@ def add_task(task_content):
                                 if reply == 200:
                                     st.write(f"Notifications sent by emails: {perf_email}, {coord_email}")
 
+                                    st.experimental_show(st.session_state.current_refresh_delay)
+
                                     reply3 = update_state('task')
                                     st.experimental_show(reply3)
 
@@ -245,6 +247,7 @@ def add_task(task_content):
                                     st.warning(reply)
                                     st.write(*246)
                                     st.stop()
+
                             else:
                                 st.warning(reply)
                                 st.stop()
