@@ -273,6 +273,7 @@ def add_task(task_content):
                     st.session_state.task_preview = False
                     make_short_delay()
 
+
             if right_b.button('Escape or Correct Data', use_container_width=True,
                               on_click=disable_add_task, args=(True,)):
                 st.session_state.task_preview = False
