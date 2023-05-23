@@ -107,15 +107,14 @@ def show_sidebar_info():
             if st.session_state.user['access_level'] == 'dev':
                 st.markdown(f"<h2 style='text-align: center; color: #fcf403;'>{delta} ms</h2>",
                             unsafe_allow_html=True)
-
+            st.text('')
+            st.text('')
             st.markdown(f"<h5 style='text-align: center; color: #00bbf9;'>sergey.priemshiy@uzliti-en.com</h5>",
                         unsafe_allow_html=True)
 
             st.markdown(f"<h5 style='text-align: center; color: #00bbf9;'>telegram:  +998 90 959 80 30</h5>",
                         unsafe_allow_html=True)
 
-
-# sergey.priemshiy@uzliti-en.com                         telegram:  +998 90 959 80 30
 
 
 # @lru_cache(128)
