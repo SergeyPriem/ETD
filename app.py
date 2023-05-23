@@ -161,8 +161,9 @@ def create_states():
     if 'appl_logins' not in st.session_state:
         u_df = st.session_state.adb['users']
         appl_logins_list = u_df.loc[u_df.status == 'current', 'login'].tolist()
+
         if isinstance(appl_logins_list, list) and len(appl_logins_list):
-            st.session_state.appl_logins = appl_logins_list
+            st.session_state.appl_logins = appl_logins_list.insert(0, '-- Type right here or select from list --')
         else:
             st.warning("Can't get Applied Users")
 
@@ -1023,8 +1024,10 @@ def initial():
 
 
     try:
-        st.session_state.proj_names = st.session_state.adb['project'].short_name.tolist()
-        if len(st.session_state.proj_names) == 0:
+        st.session_state.proj_names = st.session_state.adb['project'].short_name.tolist().insert(
+            0,'-- Type right here or select from list --')
+
+        if len(st.session_state.proj_names) == 1:
             st.warning("Can't get Project List")
     except Exception as e:
         st.warning(err_handler(e))
