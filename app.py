@@ -24,7 +24,7 @@ from users import check_user, add_to_log, create_appl_user, update_users_in_db, 
     err_handler
 from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, \
     center_style, get_state, set_init_state, update_state, update_tables, \
-    get_list_index  # , make_short_delay, make_long_delay
+    get_list_index
 
 import streamlit as st
 from htbuilder import HtmlElement, div, hr, a, p, img, styles
