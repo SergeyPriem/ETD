@@ -214,13 +214,14 @@ def transmittals_content():
 
             proj = st.selectbox('Select the Project', st.session_state.proj_names)
 
-            trans_df = st.session_state.adb['trans']
-            proj_df = st.session_state.adb['project']
-            proj_id = proj_df.loc[proj_df.short_name == proj].index.to_numpy()[0]
-            trans_list = trans_df.loc[trans_df.project == proj_id].tolist()
-            selected_trans = st.selectbox('Select Transmittal to edit', trans_list)
+            if proj != '-- Type right here or select from list --':
+                trans_df = st.session_state.adb['trans']
+                proj_df = st.session_state.adb['project']
+                proj_id = proj_df.loc[proj_df.short_name == proj].index.to_numpy()[0]
+                trans_list = trans_df.loc[trans_df.project == proj_id].tolist()
+                selected_trans = st.selectbox('Select Transmittal to edit', trans_list)
 
-            sel_trans_df = trans_df[trans_df.trans_num == selected_trans]
+                sel_trans_df = trans_df[trans_df.trans_num == selected_trans]
 
-            st.experimental_show(sel_trans_df)
+                st.experimental_show(sel_trans_df)
 
