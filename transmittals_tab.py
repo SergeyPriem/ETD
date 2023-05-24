@@ -229,54 +229,60 @@ def transmittals_content():
                 else:
                     trans_list = trans_df.loc[(trans_df.project == proj_id), 'trans_num'].tolist()
                 # st.experimental_show(trans_list)
-                selected_trans = st.selectbox('Select Transmittal to edit', trans_list)
-                sel_trans_df = trans_df[trans_df.trans_num == selected_trans]
 
-                sel_trans_id = sel_trans_df.index.to_numpy()[0]
+                if len(trans_list):
 
-                sel_trans_dict = sel_trans_df.to_dict('records')[0]
+                    selected_trans = st.selectbox('Select Transmittal to edit', trans_list)
+                    sel_trans_df = trans_df[trans_df.trans_num == selected_trans]
 
-                old_responsible = u_df.loc[u_df.index == sel_trans_dict['responsible'], 'login'].to_numpy()[0]
+                    sel_trans_id = sel_trans_df.index.to_numpy()[0]
 
-                # st.experimental_show(sel_trans_df)
-                # st.experimental_show(old_responsible)
-                # st.experimental_show(sel_trans_dict)
-                # st.experimental_show(st.session_state.appl_logins)
-                # st.experimental_show(get_list_index(st.session_state.appl_logins, old_responsible))
+                    sel_trans_dict = sel_trans_df.to_dict('records')[0]
 
-                with st.form('edit_trans'):
-                    lc, rc = st.columns(2, gap='medium')
-                    trans_date = lc.date_input('Transmittal Date', value=sel_trans_dict['trans_date'])
-                    responsible = rc.selectbox('Responsible', st.session_state.appl_logins,
-                                               index=get_list_index(
-                                                   st.session_state.appl_logins, old_responsible
+                    old_responsible = u_df.loc[u_df.index == sel_trans_dict['responsible'], 'login'].to_numpy()[0]
+
+                    # st.experimental_show(sel_trans_df)
+                    # st.experimental_show(old_responsible)
+                    # st.experimental_show(sel_trans_dict)
+                    # st.experimental_show(st.session_state.appl_logins)
+                    # st.experimental_show(get_list_index(st.session_state.appl_logins, old_responsible))
+
+                    with st.form('edit_trans'):
+                        lc, rc = st.columns(2, gap='medium')
+                        trans_date = lc.date_input('Transmittal Date', value=sel_trans_dict['trans_date'])
+                        responsible = rc.selectbox('Responsible', st.session_state.appl_logins,
+                                                   index=get_list_index(
+                                                       st.session_state.appl_logins, old_responsible
+                                                       )
                                                    )
-                                               )
-                    author = lc.text_input('Originator of the Transmittal', value=sel_trans_dict['author'])
-                    in_reply_to = rc.text_input('In reply to', value=sel_trans_dict['ref_trans'])
-                    ref_date = lc.date_input('Reference Date', value=sel_trans_dict['ref_date'])
-                    subj = rc.text_input('Subject', value=sel_trans_dict['subj'])
-                    link = lc.text_input('Link', value=sel_trans_dict['link'])
-                    rc.text('')
-                    t_type = rc.radio('Transmittal Type',  trans_types, horizontal=True)
-                    upd_trans_but = st.form_submit_button('Update Transmittal Data')
+                        author = lc.text_input('Originator of the Transmittal', value=sel_trans_dict['author'])
+                        in_reply_to = rc.text_input('In reply to', value=sel_trans_dict['ref_trans'])
+                        ref_date = lc.date_input('Reference Date', value=sel_trans_dict['ref_date'])
+                        subj = rc.text_input('Subject', value=sel_trans_dict['subj'])
+                        link = lc.text_input('Link', value=sel_trans_dict['link'])
+                        rc.text('')
+                        t_type = rc.radio('Transmittal Type',  trans_types, horizontal=True)
+                        upd_trans_but = st.form_submit_button('Update Transmittal Data')
 
-                if upd_trans_but:
-                    responsible_id = u_df[u_df.login == responsible].index.to_numpy()[0]
-                    reply = update_trans(sel_trans_id, trans_date, responsible_id, author, in_reply_to, ref_date, subj, link, t_type)
+                    if upd_trans_but:
+                        responsible_id = u_df[u_df.login == responsible].index.to_numpy()[0]
+                        reply = update_trans(sel_trans_id, trans_date, responsible_id, author, in_reply_to, ref_date, subj, link, t_type)
 
-                    if reply['status'] == 201:
-                        l_rep, r_rep = st.columns(2, gap='medium')
-                        reply3 = update_state('sod')
+                        if reply['status'] == 201:
+                            l_rep, r_rep = st.columns(2, gap='medium')
+                            reply3 = update_state('sod')
 
-                        if reply3 != 'Data is updated':
-                            st.warning(reply3)
+                            if reply3 != 'Data is updated':
+                                st.warning(reply3)
 
-                        l_rep.success('Transmittal Updated')
-                        r_rep.text('')
-                        r_rep.button('Close Report', key='close_upd_unit_report', use_container_width=True)
-                    else:
-                        st.error(reply['err_descr'])
+                            l_rep.success('Transmittal Updated')
+                            r_rep.text('')
+                            r_rep.button('Close Report', key='close_upd_unit_report', use_container_width=True)
+                        else:
+                            st.error(reply['err_descr'])
+
+                else:
+                    st.warning('Transmittals for selected Project not available...')
 
 
 
