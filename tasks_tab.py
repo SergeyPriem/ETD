@@ -46,7 +46,7 @@ def add_task(task_content):
         # if '-- Type right here or select from list --' not in proj_list:
         #     proj_list.insert(0, '-- Type right here or select from list --')
 
-        project = st.selectbox('Select the Project', proj_list)
+        project = st.selectbox('Select the Project *', proj_list)
 
         if project != '-- Type right here or select from list --':
             proj_id = proj_df[proj_df.short_name == project].index.to_numpy()[0]
@@ -54,7 +54,7 @@ def add_task(task_content):
             sod_list = sod_df[sod_df.project_id == proj_id].set_name.tolist()
 
             with st.form(key="add_task"):
-                units = st.multiselect('Select the Set Of Drawings / Unit',
+                units = st.multiselect('Select the Set Of Drawings / Unit*',
                                        options=sod_list)  # get_sets_for_project(project))
 
                 left_col2, right_col2 = st.columns(2)
