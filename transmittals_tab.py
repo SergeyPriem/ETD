@@ -218,6 +218,9 @@ def transmittals_content():
                 trans_df = st.session_state.adb['trans']
                 proj_df = st.session_state.adb['project']
                 proj_id = proj_df.loc[proj_df.short_name == proj].index
+
+                st.experimental_show(proj_id)
+
                 trans_list = trans_df.loc[trans_df.project == proj_id].tolist()
                 selected_trans = st.selectbox('Select Transmittal to edit', trans_list)
 
