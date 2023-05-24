@@ -220,3 +220,7 @@ def transmittals_content():
             trans_list = trans_df.loc[trans_df.project == proj_id].tolist()
             selected_trans = st.selectbox('Select Transmittal to edit', trans_list)
 
+            sel_trans_df = trans_df[trans_df.trans_num == selected_trans]
+
+            st.experimental_show(sel_trans_df)
+
