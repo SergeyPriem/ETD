@@ -253,10 +253,14 @@ def transmittals_content():
                     author = lc.text_input('Originator of the Transmittal', value=sel_trans_dict['author'])
                     in_reply_to = rc.text_input('In reply to', value=sel_trans_dict['ref_trans'])
                     ref_date = lc.date_input('Reference Date', value=sel_trans_dict['ref_date'])
-                    subj = rc.text_input('Subject', value=sel_trans_dict['ref_trans'])
+                    subj = rc.text_input('Subject', value=sel_trans_dict['subj'])
                     link = lc.text_input('Link', value=sel_trans_dict['link'])
+                    rc.text('')
                     t_type = rc.radio('Transmittal Type',  trans_types, horizontal=True)
-                    st.form_submit_button('Update Transmittal Data')
+                    upd_trans_but = st.form_submit_button('Update Transmittal Data')
+
+                if upd_trans_but:
+                    st.write('OK')
 
 
 
