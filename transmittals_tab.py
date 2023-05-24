@@ -221,6 +221,8 @@ def transmittals_content():
 
                 st.experimental_show(proj_id)
 
+                st.experimental_show(trans_df.project)
+
                 trans_list = trans_df.loc[trans_df.project == proj_id, 'trans_num'] #.tolist()
 
                 st.experimental_show(trans_list)
