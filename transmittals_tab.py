@@ -95,7 +95,7 @@ def transmittals_content():
                 author = lc.text_input('Originator of the Transmittal *', max_chars=50)
 
                 l_c, r_c = st.columns([1, 9], gap='medium')
-                l_c.text('* - REQUIRED')
+                l_c.write(':red[\* - required]')
                 add_trans_but = r_c.form_submit_button("Preview Transmittal's Data", use_container_width=True)
 
             if add_trans_but:
