@@ -232,6 +232,10 @@ def transmittals_content():
                 sel_trans_df = trans_df[trans_df.trans_num == selected_trans]
                 st.experimental_show(sel_trans_df)
 
+                sel_trans_dict = sel_trans_df.to_dict()
+
+                st.experimental_show(sel_trans_dict)
+
             with st.form('edit_trans'):
                 trans_date = st.date_input('Change Transmittal Date', value=sel_trans_df.trans_date.to_numpy()[0])
                 responsible = st.selectbox('Change Responsible', st.session_state.appl_logins,
@@ -239,6 +243,7 @@ def transmittals_content():
                                                                 sel_trans_df.responsible.to_numpy()[0]
                                                                 )
                                            )
+
                 st.form_submit_button('Update Transmittal Data')
 
 
