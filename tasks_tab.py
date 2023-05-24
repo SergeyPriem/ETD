@@ -73,7 +73,7 @@ def add_task(task_content):
                 left_col3, right_col3 = st.columns(2)
                 link = left_col3.text_input('Link *', max_chars=500)
                 comments = left_col3.text_input('Comments', max_chars=250)
-                source = right_col3.text_area('Received by *:', value='Paper', height=127, max_chars=2500)
+                source = right_col3.text_area('Received by *', value='Paper', height=127, max_chars=2500)
 
                 task_preview = st.form_submit_button("Preview Task", use_container_width=True,
                                                      on_click=disable_add_task, args=(False,))

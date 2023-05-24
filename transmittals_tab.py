@@ -73,30 +73,30 @@ def transmittals_content():
         with add_trans_tab:
 
             proj_list = st.session_state.proj_names
-            # if '-- Type right here or select from list --' not in proj_list:
-            #     proj_list.insert(0, '-- Type right here or select from list --')
 
             responsible_list = st.session_state.appl_logins
 
             with st.form("add_trans"):
                 lc, cc, rc = st.columns([5, 4, 4], gap='medium')
-                project = lc.selectbox("Project", proj_list)
-                t_type = lc.radio("Transmittal Type", trans_types, horizontal=True)
+                project = lc.selectbox("Project *", proj_list)
+                t_type = lc.radio("Transmittal Type *", trans_types, horizontal=True)
                 lc.write("")
                 ref_trans = rc.text_input("In reply to")
-                trans_num = cc.text_input("Transmittal Number", max_chars=50)
+                trans_num = cc.text_input("Transmittal Number *", max_chars=50)
                 subj = cc.text_input("Subject", max_chars=255)
-                ans_required = cc.radio("Reply required", ('Yes', 'No'), horizontal=True)
+                ans_required = cc.radio("Reply required *", ('Yes', 'No'), horizontal=True)
                 cc.write("")
-                responsible = cc.selectbox("Responsible Employee", responsible_list)
+                responsible = cc.selectbox("Responsible Employee *", responsible_list)
                 cc.write("")
-                link = rc.text_input("Link", max_chars=200)
+                link = rc.text_input("Link *", max_chars=200)
                 reply_date = rc.date_input("Due Date")
                 notes = rc.text_input('Notes', max_chars=500)
-                trans_date = lc.date_input("Transmittal Date")
-                author = lc.text_input('Originator of the Transmittal', max_chars=50)
+                trans_date = lc.date_input("Transmittal Date *")
+                author = lc.text_input('Originator of the Transmittal *', max_chars=50)
 
-                add_trans_but = st.form_submit_button("Preview Transmittal's Data", use_container_width=True)
+                l_c, r_c = st.columns([2, 8], gap='medium')
+                l_c.text('* - REQUIRED')
+                add_trans_but = r_c.form_submit_button("Preview Transmittal's Data", use_container_width=True)
 
             if add_trans_but:
 
