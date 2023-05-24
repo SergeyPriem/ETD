@@ -217,7 +217,7 @@ def transmittals_content():
             if proj != '-- Type right here or select from list --':
                 trans_df = st.session_state.adb['trans']
                 proj_df = st.session_state.adb['project']
-                proj_id = proj_df.loc[proj_df.short_name == proj].index
+                proj_id = proj_df.loc[proj_df.short_name == proj].index.to_numpy()[0]
 
                 st.experimental_show(proj_id)
 
