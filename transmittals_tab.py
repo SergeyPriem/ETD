@@ -241,6 +241,7 @@ def transmittals_content():
 
                 st.experimental_show(sel_trans_dict)
                 st.experimental_show(st.session_state.appl_logins)
+                st.experimental_show(get_list_index(st.session_state.appl_logins, sel_trans_dict['responsible']))
 
             with st.form('edit_trans'):
                 trans_date = st.date_input('Change Transmittal Date', value=sel_trans_dict['trans_date'])
