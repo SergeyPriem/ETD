@@ -218,6 +218,7 @@ def transmittals_content():
                 trans_df = st.session_state.adb['trans']
                 proj_df = st.session_state.adb['project']
                 proj_id = proj_df.loc[proj_df.short_name == proj].index.to_numpy()[0]
+                u_df = st.session_state.adb['users']
 
                 # st.experimental_show(proj_id)
                 # st.experimental_show(trans_df.project)
@@ -234,14 +235,16 @@ def transmittals_content():
 
                 sel_trans_dict = sel_trans_df.to_dict('records')[0]
 
+                old_responsible = u_df.loc[u_df.index == sel_trans_dict['responsible'], 'login'].to_numpy()[0]
+
                 st.experimental_show(sel_trans_dict)
 
             with st.form('edit_trans'):
-                trans_date = st.date_input('Change Transmittal Date', value=sel_trans_df.trans_date.to_numpy()[0])
+                trans_date = st.date_input('Change Transmittal Date', value=sel_trans_dict['trans_date'])
                 responsible = st.selectbox('Change Responsible', st.session_state.appl_logins,
-                                           index=get_list_index(st.session_state.appl_logins,
-                                                                sel_trans_df.responsible.to_numpy()[0]
-                                                                )
+                                           index=get_list_index(
+                                               st.session_state.appl_logins, sel_trans_dict['responsible']
+                                               )
                                            )
 
                 st.form_submit_button('Update Transmittal Data')
