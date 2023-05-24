@@ -164,6 +164,7 @@ def transmittals_content():
                     st.stop()
 
             ans_required_num = 1 if ans_required == "Yes" else 0
+
             if t_type == "Design Docs":
                 status = "Issued Docs"
                 in_out = "Out"
@@ -186,8 +187,6 @@ def transmittals_content():
                     if reply3 != 'Data is updated':
                         st.warning(reply3)
                         st.stop()
-
-                    # make_short_delay()
 
                 else:
                     st.warning("Please Update fields properly...")
