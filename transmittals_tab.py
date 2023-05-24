@@ -83,7 +83,7 @@ def transmittals_content():
                 lc.write("")
                 ref_trans = rc.text_input("In reply to")
                 trans_num = cc.text_input("Transmittal Number *", max_chars=50)
-                subj = cc.text_input("Subject", max_chars=255)
+                subj = cc.text_input("Subject *", max_chars=255)
                 ans_required = cc.radio("Reply required *", ('Yes', 'No'), horizontal=True)
                 cc.write("")
                 responsible = cc.selectbox("Responsible Employee *", responsible_list)
@@ -94,7 +94,7 @@ def transmittals_content():
                 trans_date = lc.date_input("Transmittal Date *")
                 author = lc.text_input('Originator of the Transmittal *', max_chars=50)
 
-                l_c, r_c = st.columns([2, 8], gap='medium')
+                l_c, r_c = st.columns([1, 9], gap='medium')
                 l_c.text('* - REQUIRED')
                 add_trans_but = r_c.form_submit_button("Preview Transmittal's Data", use_container_width=True)
 
