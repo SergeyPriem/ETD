@@ -223,8 +223,12 @@ def transmittals_content():
 
                 st.experimental_show(trans_df.project)
 
-                trans_list = trans_df.loc[(trans_df.project == proj_id) & (
-                        trans_df.responsible == st.session_state.user['id']), 'trans_num'].tolist()
+                if st.session_state.user['access_level'] == 'performer':
+                    trans_list = trans_df.loc[(trans_df.project == proj_id) & (
+                            trans_df.responsible == st.session_state.user['id']), 'trans_num'].tolist()
+                else:
+                    trans_list = trans_df.loc[(trans_df.project == proj_id), 'trans_num'].tolist()
+
 
                 st.experimental_show(trans_list)
 
