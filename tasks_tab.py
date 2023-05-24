@@ -54,26 +54,26 @@ def add_task(task_content):
             sod_list = sod_df[sod_df.project_id == proj_id].set_name.tolist()
 
             with st.form(key="add_task"):
-                units = st.multiselect('Select the Set Of Drawings / Unit*',
+                units = st.multiselect('Select the Set Of Drawings / Unit *',
                                        options=sod_list)  # get_sets_for_project(project))
 
                 left_col2, right_col2 = st.columns(2)
-                specialities = left_col2.multiselect("Speciality", st.session_state.spec)
-                description = right_col2.text_input('Description of Task', max_chars=249)
+                specialities = left_col2.multiselect("Speciality *", st.session_state.spec)
+                description = right_col2.text_input('Description of Task *', max_chars=249)
 
                 col_31, col_32, col_33, col_34 = st.columns([1, 1, 1, 3])
-                direction = col_31.radio('Direction', ('In', 'Out'), horizontal=True)
+                direction = col_31.radio('Direction *', ('In', 'Out'), horizontal=True)
                 col_32.write('')
                 col_32.write('')
-                date = col_33.date_input('Date')
+                date = col_33.date_input('Date *')
                 non_task = col_32.checkbox('Non-Task')
-                stage = col_34.radio('Stage', ('Detail Design', 'Basic Design', 'Feasibility Study',
+                stage = col_34.radio('Stage *', ('Detail Design', 'Basic Design', 'Feasibility Study',
                                                'Adaptation', 'As-built'), horizontal=True)
 
                 left_col3, right_col3 = st.columns(2)
-                link = left_col3.text_input('Link', max_chars=500)
+                link = left_col3.text_input('Link *', max_chars=500)
                 comments = left_col3.text_input('Comments', max_chars=250)
-                source = right_col3.text_area('Received by:', value='Paper', height=127, max_chars=2500)
+                source = right_col3.text_area('Received by *:', value='Paper', height=127, max_chars=2500)
 
                 task_preview = st.form_submit_button("Preview Task", use_container_width=True,
                                                      on_click=disable_add_task, args=(False,))
