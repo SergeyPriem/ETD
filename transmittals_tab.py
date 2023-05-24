@@ -238,11 +238,11 @@ def transmittals_content():
 
                 old_responsible = u_df.loc[u_df.index == sel_trans_dict['responsible'], 'login'].to_numpy()[0]
 
-                st.experimental_show(sel_trans_df)
-                st.experimental_show(old_responsible)
-                st.experimental_show(sel_trans_dict)
-                st.experimental_show(st.session_state.appl_logins)
-                st.experimental_show(get_list_index(st.session_state.appl_logins, old_responsible))
+                # st.experimental_show(sel_trans_df)
+                # st.experimental_show(old_responsible)
+                # st.experimental_show(sel_trans_dict)
+                # st.experimental_show(st.session_state.appl_logins)
+                # st.experimental_show(get_list_index(st.session_state.appl_logins, old_responsible))
 
                 with st.form('edit_trans'):
                     lc, rc = st.columns(2, gap='medium')
