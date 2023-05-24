@@ -231,27 +231,31 @@ def transmittals_content():
                 # st.experimental_show(trans_list)
                 selected_trans = st.selectbox('Select Transmittal to edit', trans_list)
                 sel_trans_df = trans_df[trans_df.trans_num == selected_trans]
-                st.experimental_show(sel_trans_df)
 
                 sel_trans_dict = sel_trans_df.to_dict('records')[0]
 
                 old_responsible = u_df.loc[u_df.index == sel_trans_dict['responsible'], 'login'].to_numpy()[0]
 
+                st.experimental_show(sel_trans_df)
                 st.experimental_show(old_responsible)
-
                 st.experimental_show(sel_trans_dict)
                 st.experimental_show(st.session_state.appl_logins)
                 st.experimental_show(get_list_index(st.session_state.appl_logins, old_responsible))
 
-            with st.form('edit_trans'):
-                trans_date = st.date_input('Change Transmittal Date', value=sel_trans_dict['trans_date'])
-                responsible = st.selectbox('Change Responsible', st.session_state.appl_logins,
-                                           index=get_list_index(
-                                               st.session_state.appl_logins, old_responsible
+                with st.form('edit_trans'):
+                    trans_date = st.date_input('Transmittal Date', value=sel_trans_dict['trans_date'])
+                    responsible = st.selectbox('Responsible', st.session_state.appl_logins,
+                                               index=get_list_index(
+                                                   st.session_state.appl_logins, old_responsible
+                                                   )
                                                )
-                                           )
-
-                st.form_submit_button('Update Transmittal Data')
+                    author = st.text_area('Originator of the Transmittal', value=sel_trans_dict['author'])
+                    in_reply_to = st.text_area('In reply to', value=sel_trans_dict['ref_trans'])
+                    ref_date = st.date_input('Reference Date', value=sel_trans_dict['ref_date'])
+                    subj = st.text_area('Subject', value=sel_trans_dict['ref_trans'])
+                    link = st.text_area('Link', value=sel_trans_dict['link'])
+                    t_type = st.radio('Transmittal Type',  trans_types, horizontal=True)
+                    st.form_submit_button('Update Transmittal Data')
 
 
 
