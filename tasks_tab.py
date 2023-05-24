@@ -76,7 +76,7 @@ def add_task(task_content):
                 source = right_col3.text_area('Received by *', value='Paper', height=127, max_chars=2500)
 
                 l_c, r_c = st.columns([1, 9], gap='medium')
-                l_c.write('* - REQUIRED')
+                l_c.write(r'* - REQUIRED')
                 task_preview = r_c.form_submit_button("Preview Task", use_container_width=True,
                                                       on_click=disable_add_task, args=(False,))
 
