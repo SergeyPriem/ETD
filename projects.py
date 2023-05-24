@@ -9,11 +9,12 @@ from pathlib import Path
 
 set_sql_debug(True)
 
-
 BACKUP_FOLDER: Path = Path('//uz-fs/Uzle/Work/Отдел ЭЛ/Архив заданий/')
+
 
 def err_handler(e):
     return f"{type(e).__name__}{getattr(e, 'args', None)}"
+
 
 def delete_table_row(table, row_id):
     with db_session:
@@ -441,7 +442,6 @@ def update_sod(s_o_d, coord, perf, rev, status, trans_num, notes, upd_trans_chb)
                     t_date = datetime.today().strftime("%Y-%m-%d")
                     unit.notes = f"{str(unit.notes).replace('None', '')}<{t_date}: {notes}>"
                 unit.aux = datetime.today()
-
 
                 return {
                     'status': 201,
@@ -984,6 +984,29 @@ def update_unit_name_stage(unit_id, new_name, new_stage):
             # if st.session_state.proj_scope == "All excluding cancelled and suspended":
             #     sod = select(u for u in SOD if u.project_id.status not in ['suspended', 'cancelled'])[:]
 
+            return {
+                'status': 201,
+                'err_descr': None,
+            }
+
+        except Exception as e:
+            return {'status': 404,
+                    'err_descr': err_handler(e),
+                    }
+
+
+def update_trans(id, trans_date, responsible, author, in_reply_to, ref_date, subj, link, t_type):
+    with db_session:
+        try:
+            trans = Trans[id]
+            trans.trans_date = trans_date
+            trans.responsible = responsible
+            trans.author = author
+            trans.ref_trans = in_reply_to
+            trans.ref_date = ref_date
+            trans.subj = subj
+            trans.link = link
+            trans.t_type = t_type
 
             return {
                 'status': 201,

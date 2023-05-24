@@ -2,7 +2,7 @@
 import pandas as pd
 import streamlit as st
 from utilities import trans_types, center_style, update_state, get_list_index  # , make_short_delay, make_long_delay
-from projects import add_new_trans
+from projects import add_new_trans, update_trans
 
 
 def check_trans_data(project, trans_num, t_type, subj, link,
@@ -232,6 +232,8 @@ def transmittals_content():
                 selected_trans = st.selectbox('Select Transmittal to edit', trans_list)
                 sel_trans_df = trans_df[trans_df.trans_num == selected_trans]
 
+                sel_trans_id = sel_trans_df.index.to_numpy()[0]
+
                 sel_trans_dict = sel_trans_df.to_dict('records')[0]
 
                 old_responsible = u_df.loc[u_df.index == sel_trans_dict['responsible'], 'login'].to_numpy()[0]
@@ -260,7 +262,20 @@ def transmittals_content():
                     upd_trans_but = st.form_submit_button('Update Transmittal Data')
 
                 if upd_trans_but:
-                    st.write(':green[**Updated**]')
+                    reply = update_trans(sel_trans_id, trans_date, responsible, author, in_reply_to, ref_date, subj, link, t_type)
+
+                    if reply['status'] == 201:
+                        l_rep, r_rep = st.columns(2, gap='medium')
+                        reply3 = update_state('sod')
+
+                        if reply3 != 'Data is updated':
+                            st.warning(reply3)
+
+                        l_rep.success('Transmittal Updated')
+                        r_rep.text('')
+                        r_rep.button('Close Report', key='close_upd_unit_report', use_container_width=True)
+
+
 
 
 
