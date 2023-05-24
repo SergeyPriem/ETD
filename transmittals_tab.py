@@ -237,6 +237,8 @@ def transmittals_content():
 
                     sel_trans_id = sel_trans_df.index.to_numpy()[0]
 
+                    sel_trans_type = sel_trans_df.t_type.to_numpy()[0]
+
                     sel_trans_dict = sel_trans_df.to_dict('records')[0]
 
                     old_responsible = u_df.loc[u_df.index == sel_trans_dict['responsible'], 'login'].to_numpy()[0]
@@ -261,7 +263,8 @@ def transmittals_content():
                         subj = rc.text_input('Subject', value=sel_trans_dict['subj'])
                         link = lc.text_input('Link', value=sel_trans_dict['link'])
                         rc.text('')
-                        t_type = rc.radio('Transmittal Type',  trans_types, horizontal=True)
+                        t_type = rc.radio('Transmittal Type',  trans_types,
+                                          index=get_list_index(trans_types, sel_trans_type), horizontal=True)
                         upd_trans_but = st.form_submit_button('Update Transmittal Data')
 
                     if upd_trans_but:
