@@ -262,7 +262,8 @@ def transmittals_content():
                     upd_trans_but = st.form_submit_button('Update Transmittal Data')
 
                 if upd_trans_but:
-                    reply = update_trans(sel_trans_id, trans_date, responsible, author, in_reply_to, ref_date, subj, link, t_type)
+                    responsible_id = u_df[u_df.login == responsible].index.to_numpy()[0]
+                    reply = update_trans(sel_trans_id, trans_date, responsible_id, author, in_reply_to, ref_date, subj, link, t_type)
 
                     if reply['status'] == 201:
                         l_rep, r_rep = st.columns(2, gap='medium')
