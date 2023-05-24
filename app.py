@@ -655,7 +655,7 @@ def login_register():
                 st.warning(appl_logins)
                 st.stop()
 
-            if login in st.session_state.registered_logins:
+            if login in st.session_state.registered_logins and login != '-- Type right here or select from list --':
                 st.subheader("You are Registered 😎")
             else:
                 st.write("Not in list? Send the request from your e-mail to sergey.priemshiy@uzliti-en.com")
