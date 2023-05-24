@@ -68,7 +68,8 @@ def transmittals_content():
 
         st.title(':orange[Transmittals]')
 
-        add_trans_tab, view_trans_tab = st.tabs(['Add New Transmittal', 'View Existing Transmittals'])
+        add_trans_tab, view_trans_tab, edit_trans_tab = st.tabs(
+            ['Add New Transmittal', 'View Existing Transmittals', 'Edit Existing Transmittals'])
 
         with add_trans_tab:
 
@@ -208,3 +209,8 @@ def transmittals_content():
                 else:
                     st.info("No Tansmittals in DataBase")
                     st.stop()
+
+        with edit_trans_tab:
+
+            edit_trans_num = st.selectbox('Select the Project', st.session_state.proj_names)
+
