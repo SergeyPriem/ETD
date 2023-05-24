@@ -48,11 +48,15 @@ def add_task(task_content):
 
         project = st.selectbox('Select the Project', proj_list)
 
-        if project == '-- Type right here or select from list --':
-            st.stop()
+        # if project == '-- Type right here or select from list --':
+        #     st.stop()
 
         proj_id = proj_df[proj_df.short_name == project].index.to_numpy()[0]
-        sod_list = sod_df[sod_df.project_id == proj_id].set_name.tolist()
+
+        if proj_id:
+            sod_list = sod_df[sod_df.project_id == proj_id].set_name.tolist()
+        else:
+            sod_list = ['Select a Project']
 
         with st.form(key="add_task"):
             units = st.multiselect('Select the Set Of Drawings / Unit',
