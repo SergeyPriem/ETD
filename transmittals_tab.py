@@ -274,6 +274,8 @@ def transmittals_content():
                         l_rep.success('Transmittal Updated')
                         r_rep.text('')
                         r_rep.button('Close Report', key='close_upd_unit_report', use_container_width=True)
+                    else:
+                        st.error(reply['err_descr'])
 
 
 
