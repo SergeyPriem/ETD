@@ -241,13 +241,13 @@ def transmittals_content():
 
                 st.experimental_show(sel_trans_dict)
                 st.experimental_show(st.session_state.appl_logins)
-                st.experimental_show(get_list_index(st.session_state.appl_logins, sel_trans_dict['responsible']))
+                st.experimental_show(get_list_index(st.session_state.appl_logins, old_responsible))
 
             with st.form('edit_trans'):
                 trans_date = st.date_input('Change Transmittal Date', value=sel_trans_dict['trans_date'])
                 responsible = st.selectbox('Change Responsible', st.session_state.appl_logins,
                                            index=get_list_index(
-                                               st.session_state.appl_logins, sel_trans_dict['responsible']
+                                               st.session_state.appl_logins, old_responsible
                                                )
                                            )
 
