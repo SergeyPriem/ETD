@@ -163,6 +163,7 @@ def transmittals_content():
                     st.info('Make proper selection...')
                     st.stop()
 
+            ans_required_num = 1 if ans_required == "Yes" else 0
             if t_type == "Design Docs":
                 status = "Issued Docs"
                 in_out = "Out"
@@ -176,8 +177,8 @@ def transmittals_content():
 
                 if trans_checker:
 
-                    reply = add_new_trans(project, trans_num, ref_trans, t_type, subj, link, trans_date, ans_required,
-                                          reply_date, author, responsible, notes, status, in_out)
+                    reply = add_new_trans(project, trans_num, ref_trans, t_type, subj, link, trans_date,
+                                          ans_required_num, reply_date, author, responsible, notes, status, in_out)
                     st.info(reply)
 
                     reply3 = update_state('trans')

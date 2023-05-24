@@ -1179,9 +1179,7 @@ if __name__ == "__main__":
     if not st.session_state.logged:
         login_register()
     else:
-        # refresher()
         initial()
-        # show_sidebar_info()
         reply = update_tables()
 
         if st.session_state.user['vert_menu'] == 0:
