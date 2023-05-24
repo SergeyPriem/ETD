@@ -243,18 +243,19 @@ def transmittals_content():
                 st.experimental_show(get_list_index(st.session_state.appl_logins, old_responsible))
 
                 with st.form('edit_trans'):
-                    trans_date = st.date_input('Transmittal Date', value=sel_trans_dict['trans_date'])
-                    responsible = st.selectbox('Responsible', st.session_state.appl_logins,
+                    lc, rc = st.columns(2, gap='medium')
+                    trans_date = lc.date_input('Transmittal Date', value=sel_trans_dict['trans_date'])
+                    responsible = rc.selectbox('Responsible', st.session_state.appl_logins,
                                                index=get_list_index(
                                                    st.session_state.appl_logins, old_responsible
                                                    )
                                                )
-                    author = st.text_area('Originator of the Transmittal', value=sel_trans_dict['author'])
-                    in_reply_to = st.text_area('In reply to', value=sel_trans_dict['ref_trans'])
-                    ref_date = st.date_input('Reference Date', value=sel_trans_dict['ref_date'])
-                    subj = st.text_area('Subject', value=sel_trans_dict['ref_trans'])
-                    link = st.text_area('Link', value=sel_trans_dict['link'])
-                    t_type = st.radio('Transmittal Type',  trans_types, horizontal=True)
+                    author = lc.text_input('Originator of the Transmittal', value=sel_trans_dict['author'])
+                    in_reply_to = rc.text_input('In reply to', value=sel_trans_dict['ref_trans'])
+                    ref_date = lc.date_input('Reference Date', value=sel_trans_dict['ref_date'])
+                    subj = rc.text_input('Subject', value=sel_trans_dict['ref_trans'])
+                    link = lc.text_input('Link', value=sel_trans_dict['link'])
+                    t_type = rc.radio('Transmittal Type',  trans_types, horizontal=True)
                     st.form_submit_button('Update Transmittal Data')
 
 
