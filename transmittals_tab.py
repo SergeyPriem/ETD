@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
 import streamlit as st
-from utilities import trans_types, center_style, update_state #, make_short_delay, make_long_delay
+from utilities import trans_types, center_style, update_state, get_list_index  # , make_short_delay, make_long_delay
 from projects import add_new_trans
 
 
@@ -231,4 +231,38 @@ def transmittals_content():
                 selected_trans = st.selectbox('Select Transmittal to edit', trans_list)
                 sel_trans_df = trans_df[trans_df.trans_num == selected_trans]
                 st.experimental_show(sel_trans_df)
+
+            with st.form('edit_trans'):
+                trans_date = st.date_input('Change Transmittal Date', value=sel_trans_df.trans_date.to_numpy()[0])
+                responsible = st.selectbox('Change Responsible', st.session_state.appl_logins,
+                                           index=get_list_index(st.session_state.appl_logins,
+                                                                sel_trans_df.responsible.to_numpy()[0]
+                                                                )
+                                           )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
