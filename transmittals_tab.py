@@ -237,6 +237,8 @@ def transmittals_content():
 
                 old_responsible = u_df.loc[u_df.index == sel_trans_dict['responsible'], 'login'].to_numpy()[0]
 
+                st.experimental_show(old_responsible)
+
                 st.experimental_show(sel_trans_dict)
 
             with st.form('edit_trans'):
