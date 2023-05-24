@@ -219,23 +219,16 @@ def transmittals_content():
                 proj_df = st.session_state.adb['project']
                 proj_id = proj_df.loc[proj_df.short_name == proj].index.to_numpy()[0]
 
-                st.experimental_show(proj_id)
-
-                st.experimental_show(trans_df.project)
+                # st.experimental_show(proj_id)
+                # st.experimental_show(trans_df.project)
 
                 if st.session_state.user['access_level'] == 'performer':
                     trans_list = trans_df.loc[(trans_df.project == proj_id) & (
                             trans_df.responsible == st.session_state.user['id']), 'trans_num'].tolist()
                 else:
                     trans_list = trans_df.loc[(trans_df.project == proj_id), 'trans_num'].tolist()
-
-
-                st.experimental_show(trans_list)
-
-
+                # st.experimental_show(trans_list)
                 selected_trans = st.selectbox('Select Transmittal to edit', trans_list)
-
                 sel_trans_df = trans_df[trans_df.trans_num == selected_trans]
-
                 st.experimental_show(sel_trans_df)
 
