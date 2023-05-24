@@ -232,7 +232,7 @@ def transmittals_content():
                 sel_trans_df = trans_df[trans_df.trans_num == selected_trans]
                 st.experimental_show(sel_trans_df)
 
-                sel_trans_dict = sel_trans_df.to_dict('records')
+                sel_trans_dict = sel_trans_df.to_dict('records')[0]
 
                 st.experimental_show(sel_trans_dict)
 
