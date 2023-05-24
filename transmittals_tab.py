@@ -260,7 +260,9 @@ def transmittals_content():
                     upd_trans_but = st.form_submit_button('Update Transmittal Data')
 
                 if upd_trans_but:
-                    st.write(':green[Updated]')
+                    st.write(':green*[Updated]*')
+
+
 
 
 
