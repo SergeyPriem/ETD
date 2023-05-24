@@ -239,6 +239,7 @@ def transmittals_content():
                                                                 sel_trans_df.responsible.to_numpy()[0]
                                                                 )
                                            )
+                st.form_submit_button('Update Transmittal Data')
 
 
 
