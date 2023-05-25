@@ -44,7 +44,7 @@ def home_tasks():
     spec = st.session_state.adb['speciality']
 
     task_df = task_df.loc[task_df.in_out == "In"]
-    task_df.loc[:, 'new_id'] = task_df.index
+    task_df.loc[:, 'new_id'] = task_df.index.values
     task_df = task_df.merge(sod_df[['project_id', 'set_name', 'coord_id', 'perf_id']],
                             how='left', left_on='s_o_d', right_on='id')
 
