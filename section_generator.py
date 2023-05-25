@@ -340,7 +340,7 @@ def get_tags_from_cablist(cablist_df, from_unit, to_unit, all_chb):
 
         if all_chb:
             for tag in cablist_df.cableTag:
-                st.write(f":green[{tag}")
+                st.write(f":green[{tag}]")
 
         else:
             filtered_df = pd.DataFrame
