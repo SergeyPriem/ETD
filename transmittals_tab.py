@@ -273,7 +273,7 @@ def transmittals_content():
 
                         if reply['status'] == 201:
                             l_rep, r_rep = st.columns(2, gap='medium')
-                            reply3 = update_state('sod')
+                            reply3 = update_state('trans')
 
                             if reply3 != 'Data is updated':
                                 st.warning(reply3)

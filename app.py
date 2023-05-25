@@ -1180,6 +1180,7 @@ if __name__ == "__main__":
         login_register()
     else:
         initial()
+
         reply = update_tables()
 
         if st.session_state.user['vert_menu'] == 0:

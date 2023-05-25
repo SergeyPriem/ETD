@@ -166,6 +166,13 @@ def update_tables():
                 'trans': get_trans_repeat,
             }
 
+            tab_name_dict = {
+                'sod': "Units",
+                'project': "Projects",
+                'task': "Tasks",
+                'trans': "Transmittals",
+            }
+
             reply = reply_dict.get(table)()
 
             if reply['status'] == 200:
@@ -178,7 +185,7 @@ def update_tables():
                     time.sleep(1)
                     return None
                 else:
-                    return f"Table {table} was updated by {upd_login}. Data is refreshed"
+                    return f"'{tab_name_dict[table]}' were updated by {upd_login}. Data is refreshed"
 
             else:
                 st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
