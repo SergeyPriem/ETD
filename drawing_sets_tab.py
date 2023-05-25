@@ -37,7 +37,7 @@ def drawing_sets():
             user_id = st.session_state.user['id']
             sod_df = sod_df[(sod_df.coord_id == user_id) | (sod_df.perf_id == user_id)]
 
-        sod_df.loc[:, 'unit_id'] = sod_df.index
+        sod_df.loc[:, 'unit_id'] = sod_df.index.values
         sod_df = sod_df.set_index('project_id').join(proj_df['short_name'])
         sod_df = sod_df.set_index('coord_id').join(u_df['login'])
 
@@ -297,7 +297,7 @@ def drawing_sets():
 
         units_tasks = task_df[task_df.s_o_d == unit_id]  # .tolist()
 
-        units_tasks['task_id'] = units_tasks.index
+        units_tasks['task_id'] = units_tasks.index.values
 
         units_tasks = units_tasks.set_index("speciality").join(spec_df)
 
