@@ -8,6 +8,7 @@ import numpy as np
 import math
 import os
 
+from section_generator import get_tags_from_cablist
 from users import err_handler
 from utilities import center_style
 
@@ -1168,11 +1169,12 @@ def scripts_tab():
                                                           'Create Sections'])
 
             with cab_tags:
-                lc, rc = st.columns(2)
+                lc, c1, c2, rc = st.columns(3, gap='medium')
                 sheet_name = lc.text_input('Sheet Name')
-                rc.text('')
-                rc.text('')
-                get_cab_but = rc.button('Get Cable Tags for Routing', use_container_width=True)
+                tag_from = c1.text_input('Tag From')
+                tag_to = c2.text_input('Tag To')
+                all_chb = rc.checkbox('All Cable Tags')
+                get_cab_but = st.button('Get Cable Tags for Routing', use_container_width=True)
 
                 if cable_list and get_cab_but:
                     try:
@@ -1183,3 +1185,6 @@ def scripts_tab():
                         st.write(cl_df)
                     except Exception as e:
                         st.warning(err_handler(e))
+                        st.stop()
+
+                    get_tags_from_cablist(cl_df, from_unit, to_unit)

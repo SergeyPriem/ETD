@@ -327,11 +327,11 @@ def get_cable_df(cl_path):
         return xl.parse(sheet_name)
 
 #main2
-def get_tags_from_cablist(cl_path, from_unit, to_unit):
+def get_tags_from_cablist(cablist_df, from_unit, to_unit):
     # cl_path = r'C:\Users\sergey.priemshiy\Desktop\cab_routing\216-02\cablist 01_02_03.xlsb'
     st.write(f':blue[Running...]')
-    global cablist_df
-    cablist_df = get_cable_df(cl_path)
+    # global cablist_df
+    # cablist_df = get_cable_df(cl_path)
 
     try:
         cablist_df.cableTag = cablist_df.cableTag.apply(replace_cyrillic)
