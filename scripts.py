@@ -1171,6 +1171,7 @@ def scripts_tab():
                 lc, rc = st.columns(2)
                 sheet_name = lc.text_input('Sheet Name')
                 rc.text('')
+                rc.text('')
                 get_cab_but = rc.button('Get Cable Tags for Routing', use_container_width=True)
 
                 if cable_list and get_cab_but:
