@@ -1168,5 +1168,7 @@ def scripts_tab():
                                                           'Create Sections'])
 
             with cab_tags:
-                if cable_list and st.button('Get Cable Tags for Routing'):
+                get_cab_but = st.button('Get Cable Tags for Routing')
+
+                if cable_list and get_cab_but:
                     st.write('GO')
