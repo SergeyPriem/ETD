@@ -326,47 +326,32 @@ def get_cable_df(cl_path):
             return
         return xl.parse(sheet_name)
 
-#main2
-def get_tags_from_cablist(cablist_df, from_unit, to_unit):
-    # cl_path = r'C:\Users\sergey.priemshiy\Desktop\cab_routing\216-02\cablist 01_02_03.xlsb'
+
+# main2
+def get_tags_from_cablist(cablist_df, from_unit, to_unit, all_chb):
     st.write(f':blue[Running...]')
-    # global cablist_df
-    # cablist_df = get_cable_df(cl_path)
 
     try:
         cablist_df.cableTag = cablist_df.cableTag.apply(replace_cyrillic)
-        # cablist_df.bus = cablist_df.bus.apply(change_cyrillic)
         cablist_df.cableTag.replace(r'\s+', '', regex=True, inplace=True)
         cablist_df.cableTag.replace(r'--', '-', regex=True, inplace=True)
         st.write()
         st.write(f":blue[-- Begin of Selected List --]")
 
-        # for tag in cablist_df.cableTag:
-        #     if tag_from == '*' and tag_to == '0':
-        #         st.write(f":green[{tag}")
-        #     else:
-        #         if tag_from in tag or tag_to in tag:
-        #             st.write(f"{green}{tag}")
-        if from_unit == '*' and to_unit == '*':
+        if all_chb:
             for tag in cablist_df.cableTag:
                 st.write(f":green[{tag}")
 
-        if from_unit != "*" and len(from_unit):
-            filtered_df = cablist_df.loc[cablist_df.fromUnit == from_unit]
+        else:
+            filtered_df = pd.DataFrame
+            if len(from_unit):
+                filtered_df = cablist_df.loc[cablist_df.fromUnit.str.contains(from_unit, na=False)]
 
-            if to_unit != "*" and len(to_unit):
-                filtered_df = filtered_df.loc[filtered_df.toUnit == to_unit]
-
-            for tag in filtered_df.cableTag:
-                st.write(f":green[{tag}")
-
-        if from_unit == "*" and len(to_unit):
-            filtered_df = cablist_df.loc[cablist_df.toUnit == to_unit]
+            if len(to_unit):
+                filtered_df = filtered_df.loc[filtered_df.toUnit.str.contains(to_unit, na=False)]
 
             for tag in filtered_df.cableTag:
                 st.write(f":green[{tag}")
-
-        # st.write(cablist_df.cableTag)
 
         st.write(f":blue[-- End of Selected List --]")
     except:
@@ -411,8 +396,9 @@ def gener_section(p_x, df_b, section, sect_df, sections_template_path, msp, vert
     else:
         st.write(reply)
 
-#main3
-def process_cable_layout(layout_path=None, sections_template_path=None): #main3
+
+# main3
+def process_cable_layout(layout_path=None, sections_template_path=None):  # main3
     try:
         doc = ezdxf.readfile(layout_path)
     except IOError:
@@ -517,7 +503,8 @@ def process_cable_layout(layout_path=None, sections_template_path=None): #main3
                       'diam', 'chan_size',
                       'bus']])
 
-#main4
+
+# main4
 def generate_dxf(sect_df=None, sections_template_path=None):
     vertical_trays_gap = 300
 

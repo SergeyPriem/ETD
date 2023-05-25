@@ -1187,4 +1187,4 @@ def scripts_tab():
                         st.warning(err_handler(e))
                         st.stop()
 
-                    get_tags_from_cablist(cl_df, from_unit, to_unit)
+                    get_tags_from_cablist(cl_df, tag_from, tag_to, all_chb)
