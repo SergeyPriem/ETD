@@ -346,7 +346,8 @@ def get_tags_from_cablist(cablist_df, from_unit, to_unit, all_chb):
                 st.write(f":green[{tag}]")
         else:
             st.text('Not All')
-            filtered_df = pd.DataFrame
+            filtered_df = cablist_df.copy()
+
             if len(from_unit):
                 filtered_df = cablist_df.loc[cablist_df.fromUnit.str.contains(from_unit, na=False)]
 
