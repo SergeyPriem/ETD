@@ -1172,6 +1172,12 @@ def scripts_tab():
                 sheet_name = lc.text_input('Sheet Name')
                 get_cab_but = rc.button('Get Cable Tags for Routing', use_container_width=True)
 
-                if cable_list and get_cab_but and sheet_name:
-                    cl_df = pd.read_excel(cable_list, sheet_name=sheet_name)
-                    st.write(cl_df)
+                if cable_list and get_cab_but:
+                    try:
+                        if sheet_name:
+                            cl_df = pd.read_excel(cable_list, sheet_name=sheet_name)
+                        else:
+                            cl_df = pd.read_excel(cable_list, sheet_name='Sheet1')
+                        st.write(cl_df)
+                    except Exception as e:
+                        st.warning(err_handler(e))
