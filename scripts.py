@@ -1173,6 +1173,8 @@ def scripts_tab():
                 sheet_name = lc.text_input('Sheet Name')
                 from_unit = c1.text_input('From Unit')
                 to_unit = c2.text_input('To Unit')
+                rc.text('')
+                rc.text('')
                 all_chb = rc.checkbox('All Cable Tags')
                 get_cab_but = st.button('Get Cable Tags for Routing', use_container_width=True)
 
