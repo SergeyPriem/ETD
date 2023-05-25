@@ -1151,5 +1151,19 @@ def scripts_tab():
             st.write("Please find required templates in folder below  👇 ")
             st.code(r'\\uz-fs\Uzle\Work\Отдел ЭЛ\01 Малая Автоматизация\Шаблоны\CABLEWAYS')
             st.write("")
-            if st.session_state.user['script_acc']:
-                st.write('Will be later...')
+            p_l, p_r = st.columns(2, gap='medium')
+
+            cable_list = p_l.file_uploader("CABLE LIST", type=['xlsx'],
+                                          accept_multiple_files=False, key=None,
+                                          help=None, on_change=None, args=None,
+                                          kwargs=None, disabled=False, label_visibility="visible")
+
+
+            sect_template = p_r.file_uploader("SECTIONS TEMPLATE", type=['dxf'],
+                                             accept_multiple_files=False, key=None,
+                                             help=None, on_change=None, args=None,
+                                             kwargs=None, disabled=False, label_visibility="visible")
+
+            cab_tags, cab_layout, gen_sections = st.tabs(['Get Tags from Cable List', 'Process Cable Layout',
+                                                          'Create Sections'])
+
