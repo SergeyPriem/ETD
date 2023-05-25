@@ -1167,3 +1167,6 @@ def scripts_tab():
             cab_tags, cab_layout, gen_sections = st.tabs(['Get Tags from Cable List', 'Process Cable Layout',
                                                           'Create Sections'])
 
+            with cab_tags:
+                if cable_list and st.button('Get Cable Tags for Routing'):
+                    st.write('GO')
