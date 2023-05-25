@@ -7,6 +7,8 @@ import sys, re
 from ezdxf.enums import TextEntityAlignment
 from ezdxf.math import Vec2
 
+from utilities import err_handler
+
 
 def kill_comma(value):
     value = float(str(value).replace(',', '.'))
@@ -329,10 +331,6 @@ def get_cable_df(cl_path):
 
 # main2
 def get_tags_from_cablist(cablist_df, from_unit, to_unit, all_chb):
-    st.write(f':blue[Running...]')
-
-    st.experimental_show(from_unit)
-    st.experimental_show(to_unit)
 
     try:
         cablist_df.cableTag = cablist_df.cableTag.apply(replace_cyrillic)
@@ -358,8 +356,8 @@ def get_tags_from_cablist(cablist_df, from_unit, to_unit, all_chb):
                 st.write(f":green[{tag}]")
 
         st.write(f":blue[-- End of Selected List --]")
-    except:
-        st.write(f':red[!!! Data from selected sheet are not valid. Try again')
+    except Exception as e:
+        st.write(f':red[!!! Data from selected sheet are not valid. Try again, {err_handler(e)}')
 
 
 # PROCESS CABLE LAYOUT
