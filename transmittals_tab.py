@@ -211,8 +211,8 @@ def transmittals_content():
                     st.stop()
 
         with edit_trans_tab:
-
-            proj = st.selectbox('Select the Project', st.session_state.proj_names)
+            l_col, r_col = st.columns(2, gap='medium')
+            proj = l_col.selectbox('Select the Project', st.session_state.proj_names)
 
             if proj != '-- Type right here or select from list --':
                 trans_df = st.session_state.adb['trans']
@@ -232,7 +232,7 @@ def transmittals_content():
 
                 if len(trans_list):
 
-                    selected_trans = st.selectbox('Select Transmittal to edit', trans_list)
+                    selected_trans = r_col.selectbox('Select Transmittal to edit', trans_list)
                     sel_trans_df = trans_df[trans_df.trans_num == selected_trans]
 
                     sel_trans_id = sel_trans_df.index.to_numpy()[0]
@@ -265,11 +265,12 @@ def transmittals_content():
                         rc.text('')
                         t_type = rc.radio('Transmittal Type',  trans_types,
                                           index=get_list_index(trans_types, sel_trans_type), horizontal=True)
-                        upd_trans_but = st.form_submit_button('Update Transmittal Data')
+                        upd_trans_but = st.form_submit_button('Update Transmittal Data', use_container_width=True)
 
                     if upd_trans_but:
                         responsible_id = u_df[u_df.login == responsible].index.to_numpy()[0]
-                        reply = update_trans(sel_trans_id, trans_date, responsible_id, author, in_reply_to, ref_date, subj, link, t_type)
+                        reply = update_trans(sel_trans_id, trans_date, responsible_id, author, in_reply_to,
+                                             ref_date, subj, link, t_type)
 
                         if reply['status'] == 201:
                             l_rep, r_rep = st.columns(2, gap='medium')
