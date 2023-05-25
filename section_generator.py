@@ -331,6 +331,9 @@ def get_cable_df(cl_path):
 def get_tags_from_cablist(cablist_df, from_unit, to_unit, all_chb):
     st.write(f':blue[Running...]')
 
+    st.experimental_show(from_unit)
+    st.experimental_show(to_unit)
+
     try:
         cablist_df.cableTag = cablist_df.cableTag.apply(replace_cyrillic)
         cablist_df.cableTag.replace(r'\s+', '', regex=True, inplace=True)
@@ -341,8 +344,8 @@ def get_tags_from_cablist(cablist_df, from_unit, to_unit, all_chb):
         if all_chb:
             for tag in cablist_df.cableTag:
                 st.write(f":green[{tag}]")
-
         else:
+            st.text('Not All')
             filtered_df = pd.DataFrame
             if len(from_unit):
                 filtered_df = cablist_df.loc[cablist_df.fromUnit.str.contains(from_unit, na=False)]
@@ -351,7 +354,7 @@ def get_tags_from_cablist(cablist_df, from_unit, to_unit, all_chb):
                 filtered_df = filtered_df.loc[filtered_df.toUnit.str.contains(to_unit, na=False)]
 
             for tag in filtered_df.cableTag:
-                st.write(f":green[{tag}")
+                st.write(f":green[{tag}]")
 
         st.write(f":blue[-- End of Selected List --]")
     except:
@@ -378,7 +381,7 @@ def get_data_from_cab_list(cables_df, cablist_df):
     return cables_df
 
 
-def gener_section(p_x, df_b, section, sect_df, sections_template_path, msp, vertical_trays_gap, reply):
+def gener_section(cablist_df, p_x, df_b, section, sect_df, sections_template_path, msp, vertical_trays_gap, reply):
     for k, v in df_b.iterrows():
         if v.cab_purpose == "C":
             section.add_c_cab([v.cab_tag, v.cab_diam])
@@ -398,7 +401,7 @@ def gener_section(p_x, df_b, section, sect_df, sections_template_path, msp, vert
 
 
 # main3
-def process_cable_layout(layout_path=None, sections_template_path=None):  # main3
+def process_cable_layout(layout_path, sections_template_path, cablist_df):  # main3
     try:
         doc = ezdxf.readfile(layout_path)
     except IOError:
@@ -505,7 +508,7 @@ def process_cable_layout(layout_path=None, sections_template_path=None):  # main
 
 
 # main4
-def generate_dxf(sect_df=None, sections_template_path=None):
+def generate_dxf(sect_df, sections_template_path, cablist_df):
     vertical_trays_gap = 300
 
     sect_set = set(sect_df.sect)
@@ -579,7 +582,7 @@ def generate_dxf(sect_df=None, sections_template_path=None):
 
             reply = f":red[Empty table of cables for {section_tag}: bus C]"
 
-            gener_section(p_x, df_b, section, sect_df, sections_template_path, msp, vertical_trays_gap, reply)
+            gener_section(cablist_df, df_b, section, sect_df, sections_template_path, msp, vertical_trays_gap, reply)
 
         df_un = df.loc[(df.cab_bus == "-")].reset_index(drop=True)
 
