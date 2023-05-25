@@ -285,7 +285,7 @@ def transmittals_content():
                             st.error(reply['err_descr'])
 
                 else:
-                    st.warning('Transmittals for selected Project not available...')
+                    st.warning('Transmittals for selected Project are not available...')
 
 
 
