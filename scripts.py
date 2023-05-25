@@ -1169,7 +1169,7 @@ def scripts_tab():
                                                           'Create Sections'])
 
             with cab_tags:
-                lc, c1, c2, rc = st.columns(3, gap='medium')
+                lc, c1, c2, rc = st.columns(4, gap='medium')
                 sheet_name = lc.text_input('Sheet Name')
                 tag_from = c1.text_input('Tag From')
                 tag_to = c2.text_input('Tag To')
