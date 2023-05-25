@@ -1171,8 +1171,8 @@ def scripts_tab():
             with cab_tags:
                 lc, c1, c2, rc = st.columns(4, gap='medium')
                 sheet_name = lc.text_input('Sheet Name')
-                from_tag = c1.text_input('From Tag')
-                to_tag = c2.text_input('To Tag')
+                from_unit = c1.text_input('From Unit')
+                to_unit = c2.text_input('To Unit')
                 all_chb = rc.checkbox('All Cable Tags')
                 get_cab_but = st.button('Get Cable Tags for Routing', use_container_width=True)
 
@@ -1184,7 +1184,7 @@ def scripts_tab():
                             cl_df = pd.read_excel(cable_list, sheet_name='Sheet1')
                         # st.write(cl_df)
 
-                        get_tags_from_cablist(cl_df, from_tag, to_tag, all_chb)
+                        get_tags_from_cablist(cl_df, from_unit, to_unit, all_chb)
 
                     except Exception as e:
                         st.warning(err_handler(e))
