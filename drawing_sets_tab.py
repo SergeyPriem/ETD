@@ -37,7 +37,7 @@ def drawing_sets():
             user_id = st.session_state.user['id']
             sod_df = sod_df[(sod_df.coord_id == user_id) | (sod_df.perf_id == user_id)]
 
-        sod_df.loc[:, 'unit_id'] = sod_df.index.values
+        sod_df.loc[:, 'unit_id'] = sod_df.index
         sod_df = sod_df.set_index('project_id').join(proj_df['short_name'])
         sod_df = sod_df.set_index('coord_id').join(u_df['login'])
 
@@ -297,7 +297,7 @@ def drawing_sets():
 
         units_tasks = task_df[task_df.s_o_d == unit_id]  # .tolist()
 
-        units_tasks['task_id'] = units_tasks.index.values
+        units_tasks.loc[:,'task_id'] = units_tasks.index
 
         units_tasks = units_tasks.set_index("speciality").join(spec_df)
 
@@ -369,7 +369,7 @@ def drawing_sets():
                             В ЭлектроОтделе сейчас в разработке комплект чертежей:
                             **{proj_selected}: {unit_selected}**.
                             В настоящее время отсутствуют задания по специальностям:
-                            **{', '.join(request_df[request_df.request == True].index.values)}**.
+                            **{', '.join(request_df[request_df.request == True].index)}**.
                             Просим сообщить о необходимости задания и его сроке выдачи.
                             """)
                             st.write('')
@@ -381,7 +381,7 @@ def drawing_sets():
                             Currently Electrical Department is developing:
                             **{proj_selected}: {unit_selected}**.
                             For now we haven't assignments from:
-                            **{', '.join(request_df[request_df.request == True].index.values)}**.
+                            **{', '.join(request_df[request_df.request == True].index)}**.
                             Kindly ask you to inform about a necessity of assignment and it's issue date.
                             """)
                         else:
