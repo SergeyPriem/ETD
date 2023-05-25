@@ -1168,9 +1168,9 @@ def scripts_tab():
                                                           'Create Sections'])
 
             with cab_tags:
-                get_cab_but = st.button('Get Cable Tags for Routing')
-
-                sheet_name = st.text_input('Sheet Name')
+                lc, rc = st.columns(2)
+                sheet_name = lc.text_input('Sheet Name')
+                get_cab_but = rc.button('Get Cable Tags for Routing', use_container_width=True)
 
                 if cable_list and get_cab_but and sheet_name:
                     cl_df = pd.read_excel(cable_list, sheet_name=sheet_name)
