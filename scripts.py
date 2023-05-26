@@ -1165,6 +1165,11 @@ def scripts_tab():
                                              help=None, on_change=None, args=None,
                                              kwargs=None, disabled=False, label_visibility="visible")
 
+            power_layout = p_r.file_uploader("CABLE ROUTING LAYOUT", type=['dxf'],
+                                             accept_multiple_files=False, key=None,
+                                             help=None, on_change=None, args=None,
+                                             kwargs=None, disabled=False, label_visibility="visible")
+
             cab_tags, cab_layout, gen_sections = st.tabs(['Get Tags from Cable List', 'Process Cable Layout',
                                                           'Create Sections'])
 
