@@ -266,7 +266,8 @@ def transmittals_content():
                                           index=get_list_index(TRANS_TYPES, sel_trans_type), horizontal=True)
                         upd_ans_required = lc.checkbox('Answer Required', value=sel_trans_dict['ans_required'])
                         upd_status = rc.radio('Status', TRANS_STATUSES,
-                                              index=get_list_index(TRANS_STATUSES, sel_trans_dict['status']))
+                                              index=get_list_index(TRANS_STATUSES, sel_trans_dict['status']),
+                                              horizontal=True)
                         upd_trans_but = st.form_submit_button('Update Transmittal Data', use_container_width=True)
 
                     if upd_trans_but:
