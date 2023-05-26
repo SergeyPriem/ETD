@@ -265,7 +265,11 @@ def transmittals_content():
                         t_type = rc.radio('Transmittal Type', TRANS_TYPES,
                                           index=get_list_index(TRANS_TYPES, sel_trans_type), horizontal=True)
                         lc.text('')
-                        upd_ans_required = lc.checkbox('Answer Required', value=sel_trans_dict['ans_required'])
+
+                        prev_ans_req = 'Yes' if sel_trans_dict['ans_required'] == 1 else "No"
+
+                        upd_ans_required = lc.radio('Answer Required', options=["Yes", "No"],
+                                                    index=get_list_index(["Yes", "No"], prev_ans_req))
                         upd_status = rc.radio('Status', TRANS_STATUSES,
                                               index=get_list_index(TRANS_STATUSES, sel_trans_dict['status']),
                                               horizontal=True)
