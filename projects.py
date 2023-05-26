@@ -252,7 +252,7 @@ def add_sod(proj_short: str, set_name: str, stage: str, status: str, set_start_d
     :param proj_short:
     :param set_name:
     :param stage: stages = ('Detail Design', 'Basic Design', 'Feed', 'Feasibility Study', 'Adaptation')
-    :param status: sod_statuses = (
+    :param status: COMPLETION = (
     '0%', "Cancelled", '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '99%', "Squad Check", "Issued",
     'Approved by Client')
     :param set_start_date:

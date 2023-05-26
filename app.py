@@ -22,7 +22,7 @@ from tasks_tab import tasks_content
 from transmittals_tab import transmittals_content
 from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, register_user, \
     err_handler
-from utilities import appearance_settings, positions, departments, mail_to_name, trans_stat, \
+from utilities import appearance_settings, POSITIONS, DEPARTMENTS, mail_to_name, TRANS_STATUSES, \
     center_style, get_state, set_init_state, update_state, update_tables, \
     get_list_index
 
@@ -327,7 +327,7 @@ def form_for_trans():
             )
 
             out_num = st.selectbox('Number of reply Transmittal', trans_num_list)
-            status = st.radio("Transmittal Status", trans_stat)
+            status = st.radio("Transmittal Status", TRANS_STATUSES)
             comment = st.text_area('Comments')
 
             check_number = st.checkbox('Reply Transmittal is not Required')
@@ -778,9 +778,9 @@ def manage_users():
         with add_tab1:
             with st.form("Add_new_user"):
                 user_email = st.text_input('Email')
-                user_position = st.radio('Position', positions, horizontal=True)
+                user_position = st.radio('Position', POSITIONS, horizontal=True)
                 st.markdown("---")
-                user_department = st.radio('Department', departments, horizontal=True)
+                user_department = st.radio('Department', DEPARTMENTS, horizontal=True)
                 st.markdown("---")
                 lc, rc = st.columns(2, gap='medium')
                 user_access_level = lc.radio('Access level',
@@ -861,14 +861,14 @@ def manage_users():
 
                     appl_user = u_df.loc[u_df.login == employee_to_edit]
 
-                    position = st.radio('Position', positions,
+                    position = st.radio('Position', POSITIONS,
                                         key='edit_position', horizontal=True,
-                                        index=get_list_index(positions, appl_user.position.to_numpy()[0]))
+                                        index=get_list_index(POSITIONS, appl_user.position.to_numpy()[0]))
                     st.markdown("---")
 
-                    department = st.radio('Department', departments,
+                    department = st.radio('Department', DEPARTMENTS,
                                           key='edit_department', horizontal=True,
-                                          index=get_list_index(departments, appl_user.branch.to_numpy()[0]))
+                                          index=get_list_index(DEPARTMENTS, appl_user.branch.to_numpy()[0]))
                     st.markdown("---")
 
                     access_tuple = ('performer', 'admin', 'super', 'prohibited')

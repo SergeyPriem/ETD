@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
 import streamlit as st
-from utilities import trans_types, center_style, update_state, get_list_index  # , make_short_delay, make_long_delay
+from utilities import TRANS_TYPES, center_style, update_state, get_list_index, \
+    TRANS_STATUSES  # , make_short_delay, make_long_delay
 from projects import add_new_trans, update_trans
 
 
@@ -80,7 +81,7 @@ def transmittals_content():
             with st.form("add_trans"):
                 lc, cc, rc = st.columns([5, 4, 4], gap='medium')
                 project = lc.selectbox("Project *", proj_list)
-                t_type = lc.radio("Transmittal Type *", trans_types, horizontal=True)
+                t_type = lc.radio("Transmittal Type *", TRANS_TYPES, horizontal=True)
                 lc.write("")
                 ref_trans = rc.text_input("Previous Transmittal")
                 trans_num = cc.text_input("Transmittal Number *", max_chars=50)
@@ -100,8 +101,6 @@ def transmittals_content():
                 add_trans_but = r_c.form_submit_button("Preview Transmittal's Data", use_container_width=True)
 
             if add_trans_but:
-
-                # make_long_delay()
 
                 if project != '-- Type right here or select from list --':
                     # l_prev, r_prev = st.columns([1, 8])
@@ -263,8 +262,11 @@ def transmittals_content():
                         ref_date = rc.date_input('Previous Transmittal Date', value=sel_trans_dict['ref_date'])
                         link = lc.text_input('Link', value=sel_trans_dict['link'])
                         rc.text('')
-                        t_type = rc.radio('Transmittal Type',  trans_types,
-                                          index=get_list_index(trans_types, sel_trans_type), horizontal=True)
+                        t_type = rc.radio('Transmittal Type', TRANS_TYPES,
+                                          index=get_list_index(TRANS_TYPES, sel_trans_type), horizontal=True)
+                        upd_ans_required = lc.checkbox('Answer Required', value=sel_trans_dict['ans_required'])
+                        upd_status = rc.radio('Status', TRANS_STATUSES,
+                                              index=get_list_index(TRANS_STATUSES, sel_trans_dict['status']))
                         upd_trans_but = st.form_submit_button('Update Transmittal Data', use_container_width=True)
 
                     if upd_trans_but:

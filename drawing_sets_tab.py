@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st
 from admin_tools import get_list_index
 from send_emails import send_mail
-from utilities import sod_revisions, sod_statuses, stages, center_style, update_state #, make_long_delay, make_short_delay
+from utilities import REVISIONS, COMPLETION, STAGES, center_style, update_state #, make_long_delay, make_short_delay
 from projects import update_sod, add_sod, update_unit_name_stage
 from utilities import err_handler
 from functools import lru_cache
@@ -117,14 +117,14 @@ def drawing_sets():
             perf = c_c.selectbox("Performer", all_logins,
                                  index=get_list_index(all_logins, old_perf))
 
-            rev_min = l_c.selectbox("Revision (earliest)", sod_revisions,
-                                    index=get_list_index(sod_revisions, old_rev[0]))
+            rev_min = l_c.selectbox("Revision (earliest)", REVISIONS,
+                                    index=get_list_index(REVISIONS, old_rev[0]))
 
-            rev_max = c_c.selectbox("Revision (most recent)", sod_revisions,
-                                    index=get_list_index(sod_revisions, old_rev[1]))
+            rev_max = c_c.selectbox("Revision (most recent)", REVISIONS,
+                                    index=get_list_index(REVISIONS, old_rev[1]))
 
-            status = r_c.selectbox('Status', sod_statuses,
-                                   index=get_list_index(sod_statuses, old_status))
+            status = r_c.selectbox('Status', COMPLETION,
+                                   index=get_list_index(COMPLETION, old_status))
             c_c.text('')
             c_c.text('')
             upd_trans_chb = c_c.checkbox("Add Transmittal")
@@ -520,9 +520,9 @@ def manage_units():
                 performer = r_c.selectbox("Performer", st.session_state.appl_logins)
                 set_start_date = l_c.date_input('Start Date', datetime.date.today(), key="new_set_time_picker")
                 r_c.text('')
-                stage = r_c.radio("Select the Stage", stages, horizontal=True)
+                stage = r_c.radio("Select the Stage", STAGES, horizontal=True)
                 r_c.text('')
-                status = r_c.select_slider("Select the Current Status", sod_statuses, value='0%')
+                status = r_c.select_slider("Select the Current Status", COMPLETION, value='0%')
                 notes = l_c.text_area("Add Notes", max_chars=500, height=120).strip()
                 create_sod_but = r_c.form_submit_button("Create", use_container_width=True)
 
@@ -601,7 +601,7 @@ def manage_units():
                 with st.form('update_unit'):
                     lc, rc = st.columns(2, gap='medium')
                     new_unit_name = lc.text_input('New Name for Unit', value=unit_name)
-                    new_stage = rc.selectbox("New Stage for Unit", stages, index=get_list_index(stages, current_stage))
+                    new_stage = rc.selectbox("New Stage for Unit", STAGES, index=get_list_index(STAGES, current_stage))
 
                     upd_unit_but = st.form_submit_button("Update Details for Unit", use_container_width=True)
 

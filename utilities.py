@@ -7,21 +7,20 @@ import os
 
 from projects import get_sod_repeat, get_proj_repeat, get_tasks_repeat, get_trans_repeat
 
-positions = ('Trainee', 'III cat.', 'II cat.', 'I cat.', 'Lead', 'Group Head', 'Senior', 'Dep. Head')
-departments = ('UzLITI Engineering', 'En-Solut', 'En-Concept', 'En-Smart', 'Remote')
-stages = ('Detail Design', 'Basic Design', 'Feed', 'Feasibility Study', 'Adaptation')
-sod_statuses = (
-    '0%', "Cancelled", '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '99%', "Squad Check", "Issued",
-    'Approved by Client')
+POSITIONS = ('Trainee', 'III cat.', 'II cat.', 'I cat.', 'Lead', 'Group Head', 'Senior', 'Dep. Head')
+DEPARTMENTS = ('UzLITI Engineering', 'En-Solut', 'En-Concept', 'En-Smart', 'Remote')
+STAGES = ('Detail Design', 'Basic Design', 'Feed', 'Feasibility Study', 'Adaptation')
+COMPLETION = ('0%', "Cancelled", '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '99%',
+              "Squad Check", "Issued", 'Approved by Client')
 
-sod_revisions = ('R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7', 'R8', 'R9', 'R10', 'R11', 'R12',
-                 'A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11', 'A12')
+REVISIONS = ('R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7', 'R8', 'R9', 'R10', 'R11', 'R12',
+             'A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11', 'A12')
 
-proj_statuses = ('current', 'perspective', 'final stage', 'completed', 'suspended', 'cancelled')
+PROJECT_STATUSES = ('current', 'perspective', 'final stage', 'completed', 'suspended', 'cancelled')
 
-trans_stat = ("Open", "Closed", "For Info", "Not Enough Data", "In Progress", "Issued Docs")
+TRANS_STATUSES = ("Open", "Closed", "For Info", "Not Enough Data", "In Progress", "Issued Docs")
 
-trans_types = ('Comments', "Letter", 'Vendor Docs', 'TBE', 'FCN', 'Design Docs')
+TRANS_TYPES = ('Comments', "Letter", 'Vendor Docs', 'TBE', 'FCN', 'Design Docs')
 
 
 def appearance_settings():
