@@ -1152,7 +1152,7 @@ def scripts_tab():
             st.write("Please find required templates in folder below  👇 ")
             st.code(r'\\uz-fs\Uzle\Work\Отдел ЭЛ\01 Малая Автоматизация\Шаблоны\CABLEWAYS')
             st.write("")
-            p_l, p_c, p_r = st.columns(2, gap='medium')
+            p_l, p_c, p_r = st.columns(3, gap='medium')
 
             cable_list = p_l.file_uploader("CABLE LIST", type=['xlsx'],
                                           accept_multiple_files=False, key=None,
