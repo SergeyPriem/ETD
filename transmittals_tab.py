@@ -264,12 +264,11 @@ def transmittals_content():
                         rc.text('')
                         t_type = rc.radio('Transmittal Type', TRANS_TYPES,
                                           index=get_list_index(TRANS_TYPES, sel_trans_type), horizontal=True)
-                        lc.text('')
-
                         prev_ans_req = 'Yes' if sel_trans_dict['ans_required'] == 1 else "No"
 
                         upd_ans_required = lc.radio('Answer Required', options=["Yes", "No"],
-                                                    index=get_list_index(["Yes", "No"], prev_ans_req))
+                                                    index=get_list_index(["Yes", "No"], prev_ans_req),
+                                                    horizontal=True)
                         upd_status = rc.radio('Status', TRANS_STATUSES,
                                               index=get_list_index(TRANS_STATUSES, sel_trans_dict['status']),
                                               horizontal=True)
