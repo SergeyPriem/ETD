@@ -8,7 +8,7 @@ import numpy as np
 import math
 import os
 
-from section_generator import get_tags_from_cablist
+from section_generator import get_tags_from_cablist, process_cable_layout
 from users import err_handler
 from utilities import center_style
 
@@ -67,7 +67,7 @@ def save_uploaded_file(uploaded_file):
             f.write(uploaded_file.getbuffer())
         return uploaded_file.name
     except Exception as e:
-        st.warning(f"Can't save sld_template to temp. folder: {err_handler(e)}")
+        st.warning(f"Can't save file to temp. folder: {err_handler(e)}")
         st.stop()
 
 
@@ -1152,6 +1152,7 @@ def scripts_tab():
             st.write("Please find required templates in folder below  👇 ")
             st.code(r'\\uz-fs\Uzle\Work\Отдел ЭЛ\01 Малая Автоматизация\Шаблоны\CABLEWAYS')
             st.write("")
+
             p_l, p_c, p_r = st.columns(3, gap='medium')
 
             cable_list = p_l.file_uploader("CABLE LIST", type=['xlsx'],
@@ -1196,4 +1197,10 @@ def scripts_tab():
                     except Exception as e:
                         st.warning(err_handler(e))
                         st.stop()
+
+
+            with cab_layout:
+                if st.button('Get Cables and Sections from Power Layout'):
+                    section_template = save_uploaded_file(sect_template)
+                    # process_cable_layout(layout_path, sections_template_path, cablist_df)
 
