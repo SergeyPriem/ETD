@@ -259,8 +259,8 @@ def transmittals_content():
                                                    )
                         author = lc.text_input('Originator of the Transmittal', value=sel_trans_dict['author'])
                         in_reply_to = lc.text_input('Previous Transmittal', value=sel_trans_dict['ref_trans'])
-                        ref_date = rc.date_input('Previous Transmittal Date', value=sel_trans_dict['ref_date'])
                         subj = rc.text_input('Subject', value=sel_trans_dict['subj'])
+                        ref_date = rc.date_input('Previous Transmittal Date', value=sel_trans_dict['ref_date'])
                         link = lc.text_input('Link', value=sel_trans_dict['link'])
                         rc.text('')
                         t_type = rc.radio('Transmittal Type',  trans_types,
