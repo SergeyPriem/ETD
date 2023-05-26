@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import streamlit as st
-from utilities import proj_statuses, center_style, get_list_index, update_state
+from utilities import PROJECT_STATUSES, center_style, get_list_index, update_state
 from projects import create_project, update_projects
 
 from send_emails import send_mail
@@ -31,7 +31,7 @@ def manage_projects():
                 responsible_el = lc.selectbox('Responsible Person',
                                               u_df.loc[u_df.status == 'current', 'login'].tolist())
                 rc.text('')
-                proj_status = rc.radio('Project Status', proj_statuses, horizontal=True)
+                proj_status = rc.radio('Project Status', PROJECT_STATUSES, horizontal=True)
                 client = lc.text_input('Client', max_chars=50)
                 proj_man = rc.text_input('Project Manager', max_chars=50)
                 proj_tech_ass = lc.text_area('Link for Technical Task', max_chars=1000)
@@ -109,8 +109,8 @@ def manage_projects():
                                               get_list_index(st.session_state.appl_logins, prev_responsible))
 
                 rc.text('')
-                status = rc.radio('Status', proj_statuses,
-                                  get_list_index(proj_statuses, proj_ser.status.to_numpy()[0]),
+                status = rc.radio('Status', PROJECT_STATUSES,
+                                  get_list_index(PROJECT_STATUSES, proj_ser.status.to_numpy()[0]),
                                   horizontal=True)
 
                 assignment = lc.text_area("Assignment location",

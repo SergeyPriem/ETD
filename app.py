@@ -3,8 +3,6 @@
 import datetime
 import os
 import random
-import time
-
 import pandas as pd
 from PIL import Image
 from streamlit_option_menu import option_menu
