@@ -272,7 +272,7 @@ def transmittals_content():
                     if upd_trans_but:
                         responsible_id = u_df[u_df.login == responsible].index.to_numpy()[0]
                         reply = update_trans(sel_trans_id, trans_date, responsible_id, author, in_reply_to,
-                                             ref_date, subj, link, t_type)
+                                             ref_date, subj, link, t_type, upd_ans_required, upd_status)
 
                         if reply['status'] == 201:
                             l_rep, r_rep = st.columns(2, gap='medium')

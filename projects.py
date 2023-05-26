@@ -995,7 +995,7 @@ def update_unit_name_stage(unit_id, new_name, new_stage):
                     }
 
 
-def update_trans(id, trans_date, responsible, author, in_reply_to, ref_date, subj, link, t_type):
+def update_trans(id, trans_date, responsible, author, in_reply_to, ref_date, subj, link, t_type, ans_required, status):
     with db_session:
         try:
             trans = Trans[id]
@@ -1007,6 +1007,8 @@ def update_trans(id, trans_date, responsible, author, in_reply_to, ref_date, sub
             trans.subj = subj
             trans.link = link
             trans.t_type = t_type
+            trans.ans_required = ans_required
+            trans.status = status
 
             return {
                 'status': 201,
