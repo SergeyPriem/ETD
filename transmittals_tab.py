@@ -86,7 +86,7 @@ def transmittals_content():
                 ref_trans = rc.text_input("Previous Transmittal")
                 trans_num = cc.text_input("Transmittal Number *", max_chars=50)
                 subj = cc.text_input("Subject *", max_chars=255)
-                ans_required = cc.radio("Reply required *", ('Yes', 'No'), horizontal=True)
+                ans_required = cc.radio("Our Reply Required *", ('Yes', 'No'), horizontal=True)
                 cc.write("")
                 responsible = cc.selectbox("Responsible Employee *", responsible_list)
                 cc.write("")
@@ -142,7 +142,7 @@ def transmittals_content():
                             <td>Transmittal Date:</td><td style="color: #1569C7;"><b>{trans_date}</b></td>
                         </tr>
                         <tr>
-                            <td>Reply required:</td><td style="color: #1569C7;"><b>{ans_required}</b></td>
+                            <td>Our Reply Required:</td><td style="color: #1569C7;"><b>{ans_required}</b></td>
                         </tr>
                         <tr>
                             <td>Due Date:</td><td style="color: #1569C7;"><b>{reply_date}</b></td>
@@ -266,7 +266,7 @@ def transmittals_content():
                                           index=get_list_index(TRANS_TYPES, sel_trans_type), horizontal=True)
                         prev_ans_req = 'Yes' if sel_trans_dict['ans_required'] == 1 else "No"
 
-                        upd_ans_required = lc.radio('Answer Required', options=["Yes", "No"],
+                        upd_ans_required = lc.radio('Our Reply Required', options=["Yes", "No"],
                                                     index=get_list_index(["Yes", "No"], prev_ans_req),
                                                     horizontal=True)
                         upd_status = rc.radio('Status', TRANS_STATUSES,
