@@ -1226,10 +1226,9 @@ def scripts_tab():
                             disabled=False, use_container_width=False
                         )
 
-                    if sect_download_but:
-                        reply2 = reg_action(reply)
+                    reply2 = reg_action(reply)
 
-                        if reply2['status'] == 200:
-                            st.success(reply2['message'])
-                        else:
-                            st.warning(reply2['message'])
+                    if reply2['status'] == 200:
+                        st.success(reply2['message'])
+                    else:
+                        st.warning(reply2['message'])
