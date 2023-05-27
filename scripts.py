@@ -1205,5 +1205,10 @@ def scripts_tab():
             with cab_layout:
                 if st.button('Get Cables and Sections from Power Layout'):
                     layout_path = f'temp_dxf/{save_uploaded_file(power_layout)}'
+
+                    st.write(500)
+
+                    st.experimental_show(cablist_df)
+
                     process_cable_layout(layout_path, cablist_df)
 
