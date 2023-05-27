@@ -297,11 +297,10 @@ def replace_cyrillic(text):
     }
 
     if bool(re.search('[а-яА-Я]', text)):
-        st.write(f':yellow[! Cyrillic Symbols in the tag {text}]')
         for letter in letter_dict.keys():
             if letter in text:
-                st.write(f'Cyrillic Symbol: {letter}')
                 text = text.replace(letter, letter_dict[letter])
+                st.write(f"Cyrillic Symbol '{letter}' replaced in '{text}'")
     return text
 
 
@@ -549,42 +548,6 @@ def generate_dxf(sect_df, sections_template_path, cablist_df):
                 reply = f":red[Empty table of cables for {section_tag}: bus {bus}]"
                 gener_section(cablist_df, df_sect, section, sect_df, sections_template_path, msp,
                               VERTICAL_TRAY_GAP, reply)
-
-        # df_a = df.loc[df.cab_bus == "A"].reset_index(drop=True)
-        # if len(df_a) > 0:
-        #     section = CrossTray([section_tag + ": bus A", int(df_a.chan_size.min())])
-        #
-        #     reply = f":red[Empty table of cables for {section_tag}: bus A]"
-        #
-        #     gener_section(cablist_df, p_x, df_c, section, sect_df, sections_template_path, msp,
-        #                   VERTICAL_TRAY_GAP, reply)
-        #
-        #
-        # df_b = df.loc[df.cab_bus == "B"].reset_index(drop=True)
-        # if len(df_b) > 0:
-        #     section = CrossTray([section_tag + ": bus B", int(df_b.chan_size.min())])
-        #
-        #     gener_section(cablist_df, p_x, df_c, section, sect_df, sections_template_path, msp,
-        #                   VERTICAL_TRAY_GAP, reply)
-        #
-        #
-        # df_c = df.loc[df.cab_bus == "C"].reset_index(drop=True)
-        # if len(df_c) > 0:
-        #     section = CrossTray([section_tag + ": bus C", int(df_c.chan_size.min())])
-        #
-        #     reply = f":red[Empty table of cables for {section_tag}: bus C]"
-        #
-        #     gener_section(cablist_df, p_x, df_c, section, sect_df, sections_template_path, msp,
-        #                   VERTICAL_TRAY_GAP, reply)
-        #
-        # df_un = df.loc[(df.cab_bus == "-")].reset_index(drop=True)
-        # if len(df_un) > 0:
-        #     section = CrossTray([section_tag + ": unknown bus!", int(df_un.chan_size.min())])
-        #
-        #     reply = f":red[Empty table of cables for {section_tag}: unknown bus!]"
-        #
-        #     gener_section(cablist_df, p_x, df_un, section, sect_df, sections_template_path, msp,
-        #                   VERTICAL_TRAY_GAP, reply)
 
     save_path = f"temp_dxf/SECTIONS_by_{st.session_state.user['login']}_" \
                 f"{datetime.datetime.now().strftime('%Y_%d_%m_%H_%M')}.dxf"
