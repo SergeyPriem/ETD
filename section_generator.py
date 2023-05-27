@@ -490,7 +490,7 @@ def process_cable_layout(layout_path, cablist_df):  # main3
 
 
     st.write('cablist_df')
-    st.write(cablist_df)
+    st.write(type(cablist_df))
 
     sect_df = get_data_from_cab_list(final_sect_df, cablist_df)
 
