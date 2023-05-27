@@ -503,12 +503,12 @@ def process_cable_layout(layout_path, cablist_df):  # main3
     if len(sect_df) > 0:
         st.info("The table below represents the sections extracted from cable layout. Column 'delta' represents"
                 " the difference in cable length taken from 'cable list' and 'power_layout'. "
-                "Please adjust your cable list or check/update the routing at the layout. /n"
+                "Please adjust your cable list or check/update the routing at the layout. \n\n"
                 "Info: during cable routing script uses cable length taken from the 'power_layout'")
 
-    st.write(sect_df[['sect', 'cab_tag', 'compos', 'wires', 'section', 'layout_len', 'cab_list_len', 'delta',
-                      'diam', 'chan_size',
-                      'bus']])
+    st.experimental_data_editor(sect_df[['sect', 'cab_tag', 'compos', 'wires', 'section', 'layout_len',
+                                         'cab_list_len', 'delta', 'diam', 'chan_size', 'bus']],
+                                use_container_width=True)
 
 
 # main4
