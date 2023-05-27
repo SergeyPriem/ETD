@@ -1200,16 +1200,16 @@ def scripts_tab():
                         st.warning(err_handler(e))
                         st.stop()
 
-            sect_df = pd.DataFrame()
+
             with cab_layout:
                 if st.button('Get Cables and Sections from Power Layout'):
                     layout_path = f'temp_dxf/{save_uploaded_file(power_layout)}'
 
-                    sect_df = process_cable_layout(layout_path, st.session_state.cab_list_for_sect)
+                    st.session_state.sect_df = process_cable_layout(layout_path, st.session_state.cab_list_for_sect)
 
 
             with gen_sections:
                 if st.button('Generate Sections'):
                     sections_template_path = f'temp_dxf/{save_uploaded_file(sect_template)}'
 
-                    generate_dxf(sect_df, sections_template_path, st.session_state.cab_list_for_sect)
+                    generate_dxf(st.session_state.sect_df, sections_template_path, st.session_state.cab_list_for_sect)
