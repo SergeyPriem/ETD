@@ -546,7 +546,6 @@ def generate_dxf(sect_df, sections_template_path, cablist_df):
         df = get_cab_data(cablist_df, df)
 
         df_a = df.loc[df.cab_bus == "A"].reset_index(drop=True)
-
         if len(df_a) > 0:
             section = CrossTray([section_tag + ": bus A", int(df_a.chan_size.min())])
 
@@ -594,7 +593,7 @@ def generate_dxf(sect_df, sections_template_path, cablist_df):
 
             reply = f":red[Empty table of cables for {section_tag}: bus C]"
 
-            gener_section(cablist_df, p_x, df_b, section, sect_df, sections_template_path, msp,
+            gener_section(cablist_df, p_x, df_c, section, sect_df, sections_template_path, msp,
                           vertical_trays_gap, reply)
 
         df_un = df.loc[(df.cab_bus == "-")].reset_index(drop=True)
@@ -604,7 +603,7 @@ def generate_dxf(sect_df, sections_template_path, cablist_df):
 
             reply = f":red[Empty table of cables for {section_tag}: : unknown bus!]"
 
-            gener_section(cablist_df, p_x, df_b, section, sect_df, sections_template_path, msp,
+            gener_section(cablist_df, p_x, df_un, section, sect_df, sections_template_path, msp,
                           vertical_trays_gap, reply)
 
     doc.saveas('temp_dxf/SECTIONS.dxf')
