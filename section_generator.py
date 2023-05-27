@@ -440,8 +440,8 @@ def process_cable_layout(layout_path, cablist_df):  # main3
     for s in p_lines:
         if s.has_xdata("section"):
             xd_section = s.get_xdata("section")
-            st.write('sect=', xd_section) ###
-            st.write('sect_vertices=',tuple(s.vertices())) ###
+            # st.write('sect=', xd_section) ###
+            # st.write('sect_vertices=',tuple(s.vertices())) ###
             row_num = len(layout_sect_df)
             layout_sect_df.at[row_num, 'sect'] = xd_section[0][1].split(": ")[1]
             channel = xd_section[1][1].split(": ")[1]
@@ -461,6 +461,8 @@ def process_cable_layout(layout_path, cablist_df):  # main3
                               'layout_len': pd.Series(dtype='object'),
                               'way_vertices': pd.Series(dtype='object'),
                               })
+
+    st.experimental_show(cables_df)
 
     for k, v in ways_df.iterrows():
         for i in v.cab_tag:
