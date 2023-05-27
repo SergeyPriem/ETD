@@ -70,7 +70,7 @@ def arrange_section(sect_df, section_tag):
     return cur_sect_df
 
 
-def to_dxf(df, dxf_path, msp, VERTICAL_TRAYS_GAP):
+def to_dxf(df, msp, VERTICAL_TRAYS_GAP):
     p_y = 0
     shift = 0
     p_x_tr = st.session_state.p_x + 160
@@ -394,7 +394,7 @@ def gener_section(cablist_df, df_b, section, sect_df, sections_template_path, ms
     find_duplicates(sect_final_df, 'cab_tag')
 
     if sect_final_df.shape[0] > 0:
-        to_dxf(sect_final_df, sections_template_path, st.session_state.p_x, msp, VERTICAL_TRAYS_GAP)
+        to_dxf(sect_final_df, msp, VERTICAL_TRAYS_GAP)
         st.write(f":green[Section {sect_final_df.sect[0]} is added to the drawing]")
         st.session_state.p_x += 350
     else:
