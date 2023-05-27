@@ -488,6 +488,8 @@ def process_cable_layout(layout_path, cablist_df):  # main3
                 final_sect_df.at[row, 'layout_len'] = v2.layout_len
                 final_sect_df.at[row, 'cab_purpose'] = v2.cab_tag[0]
 
+    st.experimental_show(cablist_df)
+
     sect_df = get_data_from_cab_list(final_sect_df, cablist_df)
 
     sect_df.rename(columns={"length": "cab_list_len"}, inplace=True)
@@ -527,8 +529,11 @@ def generate_dxf(sect_df, sections_template_path, cablist_df):
     # getting modelspace layout
     msp = doc.modelspace()
 
+    sect_final_df = pd.DataFrame()
+    # df = pd.DataFrame()
+
     for section_tag in sect_list:
-        global df
+
         df = arrange_section(sect_df, section_tag)
         df = get_cab_data(cablist_df, df)
 
