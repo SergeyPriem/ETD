@@ -371,7 +371,7 @@ def print_duplicates(cables_df, col_name):
     if len(dup_cab_df) > 0:
         st.write(f":red[Duplicated '{col_name}': \n{dup_cab_df[col_name]}")
     else:
-        st.write(f":green[Check for '{col_name}' dulicates - OK!")
+        st.write(f":green[Check for '{col_name}' duplicates - OK!]")
 
 
 def get_data_from_cab_list(cables_df, cablist_df):
@@ -470,7 +470,7 @@ def process_cable_layout(layout_path, cablist_df):  # main3
             cables_df.at[row, 'way_vertices'] = v.way_vertices
 
     print_duplicates(cables_df, 'cab_tag')
-    # cables_df = get_data_from_cab_list(cables_df, cablist_df)
+    cables_df = get_data_from_cab_list(cables_df, cablist_df)
 
     final_sect_df = pd.DataFrame({'sect': pd.Series(dtype='str'),
                                   'cab_tag': pd.Series(dtype='str'),
