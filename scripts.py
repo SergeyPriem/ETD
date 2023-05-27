@@ -1218,7 +1218,7 @@ def scripts_tab():
                                          st.session_state.cab_list_for_sect)
 
                     with open(reply, 'rb') as f:
-                        sect_download_but = st.download_button(
+                        st.download_button(
                             'Get SECTIONS here',
                             data=f,
                             file_name=reply.replace("temp_dxf/", ""),
