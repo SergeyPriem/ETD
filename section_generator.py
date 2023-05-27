@@ -375,6 +375,9 @@ def print_duplicates(cables_df, col_name):
 
 
 def get_data_from_cab_list(cables_df, cablist_df):
+
+    st.experimental_show(cablist_df)
+
     cablist_reduced_df = cablist_df[['cableTag', 'length', 'wires', 'section', 'compos', 'diam', 'bus']]
     cables_df = pd.merge(cables_df, cablist_reduced_df, how='left', left_on='cab_tag', right_on='cableTag')
     return cables_df
