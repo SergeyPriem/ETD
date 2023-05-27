@@ -515,6 +515,9 @@ def process_cable_layout(layout_path, cablist_df):  # main3
 
 # main4
 def generate_dxf(sect_df, sections_template_path, cablist_df):
+
+    st.experimental_show(sect_df)
+
     vertical_trays_gap = 300
 
     sect_set = set(sect_df.sect)
