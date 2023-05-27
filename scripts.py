@@ -1174,7 +1174,6 @@ def scripts_tab():
             cab_tags, cab_layout, gen_sections = st.tabs(['Get Tags from Cable List', 'Process Cable Layout',
                                                           'Create Sections'])
 
-            cablist_df = pd.DataFrame()
 
             with cab_tags:
                 lc, c1, c2, rc = st.columns(4, gap='medium')
@@ -1191,13 +1190,13 @@ def scripts_tab():
                 if cable_list and get_cab_but:
                     try:
                         if sheet_name:
-                            cablist_df = pd.read_excel(cable_list, sheet_name=sheet_name)
+                            st.session_state.cab_list_for_sect = pd.read_excel(cable_list, sheet_name=sheet_name)
                         else:
-                            cablist_df = pd.read_excel(cable_list, sheet_name='Sheet1')
+                            st.session_state.cab_list_for_sect = pd.read_excel(cable_list, sheet_name='Sheet1')
 
-                        st.experimental_show(cablist_df.head())
+                        st.experimental_show(st.session_state.cab_list_for_sect.head())
 
-                        get_tags_from_cablist(cablist_df, from_unit, to_unit, all_chb)
+                        get_tags_from_cablist(st.session_state.cab_list_for_sect, from_unit, to_unit, all_chb)
 
                     except Exception as e:
                         st.warning(err_handler(e))
@@ -1210,7 +1209,7 @@ def scripts_tab():
 
                     st.write(500)
 
-                    st.experimental_show(cablist_df)
+                    st.experimental_show(st.session_state.cab_list_for_sect)
 
-                    process_cable_layout(layout_path, cablist_df)
+                    process_cable_layout(layout_path, st.session_state.cab_list_for_sect)
 
