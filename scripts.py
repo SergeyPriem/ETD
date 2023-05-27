@@ -9,7 +9,7 @@ import math
 import os
 
 from section_generator import get_tags_from_cablist, process_cable_layout, generate_dxf
-from users import err_handler
+from users import err_handler, reg_action
 from utilities import center_style
 
 p_rat_a = 0
