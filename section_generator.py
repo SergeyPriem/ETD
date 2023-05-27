@@ -586,7 +586,7 @@ def generate_dxf(sect_df, sections_template_path, cablist_df):
         #     gener_section(cablist_df, p_x, df_un, section, sect_df, sections_template_path, msp,
         #                   VERTICAL_TRAY_GAP, reply)
 
-    save_path = f"temp_dxf/SECTIONS by {st.session_state.user['login']} {datetime.datetime.date()}.dxf"
+    save_path = f"temp_dxf/SECTIONS by {st.session_state.user['login']} {datetime.datetime.today()}.dxf"
     doc.saveas(save_path)
 
     st.write(f"Download file: {save_path}")
