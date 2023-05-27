@@ -1218,11 +1218,18 @@ def scripts_tab():
                                          st.session_state.cab_list_for_sect)
 
                     with open(reply, 'rb') as f:
-                        st.download_button(
-                            'Get SLD here',
+                        sect_download_but = st.download_button(
+                            'Get SECTIONS here',
                             data=f,
                             file_name=reply.replace("temp_dxf/", ""),
                             mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
                             disabled=False, use_container_width=False
                         )
 
+                    if sect_download_but:
+                        reply2 = reg_action(reply)
+
+                        if reply2['status'] == 200:
+                            st.success(reply2['message'])
+                        else:
+                            st.warning(reply2['message'])

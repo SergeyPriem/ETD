@@ -145,6 +145,12 @@ class Condition(db.Entity):
     table_name = Required(str, 20)
     user_login = Required(str, 50)
 
+class Action(db.Entity):
+    id = PrimaryKey(int, size=24, auto=True)
+    user_login = Required(str, 50)
+    act = Required(str, 100)
+    action_time = Required(datetime)
+
 set_sql_debug(False)
 
 

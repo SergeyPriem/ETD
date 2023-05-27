@@ -2,7 +2,7 @@
 import datetime
 import streamlit as st
 import bcrypt
-from models import Users, VisitLog
+from models import Users, VisitLog, Action
 from pony.orm import *
 
 from projects import tab_to_df
@@ -268,3 +268,21 @@ def update_user_reg_data(login, upd_pass_2):
             return f"Data for {login} is Updated"
         except Exception as e:
             return err_handler(e)
+
+
+def reg_action(act_name):
+    with db_session:
+        try:
+            Action(
+                user_login=st.session_state.user['login'],
+                act=act_name
+            )
+            return {
+                'status': 200,
+                'message': None
+            }
+        except Exception as e:
+            return {
+                'status': 404,
+                'message': err_handler(e)
+            }
