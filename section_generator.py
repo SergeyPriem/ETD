@@ -400,7 +400,7 @@ def gener_section(cablist_df, p_x, df_b, section, sect_df, sections_template_pat
 
 
 # main3
-def process_cable_layout(layout_path, sections_template_path, cablist_df):  # main3
+def process_cable_layout(layout_path, cablist_df):  # main3
     try:
         doc = ezdxf.readfile(layout_path)
     except IOError:

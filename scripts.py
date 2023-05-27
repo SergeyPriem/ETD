@@ -1184,15 +1184,17 @@ def scripts_tab():
                 all_chb = rc.checkbox('All Cable Tags')
                 get_cab_but = st.button('Get Cable Tags for Routing', use_container_width=True)
 
+                cablist_df = pd.DataFrame
+
                 if cable_list and get_cab_but:
                     try:
                         if sheet_name:
-                            cl_df = pd.read_excel(cable_list, sheet_name=sheet_name)
+                            cablist_df = pd.read_excel(cable_list, sheet_name=sheet_name)
                         else:
-                            cl_df = pd.read_excel(cable_list, sheet_name='Sheet1')
+                            cablist_df = pd.read_excel(cable_list, sheet_name='Sheet1')
                         # st.write(cl_df)
 
-                        get_tags_from_cablist(cl_df, from_unit, to_unit, all_chb)
+                        get_tags_from_cablist(cablist_df, from_unit, to_unit, all_chb)
 
                     except Exception as e:
                         st.warning(err_handler(e))
@@ -1201,6 +1203,6 @@ def scripts_tab():
 
             with cab_layout:
                 if st.button('Get Cables and Sections from Power Layout'):
-                    section_template = save_uploaded_file(sect_template)
-                    # process_cable_layout(layout_path, sections_template_path, cablist_df)
+                    layout_path = f'temp_dxf/{save_uploaded_file(power_layout)}'
+                    process_cable_layout(layout_path, cablist_df)
 
