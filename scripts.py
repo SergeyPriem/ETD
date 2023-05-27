@@ -1226,7 +1226,7 @@ def scripts_tab():
                             disabled=False, use_container_width=False
                         )
 
-                    reply2 = reg_action(reply)
+                    reply2 = reg_action(reply.replace("temp_dxf/", ""))
 
                     if reply2['status'] == 200:
                         st.success(reply2['message'])
