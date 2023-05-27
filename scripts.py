@@ -1200,7 +1200,7 @@ def scripts_tab():
                         st.warning(err_handler(e))
                         st.stop()
 
-
+            sect_df = pd.DataFrame()
             with cab_layout:
                 if st.button('Get Cables and Sections from Power Layout'):
                     layout_path = f'temp_dxf/{save_uploaded_file(power_layout)}'
