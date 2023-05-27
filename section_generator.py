@@ -462,7 +462,6 @@ def process_cable_layout(layout_path, cablist_df):  # main3
                               'way_vertices': pd.Series(dtype='object'),
                               })
 
-    st.experimental_show(cables_df)
 
     for k, v in ways_df.iterrows():
         for i in v.cab_tag:
@@ -470,6 +469,9 @@ def process_cable_layout(layout_path, cablist_df):  # main3
             cables_df.at[row, 'cab_tag'] = i
             cables_df.at[row, 'layout_len'] = v.layout_len
             cables_df.at[row, 'way_vertices'] = v.way_vertices
+
+    st.experimental_show(cables_df)
+
 
     print_duplicates(cables_df, 'cab_tag')
 
