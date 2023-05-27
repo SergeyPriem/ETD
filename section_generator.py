@@ -376,8 +376,6 @@ def print_duplicates(cables_df, col_name):
 
 def get_data_from_cab_list(cables_df, cablist_df):
 
-    st.experimental_show(cablist_df)
-
     cablist_reduced_df = cablist_df[['cableTag', 'length', 'wires', 'section', 'compos', 'diam', 'bus']]
     cables_df = pd.merge(cables_df, cablist_reduced_df, how='left', left_on='cab_tag', right_on='cableTag')
     return cables_df
@@ -472,9 +470,6 @@ def process_cable_layout(layout_path, cablist_df):  # main3
 
     print_duplicates(cables_df, 'cab_tag')
 
-    # st.experimental_show(cables_df)
-    # st.experimental_show(cablist_df)
-
     cables_df = get_data_from_cab_list(cables_df, cablist_df)
 
     final_sect_df = pd.DataFrame({'sect': pd.Series(dtype='str'),
@@ -506,10 +501,10 @@ def process_cable_layout(layout_path, cablist_df):  # main3
     sect_df.sort_values(by=['delta'], ascending=False, inplace=True)
 
     if len(sect_df) > 0:
-        st.write(f":yellow[The table below represents the sections extracted from cable layout]")
-        st.write("Column 'delta' represents the difference in cable length taken from 'cable list' and 'power_layout'")
-        st.write("Please adjust your cable list or check/update the routing at the layout")
-        st.write("Info: during cable routing script uses cable length taken from the 'power_layout'")
+        st.info("The table below represents the sections extracted from cable layout. Column 'delta' represents"
+                " the difference in cable length taken from 'cable list' and 'power_layout'. "
+                "Please adjust your cable list or check/update the routing at the layout")
+        st.info("Info: during cable routing script uses cable length taken from the 'power_layout'")
 
     st.write(sect_df[['sect', 'cab_tag', 'compos', 'wires', 'section', 'layout_len', 'cab_list_len', 'delta',
                       'diam', 'chan_size',

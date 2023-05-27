@@ -1194,8 +1194,6 @@ def scripts_tab():
                         else:
                             st.session_state.cab_list_for_sect = pd.read_excel(cable_list, sheet_name='Sheet1')
 
-                        st.experimental_show(st.session_state.cab_list_for_sect.head())
-
                         get_tags_from_cablist(st.session_state.cab_list_for_sect, from_unit, to_unit, all_chb)
 
                     except Exception as e:
