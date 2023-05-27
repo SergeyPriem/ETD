@@ -279,7 +279,7 @@ def reg_action(act_name):
             )
             return {
                 'status': 200,
-                'message': None
+                'message': "Thanks You. Bye!"
             }
         except Exception as e:
             return {
