@@ -472,14 +472,10 @@ def process_cable_layout(layout_path, cablist_df):  # main3
 
     print_duplicates(cables_df, 'cab_tag')
 
-    st.experimental_show(cables_df)
-    st.experimental_show(cablist_df)
+    # st.experimental_show(cables_df)
+    # st.experimental_show(cablist_df)
 
     cables_df = get_data_from_cab_list(cables_df, cablist_df)
-
-
-
-    st.stop()
 
     final_sect_df = pd.DataFrame({'sect': pd.Series(dtype='str'),
                                   'cab_tag': pd.Series(dtype='str'),
