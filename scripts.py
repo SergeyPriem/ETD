@@ -1174,6 +1174,8 @@ def scripts_tab():
             cab_tags, cab_layout, gen_sections = st.tabs(['Get Tags from Cable List', 'Process Cable Layout',
                                                           'Create Sections'])
 
+            cablist_df = pd.DataFrame()
+
             with cab_tags:
                 lc, c1, c2, rc = st.columns(4, gap='medium')
                 sheet_name = lc.text_input('Sheet Name')
@@ -1184,7 +1186,7 @@ def scripts_tab():
                 all_chb = rc.checkbox('All Cable Tags')
                 get_cab_but = st.button('Get Cable Tags for Routing', use_container_width=True)
 
-                cablist_df = pd.DataFrame
+
 
                 if cable_list and get_cab_but:
                     try:
