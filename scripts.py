@@ -1209,6 +1209,9 @@ def scripts_tab():
 
             with gen_sections:
                 if st.button('Generate Sections'):
+
+                    st.session_state.p_x = 0
+
                     sections_template_path = f'temp_dxf/{save_uploaded_file(sect_template)}'
 
                     generate_dxf(st.session_state.sect_df, sections_template_path, st.session_state.cab_list_for_sect)

@@ -70,10 +70,10 @@ def arrange_section(sect_df, section_tag):
     return cur_sect_df
 
 
-def to_dxf(df, dxf_path, p_x, msp, VERTICAL_TRAYS_GAP):
+def to_dxf(df, dxf_path, msp, VERTICAL_TRAYS_GAP):
     p_y = 0
     shift = 0
-    p_x_tr = p_x + 160
+    p_x_tr = st.session_state.p_x + 160
     p_y_tr = 0  # 10
 
     # p_x_cab = p_x + 160
@@ -82,7 +82,7 @@ def to_dxf(df, dxf_path, p_x, msp, VERTICAL_TRAYS_GAP):
     print_scale = 10
     VERTICAL_TRAYS_GAP /= print_scale
 
-    sect_tag_block = msp.add_blockref('sect_num', insert=(p_x + 65, 20))
+    sect_tag_block = msp.add_blockref('sect_num', insert=(st.session_state.p_x + 65, 20))
 
     try:
         att_values = {
@@ -94,7 +94,7 @@ def to_dxf(df, dxf_path, p_x, msp, VERTICAL_TRAYS_GAP):
 
     sect_tag_block.add_auto_attribs(att_values)
 
-    msp.add_blockref('tab_header', insert=(p_x, p_y))
+    msp.add_blockref('tab_header', insert=(st.session_state.p_x, p_y))
 
     level_quantity = df.chan_level.max()
 
@@ -148,8 +148,8 @@ def to_dxf(df, dxf_path, p_x, msp, VERTICAL_TRAYS_GAP):
             shift = 0
             level_prev += 1
 
-        p_x_cab = p_x + 160
-        ins_block = msp.add_blockref('tab_row', insert=(p_x, p_y))
+        p_x_cab = st.session_state.p_x + 160
+        ins_block = msp.add_blockref('tab_row', insert=(st.session_state.p_x, p_y))
         att_values = {
             'LEVEL_TAG': v.chan_level,
             'CABLE_TAG': v.cab_tag,
@@ -382,7 +382,7 @@ def get_data_from_cab_list(cables_df, cablist_df):
     return cables_df
 
 
-def gener_section(cablist_df, p_x, df_b, section, sect_df, sections_template_path, msp, VERTICAL_TRAYS_GAP, reply):
+def gener_section(cablist_df, df_b, section, sect_df, sections_template_path, msp, VERTICAL_TRAYS_GAP, reply):
     for k, v in df_b.iterrows():
         if v.cab_purpose == "C":
             section.add_c_cab([v.cab_tag, v.cab_diam])
@@ -394,9 +394,9 @@ def gener_section(cablist_df, p_x, df_b, section, sect_df, sections_template_pat
     find_duplicates(sect_final_df, 'cab_tag')
 
     if sect_final_df.shape[0] > 0:
-        to_dxf(sect_final_df, sections_template_path, p_x, msp, VERTICAL_TRAYS_GAP)
+        to_dxf(sect_final_df, sections_template_path, st.session_state.p_x, msp, VERTICAL_TRAYS_GAP)
         st.write(f":green[Section {sect_final_df.sect[0]} is added to the drawing]")
-        p_x += 350
+        st.session_state.p_x += 350
     else:
         st.write(reply)
 
@@ -521,7 +521,7 @@ def generate_dxf(sect_df, sections_template_path, cablist_df):
 
     sect_set = set(sect_df.sect)
 
-    p_x = 0
+    st.session_state.p_x = 0
     sect_list = sorted(sect_set)
 
     try:
@@ -547,7 +547,7 @@ def generate_dxf(sect_df, sections_template_path, cablist_df):
             if len(df_sect) > 0:
                 section = CrossTray([section_tag + f": bus {bus}", int(df_sect.chan_size.min())])
                 reply = f":red[Empty table of cables for {section_tag}: bus {bus}]"
-                gener_section(cablist_df, p_x, df_sect, section, sect_df, sections_template_path, msp,
+                gener_section(cablist_df, df_sect, section, sect_df, sections_template_path, msp,
                               VERTICAL_TRAY_GAP, reply)
 
         # df_a = df.loc[df.cab_bus == "A"].reset_index(drop=True)
@@ -586,7 +586,8 @@ def generate_dxf(sect_df, sections_template_path, cablist_df):
         #     gener_section(cablist_df, p_x, df_un, section, sect_df, sections_template_path, msp,
         #                   VERTICAL_TRAY_GAP, reply)
 
-    save_path = f"temp_dxf/SECTIONS by {st.session_state.user['login']} {datetime.datetime.today()}.dxf"
+    save_path = f"temp_dxf/SECTIONS_by_{st.session_state.user['login']}_" \
+                f"{datetime.datetime.now().strftime('%Y_%d_%m_%H_%M')}"
     doc.saveas(save_path)
 
     st.write(f"Download file: {save_path}")
