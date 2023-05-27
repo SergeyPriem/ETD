@@ -275,7 +275,8 @@ def reg_action(act_name):
         try:
             Action(
                 user_login=st.session_state.user['login'],
-                act=act_name
+                act=act_name,
+                action_time=datetime.datetime.now()
             )
             return {
                 'status': 200,
