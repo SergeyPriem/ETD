@@ -1193,7 +1193,7 @@ def scripts_tab():
                         else:
                             cablist_df = pd.read_excel(cable_list, sheet_name='Sheet1')
 
-                        st.experimental_show(cablist_df.header())
+                        st.experimental_show(cablist_df.head())
 
                         get_tags_from_cablist(cablist_df, from_unit, to_unit, all_chb)
 
