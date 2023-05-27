@@ -1214,4 +1214,15 @@ def scripts_tab():
 
                     sections_template_path = f'temp_dxf/{save_uploaded_file(sect_template)}'
 
-                    generate_dxf(st.session_state.sect_df, sections_template_path, st.session_state.cab_list_for_sect)
+                    reply = generate_dxf(st.session_state.sect_df, sections_template_path,
+                                         st.session_state.cab_list_for_sect)
+
+                    with open(reply, 'rb') as f:
+                        st.download_button(
+                            'Get SLD here',
+                            data=f,
+                            file_name=reply.replace("temp_dxf/", ""),
+                            mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
+                            disabled=False, use_container_width=False
+                        )
+

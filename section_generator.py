@@ -554,3 +554,5 @@ def generate_dxf(sect_df, sections_template_path, cablist_df):
     doc.saveas(save_path)
 
     st.write(f"Download file: {save_path}")
+
+    return save_path
