@@ -470,12 +470,11 @@ def process_cable_layout(layout_path, cablist_df):  # main3
             cables_df.at[row, 'layout_len'] = v.layout_len
             cables_df.at[row, 'way_vertices'] = v.way_vertices
 
-    st.experimental_show(cables_df)
-
-
     print_duplicates(cables_df, 'cab_tag')
 
     cables_df = get_data_from_cab_list(cables_df, cablist_df)
+
+    st.experimental_show(cables_df)
 
     final_sect_df = pd.DataFrame({'sect': pd.Series(dtype='str'),
                                   'cab_tag': pd.Series(dtype='str'),
