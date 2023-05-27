@@ -1124,7 +1124,7 @@ def scripts_tab():
                     add_gen_data(msp, lo_df, lo_df_new, point, max_sc, peak_sc)
                     # msp, loads_df, loads_df_new, point, max_sc, peak_sc
 
-                    doc.saveas(f'temp_dxf/{sld_file_name}.dxf')
+                    doc.saveas(f"temp_dxf/{sld_file_name} by {st.session_state.user['login']}.dxf")
 
                     st.success('SLD is ready. Please Download')
 
@@ -1199,7 +1199,6 @@ def scripts_tab():
                     except Exception as e:
                         st.warning(err_handler(e))
                         st.stop()
-
 
             with cab_layout:
                 if st.button('Get Cables and Sections from Power Layout'):

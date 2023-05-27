@@ -1,4 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
+import datetime
 
 import streamlit as st
 import pandas as pd
@@ -69,7 +70,7 @@ def arrange_section(sect_df, section_tag):
     return cur_sect_df
 
 
-def to_dxf(df, dxf_path, p_x, msp, vertical_trays_gap):
+def to_dxf(df, dxf_path, p_x, msp, VERTICAL_TRAYS_GAP):
     p_y = 0
     shift = 0
     p_x_tr = p_x + 160
@@ -79,7 +80,7 @@ def to_dxf(df, dxf_path, p_x, msp, vertical_trays_gap):
     p_y_cab = 0  # 40
 
     print_scale = 10
-    vertical_trays_gap /= print_scale
+    VERTICAL_TRAYS_GAP /= print_scale
 
     sect_tag_block = msp.add_blockref('sect_num', insert=(p_x + 65, 20))
 
@@ -131,12 +132,12 @@ def to_dxf(df, dxf_path, p_x, msp, vertical_trays_gap):
         msp.add_text('T' + str(tray_width) + "x100", height=3, dxfattribs={"style": "ГОСТ"}
                      ).set_placement((p_x_tr + chan_width / 2, p_y_tr - 4), align=TextEntityAlignment.CENTER)
 
-        p_y_tr -= vertical_trays_gap
+        p_y_tr -= VERTICAL_TRAYS_GAP
 
     msp.add_text("Vertical step", height=3, dxfattribs={"style": "ГОСТ"}
                  ).set_placement((p_x_tr + chan_width / 2, p_y_tr + 6), align=TextEntityAlignment.CENTER)
 
-    msp.add_text("of trays: " + str(int(vertical_trays_gap) * 10) + " mm", height=3, dxfattribs={"style": "ГОСТ"}
+    msp.add_text("of trays: " + str(int(VERTICAL_TRAYS_GAP) * 10) + " mm", height=3, dxfattribs={"style": "ГОСТ"}
                  ).set_placement((p_x_tr + chan_width / 2, p_y_tr + 2), align=TextEntityAlignment.CENTER)
 
     level_prev = 1
@@ -164,13 +165,13 @@ def to_dxf(df, dxf_path, p_x, msp, vertical_trays_gap):
 
         if v.cab_purpose == 'M' or v.cab_purpose == 'М':
             center_point = ((p_x_cab + cab_radius + shift + 2),
-                            (p_y_cab - (vertical_trays_gap * (v.chan_level - 1)) + cab_radius + 0.2))
+                            (p_y_cab - (VERTICAL_TRAYS_GAP * (v.chan_level - 1)) + cab_radius + 0.2))
             msp.add_circle(center_point, cab_radius)
             shift += 4 * cab_radius
 
         if v.cab_purpose == 'L':
             center_point = ((p_x_cab + cab_radius + shift + 2),
-                            (p_y_cab - (vertical_trays_gap * (v.chan_level - 1)) + cab_radius + 0.2))
+                            (p_y_cab - (VERTICAL_TRAYS_GAP * (v.chan_level - 1)) + cab_radius + 0.2))
             msp.add_circle(center_point, cab_radius)
             shift += 2 * cab_radius
 
@@ -381,7 +382,7 @@ def get_data_from_cab_list(cables_df, cablist_df):
     return cables_df
 
 
-def gener_section(cablist_df, p_x, df_b, section, sect_df, sections_template_path, msp, vertical_trays_gap, reply):
+def gener_section(cablist_df, p_x, df_b, section, sect_df, sections_template_path, msp, VERTICAL_TRAYS_GAP, reply):
     for k, v in df_b.iterrows():
         if v.cab_purpose == "C":
             section.add_c_cab([v.cab_tag, v.cab_diam])
@@ -393,7 +394,7 @@ def gener_section(cablist_df, p_x, df_b, section, sect_df, sections_template_pat
     find_duplicates(sect_final_df, 'cab_tag')
 
     if sect_final_df.shape[0] > 0:
-        to_dxf(sect_final_df, sections_template_path, p_x, msp, vertical_trays_gap)
+        to_dxf(sect_final_df, sections_template_path, p_x, msp, VERTICAL_TRAYS_GAP)
         st.write(f":green[Section {sect_final_df.sect[0]} is added to the drawing]")
         p_x += 350
     else:
@@ -516,9 +517,7 @@ def process_cable_layout(layout_path, cablist_df):  # main3
 # main4
 def generate_dxf(sect_df, sections_template_path, cablist_df):
 
-    st.experimental_show(sect_df)
-
-    vertical_trays_gap = 300
+    VERTICAL_TRAY_GAP = 300
 
     sect_set = set(sect_df.sect)
 
@@ -537,77 +536,57 @@ def generate_dxf(sect_df, sections_template_path, cablist_df):
     # getting modelspace layout
     msp = doc.modelspace()
 
-    sect_final_df = pd.DataFrame()
-    # df = pd.DataFrame()
-
     for section_tag in sect_list:
 
         df = arrange_section(sect_df, section_tag)
         df = get_cab_data(cablist_df, df)
 
-        df_a = df.loc[df.cab_bus == "A"].reset_index(drop=True)
-        if len(df_a) > 0:
-            section = CrossTray([section_tag + ": bus A", int(df_a.chan_size.min())])
+        for bus in ("A", "B", "C", "-"):
 
-            for k, v in df_a.iterrows():
-                if v.cab_purpose == "C":
-                    section.add_c_cab([v.cab_tag, v.cab_diam])
-                else:
-                    section.add_power_cab([v.cab_tag, v.cab_diam])
+            df_sect = df.loc[df.cab_bus == bus].reset_index(drop=True)
+            if len(df_sect) > 0:
+                section = CrossTray([section_tag + f": bus {bus}", int(df_sect.chan_size.min())])
+                reply = f":red[Empty table of cables for {section_tag}: bus {bus}]"
+                gener_section(cablist_df, p_x, df_sect, section, sect_df, sections_template_path, msp,
+                              VERTICAL_TRAY_GAP, reply)
 
-            sect_final_df = get_cab_data(cablist_df, section.sect_df)
-            sect_final_df = get_layout_length(sect_df, sect_final_df)
-            find_duplicates(sect_final_df, 'cab_tag')
+        # df_a = df.loc[df.cab_bus == "A"].reset_index(drop=True)
+        # if len(df_a) > 0:
+        #     section = CrossTray([section_tag + ": bus A", int(df_a.chan_size.min())])
+        #
+        #     reply = f":red[Empty table of cables for {section_tag}: bus A]"
+        #
+        #     gener_section(cablist_df, p_x, df_c, section, sect_df, sections_template_path, msp,
+        #                   VERTICAL_TRAY_GAP, reply)
+        #
+        #
+        # df_b = df.loc[df.cab_bus == "B"].reset_index(drop=True)
+        # if len(df_b) > 0:
+        #     section = CrossTray([section_tag + ": bus B", int(df_b.chan_size.min())])
+        #
+        #     gener_section(cablist_df, p_x, df_c, section, sect_df, sections_template_path, msp,
+        #                   VERTICAL_TRAY_GAP, reply)
+        #
+        #
+        # df_c = df.loc[df.cab_bus == "C"].reset_index(drop=True)
+        # if len(df_c) > 0:
+        #     section = CrossTray([section_tag + ": bus C", int(df_c.chan_size.min())])
+        #
+        #     reply = f":red[Empty table of cables for {section_tag}: bus C]"
+        #
+        #     gener_section(cablist_df, p_x, df_c, section, sect_df, sections_template_path, msp,
+        #                   VERTICAL_TRAY_GAP, reply)
+        #
+        # df_un = df.loc[(df.cab_bus == "-")].reset_index(drop=True)
+        # if len(df_un) > 0:
+        #     section = CrossTray([section_tag + ": unknown bus!", int(df_un.chan_size.min())])
+        #
+        #     reply = f":red[Empty table of cables for {section_tag}: unknown bus!]"
+        #
+        #     gener_section(cablist_df, p_x, df_un, section, sect_df, sections_template_path, msp,
+        #                   VERTICAL_TRAY_GAP, reply)
 
-            if sect_final_df.shape[0] > 0:
-                to_dxf(sect_final_df, sections_template_path, p_x, msp, vertical_trays_gap)
-                st.write(f":green[Section {sect_final_df.sect[0]} is added to the drawing]")
-                p_x += 350
-            else:
-                st.write(f":red[Empty table of cables for {section_tag}: bus A]")
+    save_path = f"temp_dxf/SECTIONS by {st.session_state.user['login']} {datetime.datetime.date()}.dxf"
+    doc.saveas(save_path)
 
-        df_b = df.loc[df.cab_bus == "B"].reset_index(drop=True)
-        if len(df_b) > 0:
-            section = CrossTray([section_tag + ": bus B", int(df_b.chan_size.min())])
-
-            for k, v in df_b.iterrows():
-                if v.cab_purpose == "C":
-                    section.add_c_cab([v.cab_tag, v.cab_diam])
-                else:
-                    section.add_power_cab([v.cab_tag, v.cab_diam])
-
-                sect_final_df = get_cab_data(cablist_df, section.sect_df)
-                sect_final_df = get_layout_length(sect_df, sect_final_df)
-                find_duplicates(sect_final_df, 'cab_tag')
-
-            if sect_final_df.shape[0] > 0:
-                to_dxf(sect_final_df, sections_template_path, p_x, msp, vertical_trays_gap)
-                st.write(f":green[Section {sect_final_df.sect[0]} is added to the drawing")
-                p_x += 350
-            else:
-                st.write(f":red[Empty table of cables for {section_tag}: bus B]")
-
-        df_c = df.loc[df.cab_bus == "C"].reset_index(drop=True)
-        if len(df_c) > 0:
-            section = CrossTray([section_tag + ": bus C", int(df_c.chan_size.min())])
-
-            reply = f":red[Empty table of cables for {section_tag}: bus C]"
-
-            gener_section(cablist_df, p_x, df_c, section, sect_df, sections_template_path, msp,
-                          vertical_trays_gap, reply)
-
-        df_un = df.loc[(df.cab_bus == "-")].reset_index(drop=True)
-
-        if len(df_un) > 0:
-            section = CrossTray([section_tag + ": unknown bus!", int(df_un.chan_size.min())])
-
-            reply = f":red[Empty table of cables for {section_tag}: : unknown bus!]"
-
-            gener_section(cablist_df, p_x, df_un, section, sect_df, sections_template_path, msp,
-                          vertical_trays_gap, reply)
-
-    doc.saveas('temp_dxf/SECTIONS.dxf')
-
-    st.write("+----------------------------------------------+")
-    st.write("| Please, download file: temp_dxf/SECTIONS.dxf |")
-    st.write("+----------------------------------------------+")
+    st.write(f"Download file: {save_path}")
