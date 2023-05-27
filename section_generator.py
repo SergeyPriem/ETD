@@ -510,6 +510,8 @@ def process_cable_layout(layout_path, cablist_df):  # main3
                                          'cab_list_len', 'delta', 'diam', 'chan_size', 'bus']],
                                 use_container_width=True)
 
+    return sect_df
+
 
 # main4
 def generate_dxf(sect_df, sections_template_path, cablist_df):
@@ -600,8 +602,8 @@ def generate_dxf(sect_df, sections_template_path, cablist_df):
 
             gener_section(p_x, df_b, section, sect_df, sections_template_path, msp, vertical_trays_gap, reply)
 
-    doc.saveas('/content/SECTIONS.dxf')
+    doc.saveas('temp_dxf/SECTIONS.dxf')
 
     st.write("+----------------------------------------------+")
-    st.write("| Please, download file: /content/SECTIONS.dxf |")
+    st.write("| Please, download file: temp_dxf/SECTIONS.dxf |")
     st.write("+----------------------------------------------+")

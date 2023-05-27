@@ -8,7 +8,7 @@ import numpy as np
 import math
 import os
 
-from section_generator import get_tags_from_cablist, process_cable_layout
+from section_generator import get_tags_from_cablist, process_cable_layout, generate_dxf
 from users import err_handler
 from utilities import center_style
 
@@ -1205,5 +1205,11 @@ def scripts_tab():
                 if st.button('Get Cables and Sections from Power Layout'):
                     layout_path = f'temp_dxf/{save_uploaded_file(power_layout)}'
 
-                    process_cable_layout(layout_path, st.session_state.cab_list_for_sect)
+                    sect_df = process_cable_layout(layout_path, st.session_state.cab_list_for_sect)
 
+
+            with gen_sections:
+                if st.button('Generate Sections'):
+                    sections_template_path = f'temp_dxf/{save_uploaded_file(sect_template)}'
+
+                    generate_dxf(sect_df, sections_template_path, st.session_state.cab_list_for_sect)
