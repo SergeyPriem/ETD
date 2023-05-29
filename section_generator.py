@@ -410,8 +410,8 @@ def get_sect_from_layout(cablist_df, layout_path):  ### 3
 
     if len(all_sect_df) > 0:
         st.write(":green[The table below represents the sections extracted from cable layout. Column 'delta' " \
-                       "represents the difference in cable length taken from 'cable list' and 'power_layout'. " \
-                       "Please adjust your cable list or check/update the routing at the layout.]")
+                       "represents the difference in cable length taken from 'cable list' and 'power_layout'.]")
+        st.write(":green[Please adjust your Cable List or check/update the Cable Layout if the delta is significant.]")
         st.write(":blue[Info: during cable routing script uses cable length taken from the 'power_layout']")
 
     st.experimental_data_editor(
