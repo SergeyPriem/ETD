@@ -1222,7 +1222,7 @@ def scripts_tab():
 
                     if vertical_trays_gap - trays_height < 100:
                         st.write(":red[Not enough vertical space to pull cables]")
-                        st.write(":red[Please increase vertical gap or reduce tray height]")
+                        st.write(":orange[Please increase vertical gap or reduce tray height]")
                         st.stop()
 
                     st.session_state.p_x = 0
