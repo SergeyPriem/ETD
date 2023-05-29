@@ -203,13 +203,13 @@ def change_cyrillic(text):
         'Х': 'X'
     }
     if text == '???' or text == '-':
-        print(f"!!! Enpty field, find the '???' in the row and adjust")
+        st.write(f"!!! Empty field, find the '???' in the row and adjust")
         return '???'
 
     if bool(re.search('[а-яА-Я]', text)):
         for letter in letter_dict.keys():
             if letter in text:
-                print(f":yellow[Cyrillic Symbol: '{letter}' in the Tag: '{text}']")
+                st.write(f":yellow[Cyrillic Symbol: '{letter}' in the Tag: '{text}']")
                 text = text.replace(letter, letter_dict[letter])
     return text
 

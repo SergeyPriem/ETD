@@ -1143,7 +1143,7 @@ def scripts_tab():
                 st.write('Will be later...')
 
         with st.expander('CREATE CABLEWAY SECTIONS'):
-            st.title(':orange[Create Cableway Sections - under development...]')
+            st.title(':orange[Create Cableway Sections]')
             st.divider()
             st.write("Please find required templates in folder below  👇 ")
             st.code(r'\\uz-fs\Uzle\Work\Отдел ЭЛ\01 Малая Автоматизация\Шаблоны\CABLEWAYS')
