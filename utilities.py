@@ -4,6 +4,7 @@ import time
 import streamlit as st
 import json
 import os
+import ezdxf
 
 from projects import get_sod_repeat, get_proj_repeat, get_tasks_repeat, get_trans_repeat
 
@@ -192,3 +193,21 @@ def update_tables():
 
     if counter:
         st.experimental_rerun()
+
+
+def open_dxf_file(path):
+    try:
+        doc = ezdxf.readfile(path)
+        return doc.modelspace()
+    except IOError as e:
+        st.warning(f"Not a DXF file or a generic I/O error.")
+        st.write(err_handler(e))
+        return err_handler(e)
+    except ezdxf.DXFStructureError as e:
+        st.warning(f"Invalid or corrupted DXF file.")
+        st.write(err_handler(e))
+        return err_handler(e)
+    except Exception as e:
+        st.write('!!!')
+        st.warning(err_handler(e))
+        return err_handler(e)

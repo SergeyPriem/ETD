@@ -9,6 +9,8 @@ import ezdxf
 from ezdxf import zoom
 from ezdxf.math import Vec2
 
+from utilities import open_dxf_file
+
 
 def kill_comma(value):
     value = float(str(value).replace(',', '.'))
@@ -71,7 +73,6 @@ def arrange_section(sect_df, section_tag):
 
 
 def to_dxf(df_int, dxf_path, msp, vertical_trays_gap, chan_height, lv_horis_gap, mv_horis_gap):
-
     p_y = 0
     shift = 0
     p_x_tr = st.session_state.p_x + 160
@@ -296,19 +297,9 @@ def get_data_from_cab_list(cables_df, cablist_df):
 
 # layout_path = "/content/Drawing41.dxf"  # @param {type:"string"}
 
-def get_sect_from_layout(cablist_df, layout_path): ### 3
+def get_sect_from_layout(cablist_df, layout_path):  ### 3
 
-    try:
-        doc = ezdxf.readfile(layout_path)
-    except IOError:
-        print(f"Not a DXF file or a generic I/O error.")
-        st.stop()
-    except ezdxf.DXFStructureError:
-        print(f"Invalid or corrupted DXF file.")
-        st.stop()
-
-    # getting modelspace layout
-    msp = doc.modelspace()
+    msp = open_dxf_file(layout_path)
 
     p_lines = msp.query('*[layer=="power_layout"]')
 
@@ -408,8 +399,8 @@ def get_sect_from_layout(cablist_df, layout_path): ### 3
 
     all_sect_df['chan_level'] = 0
 
-    all_sect_df['cab_type'] = all_sect_df.compos + '-' + all_sect_df.wires.astype('str') + 'x' + all_sect_df.section.astype(
-        'str')
+    all_sect_df['cab_type'] = all_sect_df.compos + '-' + all_sect_df.wires.astype(
+        'str') + 'x' + all_sect_df.section.astype('str')
 
     all_sect_df['delta'] = abs(
         round(all_sect_df.layout_len.astype('float64') - all_sect_df.cab_list_len.astype('float64'), 0))
@@ -422,26 +413,28 @@ def get_sect_from_layout(cablist_df, layout_path): ### 3
                 " Info: during cable routing script uses cable length taken from the 'power_layout'")
 
     st.experimental_data_editor(all_sect_df[
-        ['sect', 'cab_tag', 'cab_type', 'layout_len', 'cab_list_len', 'delta', 'cab_diam', 'chan_type',
-         'chan_size', 'cab_bus']])
+                                    ['sect', 'cab_tag', 'cab_type', 'layout_len', 'cab_list_len', 'delta', 'cab_diam',
+                                     'chan_type',
+                                     'chan_size', 'cab_bus']])
 
     return all_sect_df
 
+
 #############################
 
-def open_dxf_file(path):
-    try:
-        int_doc = ezdxf.readfile(path)
-    except IOError:
-        print(f"Not a DXF file or a generic I/O error.")
-        sys.exit(1)
-    except ezdxf.DXFStructureError:
-        print(f"Invalid or corrupted DXF file.")
-        sys.exit(2)
-
-    # getting modelspace layout
-    int_msp = int_doc.modelspace()
-    return int_doc, int_msp
+# def open_dxf_file(path):
+#     try:
+#         drawing = ezdxf.readfile(path)
+#     except IOError:
+#         st.write("Not a DXF file or a generic I/O error.")
+#         st.stop()
+#     except ezdxf.DXFStructureError:
+#         st.write(f"Invalid or corrupted DXF file.")
+#         st.stop()
+#
+#     # getting modelspace layout
+#     modelspace = drawing.modelspace()
+#     return modelspace
 
 
 def distrib_cables(df_x, trays_height, volume_percent, width_percent, lv_horis_gap, mv_horis_gap):
@@ -507,7 +500,6 @@ def distrib_cables(df_x, trays_height, volume_percent, width_percent, lv_horis_g
 
 def generate_dxf(all_sect_df, vertical_trays_gap, trays_height, volume_percent, width_percent,
                  lv_horis_gap, mv_horis_gap, sections_template_path):
-
     # vertical_trays_gap = 600
     # trays_height = 100
     # volume_percent = 40

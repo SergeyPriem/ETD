@@ -10,7 +10,7 @@ import os
 
 from section_generator import get_tags_from_cablist, generate_dxf, get_sect_from_layout
 from users import err_handler, reg_action
-from utilities import center_style
+from utilities import center_style, open_dxf_file
 
 p_rat_a = 0
 p_rat_b = 0
@@ -973,23 +973,9 @@ def scripts_tab():
 
                     dxf_temp_file = save_uploaded_file(dxf_template)
 
-                    try:
-                        doc = ezdxf.readfile(f'temp_dxf/{dxf_temp_file}')
-                    except IOError as e:
-                        st.warning(f"Not a DXF file or a generic I/O error.")
-                        st.write(err_handler(e))
-                        st.stop()
 
-                    except ezdxf.DXFStructureError as e:
-                        st.warning(f"Invalid or corrupted DXF file.")
-                        st.write(err_handler(e))
-                        st.stop()
+                    msp = open_dxf_file(f'temp_dxf/{dxf_temp_file}')
 
-                    except Exception as e:
-                        st.write('!!!')
-                        st.warning(err_handler(e))
-
-                    msp = doc.modelspace()
                     point = 0
 
                     # .astype(str).str.replace('710-', '', regex=True)
