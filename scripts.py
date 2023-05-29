@@ -8,7 +8,7 @@ import numpy as np
 import math
 import os
 
-from section_generator import get_tags_from_cablist, process_cable_layout, generate_dxf
+from section_generator import get_tags_from_cablist, generate_dxf, get_sect_from_layout
 from users import err_handler, reg_action
 from utilities import center_style
 
@@ -245,7 +245,6 @@ def incom_sect_cb_calc(loads_df: pd.DataFrame) -> pd.DataFrame:
     loads_df.loc[(loads_df.equip == 'SECT_BREAKER'), 'rated_current_pe'] = (
             rated_current_pe * (loads_df.loc[(loads_df.equip == 'INCOMER'), 'rated_current'].max()
                                 ) / (loads_df.loc[(loads_df.equip == 'INCOMER'), 'rated_current'].sum()))
-
 
     p_rat_a = round(loads_df.loc[(loads_df.equip != 'INCOMER') & (loads_df.equip != 'SECT_BREAKER') & (
             loads_df.bus == 'A'), 'rated_power'].sum(), 1)
@@ -844,7 +843,6 @@ def add_gen_data(msp, loads_df, loads_df_new, point, max_sc, peak_sc):
 
 
 def scripts_tab():
-
     COS_START = 0.4
     # K_START = 1
     SIN_START = math.sin(math.acos(COS_START))
@@ -1166,15 +1164,14 @@ def scripts_tab():
             p_l, p_c, p_r = st.columns(3, gap='medium')
 
             cable_list = p_l.file_uploader("CABLE LIST", type=['xlsx'],
-                                          accept_multiple_files=False, key=None,
-                                          help=None, on_change=None, args=None,
-                                          kwargs=None, disabled=False, label_visibility="visible")
-
+                                           accept_multiple_files=False, key=None,
+                                           help=None, on_change=None, args=None,
+                                           kwargs=None, disabled=False, label_visibility="visible")
 
             sect_template = p_c.file_uploader("SECTIONS TEMPLATE", type=['dxf'],
-                                             accept_multiple_files=False, key=None,
-                                             help=None, on_change=None, args=None,
-                                             kwargs=None, disabled=False, label_visibility="visible")
+                                              accept_multiple_files=False, key=None,
+                                              help=None, on_change=None, args=None,
+                                              kwargs=None, disabled=False, label_visibility="visible")
 
             power_layout = p_r.file_uploader("CABLE ROUTING LAYOUT", type=['dxf'],
                                              accept_multiple_files=False, key=None,
@@ -1211,17 +1208,32 @@ def scripts_tab():
                 if st.button('Get Cables and Sections from Power Layout'):
                     layout_path = f'temp_dxf/{save_uploaded_file(power_layout)}'
 
-                    st.session_state.sect_df = process_cable_layout(layout_path, st.session_state.cab_list_for_sect)
+                    st.session_state.sect_df = get_sect_from_layout(st.session_state.cab_list_for_sect, layout_path)
+
 
             with gen_sections:
+
+                vertical_trays_gap = st.slider("Vertical Gap between Trays",
+                                               min_value=150, max_value=500, step=10, value=300)
+                trays_height = st.radio('Tray Height', [50, 60, 75, 80, 100, 150, 200],
+                                        index=4, horizontal=True)
+
+                volume_percent = st.radio('Control Cable Tray filling, %', [40, 50, 60], index=1, horizontal=True)
+
+                width_percent = st.radio('Power Cable Tray filling, %', [80, 90, 100], index=0, horizontal=True)
+
+                lv_horis_gap = st.radio('Horisontal Gap for LV cables, %', [0, 50, 100], index=2, horizontal=True)
+                mv_horis_gap = st.radio('Horisontal Gap for MV cables, %', [0, 50, 100], index=2, horizontal=True)
+
                 if st.button('Generate Sections'):
 
                     st.session_state.p_x = 0
 
                     sections_template_path = f'temp_dxf/{save_uploaded_file(sect_template)}'
 
-                    reply = generate_dxf(st.session_state.sect_df, sections_template_path,
-                                         st.session_state.cab_list_for_sect)
+                    reply = generate_dxf(st.session_state.sect_df, vertical_trays_gap, trays_height,
+                                         volume_percent, width_percent, lv_horis_gap, mv_horis_gap,
+                                         sections_template_path)
 
                     with open(reply, 'rb') as f:
                         st.download_button(

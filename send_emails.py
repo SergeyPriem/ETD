@@ -67,5 +67,5 @@ ass_html = f"""
     </html>
 """
 
-# print(send_mail(receiver="sergey.priemshiy@uzliti-en.com", cc_rec="p.s@email.ua", subj=ass_subject, html=ass_html))
+# st.write(send_mail(receiver="sergey.priemshiy@uzliti-en.com", cc_rec="p.s@email.ua", subj=ass_subject, html=ass_html))
 

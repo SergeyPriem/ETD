@@ -286,7 +286,7 @@ def create_states():
             st.session_state[state] = False  # None
 
     state_list = ['logged', 'code_sent', 'upd_code_sent', 'conf_num', 'task_preview', 'cab_list_for_sect',
-                  'sect_df', 'p_x']
+                  'sect_df', 'st.session_state.p_x']
     for state in state_list:
         if state not in st.session_state:
             st.session_state[state] = False
