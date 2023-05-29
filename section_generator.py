@@ -1,4 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
+import datetime
 
 import streamlit as st
 import numpy as np
@@ -299,7 +300,8 @@ def get_data_from_cab_list(cables_df, cablist_df):
 
 def get_sect_from_layout(cablist_df, layout_path):  ### 3
 
-    msp = open_dxf_file(layout_path)
+    doc = open_dxf_file(layout_path)
+    msp = doc.modelspace()
 
     p_lines = msp.query('*[layer=="power_layout"]')
 
@@ -513,7 +515,9 @@ def generate_dxf(all_sect_df, vertical_trays_gap, trays_height, volume_percent, 
 
     all_sect_df['tray_vol'] = all_sect_df.chan_size * trays_height
 
-    msp = open_dxf_file(sections_template_path)
+    doc = open_dxf_file(sections_template_path)
+
+    msp = doc.modelspace()
 
     all_sect_df['free_vol'] = all_sect_df.chan_size * trays_height * volume_percent / 100
     all_sect_df['free_width'] = all_sect_df.chan_size * width_percent / 100
@@ -535,3 +539,8 @@ def generate_dxf(all_sect_df, vertical_trays_gap, trays_height, volume_percent, 
                 st.session_state.p_x += 350
 
     zoom.extents(msp)
+    save_path = f"temp_dxf/SECTIONS_by_{st.session_state.user['login']}_" \
+                f"{datetime.datetime.now().strftime('%Y_%m_%d_%H_%M')}.dxf"
+    doc.saveas(save_path)
+
+    return save_path

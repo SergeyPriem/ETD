@@ -198,7 +198,7 @@ def update_tables():
 def open_dxf_file(path):
     try:
         doc = ezdxf.readfile(path)
-        return doc.modelspace()
+        return doc
     except IOError as e:
         st.warning(f"Not a DXF file or a generic I/O error.")
         st.write(err_handler(e))

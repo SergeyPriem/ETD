@@ -974,7 +974,9 @@ def scripts_tab():
                     dxf_temp_file = save_uploaded_file(dxf_template)
 
 
-                    msp = open_dxf_file(f'temp_dxf/{dxf_temp_file}')
+                    doc = open_dxf_file(f'temp_dxf/{dxf_temp_file}')
+
+                    msp = doc.modelspace()
 
                     point = 0
 
