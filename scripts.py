@@ -1124,18 +1124,28 @@ def scripts_tab():
                     add_gen_data(msp, lo_df, lo_df_new, point, max_sc, peak_sc)
                     # msp, loads_df, loads_df_new, point, max_sc, peak_sc
 
-                    doc.saveas(f"temp_dxf/{sld_file_name} by {st.session_state.user['login']}.dxf")
+                    saving_path = f"temp_dxf/{sld_file_name} by {st.session_state.user['login']}_" \
+                                  f"{datetime.datetime.now().strftime('%Y_%m_%d_%H_%M')}.dxf"
+
+                    doc.saveas(saving_path)
 
                     st.success('SLD is ready. Please Download')
 
-                    with open(f'temp_dxf/{sld_file_name}.dxf', 'rb') as f:
+                    with open(saving_path, 'rb') as f:
                         st.download_button(
                             'Get SLD here',
                             data=f,
-                            file_name=f'{sld_file_name} {datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}.dxf',
+                            file_name=saving_path,
                             mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
                             disabled=False, use_container_width=False
                         )
+
+                    reply2 = reg_action(saving_path.replace("temp_dxf/", ""))
+
+                    if reply2['status'] == 200:
+                        st.success(reply2['message'])
+                    else:
+                        st.warning(reply2['message'])
 
         with st.expander('CREATE TABLE FOR TRANSFERRING LOADS TO ETAP'):
             st.title(':orange[Create Table for transferring Load to ETAP - under development...]')
@@ -1174,7 +1184,6 @@ def scripts_tab():
             cab_tags, cab_layout, gen_sections = st.tabs(['Get Tags from Cable List', 'Process Cable Layout',
                                                           'Create Sections'])
 
-
             with cab_tags:
                 lc, c1, c2, rc = st.columns(4, gap='medium')
                 sheet_name = lc.text_input('Sheet Name')
@@ -1184,8 +1193,6 @@ def scripts_tab():
                 rc.text('')
                 all_chb = rc.checkbox('All Cable Tags')
                 get_cab_but = st.button('Get Cable Tags for Routing', use_container_width=True)
-
-
 
                 if cable_list and get_cab_but:
                     try:
@@ -1205,7 +1212,6 @@ def scripts_tab():
                     layout_path = f'temp_dxf/{save_uploaded_file(power_layout)}'
 
                     st.session_state.sect_df = process_cable_layout(layout_path, st.session_state.cab_list_for_sect)
-
 
             with gen_sections:
                 if st.button('Generate Sections'):
