@@ -22,7 +22,7 @@ def move_to_former(login, end_date):
 
             return f'''**{login}** moved to Former Users
             by date **{end_date}**.
-            Access status: **:red[{hero.access_level}]**'''
+            Access status: **:blue[{hero.access_level}]**'''
 
         except Exception as e:
             return err_handler(e)

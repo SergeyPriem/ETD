@@ -315,7 +315,7 @@ def form_for_trans():
     with content:
         with st.form('confirm_trans', clear_on_submit=True):
             st.subheader(f"Update Status for Transmittal:")
-            st.subheader(f":red[{st.session_state.trans_status['trans_num']}]")
+            st.subheader(f":blue[{st.session_state.trans_status['trans_num']}]")
 
             st.markdown(
                 """
