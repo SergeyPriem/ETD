@@ -73,8 +73,8 @@ def drawing_sets():
         df_edit = sod_df.loc[(sod_df.unit == unit_selected) & (sod_df.project == proj_selected)]
 
         st.divider()
-        st.subheader(f"Project: :red[{proj_selected}]")
-        st.subheader(f"Unit: :red[{unit_selected}]")
+        st.subheader(f"Project: :#249ded[{proj_selected}]")
+        st.subheader(f"Unit: :#249ded[{unit_selected}]")
 
         if len(df_edit) == 1:
             unit_id = df_edit.unit_id.to_numpy()[0]

@@ -1205,14 +1205,14 @@ def scripts_tab():
                     lc, rc = st.columns(2, gap='medium')
                     vertical_trays_gap = lc.slider("Vertical Gap between Trays, mm",
                                                    min_value=150, max_value=500, step=10, value=300)
-                    trays_height = rc.radio('Tray Height', [50, 60, 75, 80, 100, 150, 200],
+                    trays_height = rc.radio('Tray Height, mm', [50, 60, 75, 80, 100, 150, 200],
                                             index=4, horizontal=True)
 
                     c1, c2, c3, c4 = st.columns(4, gap='medium')
 
-                    volume_percent = c1.radio('Control Cable Tray filling, %', [40, 50, 60], index=1, horizontal=True)
+                    volume_percent = c1.radio('Control Cable Tray filling (by Volume), %', [40, 50, 60], index=1, horizontal=True)
 
-                    width_percent = c2.radio('Power Cable Tray filling, %', [80, 90, 100], index=0, horizontal=True)
+                    width_percent = c2.radio('Power Cable Tray filling (by Width), %', [80, 90, 100], index=0, horizontal=True)
 
                     lv_horis_gap = c3.radio('Horisontal Gap for LV cables, %', [0, 50, 100], index=2, horizontal=True)
                     mv_horis_gap = c4.radio('Horisontal Gap for MV cables, %', [0, 50, 100], index=2, horizontal=True)
