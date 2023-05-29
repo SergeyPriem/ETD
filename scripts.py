@@ -1201,19 +1201,24 @@ def scripts_tab():
 
             with gen_sections:
 
-                vertical_trays_gap = st.slider("Vertical Gap between Trays",
-                                               min_value=150, max_value=500, step=10, value=300)
-                trays_height = st.radio('Tray Height', [50, 60, 75, 80, 100, 150, 200],
-                                        index=4, horizontal=True)
+                with st.form('sect_settings'):
+                    lc, rc = st.columns(2, gap='medium')
+                    vertical_trays_gap = lc.slider("Vertical Gap between Trays, mm",
+                                                   min_value=150, max_value=500, step=10, value=300)
+                    trays_height = rc.radio('Tray Height', [50, 60, 75, 80, 100, 150, 200],
+                                            index=4, horizontal=True)
 
-                volume_percent = st.radio('Control Cable Tray filling, %', [40, 50, 60], index=1, horizontal=True)
+                    c1, c2, c3, c4 = st.columns(4, gap='medium')
 
-                width_percent = st.radio('Power Cable Tray filling, %', [80, 90, 100], index=0, horizontal=True)
+                    volume_percent = c1.radio('Control Cable Tray filling, %', [40, 50, 60], index=1, horizontal=True)
 
-                lv_horis_gap = st.radio('Horisontal Gap for LV cables, %', [0, 50, 100], index=2, horizontal=True)
-                mv_horis_gap = st.radio('Horisontal Gap for MV cables, %', [0, 50, 100], index=2, horizontal=True)
+                    width_percent = c2.radio('Power Cable Tray filling, %', [80, 90, 100], index=0, horizontal=True)
 
-                if st.button('Generate Sections'):
+                    lv_horis_gap = c3.radio('Horisontal Gap for LV cables, %', [0, 50, 100], index=2, horizontal=True)
+                    mv_horis_gap = c4.radio('Horisontal Gap for MV cables, %', [0, 50, 100], index=2, horizontal=True)
+                    form_conf_but = st.form_submit_button('Generate Sections', use_container_width=True)
+
+                if form_conf_but:
 
                     st.session_state.p_x = 0
 
