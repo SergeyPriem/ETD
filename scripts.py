@@ -1193,7 +1193,7 @@ def scripts_tab():
                         st.stop()
 
             with cab_layout:
-                if st.button('Get Cables and Sections from Power Layout'):
+                if st.button('Get Cables and Sections from Power Layout', use_container_width=True):
                     layout_path = f'temp_dxf/{save_uploaded_file(power_layout)}'
 
                     st.session_state.sect_df = get_sect_from_layout(st.session_state.cab_list_for_sect, layout_path)

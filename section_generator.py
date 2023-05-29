@@ -484,8 +484,6 @@ def generate_dxf(all_sect_df, vertical_trays_gap, trays_height, volume_percent, 
 
     st.session_state.p_x = 0
 
-    st.experimental_show(all_sect_df)
-
     all_sect_df['tray_vol'] = all_sect_df.chan_size * trays_height
 
     doc = open_dxf_file(sections_template_path)
