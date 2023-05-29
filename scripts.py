@@ -1220,6 +1220,11 @@ def scripts_tab():
 
                 if form_conf_but:
 
+                    if vertical_trays_gap - trays_height < 100:
+                        st.write(":red[Not enough vertical space to pull cables]")
+                        st.write(":yellow[Please increase vertical gap or reduce tray height]")
+                        st.stop()
+
                     st.session_state.p_x = 0
 
                     sections_template_path = f'temp_dxf/{save_uploaded_file(sect_template)}'
