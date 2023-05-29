@@ -285,9 +285,9 @@ def make_vec2(cell):
 def print_duplicates(cables_df, col_name):
     dup_cab_df = cables_df.loc[cables_df.duplicated(subset=[col_name], keep='first')]
     if len(dup_cab_df) > 0:
-        st.write(":red[Duplicated '{col_name}': \n{dup_cab_df[col_name]}]")
+        st.write(f":red[Duplicated '{col_name}': \n{dup_cab_df[col_name]}]")
     else:
-        st.write(":green[Check for '{col_name}' dulicates - OK!]")
+        st.write(f":green[Check for '{col_name}' duplicates - PASSED!]")
 
 
 def get_data_from_cab_list(cables_df, cablist_df):
@@ -409,35 +409,16 @@ def get_sect_from_layout(cablist_df, layout_path):  ### 3
     all_sect_df.sort_values(by=['delta'], ascending=False, inplace=True)
 
     if len(all_sect_df) > 0:
-        st.info("The table below represents the sections extracted from cable layout. Column 'delta' represents"
-                " the difference in cable length taken from 'cable list' and 'power_layout'."
-                " Please adjust your cable list or check/update the routing at the layout. \n\n"
-                " Info: during cable routing script uses cable length taken from the 'power_layout'")
+        st.write(":green[The table below represents the sections extracted from cable layout. Column 'delta' " \
+                       "represents the difference in cable length taken from 'cable list' and 'power_layout'. " \
+                       "Please adjust your cable list or check/update the routing at the layout.")
+        st.write(":blue[Info: during cable routing script uses cable length taken from the 'power_layout']")
 
-    st.experimental_data_editor(all_sect_df[
-                                    ['sect', 'cab_tag', 'cab_type', 'layout_len', 'cab_list_len', 'delta', 'cab_diam',
-                                     'chan_type',
-                                     'chan_size', 'cab_bus']])
+    st.experimental_data_editor(all_sect_df[['sect', 'cab_tag', 'cab_type', 'layout_len', 'cab_list_len', 'delta',
+                                             'cab_diam', 'chan_type', 'chan_size', 'cab_bus']],
+                                use_container_width=True)
 
     return all_sect_df
-
-
-#############################
-
-# def open_dxf_file(path):
-#     try:
-#         drawing = ezdxf.readfile(path)
-#     except IOError:
-#         st.write("Not a DXF file or a generic I/O error.")
-#         st.stop()
-#     except ezdxf.DXFStructureError:
-#         st.write(f"Invalid or corrupted DXF file.")
-#         st.stop()
-#
-#     # getting modelspace layout
-#     modelspace = drawing.modelspace()
-#     return modelspace
-
 
 def distrib_cables(df_x, trays_height, volume_percent, width_percent, lv_horis_gap, mv_horis_gap):
     initial_volume = df_x.chan_size.head(1).values[0] * trays_height * volume_percent / 100
@@ -498,16 +479,8 @@ def distrib_cables(df_x, trays_height, volume_percent, width_percent, lv_horis_g
     return df_x
 
 
-# sections_template_path = "/content/sect_template.dxf"  # @param {type:"string"}
-
 def generate_dxf(all_sect_df, vertical_trays_gap, trays_height, volume_percent, width_percent,
                  lv_horis_gap, mv_horis_gap, sections_template_path):
-    # vertical_trays_gap = 600
-    # trays_height = 100
-    # volume_percent = 40
-    # width_percent = 80
-    # lv_horis_gap = 100
-    # mv_horis_gap = 100
 
     st.session_state.p_x = 0
 
