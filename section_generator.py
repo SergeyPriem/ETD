@@ -302,10 +302,10 @@ def get_sect_from_layout(cablist_df, layout_path): ### 3
         doc = ezdxf.readfile(layout_path)
     except IOError:
         print(f"Not a DXF file or a generic I/O error.")
-        sys.exit(1)
+        st.stop()
     except ezdxf.DXFStructureError:
         print(f"Invalid or corrupted DXF file.")
-        sys.exit(2)
+        st.stop()
 
     # getting modelspace layout
     msp = doc.modelspace()
@@ -423,10 +423,9 @@ def get_sect_from_layout(cablist_df, layout_path): ### 3
 
     st.experimental_data_editor(all_sect_df[
         ['sect', 'cab_tag', 'cab_type', 'layout_len', 'cab_list_len', 'delta', 'cab_diam', 'chan_type',
-         'chan_size', 'cab_bus']
-        ]
-                                )
+         'chan_size', 'cab_bus']])
 
+    return all_sect_df
 
 #############################
 
