@@ -127,7 +127,7 @@ def to_dxf(df_int, dxf_path, msp, vertical_trays_gap, chan_height, lv_horis_gap,
         tray_type = str(df_int.loc[df_int.chan_level == support, 'cab_purpose'].head(1).values[0])
 
         if tray_type == 'C' or tray_type == 'С':
-            tray_type = 'Cont.Cab.'
+            tray_type = 'Contr.'
         else:
             tray_type += 'V'
 
