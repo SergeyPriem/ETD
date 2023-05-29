@@ -513,7 +513,7 @@ def generate_dxf(all_sect_df, vertical_trays_gap, trays_height, volume_percent, 
 
     all_sect_df['tray_vol'] = all_sect_df.chan_size * trays_height
 
-    doc, msp = open_dxf_file(sections_template_path)
+    msp = open_dxf_file(sections_template_path)
 
     all_sect_df['free_vol'] = all_sect_df.chan_size * trays_height * volume_percent / 100
     all_sect_df['free_width'] = all_sect_df.chan_size * width_percent / 100
