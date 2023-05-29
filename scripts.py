@@ -1202,7 +1202,7 @@ def scripts_tab():
             with gen_sections:
 
                 with st.form('sect_settings'):
-                    lc, rc = st.columns(2, gap='medium')
+                    lc, cc, rc = st.columns([3, 1, 2], gap='medium')
                     vertical_trays_gap = lc.slider("Vertical Gap between Trays, mm",
                                                    min_value=150, max_value=500, step=10, value=300)
                     trays_height = rc.radio('Tray Height', [50, 60, 75, 80, 100, 150, 200],
