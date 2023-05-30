@@ -178,9 +178,14 @@ def transmittals_content():
 
                 if trans_checker:
 
+                    l_col, r_col = st.columns([2, 1], gap='medium')
+
                     reply = add_new_trans(project, trans_num, ref_trans, t_type, subj, link, trans_date,
                                           ans_required_num, reply_date, author, responsible, notes, status, in_out)
-                    st.info(reply)
+                    l_col.success(reply)
+
+                    r_col.text('')
+                    r_col.button('Close Report', key='close_trans_report', use_container_width=True)
 
                     reply3 = update_state('trans')
 
