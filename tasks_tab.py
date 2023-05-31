@@ -235,15 +235,12 @@ def add_task(task_content):
 
                                     if reply == 200:
                                         st.write(f"Notifications sent by emails: {perf_email}, {coord_email}")
-
-
                                         reply3 = update_state('task')
 
                                         if reply3 != 'Data is updated':
                                             st.warning(reply3)
                                             st.stop()
 
-                                        st.button('OK', key='close_upd_task_report')
 
                                     else:
                                         st.warning(reply)
@@ -252,6 +249,8 @@ def add_task(task_content):
                                 else:
                                     st.warning(reply)
                                     st.stop()
+
+                        st.button('OK', key='close_upd_task_report')
 
                     else:  # Outgoing Tasks
                         for unit in units:
