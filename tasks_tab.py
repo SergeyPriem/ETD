@@ -250,7 +250,7 @@ def add_task(task_content):
                                     st.warning(reply)
                                     st.stop()
 
-                        st.button('OK', key='close_upd_task_report')
+                        st.button('Close Report', key='close_upd_task_report')
 
                     else:  # Outgoing Tasks
                         for unit in units:
