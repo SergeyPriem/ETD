@@ -1113,7 +1113,9 @@ def scripts_tab():
 
                     sect_list = sld_df.bus.unique().tolist()
 
-                    st.experimental_show(sect_list)
+                    # st.experimental_show(sect_list)
+
+                    st.experimental_show(sld_df.load_tag)
 
                     st.experimental_data_editor(sld_df, use_container_width=True)
 
