@@ -1172,46 +1172,77 @@ def scripts_tab():
                                 load_kva = load_kw / row.power_factor
                                 load_kvar = math.sqrt(load_kva**2 - load_kw**2)
 
-                                txt = add_feeder(load_type=row.equip,
-                                                 txt=txt,
-                                                 cb_x=cb_x,
-                                                 cb_y=cb_y,
-                                                 cb_from_elem=sect_tag,
+                                # txt = add_feeder(load_type=row.equip,
+                                #                  txt=txt,
+                                #                  cb_x=cb_x,
+                                #                  cb_y=cb_y,
+                                #                  cb_from_elem=sect_tag,
+                                #                  cb_id=f"{bus}{cb_num}",
+                                #                  cb_iid=f"ps{str(iid+1)}",
+                                #                  cb_to_elem=row['CONSUM-CABLE_TAG'],
+                                #                  cab_id=row['CONSUM-CABLE_TAG'],
+                                #                  cab_iid=f"ps{str(iid+2)}",
+                                #                  cab_len=row.length,
+                                #                  cab_to_bus=f"{row.index}-bus",
+                                #                  load_bus_id=f"{row.index}-bus",
+                                #                  load_bus_iid=f"ps{str(iid+3)}",
+                                #                  load_bus_tag=f"{row.index}-bus",
+                                #                  motor_power=row.rated_power,
+                                #                  cos_f=row.power_factor,
+                                #                  motor_id=row.index,
+                                #                  motor_iid=f"ps{str(iid+4)}",
+                                #                  stat_load_id=row.index,
+                                #                  stat_load_iid=f"ps{str(iid+4)}",
+                                #                  stat_load_kw=row.rated_power,
+                                #                  stat_load_kvar=load_kvar,
+                                #                  distr_bus_id=sect_tag,
+                                #                  distr_bus_iid=distr_bus_iid
+                                #                  )
+
+                                st.write(f"""load_type={row.equip},
+                                                 txt={txt},
+                                                 cb_x={cb_x},
+                                                 cb_y={cb_y},
+                                                 cb_from_elem={sect_tag},
                                                  cb_id=f"{bus}{cb_num}",
                                                  cb_iid=f"ps{str(iid+1)}",
-                                                 cb_to_elem=row['CONSUM-CABLE_TAG'],
-                                                 cab_id=row['CONSUM-CABLE_TAG'],
-                                                 cab_iid=f"ps{str(iid+2)}",
-                                                 cab_len=row.length,
-                                                 cab_to_bus=f"{row.index}-bus",
-                                                 load_bus_id=f"{row.index}-bus",
-                                                 load_bus_iid=f"ps{str(iid+3)}",
-                                                 load_bus_tag=f"{row.index}-bus",
-                                                 motor_power=row.rated_power,
-                                                 cos_f=row.power_factor,
-                                                 motor_id=row.index,
-                                                 motor_iid=f"ps{str(iid+4)}",
-                                                 stat_load_id=row.index,
-                                                 stat_load_iid=f"ps{str(iid+4)}",
-                                                 stat_load_kw=row.rated_power,
-                                                 stat_load_kvar=load_kvar,
-                                                 distr_bus_id=sect_tag,
-                                                 distr_bus_iid=distr_bus_iid
+                                                 cb_to_elem={row['CONSUM-CABLE_TAG']},
+                                                 cab_id={row['CONSUM-CABLE_TAG']},
+                                                 cab_iid={f"ps{str(iid + 2)}"},
+                                                 cab_len={row.length},
+                                                 cab_to_bus={f"{row.index}-bus"},
+                                                 load_bus_id={f"{row.index}-bus"},
+                                                 load_bus_iid={f"ps{str(iid + 3)}"},
+                                                 load_bus_tag={f"{row.index}-bus"},
+                                                 motor_power={row.rated_power},
+                                                 cos_f={row.power_factor},
+                                                 motor_id={row.index},
+                                                 motor_iid={f"ps{str(iid + 4)}"},
+                                                 stat_load_id={row.index},
+                                                 stat_load_iid={f"ps{str(iid + 4)}"},
+                                                 stat_load_kw= {row.rated_power},
+                                                 stat_load_kvar={load_kvar},
+                                                 distr_bus_id= {sect_tag},
+                                                 distr_bus_iid= {distr_bus_iid}
+                                                """
                                                  )
+
+                                st.stop()
+
 
                             i += 1
                             distr_bus_y *= 2
 
                     # st.write(txt)
 
-                    saving_path = f"temp_dxf/XML by {st.session_state.user['login']}_" \
-                                  f"{datetime.datetime.now().strftime('%Y_%m_%d_%H_%M')}.xml"
-
-                    with open(saving_path, 'w') as ready_file:
-                        ready_file.write(txt)
-
-                    with open(saving_path, 'rb') as f:
-                        st.download_button('Get XML file', data=f,file_name=saving_path.replace('temp_dxf/', ''))
+                    # saving_path = f"temp_dxf/XML by {st.session_state.user['login']}_" \
+                    #               f"{datetime.datetime.now().strftime('%Y_%m_%d_%H_%M')}.xml"
+                    #
+                    # with open(saving_path, 'w') as ready_file:
+                    #     ready_file.write(txt)
+                    #
+                    # with open(saving_path, 'rb') as f:
+                    #     st.download_button('Get XML file', data=f,file_name=saving_path.replace('temp_dxf/', ''))
 
         # with st.expander('CREATE FILE FOR TRANSFERRING LOADS TO ETAP'):
         #     st.title(':orange[Create File for transferring Load to ETAP - under development...]')
