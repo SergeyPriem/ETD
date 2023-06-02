@@ -71,16 +71,16 @@ def add_feeder(load_type, txt, cb_x=None, cb_y=None, cb_from_elem=None, cb_id=No
     if load_type in ['MOTOR', 'motor', 'Motor']:
         txt = add_motor(txt, cb_x, cb_y, load_bus_tag, motor_power, cos_f, motor_id, motor_iid)
 
-        txt = add_connect(txt, "INDMOTOR", stat_load_id, stat_load_iid, 0, "BUS", load_bus_id, load_bus_iid, 1)
+        # txt = add_connect(txt, "INDMOTOR", stat_load_id, stat_load_iid, 0, "BUS", load_bus_id, load_bus_iid, 1)
     else:
         txt = add_stat_load(txt, cb_x, cb_y, load_bus_tag, stat_load_kw, stat_load_kvar, stat_load_id, stat_load_iid)
-        txt = add_connect(txt, "STLOAD", stat_load_id, stat_load_iid, 0, "BUS", load_bus_id, load_bus_iid, 1)
+        # txt = add_connect(txt, "STLOAD", stat_load_id, stat_load_iid, 0, "BUS", load_bus_id, load_bus_iid, 1)
 
-    txt = add_connect(txt, "LVCB", cb_id, cb_iid, 0, "BUS", distr_bus_id, distr_bus_iid, 0)
+    # txt = add_connect(txt, "LVCB", cb_id, cb_iid, 0, "BUS", distr_bus_id, distr_bus_iid, 0)
 
-    txt = add_connect(txt, "LVCB", cb_id, cb_iid, 1, "CABLE", cab_id, cab_iid, 0)
+    # txt = add_connect(txt, "LVCB", cb_id, cb_iid, 1, "CABLE", cab_id, cab_iid, 0)
 
-    txt = add_connect(txt, "CABLE", cab_id, cab_iid, 1, "BUS", load_bus_id, load_bus_iid, 0)
+    # txt = add_connect(txt, "CABLE", cab_id, cab_iid, 1, "BUS", load_bus_id, load_bus_iid, 0)
 
     return txt
 
