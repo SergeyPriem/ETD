@@ -1122,7 +1122,7 @@ def scripts_tab():
                     # cb_x = 11000
                     cb_y = 11000
 
-                    start_id = 1000
+                    start_id = 10000
 
                     sld_df = sld_df[(sld_df.equip != "INCOMER") & (sld_df.equip != "SECT_BREAKER")]
 
@@ -1189,18 +1189,18 @@ def scripts_tab():
                                                  cb_iid=f"ps{str(iid+j)}",
                                                  cb_to_elem=f"L-{ind}",
                                                  cab_id=f"L-{ind}",
-                                                 cab_iid=f"ps{str(iid+j*10+1)}",
+                                                 cab_iid=f"ps{str(iid+j*100+1)}",
                                                  cab_len=row.length,
                                                  cab_to_bus=f"{ind}-bus",
                                                  load_bus_id=f"{ind}-bus",
-                                                 load_bus_iid=f"ps{str(iid+j*10+2)}",
+                                                 load_bus_iid=f"ps{str(iid+j*100+2)}",
                                                  load_bus_tag=f"{ind}-bus",
                                                  motor_power=row.rated_power,
                                                  cos_f=row.power_factor,
                                                  motor_id=ind,
-                                                 motor_iid=f"ps{str(iid+j*10+3)}",
+                                                 motor_iid=f"ps{str(iid+j*100+3)}",
                                                  stat_load_id=ind,
-                                                 stat_load_iid=f"ps{str(iid+j*10+4)}",
+                                                 stat_load_iid=f"ps{str(iid+j*100+4)}",
                                                  stat_load_kw=row.rated_power,
                                                  stat_load_kvar=load_kvar,
                                                  distr_bus_id=sect_tag,
