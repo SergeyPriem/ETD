@@ -1161,6 +1161,8 @@ def scripts_tab():
 
                             distr_bus_iid = f"ps{str(iid)}"
 
+                            st.experimental_show(distr_bus_iid)
+
                             txt = add_main_bus(txt=txt,
                                                distr_bus_len=distr_bus_len,
                                                distr_bus_x=distr_bus_x,
