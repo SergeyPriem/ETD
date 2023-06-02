@@ -958,11 +958,12 @@ def scripts_tab():
                 with st.form('create_sld'):
                     lc, cc, rc = st.columns(3, gap='medium')
                     order = lc.radio("Order of SLD creation", ('By Feeder Type', 'By Load List Order'), horizontal=True)
+
                     sld_file_name = cc.text_input('Enter the Name for resulting SLD (without extension)',
                                                   value="MCCxxx")
                     rc.text('')
                     rc.text('')
-                    create_sld_but = rc.form_submit_button('Create SLD', use_container_width=True)
+                    create_sld_but = rc.form_submit_button('Create SLD', key="sld_in_dxf", use_container_width=True)
 
                 if dxf_template is not None and create_sld_but:
 
