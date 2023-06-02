@@ -1108,6 +1108,9 @@ def scripts_tab():
 
                 if isinstance(st.session_state.loads_df, pd.DataFrame) and len(st.session_state.loads_df):
                     sld_df = st.session_state.loads_df
+
+                    sld_df = sld_df[(sld_df.equip != "INCOMER") & (sld_df.equip != "SECT_BREAKER")]
+
                     st.experimental_data_editor(sld_df, use_container_width=True)
 
         # with st.expander('CREATE FILE FOR TRANSFERRING LOADS TO ETAP'):
