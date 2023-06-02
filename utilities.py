@@ -76,7 +76,7 @@ def mail_to_name(mail):
 
 def get_state():
     if os.path.exists("temp_dxf/state.json"):
-        print('file exists')
+        # print('file exists')
         try:
             with open("temp_dxf/state.json", "r", encoding="utf-8") as f:
                 state_json = f.read()

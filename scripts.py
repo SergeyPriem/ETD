@@ -583,7 +583,7 @@ def create_cab_list(contr_but_len, loads_df, panelDescr, diam_df, ex_df, glands_
             cl_df.loc[y, 'glandType'] = gland_type(cl_df.toUnit[y], ex_df)
             cl_df.loc[y, 'glandSize'] = gland_size(cl_df.diam[y], cl_df.compos[y], glands_df)
         except Exception as e:
-            print('Ошибка определения диаметра кабеля: ', cl_df.cableTag[y])
+            st.warning('Ошибка определения диаметра кабеля: ', cl_df.cableTag[y])
             e_str = f"{cl_df.cableTag[y]} > {err_handler(e)}"
             st.write(e_str)
 
@@ -856,8 +856,8 @@ def scripts_tab():
             st.title(":orange[Let's speed up the Design 🏎️️]")
             st.write('Select the required Script')
 
-        with st.expander("CREARE CABLE LIST AND SLD FROM LOAD LIST"):
-            st.title(':orange[Create Cable List & SLD from Load List]')
+        with st.expander("CREARE CABLE LIST | SLD FROM LOAD LIST | XML FOR ETAP"):
+            st.title(':orange[Create Cable List | SLD from Load List | Creare XML for ETAP]')
             st.divider()
             st.write("Please find required templates in folder below  👇 You can update SLD template "
                      "according to your Project Requirements, but keep blocks attributes' names")
@@ -1122,9 +1122,7 @@ def scripts_tab():
                     with open('xml_template.xml', 'r') as xml_file:
                         txt = xml_file.read()
 
-                    # distr_bus_x = 20000
                     distr_bus_y = 10000
-                    # cb_x = 11000
                     cb_y = 11000
 
                     start_id = 10000
@@ -1134,7 +1132,6 @@ def scripts_tab():
                     panel_list = sld_df.panel_tag.unique().tolist()
 
                     if len(panel_list) > 1:
-                        # st.experimental_show(panel_list)
                         st.warning("More than one panel in Load List. Now I can't generate XML for multiple panels")
                         st.stop()
 
@@ -1154,13 +1151,9 @@ def scripts_tab():
 
                             cb_x = 3000
 
-                            # st.experimental_show(distr_bus_len)
-
                             sect_tag = str(panel_list[0])+str(bus)
 
                             distr_bus_iid = f"ps{str(iid)}"
-
-                            st.experimental_show(distr_bus_iid)
 
                             txt = add_main_bus(txt=txt,
                                                distr_bus_len=distr_bus_len,
@@ -1213,8 +1206,6 @@ def scripts_tab():
                             # cb_x = 11000
                             cb_y = 21000
 
-                    # st.write(txt)
-
                     saving_path = f"temp_dxf/XML by {st.session_state.user['login']}_" \
                                   f"{datetime.datetime.now().strftime('%Y_%m_%d_%H_%M')}.xml"
 
@@ -1223,16 +1214,6 @@ def scripts_tab():
 
                     with open(saving_path, 'rb') as f:
                         st.download_button('Get XML file', data=f,file_name=saving_path.replace('temp_dxf/', ''))
-
-        # with st.expander('CREATE FILE FOR TRANSFERRING LOADS TO ETAP'):
-        #     st.title(':orange[Create File for transferring Load to ETAP - under development...]')
-        #     st.divider()
-        #     st.write("Please find required templates in folder below  👇 ")
-        #     st.code(r'\\uz-fs\Uzle\Work\Отдел ЭЛ\01 Малая Автоматизация\Шаблоны\LOADS_TO_ETAP')
-        #     st.write("")
-        #     if st.session_state.user['script_acc']:
-        #         st.write('Will be later...')
-        #         load_list_etap = st.file_uploader(label='LOAD LIST', type='xlsx', key='ll_for_etap')
 
         with st.expander('CREATE CABLEWAY SECTIONS'):
             st.title(':orange[Create Cableway Sections]')
