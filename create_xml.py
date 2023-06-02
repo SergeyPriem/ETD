@@ -91,52 +91,52 @@ def add_feeder(load_type, txt, cb_x=None, cb_y=None, cb_from_elem=None, cb_id=No
     return txt
 
 
-feeder_qty = 25 # len(feed_df)
-HOR_STEP = 4000
+# feeder_qty = 25 # len(feed_df)
+# HOR_STEP = 4000
+#
+# distr_bus_len = 4000 * (feeder_qty + 2)
+# distr_bus_x = 20000
+# distr_bus_y = 10000
+# distr_bus_id = "MCC1A"
+# distr_bus_iid = "ps1100"
+#
+# cb_x = 17000
+# cb_y = 11000
+# cb_from_elem = "MCC1A"
+# cb_id = "QF1"
+# cb_iid = "ps1101"
+# cb_to_elem = "L-512-00"
+#
+# cab_id = 'L-512-00'
+# cab_iid = 'ps1102'
+# cab_len = 150
+# cab_to_bus = 'bus301'
+#
+# load_bus_id = 'bus301'
+# load_bus_iid = 'ps1103'
+#
+# load_bus_tag = load_bus_id
+#
+#
+# motor_power = 37
+# motor_id = '419-00-PH-M'
+# motor_iid = "ps1104"
+#
+# stat_load_kw = 15
+# stat_load_kvar = 8
+# stat_load_id = '419-00-PH-M'
+# stat_load_iid = "ps1104"
+#
+# load_type = 'INDMOTOR'  # "STLOAD"
 
-distr_bus_len = 4000 * (feeder_qty + 2)
-distr_bus_x = 20000
-distr_bus_y = 10000
-distr_bus_id = "MCC1A"
-distr_bus_iid = "ps1100"
+# with open('/content/xml_template.xml', 'r') as xml_file:
+#     txt = xml_file.read()
 
-cb_x = 17000
-cb_y = 11000
-cb_from_elem = "MCC1A"
-cb_id = "QF1"
-cb_iid = "ps1101"
-cb_to_elem = "L-512-00"
-
-cab_id = 'L-512-00'
-cab_iid = 'ps1102'
-cab_len = 150
-cab_to_bus = 'bus301'
-
-load_bus_id = 'bus301'
-load_bus_iid = 'ps1103'
-
-load_bus_tag = load_bus_id
-
-
-motor_power = 37
-motor_id = '419-00-PH-M'
-motor_iid = "ps1104"
-
-stat_load_kw = 15
-stat_load_kvar = 8
-stat_load_id = '419-00-PH-M'
-stat_load_iid = "ps1104"
-
-load_type = 'INDMOTOR'  # "STLOAD"
-
-with open('/content/xml_template.xml', 'r') as xml_file:
-    txt = xml_file.read()
-
-print(txt)
-
-txt = add_main_bus(txt, distr_bus_len, distr_bus_x, distr_bus_y, distr_bus_id, distr_bus_iid)
-
-txt = add_feeder(load_type, txt, cb_x=None, cb_y=None, cb_from_elem=None, cb_id=None, cb_iid=None, cb_to_elem=None,
-             cab_id=None, cab_iid=None, cab_len=None, cab_to_bus=None, load_bus_id=None, load_bus_iid=None,
-             load_bus_tag=None, motor_power=None, cos_f=None, motor_id=None, motor_iid=None, stat_load_id=None, stat_load_iid=None,
-             stat_load_kw=None, stat_load_kvar=None, distr_bus_id=None, distr_bus_iid=None)
+# print(txt)
+#
+# txt = add_main_bus(txt, distr_bus_len, distr_bus_x, distr_bus_y, distr_bus_id, distr_bus_iid)
+#
+# txt = add_feeder(load_type, txt, cb_x=None, cb_y=None, cb_from_elem=None, cb_id=None, cb_iid=None, cb_to_elem=None,
+#              cab_id=None, cab_iid=None, cab_len=None, cab_to_bus=None, load_bus_id=None, load_bus_iid=None,
+#              load_bus_tag=None, motor_power=None, cos_f=None, motor_id=None, motor_iid=None, stat_load_id=None, stat_load_iid=None,
+#              stat_load_kw=None, stat_load_kvar=None, distr_bus_id=None, distr_bus_iid=None)
