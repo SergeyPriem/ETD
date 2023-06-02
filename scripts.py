@@ -1142,7 +1142,7 @@ def scripts_tab():
             if st.session_state.user['script_acc']:
                 st.write('Will be later...')
                 load_list_etap = st.file_uploader(label='LOAD LIST', type=['xlsx'],
-                                           accept_multiple_files=False, key=None,
+                                           accept_multiple_files=False, key='ll_for_etap',
                                            help=None, on_change=None, args=None,
                                            kwargs=None, disabled=False, label_visibility="visible")
 
