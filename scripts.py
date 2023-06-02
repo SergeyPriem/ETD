@@ -1202,7 +1202,15 @@ def scripts_tab():
                             i += 1
                             distr_bus_y *= 2
 
-                    st.write(txt)
+                    # st.write(txt)
+
+                    saving_path = f"temp_dxf/XML by {st.session_state.user['login']}_" \
+                                  f"{datetime.datetime.now().strftime('%Y_%m_%d_%H_%M')}.xml"
+
+                    with open(saving_path, 'w') as ready_file:
+                        ready_file.write(txt)
+
+                    st.download_button('Get XML file', data=ready_file,file_name=saving_path.replace('temp_dxf/', ''))
 
         # with st.expander('CREATE FILE FOR TRANSFERRING LOADS TO ETAP'):
         #     st.title(':orange[Create File for transferring Load to ETAP - under development...]')
