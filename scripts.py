@@ -1235,8 +1235,9 @@ def scripts_tab():
 
 
                             i += 1
-                            distr_bus_y *= 2
+                            distr_bus_y = 20000
                             cb_x = 11000
+                            cb_y = 21000
 
                     # st.write(txt)
 
