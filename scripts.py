@@ -1141,10 +1141,7 @@ def scripts_tab():
             st.write("")
             if st.session_state.user['script_acc']:
                 st.write('Will be later...')
-                load_list_etap = st.file_uploader(label='LOAD LIST', type=['xlsx'],
-                                           accept_multiple_files=False, key='ll_for_etap',
-                                           help=None, on_change=None, args=None,
-                                           kwargs=None, disabled=False, label_visibility="visible")
+                load_list_etap = st.file_uploader(label='LOAD LIST', type='xlsx', key='ll_for_etap')
 
         with st.expander('CREATE CABLEWAY SECTIONS'):
             st.title(':orange[Create Cableway Sections]')
@@ -1155,20 +1152,11 @@ def scripts_tab():
 
             p_l, p_c, p_r = st.columns(3, gap='medium')
 
-            cable_list = p_l.file_uploader("CABLE LIST", type=['xlsx'],
-                                           accept_multiple_files=False, key=None,
-                                           help=None, on_change=None, args=None,
-                                           kwargs=None, disabled=False, label_visibility="visible")
+            cable_list = p_l.file_uploader("CABLE LIST", type=['xlsx'])
 
-            sect_template = p_c.file_uploader("SECTIONS TEMPLATE", type=['dxf'],
-                                              accept_multiple_files=False, key=None,
-                                              help=None, on_change=None, args=None,
-                                              kwargs=None, disabled=False, label_visibility="visible")
+            sect_template = p_c.file_uploader("SECTIONS TEMPLATE", type=['dxf'])
 
-            power_layout = p_r.file_uploader("CABLE ROUTING LAYOUT", type=['dxf'],
-                                             accept_multiple_files=False, key=None,
-                                             help=None, on_change=None, args=None,
-                                             kwargs=None, disabled=False, label_visibility="visible")
+            power_layout = p_r.file_uploader("CABLE ROUTING LAYOUT", type=['dxf'])
 
             cab_tags, cab_layout, gen_sections = st.tabs(['Get Tags from Cable List', 'Process Cable Layout',
                                                           'Create Sections'])
