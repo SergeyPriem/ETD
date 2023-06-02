@@ -1199,35 +1199,37 @@ def scripts_tab():
                                 #                  distr_bus_iid=distr_bus_iid
                                 #                  )
 
-                                st.write(f"""load_type={row.equip},
-                                                 txt={txt},
-                                                 cb_x={cb_x},
-                                                 cb_y={cb_y},
-                                                 cb_from_elem={sect_tag},
-                                                 cb_id=f"{bus}{cb_num}",
-                                                 cb_iid=f"ps{str(iid+1)}",
-                                                 cb_to_elem={row['CONSUM-CABLE_TAG']},
-                                                 cab_id={row['CONSUM-CABLE_TAG']},
-                                                 cab_iid={f"ps{str(iid + 2)}"},
-                                                 cab_len={row.length},
-                                                 cab_to_bus={f"{row.index}-bus"},
-                                                 load_bus_id={f"{row.index}-bus"},
-                                                 load_bus_iid={f"ps{str(iid + 3)}"},
-                                                 load_bus_tag={f"{row.index}-bus"},
-                                                 motor_power={row.rated_power},
-                                                 cos_f={row.power_factor},
-                                                 motor_id={row.index},
-                                                 motor_iid={f"ps{str(iid + 4)}"},
-                                                 stat_load_id={row.index},
-                                                 stat_load_iid={f"ps{str(iid + 4)}"},
-                                                 stat_load_kw= {row.rated_power},
-                                                 stat_load_kvar={load_kvar},
-                                                 distr_bus_id= {sect_tag},
-                                                 distr_bus_iid= {distr_bus_iid}
-                                                """
-                                                 )
+                                st.experimental_show(row.index)
 
-                                st.stop()
+                                # st.write(f"""load_type={row.equip},
+                                #                  txt={txt},
+                                #                  cb_x={cb_x},
+                                #                  cb_y={cb_y},
+                                #                  cb_from_elem={sect_tag},
+                                #                  cb_id=f"{bus}{cb_num}",
+                                #                  cb_iid=f"ps{str(iid+1)}",
+                                #                  cb_to_elem={row['CONSUM-CABLE_TAG']},
+                                #                  cab_id={row['CONSUM-CABLE_TAG']},
+                                #                  cab_iid={f"ps{str(iid + 2)}"},
+                                #                  cab_len={row.length},
+                                #                  cab_to_bus={f"{row.index}-bus"},
+                                #                  load_bus_id={f"{row.index}-bus"},
+                                #                  load_bus_iid={f"ps{str(iid + 3)}"},
+                                #                  load_bus_tag={f"{row.index}-bus"},
+                                #                  motor_power={row.rated_power},
+                                #                  cos_f={row.power_factor},
+                                #                  motor_id={row.index},
+                                #                  motor_iid={f"ps{str(iid + 4)}"},
+                                #                  stat_load_id={row.index},
+                                #                  stat_load_iid={f"ps{str(iid + 4)}"},
+                                #                  stat_load_kw= {row.rated_power},
+                                #                  stat_load_kvar={load_kvar},
+                                #                  distr_bus_id= {sect_tag},
+                                #                  distr_bus_iid= {distr_bus_iid}
+                                #                 """
+                                #                  )
+
+                                # st.stop()
 
 
                             i += 1
