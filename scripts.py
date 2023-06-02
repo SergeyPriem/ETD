@@ -7,6 +7,7 @@ import numpy as np
 import math
 import os
 
+from create_xml import add_main_bus, add_feeder
 from section_generator import get_tags_from_cablist, generate_dxf, get_sect_from_layout
 from users import err_handler, reg_action
 from utilities import center_style, open_dxf_file
@@ -1106,18 +1107,101 @@ def scripts_tab():
 
             with tab_xml:
 
-                if isinstance(st.session_state.loads_df, pd.DataFrame) and len(st.session_state.loads_df):
+                HOR_STEP = 4000
+
+                xml_but = st.button("Create XML file", use_container_width=True)
+
+                if isinstance(st.session_state.loads_df, pd.DataFrame) and len(st.session_state.loads_df) and xml_but:
                     sld_df = st.session_state.loads_df
+
+                    with open('xml_template.xml', 'r') as xml_file:
+                        txt = xml_file.read()
+
+                    distr_bus_x = 20000
+                    distr_bus_y = 10000
+                    cb_x = 17000
+                    cb_y = 11000
+
+                    start_id = 1000
 
                     sld_df = sld_df[(sld_df.equip != "INCOMER") & (sld_df.equip != "SECT_BREAKER")]
 
-                    sect_list = sld_df.bus.unique().tolist()
+                    panel_list = sld_df.bus.unique().tolist()
 
-                    # st.experimental_show(sect_list)
+                    if len(panel_list) > 1:
+                        st.warning("More than one panel in Load List. Now I can't generate XML for multiple panels")
+                        st.stop()
 
-                    st.experimental_show(sld_df.index)
+                    bus_list = sld_df.bus.unique().tolist()
+
+                    # st.experimental_show(bus_list)
+
+                    # st.experimental_show(sld_df.index)
 
                     st.experimental_data_editor(sld_df, use_container_width=True)
+
+                    i = 1
+                    for bus in bus_list:
+
+                        bus_df = sld_df[sld_df.bus == bus]
+
+                        if len(bus_df):
+                            iid = start_id * i
+
+                            distr_bus_len = (len(bus_df) + 2) * HOR_STEP
+
+                            sect_tag = str(panel_list[0])+str(bus)
+
+                            distr_bus_iid = f"ps{str(iid)}"
+
+                            txt = add_main_bus(txt=txt,
+                                               distr_bus_len=distr_bus_len,
+                                               distr_bus_x=distr_bus_x,
+                                               distr_bus_y=distr_bus_y,
+                                               distr_bus_id= sect_tag,
+                                               distr_bus_iid=distr_bus_iid)
+                            j = 1
+                            for ind, row in bus_df.iterrows():
+                                j += 1
+
+                                if j < 10:
+                                    j = f"0{j}"
+
+                                load_kw = row.rated_power
+                                load_kva = load_kw / row.power_factor
+                                load_kvar = math.sqrt(load_kva**2 - load_kw**2)
+
+                                txt = add_feeder(load_type=row.equip,
+                                           txt=txt,
+                                           cb_x=cb_x,
+                                           cb_y=cb_y,
+                                           cb_from_elem=sect_tag,
+                                           cb_id=f"{bus}{j}",
+                                           cb_iid=f"ps{str(iid+1)}",
+                                           cb_to_elem=row['CONSUM-CABLE_TAG'],
+                                           cab_id=row['CONSUM-CABLE_TAG'],
+                                           cab_iid=f"ps{str(iid+2)}",
+                                           cab_len=row.length,
+                                           cab_to_bus=f"{row.index}-bus",
+                                           load_bus_id=f"{row.index}-bus",
+                                           load_bus_iid=f"ps{str(iid+3)}",
+                                           load_bus_tag=f"{row.index}-bus",
+                                           motor_power=row.rated_power,
+                                           cos_f=row.power_factor,
+                                           motor_id=row.index,
+                                           motor_iid=f"ps{str(iid+4)}",
+                                           stat_load_id=row.index,
+                                           stat_load_iid=f"ps{str(iid+4)}",
+                                           stat_load_kw=row.rated_power,
+                                           stat_load_kvar=load_kvar,
+                                           distr_bus_id=sect_tag,
+                                           distr_bus_iid=distr_bus_iid
+                                           )
+
+                            i += 1
+                            distr_bus_y *= 2
+
+                    st.write(txt)
 
         # with st.expander('CREATE FILE FOR TRANSFERRING LOADS TO ETAP'):
         #     st.title(':orange[Create File for transferring Load to ETAP - under development...]')
