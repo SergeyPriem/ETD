@@ -1134,13 +1134,14 @@ def scripts_tab():
                         st.warning(reply2['message'])
 
         with st.expander('CREATE FILE FOR TRANSFERRING LOADS TO ETAP'):
-            st.title(':orange[Create fILE for transferring Load to ETAP - under development...]')
+            st.title(':orange[Create File for transferring Load to ETAP - under development...]')
             st.divider()
             st.write("Please find required templates in folder below  👇 ")
             st.code(r'\\uz-fs\Uzle\Work\Отдел ЭЛ\01 Малая Автоматизация\Шаблоны\LOADS_TO_ETAP')
             st.write("")
             if st.session_state.user['script_acc']:
                 st.write('Will be later...')
+                load_list_etap = st.file_uploader(label='LOAD LIST', type='xlsx')
 
         with st.expander('CREATE CABLEWAY SECTIONS'):
             st.title(':orange[Create Cableway Sections]')
