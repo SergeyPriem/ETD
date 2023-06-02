@@ -1199,7 +1199,7 @@ def scripts_tab():
                                 #                  distr_bus_iid=distr_bus_iid
                                 #                  )
 
-                                st.experimental_show(row)
+                                st.experimental_show(ind)
 
                                 # st.write(f"""load_type={row.equip},
                                 #                  txt={txt},
