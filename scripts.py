@@ -1111,7 +1111,7 @@ def scripts_tab():
 
                     sld_df = sld_df[(sld_df.equip != "INCOMER") & (sld_df.equip != "SECT_BREAKER")]
 
-                    sect_list = sld_df.bus.unique()
+                    sect_list = sld_df.bus.unique().tolist()
 
                     st.experimental_show(sect_list)
 
