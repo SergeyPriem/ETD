@@ -11,9 +11,9 @@ from section_generator import get_tags_from_cablist, generate_dxf, get_sect_from
 from users import err_handler, reg_action
 from utilities import center_style, open_dxf_file
 
-p_rat_a = 0
-p_rat_b = 0
-p_rat_em = 0
+# p_rat_a = 0
+# p_rat_b = 0
+# p_rat_em = 0
 
 cab_dict = {
     1.5: 1.5, 2.5: 2.5, 4: 4,
@@ -836,7 +836,6 @@ def add_gen_data(msp, loads_df, loads_df_new, point, max_sc, peak_sc):
 
 def scripts_tab():
     COS_START = 0.4
-    # K_START = 1
     SIN_START = math.sin(math.acos(COS_START))
 
     col_1, col_content, col_2 = st.columns([1, 9, 1])
@@ -883,7 +882,7 @@ def scripts_tab():
                                              help=None, on_change=None, args=None,
                                              kwargs=None, disabled=False, label_visibility="visible")
 
-            tab_cl, tab_sld = st.tabs(['Create Cable List', 'Create SLD'])
+            tab_cl, tab_sld, tab_xml = st.tabs(['Create Cable List', 'Create SLD', 'Greate XML for ETAP'])
 
             with tab_cl:
 
@@ -898,9 +897,9 @@ def scripts_tab():
                                                     value=25, min_value=10, max_value=300)
 
                     min_sect = rc.selectbox('Min. Cross_section of Power Cable wire', ['1.5', '2.5', '4'], index=1)
+
                     incom_margin = rc.selectbox("Margin for Incomer's Rated Current",
-                                                ['1.0', '1.05', '1.1', '1.15', '1.2'],
-                                                index=2)
+                                                ['1.0', '1.05', '1.1', '1.15', '1.2'], index=2)
 
                     show_settings = lc.checkbox("Show CB settings at SLD")
 
@@ -1106,15 +1105,20 @@ def scripts_tab():
                     else:
                         st.warning(reply2['message'])
 
-        with st.expander('CREATE FILE FOR TRANSFERRING LOADS TO ETAP'):
-            st.title(':orange[Create File for transferring Load to ETAP - under development...]')
-            st.divider()
-            st.write("Please find required templates in folder below  👇 ")
-            st.code(r'\\uz-fs\Uzle\Work\Отдел ЭЛ\01 Малая Автоматизация\Шаблоны\LOADS_TO_ETAP')
-            st.write("")
-            if st.session_state.user['script_acc']:
-                st.write('Will be later...')
-                load_list_etap = st.file_uploader(label='LOAD LIST', type='xlsx', key='ll_for_etap')
+            with tab_xml:
+                sld_df = st.session_state.loads_df
+
+                st.experimental_data_editor(sld_df, use_container_width=True)
+
+        # with st.expander('CREATE FILE FOR TRANSFERRING LOADS TO ETAP'):
+        #     st.title(':orange[Create File for transferring Load to ETAP - under development...]')
+        #     st.divider()
+        #     st.write("Please find required templates in folder below  👇 ")
+        #     st.code(r'\\uz-fs\Uzle\Work\Отдел ЭЛ\01 Малая Автоматизация\Шаблоны\LOADS_TO_ETAP')
+        #     st.write("")
+        #     if st.session_state.user['script_acc']:
+        #         st.write('Will be later...')
+        #         load_list_etap = st.file_uploader(label='LOAD LIST', type='xlsx', key='ll_for_etap')
 
         with st.expander('CREATE CABLEWAY SECTIONS'):
             st.title(':orange[Create Cableway Sections]')
