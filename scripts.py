@@ -1129,6 +1129,7 @@ def scripts_tab():
                     panel_list = sld_df.bus.unique().tolist()
 
                     if len(panel_list) > 1:
+                        st.experimental_show(panel_list)
                         st.warning("More than one panel in Load List. Now I can't generate XML for multiple panels")
                         st.stop()
 
