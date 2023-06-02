@@ -1,7 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 import datetime
 import io
-import ezdxf
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -157,17 +156,6 @@ def p_white(text):  # information, request
 
 
 def incom_sect_cb_calc(loads_df: pd.DataFrame) -> pd.DataFrame:
-    # st.info('Loads DF')
-    # st.write(loads_df)
-    # st.stop()
-    # try:
-    #     if len(loads_df.loc[loads_df.abs_power == 0]) > 0:
-    #         st.write(loads_df.loc[loads_df.abs_power == 0])
-    #         st.warning("abs_power")
-    #         st.stop()
-    # except Exception as e:
-    #     st.write(err_handler(e))
-    #     st.stop()
 
     loads_df.loc[(loads_df.load_duty == 'C') & (loads_df.equip != 'INCOMER') & (
             loads_df.equip != 'SECT_BREAKER'), 'c_kw'] = loads_df.abs_power / loads_df.eff
@@ -246,26 +234,33 @@ def incom_sect_cb_calc(loads_df: pd.DataFrame) -> pd.DataFrame:
             rated_current_pe * (loads_df.loc[(loads_df.equip == 'INCOMER'), 'rated_current'].max()
                                 ) / (loads_df.loc[(loads_df.equip == 'INCOMER'), 'rated_current'].sum()))
 
-    p_rat_a = round(loads_df.loc[(loads_df.equip != 'INCOMER') & (loads_df.equip != 'SECT_BREAKER') & (
-            loads_df.bus == 'A'), 'rated_power'].sum(), 1)
-    p_rat_b = round(loads_df.loc[(loads_df.equip != 'INCOMER') & (loads_df.equip != 'SECT_BREAKER') & (
-            loads_df.bus == 'B'), 'rated_power'].sum(), 1)
-    p_rat_em = round(
-        loads_df.loc[(loads_df.equip != 'INCOMER') & (loads_df.equip != "SECT_BREAKER"), 'rated_power'].sum(), 1)
-
     if (loads_df.loc[(loads_df.bus == 'B') & (loads_df.equip != 'INCOMER')]).shape[0] == 0:
-        print("ATTENTION: We are working with singe-bus panel!")
+        st.write("ATTENTION: We are working with singe-bus panel!")
         loads_df.loc[(loads_df.equip == 'INCOMER') & (loads_df.bus == 'B'), 'rated_power'] = rated_power_kw_a
         loads_df.loc[(loads_df.equip == 'INCOMER') & (loads_df.bus == 'B'), 'power_factor'] = power_factor_a
         loads_df.loc[(loads_df.equip == 'INCOMER') & (loads_df.bus == 'B'), 'rated_current'] = round(
             rated_power_kw_a / 1.732 / 0.4 / power_factor_a, 1)
-        # loads_df['peak_kw_pe'][row]
-
-        p_rat_b = p_rat_a
-        p_rat_em = p_rat_a
 
         loads_df = loads_df.loc[loads_df.equip != "SECT_BREAKER"].reset_index(drop=True)
     return loads_df
+
+
+def bus_loads(loads_df):
+    p_rat_a = round(loads_df.loc[(loads_df.equip != 'INCOMER') & (loads_df.equip != 'SECT_BREAKER') & (
+            loads_df.bus == 'A'), 'rated_power'].sum(), 1)
+
+    p_rat_b = round(loads_df.loc[(loads_df.equip != 'INCOMER') & (loads_df.equip != 'SECT_BREAKER') & (
+            loads_df.bus == 'B'), 'rated_power'].sum(), 1)
+
+    p_rat_em = round(
+        loads_df.loc[(loads_df.equip != 'INCOMER') & (loads_df.equip != "SECT_BREAKER"), 'rated_power'].sum(), 1)
+
+    if (loads_df.loc[(loads_df.bus == 'B') & (loads_df.equip != 'INCOMER')]).shape[0] == 0:
+        p_rat_b = p_rat_a
+        p_rat_em = p_rat_a
+
+    return p_rat_a, p_rat_b, p_rat_em
+
 
 
 def tags_for_control_cab(row: int, loads_df: pd.DataFrame, load_tag_short) -> pd.DataFrame:
@@ -306,8 +301,6 @@ def fill_lists(i: int, panelDescr, loads_df) -> None:
     voltsList.append(400)
     weightList.append(pd.NA)
 
-
-# loads_path = input('Введите полный путь к файлу, с названием файла и расширением: ')
 
 def check_loads(loads_df):
     checkLoads_df = loads_df.iloc[:, 0:27]
@@ -355,22 +348,20 @@ def prepare_loads_df(loads_df):
 
     loads_df[
         ['CONT_AMPACITY', 'HEATER-CABLE_TAG', 'HEATER-CABLE_TYPE', 'LCS1-CABLE_TAG1', 'LCS1-CABLE_TYPE1',
-         'LCS1-CABLE_TAG2',
-         'LCS1-CABLE_TYPE2', 'LCS2-CABLE_TAG', 'LCS2-CABLE_TYPE']] = '-'
+         'LCS1-CABLE_TAG2', 'LCS1-CABLE_TYPE2', 'LCS2-CABLE_TAG', 'LCS2-CABLE_TYPE']] = '-'
 
     loads_df[['c_kw', 'i_kw', 's_kw', 'c_kvar', 'i_kvar', 's_kvar', 'peak_kw_pe', 'peak_kvar_pe', 'power_factor_pe',
               'rated_current_pe']] = 0
 
     return loads_df
 
-    #  NORMAL MODE
 
+    #  NORMAL MODE
 
 def sect_calc(cab_df, row: int, u_c: int, power: float, rated_current: float, derat_factor: float,
               cos_c: float, k_start: float, len_c: float, min_sect: object, u_drop_al: float, busduct: bool,
               cos_start: float, sin_start: float, loads_df) -> tuple:
-    # sect_calc(cab_df, row, u_c, power, rated_current, derat_factor, cos_c, k_start, len_c, min_sect,
-    #                                u_drop_al, busduct, cos_start, sin_start, loads_df)
+
     if busduct:
         return 1, 1000, 1000, 0
     global section, voltage_drop, pe_sect
@@ -405,12 +396,9 @@ def sect_calc(cab_df, row: int, u_c: int, power: float, rated_current: float, de
 
             cab_current = cab_df.rat_current[cab] * derat_factor * par
 
-            # cab_df['rat_current'][cab] * derat_factor * par
 
             cur_check = current_c >= cab_current  # load more than applicable curent of cable
             checker = not (not cur_check and not volt_check and not volt_start_check)
-            # p_green(('cur_check',cur_check,'volt_check',volt_check,'volt_start_check',volt_start_check))
-            # p_red((par,'-',checker))
 
             if checker:
                 continue
@@ -437,6 +425,7 @@ def sc_rating_polarity(max_sc, loads_df, row):
         loads_df.loc[row, 'RAT_POL'] = str(max_sc) + 'kA, 3P'
     else:
         loads_df.loc[row, 'RAT_POL'] = str(max_sc) + 'kA, 4P'
+
     if loads_df.CB_AMPACITY[row] < 100:
         loads_df.loc[row, 'CB_RATING'] = 100
     else:
@@ -748,8 +737,10 @@ def making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, cont
         if loads_df['starter_type'][row] == "DOL":
             loads_df.loc[row, 'CONSUM-CABLE_TAG'] = "L-" + str(loads_df['panel_tag'][row]) + str(
                 loads_df['bus'][row]) + "-" + str(loads_df['load_tag'][row])
+
             loads_df.loc[row, 'HEATER-CABLE_TAG'] = "L-" + loads_df['panel_tag'][row] + loads_df['bus'][
                 row] + "-" + load_tag_short + "SH"
+
             loads_df.loc[row, 'HEATER-CABLE_TYPE'] = loads_df['power_type'][row] + "-3x2.5mm2, L=" + str(
                 loads_df['length'][row]) + 'm, dU=HOLD'
 
@@ -804,6 +795,7 @@ def making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, cont
 
 
 def add_gen_data(msp, loads_df, loads_df_new, point, max_sc, peak_sc):
+    p_rat_a, p_rat_b, p_rat_em = bus_loads(loads_df)
     ins_block = msp.add_blockref('NORM_MODE_A', insert=(0, -4689))
     att_values = {
         'P_RATED_A': f"Prat.sec.A={p_rat_a} kW",
@@ -950,10 +942,10 @@ def scripts_tab():
                     with pd.ExcelWriter(buffer) as writer:
                         cl_df.to_excel(writer)
 
-                    st.download_button('Get Cable List here', data=buffer,
-                                       file_name=f'Cable List {datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}.xlsx',
-                                       mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
-                                       disabled=False, use_container_width=False)
+                    st.download_button(
+                        label='Get Cable List here', data=buffer,
+                        file_name=f'Cable List {datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}.xlsx'
+                    )
 
             with tab_sld:
 
@@ -973,44 +965,25 @@ def scripts_tab():
 
                     dxf_temp_file = save_uploaded_file(dxf_template)
 
-
                     doc = open_dxf_file(f'temp_dxf/{dxf_temp_file}')
 
                     msp = doc.modelspace()
 
                     point = 0
 
-                    # .astype(str).str.replace('710-', '', regex=True)
-
-                    lo_df['CONSUM-CABLE_TAG'] = lo_df['CONSUM-CABLE_TAG'].astype(str).str.replace('710-', '',
-                                                                                                  regex=True)
-                    lo_df['CONSUM-CABLE_TAG'] = lo_df['CONSUM-CABLE_TAG'].astype(str).str.replace('715-', '',
-                                                                                                  regex=True)
-                    lo_df['HEATER-CABLE_TAG'] = lo_df['HEATER-CABLE_TAG'].astype(str).str.replace('710-', '',
-                                                                                                  regex=True)
-                    lo_df['HEATER-CABLE_TAG'] = lo_df['HEATER-CABLE_TAG'].astype(str).str.replace('715-', '',
-                                                                                                  regex=True)
-                    lo_df['LCS1-CABLE_TAG1'] = lo_df['LCS1-CABLE_TAG1'].astype(str).str.replace('710-', '',
-                                                                                                regex=True)
-                    lo_df['LCS1-CABLE_TAG1'] = lo_df['LCS1-CABLE_TAG1'].astype(str).str.replace('715-', '',
-                                                                                                regex=True)
-                    lo_df['LCS1-CABLE_TAG2'] = lo_df['LCS1-CABLE_TAG2'].astype(str).str.replace('710-', '',
-                                                                                                regex=True)
-                    lo_df['LCS1-CABLE_TAG2'] = lo_df['LCS1-CABLE_TAG2'].astype(str).str.replace('715-', '',
-                                                                                                regex=True)
-                    lo_df['LCS2-CABLE_TAG'] = lo_df['LCS2-CABLE_TAG'].astype(str).str.replace('710-', '', regex=True)
-                    lo_df['LCS2-CABLE_TAG'] = lo_df['LCS2-CABLE_TAG'].astype(str).str.replace('715-', '', regex=True)
+                    for tag in ['CONSUM-CABLE_TAG', 'HEATER-CABLE_TAG', 'LCS1-CABLE_TAG1', 'LCS1-CABLE_TAG2',
+                                'LCS2-CABLE_TAG']:
+                        lo_df[tag] = lo_df[tag].astype(str).str.replace('710-', '', regex=True)
+                        lo_df[tag] = lo_df[tag].astype(str).str.replace('715-', '', regex=True)
 
                     lo_df_A = lo_df.loc[
                         (lo_df['bus'] != 'B') & (lo_df['equip'] != 'INCOMER') & (lo_df['equip'] != 'SECT_BREAKER')]
                     len_A = lo_df_A.shape[0]
                     lo_df_A.loc[:, 'CB_TAG'] = range(1, len_A + 1)
                     lo_df_A.loc[:, 'BUS_NUMBER'] = 'A'
-                    # lo_df_A.loc[:, 'CB_TAG'] = str(lo_df_A.CB_TAG) + 'A'
 
                     lo_df_B = lo_df.loc[
                         (lo_df['bus'] == 'B') & (lo_df['equip'] != 'INCOMER') & (lo_df['equip'] != 'SECT_BREAKER')]
-                    # lo_df_B.loc[:, 'CB_TAG'] = str(lo_df_B.CB_TAG) + 'B'
 
                     len_B = lo_df_B.shape[0]
                     if len_B > 0:
@@ -1202,9 +1175,11 @@ def scripts_tab():
 
                     c1, c2, c3, c4 = st.columns(4, gap='medium')
 
-                    volume_percent = c1.radio('Control Cable Tray filling (by Volume), %', [40, 50, 60], index=1, horizontal=True)
+                    volume_percent = c1.radio('Control Cable Tray filling (by Volume), %', [40, 50, 60],
+                                              index=1, horizontal=True)
 
-                    width_percent = c2.radio('Power Cable Tray filling (by Width), %', [80, 90, 100], index=0, horizontal=True)
+                    width_percent = c2.radio('Power Cable Tray filling (by Width), %', [80, 90, 100],
+                                             index=0, horizontal=True)
 
                     lv_horis_gap = c3.radio('Horisontal Gap for LV cables, %', [0, 50, 100], index=2, horizontal=True)
                     mv_horis_gap = c4.radio('Horisontal Gap for MV cables, %', [0, 50, 100], index=2, horizontal=True)
@@ -1226,13 +1201,7 @@ def scripts_tab():
                                          sections_template_path)
 
                     with open(reply, 'rb') as f:
-                        st.download_button(
-                            'Get SECTIONS here',
-                            data=f,
-                            file_name=reply.replace("temp_dxf/", ""),
-                            mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
-                            disabled=False, use_container_width=False
-                        )
+                        st.download_button('Get SECTIONS here', data=f,file_name=reply.replace("temp_dxf/", ""))
 
                     reply2 = reg_action(reply.replace("temp_dxf/", ""))
 
