@@ -1117,9 +1117,9 @@ def scripts_tab():
                     with open('xml_template.xml', 'r') as xml_file:
                         txt = xml_file.read()
 
-                    distr_bus_x = 20000
+                    # distr_bus_x = 20000
                     distr_bus_y = 10000
-                    cb_x = 11000
+                    # cb_x = 11000
                     cb_y = 11000
 
                     start_id = 1000
@@ -1150,6 +1150,12 @@ def scripts_tab():
                             iid = start_id * i
 
                             distr_bus_len = (len(bus_df) + 2) * HOR_STEP
+
+                            distr_bus_x = distr_bus_len / 2
+
+                            cb_x = 3000
+
+                            st.experimental_show(distr_bus_len)
 
                             sect_tag = str(panel_list[0])+str(bus)
 
@@ -1236,7 +1242,7 @@ def scripts_tab():
 
                             i += 1
                             distr_bus_y = 20000
-                            cb_x = 11000
+                            # cb_x = 11000
                             cb_y = 21000
 
                     # st.write(txt)
