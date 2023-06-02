@@ -882,7 +882,7 @@ def scripts_tab():
                                              help=None, on_change=None, args=None,
                                              kwargs=None, disabled=False, label_visibility="visible")
 
-            tab_cl, tab_sld, tab_xml = st.tabs(['Create Cable List', 'Create SLD', 'Greate XML for ETAP'])
+            tab_cl, tab_sld, tab_xml = st.tabs(['Create Cable List', 'Create SLD in DXF', 'Greate XML for ETAP'])
 
             with tab_cl:
 
@@ -931,12 +931,11 @@ def scripts_tab():
 
                     cl_df = create_cab_list(contr_but_len, loads_df, panelDescr, diam_df, ex_df, glands_df)
 
-                    # for tag in ['CONSUM-CABLE_TAG', 'HEATER-CABLE_TAG', 'LCS1-CABLE_TAG1', 'LCS1-CABLE_TAG2',
-                    #             'LCS2-CABLE_TAG']:
-                    #
-                    #     loads_df[tag] = loads_df[tag].astype(str).str.replace('710-', '', regex=True)
-                    #     loads_df[tag] = loads_df[tag].astype(str).str.replace('715-', '', regex=True)
+                    for tag in ['CONSUM-CABLE_TAG', 'HEATER-CABLE_TAG', 'LCS1-CABLE_TAG1', 'LCS1-CABLE_TAG2',
+                                'LCS2-CABLE_TAG']:
 
+                        loads_df[tag] = loads_df[tag].astype(str).str.replace('710-', '', regex=True)
+                        loads_df[tag] = loads_df[tag].astype(str).str.replace('715-', '', regex=True)
 
                     st.session_state.loads_df = loads_df
 
