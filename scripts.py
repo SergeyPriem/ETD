@@ -1111,6 +1111,10 @@ def scripts_tab():
 
                     sld_df = sld_df[(sld_df.equip != "INCOMER") & (sld_df.equip != "SECT_BREAKER")]
 
+                    sect_list = sld_df.bus.unique()
+
+                    st.experimental_show(sect_list)
+
                     st.experimental_data_editor(sld_df, use_container_width=True)
 
         # with st.expander('CREATE FILE FOR TRANSFERRING LOADS TO ETAP'):
