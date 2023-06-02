@@ -1199,6 +1199,8 @@ def scripts_tab():
                                                  distr_bus_iid=distr_bus_iid
                                                  )
 
+                                cb_x += HOR_STEP
+
                                 # st.experimental_show(ind)
 
                                 # st.write(f"""load_type={row.equip},
