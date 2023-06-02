@@ -1210,7 +1210,8 @@ def scripts_tab():
                     with open(saving_path, 'w') as ready_file:
                         ready_file.write(txt)
 
-                    st.download_button('Get XML file', data=ready_file,file_name=saving_path.replace('temp_dxf/', ''))
+                    with open(saving_path, 'rb') as f:
+                        st.download_button('Get XML file', data=f,file_name=saving_path.replace('temp_dxf/', ''))
 
         # with st.expander('CREATE FILE FOR TRANSFERRING LOADS TO ETAP'):
         #     st.title(':orange[Create File for transferring Load to ETAP - under development...]')
