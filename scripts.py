@@ -1133,8 +1133,8 @@ def scripts_tab():
                     else:
                         st.warning(reply2['message'])
 
-        with st.expander('CREATE TABLE FOR TRANSFERRING LOADS TO ETAP'):
-            st.title(':orange[Create Table for transferring Load to ETAP - under development...]')
+        with st.expander('CREATE FILE FOR TRANSFERRING LOADS TO ETAP'):
+            st.title(':orange[Create fILE for transferring Load to ETAP - under development...]')
             st.divider()
             st.write("Please find required templates in folder below  👇 ")
             st.code(r'\\uz-fs\Uzle\Work\Отдел ЭЛ\01 Малая Автоматизация\Шаблоны\LOADS_TO_ETAP')
