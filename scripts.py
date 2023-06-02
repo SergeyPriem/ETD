@@ -965,13 +965,11 @@ def scripts_tab():
                     rc.text('')
                     create_sld_but = rc.form_submit_button('Create SLD', use_container_width=True)
 
-
-
-                if dxf_template is None:
-                    st.warning('Please upload DXF Template')
-                    st.stop()
-
                 if create_sld_but:
+
+                    if dxf_template is None:
+                        st.warning('Please upload DXF Template')
+                        st.stop()
 
                     if len(st.session_state.loads_df):
                         lo_df = st.session_state.loads_df
