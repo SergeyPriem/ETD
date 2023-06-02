@@ -1107,7 +1107,7 @@ def scripts_tab():
 
             with tab_xml:
 
-                if len(st.session_state.loads_df):
+                if isinstance(st.session_state.loads_df, pd.DataFrame) and len(st.session_state.loads_df):
                     sld_df = st.session_state.loads_df
                     st.experimental_data_editor(sld_df, use_container_width=True)
 
