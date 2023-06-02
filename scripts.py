@@ -1141,7 +1141,10 @@ def scripts_tab():
             st.write("")
             if st.session_state.user['script_acc']:
                 st.write('Will be later...')
-                load_list_etap = st.file_uploader(label='LOAD LIST', type=['xlsx'])
+                load_list_etap = st.file_uploader(label='LOAD LIST', type=['xlsx'],
+                                           accept_multiple_files=False, key=None,
+                                           help=None, on_change=None, args=None,
+                                           kwargs=None, disabled=False, label_visibility="visible")
 
         with st.expander('CREATE CABLEWAY SECTIONS'):
             st.title(':orange[Create Cableway Sections]')
