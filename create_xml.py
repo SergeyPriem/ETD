@@ -1,8 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 
 def add_main_bus(txt, distr_bus_len, distr_bus_x, distr_bus_y, distr_bus_id, distr_bus_iid):
-    new_comp = f"""
-    <BUS Len_D2D="{distr_bus_len}" LocX_D2D="{distr_bus_x}" LocY_D2D="{distr_bus_y}" 
+    new_comp = f"""<BUS Len_D2D="{distr_bus_len}" LocX_D2D="{distr_bus_x}" LocY_D2D="{distr_bus_y}" 
     ID="{distr_bus_id}" IID="{distr_bus_iid}" InService="true" InServiceState="As-Built" NominalkV="0.4"/>
     </COMPONENTS>"""
     txt = txt.replace("</COMPONENTS>", new_comp)
@@ -10,9 +9,8 @@ def add_main_bus(txt, distr_bus_len, distr_bus_x, distr_bus_y, distr_bus_id, dis
 
 
 def add_cb(txt, cb_x, cb_y, cb_from_elem, cb_id, cb_iid, cb_to_elem):
-    new_comp = f"""
-    <LVCB LocX_D2D="{cb_x}" LocY_D2D="{cb_y}" FromElement="{cb_from_elem}" ID="{cb_id}" IID="{cb_iid}" 
-    InService="true" InServiceState="As-Built" ToElement="{cb_to_elem}"/>
+    new_comp = f"""<LVCB LocX_D2D="{cb_x}" LocY_D2D="{cb_y}" FromElement="{cb_from_elem}" 
+    ID="{cb_id}" IID="{cb_iid}" InService="true" InServiceState="As-Built" ToElement="{cb_to_elem}"/>
     </COMPONENTS>"""
     txt = txt.replace("</COMPONENTS>", new_comp)
     return txt
@@ -28,17 +26,15 @@ def add_cable(txt, cb_x, cb_y, cb_from_elem, cab_id, cab_iid, cab_len, cab_to_bu
 
 
 def add_load_bus(txt, cb_x, cb_y, load_bus_id, load_bus_iid):
-    new_comp = f"""
-    <BUS Len_D2D="100" Len="1" Node="1" LocX_D2D="{cb_x}" LocY_D2D="{cb_y + 3000}" ServiceState="1" ID="{load_bus_id}"
-    IID="{load_bus_iid}" InService="true" InServiceState="As-Built" NominalkV="0.4"/>
+    new_comp = f"""<BUS Len_D2D="100" Len="1" Node="1" LocX_D2D="{cb_x}" LocY_D2D="{cb_y + 3000}" ServiceState="1" 
+    ID="{load_bus_id}" IID="{load_bus_iid}" InService="true" InServiceState="As-Built" NominalkV="0.4"/>
     </COMPONENTS>"""
     txt = txt.replace("</COMPONENTS>", new_comp)
     return txt
 
 
 def add_motor(txt, cb_x, cb_y, load_bus_tag, motor_power, cos_f, motor_id, motor_iid):
-    new_comp = f"""
-    <INDMOTOR PhaseTypeString="3-Phase" LocX_D2D="{cb_x}" LocY_D2D="{cb_y + 4000}" Bus="{load_bus_tag}" 
+    new_comp = f"""<INDMOTOR PhaseTypeString="3-Phase" LocX_D2D="{cb_x}" LocY_D2D="{cb_y + 4000}" Bus="{load_bus_tag}" 
     HP="{motor_power}" HP_KW="1" ID="{motor_id}" IID="{motor_iid}" KV="0.4" PF100="{cos_f}"></INDMOTOR>
     </COMPONENTS>"""
     txt = txt.replace("</COMPONENTS>", new_comp)
@@ -46,9 +42,8 @@ def add_motor(txt, cb_x, cb_y, load_bus_tag, motor_power, cos_f, motor_id, motor
 
 
 def add_stat_load(txt, cb_x, cb_y, load_bus_tag, stat_load_kw, stat_load_kvar, stat_load_id, stat_load_iid):
-    new_comp = f"""
-    <STLOAD PhaseTypeString="3-Phase" LocX_D2D="{cb_x}" LocY_D2D="{cb_y + 4000}" ServiceState="1" 
-    Bus="{load_bus_tag}" ID="{stat_load_id}" IID="{stat_load_iid}" InService="true" KV="0.4" 
+    new_comp = f"""<STLOAD PhaseTypeString="3-Phase" LocX_D2D="{cb_x}" LocY_D2D="{cb_y + 4000}"
+    ServiceState="1" Bus="{load_bus_tag}" ID="{stat_load_id}" IID="{stat_load_iid}" InService="true" KV="0.4" 
     KVAButton="1" Kvar="{stat_load_kvar}" KW="{stat_load_kw}"/>
     </COMPONENTS>"""
     txt = txt.replace("</COMPONENTS>", new_comp)
@@ -56,8 +51,7 @@ def add_stat_load(txt, cb_x, cb_y, load_bus_tag, stat_load_kw, stat_load_kvar, s
 
 
 def add_connect(txt, from_elem, from_id, from_iid, from_pin, to_elem, to_id, to_iid, to_pin):
-    new_comp = f"""
-    <CONNECT FromElement="{from_elem}" FromID="{from_id}" FromIID="{from_iid}" FromPin="{from_pin}" 
+    new_comp = f"""<CONNECT FromElement="{from_elem}" FromID="{from_id}" FromIID="{from_iid}" FromPin="{from_pin}" 
     ToElement="{to_elem}" ToID="{to_id}" ToIID="{to_iid}" ToPin="{to_pin}"/>
     </CONNECTIONS>"""
     txt = txt.replace("</CONNECTIONS>", new_comp)
