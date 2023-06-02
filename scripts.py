@@ -977,7 +977,6 @@ def scripts_tab():
 
                     point = 0
 
-
                     lo_df_A = lo_df.loc[
                         (lo_df['bus'] != 'B') & (lo_df['equip'] != 'INCOMER') & (lo_df['equip'] != 'SECT_BREAKER')]
                     len_A = lo_df_A.shape[0]
@@ -988,6 +987,7 @@ def scripts_tab():
                         (lo_df['bus'] == 'B') & (lo_df['equip'] != 'INCOMER') & (lo_df['equip'] != 'SECT_BREAKER')]
 
                     len_B = lo_df_B.shape[0]
+
                     if len_B > 0:
                         lo_df_B.loc[:, 'CB_TAG'] = range(1, len_B + 1)
                         lo_df_B.loc[:, 'BUS_NUMBER'] = 'B'
@@ -1129,17 +1129,11 @@ def scripts_tab():
                     panel_list = sld_df.panel_tag.unique().tolist()
 
                     if len(panel_list) > 1:
-                        st.experimental_show(panel_list)
+                        # st.experimental_show(panel_list)
                         st.warning("More than one panel in Load List. Now I can't generate XML for multiple panels")
                         st.stop()
 
                     bus_list = sld_df.bus.unique().tolist()
-
-                    # st.experimental_show(bus_list)
-
-                    # st.experimental_show(sld_df.index)
-
-                    # st.experimental_data_editor(sld_df, use_container_width=True)
 
                     i = 1
                     for bus in bus_list:
@@ -1155,7 +1149,7 @@ def scripts_tab():
 
                             cb_x = 3000
 
-                            st.experimental_show(distr_bus_len)
+                            # st.experimental_show(distr_bus_len)
 
                             sect_tag = str(panel_list[0])+str(bus)
 
@@ -1208,39 +1202,6 @@ def scripts_tab():
                                                  )
 
                                 cb_x += HOR_STEP
-
-                                # st.experimental_show(ind)
-
-                                # st.write(f"""load_type={row.equip},
-                                #                  txt={txt},
-                                #                  cb_x={cb_x},
-                                #                  cb_y={cb_y},
-                                #                  cb_from_elem={sect_tag},
-                                #                  cb_id=f"{bus}{cb_num}",
-                                #                  cb_iid=f"ps{str(iid+1)}",
-                                #                  cb_to_elem={row['CONSUM-CABLE_TAG']},
-                                #                  cab_id={row['CONSUM-CABLE_TAG']},
-                                #                  cab_iid={f"ps{str(iid + 2)}"},
-                                #                  cab_len={row.length},
-                                #                  cab_to_bus={f"{row.index}-bus"},
-                                #                  load_bus_id={f"{row.index}-bus"},
-                                #                  load_bus_iid={f"ps{str(iid + 3)}"},
-                                #                  load_bus_tag={f"{row.index}-bus"},
-                                #                  motor_power={row.rated_power},
-                                #                  cos_f={row.power_factor},
-                                #                  motor_id={row.index},
-                                #                  motor_iid={f"ps{str(iid + 4)}"},
-                                #                  stat_load_id={row.index},
-                                #                  stat_load_iid={f"ps{str(iid + 4)}"},
-                                #                  stat_load_kw= {row.rated_power},
-                                #                  stat_load_kvar={load_kvar},
-                                #                  distr_bus_id= {sect_tag},
-                                #                  distr_bus_iid= {distr_bus_iid}
-                                #                 """
-                                #                  )
-
-                                # st.stop()
-
 
                             i += 1
                             distr_bus_y = 20000
