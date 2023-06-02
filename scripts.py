@@ -1115,7 +1115,7 @@ def scripts_tab():
 
                     # st.experimental_show(sect_list)
 
-                    st.experimental_show(sld_df.load_tag)
+                    st.experimental_show(sld_df.index)
 
                     st.experimental_data_editor(sld_df, use_container_width=True)
 
