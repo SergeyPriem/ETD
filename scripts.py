@@ -963,9 +963,15 @@ def scripts_tab():
                                                   value="MCCxxx")
                     rc.text('')
                     rc.text('')
-                    create_sld_but = rc.form_submit_button('Create SLD', key="sld_in_dxf", use_container_width=True)
+                    create_sld_but = rc.form_submit_button('Create SLD', use_container_width=True)
 
-                if dxf_template is not None and create_sld_but:
+
+
+                if dxf_template is None:
+                    st.warning('Please upload DXF Template')
+                    st.stop()
+
+                if create_sld_but:
 
                     if len(st.session_state.loads_df):
                         lo_df = st.session_state.loads_df
