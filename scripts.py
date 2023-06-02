@@ -931,6 +931,13 @@ def scripts_tab():
 
                     cl_df = create_cab_list(contr_but_len, loads_df, panelDescr, diam_df, ex_df, glands_df)
 
+                    # for tag in ['CONSUM-CABLE_TAG', 'HEATER-CABLE_TAG', 'LCS1-CABLE_TAG1', 'LCS1-CABLE_TAG2',
+                    #             'LCS2-CABLE_TAG']:
+                    #
+                    #     loads_df[tag] = loads_df[tag].astype(str).str.replace('710-', '', regex=True)
+                    #     loads_df[tag] = loads_df[tag].astype(str).str.replace('715-', '', regex=True)
+
+
                     st.session_state.loads_df = loads_df
 
                     st.subheader("Cable List is Ready")
@@ -970,10 +977,6 @@ def scripts_tab():
 
                     point = 0
 
-                    for tag in ['CONSUM-CABLE_TAG', 'HEATER-CABLE_TAG', 'LCS1-CABLE_TAG1', 'LCS1-CABLE_TAG2',
-                                'LCS2-CABLE_TAG']:
-                        lo_df[tag] = lo_df[tag].astype(str).str.replace('710-', '', regex=True)
-                        lo_df[tag] = lo_df[tag].astype(str).str.replace('715-', '', regex=True)
 
                     lo_df_A = lo_df.loc[
                         (lo_df['bus'] != 'B') & (lo_df['equip'] != 'INCOMER') & (lo_df['equip'] != 'SECT_BREAKER')]
@@ -1060,10 +1063,7 @@ def scripts_tab():
                             'LCS1-CABLE_TYPE2': lo_df_new['LCS1-CABLE_TYPE2'][i].replace('.m0', 'm'),
                             'LCS2-CABLE_TAG': lo_df_new['LCS2-CABLE_TAG'][i].replace('.0m', 'm'),
                             'LCS2-CABLE_TYPE': lo_df_new['LCS2-CABLE_TYPE'][i].replace('.0m', 'm'),
-                            # 'LCS3-CABLE_TAG':  lo_df_new['LCS3-CABLE_TAG'][i],
-                            # 'LCS3-CABLE_TYPE':  lo_df_new['LCS3-CABLE_TYPE'][i],
                             'CONSUMER_DESCR': lo_df_new['load_service'][i],
-                            # msp.add_mtext(lo_df_new['load_service'][i], dxfattribs={"style": "OpenSans"})
                             'MCU_TAG': 'MCU' + str(feeder_num) + str(bus_num)
                         }
 
@@ -1106,9 +1106,10 @@ def scripts_tab():
                         st.warning(reply2['message'])
 
             with tab_xml:
-                sld_df = st.session_state.loads_df
 
-                st.experimental_data_editor(sld_df, use_container_width=True)
+                if len(st.session_state.loads_df):
+                    sld_df = st.session_state.loads_df
+                    st.experimental_data_editor(sld_df, use_container_width=True)
 
         # with st.expander('CREATE FILE FOR TRANSFERRING LOADS TO ETAP'):
         #     st.title(':orange[Create File for transferring Load to ETAP - under development...]')
