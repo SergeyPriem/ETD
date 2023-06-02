@@ -1126,7 +1126,7 @@ def scripts_tab():
 
                     sld_df = sld_df[(sld_df.equip != "INCOMER") & (sld_df.equip != "SECT_BREAKER")]
 
-                    panel_list = sld_df.bus.unique().tolist()
+                    panel_list = sld_df.panel_tag.unique().tolist()
 
                     if len(panel_list) > 1:
                         st.experimental_show(panel_list)
