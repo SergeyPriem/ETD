@@ -1119,7 +1119,7 @@ def scripts_tab():
 
                     distr_bus_x = 20000
                     distr_bus_y = 10000
-                    cb_x = 17000
+                    cb_x = 11000
                     cb_y = 11000
 
                     start_id = 1000
@@ -1162,11 +1162,11 @@ def scripts_tab():
                                                distr_bus_id= sect_tag,
                                                distr_bus_iid=distr_bus_iid)
                             j = 1
+
                             for ind, row in bus_df.iterrows():
                                 j += 1
 
                                 cb_num = f"0{j}" if j < 10 else j
-
 
                                 load_kw = row.rated_power
                                 load_kva = load_kw / row.power_factor
@@ -1179,8 +1179,8 @@ def scripts_tab():
                                                  cb_from_elem=sect_tag,
                                                  cb_id=f"{bus}{cb_num}",
                                                  cb_iid=f"ps{str(iid+1)}",
-                                                 cb_to_elem=row['CONSUM-CABLE_TAG'],
-                                                 cab_id=row['CONSUM-CABLE_TAG'],
+                                                 cb_to_elem=f"L-{ind}",
+                                                 cab_id=f"L-{ind}",
                                                  cab_iid=f"ps{str(iid+2)}",
                                                  cab_len=row.length,
                                                  cab_to_bus=f"{ind}-bus",
@@ -1236,6 +1236,7 @@ def scripts_tab():
 
                             i += 1
                             distr_bus_y *= 2
+                            cb_x = 11000
 
                     # st.write(txt)
 
