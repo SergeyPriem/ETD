@@ -340,9 +340,11 @@ def check_loads(loads_df):
     dup_ser = checkLoads_df.loc[checkLoads_df.duplicated(subset=['load_tag'], keep=False), 'load_tag']
     if len(dup_ser):
         st.write('<h4 style="color:red;">Duplicates in Load Tags!!!</h4>', unsafe_allow_html=True)
-        st.write(dup_ser)
+        # st.write(dup_ser)
         for ind, val in dup_ser.items():
-            st.write(f"<h5 style='color:red;''>Tag '{val}' in row '{ind+2}'</h5>", unsafe_allow_html=True)
+            st.write(f"<h5 style='color:blue;''>Tag '{val}' in row '{ind+2}'</h5>", unsafe_allow_html=True)
+
+        st.write('<h4 style="color:red;">Remove Duplicates and Reload File</h4>', unsafe_allow_html=True)
         st.stop()
 
     st.text('')
