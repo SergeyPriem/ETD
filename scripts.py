@@ -1182,6 +1182,14 @@ def scripts_tab():
                                 load_kva = load_kw / row.power_factor
                                 load_kvar = math.sqrt(load_kva**2 - load_kw**2)
 
+                                if "/" in row.section:
+                                    parts = row.section.split("/")
+                                    l_size = n_size = parts[0]
+                                    pe_size = parts[1]
+                                else:
+                                    l_size = pe_size = row.section
+
+
                                 txt = add_feeder(load_type=row.equip,
                                                  txt=txt,
                                                  cb_x=cb_x,
@@ -1205,8 +1213,12 @@ def scripts_tab():
                                                  stat_load_iid=f"ps{str(iid+j*100+4)}",
                                                  stat_load_kw=row.rated_power,
                                                  stat_load_kvar=load_kvar,
+                                                 stat_load_kva=load_kva,
                                                  distr_bus_id=sect_tag,
-                                                 distr_bus_iid=distr_bus_iid
+                                                 distr_bus_iid=distr_bus_iid,
+                                                 l_size=l_size,
+                                                 n_size=n_size,
+                                                 pe_size=pe_size
                                                  )
 
                                 cb_x += HOR_STEP

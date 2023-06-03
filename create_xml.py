@@ -16,10 +16,10 @@ def add_cb(txt, cb_x, cb_y, cb_from_elem, cb_id, cb_iid, cb_to_elem):
     return txt
 
 
-def add_cable(txt, cb_x, cb_y, cb_from_elem, cab_id, cab_iid, cab_len, cab_to_bus):
-    new_comp = f"""
-    <CABLE LocX_D2D="{cb_x}" LocY_D2D="{cb_y + 1500}" ServiceState="1" FromBus="{cb_from_elem}" ID="{cab_id}"
-    IID="{cab_iid}" LengthValue="{cab_len}" ToBus="{cab_to_bus}"/>
+def add_cable(txt, cb_x, cb_y, cb_from_elem, cab_id, cab_iid, cab_len, cab_to_bus, l_size, n_size, pe_size):
+    new_comp = f"""<CABLE LocX_D2D="{cb_x}" LocY_D2D="{cb_y + 1500}" ServiceState="1" FromBus="{cb_from_elem}" 
+    ID="{cab_id}" IID="{cab_iid}" LengthValue="{cab_len}" ToBus="{cab_to_bus}" ConductorType="CU" 
+    InsulationType="XLPE" CabSize="{l_size}" NeutralCabSize="{n_size}" ProtectiveCabSize="{pe_size}"/>
     </COMPONENTS>"""
     txt = txt.replace("</COMPONENTS>", new_comp)
     return txt
@@ -41,10 +41,11 @@ def add_motor(txt, cb_x, cb_y, load_bus_tag, motor_power, cos_f, motor_id, motor
     return txt
 
 
-def add_stat_load(txt, cb_x, cb_y, load_bus_tag, stat_load_kw, stat_load_kvar, stat_load_id, stat_load_iid):
+def add_stat_load(txt, cb_x, cb_y, load_bus_tag,
+                  stat_load_kw, stat_load_kvar, stat_load_kva, stat_load_id, stat_load_iid):
     new_comp = f"""<STLOAD PhaseTypeString="3-Phase" LocX_D2D="{cb_x}" LocY_D2D="{cb_y + 4000}"
     ServiceState="1" Bus="{load_bus_tag}" ID="{stat_load_id}" IID="{stat_load_iid}" InService="true" KV="0.4" 
-    KVAButton="1" Kvar="{stat_load_kvar}" KW="{stat_load_kw}"/>
+    KVA="{stat_load_kva}" KVAButton="1" Kvar="{stat_load_kvar}" KW="{stat_load_kw}"/>
     </COMPONENTS>"""
     txt = txt.replace("</COMPONENTS>", new_comp)
     return txt
@@ -59,12 +60,13 @@ def add_connect(txt, from_elem, from_id, from_iid, from_pin, to_elem, to_id, to_
 
 
 def add_feeder(load_type, txt, cb_x=None, cb_y=None, cb_from_elem=None, cb_id=None, cb_iid=None, cb_to_elem=None,
-             cab_id=None, cab_iid=None, cab_len=None, cab_to_bus=None, load_bus_id=None, load_bus_iid=None,
-             load_bus_tag=None, motor_power=None, cos_f=None, motor_id=None, motor_iid=None, stat_load_id=None, stat_load_iid=None,
-             stat_load_kw=None, stat_load_kvar=None, distr_bus_id=None, distr_bus_iid=None):
+               cab_id=None, cab_iid=None, cab_len=None, cab_to_bus=None, load_bus_id=None, load_bus_iid=None,
+               load_bus_tag=None, motor_power=None, cos_f=None, motor_id=None, motor_iid=None, stat_load_id=None,
+               stat_load_iid=None, stat_load_kw=None, stat_load_kvar=None, stat_load_kva=None, distr_bus_id=None,
+               distr_bus_iid=None, l_size=None, n_size=None, pe_size=None):
     txt = add_cb(txt, cb_x, cb_y, cb_from_elem, cb_id, cb_iid, cb_to_elem)
 
-    txt = add_cable(txt, cb_x, cb_y, cb_from_elem, cab_id, cab_iid, cab_len, cab_to_bus)
+    txt = add_cable(txt, cb_x, cb_y, cb_from_elem, cab_id, cab_iid, cab_len, cab_to_bus, l_size, n_size, pe_size)
 
     txt = add_load_bus(txt, cb_x, cb_y, load_bus_id, load_bus_iid)
 
@@ -73,7 +75,8 @@ def add_feeder(load_type, txt, cb_x=None, cb_y=None, cb_from_elem=None, cb_id=No
 
         txt = add_connect(txt, "INDMOTOR", stat_load_id, stat_load_iid, 0, "BUS", load_bus_id, load_bus_iid, 1)
     else:
-        txt = add_stat_load(txt, cb_x, cb_y, load_bus_tag, stat_load_kw, stat_load_kvar, stat_load_id, stat_load_iid)
+        txt = add_stat_load(txt, cb_x, cb_y, load_bus_tag, stat_load_kw, stat_load_kvar,
+                            stat_load_kva, stat_load_id, stat_load_iid)
         txt = add_connect(txt, "STLOAD", stat_load_id, stat_load_iid, 0, "BUS", load_bus_id, load_bus_iid, 1)
 
     txt = add_connect(txt, "LVCB", cb_id, cb_iid, 0, "BUS", distr_bus_id, distr_bus_iid, 1)
