@@ -985,9 +985,7 @@ def scripts_tab():
                 if create_sld_but:
 
                     lo_df = st.session_state.loads_df
-
                     dxf_temp_file = save_uploaded_file(dxf_template)
-
                     doc = open_dxf_file(f'temp_dxf/{dxf_temp_file}')
 
                     msp = doc.modelspace()
