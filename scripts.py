@@ -897,6 +897,8 @@ def scripts_tab():
 
             with tab_cl:
 
+                # disable_cl_but = False if load_list else True
+
                 with st.form("cab_list"):
                     lc, rc = st.columns(2, gap='medium')
                     panelDescr = lc.text_input("Panel Description ('Motor Control Center')", max_chars=20)
@@ -914,7 +916,9 @@ def scripts_tab():
 
                     show_settings = lc.checkbox("Show CB settings at SLD")
 
-                    make_cablist_but = rc.form_submit_button("Make Cable List", use_container_width=True)
+                    make_cablist_but = rc.form_submit_button("Make Cable List",
+                                                             disabled=False if load_list else True,
+                                                             use_container_width=True)
 
                 if load_list and cab_data and make_cablist_but:
                     if len(panelDescr) < 2:
