@@ -1183,6 +1183,7 @@ def scripts_tab():
                                 load_kvar = math.sqrt(load_kva**2 - load_kw**2)
 
                                 if "/" in str(row.section):
+                                    st.experimental_show(row.section)
                                     parts = row.section.split("/")
                                     l_size = n_size = parts[0]
                                     pe_size = parts[1]
