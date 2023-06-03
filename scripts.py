@@ -1124,7 +1124,7 @@ def scripts_tab():
 
                 HOR_STEP = 4000
 
-                if isinstance(st.session_state.loads_df):
+                if isinstance(st.session_state.loads_df, pd.DataFrame):
                     if len(st.session_state.loads_df):
                         disable_xml_but = False
                     else:
