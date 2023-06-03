@@ -339,6 +339,9 @@ def check_loads(loads_df):
 
     dup_df = checkLoads_df.loc[checkLoads_df.duplicated(subset=['load_tag'], keep=False), 'load_tag']
     if len(dup_df):
+        st.write('<p style="color:red;">Duplicates of Lod Tags!!!</p>',
+                 unsafe_allow_html=True)
+        st.write(':red[Duplicates of Lod Tags!!!]')
         st.write(dup_df)
 
     st.text('')
