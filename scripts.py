@@ -341,7 +341,7 @@ def check_loads(loads_df):
     if len(dup_df):
         st.write('<h4 style="color:red;">Duplicates in Load Tags!!!</h4>', unsafe_allow_html=True)
         st.write(dup_df)
-        # for
+        st.stop()
 
     st.text('')
     st.success('Loads Data are Walid')
