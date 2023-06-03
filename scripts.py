@@ -1188,7 +1188,7 @@ def scripts_tab():
                                     l_size = n_size = parts[0]
                                     pe_size = parts[1]
                                 else:
-                                    l_size = pe_size = row.section
+                                    l_size = n_size = pe_size = row.section
 
 
                                 txt = add_feeder(load_type=row.equip,
