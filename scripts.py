@@ -1124,7 +1124,9 @@ def scripts_tab():
 
                 HOR_STEP = 4000
 
-                xml_but = st.button("Create XML file", use_container_width=True)
+                xml_but = st.button("Create XML file", use_container_width=False)
+
+                st.experimental_show(st.session_state.loads_df)
 
                 if isinstance(st.session_state.loads_df, pd.DataFrame) and len(st.session_state.loads_df) and xml_but:
                     sld_df = st.session_state.loads_df
