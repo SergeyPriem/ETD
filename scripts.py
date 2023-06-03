@@ -1156,7 +1156,7 @@ def scripts_tab():
                         if len(bus_df):
                             iid = start_id * i
 
-                            distr_bus_len = (len(bus_df) + 2) * HOR_STEP
+                            distr_bus_len = (len(bus_df) + 1) * HOR_STEP
 
                             distr_bus_x = distr_bus_len / 2
 
