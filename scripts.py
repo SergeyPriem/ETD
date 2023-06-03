@@ -985,6 +985,7 @@ def scripts_tab():
                                                                              disable_sld_but else True,
                                                            use_container_width=True)
 
+
                 if create_sld_but:
 
                     lo_df = st.session_state.loads_df
