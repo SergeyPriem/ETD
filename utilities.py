@@ -216,8 +216,8 @@ def open_dxf_file(path):
 def check_df(df):
     if isinstance(df, pd.DataFrame):
         if len(df):
-            return False
-        else:
             return True
+        else:
+            return False
     else:
-        return True
+        return False
