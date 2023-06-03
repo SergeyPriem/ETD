@@ -916,7 +916,7 @@ def scripts_tab():
 
                     show_settings = lc.checkbox("Show CB settings at SLD")
 
-                    make_cablist_but = rc.form_submit_button("Make Cable List",
+                    make_cablist_but = rc.form_submit_button("Make Cable List", type='primary',
                                                              disabled=False if load_list and cab_data else True,
                                                              use_container_width=True)
 
@@ -977,7 +977,7 @@ def scripts_tab():
                                                   value="MCCxxx")
                     rc.text('')
                     rc.text('')
-                    create_sld_but = rc.form_submit_button('Create SLD',
+                    create_sld_but = rc.form_submit_button('Create SLD', type='primary',
                                                            disabled=False if dxf_template and
                                                                              st.session_state.loads_df else True,
                                                            use_container_width=True)
@@ -1124,7 +1124,9 @@ def scripts_tab():
 
                 HOR_STEP = 4000
 
-                xml_but = st.button("Create XML file", use_container_width=False)
+                xml_but = st.button("Create XML file", type='primary',
+                                    disabled=False if st.session_state.loads_df else True,
+                                    use_container_width=True)
 
                 st.experimental_show(st.session_state.loads_df)
 
