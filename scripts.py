@@ -337,6 +337,10 @@ def check_loads(loads_df):
         st.write('Script aborted')
         st.stop()
 
+    dup_df = checkLoads_df.duplicated(subset=['load_tag'], keep=False)
+    if len(dup_df):
+        st.write(dup_df.index)
+
     st.text('')
     st.success('Loads Data are Walid')
 
