@@ -342,7 +342,7 @@ def check_loads(loads_df):
         st.write('<h4 style="color:red;">Duplicates in Load Tags!!!</h4>', unsafe_allow_html=True)
         # st.write(dup_ser)
         for ind, val in dup_ser.items():
-            st.write(f"<h5 style='color:blue;''>Tag '{val}' in row '{ind+2}'</h5>", unsafe_allow_html=True)
+            st.write(f"<h5 style='color:orange;''>Tag '{val}' in row '{ind+2}'</h5>", unsafe_allow_html=True)
 
         st.write('<h4 style="color:red;">Remove Duplicates and Reload File</h4>', unsafe_allow_html=True)
         st.stop()
