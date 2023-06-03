@@ -71,7 +71,7 @@ def add_feeder(load_type, txt, cb_x=None, cb_y=None, cb_from_elem=None, cb_id=No
     txt = add_load_bus(txt, cb_x, cb_y, load_bus_id, load_bus_iid)
 
     if load_type in ['MOTOR', 'motor', 'Motor']:
-        txt = add_motor(txt, cb_x, cb_y, load_bus_tag, motor_power, cos_f, motor_id, motor_iid)
+        txt = add_motor(txt, cb_x, cb_y, load_bus_tag, motor_power, lrc, cos_f, motor_id, motor_iid)
 
         txt = add_connect(txt, "INDMOTOR", stat_load_id, stat_load_iid, 0, "BUS", load_bus_id, load_bus_iid, 1)
     else:
