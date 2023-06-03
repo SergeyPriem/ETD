@@ -337,10 +337,12 @@ def check_loads(loads_df):
         st.write('Script aborted')
         st.stop()
 
-    dup_df = checkLoads_df.loc[checkLoads_df.duplicated(subset=['load_tag'], keep=False), 'load_tag']
-    if len(dup_df):
+    dup_ser = checkLoads_df.loc[checkLoads_df.duplicated(subset=['load_tag'], keep=False), 'load_tag']
+    if len(dup_ser):
         st.write('<h4 style="color:red;">Duplicates in Load Tags!!!</h4>', unsafe_allow_html=True)
-        st.write(dup_df)
+        st.write(dup_ser)
+        for ind, val in dup_ser.items():
+            st.write(f'<h4 style="color:red;">Tag {val} in row {ind-2}</h4>', unsafe_allow_html=True)
         st.stop()
 
     st.text('')
