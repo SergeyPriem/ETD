@@ -1208,6 +1208,7 @@ def scripts_tab():
                                                  load_bus_iid=f"ps{str(iid+j*100+2)}",
                                                  load_bus_tag=f"{ind}-bus",
                                                  motor_power=row.rated_power,
+                                                 lrc=row.start_ratioo,
                                                  cos_f=row.power_factor,
                                                  motor_id=ind,
                                                  motor_iid=f"ps{str(iid+j*100+3)}",

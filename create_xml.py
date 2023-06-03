@@ -33,9 +33,9 @@ def add_load_bus(txt, cb_x, cb_y, load_bus_id, load_bus_iid):
     return txt
 
 
-def add_motor(txt, cb_x, cb_y, load_bus_tag, motor_power, cos_f, motor_id, motor_iid):
+def add_motor(txt, cb_x, cb_y, load_bus_tag, motor_power, lrc, cos_f, motor_id, motor_iid):
     new_comp = f"""<INDMOTOR PhaseTypeString="3-Phase" LocX_D2D="{cb_x}" LocY_D2D="{cb_y + 4000}" Bus="{load_bus_tag}" 
-    HP="{motor_power}" HP_KW="1" ID="{motor_id}" IID="{motor_iid}" KV="0.4" PF100="{cos_f}"></INDMOTOR>
+    HP="{motor_power}" HP_KW="1" LCR="{lrc}" ID="{motor_id}" IID="{motor_iid}" KV="0.4" PF100="{cos_f}"></INDMOTOR>
     </COMPONENTS>"""
     txt = txt.replace("</COMPONENTS>", new_comp)
     return txt
@@ -61,7 +61,7 @@ def add_connect(txt, from_elem, from_id, from_iid, from_pin, to_elem, to_id, to_
 
 def add_feeder(load_type, txt, cb_x=None, cb_y=None, cb_from_elem=None, cb_id=None, cb_iid=None, cb_to_elem=None,
                cab_id=None, cab_iid=None, cab_len=None, cab_to_bus=None, load_bus_id=None, load_bus_iid=None,
-               load_bus_tag=None, motor_power=None, cos_f=None, motor_id=None, motor_iid=None, stat_load_id=None,
+               load_bus_tag=None, motor_power=None, lrc=None, cos_f=None, motor_id=None, motor_iid=None, stat_load_id=None,
                stat_load_iid=None, stat_load_kw=None, stat_load_kvar=None, stat_load_kva=None, distr_bus_id=None,
                distr_bus_iid=None, l_size=None, n_size=None, pe_size=None):
     txt = add_cb(txt, cb_x, cb_y, cb_from_elem, cb_id, cb_iid, cb_to_elem)
