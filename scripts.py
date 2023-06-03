@@ -340,7 +340,8 @@ def check_loads(loads_df):
     dup_df = checkLoads_df.loc[checkLoads_df.duplicated(subset=['load_tag'], keep=False), 'load_tag']
     if len(dup_df):
         st.write('<h4 style="color:red;">Duplicates in Load Tags!!!</h4>', unsafe_allow_html=True)
-        st.write(dup_df.set_index('load_tag'))
+        dup_df = dup_df.set_index('load_tag')
+        st.write(dup_df)
 
     st.text('')
     st.success('Loads Data are Walid')
