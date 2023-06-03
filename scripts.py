@@ -337,7 +337,7 @@ def check_loads(loads_df):
         st.write('Script aborted')
         st.stop()
 
-    dup_df = checkLoads_df.duplicated(subset=['load_tag'], keep=False)
+    dup_df = checkLoads_df.loc[checkLoads_df.duplicated(subset=['load_tag'], keep=False), 'load_tag']
     if len(dup_df):
         st.write(dup_df)
 
