@@ -917,7 +917,7 @@ def scripts_tab():
                     show_settings = lc.checkbox("Show CB settings at SLD")
 
                     make_cablist_but = rc.form_submit_button("Make Cable List",
-                                                             disabled=False if load_list else True,
+                                                             disabled=False if load_list and cab_data else True,
                                                              use_container_width=True)
 
                 if load_list and cab_data and make_cablist_but:
