@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import time
-
+import pandas as pd
 import streamlit as st
 import json
 import os
@@ -211,3 +211,13 @@ def open_dxf_file(path):
         st.write('!!!')
         st.warning(err_handler(e))
         return err_handler(e)
+
+
+def check_df(df):
+    if isinstance(df, pd.DataFrame):
+        if len(df):
+            return False
+        else:
+            return True
+    else:
+        return True

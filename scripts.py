@@ -10,7 +10,7 @@ import os
 from create_xml import add_main_bus, add_feeder
 from section_generator import get_tags_from_cablist, generate_dxf, get_sect_from_layout
 from users import err_handler, reg_action
-from utilities import center_style, open_dxf_file
+from utilities import center_style, open_dxf_file, check_df
 
 # p_rat_a = 0
 # p_rat_b = 0
@@ -977,9 +977,12 @@ def scripts_tab():
                                                   value="MCCxxx")
                     rc.text('')
                     rc.text('')
+
+                    disable_sld_but = check_df(st.session_state.loads_df)
+
                     create_sld_but = rc.form_submit_button('Create SLD', type='primary',
                                                            disabled=False if dxf_template and
-                                                                             st.session_state.loads_df else True,
+                                                                             disable_sld_but else True,
                                                            use_container_width=True)
 
                 if create_sld_but:
@@ -1124,13 +1127,8 @@ def scripts_tab():
 
                 HOR_STEP = 4000
 
-                if isinstance(st.session_state.loads_df, pd.DataFrame):
-                    if len(st.session_state.loads_df):
-                        disable_xml_but = False
-                    else:
-                        disable_xml_but = True
-                else:
-                    disable_xml_but = True
+
+                disable_xml_but = check_df(st.session_state.loads_df)
 
                 xml_but = st.button("Create XML file", type='primary',
                                     disabled=disable_xml_but,
