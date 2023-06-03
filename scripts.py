@@ -1128,7 +1128,7 @@ def scripts_tab():
                 HOR_STEP = 4000
 
 
-                disable_xml_but = check_df(st.session_state.loads_df)
+                disable_xml_but = not check_df(st.session_state.loads_df)
 
                 xml_but = st.button("Create XML file", type='primary',
                                     disabled=disable_xml_but,
