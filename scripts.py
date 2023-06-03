@@ -1132,6 +1132,7 @@ def scripts_tab():
                     with open('xml_template.xml', 'r') as xml_file:
                         txt = xml_file.read()
 
+                    SHIFT_FROM_EDGE = 5000
                     distr_bus_y = 10000
                     cb_y = 11000
 
@@ -1159,7 +1160,7 @@ def scripts_tab():
 
                             distr_bus_x = distr_bus_len / 2
 
-                            cb_x = 3000
+                            cb_x = 3000 + SHIFT_FROM_EDGE
 
                             sect_tag = str(panel_list[0])+str(bus)
 
@@ -1167,7 +1168,7 @@ def scripts_tab():
 
                             txt = add_main_bus(txt=txt,
                                                distr_bus_len=distr_bus_len,
-                                               distr_bus_x=distr_bus_x,
+                                               distr_bus_x=distr_bus_x + SHIFT_FROM_EDGE,
                                                distr_bus_y=distr_bus_y,
                                                distr_bus_id= sect_tag,
                                                distr_bus_iid=distr_bus_iid)
