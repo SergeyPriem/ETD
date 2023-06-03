@@ -279,14 +279,9 @@ def create_states():
             st.warning(err_handler(e))
             st.stop()
 
-    state_list = ['del_conf', 'loads_df', 'menu', 'icons']
-
-    for state in state_list:
-        if state not in st.session_state:
-            st.session_state[state] = False  # None
 
     state_list = ['logged', 'code_sent', 'upd_code_sent', 'conf_num', 'task_preview', 'cab_list_for_sect',
-                  'sect_df', 'st.session_state.p_x']
+                  'sect_df', 'st.session_state.p_x', 'del_conf', 'loads_df', 'menu', 'icons']
     for state in state_list:
         if state not in st.session_state:
             st.session_state[state] = False

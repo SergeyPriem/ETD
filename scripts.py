@@ -979,7 +979,7 @@ def scripts_tab():
                     rc.text('')
                     create_sld_but = rc.form_submit_button('Create SLD',
                                                            disabled=False if dxf_template and
-                                                                             len(st.session_state.loads_df) else True,
+                                                                             st.session_state.loads_df else True,
                                                            use_container_width=True)
 
                 if create_sld_but:
