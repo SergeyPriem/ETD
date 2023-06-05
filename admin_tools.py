@@ -221,4 +221,7 @@ def manage_projects():
 
             filtered_proj_df = dataframe_explorer(proj_df, case=False)
 
+            st.markdown(f"<h4 style='text-align: center; color: #249ded;'>Records Q-ty: {len(filtered_proj_df)}:</h4>",
+                        unsafe_allow_html=True)
+
             st.experimental_data_editor(filtered_proj_df, use_container_width=True, height=1500)
