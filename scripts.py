@@ -305,8 +305,8 @@ def fill_lists(i: int, panelDescr, loads_df) -> None:
 
 def check_loads(loads_df):
 
-    st.experimental_show(loads_df)
     checkLoads_df = loads_df.iloc[:, 0:27]
+    st.experimental_show(checkLoads_df)
 
     if (checkLoads_df.isnull().sum()).sum() > 0:
         p_red(f'В Load List {(checkLoads_df.isnull().sum()).sum()} не заполненных обязательных полей')
