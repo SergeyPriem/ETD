@@ -903,7 +903,7 @@ def manage_users():
 
         with view_tab3:
             u_df = st.session_state.adb['users']
-            u_df = u_df.drop(columns=['hashed_pass'])
+            # u_df = u_df.drop(columns=['hashed_pass'])
 
             try:
                 filtered_u_df = dataframe_explorer(u_df, case=False)
