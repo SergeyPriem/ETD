@@ -263,7 +263,6 @@ def bus_loads(loads_df):
     return p_rat_a, p_rat_b, p_rat_em
 
 
-
 def tags_for_control_cab(row: int, loads_df: pd.DataFrame, load_tag_short) -> pd.DataFrame:
     if loads_df.rated_power[row] >= 30:
         loads_df.loc[row, 'LCS1-CABLE_TAG1'] = "C-" + loads_df['panel_tag'][row] + loads_df['bus'][
@@ -305,13 +304,20 @@ def fill_lists(i: int, panelDescr, loads_df) -> None:
 
 def check_loads(loads_df):
 
-    checkLoads_df = loads_df.iloc[:, 0:27]
+    checkLoads_df = loads_df.iloc[:, 0:27].copy()
 
 
     null_df = checkLoads_df.isnull()
+
+    st.experimental_show(null_df)
+
     row_with_null = null_df.any(axis=1)
 
+    st.experimental_show(row_with_null)
+
     with_null_df = checkLoads_df[row_with_null]
+
+    st.experimental_show(with_null_df)
 
     if len(with_null_df) > 0:
         st.warning("Some cells are empty...Script Aborted")
