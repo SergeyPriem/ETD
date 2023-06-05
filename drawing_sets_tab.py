@@ -396,6 +396,9 @@ def show_all_units(sod_df):
 
     filtered_sod = dataframe_explorer(temp_sod, case=False)
 
+    st.markdown(f"<h4 style='text-align: center; color: #249ded;'>Records Q-ty: {len(filtered_sod)}:</h4>",
+                unsafe_allow_html=True)
+
     sod_to_request = st.experimental_data_editor(filtered_sod, use_container_width=True,
                                                  key=st.session_state.req_lines_avail, height=800)
     return sod_to_request
