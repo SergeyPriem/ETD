@@ -309,7 +309,7 @@ def check_loads(loads_df):
 
     null_df = checkLoads_df.isnull()
 
-    st.experimental_show(null_df)
+    # st.experimental_show(null_df)
 
     row_with_null = null_df.any(axis=1)
 
