@@ -144,18 +144,6 @@ def round5(val: float) -> int:
     return math.ceil(val / 5) * 5
 
 
-def p_green(text):  # Everything is OK
-    st.write("\033[32m{}".format(text))
-
-
-def p_red(text):  # attention
-    st.write("\033[31m{}".format(text))
-
-
-def p_white(text):  # information, request
-    st.write("\033[37m{}".format(text))
-
-
 def incom_sect_cb_calc(loads_df: pd.DataFrame) -> pd.DataFrame:
 
     loads_df.loc[(loads_df.load_duty == 'C') & (loads_df.equip != 'INCOMER') & (
@@ -326,33 +314,32 @@ def check_loads(loads_df):
 
 
     if (checkLoads_df.isnull().sum()).sum() > 0:
-        p_red(f'В Load List {(checkLoads_df.isnull().sum()).sum()} не заполненных обязательных полей')
-        p_red('Подгрузите корректно заполненный Load List')
+        st.warning(f'Load List has {(checkLoads_df.isnull().sum()).sum()} empty fields...Update Load List')
         st.write('Script aborted')
         st.stop()
 
     if checkLoads_df.eff.min() == 0:
-        p_red("Nulls in 'efficiency' column")
+        st.warning("Nulls in 'efficiency' column")
         st.write('Script aborted')
         st.stop()
 
     if checkLoads_df.power_factor.min() == 0:
-        p_red("Nulls in 'power factor' column")
+        st.warning("Nulls in 'power factor' column")
         st.write('Script aborted')
         st.stop()
 
     if checkLoads_df.abs_power[3:].min() == 0:
-        p_red("Nulls in 'abs_power' column")
+        st.warning("Nulls in 'abs_power' column")
         st.write('Script aborted')
         st.stop()
 
     if checkLoads_df.rated_power[3:].min() == 0:
-        p_red("Nulls in 'rated_power' column")
+        st.warning("Nulls in 'rated_power' column")
         st.write('Script aborted')
         st.stop()
 
     if checkLoads_df.usage_factor[3:].min() == 0:
-        p_red("Nulls in 'usage_factor' column")
+        st.warning("Nulls in 'usage_factor' column")
         st.write('Script aborted')
         st.stop()
 
@@ -632,12 +619,6 @@ def create_cab_list(contr_but_len, loads_df, panelDescr, diam_df, ex_df, glands_
     cl_df.set_index('cableTag', inplace=True)
 
     return cl_df
-    # cl_df.to_excel(loads_path[:-8] + '-cabList.xlsx')
-
-    # p_green(f'''КАБЕЛЬНЫЙ ЖУРНАЛ В ФОРМАТЕ .xlsx ГОТОВ
-    # Открывать по ссылке:
-    # {loads_path[:-8] + '-cabList.xlsx'}''')
-
 
 def replace_zero(loads_df):
     loads_df['CONSUM-CABLE_TYPE'] = loads_df['CONSUM-CABLE_TYPE'].astype(str).str.replace('\.0mm2', 'mm2', regex=True)
@@ -703,13 +684,10 @@ def making_cablist(loads_df, incom_margin, cab_df, show_settings, min_sect, cont
 
         if par > 6 and loads_df.loc[row, 'equip'] != 'INCOMER':
             alarm_tag = str(loads_df.iloc[row, 0])
-            p_red('!!!')
-            p_red(f'У потребителя {alarm_tag} расчетное количество параллельных кабелей составило {par}.')
-            p_red(f'Все {par} кабелей внесены в кабельный журнал и отражены на SLD.')
-            p_red(f'При переходе на шинопровод удалите кабели потребителя {alarm_tag} ')
-            p_red('из кабельного журнала и поправьте таговые номера и описание линии на SLD')
-            p_red('!!!')
-            print('\033[0m')
+            st.warning(f'!!!У потребителя {alarm_tag} расчетное количество параллельных кабелей составило {par}. '
+                       f'Все {par} кабелей внесены в кабельный журнал и отражены на SLD. '
+                       f'При переходе на шинопровод удалите кабели потребителя {alarm_tag} из кабельного журнала '
+                       f'и поправьте таговые номера и описание линии на SLD')
 
         S = str(round5(L * 1.5 * k_start)) + 'A/0.2s'
         I = str(round5(L * 2 * k_start))  # ПРОВЕРИТЬ!!!
