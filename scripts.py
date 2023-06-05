@@ -885,8 +885,6 @@ def scripts_tab():
 
             with tab_cl:
 
-                # disable_cl_but = False if load_list else True
-
                 with st.form("cab_list"):
                     lc, rc = st.columns(2, gap='medium')
                     panelDescr = lc.text_input("Panel Description ('Motor Control Center')", max_chars=20)
