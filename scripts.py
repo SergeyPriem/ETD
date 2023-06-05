@@ -325,7 +325,6 @@ def check_loads(loads_df):
         st.stop()
 
 
-
     if (checkLoads_df.isnull().sum()).sum() > 0:
         p_red(f'В Load List {(checkLoads_df.isnull().sum()).sum()} не заполненных обязательных полей')
         p_red('Подгрузите корректно заполненный Load List')
