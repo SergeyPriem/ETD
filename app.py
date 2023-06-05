@@ -905,6 +905,7 @@ def manage_users():
             u_df = st.session_state.adb['users']
             # u_df = u_df.drop(columns=['hashed_pass'])
 
+
             try:
                 filtered_u_df = dataframe_explorer(u_df, case=False)
             except Exception as e:
