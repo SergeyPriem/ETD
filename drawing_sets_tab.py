@@ -8,6 +8,7 @@ from utilities import REVISIONS, COMPLETION, STAGES, center_style, update_state 
 from projects import update_sod, add_sod, update_unit_name_stage
 from utilities import err_handler
 from functools import lru_cache
+from streamlit_extras.dataframe_explorer import dataframe_explorer
 
 
 def drawing_sets():
@@ -389,10 +390,13 @@ def drawing_sets():
 
 
 def show_all_units(sod_df):
+
     temp_sod = sod_df.copy()
     temp_sod['request_update'] = False
 
-    sod_to_request = st.experimental_data_editor(temp_sod, use_container_width=True,
+    filtered_sod = dataframe_explorer(temp_sod, case=False)
+
+    sod_to_request = st.experimental_data_editor(filtered_sod, use_container_width=True,
                                                  key=st.session_state.req_lines_avail, height=800)
     return sod_to_request
 
