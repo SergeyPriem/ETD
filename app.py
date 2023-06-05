@@ -903,8 +903,6 @@ def manage_users():
 
         with view_tab3:
             u_df = st.session_state.adb['users']
-            # u_df = u_df.drop(columns=['hashed_pass'])
-
 
             try:
                 filtered_u_df = dataframe_explorer(u_df, case=False)
@@ -953,8 +951,7 @@ def manage_storage():
 def download_file(file_name, rc):
     if os.path.exists(f"temp_dxf/{file_name}"):
         with open(f"temp_dxf/{file_name}", 'rb') as f:
-            rc.download_button(f'{file_name} - OK', data=f, file_name=file_name,
-                               disabled=False, use_container_width=False, )
+            rc.download_button(f'{file_name} - OK', data=f, file_name=file_name)
     else:
         st.warning('File Does Not Exist')
 
