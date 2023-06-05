@@ -306,7 +306,19 @@ def fill_lists(i: int, panelDescr, loads_df) -> None:
 def check_loads(loads_df):
 
     checkLoads_df = loads_df.iloc[:, 0:27]
-    st.experimental_show(checkLoads_df)
+
+
+    null_df = checkLoads_df.isnull()
+    row_with_null = null_df.any(axis=1)
+
+    with_null_df = checkLoads_df[row_with_null]
+
+    if len(with_null_df) > 0:
+        st.warning("Some cells are empty...Script Aborted")
+        st.experimental_show(with_null_df)
+        st.stop()
+
+
 
     if (checkLoads_df.isnull().sum()).sum() > 0:
         p_red(f'В Load List {(checkLoads_df.isnull().sum()).sum()} не заполненных обязательных полей')
