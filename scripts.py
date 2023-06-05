@@ -473,7 +473,7 @@ def create_cab_list(contr_but_len, loads_df, panelDescr, diam_df, ex_df, glands_
             else:
                 fill_lists(i, panelDescr, loads_df)
 
-                wiresList.append(int(loads_df.ph_num[i]) + int(loads_df.pe_num[i]))
+                wiresList.append(loads_df.ph_num[i] + loads_df.pe_num[i])
                 lengthList.append(loads_df.length[i])
                 toDescrList.append(loads_df.load_service[i].strip() + '. ' + loads_df.equip[i])
                 toTagList.append(loads_df.load_tag[i])
