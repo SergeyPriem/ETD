@@ -313,11 +313,11 @@ def check_loads(loads_df):
 
     row_with_null = null_df.any(axis=1)
 
-    st.experimental_show(row_with_null)
+    # st.experimental_show(row_with_null)
 
     with_null_df = checkLoads_df[row_with_null]
 
-    st.experimental_show(with_null_df)
+    # st.experimental_show(with_null_df)
 
     if len(with_null_df) > 0:
         st.warning("Some cells are empty...Script Aborted")
