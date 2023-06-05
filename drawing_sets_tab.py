@@ -394,7 +394,14 @@ def show_all_units(sod_df):
     temp_sod = sod_df.copy()
     temp_sod['request_update'] = False
 
-    filtered_sod = dataframe_explorer(temp_sod, case=False)
+
+
+    try:
+        filtered_sod = dataframe_explorer(temp_sod, case=False)
+    except Exception as e:
+        st.write(f"<h5 style='text-align: center; color: red;'>Can't filter table... {err_handler(e)}</h5>",
+                 unsafe_allow_html=True)
+        filtered_sod = temp_sod
 
     st.markdown(f"<h4 style='text-align: center; color: #249ded;'>Records Q-ty: {len(filtered_sod)}:</h4>",
                 unsafe_allow_html=True)

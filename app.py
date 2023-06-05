@@ -905,7 +905,12 @@ def manage_users():
             u_df = st.session_state.adb['users']
             u_df = u_df.drop(columns=['hashed_pass'])
 
-            filtered_u_df = dataframe_explorer(u_df, case=False)
+            try:
+                filtered_u_df = dataframe_explorer(u_df, case=False)
+            except Exception as e:
+                st.write(f"<h5 style='text-align: center; color: red;'>Can't filter table... {err_handler(e)}</h5>",
+                         unsafe_allow_html=True)
+                filtered_u_df = u_df
 
             st.markdown(f"<h4 style='text-align: center; color: #249ded;'>Records Q-ty: {len(filtered_u_df)}:</h4>",
                         unsafe_allow_html=True)

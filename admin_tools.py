@@ -3,7 +3,7 @@
 import streamlit as st
 from streamlit_extras.dataframe_explorer import dataframe_explorer
 
-from utilities import PROJECT_STATUSES, center_style, get_list_index, update_state
+from utilities import PROJECT_STATUSES, center_style, get_list_index, update_state, err_handler
 from projects import create_project, update_projects
 
 from send_emails import send_mail
@@ -220,6 +220,14 @@ def manage_projects():
             proj_df.drop(columns=['login'], inplace=True)
 
             filtered_proj_df = dataframe_explorer(proj_df, case=False)
+
+            try:
+                filtered_proj_df = dataframe_explorer(proj_df, case=False)
+            except Exception as e:
+                st.write(f"<h5 style='text-align: center; color: red;'>Can't filter table... {err_handler(e)}</h5>",
+                         unsafe_allow_html=True)
+                filtered_proj_df = proj_df
+
 
             st.markdown(f"<h4 style='text-align: center; color: #249ded;'>Records Q-ty: {len(filtered_proj_df)}:</h4>",
                         unsafe_allow_html=True)
