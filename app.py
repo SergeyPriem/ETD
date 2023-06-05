@@ -5,6 +5,7 @@ import os
 import random
 import pandas as pd
 from PIL import Image
+from streamlit_extras.dataframe_explorer import dataframe_explorer
 from streamlit_option_menu import option_menu
 
 from admin_tools import manage_projects
@@ -903,7 +904,10 @@ def manage_users():
         with view_tab3:
             u_df = st.session_state.adb['users']
             # u_df = u_df.drop(columns=['hashed_pass'])
-            st.experimental_data_editor(u_df, use_container_width=True, height=1500)
+
+            filtered_u_df = dataframe_explorer(u_df, case=False)
+
+            st.experimental_data_editor(filtered_u_df, use_container_width=True, height=1500)
 
 
 def fresh_data():
