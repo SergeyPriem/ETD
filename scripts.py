@@ -304,6 +304,8 @@ def fill_lists(i: int, panelDescr, loads_df) -> None:
 
 
 def check_loads(loads_df):
+
+    st.experimental_show(loads_df)
     checkLoads_df = loads_df.iloc[:, 0:27]
 
     if (checkLoads_df.isnull().sum()).sum() > 0:
