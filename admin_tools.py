@@ -219,8 +219,6 @@ def manage_projects():
             proj_df.responsible_el = proj_df.login
             proj_df.drop(columns=['login'], inplace=True)
 
-            filtered_proj_df = dataframe_explorer(proj_df, case=False)
-
             try:
                 filtered_proj_df = dataframe_explorer(proj_df, case=False)
             except Exception as e:
