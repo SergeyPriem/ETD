@@ -1095,13 +1095,7 @@ def scripts_tab():
                     st.success('SLD is ready. Please Download')
 
                     with open(saving_path, 'rb') as f:
-                        st.download_button(
-                            'Get SLD here',
-                            data=f,
-                            file_name=saving_path,
-                            mime=None, key=None, help=None, on_click=None, args=None, kwargs=None,
-                            disabled=False, use_container_width=False
-                        )
+                        st.download_button('Get SLD here', data=f, file_name=saving_path)
 
                     reply2 = reg_action(saving_path.replace("temp_dxf/", ""))
 
@@ -1117,8 +1111,7 @@ def scripts_tab():
 
                 disable_xml_but = not check_df(st.session_state.loads_df)
 
-                xml_but = st.button("Create XML file", type='primary',
-                                    disabled=disable_xml_but,
+                xml_but = st.button("Create XML file", type='primary', disabled=disable_xml_but,
                                     use_container_width=True)
 
                 if xml_but:
@@ -1161,12 +1154,10 @@ def scripts_tab():
 
                             distr_bus_iid = f"ps{str(iid)}"
 
-                            txt = add_main_bus(txt=txt,
-                                               distr_bus_len=distr_bus_len,
-                                               distr_bus_x=distr_bus_x + SHIFT_FROM_EDGE,
-                                               distr_bus_y=distr_bus_y,
-                                               distr_bus_id= sect_tag,
-                                               distr_bus_iid=distr_bus_iid)
+                            txt = add_main_bus(txt=txt, distr_bus_len=distr_bus_len,
+                                               distr_bus_x=distr_bus_x + SHIFT_FROM_EDGE, distr_bus_y=distr_bus_y,
+                                               distr_bus_id= sect_tag, distr_bus_iid=distr_bus_iid)
+
                             j = 1
 
                             for ind, row in bus_df.iterrows():
