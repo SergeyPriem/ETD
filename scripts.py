@@ -368,7 +368,7 @@ def check_loads(loads_df):
         st.stop()
 
     st.text('')
-    st.success('Loads Data are Walid')
+    st.success('Loads Data are Valid')
 
 
 def prepare_loads_df(loads_df):
