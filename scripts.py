@@ -875,20 +875,11 @@ def scripts_tab():
 
             p_l, p_c, p_r = st.columns(3, gap='medium')
 
-            load_list = p_l.file_uploader("LOAD LIST", type=['xlsx'],
-                                          accept_multiple_files=False, key=None,
-                                          help=None, on_change=None, args=None,
-                                          kwargs=None, disabled=False, label_visibility="visible")
+            load_list = p_l.file_uploader("LOAD LIST", type='xlsx')
 
-            cab_data = p_c.file_uploader("CABLE CATALOG", type=['xlsx'],
-                                         accept_multiple_files=False, key=None,
-                                         help=None, on_change=None, args=None,
-                                         kwargs=None, disabled=False, label_visibility="visible")
+            cab_data = p_c.file_uploader("CABLE CATALOG", type='xlsx')
 
-            dxf_template = p_r.file_uploader("SLD template", type=['dxf'],
-                                             accept_multiple_files=False, key=None,
-                                             help=None, on_change=None, args=None,
-                                             kwargs=None, disabled=False, label_visibility="visible")
+            dxf_template = p_r.file_uploader("SLD template", type='dxf')
 
             tab_cl, tab_sld, tab_xml = st.tabs(['Create Cable List', 'Create SLD in DXF', 'Greate XML for ETAP'])
 
