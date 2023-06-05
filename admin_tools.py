@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import streamlit as st
+from streamlit_extras.dataframe_explorer import dataframe_explorer
+
 from utilities import PROJECT_STATUSES, center_style, get_list_index, update_state
 from projects import create_project, update_projects
 
@@ -217,4 +219,6 @@ def manage_projects():
             proj_df.responsible_el = proj_df.login
             proj_df.drop(columns=['login'], inplace=True)
 
-            st.experimental_data_editor(proj_df, use_container_width=True, height=1500)
+            filtered_proj_df = dataframe_explorer(proj_df, case=False)
+
+            st.experimental_data_editor(filtered_proj_df, use_container_width=True, height=1500)
