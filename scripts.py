@@ -1265,13 +1265,19 @@ def scripts_tab():
                         except Exception as e:
                             st.warning(err_handler(e))
                             st.stop()
-
                 else:
                     st.write('Please Add a Cable List...')
 
 
             with cab_layout:
-                if st.button('Get Cables and Sections from Power Layout', use_container_width=True):
+                if power_layout:
+                    disable_get_button = False
+                else:
+                    disable_get_button = True
+                    st.write('Please Add Cable Routing Layout...')
+
+                if st.button('Get Cables and Sections from Power Layout', use_container_width=True,
+                             disabled=disable_get_button):
                     layout_path = f'temp_dxf/{save_uploaded_file(power_layout)}'
 
                     st.session_state.sect_df = get_sect_from_layout(st.session_state.cab_list_for_sect, layout_path)
