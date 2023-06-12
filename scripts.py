@@ -1288,7 +1288,7 @@ def scripts_tab():
                     with st.form('sect_settings'):
                         lc, rc = st.columns(2, gap='medium')
                         vertical_trays_gap = lc.slider("Vertical Gap between Trays, mm",
-                                                       min_value=150, max_value=500, step=10, value=300)
+                                                       min_value=150, max_value=500, step=10, value=400)
                         trays_height = rc.radio('Tray Height, mm', [50, 60, 75, 80, 100, 150, 200],
                                                 index=4, horizontal=True)
 
