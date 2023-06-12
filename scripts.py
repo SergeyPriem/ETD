@@ -1338,3 +1338,4 @@ def scripts_tab():
             st.write('Load List is required')
             st.write('Typical Diagrams is required')
             st.write('Settings form is required')
+            st.write('Consider Options: tipical termanals, manual creation...')
