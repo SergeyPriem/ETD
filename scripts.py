@@ -1247,9 +1247,10 @@ def scripts_tab():
             with cab_tags:
                 lc, c1, c2, rc = st.columns(4, gap='medium')
                 if cable_list and st.session_state.user['access_level'] == 'dev':
-                    sheet_name = lc.radio('Sheet Name', pd.read_excel(cable_list, sheet_name = None).keys())
+                    sheet_name = lc.selectbox('Sheet Name', pd.read_excel(cable_list, sheet_name = None).keys())
                 else:
                     sheet_name = lc.text_input('Sheet Name')
+
                 from_unit = c1.text_input('From Unit')
                 to_unit = c2.text_input('To Unit')
                 rc.text('')
