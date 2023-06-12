@@ -1245,31 +1245,30 @@ def scripts_tab():
                                                           'Create Sections'])
 
             with cab_tags:
-                lc, c1, c2, rc = st.columns(4, gap='medium')
-                if cable_list and st.session_state.user['access_level'] == 'dev':
-                    sheet_name = lc.selectbox('Sheet Name', pd.read_excel(cable_list, sheet_name = None).keys())
-                else:
-                    sheet_name = lc.text_input('Sheet Name')
 
-                from_unit = c1.text_input('From Unit')
-                to_unit = c2.text_input('To Unit')
-                rc.text('')
-                rc.text('')
-                all_chb = rc.checkbox('All Cable Tags')
-                get_cab_but = st.button('Get Cable Tags for Routing', use_container_width=True)
+                if cable_list: # and st.session_state.user['access_level'] == 'dev'
+                    lc, c1, c2, rc = st.columns(4, gap='medium')
+                    sheet_name = lc.selectbox('Sheet Sheet', pd.read_excel(cable_list, sheet_name = None).keys())
+                    from_unit = c1.text_input('From Unit')
+                    to_unit = c2.text_input('To Unit')
+                    rc.text('')
+                    rc.text('')
+                    all_chb = rc.checkbox('All Cable Tags')
+                    get_cab_but = st.button('Get Cable Tags for Routing', use_container_width=True)
 
-                if cable_list and get_cab_but:
-                    try:
-                        if sheet_name:
+                    if get_cab_but:
+                        try:
                             st.session_state.cab_list_for_sect = pd.read_excel(cable_list, sheet_name=sheet_name)
-                        else:
-                            st.session_state.cab_list_for_sect = pd.read_excel(cable_list, sheet_name='Sheet1')
 
-                        get_tags_from_cablist(st.session_state.cab_list_for_sect, from_unit, to_unit, all_chb)
+                            get_tags_from_cablist(st.session_state.cab_list_for_sect, from_unit, to_unit, all_chb)
 
-                    except Exception as e:
-                        st.warning(err_handler(e))
-                        st.stop()
+                        except Exception as e:
+                            st.warning(err_handler(e))
+                            st.stop()
+
+                else:
+                    st.write('Please Add a Cable List...')
+
 
             with cab_layout:
                 if st.button('Get Cables and Sections from Power Layout', use_container_width=True):
