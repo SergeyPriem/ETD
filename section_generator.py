@@ -24,7 +24,7 @@ def find_duplicates(df: pd.DataFrame, column_name: str) -> None:
         st.write(f':red[!!! Duplicated Tag Numbers Found. Please check Cable List]')
         duplic_df.drop_duplicates(subset=['cableTag'], inplace=True)
         for elem in duplic_df[column_name]:
-            st.write(f":red[!!! Dulicated: {elem}]")
+            st.write(f":red[!!! Duplicated: {elem}]")
 
 
 def get_layout_length(sect_df, sect_final_df):
