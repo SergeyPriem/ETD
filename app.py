@@ -92,9 +92,9 @@ def show_sidebar_info():
         with st.sidebar:
             st.text("")
             st.markdown(f"<h4 style='text-align: center; color: #00bbf9;'>Current Mode:</h4>",
-                                unsafe_allow_html=True)
+                        unsafe_allow_html=True)
             st.markdown(f"<h3 style='text-align: center; color: #00bbf9;'>{st.session_state.proj_scope}</h3>",
-                                unsafe_allow_html=True)
+                        unsafe_allow_html=True)
             st.markdown(
                 f"""<h5 style='text-align: center; color: #fcf403;'>You can chose another Mode:
                  Settings -> Scope of Load</h5>""",
@@ -113,7 +113,6 @@ def show_sidebar_info():
 
             st.markdown(f"<h5 style='text-align: center; color: #00bbf9;'>telegram:  +998 90 959 80 30</h5>",
                         unsafe_allow_html=True)
-
 
 
 # @lru_cache(128)
@@ -280,7 +279,6 @@ def create_states():
             st.warning(err_handler(e))
             st.stop()
 
-
     state_list = ['logged', 'code_sent', 'upd_code_sent', 'conf_num', 'task_preview', 'cab_list_for_sect',
                   'sect_df', 'st.session_state.p_x', 'del_conf', 'loads_df', 'menu', 'icons']
     for state in state_list:
@@ -364,8 +362,6 @@ def form_for_trans():
         if st.button('Close', use_container_width=True):
             st.session_state.trans_status['trans_num'] = None
             st.experimental_rerun()
-
-
 
 
 def home_content():
@@ -952,22 +948,20 @@ def services():
             st.title(':orange[Visit Log]')
             u_df = st.session_state.adb['users']
 
-
-
             if st.button("View Log", type='primary'):
                 v_log_df = get_table(VisitLog)
 
                 v_log_df = v_log_df.merge(u_df[["login"]], how='left', left_on='users', right_on='id')
 
                 st.data_editor(v_log_df.sort_values(by='login_time', ascending=False), key='visit_log',
-                               use_container_width=True) #.sort_values(by='id', ascending=False),
+                               use_container_width=True)
 
         with st.expander("ACTIONS"):
             st.title(':orange[Actions]')
             if st.button('View Actions', type='primary'):
                 action_df = get_table(Action)
                 st.data_editor(action_df.sort_values(by='action_time', ascending=False),
-                                            key='action_log', use_container_width=True)
+                               key='action_log', use_container_width=True)
 
 
 def download_file(file_name, rc):
@@ -985,7 +979,6 @@ def prepare_to_del(file_to_del, lc, rc):
             rc.button("OK", key='close_protected_label')
         else:
             st.session_state.del_conf = file_to_del
-
 
 
 def del_file(lc, rc):
