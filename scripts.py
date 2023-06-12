@@ -1271,60 +1271,60 @@ def scripts_tab():
 
             with cab_layout:
                 if power_layout:
-                    disable_get_button = False
+                    if st.button('Get Cables and Sections from Power Layout', use_container_width=True):
+                        layout_path = f'temp_dxf/{save_uploaded_file(power_layout)}'
+                        st.session_state.sect_df = get_sect_from_layout(st.session_state.cab_list_for_sect, layout_path)
                 else:
-                    disable_get_button = True
                     st.write('Please Add Cable Routing Layout...')
 
-                if st.button('Get Cables and Sections from Power Layout', use_container_width=True,
-                             disabled=disable_get_button):
-                    layout_path = f'temp_dxf/{save_uploaded_file(power_layout)}'
-
-                    st.session_state.sect_df = get_sect_from_layout(st.session_state.cab_list_for_sect, layout_path)
 
 
             with gen_sections:
 
-                with st.form('sect_settings'):
-                    lc, rc = st.columns(2, gap='medium')
-                    vertical_trays_gap = lc.slider("Vertical Gap between Trays, mm",
-                                                   min_value=150, max_value=500, step=10, value=300)
-                    trays_height = rc.radio('Tray Height, mm', [50, 60, 75, 80, 100, 150, 200],
-                                            index=4, horizontal=True)
+                if sect_template and check_df(st.session_state.sect_df):
 
-                    c1, c2, c3, c4 = st.columns(4, gap='medium')
+                    with st.form('sect_settings'):
+                        lc, rc = st.columns(2, gap='medium')
+                        vertical_trays_gap = lc.slider("Vertical Gap between Trays, mm",
+                                                       min_value=150, max_value=500, step=10, value=300)
+                        trays_height = rc.radio('Tray Height, mm', [50, 60, 75, 80, 100, 150, 200],
+                                                index=4, horizontal=True)
 
-                    volume_percent = c1.radio('Control Cable Tray filling (by Volume), %', [40, 50, 60],
-                                              index=1, horizontal=True)
+                        c1, c2, c3, c4 = st.columns(4, gap='medium')
 
-                    width_percent = c2.radio('Power Cable Tray filling (by Width), %', [80, 90, 100],
-                                             index=0, horizontal=True)
+                        volume_percent = c1.radio('Control Cable Tray filling (by Volume), %', [40, 50, 60],
+                                                  index=1, horizontal=True)
 
-                    lv_horis_gap = c3.radio('Horisontal Gap for LV cables, %', [0, 50, 100], index=2, horizontal=True)
-                    mv_horis_gap = c4.radio('Horisontal Gap for MV cables, %', [0, 50, 100], index=2, horizontal=True)
-                    form_conf_but = st.form_submit_button('Generate Sections', use_container_width=True)
+                        width_percent = c2.radio('Power Cable Tray filling (by Width), %', [80, 90, 100],
+                                                 index=0, horizontal=True)
 
-                if form_conf_but:
+                        lv_horis_gap = c3.radio('Horisontal Gap for LV cables, %', [0, 50, 100], index=2, horizontal=True)
+                        mv_horis_gap = c4.radio('Horisontal Gap for MV cables, %', [0, 50, 100], index=2, horizontal=True)
+                        form_conf_but = st.form_submit_button('Generate Sections', use_container_width=True)
 
-                    if vertical_trays_gap - trays_height < 100:
-                        st.write(":red[Not enough vertical space to pull cables]")
-                        st.write(":red[Please increase vertical gap or reduce tray height]")
-                        st.stop()
+                    if form_conf_but:
 
-                    st.session_state.p_x = 0
+                        if vertical_trays_gap - trays_height < 100:
+                            st.write(":red[Not enough vertical space to pull cables]")
+                            st.write(":red[Please increase vertical gap or reduce tray height]")
+                            st.stop()
 
-                    sections_template_path = f'temp_dxf/{save_uploaded_file(sect_template)}'
+                        st.session_state.p_x = 0
 
-                    reply = generate_dxf(st.session_state.sect_df, vertical_trays_gap, trays_height,
-                                         volume_percent, width_percent, lv_horis_gap, mv_horis_gap,
-                                         sections_template_path)
+                        sections_template_path = f'temp_dxf/{save_uploaded_file(sect_template)}'
 
-                    with open(reply, 'rb') as f:
-                        st.download_button('Get SECTIONS here', data=f,file_name=reply.replace("temp_dxf/", ""))
+                        reply = generate_dxf(st.session_state.sect_df, vertical_trays_gap, trays_height,
+                                             volume_percent, width_percent, lv_horis_gap, mv_horis_gap,
+                                             sections_template_path)
 
-                    reply2 = reg_action(reply.replace("temp_dxf/", ""))
+                        with open(reply, 'rb') as f:
+                            st.download_button('Get SECTIONS here', data=f,file_name=reply.replace("temp_dxf/", ""))
 
-                    if reply2['status'] == 200:
-                        st.success(reply2['message'])
-                    else:
-                        st.warning(reply2['message'])
+                        reply2 = reg_action(reply.replace("temp_dxf/", ""))
+
+                        if reply2['status'] == 200:
+                            st.success(reply2['message'])
+                        else:
+                            st.warning(reply2['message'])
+                else:
+                    st.write("Add Sections' Template...")
