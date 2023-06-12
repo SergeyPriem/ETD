@@ -133,7 +133,7 @@ def get_menus(rights):
     super_icons = ["bi bi-briefcase", "bi bi-person-lines-fill"]
 
     dev_menu = ["Service"]
-    dev_icons = ["bi bi-hdd"]
+    dev_icons = ["bi bi-wrench"]
 
     if not rights:
         st.warning('Rights not available...')
