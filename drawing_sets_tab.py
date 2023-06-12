@@ -538,7 +538,7 @@ def manage_units():
                 r_c.text('')
                 status = r_c.select_slider("Select the Current Status *", COMPLETION, value='0%')
                 notes = l_c.text_area("Add Notes", max_chars=500, height=120).strip()
-                l_c.write(":red[* - required]")
+                l_c.write(":red[\* - required]")
                 r_c.text('')
                 create_sod_but = r_c.form_submit_button("Create", use_container_width=True)
 
