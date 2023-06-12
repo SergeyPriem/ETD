@@ -243,7 +243,8 @@ def get_tags_from_cablist(cablist_df, from_unit, to_unit, all_chb):  # script 2
     col_names = list(cablist_df.columns)
 
     if "cableTag" not in col_names:
-        st.warning('Seems you loaded wrong Table for Cable List...')
+        st.warning('Seems you selected wrong Sheet for Cable List...')
+        st.write('Below is list of Column names of Selected Sheet')
         st.write(col_names)
         return
 
