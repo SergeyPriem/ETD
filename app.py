@@ -966,7 +966,7 @@ def services():
             st.title(':orange[Actions]')
             if st.button('View Actions', type='primary'):
                 action_df = get_table(Action)
-                st.data_editor(action_df.sort_values(by='id', ascending=False),
+                st.data_editor(action_df.sort_values(by='action_time', ascending=False),
                                             key='action_log', use_container_width=True)
 
 
