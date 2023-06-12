@@ -1331,3 +1331,7 @@ def scripts_tab():
                             st.warning(reply2['message'])
                 else:
                     st.write("Process Cable Layout and Add Sections' Template...")
+
+
+        with st.expander('CREATE TERMINALS DIAGRAM'):
+            st.title(':orange[Create Terminals Diagram - under development...]')
