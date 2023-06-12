@@ -1237,9 +1237,10 @@ def scripts_tab():
 
             cable_list = p_l.file_uploader("CABLE LIST", type=['xlsx'])
 
-            sect_template = p_c.file_uploader("SECTIONS TEMPLATE", type=['dxf'])
+            power_layout = p_c.file_uploader("CABLE ROUTING LAYOUT", type=['dxf'])
 
-            power_layout = p_r.file_uploader("CABLE ROUTING LAYOUT", type=['dxf'])
+            sect_template = p_r.file_uploader("SECTIONS TEMPLATE", type=['dxf'])
+
 
             cab_tags, cab_layout, gen_sections = st.tabs(['Get Tags from Cable List', 'Process Cable Layout',
                                                           'Create Sections'])
