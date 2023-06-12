@@ -132,7 +132,7 @@ def get_menus(rights):
     super_menu = ["Projects", "Users"]
     super_icons = ["bi bi-briefcase", "bi bi-person-lines-fill"]
 
-    dev_menu = ["Storage"]
+    dev_menu = ["Service"]
     dev_icons = ["bi bi-hdd"]
 
     if not rights:
@@ -925,27 +925,34 @@ def fresh_data():
     st.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>", unsafe_allow_html=True)
 
 
-def manage_storage():
+def services():
     center_style()
 
-    stor_left, stor_cont, stor_right = st.columns([5, 7, 5])
+    serv_left, serv_cont, serv_right = st.columns([2, 8, 2])
 
-    with stor_cont:
-        st.title(':orange[Storage]')
-        st.divider()
-        st.header("Now in Temporary Folder:")
-        with os.scandir('temp_dxf/') as entries:
-            lc, rc = st.columns(2)
-            for entry in entries:
-                lc.button(f"Delete: {entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB",
-                          use_container_width=True, type='primary',
-                          on_click=prepare_to_del, args=(entry.name, lc, rc))
+    with serv_cont:
+        with st.expander('STORAGE'):
+            st.title(':orange[Storage]')
+            st.divider()
+            st.header("Now in Temporary Folder:")
+            with os.scandir('temp_dxf/') as entries:
+                lc, rc = st.columns(2)
+                for entry in entries:
+                    lc.button(f"Delete: {entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB",
+                              use_container_width=True, type='primary',
+                              on_click=prepare_to_del, args=(entry.name, lc, rc))
 
-                rc.button(f"Download: {entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB",
-                          use_container_width=True, on_click=download_file, args=(entry.name, rc))
+                    rc.button(f"Download: {entry.name}: {round(os.stat(entry).st_size / 1024, 3)} kB",
+                              use_container_width=True, on_click=download_file, args=(entry.name, rc))
 
-    if st.session_state.del_conf:
-        del_file(lc, rc)
+            if st.session_state.del_conf:
+                del_file(lc, rc)
+
+        with st.expander("VISIT LOG"):
+            st.title(':orange[Visit Log]')
+
+        with st.expander("ACTIONS"):
+            st.title(':orange[Actions]')
 
 
 def download_file(file_name, rc):
@@ -1007,7 +1014,7 @@ def win_selector(selected):
         "Settings": settings_content,
         "Refresh": fresh_data,
         "Units": manage_units,
-        "Storage": manage_storage,
+        "Service": services,
     }
 
     tab_dict.get(selected)()
