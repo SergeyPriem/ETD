@@ -240,6 +240,13 @@ def get_cable_df(cl_path):
 
 def get_tags_from_cablist(cablist_df, from_unit, to_unit, all_chb):  # script 2
 
+    col_names = list(cablist_df.columns)
+
+    if "cableTag" not in col_names:
+        st.warning('Seems you loaded wrong Table for Cable List...')
+        st.write(col_names)
+
+
     find_duplicates(cablist_df, 'cableTag')
     cablist_df.drop_duplicates(subset=['cableTag'], inplace=True)
     cablist_df.bus.replace(np.nan, '???', inplace=True)
