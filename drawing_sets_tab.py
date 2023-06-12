@@ -59,7 +59,7 @@ def drawing_sets():
         units_ch_b = ds_right.checkbox("Show Units Table")
 
         if units_ch_b:
-            st.experimental_data_editor(sod_df.set_index('unit_id'),
+            st.data_editor(sod_df.set_index('unit_id'),
                                         key='show_units_for_drawings',
                                         use_container_width=True)
 
@@ -325,7 +325,7 @@ def drawing_sets():
             st.write(f'Quantity: {len(units_tasks)}')
 
         units_tasks = units_tasks.sort_values(by=['speciality', 'date'], ascending=[True, False])
-        st.experimental_data_editor(units_tasks[['stage', 'speciality', 'date', 'description', 'link', 'source',
+        st.data_editor(units_tasks[['stage', 'speciality', 'date', 'description', 'link', 'source',
                                                  'comment', 'backup_copy', 'coord_log', 'perf_log', 'added_by',
                                                  'task_id']].set_index('task_id'),
                                     use_container_width=True)
@@ -350,7 +350,7 @@ def drawing_sets():
                 st.subheader("Not available Tasks for Specialities. Here you can create request for assignments")
                 not_aval_col, empty_col, but_col, request_col = st.columns([4, 1, 3, 10])
                 with not_aval_col:
-                    request_df = st.experimental_data_editor(not_aval_df, use_container_width=True,
+                    request_df = st.data_editor(not_aval_df, use_container_width=True,
                                                              height=600,
                                                              num_rows='fixed',
                                                              key='tasks',
@@ -406,7 +406,7 @@ def show_all_units(sod_df):
     st.markdown(f"<h4 style='text-align: center; color: #249ded;'>Records Q-ty: {len(filtered_sod)}:</h4>",
                 unsafe_allow_html=True)
 
-    sod_to_request = st.experimental_data_editor(filtered_sod, use_container_width=True,
+    sod_to_request = st.data_editor(filtered_sod, use_container_width=True,
                                                  key=st.session_state.req_lines_avail, height=800)
     return sod_to_request
 

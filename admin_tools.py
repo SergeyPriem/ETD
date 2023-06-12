@@ -230,4 +230,4 @@ def manage_projects():
             st.markdown(f"<h4 style='text-align: center; color: #249ded;'>Records Q-ty: {len(filtered_proj_df)}:</h4>",
                         unsafe_allow_html=True)
 
-            st.experimental_data_editor(filtered_proj_df, use_container_width=True, height=1500)
+            st.data_editor(filtered_proj_df, use_container_width=True, height=1500)

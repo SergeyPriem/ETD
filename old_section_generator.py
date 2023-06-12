@@ -505,7 +505,7 @@
 #                 " Please adjust your cable list or check/update the routing at the layout. \n\n"
 #                 " Info: during cable routing script uses cable length taken from the 'power_layout'")
 #
-#     st.experimental_data_editor(sect_df[['sect', 'cab_tag', 'compos', 'wires', 'section', 'layout_len',
+#     st.data_editor(sect_df[['sect', 'cab_tag', 'compos', 'wires', 'section', 'layout_len',
 #                                          'cab_list_len', 'delta', 'diam', 'chan_size', 'bus']],
 #                                 use_container_width=True)
 #

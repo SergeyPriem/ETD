@@ -914,7 +914,7 @@ def manage_users():
             st.markdown(f"<h4 style='text-align: center; color: #249ded;'>Records Q-ty: {len(filtered_u_df)}:</h4>",
                         unsafe_allow_html=True)
 
-            st.experimental_data_editor(filtered_u_df, use_container_width=True, height=1500)
+            st.data_editor(filtered_u_df, use_container_width=True, height=1500)
 
 
 def fresh_data():
@@ -952,14 +952,14 @@ def services():
             st.title(':orange[Visit Log]')
             if st.button("View Log", type='primary'):
                 v_log_df = get_table(VisitLog)
-                st.experimental_data_editor(v_log_df.sort_values(by='id', ascending=False),
+                st.data_editor(v_log_df.sort_values(by='id', ascending=False),
                                             key='visit_log', use_container_width=True)
 
         with st.expander("ACTIONS"):
             st.title(':orange[Actions]')
             if st.button('View Actions', type='primary'):
                 action_df = get_table(Action)
-                st.experimental_data_editor(action_df.sort_values(by='id', ascending=False),
+                st.data_editor(action_df.sort_values(by='id', ascending=False),
                                             key='action_log', use_container_width=True)
 
 

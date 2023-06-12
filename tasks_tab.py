@@ -349,4 +349,4 @@ def view_tasks(ass_tab2, my_all):
 
         df_orig.sort_values(by=['task_id'], ascending=False)
         st.write(f"{len(df_orig)} records found for '{st.session_state.proj_scope}' mode")
-        st.experimental_data_editor(df_orig, use_container_width=True)
+        st.data_editor(df_orig, use_container_width=True)

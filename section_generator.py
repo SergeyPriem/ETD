@@ -422,7 +422,7 @@ def get_sect_from_layout(cablist_df, layout_path):  ### 3
         st.write(":green[Please adjust your Cable List or check/update the Cable Layout if the delta is significant.]")
         st.write(":blue[Info: during cable routing script uses cable length taken from the 'power_layout']")
 
-    st.experimental_data_editor(
+    st.data_editor(
         all_sect_df[['sect', 'cab_tag', 'cab_type', 'layout_len', 'cab_list_len', 'delta', 'cab_diam', 'chan_type',
                      'chan_size', 'cab_bus']], use_container_width=True)
 
