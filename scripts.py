@@ -1335,3 +1335,6 @@ def scripts_tab():
 
         with st.expander('CREATE TERMINALS DIAGRAM'):
             st.title(':orange[Create Terminals Diagram - under development...]')
+            st.write('Load List is required')
+            st.write('Typical Diagrams is required')
+            st.write('Settings form is required')
