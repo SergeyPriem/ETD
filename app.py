@@ -955,6 +955,9 @@ def services():
 
         with st.expander("ACTIONS"):
             st.title(':orange[Actions]')
+            action_df = get_table(VisitLog)
+            st.experimental_data_editor(action_df.sort_values(by='id', ascending=False), use_container_width=True)
+
 
 
 def download_file(file_name, rc):
