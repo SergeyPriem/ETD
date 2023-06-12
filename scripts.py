@@ -1329,4 +1329,4 @@ def scripts_tab():
                         else:
                             st.warning(reply2['message'])
                 else:
-                    st.write("Add Sections' Template...")
+                    st.write("Process Cable Layout and Add Sections' Template...")
