@@ -12,7 +12,7 @@ from admin_tools import manage_projects
 from drawing_sets_tab import drawing_sets, manage_units
 from just_for_fun_tab import reading
 from lesson_learned_tab import lessons_content
-from models import Users, Task, Trans, VisitLog
+from models import Users, Task, Trans, VisitLog, Action
 from projects import confirm_task, confirm_trans, trans_status_to_db, get_all, get_table
 from scripts import scripts_tab
 from send_emails import send_mail
@@ -956,7 +956,7 @@ def services():
 
         with st.expander("ACTIONS"):
             st.title(':orange[Actions]')
-            action_df = get_table(VisitLog)
+            action_df = get_table(Action)
             st.experimental_data_editor(action_df.sort_values(by='id', key='action_log',
                                                               ascending=False), use_container_width=True)
 
