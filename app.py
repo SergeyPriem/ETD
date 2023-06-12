@@ -957,7 +957,7 @@ def services():
             if st.button("View Log", type='primary'):
                 v_log_df = get_table(VisitLog)
 
-                v_log_df.merge(u_df[["id", "login"]], left_on='users', right_on='index')
+                v_log_df.merge(u_df[["login"]], how='left', left_on='users', right_on='id')
 
                 st.data_editor(v_log_df.sort_values(by='id', ascending=False),
                                             key='visit_log', use_container_width=True)
