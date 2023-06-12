@@ -959,7 +959,8 @@ def services():
 
                 v_log_df = v_log_df.merge(u_df[["login"]], how='left', left_on='users', right_on='id')
 
-                st.data_editor(v_log_df.sort_values(by='id', ascending=False), key='visit_log', use_container_width=True) #.sort_values(by='id', ascending=False),
+                st.data_editor(v_log_df.sort_values(by='login_time', ascending=False), key='visit_log',
+                               use_container_width=True) #.sort_values(by='id', ascending=False),
 
         with st.expander("ACTIONS"):
             st.title(':orange[Actions]')
