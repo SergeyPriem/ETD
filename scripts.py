@@ -1248,14 +1248,15 @@ def scripts_tab():
             with cab_tags:
 
                 if cable_list: # and st.session_state.user['access_level'] == 'dev'
-                    lc, c1, c2, rc = st.columns(4, gap='medium')
-                    sheet_name = lc.selectbox('Sheet Sheet', pd.read_excel(cable_list, sheet_name = None).keys())
-                    from_unit = c1.text_input('From Unit')
-                    to_unit = c2.text_input('To Unit')
-                    rc.text('')
-                    rc.text('')
-                    all_chb = rc.checkbox('All Cable Tags')
-                    get_cab_but = st.button('Get Cable Tags for Routing', use_container_width=True)
+                    with st.form('cablist_settings'):
+                        lc, c1, c2, rc = st.columns(4, gap='medium')
+                        sheet_name = lc.selectbox('Sheet Sheet', pd.read_excel(cable_list, sheet_name = None).keys())
+                        from_unit = c1.text_input('From Unit')
+                        to_unit = c2.text_input('To Unit')
+                        rc.text('')
+                        rc.text('')
+                        all_chb = rc.checkbox('All Cable Tags')
+                        get_cab_but = st.form_submit_button('Get Cable Tags for Routing', use_container_width=True)
 
                     if get_cab_but:
                         try:
