@@ -952,7 +952,7 @@ def services():
             st.title(':orange[Visit Log]')
             if st.button("View Log", type='primary'):
                 v_log_df = get_table(VisitLog)
-                st.experimental_data_editor(v_log_df.sort_values(by='id', ascending=False), type='primary',
+                st.experimental_data_editor(v_log_df.sort_values(by='id', ascending=False),
                                             key='visit_log', use_container_width=True)
 
         with st.expander("ACTIONS"):
