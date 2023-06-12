@@ -950,15 +950,17 @@ def services():
 
         with st.expander("VISIT LOG"):
             st.title(':orange[Visit Log]')
-            v_log_df = get_table(VisitLog)
-            st.experimental_data_editor(v_log_df.sort_values(by='id', ascending=False),
-                                        key='visit_log', use_container_width=True)
+            if st.button("View Log"):
+                v_log_df = get_table(VisitLog)
+                st.experimental_data_editor(v_log_df.sort_values(by='id', ascending=False),
+                                            key='visit_log', use_container_width=True)
 
         with st.expander("ACTIONS"):
             st.title(':orange[Actions]')
-            action_df = get_table(Action)
-            st.experimental_data_editor(action_df.sort_values(by='id', ascending=False),
-                                        key='action_log', use_container_width=True)
+            if st.button('View Actions'):
+                action_df = get_table(Action)
+                st.experimental_data_editor(action_df.sort_values(by='id', ascending=False),
+                                            key='action_log', use_container_width=True)
 
 
 
