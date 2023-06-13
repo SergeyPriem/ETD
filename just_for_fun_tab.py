@@ -57,10 +57,12 @@ def manual():
         #
         # st.write("check out this [Сверление квадратных отверстий](https://etudes.ru/etudes/drilling-square-holes/)")
 
-
         ru, en = st.columns(2, gap='medium')
 
         ru.subheader("Вкладка 'Home'")
-        left_style()
-        ru.write("На вкладке 'Home' отображаются новые Задания от смежных отделов (если их внесли в базу не Вы) "
-                 "и Трансмитталы. Чтобы скрыть Задания и Трансмитталы, нажмите кнопку под соответствующим блоком")
+        # left_style()
+        ru.write("")
+
+        ru.markdown('<div style="text-align: justify;">На вкладке **Home** отображаются новые Задания от смежных отделов'
+                    ' (если их внесли в базу не Вы) и Трансмитталы. Чтобы скрыть Задания и Трансмитталы, '
+                    'нажмите кнопку под соответствующим блоком</div>', unsafe_allow_html=True)
