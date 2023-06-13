@@ -36,7 +36,7 @@ def drawing_sets():
         you can view all Units of Electrical Department.</p>
         """
 
-        title_with_help('Drawings', help_content=h_cont)
+        title_with_help('Drawings', help_content=h_cont, ratio=30)
 
         ds_left, lc, ds_center, cr, ds_right = st.columns([5, 6, 4, 5, 5])
         ds_center.text('')

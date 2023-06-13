@@ -243,7 +243,7 @@ def check_df(df):
         return False
 
 
-def title_with_help(title, help_content):
+def title_with_help(title, help_content, ratio=24):
     #h_content = """
     #    <p style="text-align: justify; color: #249ded;">На вкладке <b>Home</b> отображаются новые
     #    <b>Задания</b> от смежных отделов (если их внесли в базу не Вы) и <b>Трансмитталы</b>.
@@ -255,7 +255,7 @@ def title_with_help(title, help_content):
     #    the corresponding block.</p>
     #    """
 
-    lc, cc, rc = st.columns([1, 24, 1])
+    lc, cc, rc = st.columns([1, ratio, 1])
     cc.title(f':orange[{title}]')
 
     if rc.button('❔', key=f'{title}_help', use_container_width=True):
