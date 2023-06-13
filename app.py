@@ -945,6 +945,7 @@ def services():
                 and <b>Transmittals</b>. To hide Tasks and Transmittals, click the button under 
                 the corresponding block.</p>
                 """, unsafe_allow_html=True)
+                rc.button('Close', key='storage_help')
 
                 # stoggle(
                 #     "❓",
