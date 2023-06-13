@@ -212,7 +212,7 @@ def manage_projects():
                             st.warning(reply)
 
                 else:
-                    st.warning('Select the Project')
+                    st.warning('Select the Project...')
 
 
         with viewer_tab:
