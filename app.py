@@ -934,7 +934,7 @@ def services():
         with st.expander('STORAGE'):
             st.title(':orange[Storage]')
             stoggle(
-                "help",
+                "❓",
                 """
                 <p style="text-align: justify; color: #249ded;">На вкладке <b>Home</b> отображаются новые
                  <b>Задания</b> от смежных отделов (если их внесли в базу не Вы) и <b>Трансмитталы</b>. 
