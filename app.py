@@ -933,7 +933,7 @@ def services():
     with serv_cont:
         with st.expander('STORAGE'):
             def title_with_help(title, help_content):
-                lc, cc, rc = st.columns([1,10,1])
+                lc, cc, rc = st.columns([1,20,1])
                 cc.title(f':orange[{title}]')
 
                 if rc.button('❔', key=f'{title}_help', use_container_width=True):
