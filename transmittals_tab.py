@@ -209,7 +209,7 @@ def transmittals_content():
             if isinstance(df, pd.DataFrame):
                 if len(df) > 0:
                     st.subheader(f"{my_all_tr}: {len(df)}")
-                    st.write(df)
+                    st.dataframe(df)
                 else:
                     st.info("No Tansmittals in DataBase")
                     st.stop()
