@@ -10,7 +10,7 @@ from streamlit_option_menu import option_menu
 
 from admin_tools import manage_projects
 from drawing_sets_tab import drawing_sets, manage_units
-from just_for_fun_tab import reading
+from just_for_fun_tab import manual
 from lesson_learned_tab import lessons_content
 from models import Users, Task, Trans, VisitLog, Action
 from projects import confirm_task, confirm_trans, trans_status_to_db, get_all, get_table
@@ -1021,7 +1021,7 @@ def win_selector(selected):
         "Transmittals": transmittals_content,
         "Tasks": tasks_content,
         "Drawings": drawing_sets,
-        "Manual": reading,
+        "Manual": manual,
         "Scripts": scripts_tab,
         "Users": manage_users,
         "Knowledge": lessons_content,
