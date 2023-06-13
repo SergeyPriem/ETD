@@ -961,11 +961,9 @@ def services():
             if st.session_state.del_conf:
                 del_file(lc, rc)
 
-        with st.expander("VISIT LOG"):
-            st.title(':orange[Visit Log]')
-            stoggle(
-                "❓",
-                """
+        with st.expander("USAGE LOG"):
+
+            h_content = """
                 <p style="text-align: justify; color: #249ded;">На вкладке <b>Home</b> отображаются новые
                  <b>Задания</b> от смежных отделов (если их внесли в базу не Вы) и <b>Трансмитталы</b>. 
                  Чтобы скрыть Задания и  Трансмитталы, нажмите кнопку под соответствующим блоком.</p>
@@ -974,8 +972,9 @@ def services():
                  <b>Assignments</b> from related departments (if they were not entered into the database by you) 
                  and <b>Transmittals</b>. To hide Tasks and Transmittals, click the button under 
                  the corresponding block.</p>
-                 """,
-            )
+                 """
+
+            title_with_help('Usage Log', h_content)
 
             u_df = st.session_state.adb['users']
 
