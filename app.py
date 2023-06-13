@@ -829,7 +829,8 @@ def manage_users():
                     else:
                         rc.warning(reply_2)
                 else:
-                    lc.warning(reply['message'])
+                    st.warning(reply['message'])
+
 
         with edit_tab2:
 
