@@ -24,7 +24,7 @@ from users import check_user, add_to_log, create_appl_user, update_users_in_db, 
     err_handler
 from utilities import appearance_settings, POSITIONS, DEPARTMENTS, mail_to_name, TRANS_STATUSES, \
     center_style, get_state, set_init_state, update_state, update_tables, \
-    get_list_index
+    get_list_index, title_with_help
 
 import streamlit as st
 from htbuilder import HtmlElement, div, hr, a, p, img, styles
@@ -932,15 +932,6 @@ def services():
 
     with serv_cont:
         with st.expander('STORAGE'):
-            def title_with_help(title, help_content):
-                lc, cc, rc = st.columns([1,20,1])
-                cc.title(f':orange[{title}]')
-
-                if rc.button('❔', key=f'{title}_help', use_container_width=True):
-                    cc.markdown(help_content, unsafe_allow_html=True)
-                    rc.button('✖️', key=f'{title}_help_close', use_container_width=True)
-
-                st.divider()
 
             h_content = """
                 <p style="text-align: justify; color: #249ded;">На вкладке <b>Home</b> отображаются новые

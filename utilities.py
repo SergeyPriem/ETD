@@ -241,3 +241,14 @@ def check_df(df):
             return False
     else:
         return False
+
+
+def title_with_help(title, help_content):
+    lc, cc, rc = st.columns([1, 20, 1])
+    cc.title(f':orange[{title}]')
+
+    if rc.button('❔', key=f'{title}_help', use_container_width=True):
+        cc.markdown(help_content, unsafe_allow_html=True)
+        rc.button('✖️', key=f'{title}_help_close', use_container_width=True)
+
+    st.divider()
