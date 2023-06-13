@@ -39,22 +39,27 @@ from utilities import center_style
 #         st.table(emojis)
 
 
-def reading():
+def manual():
 
     center_style()
 
     fun_1, fun_content, fun_2 = st.columns([1, 9, 1])
-    with fun_1:
-        st.empty()
-    with fun_2:
-        st.empty()
+    fun_1.empty()
+    fun_2.empty()
     with fun_content:
-        st.title(':orange[Relax Area] - under Development')
+        st.title(':orange[Manual] - under Development')
         st.divider()
-        st.write("🌴 Short time to relax")
+        # st.write("🌴 Short time to relax")
+        #
+        # st.write("check out this [Мальтийский механизм](https://www.wikiwand.com/ru/"
+        #          "%D0%9C%D0%B0%D0%BB%D1%8C%D1%82%D0%B8%D0%B9%D1%81%D0%BA%D0%B8%D0%B9"
+        #          "_%D0%BC%D0%B5%D1%85%D0%B0%D0%BD%D0%B8%D0%B7%D0%BC)")
+        #
+        # st.write("check out this [Сверление квадратных отверстий](https://etudes.ru/etudes/drilling-square-holes/)")
 
-        st.write("check out this [Мальтийский механизм](https://www.wikiwand.com/ru/"
-                 "%D0%9C%D0%B0%D0%BB%D1%8C%D1%82%D0%B8%D0%B9%D1%81%D0%BA%D0%B8%D0%B9"
-                 "_%D0%BC%D0%B5%D1%85%D0%B0%D0%BD%D0%B8%D0%B7%D0%BC)")
+        ru, en = st.columns(2, gap='medium')
 
-        st.write("check out this [Сверление квадратных отверстий](https://etudes.ru/etudes/drilling-square-holes/)")
+        ru.subheader("Вкладка 'Home'")
+
+        ru.write("На вкладке 'Home' отображаются новые Задания от смежных отделов (если их внесли в базу не Вы)"
+                 "и Трансмитталы. Чтобы скрыть Задания и Трансмитталы, нажмите кнопку под соответствующим блоком")

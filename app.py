@@ -118,7 +118,7 @@ def show_sidebar_info():
 # @lru_cache(128)
 def get_menus(rights):
     # st.session_state.temp_log.append('get_menus')
-    performer_menu = ["Home", "Drawings", "Transmittals", "Tasks", 'Scripts', 'Reading',
+    performer_menu = ["Home", "Drawings", "Transmittals", "Tasks", 'Scripts', 'Manual',
                       'Knowledge', 'Settings', 'Refresh']
 
     performer_icons = ['house', 'bi bi-file-earmark-spreadsheet-fill', 'bi bi-file-arrow-down',
@@ -1021,7 +1021,7 @@ def win_selector(selected):
         "Transmittals": transmittals_content,
         "Tasks": tasks_content,
         "Drawings": drawing_sets,
-        "Reading": reading,
+        "Manual": reading,
         "Scripts": scripts_tab,
         "Users": manage_users,
         "Knowledge": lessons_content,
