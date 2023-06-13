@@ -4,7 +4,8 @@ import pandas as pd
 import streamlit as st
 from admin_tools import get_list_index
 from send_emails import send_mail
-from utilities import REVISIONS, COMPLETION, STAGES, center_style, update_state #, make_long_delay, make_short_delay
+from utilities import REVISIONS, COMPLETION, STAGES, center_style, update_state, \
+    title_with_help  # , make_long_delay, make_short_delay
 from projects import update_sod, add_sod, update_unit_name_stage
 from utilities import err_handler
 from functools import lru_cache
@@ -25,6 +26,17 @@ def drawing_sets():
         st.empty()
 
     with content:
+        h_cont= """
+        <p style="text-align: justify; color: #249ded;">На вкладке <b>Drawings</b> отображаются комплекты чертежей, 
+        в которых Вы Координатор или Разработчик (если выбрано <b>My Units</b>). Выбрав <b>All Units</b> можно 
+        просмотреть все комплекты ЭлектроОтдела</p>
+        <hr>
+        p style="text-align: justify; color: #249ded;">The <b>Drawings</b> tab displays sets of drawings,
+        in which you are the Coordinator or Developer (if <b>My Units</b> is selected). By selecting <b>All Units</b> 
+        you can view all Units of Electrical Department.</p>
+        """
+
+        title_with_help('Drawings', help_content=h_cont)
         st.title(':orange[Drawings]')
         st.divider()
 
