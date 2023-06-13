@@ -31,7 +31,7 @@ def drawing_sets():
         в которых Вы Координатор или Разработчик (если выбрано <b>My Units</b>). Выбрав <b>All Units</b> можно 
         просмотреть все комплекты ЭлектроОтдела</p>
         <hr>
-        p style="text-align: justify; color: #249ded;">The <b>Drawings</b> tab displays sets of drawings,
+        <p style="text-align: justify; color: #249ded;">The <b>Drawings</b> tab displays sets of drawings,
         in which you are the Coordinator or Developer (if <b>My Units</b> is selected). By selecting <b>All Units</b> 
         you can view all Units of Electrical Department.</p>
         """

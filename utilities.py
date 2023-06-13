@@ -246,14 +246,14 @@ def check_df(df):
 def title_with_help(title, help_content):
     #h_content = """
     #    <p style="text-align: justify; color: #249ded;">На вкладке <b>Home</b> отображаются новые
-    #     <b>Задания</b> от смежных отделов (если их внесли в базу не Вы) и <b>Трансмитталы</b>.
-    #     Чтобы скрыть Задания и  Трансмитталы, нажмите кнопку под соответствующим блоком.</p>
-    #     <hr>
+    #    <b>Задания</b> от смежных отделов (если их внесли в базу не Вы) и <b>Трансмитталы</b>.
+    #    Чтобы скрыть Задания и  Трансмитталы, нажмите кнопку под соответствующим блоком.</p>
+    #    <hr>
     #    <p style="text-align: justify; color: #249ded;">The <b>Home</b> tab displays new
-    #     <b>Assignments</b> from related departments (if they were not entered into the database by you)
-    #     and <b>Transmittals</b>. To hide Tasks and Transmittals, click the button under
-    #     the corresponding block.</p>
-    #     """
+    #    <b>Assignments</b> from related departments (if they were not entered into the database by you)
+    #    and <b>Transmittals</b>. To hide Tasks and Transmittals, click the button under
+    #    the corresponding block.</p>
+    #    """
 
     lc, cc, rc = st.columns([1, 24, 1])
     cc.title(f':orange[{title}]')
