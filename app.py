@@ -6,6 +6,7 @@ import random
 import pandas as pd
 from PIL import Image
 from streamlit_extras.dataframe_explorer import dataframe_explorer
+from streamlit_extras.stoggle import stoggle
 from streamlit_option_menu import option_menu
 
 from admin_tools import manage_projects
@@ -932,6 +933,12 @@ def services():
     with serv_cont:
         with st.expander('STORAGE'):
             st.title(':orange[Storage]')
+            stoggle(
+                "help",
+                """<p style="text-align: justify; color: #249ded;">На вкладке <b>Home</b> отображаются новые
+                 <b>Задания</b> от смежных отделов (если их внесли в базу не Вы) и <b>Трансмитталы</b>. 
+                 Чтобы скрыть Задания и  Трансмитталы, нажмите кнопку под соответствующим блоком.</p>""",
+            )
             st.divider()
             st.header("Now in Temporary Folder:")
             with os.scandir('temp_dxf/') as entries:

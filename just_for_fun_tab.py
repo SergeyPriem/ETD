@@ -57,7 +57,7 @@ def manual():
         #
         # st.write("check out this [Сверление квадратных отверстий](https://etudes.ru/etudes/drilling-square-holes/)")
 
-        ru, en = st.columns(2, gap='medium')
+        ru, en = st.columns(2, gap='large')
 
         ru.subheader("Вкладка 'Home'")
         ru.write("")
