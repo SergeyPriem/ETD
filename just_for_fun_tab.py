@@ -69,6 +69,7 @@ def manual():
                     '</div>', unsafe_allow_html=True)
         ru.divider()
 
+        ru.subheader("Вкладка 'Home'")
         en.markdown('<div style="text-align: justify;">'
                     'На вкладке <b>Home</b> отображаются новые <b>Задания</b> от смежных отделов '
                     '(если их внесли в базу не Вы) и <b>Трансмитталы</b>. Чтобы скрыть Задания и '
