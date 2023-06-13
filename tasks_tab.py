@@ -24,15 +24,33 @@ def tasks_content():
 
         help_text = """
         <p style="text-align: justify; color: #249ded;">
-            На вкладке <b>Tasks</b> можно добавить новое <b>Входящее Задание</b> от смежных отделов. Предусмотрена 
-            возможность добавления заданий по нескольким комплектам одновременно. <b>Исходящие Задания</b> 
-            можно внести для нескольких специальностей одновременно
-        </p>.
+            Вкладка <b>Tasks</b> позволяет:
+        </p>
+        <p style="text-align: justify; color: #249ded;">
+            * Добавлять <b>Входящее Задание</b> от смежных отделов. Предусмотрена 
+            возможность добавления заданий по нескольким комплектам одновременно.
+        </p>
+        <p style="text-align: justify; color: #249ded;">
+            * Добавлять <b>Исходящее Задание</b> смежным отделам. Предусмотрена 
+            возможность добавления заданий для нескльких отделов одновременно.
+        </p>
+        <p style="text-align: justify; color: #249ded;">
+            * Просматривать существующие Входящие и Исходящие задания.
+        </p>
         <hr>
         <p style="text-align: justify; color: #249ded;">
-            On the <b>Tasks</b> tab, you can add a new
-            <b>Incoming Assignment</b> from related departments. It is possible to add tasks for several sets
-            simultaneously. <b>Outgoing Tasks</b> can be entered for several specialties at the same time
+            The <b>Tasks</b> tab allows you to:
+        </p>
+        <p style="text-align: justify; color: #249ded;">
+            * Add <b>Incoming Task</b> from related departments. Provided
+            the ability to add tasks for several sets at the same time.
+        </p>
+        <p style="text-align: justify; color: #249ded;">
+            * Add <b>Outgoing Task</b> to related departments. Provided
+            the ability to add tasks for several departments at the same time.
+        </p>
+        <p style="text-align: justify; color: #249ded;">
+            * View existing Incoming and Outgoing jobs.
         </p>
         """
 
