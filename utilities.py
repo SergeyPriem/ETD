@@ -62,6 +62,26 @@ def center_style():
         </style>
         """, unsafe_allow_html=True)
 
+def left_style():
+    return st.markdown("""
+        <style>
+            div[data-testid="column"]:nth-of-type(1)
+            {
+                text-align: left;
+            } 
+
+            div[data-testid="column"]:nth-of-type(2)
+            {
+                text-align: left;
+            } 
+
+            div[data-testid="column"]:nth-of-type(3)
+            {
+                text-align: left;
+            } 
+        </style>
+        """, unsafe_allow_html=True)
+
 
 def mail_to_name(mail):
     try:

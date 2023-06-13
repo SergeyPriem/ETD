@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import streamlit as st
-from utilities import center_style
+from utilities import center_style, left_style
 
 
 # @st.cache_data(ttl=60 * 60 * 12)
@@ -57,6 +57,7 @@ def manual():
         #
         # st.write("check out this [Сверление квадратных отверстий](https://etudes.ru/etudes/drilling-square-holes/)")
 
+        left_style()
         ru, en = st.columns(2, gap='medium')
 
         ru.subheader("Вкладка 'Home'")
