@@ -134,13 +134,16 @@ def get_users_df():
 #             # return "🔧 Connection to DB is failed"
 #             return err_handler(e)
 #
-
-##### CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE #################
 def create_appl_user(email, position, branch, access_level, status, start_date, script_acc_init):
     if '@' not in email or len(email) < 12:
-        return f'Wrong e-mail {email}'
+        return {"status": 400,
+                "message": f'Wrong e-mail {email}',
+                }
+
     if email in get_all_emails():
-        return f'User with email {email} already exist in DataBase'
+        return {"status": 409,
+                "message": f'User with email {email} already exist in DataBase',
+                }
     with db_session:
         try:
             Users(
