@@ -932,37 +932,30 @@ def services():
 
     with serv_cont:
         with st.expander('STORAGE'):
-            lc,cc,rc=st.columns([1,10,1])
-            cc.title(':orange[Storage]')
+            def title_with_help(title, help_content):
+                lc, cc, rc=st.columns([1,10,1])
+                cc.title(f':orange[{title}]')
 
-            if rc.button('❔'):
+                if rc.button('❔', key=f'{title}_help'):
+                    st.markdown(help_content, unsafe_allow_html=True)
+                    rc.button('✖️', key=f'{title}_help_close')
 
-                st.markdown("""
+                st.divider()
+
+            h_content = """
                 <p style="text-align: justify; color: #249ded;">На вкладке <b>Home</b> отображаются новые
-                <b>Задания</b> от смежных отделов (если их внесли в базу не Вы) и <b>Трансмитталы</b>. 
-                Чтобы скрыть Задания и  Трансмитталы, нажмите кнопку под соответствующим блоком.</p>
-                <hr>
+                 <b>Задания</b> от смежных отделов (если их внесли в базу не Вы) и <b>Трансмитталы</b>. 
+                 Чтобы скрыть Задания и  Трансмитталы, нажмите кнопку под соответствующим блоком.</p>
+                 <hr>
                 <p style="text-align: justify; color: #249ded;">The <b>Home</b> tab displays new
-                <b>Assignments</b> from related departments (if they were not entered into the database by you) 
-                and <b>Transmittals</b>. To hide Tasks and Transmittals, click the button under 
-                the corresponding block.</p>
-                """, unsafe_allow_html=True)
-                rc.button('✖️', key='storage_help')
+                 <b>Assignments</b> from related departments (if they were not entered into the database by you) 
+                 and <b>Transmittals</b>. To hide Tasks and Transmittals, click the button under 
+                 the corresponding block.</p>
+                 """
 
-                # stoggle(
-                #     "❓",
-                #     """
-                #     <p style="text-align: justify; color: #249ded;">На вкладке <b>Home</b> отображаются новые
-                #      <b>Задания</b> от смежных отделов (если их внесли в базу не Вы) и <b>Трансмитталы</b>.
-                #      Чтобы скрыть Задания и  Трансмитталы, нажмите кнопку под соответствующим блоком.</p>
-                #      <hr>
-                #     <p style="text-align: justify; color: #249ded;">The <b>Home</b> tab displays new
-                #      <b>Assignments</b> from related departments (if they were not entered into the database by you)
-                #      and <b>Transmittals</b>. To hide Tasks and Transmittals, click the button under
-                #      the corresponding block.</p>
-                #      """,
-                # )
-            st.divider()
+            title_with_help('Storage', h_content)
+
+
             st.header("Now in Temporary Folder:")
             with os.scandir('temp_dxf/') as entries:
                 lc, rc = st.columns(2)
