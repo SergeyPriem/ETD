@@ -94,7 +94,6 @@ def manage_projects():
                 if len(proj_ser):
                     u_id = proj_ser.responsible_el.to_numpy()[0]
 
-
                     prev_responsible = u_df.loc[u_df.index == u_id, 'login'].to_numpy()[0]
 
                     with st.form('update_project'):
