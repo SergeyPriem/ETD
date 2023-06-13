@@ -937,7 +937,7 @@ def services():
                 cc.title(f':orange[{title}]')
 
                 if rc.button('❔', key=f'{title}_help', use_container_width=True):
-                    сс.markdown(help_content, unsafe_allow_html=True)
+                    cc.markdown(help_content, unsafe_allow_html=True)
                     rc.button('✖️', key=f'{title}_help_close', use_container_width=True)
 
                 st.divider()
