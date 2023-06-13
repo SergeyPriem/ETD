@@ -244,7 +244,7 @@ def check_df(df):
 
 
 def title_with_help(title, help_content):
-    lc, cc, rc = st.columns([1, 20, 1])
+    lc, cc, rc = st.columns([1, 24, 1])
     cc.title(f':orange[{title}]')
 
     if rc.button('❔', key=f'{title}_help', use_container_width=True):
