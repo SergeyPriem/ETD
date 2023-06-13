@@ -934,7 +934,9 @@ def services():
         with st.expander('STORAGE'):
             lc,cc,rc=st.columns([1,10,1])
             cc.title(':orange[Storage]')
-            if rc.button(' ❓ '):
+
+            if rc.button('❔'):
+
                 st.markdown("""
                 <p style="text-align: justify; color: #249ded;">На вкладке <b>Home</b> отображаются новые
                 <b>Задания</b> от смежных отделов (если их внесли в базу не Вы) и <b>Трансмитталы</b>. 
@@ -945,7 +947,7 @@ def services():
                 and <b>Transmittals</b>. To hide Tasks and Transmittals, click the button under 
                 the corresponding block.</p>
                 """, unsafe_allow_html=True)
-                rc.button('❌', key='storage_help')
+                rc.button('✖️', key='storage_help')
 
                 # stoggle(
                 #     "❓",
