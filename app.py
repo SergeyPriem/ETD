@@ -935,9 +935,16 @@ def services():
             st.title(':orange[Storage]')
             stoggle(
                 "help",
-                """<p style="text-align: justify; color: #249ded;">На вкладке <b>Home</b> отображаются новые
+                """
+                <p style="text-align: justify; color: #249ded;">На вкладке <b>Home</b> отображаются новые
                  <b>Задания</b> от смежных отделов (если их внесли в базу не Вы) и <b>Трансмитталы</b>. 
-                 Чтобы скрыть Задания и  Трансмитталы, нажмите кнопку под соответствующим блоком.</p>""",
+                 Чтобы скрыть Задания и  Трансмитталы, нажмите кнопку под соответствующим блоком.</p>
+                 <hr>
+                <p style="text-align: justify; color: #249ded;">The <b>Home</b> tab displays new
+                 <b>Assignments</b> from related departments (if they were not entered into the database by you) 
+                 and <b>Transmittals</b>. To hide Tasks and Transmittals, click the button under 
+                 the corresponding block.</p>
+                 """,
             )
             st.divider()
             st.header("Now in Temporary Folder:")
