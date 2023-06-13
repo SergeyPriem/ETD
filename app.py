@@ -900,6 +900,8 @@ def manage_users():
         with view_tab3:
             u_df = st.session_state.adb['users']
 
+            u_df = u_df.drop(columns='hashed_pass')
+
             try:
                 filtered_u_df = dataframe_explorer(u_df, case=False)
             except Exception as e:
@@ -962,6 +964,9 @@ def services():
                 action_df = get_table(Action)
                 st.data_editor(action_df.sort_values(by='action_time', ascending=False),
                                key='action_log', use_container_width=True)
+
+        with st.expander('STAFF ESTIMATION'):
+            st.title(':orange[Staff Estimation]')
 
 
 def download_file(file_name, rc):
