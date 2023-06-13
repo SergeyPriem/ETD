@@ -243,7 +243,7 @@ def check_df(df):
         return False
 
 
-def title_with_help(title, help_content, ratio=24):
+def title_with_help(title, help_content, ratio=24, divider=True):
     #h_content = """
     #    <p style="text-align: justify; color: #249ded;">На вкладке <b>Home</b> отображаются новые
     #    <b>Задания</b> от смежных отделов (если их внесли в базу не Вы) и <b>Трансмитталы</b>.
@@ -262,4 +262,5 @@ def title_with_help(title, help_content, ratio=24):
         cc.markdown(help_content, unsafe_allow_html=True)
         rc.button('✖️', key=f'{title}_help_close', use_container_width=True)
 
-    st.divider()
+    if divider:
+        st.divider()

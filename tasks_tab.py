@@ -5,7 +5,7 @@ import streamlit as st
 
 from projects import add_in_to_db, add_out_to_db
 from send_emails import send_mail
-from utilities import center_style, update_state  # , make_short_delay, make_long_delay
+from utilities import center_style, update_state, title_with_help  # , make_short_delay, make_long_delay
 
 
 def disable_add_task(cur_stat):
@@ -21,7 +21,23 @@ def tasks_content():
     with task_r:
         st.empty()
     with task_cont:
-        st.title(':orange[Tasks]')
+
+        help_text = """
+        <p style="text-align: justify; color: #249ded;">
+            На вкладке <b>Tasks</b> можно добавить новое <b>Входящее Задание</b> от смежных отделов. Предусмотрена 
+            возможность добавления заданий по нескольким комплектам одновременно. <b>Исходящие Задания</b> 
+            можно внести для нескольких специальностей одновременно
+        </p>.
+        <hr>
+        <p style="text-align: justify; color: #249ded;">
+            On the <b>Tasks</b> tab, you can add a new
+            <b>Incoming Assignment</b> from related departments. It is possible to add tasks for several sets
+            simultaneously. <b>Outgoing Tasks</b> can be entered for several specialties at the same time
+        </p>
+        """
+
+        title_with_help('Tasks', help_content=help_text, ratio=32, divider=False)
+        # st.title(':orange[Tasks]')
 
         task_tab1, task_tab2 = st.tabs(['Add New Task', 'View Existing Tasks'])
 
