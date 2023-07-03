@@ -899,15 +899,18 @@ def scripts_tab():
                     min_sect = rc.selectbox('Min. Cross_section of Power Cable wire', ['1.5', '2.5', '4'], index=1)
 
                     incom_margin = rc.selectbox("Margin for Incomer's Rated Current",
-                                                ['1.0', '1.05', '1.1', '1.15', '1.2'], index=2)
+                                                ['1.0', '1.05', '1.1', '1.15', '1.2'],
+                                                help="Usually 1.1 for Incomers and 1.2 for Feeders",
+                                                index=2)
 
-                    show_settings = lc.checkbox("Show CB settings at SLD")
+                    show_settings = lc.checkbox("Show CB settings at SLD", help="L, S, I, N, G")
 
                     make_cablist_but = rc.form_submit_button("Make Cable List", type='primary',
                                                              disabled=False if load_list and cab_data else True,
-                                                             use_container_width=True,
+
                                                              help="Cable List will be created, "
-                                                                  "after you can download it"
+                                                                  "after you can download it",
+                                                             use_container_width=True,
                                                              )
 
                 if load_list and cab_data and make_cablist_but:
