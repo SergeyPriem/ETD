@@ -864,8 +864,9 @@ def scripts_tab():
             st.write('Select the required Script')
 
         with st.expander("CREARE CABLE LIST | SLD FROM LOAD LIST | XML FOR ETAP"):
-            st.title(':orange[Create Cable List | SLD from Load List | Creare XML for ETAP]')
-            st.text("", help="Each action is available through corresponding tab")
+            cl, cc, cr = st.columns([1,32,1])
+            cc.title(':orange[Create Cable List | SLD from Load List | Creare XML for ETAP]')
+            cr.text("", help="Each action is available through corresponding tab")
             st.divider()
             st.write("Please find required templates in folder below  👇 You can update SLD template "
                      "according to your Project Requirements, but keep blocks attributes' names")
