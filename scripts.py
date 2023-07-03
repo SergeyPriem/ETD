@@ -865,7 +865,7 @@ def scripts_tab():
 
         with st.expander("CREARE CABLE LIST | SLD FROM LOAD LIST | XML FOR ETAP"):
             st.title(':orange[Create Cable List | SLD from Load List | Creare XML for ETAP]',
-                     help="Each action is available through corresponding tab"
+                     help="Each action is available through corresponding tab, Each action is available through corresponding tab, Each action is available through corresponding tab, Each action is available through corresponding tab, Each action is available through corresponding tab, Each action is available through corresponding tab, Each action is available through corresponding tab, Each action is available through corresponding tab, Each action is available through corresponding tab, Each action is available through corresponding tab, Each action is available through corresponding tab, Each action is available through corresponding tab, Each action is available through corresponding tab, Each action is available through corresponding tab, Each action is available through corresponding tab, Each action is available through corresponding tab, Each action is available through corresponding tab, "
                      )
             st.text(" ", help="Each action is available through corresponding tab")
             st.divider()
