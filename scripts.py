@@ -905,8 +905,10 @@ def scripts_tab():
 
                     make_cablist_but = rc.form_submit_button("Make Cable List", type='primary',
                                                              disabled=False if load_list and cab_data else True,
-                                                             help="Cable List will be created, after you can download it",
-                                                             use_container_width=True)
+                                                             use_container_width=True,
+                                                             help="Cable List will be created, "
+                                                                  "after you can download it"
+                                                             )
 
                 if load_list and cab_data and make_cablist_but:
                     if len(panelDescr) < 2:
