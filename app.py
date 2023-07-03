@@ -394,7 +394,7 @@ def home_content():
                 the corresponding block.</p>
                 """
 
-                title_with_help(title, help_content, ratio=32, divider=False)
+                title_with_help(title, help_content, ratio=32, divider=True)
 
                 st.markdown("---")
 
