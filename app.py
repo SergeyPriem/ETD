@@ -396,8 +396,6 @@ def home_content():
 
                 title_with_help(title, help_content, ratio=32, divider=True)
 
-                st.markdown("---")
-
                 ass_col, blank_col, trans_col = st.columns([10, 2, 10])
                 with ass_col:
 
