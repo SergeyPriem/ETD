@@ -374,7 +374,19 @@ def home_content():
     empty21, content2, empty22 = st.columns([1, 20, 1])
 
     with home_cont:
-        st.title(':orange[Electrical Department]')
+        # st.title(':orange[Electrical Department]')
+        title = "Electrical Department"
+        help_content="""
+        <p style="text-align: justify; color: #249ded;">На вкладке <b>Home</b> отображаются новые
+        <b>Задания</b> от смежных отделов (если их внесли в базу не Вы) и <b>Трансмитталы</b>.
+        Чтобы скрыть Задания и  Трансмитталы, нажмите кнопку под соответствующим блоком.</p>
+        <hr>
+        <p style="text-align: justify; color: #249ded;">The <b>Home</b> tab displays new
+        <b>Assignments</b> from related departments (if they were not entered into the database by you)
+        and <b>Transmittals</b>. To hide Tasks and Transmittals, click the button under
+        the corresponding block.</p>
+        """
+        title_with_help(title, help_content, ratio=24, divider=True)
 
         username = f"{st.session_state.user['name']} {st.session_state.user['surname']}"
         st.header(f'Welcome, {username}!')
