@@ -867,10 +867,9 @@ def scripts_tab():
             cl, cc, cr = st.columns([1,32,1])
             cc.title(':orange[Create Cable List | SLD from Load List | Creare XML for ETAP]')
             cr.text("", help=
-            """
-            Каждое действие доступно по соответствующей вкладке
-            ---------------------------------------------------
-            Each action is available through corresponding tab
+            """Каждое действие доступно по соответствующей вкладке
+               ---------------------------------------------------
+               Each action is available through corresponding tab
             """)
             st.divider()
             st.write("Please find required templates in folder below  👇 You can update SLD template "
