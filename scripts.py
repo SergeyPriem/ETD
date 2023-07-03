@@ -864,7 +864,10 @@ def scripts_tab():
             st.write('Select the required Script')
 
         with st.expander("CREARE CABLE LIST | SLD FROM LOAD LIST | XML FOR ETAP"):
-            st.title(':orange[Create Cable List | SLD from Load List | Creare XML for ETAP]')
+            st.title(':orange[Create Cable List | SLD from Load List | Creare XML for ETAP]',
+                     help="Each action is available through corresponding tab"
+                     )
+            st.text(" ", help="Each action is available through corresponding tab")
             st.divider()
             st.write("Please find required templates in folder below  👇 You can update SLD template "
                      "according to your Project Requirements, but keep blocks attributes' names")
@@ -882,6 +885,8 @@ def scripts_tab():
             dxf_template = p_r.file_uploader("SLD template", type='dxf')
 
             tab_cl, tab_sld, tab_xml = st.tabs(['Create Cable List', 'Create SLD in DXF', 'Greate XML for ETAP'])
+
+
 
             with tab_cl:
 
