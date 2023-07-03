@@ -256,7 +256,9 @@ def title_with_help(title, help_content, ratio=24, divider=True):
     #    """
 
     lc, cc, rc = st.columns([1, ratio, 1])
-    cc.title(f':orange[{title}]')
+
+    if title:
+        cc.title(f':orange[{title}]')
 
     if rc.button('❔', key=f'{title}_help', use_container_width=True):
         cc.markdown(help_content, unsafe_allow_html=True)
