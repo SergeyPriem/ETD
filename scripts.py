@@ -944,7 +944,7 @@ def scripts_tab():
 
                     st.session_state.loads_df = loads_df
 
-                    st.subheader("Cable List is Ready", help='Only 7 rows are shown (for brief check)')
+                    st.subheader("Cable List is Ready", help='Only 7 rows in preview (for brief check)')
                     st.write(cl_df.head(7))
 
                     buffer = io.BytesIO()
