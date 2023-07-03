@@ -65,6 +65,9 @@ def transmittals_content():
     with tr_empty2:
         st.empty()
 
+    tr_empty2.text('', help='Эта страница для Входящих и Исходящих Трансмитталов \n\n'
+                            'This page is for Incoming and Outgoing Transmittals')
+
     with tr_content:
 
         st.title(':orange[Transmittals]')
