@@ -186,7 +186,8 @@ def drawing_sets():
             upd_unit_but = c_c.form_submit_button(label=button_label, use_container_width=True)
 
             r_c.text('')
-            r_c.text('', help="Please update the Status of your Unit in this Form")
+            r_c.text('')
+            r_c.text('', help=":blue[Please update the Status of your Unit in this Form]")
 
         if upd_unit_but:
 
