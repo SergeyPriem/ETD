@@ -12,7 +12,16 @@ def manage_projects():
     with empty_proj_1:
         st.empty()
     with empty_proj_2:
-        st.empty()
+        st.text('')
+        st.text('')
+        st.text('')
+        st.text('')
+        st.text('')
+        st.text('', help='Эта страница предназначена для создания, изменения и просмотра Проектов '
+                         '(доступна только для Руководителя отдела)'
+                         '\n\n'
+                         'This page is intended to Create, Edit and View of Project Units (only available to the '
+                         'Department Manager)')
 
     with content_proj:
         st.title(':orange[Projects]')
