@@ -24,10 +24,20 @@ def tasks_content():
         st.text('')
         st.text('')
         st.text('')
-        st.text('', help="Вкладка :orange[Таsks] позволяет: \n"
-                         "- добавлять Входящие Задания от смежных отделов \n"
-                         "- добавлять Исходящие Задания смежным отделам \n"
-                         "- находить существующие Входящие и Исходящие задания"
+        st.text('', help="Страница :orange[Таsks] позволяет: \n"
+                         "- добавлять :orange[Входящие Задания] от смежных отделов. Предусмотрена возможность "
+                         "добавления заданий по нескольким комплектам одновременно. \n"
+                         "- добавлять :orange[Исходящие Задания] смежным отделам. Предусмотрена возможность "
+                         "добавления заданий для нескльких отделов одновременно \n"
+                         "- находить :orange[существующие Входящие и Исходящие задания] "
+                         "\n\n"
+                         "Page :orange[Tasks] allows: \n"
+                         "- add :orange[Incoming Task] from related departments. "
+                         "Provided the ability to add tasks for several sets at the same time \n"
+                         "- Add :orange[Outgoing Task] to related departments. Provided the ability to add tasks for "
+                         "several departments at the same time \n"
+                         "- View :orange[existing Incoming and Outgoing tasks]"
+
                 )
 
     with task_cont:
