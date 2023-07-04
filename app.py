@@ -395,7 +395,8 @@ def home_content():
                                   "\n"
                                   "The :orange[Home] tab displays new Assignments from related departments "
                                   "(if they were not entered into the database by you) and Transmittals. "
-                                  "To hide Tasks and Transmittals, click the button under the corresponding block.")
+                                  "To hide Tasks and Transmittals, click the button under the corresponding block."
+                         )
 
             with content2:
 
