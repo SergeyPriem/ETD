@@ -390,7 +390,9 @@ def home_content():
 
             empty22.text('', help='На вкладке Home отображаются новые Задания от смежных отделов '
                                   '(если их внесли в базу не Вы) и Трансмитталы. Чтобы скрыть Задания и '
-                                  'Трансмитталы, нажмите кнопку под соответствующим блоком. \n\n'
+                                  'Трансмитталы, нажмите кнопку под соответствующим блоком. \n'
+                                  '---'
+                                  '\n'
                                   'The Home tab displays new Assignments from related departments '
                                   '(if they were not entered into the database by you) and Transmittals. '
                                   'To hide Tasks and Transmittals, click the button under the corresponding block.')
