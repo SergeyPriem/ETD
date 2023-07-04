@@ -49,11 +49,8 @@ def drawing_sets():
         #
         # title_with_help('Drawings', help_content=h_cont, ratio=36)
 
-        st.title(":orange[Drawings]", help='На вкладке Drawings отображаются комплекты чертежей, в которых Вы Координатор или Разработчик'
-                         ' (если выбрано My Units). Выбрав All Units можно просмотреть все комплекты ЭлектроОтдела \n\n'
-                         'The Drawings tab displays sets of drawings, in which you are the Coordinator or Developer '
-                         '(if My Units is selected). By selecting All Units you can view all Units of '
-                         'Electrical Department.')
+
+        st.title(":orange[Drawings]")
         st.divider()
 
         ds_left, lc, ds_center, cr, ds_right = st.columns([5, 6, 4, 5, 5])

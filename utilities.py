@@ -59,10 +59,6 @@ def center_style():
             {
                 text-align: center;
             } 
-            div[data-testid="column"]:nth-of-type(4)
-            {
-                text-align: center;
-            } 
         </style>
         """, unsafe_allow_html=True)
 
