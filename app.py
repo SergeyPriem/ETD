@@ -373,6 +373,13 @@ def home_content():
     home_left, home_cont, home_right = st.columns([5, 3, 5])
     empty21, content2, empty22 = st.columns([1, 20, 1])
 
+    home_right.text('', help='На вкладке Home отображаются новые Задания от смежных отделов '
+                             '(если их внесли в базу не Вы) и Трансмитталы. Чтобы скрыть Задания и Трансмитталы, '
+                             'нажмите кнопку под соответствующим блоком. \n\n'
+                            'The Home tab displays new Assignments from related departments (if they were not entered '
+                             'into the database by you) and Transmittals. To hide Tasks and Transmittals, click the '
+                             'button under the corresponding block.')
+
     with home_cont:
         st.title(':orange[Electrical Department]')
 
