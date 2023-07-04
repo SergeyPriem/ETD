@@ -1296,7 +1296,7 @@ def scripts_tab():
                             st.warning(err_handler(e))
                             st.stop()
                 else:
-                    st.write('Please Add a Cable List...')
+                    st.write('👉  Please Add a Cable List...')
 
 
             with cab_layout:
@@ -1305,7 +1305,7 @@ def scripts_tab():
                         layout_path = f'temp_dxf/{save_uploaded_file(power_layout)}'
                         st.session_state.sect_df = get_sect_from_layout(st.session_state.cab_list_for_sect, layout_path)
                 else:
-                    st.write('Please Add Cable Routing Layout...')
+                    st.write('👉  Please Add Cable Routing Layout...')
 
 
 
