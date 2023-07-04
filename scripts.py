@@ -860,10 +860,10 @@ def scripts_tab():
                          '- :orange[Создание Однолинейной Схемы] из Кабельного журнала и Листа Нагрузок\n'
                          '- :orange[Создание XML-файла] для генерации однолинейной схемы в :orange[ETAP]\n'
                          '---'
-                         '\n В настоящее время доступны следующие скрипты:\n'
-                         '- :orange[Создание Кабельного Журнала] из Листа Нагрузок\n'
-                         '- :orange[Создание Однолинейной Схемы] из Кабельного журнала и Листа Нагрузок'
-                         '- :orange[Создание XML-файла] для генерации однолинейной схемы в :orange[ETAP]'
+                         '\n Now the following scripts are available:\n'
+                         '- :orange[Cable List Creation] from Load List \n'
+                         '- :orange[SLD Creation] from Cable List & Load List \n'
+                         '- :orange[Creation of XML-file] for creation SLDs in :orange[ETAP]'
                 )
 
 
