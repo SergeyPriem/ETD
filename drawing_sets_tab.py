@@ -27,6 +27,7 @@ def drawing_sets():
         st.text('')
         st.text('')
         st.text('')
+        st.text('')
         st.text('', help='На вкладке Drawings отображаются комплекты чертежей, в которых Вы Координатор или Разработчик'
                          ' (если выбрано My Units). Выбрав All Units можно просмотреть все комплекты ЭлектроОтдела \n\n'
                          'The Drawings tab displays sets of drawings, in which you are the Coordinator or Developer '
