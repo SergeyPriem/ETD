@@ -37,45 +37,11 @@ def tasks_content():
                          "- Add :orange[Outgoing Task] to related departments. Provided the ability to add tasks for "
                          "several departments at the same time \n"
                          "- View :orange[existing Incoming and Outgoing tasks]"
-
                 )
 
     with task_cont:
 
-        help_text = """
-        <p style="text-align: justify; color: #249ded;">
-            Вкладка <b>Tasks</b> позволяет:
-        </p>
-        <p style="text-align: justify; color: #249ded;">
-            * Добавлять <b>Входящее Задание</b> от смежных отделов. Предусмотрена 
-            возможность добавления заданий по нескольким комплектам одновременно.
-        </p>
-        <p style="text-align: justify; color: #249ded;">
-            * Добавлять <b>Исходящее Задание</b> смежным отделам. Предусмотрена 
-            возможность добавления заданий для нескльких отделов одновременно.
-        </p>
-        <p style="text-align: justify; color: #249ded;">
-            * Просматривать существующие Входящие и Исходящие задания.
-        </p>
-        <hr>
-        <p style="text-align: justify; color: #249ded;">
-            The <b>Tasks</b> tab allows you to:
-        </p>
-        <p style="text-align: justify; color: #249ded;">
-            * Add <b>Incoming Task</b> from related departments. Provided
-            the ability to add tasks for several sets at the same time.
-        </p>
-        <p style="text-align: justify; color: #249ded;">
-            * Add <b>Outgoing Task</b> to related departments. Provided
-            the ability to add tasks for several departments at the same time.
-        </p>
-        <p style="text-align: justify; color: #249ded;">
-            * View existing Incoming and Outgoing jobs.
-        </p>
-        """
-
-        title_with_help('Tasks', help_content=help_text, ratio=32, divider=False)
-        # st.title(':orange[Tasks]')
+        st.title(':orange[Tasks]')
 
         task_tab1, task_tab2 = st.tabs(['Add New Task', 'View Existing Tasks'])
 
@@ -96,9 +62,6 @@ def add_task(task_content):
     with task_content:
 
         proj_list = st.session_state.proj_names
-
-        # if '-- Type right here or select from list --' not in proj_list:
-        #     proj_list.insert(0, '-- Type right here or select from list --')
 
         project = st.selectbox('Select the Project *', proj_list)
 
