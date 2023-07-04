@@ -159,7 +159,8 @@ def drawing_sets():
                                     index=get_list_index(REVISIONS, old_rev[1]))
 
             status = r_c.selectbox('Status', COMPLETION,
-                                   index=get_list_index(COMPLETION, old_status))
+                                   index=get_list_index(COMPLETION, old_status),
+                                   help=":blue[Please update the Status of your Unit in this Form]")
             c_c.text('')
             c_c.text('')
             upd_trans_chb = c_c.checkbox("Add Transmittal")
@@ -186,9 +187,6 @@ def drawing_sets():
             c_c.text('')
             upd_unit_but = c_c.form_submit_button(label=button_label, use_container_width=True)
 
-            r_c.text('')
-            r_c.text('')
-            r_c.text('', help=":blue[Please update the Status of your Unit in this Form]")
 
         if upd_unit_but:
 
