@@ -850,9 +850,18 @@ def scripts_tab():
     with col_1:
         st.empty()
     with col_2:
-        st.empty()
-    with col_content:
+        st.text('')
+        st.text('')
+        st.text('')
+        st.text('')
+        st.text('')
+        st.text('', help='В настоящее время доступны следующие скрипты:'
+                         '- :orange[Создание Кабельного Журнала] из Листа Нагрузок '
+                         '- :orange[Создание Однолинейной Схемы] из Кабельного журнала и Листа Нагрузок '
+                )
 
+
+    with col_content:
         center_style()
 
         if st.session_state.user['script_acc'] == 0:
