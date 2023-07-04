@@ -23,20 +23,29 @@ def drawing_sets():
     with empty1:
         st.empty()
     with empty2:
-        st.empty()
+        st.text('', help='На вкладке Drawings отображаются комплекты чертежей, в которых Вы Координатор или Разработчик'
+                         ' (если выбрано My Units). Выбрав All Units можно просмотреть все комплекты ЭлектроОтдела \n\n'
+                         'The Drawings tab displays sets of drawings, in which you are the Coordinator or Developer '
+                         '(if My Units is selected). By selecting All Units you can view all Units of '
+                         'Electrical Department.')
+
+
 
     with content:
-        h_cont= """
-        <p style="text-align: center; color: #249ded;">На вкладке <b>Drawings</b> отображаются комплекты чертежей, 
-        в которых Вы Координатор или Разработчик (если выбрано <b>My Units</b>). Выбрав <b>All Units</b> можно 
-        просмотреть все комплекты ЭлектроОтдела</p>
-        <hr>
-        <p style="text-align: center; color: #249ded;">The <b>Drawings</b> tab displays sets of drawings,
-        in which you are the Coordinator or Developer (if <b>My Units</b> is selected). By selecting <b>All Units</b> 
-        you can view all Units of Electrical Department.</p>
-        """
+        # h_cont= """
+        # <p style="text-align: center; color: #249ded;">На вкладке <b>Drawings</b> отображаются комплекты чертежей,
+        # в которых Вы Координатор или Разработчик (если выбрано <b>My Units</b>). Выбрав <b>All Units</b> можно
+        # просмотреть все комплекты ЭлектроОтдела</p>
+        # <hr>
+        # <p style="text-align: center; color: #249ded;">The <b>Drawings</b> tab displays sets of drawings,
+        # in which you are the Coordinator or Developer (if <b>My Units</b> is selected). By selecting <b>All Units</b>
+        # you can view all Units of Electrical Department.</p>
+        # """
+        #
+        # title_with_help('Drawings', help_content=h_cont, ratio=36)
 
-        title_with_help('Drawings', help_content=h_cont, ratio=36)
+        st.title(":orange[Drawings]")
+        st.divider()
 
         ds_left, lc, ds_center, cr, ds_right = st.columns([5, 6, 4, 5, 5])
         ds_center.text('')
