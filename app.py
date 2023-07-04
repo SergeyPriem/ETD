@@ -397,6 +397,7 @@ def home_content():
 
             with content2:
 
+                st.divider()
                 # title=None
                 # help_content = """
                 # <p style="text-align: justify; color: #249ded;">На вкладке <b>Home</b> отображаются новые
