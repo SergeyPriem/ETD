@@ -160,7 +160,10 @@ def drawing_sets():
 
             status = r_c.selectbox('Status', COMPLETION,
                                    index=get_list_index(COMPLETION, old_status),
-                                   help=":blue[Please update the Status of your Unit in this Form]")
+                                   help=":blue[Пожалуйста, обновите Статус Вашего комплекта в этой форме] \n"
+                                        "---"
+                                        "\n"
+                                        ":blue[Please update the Status of your Unit in this Form]")
             c_c.text('')
             c_c.text('')
             upd_trans_chb = c_c.checkbox("Add Transmittal")
