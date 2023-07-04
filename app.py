@@ -373,25 +373,25 @@ def home_content():
     home_left, home_cont, home_right = st.columns([5, 3, 5])
     empty21, content2, empty22 = st.columns([1, 20, 1])
 
-    if st.session_state.logged:
-
-        with home_cont:
-            st.title(':orange[Electrical Department]')
-
-        with empty22:
-
+    with empty22:
+        if st.session_state.logged:
             st.text("", help="На вкладке :orange[Home] отображаются новые Задания от смежных отделов "
-                             "(если их внесли в базу не Вы) и Трансмитталы. Чтобы скрыть Задания и "
-                             "Трансмитталы, нажмите кнопку под соответствующим блоком. \n"
-                             "--------------------------------------------------------------------------------"
-                             "\n"
-                             "The :orange[Home] tab displays new Assignments from related departments "
-                             "(if they were not entered into the database by you) and Transmittals. "
-                             "To hide Tasks and Transmittals, click the button under the corresponding block."
+                                  "(если их внесли в базу не Вы) и Трансмитталы. Чтобы скрыть Задания и "
+                                  "Трансмитталы, нажмите кнопку под соответствующим блоком. \n"
+                                  "--------------------------------------------------------------------------------"
+                                  "\n"
+                                  "The :orange[Home] tab displays new Assignments from related departments "
+                                  "(if they were not entered into the database by you) and Transmittals. "
+                                  "To hide Tasks and Transmittals, click the button under the corresponding block."
                          )
 
-            username = f"{st.session_state.user['name']} {st.session_state.user['surname']}"
-            st.header(f'Welcome, {username}!')
+    with home_cont:
+        st.title(':orange[Electrical Department]')
+
+        username = f"{st.session_state.user['name']} {st.session_state.user['surname']}"
+        st.header(f'Welcome, {username}!')
+
+        if st.session_state.logged:
 
             with content2:
 
