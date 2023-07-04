@@ -383,13 +383,13 @@ def home_content():
         if st.session_state.logged:
 
             with empty22:
-                st.text("", help="На вкладке :orange[Home] отображаются новые Задания от смежных отделов "
-                                 "(если их внесли в базу не Вы) и Трансмитталы. Чтобы скрыть Задания и "
+                st.text("", help="На вкладке :orange[Home] отображаются новые :orange[Задания от смежных отделов] "
+                                 "(если их внесли в базу не Вы) и :orange[Трансмитталы]. Чтобы скрыть Задания и "
                                  "Трансмитталы, нажмите кнопку под соответствующим блоком. \n"
                                  "---"
                                  "\n"
-                                 "The :orange[Home] tab displays new Assignments from related departments "
-                                 "(if they were not entered into the database by you) and Transmittals. "
+                                 "The :orange[Home] tab displays new :orange[Assignments from related departments] "
+                                 "(if they were not entered into the database by you) and :orange[Transmittals]. "
                                  "To hide Tasks and Transmittals, click the button under the corresponding block."
                         )
 
