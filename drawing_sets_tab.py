@@ -85,7 +85,11 @@ def drawing_sets():
         ds_left.subheader(f"{my_all}: {len(sod_df)}")
 
         ds_right.text('')
-        units_ch_b = ds_right.checkbox("Show Units Table")
+        units_ch_b = ds_right.checkbox("Show Units Table",
+                                       help="Вывод таблицы всех Ваших Комплектов Чертежей"
+                                            "---"
+                                            "Display All Your Units"
+                                       )
 
         if units_ch_b:
             st.data_editor(sod_df.set_index('unit_id'),
