@@ -32,8 +32,7 @@ def drawing_sets():
                          ':orange[Координатор или Разработчик] :blue[если выбрано My Units]. '
                          'Выбрав :blue[All Units] можно просмотреть все комплекты ЭлектроОтдела \n'
                          '---'
-                         '\n'
-                         'The :orange[Drawings] tab displays sets of drawings, in which you are the '
+                         '\n The :orange[Drawings] tab displays sets of drawings, in which you are the '
                          ':orange[Coordinator or Developer] :blue[(if My Units is selected)]. '
                          'By selecting :blue[All Units] you can view all Units of Electrical Department.'
                 )
