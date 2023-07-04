@@ -17,10 +17,10 @@ def settings_content():
     with empty1_set:
         st.empty()
     with empty2_set:
-        st.text()
-        st.text()
-        st.text()
-        st.text()
+        st.text('')
+        st.text('')
+        st.text('')
+        st.text('')
         st.text('', help='Эта страница предназначена для настроек более комфортного использования Приложения \n\n'
                          'This page is intended to make some adjustments for more comfortable use of Application')
 
