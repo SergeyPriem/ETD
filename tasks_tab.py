@@ -63,7 +63,7 @@ def add_task(task_content):
 
         proj_list = st.session_state.proj_names
 
-        project = st.selectbox('Select the Project *', proj_list)
+        project = st.selectbox('Select the Project 	👇', proj_list)
 
         if project != '-- Type right here or select from list --':
             proj_id = proj_df[proj_df.short_name == project].index.to_numpy()[0]
