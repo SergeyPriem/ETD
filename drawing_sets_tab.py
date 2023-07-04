@@ -28,11 +28,15 @@ def drawing_sets():
         st.text('')
         st.text('')
         st.text('')
-        st.text('', help='На вкладке Drawings отображаются комплекты чертежей, в которых Вы Координатор или Разработчик'
-                         ' (если выбрано My Units). Выбрав All Units можно просмотреть все комплекты ЭлектроОтдела \n\n'
-                         'The Drawings tab displays sets of drawings, in which you are the Coordinator or Developer '
-                         '(if My Units is selected). By selecting All Units you can view all Units of '
-                         'Electrical Department.')
+        st.text('', help='На вкладке :orange[Drawings] отображаются комплекты чертежей, в которых Вы '
+                         ':orange[Координатор или Разработчик] :blue[если выбрано My Units]. '
+                         'Выбрав :blue[All Units] можно просмотреть все комплекты ЭлектроОтдела \n'
+                         '---'
+                         '\n'
+                         'The :orange[Drawings] tab displays sets of drawings, in which you are the '
+                         ':orange[Coordinator or Developer] :blue[(if My Units is selected)]. '
+                         'By selecting :blue[All Units] you can view all Units of Electrical Department.'
+                )
 
 
 

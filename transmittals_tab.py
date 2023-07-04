@@ -68,8 +68,10 @@ def transmittals_content():
         st.text('')
         st.text('')
         st.text('')
-        st.text('', help='Эта страница для Входящих и Исходящих Трансмитталов \n\n'
-                            'This page is for Incoming and Outgoing Transmittals')
+        st.text('', help='Эта страница для регистрации :orange[Входящих и Исходящих Трансмитталов] \n'
+                         '---'
+                         '\n'
+                         'This page is for :orange[Incoming and Outgoing Transmittals registration]')
 
     with tr_content:
 
