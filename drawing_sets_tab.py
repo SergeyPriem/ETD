@@ -551,11 +551,11 @@ def manage_units():
         st.text('')
         st.text('')
         st.text('')
-        st.text('', help='Эта страница предназначена для создания, изменения и просмотра Комплектов Чертежей Проекта '
-                         '\n'
-                         '---'
-                         '\n'
-                         'This page is intended to Create, Edit and View of Project Units')
+        st.text('', help="Эта страница предназначена для создания, изменения и просмотра Комплектов Чертежей Проекта "
+                         "\n"
+                         "---"
+                         "\n"
+                         "This page is intended to Create, Edit and View of Project Units")
 
     with content_sets:
         st.title(':orange[Units]')
