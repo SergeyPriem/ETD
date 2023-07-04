@@ -21,6 +21,7 @@ def settings_content():
         st.text('')
         st.text('')
         st.text('')
+        st.text('')
         st.text('', help='Эта страница предназначена для настроек более комфортного использования Приложения \n\n'
                          'This page is intended to make some adjustments for more comfortable use of Application')
 
