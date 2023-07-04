@@ -19,7 +19,17 @@ def tasks_content():
     with task_l:
         st.empty()
     with task_r:
-        st.empty()
+        st.text('')
+        st.text('')
+        st.text('')
+        st.text('')
+        st.text('')
+        st.text('', help="Вкладка :orange[Таsks] позволяет: \n"
+                         "- добавлять Входящие Задания от смежных отделов \n"
+                         "- добавлять Исходящие Задания смежным отделам \n"
+                         "- находить существующие Входящие и Исходящие задания"
+                )
+
     with task_cont:
 
         help_text = """
