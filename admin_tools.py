@@ -17,10 +17,12 @@ def manage_projects():
         st.text('')
         st.text('')
         st.text('')
-        st.text('', help='Эта страница предназначена для создания, изменения и просмотра Проектов '
+        st.text('', help='Эта страница предназначена для :orange[Создания, Изменения и Просмотра] Проектов '
                          '(доступна только для Руководителя отдела)'
-                         '\n\n'
-                         'This page is intended to Create, Edit and View of Project Units (only available to the '
+                         '\n'
+                         '---'
+                         '\n'
+                         'This page is intended to :orange[Create, Edit and View of Project] (only available to the '
                          'Department Manager)')
 
     with content_proj:
