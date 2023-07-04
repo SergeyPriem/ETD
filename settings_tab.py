@@ -17,12 +17,16 @@ def settings_content():
     with empty1_set:
         st.empty()
     with empty2_set:
-        st.empty()
+        st.text()
+        st.text()
+        st.text()
+        st.text()
+        st.text('', help='Эта страница предназначена для настроек более комфортного использования Приложения \n\n'
+                         'This page is intended to make some adjustments for more comfortable use of Application')
 
     with content_set:
 
         st.title(':orange[Settings]')
-        st.write('This page is intended to make some adjustments for more comfortable use of Application')
 
         menu_pos_tab, scope_tab, change_pass_tab = st.tabs(['Menu Position', 'Scope of Load', 'Change Password'])
 
