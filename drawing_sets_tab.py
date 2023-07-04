@@ -86,7 +86,7 @@ def drawing_sets():
 
         ds_right.text('')
         units_ch_b = ds_right.checkbox("Show Units Table",
-                                       help="Вывод таблицы всех Ваших Комплектов Чертежей"
+                                       help="Вывод таблицы всех Ваших Комплектов Чертежей "
                                             "---"
                                             "Display All Your Units"
                                        )
