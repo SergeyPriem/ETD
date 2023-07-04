@@ -185,7 +185,7 @@ def drawing_sets():
 
             l_c.text('')
             request_chb = l_c.checkbox('Request for Update', disabled=check_disabled,
-                                       help=":blue[Select to Send the Request to Unit Coordinator] \n"
+                                       help=":blue[Выберите, чтобы отправить запрос Координатору Комплекта] \n"
                                             "---"
                                             "\n"
                                        ":blue[Select to Send the Request to Unit Coordinator] "
