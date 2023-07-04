@@ -397,19 +397,19 @@ def home_content():
 
             with content2:
 
-                title=None
-                help_content = """
-                <p style="text-align: justify; color: #249ded;">На вкладке <b>Home</b> отображаются новые
-                <b>Задания</b> от смежных отделов (если их внесли в базу не Вы) и <b>Трансмитталы</b>.
-                Чтобы скрыть Задания и  Трансмитталы, нажмите кнопку под соответствующим блоком.</p>
-                <hr>
-                <p style="text-align: justify; color: #249ded;">The <b>Home</b> tab displays new
-                <b>Assignments</b> from related departments (if they were not entered into the database by you)
-                and <b>Transmittals</b>. To hide Tasks and Transmittals, click the button under
-                the corresponding block.</p>
-                """
-
-                title_with_help(title, help_content, ratio=32, divider=True)
+                # title=None
+                # help_content = """
+                # <p style="text-align: justify; color: #249ded;">На вкладке <b>Home</b> отображаются новые
+                # <b>Задания</b> от смежных отделов (если их внесли в базу не Вы) и <b>Трансмитталы</b>.
+                # Чтобы скрыть Задания и  Трансмитталы, нажмите кнопку под соответствующим блоком.</p>
+                # <hr>
+                # <p style="text-align: justify; color: #249ded;">The <b>Home</b> tab displays new
+                # <b>Assignments</b> from related departments (if they were not entered into the database by you)
+                # and <b>Transmittals</b>. To hide Tasks and Transmittals, click the button under
+                # the corresponding block.</p>
+                # """
+                #
+                # title_with_help(title, help_content, ratio=32, divider=True)
 
                 ass_col, blank_col, trans_col = st.columns([10, 2, 10])
                 with ass_col:
