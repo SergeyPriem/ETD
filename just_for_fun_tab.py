@@ -32,7 +32,6 @@ def manual():
                     '(если их внесли в базу не Вы) и <b>Трансмитталы</b>. Чтобы скрыть Задания и '
                     'Трансмитталы, нажмите кнопку под соответствующим блоком.'
                     '</div>', unsafe_allow_html=True)
-        ru.divider()
 
         en.subheader("Page 'Home'")
         en.write("")
@@ -41,7 +40,7 @@ def manual():
                     '(if they were added to DataBase not by You) & <b>Transmittals</b>. To hide Tasks & '
                     'Transmittals, click the button under the corresponding block.'
                     '</div>', unsafe_allow_html=True)
-        en.divider()
+        st.divider()
 
         ru.subheader("Страница 'Drawings'")
         ru.write("")
@@ -57,7 +56,7 @@ def manual():
                     'Page <b>Drawings</b> is intended for review and update of <b>Unit\'s</b> status, '
                     'reassignment of performer, drawings revisions, notes and transmittals'
                     '</div>', unsafe_allow_html=True)
-        en.divider()
+        st.divider()
 
         ru.subheader("Страница 'Transmittals'")
         ru.write("")
@@ -65,7 +64,6 @@ def manual():
                     'На странице <b>Transmittals</b> можно добавлять, просматривать или редактировать '
                     '<b>Трансмитталы</b>, (входящие и исходящие)'
                     '</div>', unsafe_allow_html=True)
-        ru.divider()
         en.subheader("Page 'Transmittals'")
         en.write("")
         en.markdown('<div style="text-align: justify;">'
