@@ -306,7 +306,6 @@ def check_loads(loads_df):
 
     if len(with_null_df) > 0:
         st.warning("Some cells are empty...Script Aborted")
-        st.experimental_show(with_null_df)
         st.stop()
 
     if (checkLoads_df.isnull().sum()).sum() > 0:
@@ -1196,7 +1195,6 @@ def scripts_tab():
                                 load_kvar = math.sqrt(load_kva ** 2 - load_kw ** 2)
 
                                 if "/" in str(row.section):
-                                    st.experimental_show(row.section)
                                     parts = row.section.split("/")
                                     l_size = n_size = parts[0]
                                     pe_size = parts[1]
