@@ -1143,7 +1143,6 @@ def scripts_tab():
                 xml_but = c2.button("Create XML file", type='primary', disabled=disable_xml_but,
                                     use_container_width=True)
 
-                c3.text('')
                 c3.text('', help="Чтобы перенести схему в :blue[ETAP]: DataX -> Import XML... "
                                  "и выбрать сгенерированный XML-файл \n"
                                  "---"
