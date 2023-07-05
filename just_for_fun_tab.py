@@ -22,43 +22,61 @@ def manual():
         #
         # st.write("check out this [Сверление квадратных отверстий](https://etudes.ru/etudes/drilling-square-holes/)")
 
-        ru, en = st.columns(2, gap='large')
-
-        ru.subheader("Страница 'Home'")
-        ru.write("")
-        ru.markdown('<div style="text-align: justify;">'
-                    'На cтранице <b>Home</b> отображаются новые <b>Задания</b> от смежных отделов '
-                    '(если их внесли в базу не Вы) и <b>Трансмитталы</b>. Чтобы скрыть Задания и '
-                    'Трансмитталы, нажмите кнопку под соответствующим блоком.'
-                    '</div>', unsafe_allow_html=True)
-        en.subheader("Page 'Home'")
-        en.write("")
-        en.markdown('<div style="text-align: justify;">'
-                    'At the page <b>Home</b> are showing <b>Task</b> from other Departments '
-                    '(if they were added to DataBase not by You) & <b>Transmittals</b>. To hide Tasks & '
-                    'Transmittals, click the button under the corresponding block.'
-                    '</div>', unsafe_allow_html=True)
-        st.divider()
-
-        def help_ru_en(page):
+        def help_ru_en(page, div_ru, div_en):
             ru, en = st.columns(2, gap='large')
             ru.subheader(f":orange[Страница '{page}']")
             ru.write("")
-            ru.markdown('<div style="text-align: justify;">'
-                        'Страница <b>Drawings</b> предназначена для просмотра и обновления статусов <b>'
-                        'Комплекта чертежей</b>, '
-                        'переназначения исполнителей, ревизий чертежей, примечаний и трансмитталов'
-                        '</div>', unsafe_allow_html=True)
+            ru.markdown(div_ru,
+                        unsafe_allow_html=True)
 
             en.subheader(f":orange[Page '{page}']")
             en.write("")
-            en.markdown('<div style="text-align: justify;">'
-                        'Page <b>Drawings</b> is intended for review and update of <b>Unit\'s</b> status, '
-                        'reassignment of performer, drawings revisions, notes and transmittals'
-                        '</div>', unsafe_allow_html=True)
+            en.markdown(div_en, unsafe_allow_html=True)
             st.divider()
 
-        help_ru_en("Drawings")
+        # ru, en = st.columns(2, gap='large')
+        #
+        # ru.subheader("Страница 'Home'")
+        # ru.write("")
+        # ru.markdown('<div style="text-align: justify;">'
+        #             'На cтранице <b>Home</b> отображаются новые <b>Задания</b> от смежных отделов '
+        #             '(если их внесли в базу не Вы) и <b>Трансмитталы</b>. Чтобы скрыть Задания и '
+        #             'Трансмитталы, нажмите кнопку под соответствующим блоком.'
+        #             '</div>', unsafe_allow_html=True)
+        # en.subheader("Page 'Home'")
+        # en.write("")
+        # en.markdown('<div style="text-align: justify;">'
+        #             'At the page <b>Home</b> are showing <b>Task</b> from other Departments '
+        #             '(if they were added to DataBase not by You) & <b>Transmittals</b>. To hide Tasks & '
+        #             'Transmittals, click the button under the corresponding block.'
+        #             '</div>', unsafe_allow_html=True)
+
+        div_ru = '<div style="text-align: justify;">' \
+                 'На cтранице <b>Home</b> отображаются новые <b>Задания</b> от смежных отделов ' \
+                 '(если их внесли в базу не Вы) и <b>Трансмитталы</b>. Чтобы скрыть Задания и ' \
+                 'Трансмитталы, нажмите кнопку под соответствующим блоком.' \
+                 '</div>'
+
+        div_en = '<div style="text-align: justify;">' \
+                    'At the page <b>Home</b> are showing <b>Task</b> from other Departments ' \
+                    '(if they were added to DataBase not by You) & <b>Transmittals</b>. To hide Tasks & ' \
+                    'Transmittals, click the button under the corresponding block.' \
+                    '</div>'
+
+        help_ru_en("Home", div_ru, div_en)
+
+
+        div_ru = '<div style="text-align: justify;">Страница <b>Drawings</b> предназначена для просмотра и обновления' \
+                 ' статусов <b>Комплекта чертежей</b>, переназначения исполнителей, ревизий чертежей, примечаний и' \
+                 ' трансмитталов' \
+                 '</div>'
+
+        div_en = '<div style="text-align: justify;">' \
+                 'Page <b>Drawings</b> is intended for review and update of <b>Unit\'s</b> status, ' \
+                 'reassignment of performer, drawings revisions, notes and transmittals' \
+                 '</div>'
+
+        help_ru_en("Drawings", div_ru, div_en)
 
         ru, en = st.columns(2, gap='large')
         ru.subheader("Страница 'Transmittals'")
