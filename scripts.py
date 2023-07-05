@@ -1138,7 +1138,7 @@ def scripts_tab():
 
                 disable_xml_but = not check_df(st.session_state.loads_df)
 
-                c1, c2, c3 = st.columns(3)
+                c1, c2, c3 = st.columns(3, gap='medium')
 
                 xml_but = c2.button("Create XML file", type='primary', disabled=disable_xml_but,
                                     use_container_width=True)
