@@ -201,7 +201,7 @@ def update_tables():
                 st.session_state.local_marker[table]['id'] = st.session_state.new_state[table]['id']
 
                 if st.session_state.user['vert_menu'] == 1:
-                    st.sidebar.success(f"'{tab_name_dict[table]}' were updated by {upd_login}. Data is refreshed")
+                    st.sidebar.success(f"'{tab_name_dict[table]}' were updated by {upd_login}. \n Data is refreshed")
                     time.sleep(1)
                     return None
                 else:
