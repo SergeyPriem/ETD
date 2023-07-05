@@ -1,42 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import streamlit as st
-from utilities import center_style, left_style
-
-
-# @st.cache_data(ttl=60 * 60 * 12)
-# def fetch_emojis():
-#     resp = requests.get(
-#         'https://raw.githubusercontent.com/omnidan/node-emoji/master/lib/emoji.json')
-#     json = resp.json()
-#     codes, emojis = zip(*json.items())
-#     return pd.DataFrame({
-#         'Emojis': emojis,
-#         'Shortcodes': [f':{code}:' for code in codes],
-#     })
-#
-#
-# def emoji_content():
-#     empty1, content, empty2 = st.columns([1, 9, 1])
-#     with empty1:
-#         st.empty()
-#     with empty2:
-#         st.empty()
-#     with content:
-#         st.markdown('''
-#         # Streamlit emoji shortcodes
-#
-#         Below are all the emoji shortcodes supported by Streamlit.
-#
-#         Shortcodes are a way to enter emojis using pure ASCII. So you can type this `:smile:` to show this
-#         :smile:.
-#
-#         (Keep in mind you can also enter emojis directly as Unicode in your Python strings too — you don't
-#         *have to* use a shortcode)
-#         ''')
-#
-#         emojis = fetch_emojis()
-#         st.table(emojis)
+from utilities import center_style
 
 
 def manual():
@@ -63,7 +28,7 @@ def manual():
         ru.write("")
 
         ru.markdown('<div style="text-align: justify;">'
-                    'На вкладке <b>Home</b> отображаются новые <b>Задания</b> от смежных отделов '
+                    'На cтранице <b>Home</b> отображаются новые <b>Задания</b> от смежных отделов '
                     '(если их внесли в базу не Вы) и <b>Трансмитталы</b>. Чтобы скрыть Задания и '
                     'Трансмитталы, нажмите кнопку под соответствующим блоком.'
                     '</div>', unsafe_allow_html=True)
@@ -72,9 +37,8 @@ def manual():
         en.subheader("Вкладка 'Home'")
         en.write("")
         en.markdown('<div style="text-align: justify;">'
-                    'На вкладке <b>Home</b> отображаются новые <b>Задания</b> от смежных отделов '
-                    '(если их внесли в базу не Вы) и <b>Трансмитталы</b>. Чтобы скрыть Задания и '
-                    'Трансмитталы, нажмите кнопку под соответствующим блоком.'
+                    'At the page <b>Home</b> are showing <b>Task</b> from other Departments '
+                    '(if they were added to DataBase not by You) & <b>Transmittals</b>. To hide Tasks & '
+                    'Transmittals, click the button under the corresponding block.'
                     '</div>', unsafe_allow_html=True)
         en.divider()
-

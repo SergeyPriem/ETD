@@ -6,7 +6,6 @@ import random
 import pandas as pd
 from PIL import Image
 from streamlit_extras.dataframe_explorer import dataframe_explorer
-from streamlit_extras.stoggle import stoggle
 from streamlit_option_menu import option_menu
 
 from admin_tools import manage_projects
@@ -355,7 +354,6 @@ def form_for_trans():
                 if reply3 != 'Data is updated':
                     st.warning(reply3)
 
-
             else:
                 st.warning(reply)
                 st.session_state.trans_status['trans_num'] = None
@@ -372,7 +370,6 @@ def home_content():
 
     home_left, home_cont, home_right = st.columns([5, 3, 5])
     empty21, content2, empty22 = st.columns([1, 20, 1])
-
 
     with home_cont:
         st.title(':orange[Electrical Department]')
@@ -960,7 +957,6 @@ def services():
                  """
 
             title_with_help('Storage', h_content)
-
 
             st.header("Now in Temporary Folder:")
             with os.scandir('temp_dxf/') as entries:

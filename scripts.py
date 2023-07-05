@@ -93,7 +93,7 @@ def cab_diam(purpose: str, composition: str, wires: int, section: float, diam_df
     return round(diameter, 1)
 
 
-def cab_weight(purpose: str, composition: str, wires: int, section: float, diam_df, ex_df):
+def cab_weight(purpose: str, composition: str, wires: int, section: float, diam_df):
     try:
         if composition.find('SWA') != -1:
             constr = 'SWA'
@@ -175,8 +175,8 @@ def incom_sect_cb_calc(loads_df: pd.DataFrame) -> pd.DataFrame:
     c_kvar_b = loads_df.loc[loads_df.bus == 'B', 'c_kvar'].sum()
     i_kvar_a = loads_df.loc[loads_df.bus == 'A', 'i_kvar'].sum()
     i_kvar_b = loads_df.loc[loads_df.bus == 'B', 'i_kvar'].sum()
-    s_kvar_a = loads_df.loc[loads_df.bus == 'A', 's_kvar'].sum()
-    s_kvar_b = loads_df.loc[loads_df.bus == 'B', 's_kvar'].sum()
+    # s_kvar_a = loads_df.loc[loads_df.bus == 'A', 's_kvar'].sum()
+    # s_kvar_b = loads_df.loc[loads_df.bus == 'B', 's_kvar'].sum()
     max_i_kw_a = loads_df.loc[(loads_df.bus == 'A') & (loads_df.equip == 'MOTOR'), 'i_kw'].max()
     max_i_kw_b = loads_df.loc[(loads_df.bus == 'B') & (loads_df.equip == 'MOTOR'), 'i_kw'].max()
     max_i_kvar_a = loads_df.loc[(loads_df.bus == 'A') & (loads_df.equip == 'MOTOR'), 'i_kvar'].max()
@@ -585,7 +585,7 @@ def create_cab_list(contr_but_len, loads_df, panelDescr, diam_df, ex_df, glands_
         try:
             cl_df.loc[y, 'diam'] = cab_diam(purpose, cl_df.compos[y], cl_df.wires[y], cl_df.section[y], diam_df)
             cl_df.loc[y, 'weight'] = cab_weight(purpose, cl_df.compos[y], cl_df.wires[y], cl_df.section[y],
-                                                diam_df, ex_df)
+                                                diam_df)
 
             # cab_weight(purpose, composition, wires, section, diam_df, ex_df)
 
