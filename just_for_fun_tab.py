@@ -24,7 +24,7 @@ def manual():
 
         ru, en = st.columns(2, gap='large')
 
-        ru.subheader("Вкладка 'Home'")
+        ru.subheader("Страница 'Home'")
         ru.write("")
 
         ru.markdown('<div style="text-align: justify;">'
@@ -34,11 +34,29 @@ def manual():
                     '</div>', unsafe_allow_html=True)
         ru.divider()
 
-        en.subheader("Вкладка 'Home'")
+        en.subheader("Page 'Home'")
         en.write("")
         en.markdown('<div style="text-align: justify;">'
                     'At the page <b>Home</b> are showing <b>Task</b> from other Departments '
                     '(if they were added to DataBase not by You) & <b>Transmittals</b>. To hide Tasks & '
                     'Transmittals, click the button under the corresponding block.'
+                    '</div>', unsafe_allow_html=True)
+        en.divider()
+
+        ru.subheader("Страница 'Drawings'")
+        ru.write("")
+
+        ru.markdown('<div style="text-align: justify;">'
+                    'Страница <b>Drawings</b> предназначена для просмотра и обновления статусов <b>'
+                    'Комплекта чертежей</b>, '
+                    'переназначения исполнителей, ревизий чертежей, примечаний и трансмитталов'
+                    '</div>', unsafe_allow_html=True)
+        ru.divider()
+
+        en.subheader("Page 'Drawings'")
+        en.write("")
+        en.markdown('<div style="text-align: justify;">'
+                    'Page <b>Drawings</b> is intended for review and update of Unit\'s status, '
+                    'reassignment of performer, drawings revisions, notes and transmittals'
                     '</div>', unsafe_allow_html=True)
         en.divider()
