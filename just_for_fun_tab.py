@@ -40,22 +40,25 @@ def manual():
                     '</div>', unsafe_allow_html=True)
         st.divider()
 
-        ru, en = st.columns(2, gap='large')
-        ru.subheader("Страница 'Drawings'")
-        ru.write("")
-        ru.markdown('<div style="text-align: justify;">'
-                    'Страница <b>Drawings</b> предназначена для просмотра и обновления статусов <b>'
-                    'Комплекта чертежей</b>, '
-                    'переназначения исполнителей, ревизий чертежей, примечаний и трансмитталов'
-                    '</div>', unsafe_allow_html=True)
+        def help_ru_en(page):
+            ru, en = st.columns(2, gap='large')
+            ru.subheader(f":orange[Страница '{page}']")
+            ru.write("")
+            ru.markdown('<div style="text-align: justify;">'
+                        'Страница <b>Drawings</b> предназначена для просмотра и обновления статусов <b>'
+                        'Комплекта чертежей</b>, '
+                        'переназначения исполнителей, ревизий чертежей, примечаний и трансмитталов'
+                        '</div>', unsafe_allow_html=True)
 
-        en.subheader("Page 'Drawings'")
-        en.write("")
-        en.markdown('<div style="text-align: justify;">'
-                    'Page <b>Drawings</b> is intended for review and update of <b>Unit\'s</b> status, '
-                    'reassignment of performer, drawings revisions, notes and transmittals'
-                    '</div>', unsafe_allow_html=True)
-        st.divider()
+            en.subheader(f":orange[Page '{page}']")
+            en.write("")
+            en.markdown('<div style="text-align: justify;">'
+                        'Page <b>Drawings</b> is intended for review and update of <b>Unit\'s</b> status, '
+                        'reassignment of performer, drawings revisions, notes and transmittals'
+                        '</div>', unsafe_allow_html=True)
+            st.divider()
+
+        help_ru_en("Drawings")
 
         ru, en = st.columns(2, gap='large')
         ru.subheader("Страница 'Transmittals'")
