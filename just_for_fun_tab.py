@@ -62,7 +62,7 @@ def manual():
         ru.subheader("Страница 'Transmittals'")
         ru.write("")
         ru.markdown('<div style="text-align: justify;">'
-                    'На странице <b>Transmittals</b> можно добавлють, просматривать или редактировать '
+                    'На странице <b>Transmittals</b> можно добавлять, просматривать или редактировать '
                     '<b>Трансмитталы</b>, (входящие и исходящие)'
                     '</div>', unsafe_allow_html=True)
         ru.divider()
@@ -71,5 +71,6 @@ def manual():
         en.markdown('<div style="text-align: justify;">'
                     'On the <b>Transmittals</b> page you can add, view or edit '
                     '<b>Transmittals</b>, (incoming and outgoing)'
+                    'br'
                     '</div>', unsafe_allow_html=True)
         en.divider()
