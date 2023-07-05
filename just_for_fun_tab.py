@@ -71,6 +71,6 @@ def manual():
         en.markdown('<div style="text-align: justify;">'
                     'On the <b>Transmittals</b> page you can add, view or edit '
                     '<b>Transmittals</b>, (incoming and outgoing)'
-                    'br'
+                    '<br>'
                     '</div>', unsafe_allow_html=True)
         en.divider()
