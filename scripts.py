@@ -1139,6 +1139,11 @@ def scripts_tab():
                 disable_xml_but = not check_df(st.session_state.loads_df)
 
                 xml_but = st.button("Create XML file", type='primary', disabled=disable_xml_but,
+                                    help="Чтобы перенести схему в :blue[ETAP]: DataX -> Import XML... "
+                                         "и выбрать сгенерированный XML-файл"
+                                         "---"
+                                         "To transfer SLD in :blue[ETAP] is necessary: DataX -> Import XML... "
+                                         "and select generated XML-file",
                                     use_container_width=True)
 
                 if xml_but:
