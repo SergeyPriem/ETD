@@ -26,13 +26,11 @@ def manual():
 
         ru.subheader("Страница 'Home'")
         ru.write("")
-
         ru.markdown('<div style="text-align: justify;">'
                     'На cтранице <b>Home</b> отображаются новые <b>Задания</b> от смежных отделов '
                     '(если их внесли в базу не Вы) и <b>Трансмитталы</b>. Чтобы скрыть Задания и '
                     'Трансмитталы, нажмите кнопку под соответствующим блоком.'
                     '</div>', unsafe_allow_html=True)
-
         en.subheader("Page 'Home'")
         en.write("")
         en.markdown('<div style="text-align: justify;">'
@@ -42,6 +40,7 @@ def manual():
                     '</div>', unsafe_allow_html=True)
         st.divider()
 
+        ru, en = st.columns(2, gap='large')
         ru.subheader("Страница 'Drawings'")
         ru.write("")
         ru.markdown('<div style="text-align: justify;">'
@@ -49,7 +48,7 @@ def manual():
                     'Комплекта чертежей</b>, '
                     'переназначения исполнителей, ревизий чертежей, примечаний и трансмитталов'
                     '</div>', unsafe_allow_html=True)
-        ru.divider()
+
         en.subheader("Page 'Drawings'")
         en.write("")
         en.markdown('<div style="text-align: justify;">'
@@ -58,6 +57,7 @@ def manual():
                     '</div>', unsafe_allow_html=True)
         st.divider()
 
+        ru, en = st.columns(2, gap='large')
         ru.subheader("Страница 'Transmittals'")
         ru.write("")
         ru.markdown('<div style="text-align: justify;">'
