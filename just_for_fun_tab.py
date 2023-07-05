@@ -45,18 +45,31 @@ def manual():
 
         ru.subheader("Страница 'Drawings'")
         ru.write("")
-
         ru.markdown('<div style="text-align: justify;">'
                     'Страница <b>Drawings</b> предназначена для просмотра и обновления статусов <b>'
                     'Комплекта чертежей</b>, '
                     'переназначения исполнителей, ревизий чертежей, примечаний и трансмитталов'
                     '</div>', unsafe_allow_html=True)
         ru.divider()
-
         en.subheader("Page 'Drawings'")
         en.write("")
         en.markdown('<div style="text-align: justify;">'
-                    'Page <b>Drawings</b> is intended for review and update of Unit\'s status, '
+                    'Page <b>Drawings</b> is intended for review and update of <b>Unit\'s</b> status, '
                     'reassignment of performer, drawings revisions, notes and transmittals'
+                    '</div>', unsafe_allow_html=True)
+        en.divider()
+
+        ru.subheader("Страница 'Transmittals'")
+        ru.write("")
+        ru.markdown('<div style="text-align: justify;">'
+                    'На странице <b>Transmittals</b> можно добавлють, просматривать или редактировать '
+                    '<b>Трансмитталы</b>, (входящие и исходящие)'
+                    '</div>', unsafe_allow_html=True)
+        ru.divider()
+        en.subheader("Page 'Transmittals'")
+        en.write("")
+        en.markdown('<div style="text-align: justify;">'
+                    'On the <b>Transmittals</b> page you can add, view or edit '
+                    '<b>Transmittals</b>, (incoming and outgoing)'
                     '</div>', unsafe_allow_html=True)
         en.divider()
