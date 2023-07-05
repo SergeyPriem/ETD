@@ -91,7 +91,8 @@ def transmittals_content():
                 project = lc.selectbox("Project *", proj_list)
                 t_type = lc.radio("Transmittal Type *", TRANS_TYPES, horizontal=True)
                 lc.write("")
-                ref_trans = rc.text_input("Previous Transmittal")
+                ref_trans = rc.text_input("Previous Transmittal",
+                                          help=":blue[Номер трансмиттала, на который получен ответ]")
                 trans_num = cc.text_input("Transmittal Number *", max_chars=50)
                 subj = cc.text_input("Subject *", max_chars=255)
                 ans_required = cc.radio("Our Reply Required *", ('Yes', 'No'), horizontal=True)
