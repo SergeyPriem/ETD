@@ -145,7 +145,6 @@ def round5(val: float) -> int:
 
 
 def incom_sect_cb_calc(loads_df: pd.DataFrame) -> pd.DataFrame:
-
     loads_df.loc[(loads_df.load_duty == 'C') & (loads_df.equip != 'INCOMER') & (
             loads_df.equip != 'SECT_BREAKER'), 'c_kw'] = loads_df.abs_power / loads_df.eff
 
@@ -291,9 +290,7 @@ def fill_lists(i: int, panelDescr, loads_df) -> None:
 
 
 def check_loads(loads_df):
-
     checkLoads_df = loads_df.iloc[:, 0:27].copy()
-
 
     null_df = checkLoads_df.isnull()
 
@@ -311,7 +308,6 @@ def check_loads(loads_df):
         st.warning("Some cells are empty...Script Aborted")
         st.experimental_show(with_null_df)
         st.stop()
-
 
     if (checkLoads_df.isnull().sum()).sum() > 0:
         st.warning(f'Load List has {(checkLoads_df.isnull().sum()).sum()} empty fields...Update Load List')
@@ -348,7 +344,7 @@ def check_loads(loads_df):
         st.write('<h4 style="color:red;">Duplicates in Load Tags!!!</h4>', unsafe_allow_html=True)
         # st.write(dup_ser)
         for ind, val in dup_ser.items():
-            st.write(f"<h5 style='color:orange;''>Tag '{val}' in row '{ind+2}'</h5>", unsafe_allow_html=True)
+            st.write(f"<h5 style='color:orange;''>Tag '{val}' in row '{ind + 2}'</h5>", unsafe_allow_html=True)
 
         st.write('<h4 style="color:red;">Remove Duplicates and Reload File</h4>', unsafe_allow_html=True)
         st.stop()
@@ -372,13 +368,12 @@ def prepare_loads_df(loads_df):
 
     return loads_df
 
-
     #  NORMAL MODE
+
 
 def sect_calc(cab_df, row: int, u_c: int, power: float, rated_current: float, derat_factor: float,
               cos_c: float, k_start: float, len_c: float, min_sect: object, u_drop_al: float, busduct: bool,
               cos_start: float, sin_start: float, loads_df) -> tuple:
-
     if busduct:
         return 1, 1000, 1000, 0
     global section, voltage_drop, pe_sect
@@ -412,7 +407,6 @@ def sect_calc(cab_df, row: int, u_c: int, power: float, rated_current: float, de
             current_c = rated_current * 1.3  # ток кабеля должен быть больше тока автомата
 
             cab_current = cab_df.rat_current[cab] * derat_factor * par
-
 
             cur_check = current_c >= cab_current  # load more than applicable curent of cable
             checker = not (not cur_check and not volt_check and not volt_start_check)
@@ -619,6 +613,7 @@ def create_cab_list(contr_but_len, loads_df, panelDescr, diam_df, ex_df, glands_
     cl_df.set_index('cableTag', inplace=True)
 
     return cl_df
+
 
 def replace_zero(loads_df):
     loads_df['CONSUM-CABLE_TYPE'] = loads_df['CONSUM-CABLE_TYPE'].astype(str).str.replace('\.0mm2', 'mm2', regex=True)
@@ -866,7 +861,6 @@ def scripts_tab():
                          '- :orange[Creation of XML-file] for creation SLDs in :orange[ETAP]'
                 )
 
-
     with col_content:
         center_style()
 
@@ -879,7 +873,7 @@ def scripts_tab():
             st.write('Select the required Script')
 
         with st.expander("CREARE CABLE LIST | SLD FROM LOAD LIST | XML FOR ETAP"):
-            cl, cc, cr = st.columns([1,32,1])
+            cl, cc, cr = st.columns([1, 32, 1])
             cc.title(':orange[Create Cable List | SLD from Load List | Creare XML for ETAP]')
             cr.text("", help="Каждое действие доступно по соответствующей вкладке \n\n"
                              "Each action is available through corresponding tab")
@@ -900,8 +894,6 @@ def scripts_tab():
             dxf_template = p_r.file_uploader("SLD template", type='dxf')
 
             tab_cl, tab_sld, tab_xml = st.tabs(['Create Cable List', 'Create SLD in DXF', 'Greate XML for ETAP'])
-
-
 
             with tab_cl:
 
@@ -961,7 +953,6 @@ def scripts_tab():
 
                     for tag in ['CONSUM-CABLE_TAG', 'HEATER-CABLE_TAG', 'LCS1-CABLE_TAG1', 'LCS1-CABLE_TAG2',
                                 'LCS2-CABLE_TAG']:
-
                         loads_df[tag] = loads_df[tag].astype(str).str.replace('710-', '', regex=True)
                         loads_df[tag] = loads_df[tag].astype(str).str.replace('715-', '', regex=True)
 
@@ -989,7 +980,9 @@ def scripts_tab():
                     sld_file_name = cc.text_input('Enter the Name for resulting SLD (without extension)',
                                                   value="MCCxxx")
                     rc.text('')
-                    rc.text('')
+                    rc.text('', help="Вы можете скачать Однолинейную Схему в DXF-файл \n"
+                                     "---"
+                                     "\n You can download SLD in DXF-file")
 
                     disable_sld_but = check_df(st.session_state.loads_df)
 
@@ -997,7 +990,6 @@ def scripts_tab():
                                                            disabled=False if dxf_template and
                                                                              disable_sld_but else True,
                                                            use_container_width=True)
-
 
                 if create_sld_but:
 
@@ -1135,7 +1127,6 @@ def scripts_tab():
 
                 HOR_STEP = 4000
 
-
                 disable_xml_but = not check_df(st.session_state.loads_df)
 
                 c1, c2, c3 = st.columns(3, gap='medium')
@@ -1147,7 +1138,7 @@ def scripts_tab():
                                  "и выбрать сгенерированный XML-файл \n"
                                  "---"
                                  "\n To transfer SLD in :blue[ETAP] is necessary: DataX -> Import XML... "
-                                 "and select generated XML-file",)
+                                 "and select generated XML-file", )
 
                 if xml_but:
                     sld_df = st.session_state.loads_df
@@ -1185,13 +1176,13 @@ def scripts_tab():
 
                             cb_x = 3000 + SHIFT_FROM_EDGE
 
-                            sect_tag = str(panel_list[0])+str(bus)
+                            sect_tag = str(panel_list[0]) + str(bus)
 
                             distr_bus_iid = f"ps{str(iid)}"
 
                             txt = add_main_bus(txt=txt, distr_bus_len=distr_bus_len,
                                                distr_bus_x=distr_bus_x + SHIFT_FROM_EDGE, distr_bus_y=distr_bus_y,
-                                               distr_bus_id= sect_tag, distr_bus_iid=distr_bus_iid)
+                                               distr_bus_id=sect_tag, distr_bus_iid=distr_bus_iid)
 
                             j = 1
 
@@ -1202,7 +1193,7 @@ def scripts_tab():
 
                                 load_kw = row.rated_power
                                 load_kva = load_kw / row.power_factor
-                                load_kvar = math.sqrt(load_kva**2 - load_kw**2)
+                                load_kvar = math.sqrt(load_kva ** 2 - load_kw ** 2)
 
                                 if "/" in str(row.section):
                                     st.experimental_show(row.section)
@@ -1212,29 +1203,28 @@ def scripts_tab():
                                 else:
                                     l_size = n_size = pe_size = row.section
 
-
                                 txt = add_feeder(load_type=row.equip,
                                                  txt=txt,
                                                  cb_x=cb_x,
                                                  cb_y=cb_y,
                                                  cb_from_elem=sect_tag,
                                                  cb_id=f"{bus}{cb_num}",
-                                                 cb_iid=f"ps{str(iid+j)}",
+                                                 cb_iid=f"ps{str(iid + j)}",
                                                  cb_to_elem=f"L-{ind}",
                                                  cab_id=f"L-{ind}",
-                                                 cab_iid=f"ps{str(iid+j*100+1)}",
+                                                 cab_iid=f"ps{str(iid + j * 100 + 1)}",
                                                  cab_len=row.length,
                                                  cab_to_bus=f"{ind}-bus",
                                                  load_bus_id=f"{ind}-bus",
-                                                 load_bus_iid=f"ps{str(iid+j*100+2)}",
+                                                 load_bus_iid=f"ps{str(iid + j * 100 + 2)}",
                                                  load_bus_tag=f"{ind}-bus",
                                                  motor_power=row.rated_power,
                                                  lrc=int(row.start_ratio) * 100,
                                                  cos_f=row.power_factor,
                                                  motor_id=ind,
-                                                 motor_iid=f"ps{str(iid+j*100+3)}",
+                                                 motor_iid=f"ps{str(iid + j * 100 + 3)}",
                                                  stat_load_id=ind,
-                                                 stat_load_iid=f"ps{str(iid+j*100+4)}",
+                                                 stat_load_iid=f"ps{str(iid + j * 100 + 4)}",
                                                  stat_load_kw=row.rated_power,
                                                  stat_load_kvar=load_kvar,
                                                  stat_load_kva=load_kva,
@@ -1259,7 +1249,7 @@ def scripts_tab():
                         ready_file.write(txt)
 
                     with open(saving_path, 'rb') as f:
-                        st.download_button('Get XML file', data=f,file_name=saving_path.replace('temp_dxf/', ''))
+                        st.download_button('Get XML file', data=f, file_name=saving_path.replace('temp_dxf/', ''))
 
         with st.expander('CREATE CABLEWAY SECTIONS'):
             st.title(':orange[Create Cableway Sections]')
@@ -1276,16 +1266,15 @@ def scripts_tab():
 
             sect_template = p_r.file_uploader("SECTIONS TEMPLATE", type=['dxf'])
 
-
             cab_tags, cab_layout, gen_sections = st.tabs(['Get Tags from Cable List', 'Process Cable Layout',
                                                           'Create Sections'])
 
             with cab_tags:
 
-                if cable_list: # and st.session_state.user['access_level'] == 'dev'
+                if cable_list:  # and st.session_state.user['access_level'] == 'dev'
                     with st.form('cablist_settings'):
                         lc, c1, c2, rc = st.columns(4, gap='medium')
-                        sheet_name = lc.selectbox('Sheet Sheet', pd.read_excel(cable_list, sheet_name = None).keys())
+                        sheet_name = lc.selectbox('Sheet Sheet', pd.read_excel(cable_list, sheet_name=None).keys())
                         from_unit = c1.text_input('From Unit')
                         to_unit = c2.text_input('To Unit')
                         rc.text('')
@@ -1306,7 +1295,6 @@ def scripts_tab():
                 else:
                     st.write('👉  Please Add a Cable List...')
 
-
             with cab_layout:
                 if power_layout:
                     if st.button('Get Cables and Sections from Power Layout', use_container_width=True):
@@ -1314,8 +1302,6 @@ def scripts_tab():
                         st.session_state.sect_df = get_sect_from_layout(st.session_state.cab_list_for_sect, layout_path)
                 else:
                     st.write('👉  Please Add Cable Routing Layout...')
-
-
 
             with gen_sections:
 
@@ -1336,8 +1322,10 @@ def scripts_tab():
                         width_percent = c2.radio('Power Cable Tray filling (by Width), %', [80, 90, 100],
                                                  index=0, horizontal=True)
 
-                        lv_horis_gap = c3.radio('Horisontal Gap for LV cables, %', [0, 50, 100], index=2, horizontal=True)
-                        mv_horis_gap = c4.radio('Horisontal Gap for MV cables, %', [0, 50, 100], index=2, horizontal=True)
+                        lv_horis_gap = c3.radio('Horisontal Gap for LV cables, %', [0, 50, 100], index=2,
+                                                horizontal=True)
+                        mv_horis_gap = c4.radio('Horisontal Gap for MV cables, %', [0, 50, 100], index=2,
+                                                horizontal=True)
                         form_conf_but = st.form_submit_button('Generate Sections', use_container_width=True)
 
                     if form_conf_but:
@@ -1356,7 +1344,7 @@ def scripts_tab():
                                              sections_template_path)
 
                         with open(reply, 'rb') as f:
-                            st.download_button('Get SECTIONS here', data=f,file_name=reply.replace("temp_dxf/", ""))
+                            st.download_button('Get SECTIONS here', data=f, file_name=reply.replace("temp_dxf/", ""))
 
                         reply2 = reg_action(reply.replace("temp_dxf/", ""))
 
@@ -1373,5 +1361,3 @@ def scripts_tab():
             st.write('Typical Diagrams is required')
             st.write('Settings form is required')
             st.write('Consider Options: typical Connection, manual creation...')
-
-
