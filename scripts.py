@@ -980,9 +980,9 @@ def scripts_tab():
                     sld_file_name = cc.text_input('Enter the Name for resulting SLD (without extension)',
                                                   value="MCCxxx")
 
-                    rc.text('', help="Вы можете скачать Однолинейную Схему в DXF-файл \n"
+                    rc.text('', help=":blue[Вы можете скачать Однолинейную Схему в DXF-файл] \n"
                                      "---"
-                                     "\n You can download SLD in DXF-file")
+                                     "\n :blue[You can download SLD in DXF-file]")
 
                     disable_sld_but = check_df(st.session_state.loads_df)
 
