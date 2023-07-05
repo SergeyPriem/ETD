@@ -979,7 +979,7 @@ def scripts_tab():
 
                     sld_file_name = cc.text_input('Enter the Name for resulting SLD (without extension)',
                                                   value="MCCxxx")
-                    rc.text('')
+
                     rc.text('', help="Вы можете скачать Однолинейную Схему в DXF-файл \n"
                                      "---"
                                      "\n You can download SLD in DXF-file")
