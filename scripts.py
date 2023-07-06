@@ -853,7 +853,7 @@ def scripts_tab():
                          '- :orange[Создание Кабельного Журнала] из Листа Нагрузок\n'
                          '- :orange[Создание Однолинейной Схемы] из Кабельного журнала и Листа Нагрузок\n'
                          '- :orange[Создание XML-файла] для генерации однолинейной схемы в :orange[ETAP]\n'
-                         '---'
+                         '***'
                          '\n Now the following scripts are available:\n'
                          '- :orange[Cable List Creation] from Load List \n'
                          '- :orange[SLD Creation] from Cable List & Load List \n'
@@ -980,7 +980,7 @@ def scripts_tab():
                                                   value="MCCxxx")
 
                     rc.text('', help=":blue[После создания, Вы можете скачать Однолинейную Схему в DXF-файл] \n"
-                                     "---"
+                                     "***"
                                      "\n :blue[You can download SLD in DXF-file after creation]")
 
                     disable_sld_but = check_df(st.session_state.loads_df)
@@ -1135,7 +1135,7 @@ def scripts_tab():
 
                 c3.text('', help="Чтобы перенести схему в :blue[ETAP]: DataX -> Import XML... "
                                  "и выбрать сгенерированный XML-файл \n"
-                                 "---"
+                                 "***"
                                  "\n To transfer SLD in :blue[ETAP] is necessary: DataX -> Import XML... "
                                  "and select generated XML-file", )
 

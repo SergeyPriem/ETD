@@ -30,7 +30,7 @@ def tasks_content():
                          "- добавлять :orange[Исходящие Задания] смежным отделам. Предусмотрена возможность "
                          "добавления заданий для нескльких отделов одновременно \n"
                          "- находить :orange[существующие Входящие и Исходящие задания] \n"
-                         "----"
+                         "***"
                          " \nPage :orange[Tasks] allows: \n"
                          "- add :orange[Incoming Task] from related departments. "
                          "Provided the ability to add tasks for several sets at the same time \n"
