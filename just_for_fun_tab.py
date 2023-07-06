@@ -24,22 +24,22 @@ def manual():
         if en.button("EN", use_container_width= True):
             lang = "EN"
 
+        if lang is None:
+            st.subheader("Select the language * Выберите язык")
+
         def help_ru_en(page, div_ru, div_en):
-            if lang:
                 if lang == "RU":
                     # ru, en = st.columns(2, gap='large')
                     st.subheader(f":orange[Страница '{page}']")
                     st.write("")
                     st.markdown(div_ru, unsafe_allow_html=True)
+                    st.divider()
 
                 if lang == "EN":
                     st.subheader(f":orange[Page '{page}']")
                     st.write("")
                     st.markdown(div_en, unsafe_allow_html=True)
-
-                st.divider()
-            else:
-                st.subheader("Select the language * Выберите язык")
+                    st.divider()
 
         div_ru = '<div style="text-align: justify;">' \
                  'На cтранице <b>Home</b> отображаются новые <b>Задания</b> от смежных отделов ' \
