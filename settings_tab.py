@@ -23,15 +23,17 @@ def settings_content():
         st.text('')
         st.text('')
         st.text('', help='Эта страница предназначена для настроек более комфортного использования Приложения. '
-                         'Можно настроить: '
-                         '- расположение Главного Меню'
-                         '- объем загрузки данных из базы (все проекты, текущие, или все кроме отмененных)'
+                         'Можно настроить: \n'
+                         '- расположение Главного Меню\n'
+                         '- объем загрузки данных из базы (все проекты, текущие, или все кроме отмененных и '
+                         'остановленных)\n'
                          '- сменить пароль пользователя'
                          '\n\n'
-                         'This page is intended for settings for more comfortable use of the Application. '
-                         'Available settings: '
-                         '- main menu location'
-                         '- amount of data downloaded from the database (all projects, current, or all except canceled)'
+                         'This page is intended for settings for more comfortable use of the Application. \n'
+                         'Available settings: \n'
+                         '- main menu location \n'
+                         '- amount of data downloaded from the database (all projects, current, or '
+                         'all except canceled and suspended) \n'
                          '- change user password')
 
     with content_set:
