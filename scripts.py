@@ -874,8 +874,9 @@ def scripts_tab():
         with st.expander("CREARE CABLE LIST | SLD FROM LOAD LIST | XML FOR ETAP"):
             cl, cc, cr = st.columns([1, 32, 1])
             cc.title(':orange[Create Cable List | SLD from Load List | Creare XML for ETAP]')
-            cr.text("", help="Каждое действие доступно по соответствующей вкладке \n\n"
-                             "Each action is available through corresponding tab")
+            cr.text("", help="Каждый из перечисленных скриптов доступен на соответствующей вкладке \n"
+                             "***"
+                             "\n Each of listed scripts is available at the corresponding tab")
             st.divider()
             st.write("Please find required templates in folder below  👇 You can update SLD template "
                      "according to your Project Requirements, but keep blocks attributes' names")
@@ -899,7 +900,10 @@ def scripts_tab():
                 with st.form("cab_list"):
                     lc, rc = st.columns(2, gap='medium')
                     panelDescr = lc.text_input("Panel Description ('Motor Control Center')", max_chars=20,
-                                               help="Will be used to fill Cable List Column 'From'")
+                                               help=":blue[Для заполнения колонки Кабельного Журнала 'From'] \n"
+                                               "***"   
+                                               "\n Will be used to fill Cable List Column 'From'"
+                                               )
                     max_sc = lc.number_input('Initial Short Circuit Current at the Panel',
                                              value=65, min_value=6, max_value=150)
                     peak_sc = lc.number_input('Peak Short Circuit Current at the Panel',
@@ -911,10 +915,14 @@ def scripts_tab():
 
                     incom_margin = rc.selectbox("Margin for Incomer's Rated Current",
                                                 ['1.0', '1.05', '1.1', '1.15', '1.2'],
-                                                help="Usually 1.1 for Incomers and 1.2 for Feeders",
+                                                help=":blue[Обычно 1.1 для Вводных выклюачтелей, но есть возможность "
+                                                     "выбрать иное] \n"
+                                                "***"
+                                                "\n"     
+                                                ":blue[Usually 1.1 for Incomers, but other options are available]",
                                                 index=2)
 
-                    show_settings = lc.checkbox("Show CB settings at SLD", help="L, S, I, N, G")
+                    show_settings = lc.checkbox("Show CB settings at SLD", help=":blue[L, S, I, N, G]")
 
                     make_cablist_but = rc.form_submit_button("Make Cable List", type='primary',
                                                              disabled=False if load_list and cab_data else True,
