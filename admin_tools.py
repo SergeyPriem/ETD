@@ -20,7 +20,7 @@ def manage_projects():
         st.text('', help='Эта страница предназначена для :orange[Создания, Изменения и Просмотра] Проектов '
                          '(доступна только для Руководителя отдела)'
                          '\n'
-                         '---'
+                         '***'
                          '\n'
                          'This page is intended to :orange[Create, Edit and View of Project] (only available to the '
                          'Department Manager)')

@@ -31,7 +31,7 @@ def drawing_sets():
         st.text('', help='На вкладке :orange[Drawings] отображаются комплекты чертежей, в которых Вы '
                          ':orange[Координатор или Разработчик] если выбрано My Units. '
                          'Выбрав All Units можно просмотреть все комплекты ЭлектроОтдела \n'
-                         '---'
+                         '***'
                          '\n'
                          'The :orange[Drawings] tab displays sets of drawings, in which you are the '
                          ':orange[Coordinator or Developer] (if My Units is selected). '
@@ -87,7 +87,7 @@ def drawing_sets():
         ds_right.text('')
         units_ch_b = ds_right.checkbox("Show Units Table",
                                        help=":blue[Вывод таблицы всех Ваших Комплектов Чертежей] \n"
-                                            "---"
+                                            "***"
                                             "\n"
                                             ":blue[Display All Your Units]"
                                        )
@@ -161,7 +161,7 @@ def drawing_sets():
             status = r_c.selectbox('Status', COMPLETION,
                                    index=get_list_index(COMPLETION, old_status),
                                    help=":blue[Пожалуйста, обновите Статус Вашего комплекта в этой форме] \n"
-                                        "---"
+                                        "***"
                                         "\n"
                                         ":blue[Please update the Status of your Unit in this Form]")
             c_c.text('')
@@ -186,7 +186,7 @@ def drawing_sets():
             l_c.text('')
             request_chb = l_c.checkbox('Request for Update', disabled=check_disabled,
                                        help=":blue[Выберите, чтобы отправить запрос Координатору Комплекта] \n"
-                                            "---"
+                                            "***"
                                             "\n"
                                        ":blue[Select to Send the Request to Unit Coordinator] "
                                        )
@@ -390,12 +390,12 @@ def drawing_sets():
 
         if in_out_radio == "In":
             req_checkbox = st.checkbox('Create Draft for not available Tasks',
-                                       help="Here you can generate Request for Task to other Departments and "
-                                            "copy-paste in e-mail \n"
+                                       help="Тут Вы можете cгенерировать Запрос Задания в другие отделы и "
+                                            "скопировать-вставить в e-mail \n"
                                        "***"
                                        "\n"
-                                       "Тут Вы можете cгенерировать Запрос Задания в другие отделы и "
-                                            "скопировать-вставить в e-mail"
+                                       "Here you can generate Request for Task to other Departments and "
+                                       "copy-paste in e-mail"
                                        )
             if req_checkbox:
                 st.subheader("Not available Tasks for Specialities. Here you can create request for assignments")
@@ -575,7 +575,7 @@ def manage_units():
         st.text('')
         st.text('', help="Эта страница предназначена для :orange[Создания, Изменения и Просмотра] "
                          "Комплектов Чертежей Проекта \n"
-                         "---"
+                         "***"
                          "\n"
                          "This page is intended to :orange[Create, Edit and View] of Project Units")
 
