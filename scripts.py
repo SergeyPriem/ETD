@@ -878,7 +878,7 @@ def scripts_tab():
                              ":red[Порядок работы со скриптами должен соответствовать номерам вкладок] \n"
                              "***"
                              "\n "
-                             ":blue[Each of listed scripts is available at the corresponding tab.] \n"
+                             ":blue[Each of listed scripts is available at the corresponding tab.] \n "
                              ":red[The usage order should follow tabs' numbers]")
             st.divider()
             st.write("Please find required templates in folder below  👇 You can update SLD template "
@@ -896,8 +896,8 @@ def scripts_tab():
 
             dxf_template = p_r.file_uploader("SLD template", type='dxf')
 
-
-            tab_cl, tab_sld, tab_xml = st.tabs(['1_Create Cable List', '2_Create SLD in DXF', '3_Greate XML for ETAP'])
+            tab_cl, tab_sld, tab_xml = st.tabs(['1 Create Cable List ->', '2 Create SLD in DXF ->',
+                                                '3 Greate XML for ETAP'])
 
             with tab_cl:
 
@@ -905,8 +905,8 @@ def scripts_tab():
                     lc, rc = st.columns(2, gap='medium')
                     panelDescr = lc.text_input("Panel Description ('Motor Control Center')", max_chars=20,
                                                help=":blue[Для заполнения колонки Кабельного Журнала 'From'] \n"
-                                               "***"   
-                                               "\n Will be used to fill Cable List Column 'From'"
+                                                    "***"
+                                                    "\n Will be used to fill Cable List Column 'From'"
                                                )
                     max_sc = lc.number_input('Initial Short Circuit Current at the Panel',
                                              value=65, min_value=6, max_value=150)
@@ -921,9 +921,9 @@ def scripts_tab():
                                                 ['1.0', '1.05', '1.1', '1.15', '1.2'],
                                                 help=":blue[Обычно 1.1 для Вводных выклюачтелей, но есть возможность "
                                                      "выбрать иное] \n"
-                                                "***"
-                                                "\n"     
-                                                ":blue[Usually 1.1 for Incomers, but other options are available]",
+                                                     "***"
+                                                     "\n"
+                                                     ":blue[Usually 1.1 for Incomers, but other options are available]",
                                                 index=2)
 
                     show_settings = lc.checkbox("Show CB settings at SLD", help=":blue[L, S, I, N, G]")
