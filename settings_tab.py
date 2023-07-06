@@ -22,8 +22,17 @@ def settings_content():
         st.text('')
         st.text('')
         st.text('')
-        st.text('', help='Эта страница предназначена для настроек более комфортного использования Приложения \n\n'
-                         'This page is intended to make some adjustments for more comfortable use of Application')
+        st.text('', help='Эта страница предназначена для настроек более комфортного использования Приложения. '
+                         'Можно настроить: '
+                         '- расположение Главного Меню'
+                         '- объем загрузки данных из базы (все проекты, текущие, или все кроме отмененных)'
+                         '- сменить пароль пользователя'
+                         '\n\n'
+                         'This page is intended for settings for more comfortable use of the Application. '
+                         'Available settings: '
+                         '- main menu location'
+                         '- amount of data downloaded from the database (all projects, current, or all except canceled)'
+                         '- change user password')
 
     with content_set:
 
@@ -62,6 +71,8 @@ def settings_content():
                                        'All excluding cancelled and suspended'],
                                       st.session_state.proj_scope
                                   ),
+                                  help=":green[Only Current Projects] is preferable for speed of Application "
+                                       "and Memory Usage",
                                   horizontal=True)
                 r_c.text("")
                 scope_conf_but = r_c.form_submit_button('Apply Selected Scope', use_container_width=True)

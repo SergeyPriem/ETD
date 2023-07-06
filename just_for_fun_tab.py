@@ -101,10 +101,10 @@ def manual():
         help_ru_en("Scripts", div_ru, div_en)
 
         div_ru = '<div style="text-align: justify;">' \
-                 'С помощью кнопки <b>Refresh</b> можно обновить данные из базы, если они были внесены другими пользователями после момента Вашего входа в приложение</div>'
+                 'Страница <b>Settings</b> предназначена для настройки более комфортного использования приложения' \
+                 '</div>'
 
         div_en = '<div style="text-align: justify;">' \
-                 'On the <b>Scripts</b> page, you can use <b>scripts</b> for automation ' \
-                 'routine tasks. The list of scripts is updates. Detailed description at the page' \
+                 'The <b>Settings</b> page is designed to adjust the application more comfortable usage' \
                  '</div>'
-        help_ru_en("Scripts", div_ru, div_en)
+        help_ru_en("Settings", div_ru, div_en)
