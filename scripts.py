@@ -885,7 +885,7 @@ def scripts_tab():
                      "according to your Project Requirements, but keep blocks attributes' names")
             st.code(r'\\uz-fs\Uzle\Work\Отдел ЭЛ\01 Малая Автоматизация\Шаблоны\CABLE_LIST_SLD')
             st.write("")
-            st.write("Fill the above-mentioned Load List and Cable Catalog Template and drop 👇 them "
+            st.write("Fill the above-mentioned Load List and Cable Catalog Templates and drop 👇 them "
                      "to corresponding loader (or load through 'Browse files')")
             st.write("")
 
