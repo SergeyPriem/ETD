@@ -874,8 +874,8 @@ def scripts_tab():
         with st.expander("CREARE CABLE LIST | SLD FROM LOAD LIST | XML FOR ETAP"):
             cl, cc, cr = st.columns([1, 32, 1])
             cc.title(':orange[Create Cable List | SLD from Load List | Creare XML for ETAP]')
-            cr.text("", help=":blue[Каждый из перечисленных скриптов доступен на соответствующей вкладке. \n"
-                             ":red[Порядок работы со скриптами должен соответствовать номерам вкладок]] \n"
+            cr.text("", help=":blue[Каждый из перечисленных скриптов доступен на соответствующей вкладке.] \n "
+                             ":red[Порядок работы со скриптами должен соответствовать номерам вкладок] \n"
                              "***"
                              "\n "
                              ":blue[Each of listed scripts is available at the corresponding tab. \n"
