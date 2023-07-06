@@ -878,7 +878,7 @@ def scripts_tab():
                              ":red[Порядок работы со скриптами должен соответствовать номерам вкладок] \n"
                              "***"
                              "\n "
-                             ":blue[Each of the listed scripts is available at the corresponding tab.] \n"
+                             ":blue[Each of the listed scripts is available at the corresponding tab.] \n\n"
                              ":red[The usage order should follow tabs' numbers]")
             st.divider()
             st.write("Please find required templates in folder below  👇 You can update SLD template "
