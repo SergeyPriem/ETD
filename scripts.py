@@ -885,16 +885,19 @@ def scripts_tab():
                      "according to your Project Requirements, but keep blocks attributes' names")
             st.code(r'\\uz-fs\Uzle\Work\Отдел ЭЛ\01 Малая Автоматизация\Шаблоны\CABLE_LIST_SLD')
             st.write("")
+            st.write("Fill the above-mentioned Load List and Cable Catalog Template and drop them "
+                     "to corresponding loader (or 'Browse files'")
+            st.write("")
 
             loads_df = pd.DataFrame()
 
             p_l, p_c, p_r = st.columns(3, gap='medium')
 
-            load_list = p_l.file_uploader("LOAD LIST", type='xlsx')
+            load_list = p_l.file_uploader("LOAD LIST loader", type='xlsx')
 
-            cab_data = p_c.file_uploader("CABLE CATALOG", type='xlsx')
+            cab_data = p_c.file_uploader("CABLE CATALOG loader", type='xlsx')
 
-            dxf_template = p_r.file_uploader("SLD template", type='dxf')
+            dxf_template = p_r.file_uploader("SLD TEMPLATE loader", type='dxf')
 
             tab_cl, tab_sld, tab_xml = st.tabs(['1 Create Cable List =>', '2 Create SLD in DXF =>',
                                                 '3 Greate XML for ETAP'])
