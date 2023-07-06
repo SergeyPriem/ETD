@@ -119,11 +119,10 @@ def show_sidebar_info():
 def get_menus(rights):
     # st.session_state.temp_log.append('get_menus')
     performer_menu = ["Home", "Drawings", "Transmittals", "Tasks", 'Scripts', 'Manual',
-                      'Knowledge', 'Settings', 'Refresh']
+                      'Knowledge', 'Settings']
 
     performer_icons = ['house', 'bi bi-file-earmark-spreadsheet-fill', 'bi bi-file-arrow-down',
-                       'bi bi-file-check', 'bi bi-diagram-3', 'bi bi-book', 'bi bi-pen', 'bi bi-gear',
-                       'bi bi-arrow-clockwise']
+                       'bi bi-file-check', 'bi bi-diagram-3', 'bi bi-book', 'bi bi-pen', 'bi bi-gear']
 
     admin_menu = ["Units"]
     admin_icons = ['bi bi-folder-plus']
@@ -1064,7 +1063,7 @@ def win_selector(selected):
         "Users": manage_users,
         "Knowledge": lessons_content,
         "Settings": settings_content,
-        "Refresh": fresh_data,
+        # "Refresh": fresh_data,
         "Units": manage_units,
         "Service": services,
     }

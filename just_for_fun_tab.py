@@ -77,14 +77,34 @@ def manual():
         help_ru_en("Transmittals", div_ru, div_en)
 
         div_ru = '<div style="text-align: justify;">' \
-                 'На странице <b>Tasks</b> можно добавлять или просматривать <b>Входящие и Исходящие Задания</b>)' \
+                 'На странице <b>Tasks</b> можно добавлять или просматривать <b>Входящие и Исходящие Задания</b>. ' \
                  'После добавления задания в базу данных, Координатору и Исполнителю Комплекта Чертежей отправляется ' \
-                 'уведомление на рабочий e-mail и данные по заданию возникают на вкладке <b>Home</b>' \
+                 'уведомление на рабочий e-mail и данные по заданию появляются на вкладке <b>Home</b>' \
                  '</div>'
 
         div_en = '<div style="text-align: justify;">' \
-                 'On the <b>Tasks</b> page, you can add or view <b>Incoming and Outgoing Tasks</b>)' \
-                 'After the task is added to the database, the notification is sent Coordinator and Executor ' \
-                 'work e-mail  and task data appears on the <b>Home</b> tab' \
+                 'On the <b>Tasks</b> page, you can add or view <b>Incoming and Outgoing Tasks</b>. ' \
+                 'After the task is added to the database, the notification is sent Coordinator\'s and Executor\'s ' \
+                 'work e-mail and task data appears on the <b>Home</b> tab' \
                  '</div>'
         help_ru_en("Tasks", div_ru, div_en)
+
+        div_ru = '<div style="text-align: justify;">' \
+                 'На странице <b>Scripts</b> можно воспользоваться <b>скриптами</b> по автоматизации ' \
+                 'рутинных задач. Перечень скриптов дополняется, детальное описание на страние' \
+                 '</div>'
+
+        div_en = '<div style="text-align: justify;">' \
+                 'On the <b>Scripts</b> page, you can use <b>scripts</b> for automation ' \
+                 'routine tasks. The list of scripts is updates. Detailed description at the page' \
+                 '</div>'
+        help_ru_en("Scripts", div_ru, div_en)
+
+        div_ru = '<div style="text-align: justify;">' \
+                 'С помощью кнопки <b>Refresh</b> можно обновить данные из базы, если они были внесены другими пользователями после момента Вашего входа в приложение</div>'
+
+        div_en = '<div style="text-align: justify;">' \
+                 'On the <b>Scripts</b> page, you can use <b>scripts</b> for automation ' \
+                 'routine tasks. The list of scripts is updates. Detailed description at the page' \
+                 '</div>'
+        help_ru_en("Scripts", div_ru, div_en)
