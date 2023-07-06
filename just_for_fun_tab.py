@@ -14,25 +14,32 @@ def manual():
         st.title(':orange[Manual] - under Development')
         st.divider()
 
-        # st.write("🌴 Short time to relax")
-        #
-        # st.write("check out this [Мальтийский механизм](https://www.wikiwand.com/ru/"
-        #          "%D0%9C%D0%B0%D0%BB%D1%8C%D1%82%D0%B8%D0%B9%D1%81%D0%BA%D0%B8%D0%B9"
-        #          "_%D0%BC%D0%B5%D1%85%D0%B0%D0%BD%D0%B8%D0%B7%D0%BC)")
-        #
-        # st.write("check out this [Сверление квадратных отверстий](https://etudes.ru/etudes/drilling-square-holes/)")
+        ru, en = st.columns(2, gap='large')
+
+        lang = None
+
+        if ru.button("RU", True):
+            lang = "RU"
+
+        if en.button("EN", True):
+            lang = "EN"
 
         def help_ru_en(page, div_ru, div_en):
-            ru, en = st.columns(2, gap='large')
-            ru.subheader(f":orange[Страница '{page}']")
-            ru.write("")
-            ru.markdown(div_ru,
-                        unsafe_allow_html=True)
+            if lang:
+                if lang == "RU":
+                    ru, en = st.columns(2, gap='large')
+                    ru.subheader(f":orange[Страница '{page}']")
+                    ru.write("")
+                    ru.markdown(div_ru, unsafe_allow_html=True)
 
-            en.subheader(f":orange[Page '{page}']")
-            en.write("")
-            en.markdown(div_en, unsafe_allow_html=True)
-            st.divider()
+                if lang == "EN":
+                    en.subheader(f":orange[Page '{page}']")
+                    en.write("")
+                    en.markdown(div_en, unsafe_allow_html=True)
+
+                st.divider()
+            else:
+                st.subheader("Select the language * Выберите язык")
 
         div_ru = '<div style="text-align: justify;">' \
                  'На cтранице <b>Home</b> отображаются новые <b>Задания</b> от смежных отделов ' \
@@ -45,7 +52,6 @@ def manual():
                  '(if they were added to DataBase not by You) & <b>Transmittals</b>. To hide Tasks & ' \
                  'Transmittals, click the button under the corresponding block.' \
                  '</div>'
-
         help_ru_en("Home", div_ru, div_en)
 
         div_ru = '<div style="text-align: justify;">Страница <b>Drawings</b> предназначена для просмотра и обновления' \
@@ -57,7 +63,6 @@ def manual():
                  'Page <b>Drawings</b> is intended for review and update of <b>Unit\'s</b> status, ' \
                  'reassignment of performer, drawings revisions, notes and transmittals' \
                  '</div>'
-
         help_ru_en("Drawings", div_ru, div_en)
 
         div_ru = '<div style="text-align: justify;">' \
@@ -69,5 +74,4 @@ def manual():
                  'On the <b>Transmittals</b> page you can add, view or edit ' \
                  '<b>Transmittals</b>, (incoming and outgoing)' \
                  '</div>'
-
         help_ru_en("Transmittals", div_ru, div_en)
