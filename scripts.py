@@ -885,8 +885,8 @@ def scripts_tab():
                      "according to your Project Requirements, but keep blocks attributes' names")
             st.code(r'\\uz-fs\Uzle\Work\Отдел ЭЛ\01 Малая Автоматизация\Шаблоны\CABLE_LIST_SLD')
             st.write("")
-            st.write("Fill the above-mentioned Load List and Cable Catalog Template and drop them "
-                     "to corresponding loader (or 'Browse files'")
+            st.write("Fill the above-mentioned Load List and Cable Catalog Template and drop 👇 them "
+                     "to corresponding loader (or through 'Browse files')")
             st.write("")
 
             loads_df = pd.DataFrame()
