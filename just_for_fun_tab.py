@@ -18,24 +18,24 @@ def manual():
 
         lang = None
 
-        if ru.button("RU", True):
+        if ru.button("RU", use_container_width= True):
             lang = "RU"
 
-        if en.button("EN", True):
+        if en.button("EN", use_container_width= True):
             lang = "EN"
 
         def help_ru_en(page, div_ru, div_en):
             if lang:
                 if lang == "RU":
-                    ru, en = st.columns(2, gap='large')
-                    ru.subheader(f":orange[Страница '{page}']")
-                    ru.write("")
-                    ru.markdown(div_ru, unsafe_allow_html=True)
+                    # ru, en = st.columns(2, gap='large')
+                    st.subheader(f":orange[Страница '{page}']")
+                    st.write("")
+                    st.markdown(div_ru, unsafe_allow_html=True)
 
                 if lang == "EN":
-                    en.subheader(f":orange[Page '{page}']")
-                    en.write("")
-                    en.markdown(div_en, unsafe_allow_html=True)
+                    st.subheader(f":orange[Page '{page}']")
+                    st.write("")
+                    st.markdown(div_en, unsafe_allow_html=True)
 
                 st.divider()
             else:
