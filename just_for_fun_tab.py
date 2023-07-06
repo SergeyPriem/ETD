@@ -18,28 +18,28 @@ def manual():
 
         lang = None
 
-        if ru.button("RU", use_container_width= True):
+        if ru.button("RU", use_container_width=True):
             lang = "RU"
 
-        if en.button("EN", use_container_width= True):
+        if en.button("EN", use_container_width=True):
             lang = "EN"
 
         if lang is None:
             st.subheader("Select the language * Выберите язык")
 
         def help_ru_en(page, div_ru, div_en):
-                if lang == "RU":
-                    # ru, en = st.columns(2, gap='large')
-                    st.subheader(f":orange[Страница '{page}']")
-                    st.write("")
-                    st.markdown(div_ru, unsafe_allow_html=True)
-                    st.divider()
+            if lang == "RU":
+                # ru, en = st.columns(2, gap='large')
+                st.subheader(f":orange[Страница '{page}']")
+                st.write("")
+                st.markdown(div_ru, unsafe_allow_html=True)
+                st.divider()
 
-                if lang == "EN":
-                    st.subheader(f":orange[Page '{page}']")
-                    st.write("")
-                    st.markdown(div_en, unsafe_allow_html=True)
-                    st.divider()
+            if lang == "EN":
+                st.subheader(f":orange[Page '{page}']")
+                st.write("")
+                st.markdown(div_en, unsafe_allow_html=True)
+                st.divider()
 
         div_ru = '<div style="text-align: justify;">' \
                  'На cтранице <b>Home</b> отображаются новые <b>Задания</b> от смежных отделов ' \
@@ -75,3 +75,16 @@ def manual():
                  '<b>Transmittals</b>, (incoming and outgoing)' \
                  '</div>'
         help_ru_en("Transmittals", div_ru, div_en)
+
+        div_ru = '<div style="text-align: justify;">' \
+                 'На странице <b>Tasks</b> можно добавлять или просматривать <b>Входящие и Исходящие Задания</b>)' \
+                 'После добавления задания в базу данных, Координатору и Исполнителю Комплекта Чертежей отправляется ' \
+                 'уведомление на рабочий e-mail и данные по заданию возникают на вкладке <b>Home</b>' \
+                 '</div>'
+
+        div_en = '<div style="text-align: justify;">' \
+                 'On the <b>Tasks</b> page, you can add or view <b>Incoming and Outgoing Tasks</b>)' \
+                 'After the task is added to the database, the notification is sent Coordinator and Executor ' \
+                 'work e-mail  and task data appears on the <b>Home</b> tab' \
+                 '</div>'
+        help_ru_en("Tasks", div_ru, div_en)
