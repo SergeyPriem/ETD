@@ -391,10 +391,9 @@ def drawing_sets():
         if in_out_radio == "In":
             req_checkbox = st.checkbox('Create Draft for not available Tasks',
                                        help=":blue[Тут Вы можете cгенерировать Запрос Задания в другие отделы и "
-                                            "скопировать-вставить в e-mail \n"
+                                            "скопировать-вставить в e-mail \n]"
                                        "***"
-                                       "\n"
-                                       "Here you can generate Request for Task to other Departments and "
+                                       ":blue[\n Here you can generate Request for Task to other Departments and "
                                        "copy-paste in e-mail]"
                                        )
             if req_checkbox:
