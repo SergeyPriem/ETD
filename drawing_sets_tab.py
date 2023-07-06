@@ -389,7 +389,14 @@ def drawing_sets():
         not_aval_df = not_aval_df.set_index('speciality')
 
         if in_out_radio == "In":
-            req_checkbox = st.checkbox('Create Draft for not available Tasks')
+            req_checkbox = st.checkbox('Create Draft for not available Tasks',
+                                       help="Here you can generate Request for Task to other Departments and "
+                                            "copy-paste in e-mail \n"
+                                       "***"
+                                       "\n"
+                                       "Тут Вы можете cгенерировать Запрос Задания в другие отделы и "
+                                            "скопировать-вставить в e-mail"
+                                       )
             if req_checkbox:
                 st.subheader("Not available Tasks for Specialities. Here you can create request for assignments")
                 not_aval_col, empty_col, but_col, request_col = st.columns([4, 1, 3, 10])
