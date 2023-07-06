@@ -5,7 +5,6 @@ from utilities import center_style
 
 
 def manual():
-
     center_style()
 
     fun_1, fun_content, fun_2 = st.columns([1, 9, 1])
@@ -14,6 +13,7 @@ def manual():
     with fun_content:
         st.title(':orange[Manual] - under Development')
         st.divider()
+
         # st.write("🌴 Short time to relax")
         #
         # st.write("check out this [Мальтийский механизм](https://www.wikiwand.com/ru/"
@@ -34,23 +34,6 @@ def manual():
             en.markdown(div_en, unsafe_allow_html=True)
             st.divider()
 
-        # ru, en = st.columns(2, gap='large')
-        #
-        # ru.subheader("Страница 'Home'")
-        # ru.write("")
-        # ru.markdown('<div style="text-align: justify;">'
-        #             'На cтранице <b>Home</b> отображаются новые <b>Задания</b> от смежных отделов '
-        #             '(если их внесли в базу не Вы) и <b>Трансмитталы</b>. Чтобы скрыть Задания и '
-        #             'Трансмитталы, нажмите кнопку под соответствующим блоком.'
-        #             '</div>', unsafe_allow_html=True)
-        # en.subheader("Page 'Home'")
-        # en.write("")
-        # en.markdown('<div style="text-align: justify;">'
-        #             'At the page <b>Home</b> are showing <b>Task</b> from other Departments '
-        #             '(if they were added to DataBase not by You) & <b>Transmittals</b>. To hide Tasks & '
-        #             'Transmittals, click the button under the corresponding block.'
-        #             '</div>', unsafe_allow_html=True)
-
         div_ru = '<div style="text-align: justify;">' \
                  'На cтранице <b>Home</b> отображаются новые <b>Задания</b> от смежных отделов ' \
                  '(если их внесли в базу не Вы) и <b>Трансмитталы</b>. Чтобы скрыть Задания и ' \
@@ -58,13 +41,12 @@ def manual():
                  '</div>'
 
         div_en = '<div style="text-align: justify;">' \
-                    'At the page <b>Home</b> are showing <b>Task</b> from other Departments ' \
-                    '(if they were added to DataBase not by You) & <b>Transmittals</b>. To hide Tasks & ' \
-                    'Transmittals, click the button under the corresponding block.' \
-                    '</div>'
+                 'At the page <b>Home</b> are showing <b>Task</b> from other Departments ' \
+                 '(if they were added to DataBase not by You) & <b>Transmittals</b>. To hide Tasks & ' \
+                 'Transmittals, click the button under the corresponding block.' \
+                 '</div>'
 
         help_ru_en("Home", div_ru, div_en)
-
 
         div_ru = '<div style="text-align: justify;">Страница <b>Drawings</b> предназначена для просмотра и обновления' \
                  ' статусов <b>Комплекта чертежей</b>, переназначения исполнителей, ревизий чертежей, примечаний и' \
@@ -78,18 +60,14 @@ def manual():
 
         help_ru_en("Drawings", div_ru, div_en)
 
-        ru, en = st.columns(2, gap='large')
-        ru.subheader("Страница 'Transmittals'")
-        ru.write("")
-        ru.markdown('<div style="text-align: justify;">'
-                    'На странице <b>Transmittals</b> можно добавлять, просматривать или редактировать '
-                    '<b>Трансмитталы</b>, (входящие и исходящие)'
-                    '</div>', unsafe_allow_html=True)
-        en.subheader("Page 'Transmittals'")
-        en.write("")
-        en.markdown('<div style="text-align: justify;">'
-                    'On the <b>Transmittals</b> page you can add, view or edit '
-                    '<b>Transmittals</b>, (incoming and outgoing)'
-                    '<br>'
-                    '</div>', unsafe_allow_html=True)
-        st.divider()
+        div_ru = '<div style="text-align: justify;">' \
+                 'На странице <b>Transmittals</b> можно добавлять, просматривать или редактировать ' \
+                 '<b>Трансмитталы</b>, (входящие и исходящие)' \
+                 '</div>'
+
+        div_en = '<div style="text-align: justify;">' \
+                 'On the <b>Transmittals</b> page you can add, view or edit ' \
+                 '<b>Transmittals</b>, (incoming and outgoing)' \
+                 '</div>'
+
+        help_ru_en("Transmittals", div_ru, div_en)
