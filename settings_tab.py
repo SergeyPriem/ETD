@@ -28,7 +28,7 @@ def settings_content():
                          '- объем загрузки данных из базы (все проекты, текущие, или все кроме отмененных и '
                          'остановленных)\n'
                          '- сменить пароль пользователя'
-                         '\n\n'
+                         '***'
                          ':blue[This page is intended for settings for more comfortable use of the Application. \n'
                          'Available settings:] \n'
                          '- main menu location \n'
