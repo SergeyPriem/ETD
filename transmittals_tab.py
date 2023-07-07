@@ -92,7 +92,10 @@ def transmittals_content():
                 t_type = lc.radio("Transmittal Type *", TRANS_TYPES, horizontal=True)
                 lc.write("")
                 ref_trans = rc.text_input("Previous Transmittal",
-                                          help=":blue[Номер трансмиттала, на который получен ответ]")
+                                          help=":blue[Номер трансмиттала, на который получен текущий ответ] \n"
+                                          "***"
+                                          "\n :blue[Transmittal to which a current response was received]"
+                                          )
                 trans_num = cc.text_input("Transmittal Number *", max_chars=50)
                 subj = cc.text_input("Subject *", max_chars=255)
                 ans_required = cc.radio("Our Reply Required *", ('Yes', 'No'), horizontal=True)
