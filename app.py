@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import datetime
-import os
+import os, gc
 import random
 import pandas as pd
 from PIL import Image
@@ -1246,7 +1246,10 @@ if __name__ == "__main__":
 
         reply = update_tables()
 
+        n = gc.collect()
+        # print("Number of unreachable objects collected by GC:", n)
         if st.session_state.user['vert_menu'] == 0:
             footer(reply)
         else:
             show_sidebar_info()
+            st.sidebar.write("Number of unreachable objects collected by GC:", n)
