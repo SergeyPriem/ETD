@@ -1372,7 +1372,11 @@ def scripts_tab():
         with st.expander('CREATE TERMINALS DIAGRAM'):
             st.title(':orange[Create Terminals Diagram - under development...]')
 
-            cab_list = st.file_uploader("Add Cable List", 'xlsx')
+            left_load, center_load, right_load = st.columns(2, gap="large")
+
+            cab_list = left_load.file_uploader("CABLE LIST Loader", 'xlsx')
+            load_list = center_load.file_uploader("LOAD LIST Loader", 'xlsx')
+            term_template = right_load.file_uploader("DXF TEMPLATE Loader", 'dxf')
 
             manual, auto = st.tabs(["1️⃣ Manual Creation", "2️⃣ Automatic Creation"])
 
