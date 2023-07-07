@@ -1375,7 +1375,7 @@ def scripts_tab():
             manual, auto = st.tabs(["1️⃣ Manual Creation", "2️⃣ Automatic Creation"])
 
             with manual:
-                panel, terminals, connect = st.columns(3)
+                panel, terminals, connect = st.columns(3, gap="large")
 
                 # field.markdown("### Create Field")
                 # field_name = field.text_input("Enter Field Numbers", placeholder="1-4")
