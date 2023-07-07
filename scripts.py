@@ -1148,11 +1148,11 @@ def scripts_tab():
                 xml_but = c2.button("Create XML file", type='primary', disabled=disable_xml_but,
                                     use_container_width=True)
 
-                c3.text('', help="Чтобы перенести схему в :blue[ETAP]: DataX -> Import XML... "
-                                 "и выбрать сгенерированный XML-файл \n"
+                c3.text('', help=":blue[Чтобы перенести схему в **ETAP**: DataX -> Import XML... "
+                                 "и выбрать сгенерированный XML-файл] \n"
                                  "***"
-                                 "\n To transfer SLD in :blue[ETAP] is necessary: DataX -> Import XML... "
-                                 "and select generated XML-file", )
+                                 "\n :blue[To transfer SLD to **ETAP** : DataX -> Import XML... "
+                                 "and select generated XML-file]", )
 
                 if xml_but:
                     sld_df = st.session_state.loads_df
