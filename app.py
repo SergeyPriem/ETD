@@ -1008,7 +1008,7 @@ def services():
             st.title(':orange[Staff Estimation]')
 
     n = gc.collect()
-    st.write("Number of unreachable objects collected by GC:", n)
+    serv_cont.markdown(f"### :red[Number of unreachable objects collected by GC: {n}]")
 
 
 def download_file(file_name, rc):
