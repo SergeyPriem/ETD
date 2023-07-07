@@ -1392,7 +1392,7 @@ def scripts_tab():
                 term_quant = terminals.number_input("Enter Terminal Block Number")
                 term_side = terminals.radio("Connection Side", ['Left', 'Right'])
                 term_pan_tag = terminals.selectbox('Select the Panel to Add Terminal Block', panel_list)
-                terminals.button("Add Panel", use_container_width=True)
+                terminals.button("Add Terminal Block", use_container_width=True)
 
                 term_box_list = ['XC10', 'XC20']
 
@@ -1402,6 +1402,7 @@ def scripts_tab():
                 connect_wire_num = connect.number_input('Enter Number of Cable Wires')
                 connect_wire_sect = connect.selectbox('Select Cable Section',
                                                       ["1.5", "2.5", "4", "6", "10", "16", "25"])
+                connect.button("Add Connection", use_container_width=True)
 
             st.write('Load List is required')
             st.write('Typical Diagrams is required')
