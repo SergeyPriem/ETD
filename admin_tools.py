@@ -2,7 +2,7 @@
 
 import streamlit as st
 from streamlit_extras.dataframe_explorer import dataframe_explorer
-from utilities import PROJECT_STATUSES, center_style, get_list_index, update_state, err_handler
+from utilities import PROJECT_STATUSES, center_style, get_list_index, update_state, err_handler  ###
 from projects import create_project, update_projects
 from send_emails import send_mail
 
@@ -92,7 +92,6 @@ def manage_projects():
         with edit_proj_tab:
             proj_to_edit = st.selectbox('Select Projects to Edit', st.session_state.proj_names)
 
-
             proj_df = st.session_state.adb['project']
             u_df = st.session_state.adb['users']
 
@@ -130,7 +129,8 @@ def manage_projects():
                                                   max_chars=1000).strip()
                         tech_conditions = rc.text_area("Tech. conditions location",
                                                        proj_ser.tech_conditions.to_numpy()[0], max_chars=1000).strip()
-                        surveys = lc.text_area("Surveys location", proj_ser.surveys.to_numpy()[0], max_chars=1000).strip()
+                        surveys = lc.text_area("Surveys location", proj_ser.surveys.to_numpy()[0],
+                                               max_chars=1000).strip()
                         mdr = rc.text_area("MDR location", proj_ser.mdr.to_numpy()[0], max_chars=250).strip()
                         notes = lc.text_area("Notes", proj_ser.notes.to_numpy()[0], max_chars=1000).strip()
 
@@ -222,7 +222,6 @@ def manage_projects():
 
                 else:
                     st.warning('Select the Project...')
-
 
         with viewer_tab:
 

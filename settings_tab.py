@@ -65,7 +65,7 @@ def settings_content():
 
         with scope_tab:
             with st.form('change_scope'):
-                l_c, r_c = st.columns(2, gap='medium')
+                l_c, r_c = st.columns([2,1], gap='medium')
                 scope = l_c.radio("Choose the Preferred Scope loaded from DB",
                                   ['Only Current Projects', 'All Projects', 'All excluding cancelled and suspended'],
                                   index=get_list_index(

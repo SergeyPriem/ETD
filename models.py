@@ -145,14 +145,15 @@ class Condition(db.Entity):
     table_name = Required(str, 20)
     user_login = Required(str, 50)
 
+
 class Action(db.Entity):
     id = PrimaryKey(int, size=24, auto=True)
     user_login = Required(str, 50)
     act = Required(str, 100)
     action_time = Required(datetime)
 
-set_sql_debug(False)
 
+set_sql_debug(False)
 
 # db.bind(provider='sqlite', filename='DBB.sqlite', create_db=True)
 # @st.cache_resource(ttl=3600)
@@ -164,7 +165,6 @@ db.bind(
     passwd=st.secrets["db_password"],
     db=st.secrets["db_database"]
 )
-
 
 # binding()
 
