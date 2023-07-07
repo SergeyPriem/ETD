@@ -899,7 +899,7 @@ def scripts_tab():
 
             dxf_template = p_r.file_uploader("SLD TEMPLATE loader", type='dxf')
 
-            tab_cl, tab_sld, tab_xml = st.tabs(['1 Create Cable List ▶️', '2 Create SLD in DXF ▶️',
+            tab_cl, tab_sld, tab_xml = st.tabs(['1 Create Cable List  ➡️️', '2 Create SLD in DXF  ➡️',
                                                 '3 Greate XML for ETAP'])
 
             with tab_cl:
