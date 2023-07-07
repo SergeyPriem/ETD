@@ -1383,7 +1383,7 @@ def scripts_tab():
                 panel.markdown("#### Create Panel")
                 panel_name = panel.text_input("Enter Panel Name")
                 panel_tag = panel.text_input("Enter Panel Tag Number")
-                panel_side = panel.radio("Connection Side", ['Left', 'Right'], horisontal=True)
+                panel_side = panel.radio("Panel Side", ['Left', 'Right'], horisontal=True)
                 panel_descr = panel.text_area("Enter Short Panel Description")
                 panel_button = panel.button("Add Panel", use_container_width=True)
 
