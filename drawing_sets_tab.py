@@ -38,8 +38,6 @@ def drawing_sets():
                          'By selecting All Units you can view all Units of Electrical Department]'
                 )
 
-
-
     with content:
         # h_cont= """
         # <p style="text-align: center; color: #249ded;">На вкладке <b>Drawings</b> отображаются комплекты чертежей,
