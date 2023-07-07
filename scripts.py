@@ -1372,6 +1372,8 @@ def scripts_tab():
         with st.expander('CREATE TERMINALS DIAGRAM'):
             st.title(':orange[Create Terminals Diagram - under development...]')
 
+            cab_list = st.file_uploader("Add Cable List", 'xlsx')
+
             manual, auto = st.tabs(["1️⃣ Manual Creation", "2️⃣ Automatic Creation"])
 
             with manual:
@@ -1381,6 +1383,7 @@ def scripts_tab():
                 # field_name = field.text_input("Enter Field Numbers", placeholder="1-4")
 
                 panel.markdown("#### Create Panel")
+                panel_equip = panel.text_input("Enter Equipment Name")
                 panel_name = panel.text_input("Enter Panel Name")
                 panel_tag = panel.text_input("Enter Panel Tag Number")
                 panel_side = panel.radio("Panel Side", ['Left', 'Right'], horizontal=True)
