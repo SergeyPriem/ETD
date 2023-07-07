@@ -22,7 +22,7 @@ def settings_content():
         st.text('')
         st.text('')
         st.text('')
-        st.text('', help='Эта страница предназначена для настроек более комфортного использования Приложения. '
+        st.text('', help=':blue[Эта страница предназначена для настроек более комфортного использования Приложения. '
                          'Можно настроить: \n'
                          '- расположение Главного Меню\n'
                          '- объем загрузки данных из базы (все проекты, текущие, или все кроме отмененных и '
@@ -34,7 +34,7 @@ def settings_content():
                          '- main menu location \n'
                          '- amount of data downloaded from the database (all projects, current, or '
                          'all except canceled and suspended) \n'
-                         '- change user password')
+                         '- change user password]')
 
     with content_set:
 
