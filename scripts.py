@@ -1380,7 +1380,7 @@ def scripts_tab():
                 # field.markdown("### Create Field")
                 # field_name = field.text_input("Enter Field Numbers", placeholder="1-4")
 
-                panel.markdown("### Create Panel")
+                panel.markdown("#### Create Panel")
                 panel_name = panel.text_input("Enter Panel Name")
                 panel_tag = panel.text_input("Enter Panel Tag Number")
                 panel_descr = panel.text_area("Enter Short Panel Description")
@@ -1388,6 +1388,7 @@ def scripts_tab():
 
                 panel_list = [1, 2]
 
+                terminals.markdown("#### Create Terminal Block")
                 term_num = terminals.text_input("Enter Terminal Block Number")
                 term_quant = terminals.number_input("Enter Terminal Block Number")
                 term_side = terminals.radio("Connection Side", ['Left', 'Right'])
@@ -1396,6 +1397,7 @@ def scripts_tab():
 
                 term_box_list = ['XC10', 'XC20']
 
+                connect.markdown("#### Create Connection")
                 connect_left_term = connect.selectbox("Select Left Terminal Box", term_box_list)
                 connect_right_term = connect.selectbox("Select Right Terminal Box", term_box_list)
                 connect_tag = connect.text_input('Enter Cable Tag')
