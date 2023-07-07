@@ -875,10 +875,10 @@ def scripts_tab():
             cl, cc, cr = st.columns([1, 32, 1])
             cc.title(':orange[Create Cable List  |  SLD from Load List  |  Creare XML for ETAP]')
             cr.text("", help=":blue[Каждый из перечисленных скриптов доступен на соответствующей вкладке.]  \n"
-                             ":red[Порядок работы со скриптами должен соответствовать номерам вкладок] \n"
+                             ":red[Порядок работы со скриптами должен соответствовать номерам вкладок] 1️⃣ 2️⃣ 3️⃣ \n"
                              "***"
                              "\n "
-                             ":blue[Each of the listed scripts is available at the corresponding tab.] \n"
+                             ":blue[Each of the listed scripts is available at the corresponding tab] 1️⃣ 2️⃣ 3️⃣  \n"
                              ":red[The usage order should follow tabs' numbers]")
             st.divider()
             st.write("Please find required templates in folder below  👇 You can update SLD template "
