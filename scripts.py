@@ -1387,38 +1387,44 @@ def scripts_tab():
                 # field_name = field.text_input("Enter Field Numbers", placeholder="1-4")
 
                 panel.markdown("#### Create Panel")
-                panel_equip = panel.text_input("Enter Equipment Name")
+                panel_equip = panel.text_input("Enter Equipment Name",
+                                               placeholder="Fill it to add new equipment, otherwise leave it empty")
                 panel_name = panel.text_input("Enter Panel Name")
                 panel_tag = panel.text_input("Enter Panel Tag Number")
                 panel_side = panel.radio("Panel Side", ['Left', 'Right'], horizontal=True)
                 panel_descr = panel.text_area("Enter Short Panel Description")
-                panel_button = panel.button("Add Panel", use_container_width=True)
+
 
                 panel_list = [1, 2]
 
                 terminals.markdown("#### Create Terminal Block")
-                term_num = terminals.text_input("Enter Terminal Block Number")
-                term_quant = terminals.number_input("Enter Terminal Block Number",
-                                                    min_value=1, max_value=150, step=1)
-
+                term_tag = terminals.text_input("Enter Terminal Block Number")
+                # term_quant = terminals.number_input("Enter Quantity of Terminals",
+                #                                     min_value=1, max_value=150, step=1)
+                term_numbering = terminals.text_input("Enter Range of Terminals",
+                                                      placeholder=['1-10, 26, 27'])
                 term_side = terminals.radio("Connection Side", ['Left', 'Right'], horizontal=True)
                 term_pan_tag = terminals.selectbox('Select the Panel to Add Terminal Block', panel_list)
-                terminals.button("Add Terminal Block", use_container_width=True)
 
-                term_box_list = ['XC10', 'XC20']
+
+                term_block_list = ['XC10', 'XC20']
 
                 connect.markdown("#### Create Connection")
-                connect_left_term = connect.selectbox("Select Left Terminal Box", term_box_list)
-                connect_right_term = connect.selectbox("Select Right Terminal Box", term_box_list)
+                connect_left_term = connect.selectbox("Select Left Terminal Block", term_block_list)
+                connect_right_term = connect.selectbox("Select Right Terminal Box", term_block_list)
                 connect_tag = connect.text_input('Enter Cable Tag')
                 connect_wire_num = connect.number_input('Enter Number of Cable Wires',
                                                         min_value=1, max_value=37, step=1
                                                         )
                 connect_wire_sect = connect.selectbox('Select Cable Section',
                                                       ["1.5", "2.5", "4", "6", "10", "16", "25"])
-                connect.button("Add Connection", use_container_width=True)
 
-            st.write('Load List is required')
-            st.write('Typical Diagrams is required')
-            st.write('Settings form is required')
-            st.write('Consider Options: typical Connection, manual creation...')
+                lb, cb, rb = st.columns(3, gap="large")
+                panel_button = lb.button("Add Panel", use_container_width=True)
+                cb.button("Add Terminal Block", use_container_width=True)
+                rb.button("Add Connection", use_container_width=True)
+
+            # st.write('Load List is required')
+            # st.write('Typical Diagrams is required')
+            # st.write('Settings form is required')
+            # st.write('Consider Options: typical Connection, manual creation...')
