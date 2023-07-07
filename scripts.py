@@ -874,12 +874,13 @@ def scripts_tab():
         with st.expander("CREARE CABLE LIST  |  SLD FROM LOAD LIST  |  XML FOR ETAP"):
             cl, cc, cr = st.columns([1, 32, 1])
             cc.title(':orange[Create Cable List  |  SLD from Load List  |  Creare XML for ETAP]')
-            cr.text("", help=":blue[Каждый из перечисленных скриптов доступен на соответствующей вкладке] 1️⃣ 2️⃣ 3️⃣   \n"
-                             ":red[Порядок работы со скриптами должен соответствовать номерам вкладок] \n"
-                             "***"
-                             "\n "
-                             ":blue[Each of the listed scripts is available at the corresponding tab] 1️⃣ 2️⃣ 3️⃣  \n"
-                             ":red[The usage order should follow tabs' numbers]")
+            cr.text("",
+                    help=":blue[Каждый из перечисленных скриптов доступен на соответствующей вкладке] 1️⃣ 2️⃣ 3️⃣   \n"
+                         ":red[Порядок работы со скриптами должен соответствовать номерам вкладок] \n"
+                         "***"
+                         "\n "
+                         ":blue[Each of the listed scripts is available at the corresponding tab] 1️⃣ 2️⃣ 3️⃣  \n"
+                         ":red[The usage order should follow tabs' numbers]")
             st.divider()
             st.write("Please find required templates in folder below  👇 You can update SLD template "
                      "according to your Project Requirements, but keep blocks attributes' names")
@@ -1279,8 +1280,8 @@ def scripts_tab():
 
             sect_template = p_r.file_uploader("SECTIONS TEMPLATE", type=['dxf'])
 
-            cab_tags, cab_layout, gen_sections = st.tabs(['Get Tags from Cable List', 'Process Cable Layout',
-                                                          'Create Sections'])
+            cab_tags, cab_layout, gen_sections = st.tabs(['1️⃣ Get Tags from Cable List', '2️⃣ Process Cable Layout',
+                                                          '3️⃣ Create Sections'])
 
             with cab_tags:
 
@@ -1370,6 +1371,38 @@ def scripts_tab():
 
         with st.expander('CREATE TERMINALS DIAGRAM'):
             st.title(':orange[Create Terminals Diagram - under development...]')
+
+            manual, auto = st.tabs("1️⃣ Manual Creation", "2️⃣ Automatic Creation")
+
+            with manual:
+                panel, terminals, connect = st.columns(3)
+
+                # field.markdown("### Create Field")
+                # field_name = field.text_input("Enter Field Numbers", placeholder="1-4")
+
+                panel.markdown("### Create Panel")
+                panel_name = panel.text_input("Enter Panel Name")
+                panel_tag = panel.text_input("Enter Panel Tag Number")
+                panel_descr = panel.text_area("Enter Short Panel Description")
+                panel_button = panel.button("Add Panel", use_container_width=True)
+
+                panel_list = [1, 2]
+
+                term_num = terminals.text_input("Enter Terminal Block Number")
+                term_quant = terminals.number_input("Enter Terminal Block Number")
+                term_side = terminals.radio("Connection Side", ['Left', 'Right'])
+                term_pan_tag = terminals.selectbox('Select the Panel to Add Terminal Block', panel_list)
+                terminals.button("Add Panel", use_container_width=True)
+
+                term_box_list = ['XC10', 'XC20']
+
+                connect_left_term = connect.selectbox("Select Left Terminal Box", term_box_list)
+                connect_right_term = connect.selectbox("Select Right Terminal Box", term_box_list)
+                connect_tag = connect.text_input('Enter Cable Tag')
+                connect_wire_num = connect.number_input('Enter Number of Cable Wires')
+                connect_wire_sect = connect.selectbox('Select Cable Section',
+                                                      ["1.5", "2.5", "4", "6", "10", "16", "25"])
+
             st.write('Load List is required')
             st.write('Typical Diagrams is required')
             st.write('Settings form is required')
