@@ -1372,7 +1372,7 @@ def scripts_tab():
         with st.expander('CREATE TERMINALS DIAGRAM'):
             st.title(':orange[Create Terminals Diagram - under development...]')
 
-            left_load, center_load, right_load = st.columns(2, gap="large")
+            left_load, center_load, right_load = st.columns(3, gap="large")
 
             cab_list = left_load.file_uploader("CABLE LIST Loader", 'xlsx')
             load_list = center_load.file_uploader("LOAD LIST Loader", 'xlsx')
