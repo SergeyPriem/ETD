@@ -1009,6 +1009,7 @@ def services():
 
     n = gc.collect()
     serv_cont.markdown(f"### :red[Number of unreachable objects collected by GC: {n}]")
+    serv_cont.markdown(f"#### :red[Uncollected garbage: {gc.garbage}]")
 
 
 def download_file(file_name, rc):
