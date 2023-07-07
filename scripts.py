@@ -1383,6 +1383,7 @@ def scripts_tab():
                 panel.markdown("#### Create Panel")
                 panel_name = panel.text_input("Enter Panel Name")
                 panel_tag = panel.text_input("Enter Panel Tag Number")
+                panel_side = panel.radio("Connection Side", ['Left', 'Right'], horisontal=True)
                 panel_descr = panel.text_area("Enter Short Panel Description")
                 panel_button = panel.button("Add Panel", use_container_width=True)
 
@@ -1390,8 +1391,10 @@ def scripts_tab():
 
                 terminals.markdown("#### Create Terminal Block")
                 term_num = terminals.text_input("Enter Terminal Block Number")
-                term_quant = terminals.number_input("Enter Terminal Block Number")
-                term_side = terminals.radio("Connection Side", ['Left', 'Right'])
+                term_quant = terminals.number_input("Enter Terminal Block Number",
+                                                    min_value=1, max_value=150, step=1)
+
+                term_side = terminals.radio("Connection Side", ['Left', 'Right'], horisontal=True)
                 term_pan_tag = terminals.selectbox('Select the Panel to Add Terminal Block', panel_list)
                 terminals.button("Add Terminal Block", use_container_width=True)
 
@@ -1401,7 +1404,9 @@ def scripts_tab():
                 connect_left_term = connect.selectbox("Select Left Terminal Box", term_box_list)
                 connect_right_term = connect.selectbox("Select Right Terminal Box", term_box_list)
                 connect_tag = connect.text_input('Enter Cable Tag')
-                connect_wire_num = connect.number_input('Enter Number of Cable Wires')
+                connect_wire_num = connect.number_input('Enter Number of Cable Wires',
+                                                        min_value=1, max_value=37, step=1
+                                                        )
                 connect_wire_sect = connect.selectbox('Select Cable Section',
                                                       ["1.5", "2.5", "4", "6", "10", "16", "25"])
                 connect.button("Add Connection", use_container_width=True)
