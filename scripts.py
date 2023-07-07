@@ -1372,7 +1372,7 @@ def scripts_tab():
         with st.expander('CREATE TERMINALS DIAGRAM'):
             st.title(':orange[Create Terminals Diagram - under development...]')
 
-            manual, auto = st.tabs("1️⃣ Manual Creation", "2️⃣ Automatic Creation")
+            manual, auto = st.tabs(["1️⃣ Manual Creation", "2️⃣ Automatic Creation"])
 
             with manual:
                 panel, terminals, connect = st.columns(3)
