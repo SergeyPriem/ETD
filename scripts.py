@@ -1371,11 +1371,16 @@ def scripts_tab():
 
         with st.expander('CREATE INTERCONNECTION WIRING DIAGRAM'):
 
-            st.title(':orange[Create Terminals Diagram - under development...]')
+            st.title(':orange[Create Interconnection Wiring Diagram - under development...]')
 
-            mode = st.radio('Select the Operation', ['Create New Document', 'Edit Existing Document'])
+            mode = st.radio('Select the Operation', ['Create New Document', 'Edit Existing Document'],
+                            horizontal=True)
+            st.divider()
 
             if mode == 'Create New Document':
+                action = st.radio('Select the Operation', ['Create Equipment', 'Create Panel', 'Create Terminal Block',
+                                                           'Create Connection by Cable'], horizontal=True)
+
                 equip, panel, term_block, link = st.columns(4, gap="large")
 
                 equip.button("Create Equipment", use_container_width=True)
