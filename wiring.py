@@ -7,9 +7,9 @@ def create_new_doc():
     st.write("Doc Created")
 
 
-def add_equip_to_doc():
+def add_equip_to_doc(tag, descr):
     if st.session_state.inter_doc:
-        st.write("Saved To Doc")
+        st.write(f"Saved To Doc: {tag}:{descr}")
     else:
         st.write(":red[New Document will be created!]")
         create_new_doc()
