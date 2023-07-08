@@ -23,5 +23,5 @@ def create_equipment():
         eq_descr = st.text_input('Equipment Descr')
         add_eq_button = st.form_submit_button("Add equipment to Document")
 
-        if add_eq_button:
-            add_equip_to_doc(eq_tag, eq_descr)
+    if add_eq_button:
+        add_equip_to_doc(eq_tag, eq_descr)
