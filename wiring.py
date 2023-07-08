@@ -8,6 +8,7 @@ def create_new_doc():
 
 
 def add_equip_to_doc(tag, descr):
+    st.text(descr)
     if st.session_state.inter_doc:
         st.write(f"Saved To Doc: {tag}:{descr}")
     else:
