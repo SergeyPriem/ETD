@@ -15,6 +15,7 @@ from utilities import center_style, open_dxf_file, check_df
 # p_rat_a = 0
 # p_rat_b = 0
 # p_rat_em = 0
+from wiring import create_equipment
 
 cab_dict = {
     1.5: 1.5, 2.5: 2.5, 4: 4,
@@ -1389,6 +1390,9 @@ def scripts_tab():
                 link.button("Create Connection", use_container_width=True)
             else:
                 st.write("### Under Development")
+
+            if action == 'Create Equipment':
+                create_equipment()
 
             # left_load, center_load, right_load = st.columns(3, gap="large")
             #
