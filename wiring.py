@@ -13,6 +13,7 @@ def add_equip_to_doc(tag, descr):
     else:
         st.write(":red[New Document will be created!]")
         create_new_doc()
+        st.write(f"Saved To Doc after doc creation: {tag}:{descr}")
 
 
 def create_equipment():
