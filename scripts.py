@@ -1376,36 +1376,33 @@ def scripts_tab():
 
             if st.session_state.intercon['doc'] is None:
 
-                mode = st.radio('Select the Operation',
-                                ['Create New Document', 'Edit Existing Document'], horizontal=True)
+                st.info('Add the File of Interconnection 👇')
+                cr_l, cr_r = st.columns(2, gap='medium')
+                st.session_state.intercon['doc'] = cr_l.file_uploader('INTERCONNECTION TEMPLATE', 'xlsx')
 
-                if mode == 'Create New Document':
-                    st.info('Add the Template of Interconnection, Give the name and create new Document 👇')
-                    cr_l, cr_r = st.columns(2, gap='medium')
-                    st.session_state.intercon['doc'] = cr_l.file_uploader('INTERCONNECTION TEMPLATE', 'xlsx')
-                    inter_name = cr_r.text_input("Interconnection Document Name")
-                    if st.session_state.intercon['doc'] and inter_name:
-                        cr_r.text('')
-                        cr_r.text('')
-                        if cr_r.button("Create New Interconnection Document", use_container_width=True):
-                            st.warning('Create DataFrames for connections - Save template to internal memory ??')
-                            st.session_state.intercon['doc'] = inter_name + '.xlsx'  ###
-                            st.experimental_rerun()
+                # inter_name = cr_r.text_input("Interconnection Document Name")
+                if st.session_state.intercon['doc']:
+                #     cr_r.text('')
+                #     cr_r.text('')
+                #     if cr_r.button("Create New Interconnection Document", use_container_width=True):
+                #         st.warning('Create DataFrames for connections - Save template to internal memory ??')
+                #         st.session_state.intercon['doc'] = inter_name + '.xlsx'  ###
+                    st.experimental_rerun()
 
-
-                else:
-                    st.info('Opening Existing Document...')
-                    cr_l, cr_r = st.columns(2, gap='medium')
-                    inter_ex_doc = cr_l.file_uploader('EXISTING INTERCONNECTION DOCUMENT', 'xlsx')
-
-                    if inter_ex_doc:
-                        cr_r.text('')
-                        cr_r.text('')
-                        cr_r.text('')
-                        if cr_r.button("OPEN", use_container_width=True):
-                            st.warning('Opening document XXX - Save to internal memory ??')
-                            st.session_state.intercon['doc'] = 'exist_doc' + '.xlsx'  ###
-                            st.experimental_rerun()
+                #
+                # else:
+                #     st.info('Opening Existing Document...')
+                #     cr_l, cr_r = st.columns(2, gap='medium')
+                #     inter_ex_doc = cr_l.file_uploader('EXISTING INTERCONNECTION DOCUMENT', 'xlsx')
+                #
+                #     if inter_ex_doc:
+                #         cr_r.text('')
+                #         cr_r.text('')
+                #         cr_r.text('')
+                #         if cr_r.button("OPEN", use_container_width=True):
+                #             st.warning('Opening document XXX - Save to internal memory ??')
+                #             st.session_state.intercon['doc'] = 'exist_doc' + '.xlsx'  ###
+                #             st.experimental_rerun()
             else:
                 work, close_b = st.columns([12, 2], gap="medium")
                 work.info(f"### You are working with document :blue[{st.session_state.intercon['doc'].name}]")
