@@ -70,7 +70,7 @@ def create_cab_con():
 
             if cab_tag and rc.button("Create Cable Connection", use_container_width=True):
 
-                df2 = pd.DataFrame(
+                df2 = pd.DataFrame.from_dict(
                     {
                         'full_pan_tag_left': left_pan,
                         'full_pan_tag_right': right_pan,
