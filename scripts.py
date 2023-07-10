@@ -1390,6 +1390,9 @@ def scripts_tab():
                 if action == 'Create Equipment':
                     create_equipment()
 
+                if action == 'Create Connection by Cable':
+                    create_cab_con()
+
             else:
                 st.write("### Under Development")
 

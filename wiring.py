@@ -27,3 +27,13 @@ def create_equipment():
 
     if add_eq_button:
         add_equip_to_doc(eq_tag, eq_descr)
+
+
+def create_cab_con():
+    lc, rc = st.columns(2, gap='medium')
+    lc.selectbox("Select the Equipment")
+    lc.selectbox("Select the Panel")
+    lc.selectbox("Select the Terminal Block")
+    rc.button("Create New Equipment")
+    rc.button("Create New Panel")
+    rc.button("Create New Terminal Block")
