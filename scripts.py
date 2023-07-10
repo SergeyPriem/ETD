@@ -1400,10 +1400,8 @@ def scripts_tab():
 
                 if preview_list:
                     prev_sel = st.radio("Select the Table", preview_list, horizontal=True)
-
-                st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
-
-                st.divider()
+                    st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
+                    st.divider()
 
                 action = st.radio('Select the Operation',
                                   ['Create Cable', 'Create Cable\'s Wires', 'Create Equipment',
