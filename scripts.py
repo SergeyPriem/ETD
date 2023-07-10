@@ -1381,29 +1381,9 @@ def scripts_tab():
                 cr_l.info('Add the File of Interconnection 👉')
                 st.session_state.intercon['doc'] = cr_r.file_uploader('INTERCONNECTION FILE', 'xlsx')
 
-                # inter_name = cr_r.text_input("Interconnection Document Name")
                 if st.session_state.intercon['doc']:
-                #     cr_r.text('')
-                #     cr_r.text('')
-                #     if cr_r.button("Create New Interconnection Document", use_container_width=True):
-                #         st.warning('Create DataFrames for connections - Save template to internal memory ??')
-                #         st.session_state.intercon['doc'] = inter_name + '.xlsx'  ###
                     st.experimental_rerun()
 
-                #
-                # else:
-                #     st.info('Opening Existing Document...')
-                #     cr_l, cr_r = st.columns(2, gap='medium')
-                #     inter_ex_doc = cr_l.file_uploader('EXISTING INTERCONNECTION DOCUMENT', 'xlsx')
-                #
-                #     if inter_ex_doc:
-                #         cr_r.text('')
-                #         cr_r.text('')
-                #         cr_r.text('')
-                #         if cr_r.button("OPEN", use_container_width=True):
-                #             st.warning('Opening document XXX - Save to internal memory ??')
-                #             st.session_state.intercon['doc'] = 'exist_doc' + '.xlsx'  ###
-                #             st.experimental_rerun()
             else:
                 work, close_b = st.columns([12, 2], gap="medium")
                 work.info(f"### You are working with document :blue[{st.session_state.intercon['doc'].name}]")
@@ -1414,11 +1394,16 @@ def scripts_tab():
                     st.experimental_rerun()
 
                 st.divider()
+
+                open_inercon_doc()
+
+                st.divider()
+
                 action = st.radio('Select the Operation',
                                   ['Create Cable', 'Create Cable\'s Wires', 'Create Equipment',
                                    'Create Panel', 'Create Terminal Block', ], horizontal=True)
 
-                open_inercon_doc()
+
 
                 # equip_list = st.session_state.intercon['equip'].loc[:, 'eq_tag']
                 panel_list = st.session_state.intercon['panel'].loc[:, 'full_pan_tag'].tolist()
