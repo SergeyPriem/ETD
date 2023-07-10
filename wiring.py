@@ -64,7 +64,7 @@ def create_cab_con():
             cab_purposes = cab['cab_purpose'].tolist()
             cab_types = cab['cab_type'].tolist()
             cab_sects = cab['cab_sect'].tolist()
-            cab_tags = cab['cab_tag'].tolist()
+            cab_tags = st.session_state.intercon['cable']['cab_tag'].tolist()
 
             cab_purpose = rc.selectbox("Select Cable Purpose", cab_purposes)
             cab_type = lc.selectbox("Select Cable Type", cab_types)
@@ -72,7 +72,7 @@ def create_cab_con():
 
             if cab_tag and st.button("Create Cable Connection", use_container_width=True):
                 if cab_tag in cab_tags:
-                    st.warning("Cable with such tag already exist")
+                    st.button("Cable with such tag already exist...")
                     st.stop()
 
                 df2 = pd.DataFrame.from_dict([
