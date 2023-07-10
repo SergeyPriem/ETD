@@ -1385,6 +1385,8 @@ def scripts_tab():
                     inter_doc = cr_l.file_uploader('INTERCONNECTION TEMPLATE', 'xlsx')
                     inter_name = cr_r.text_input("Interconnection Document Name")
                     if inter_doc and inter_name:
+                        cr_r.text('')
+                        cr_r.text('')
                         if cr_r.button("Create New Interconnection Document", use_container_width=True):
                             st.warning('Create DataFrames for connections - Save template to internal memory ??')
 
@@ -1394,6 +1396,7 @@ def scripts_tab():
                     inter_ex_doc = cr_l.file_uploader('EXISTING INTERCONNECTION DOCUMENT', 'xlsx')
 
                     if inter_ex_doc:
+                        cr_r.text('')
                         cr_r.text('')
                         cr_r.text('')
                         if cr_r.button("OPEN", use_container_width=True):
