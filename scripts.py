@@ -1396,7 +1396,7 @@ def scripts_tab():
                 st.divider()
 
                 open_inercon_doc()
-                preview_list = [None, 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_types']
+                preview_list = [None, 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
 
                 prev_sel = st.radio("Select the Table for preview", preview_list, horizontal=True)
                 if prev_sel:
