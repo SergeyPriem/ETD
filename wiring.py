@@ -14,10 +14,10 @@ def open_inercon_doc():
     st.session_state.intercon['cab_types'] = pd.read_excel(st.session_state.intercon['doc'],
                                                            sheet_name='cab_types')
 
-    preview_list = ['equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_types']
+    preview_list = [None, 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_types']
 
-    prev_sel = st.selectbox("Temp - preview document", preview_list)
-    if st.button("Preview Loaded"):
+    prev_sel = st.radio("Temp - preview document", preview_list)
+    if prev_sel:
         st.write(st.session_state.intercon[prev_sel])
 
 

@@ -1423,7 +1423,7 @@ def scripts_tab():
                 open_inercon_doc()
 
                 # equip_list = st.session_state.intercon['equip'].loc[:, 'eq_tag']
-                panel_list = st.session_state.intercon['panel'].loc[:, 'ful_pan_tag']
+                panel_list = st.session_state.intercon['panel'].loc[:, 'full_pan_tag'].tolist()
 
                 if action == 'Create Equipment':
                     create_equipment()
