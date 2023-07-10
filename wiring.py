@@ -1,5 +1,24 @@
 ﻿# -*- coding: utf-8 -*-
 import streamlit as st
+import pandas as pd
+
+
+def open_inercon_doc():
+    st.session_state.intercon['equip'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='equip')
+    st.session_state.intercon['panel'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='panel')
+    st.session_state.intercon['block'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='block')
+    st.session_state.intercon['terminal'] = pd.read_excel(st.session_state.intercon['doc'],
+                                                          sheet_name='terminal')
+    st.session_state.intercon['cable'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='cable')
+    st.session_state.intercon['wire'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='wire')
+    st.session_state.intercon['cab_types'] = pd.read_excel(st.session_state.intercon['doc'],
+                                                           sheet_name='cab_types')
+
+    preview_list = ['equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_types']
+
+    prev_sel = st.selectbox("Temp - preview document", preview_list)
+    if st.button("Preview Loaded"):
+        st.write(st.session_state.intercon[prev_sel])
 
 
 def create_new_doc():
@@ -16,7 +35,6 @@ def add_equip_to_doc(tag, descr):
         st.write(":red[New Document will be created!]")
         create_new_doc()
         st.write(f"Saved To Doc after doc creation: {tag}:{descr}")
-
 
 
 def create_equipment():

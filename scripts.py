@@ -15,7 +15,7 @@ from utilities import center_style, open_dxf_file, check_df
 # p_rat_a = 0
 # p_rat_b = 0
 # p_rat_em = 0
-from wiring import create_equipment, create_cab_con
+from wiring import create_equipment, create_cab_con, open_inercon_doc
 
 cab_dict = {
     1.5: 1.5, 2.5: 2.5, 4: 4,
@@ -1389,7 +1389,7 @@ def scripts_tab():
                         cr_r.text('')
                         if cr_r.button("Create New Interconnection Document", use_container_width=True):
                             st.warning('Create DataFrames for connections - Save template to internal memory ??')
-                            st.session_state.intercon['doc'] = inter_name + '.xlsx' ###
+                            st.session_state.intercon['doc'] = inter_name + '.xlsx'  ###
                             st.experimental_rerun()
 
 
@@ -1418,33 +1418,15 @@ def scripts_tab():
                 st.divider()
                 action = st.radio('Select the Operation',
                                   ['Create Cable', 'Create Cable\'s Wires', 'Create Equipment',
-                                   'Create Panel', 'Create Terminal Block',], horizontal=True)
+                                   'Create Panel', 'Create Terminal Block', ], horizontal=True)
 
-                st.session_state.intercon['equip'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='equip')
-                st.session_state.intercon['panel'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='panel')
-                st.session_state.intercon['block'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='block')
-                st.session_state.intercon['terminal'] = pd.read_excel(st.session_state.intercon['doc'],
-                                                                      sheet_name='terminal')
-                st.session_state.intercon['cable'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='cable')
-                st.session_state.intercon['wire'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='wire')
-                st.session_state.intercon['cab_types'] = pd.read_excel(st.session_state.intercon['doc'],
-                                                                       sheet_name='cab_types')
-
-                preview_list = ['equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_types']
-
-                prev_sel = st.selectbox("Temp - preview document", preview_list)
-                if st.button("Preview Loaded"):
-                    st.write(st.session_state.intercon[prev_sel])
+                open_inercon_doc()
 
                 # equip_list = st.session_state.intercon['equip'].loc[:, 'eq_tag']
                 panel_list = st.session_state.intercon['panel'].loc[:, 'ful_pan_tag']
 
-            if action == 'Create Equipment':
-                create_equipment()
+                if action == 'Create Equipment':
+                    create_equipment()
 
-            if action == 'Create Connection by Cable':
-                create_cab_con(panel_list)
-
-
-
-
+                if action == 'Create Connection by Cable':
+                    create_cab_con(panel_list)
