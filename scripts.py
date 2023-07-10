@@ -1379,15 +1379,17 @@ def scripts_tab():
             st.divider()
 
             if mode == 'Create New Document':
+                cr_l, cr_r = st.columns(2, gap='medium')
                 if st.session_state.intercon['doctype'] is None:
                     st.info('Creating new Document...')
-                    inter_doc = st.file_uploader('CONNECTION TEMPLATE', 'xlsx')
-                    inter_name = st.text_input("Interconnection Document Name")
+                    cr_l, cr_r = st.columns(2, gap='medium')
+                    inter_doc = cr_l.file_uploader('CONNECTION TEMPLATE', 'xlsx')
+                    inter_name = cr_r.text_input("Interconnection Document Name")
                     if inter_doc and inter_name:
-                        if st.button("Create New Interconnection Document"):
+                        if cr_r.button("Create New Interconnection Document"):
                             st.warning('Create DataFrames for connections - Save template to internal memory ??')
 
-
+                else:
                     st.info("Document is Exist")
             else:
                 st.write("### Under Development")
