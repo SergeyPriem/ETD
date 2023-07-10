@@ -1408,11 +1408,12 @@ def scripts_tab():
                             st.experimental_rerun()
             else:
                 work, close_b = st.columns([12, 2], gap="medium")
-                work.info(f"### Working with document {st.session_state.intercon['doc']}")
+                work.info(f"### You are working with document :blue[{st.session_state.intercon['doc']}]")
                 close_b.text('')
                 close_b.text('')
                 if close_b.button('Download and Close', use_container_width=True):
                     st.session_state.intercon['doc'] = None
+                    st.experimental_rerun()
 
             st.divider()
             action = st.radio('Select the Operation',
