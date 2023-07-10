@@ -1381,6 +1381,9 @@ def scripts_tab():
             if mode == 'Create New Document':
                 action = st.radio('Select the Operation', ['Create Equipment', 'Create Panel', 'Create Terminal Block',
                                                            'Create Connection by Cable'], horizontal=True)
+                eq_list=[]
+                pan_list=[]
+                block_list=[]
 
                 # equip, panel, term_block, link = st.columns(4, gap="large")
                 # equip.button("Create Equipment", use_container_width=True)
@@ -1391,7 +1394,7 @@ def scripts_tab():
                     create_equipment()
 
                 if action == 'Create Connection by Cable':
-                    create_cab_con()
+                    create_cab_con(eq_list, pan_list, block_list)
 
             else:
                 st.write("### Under Development")
