@@ -56,17 +56,17 @@ def create_cab_con():
             left_pan = lc.selectbox("Select the Left Panel", left_pan_list)
             right_pan = rc.selectbox("Select the Right Panel", right_pan_list)
 
-            cab_tag = st.text_input("Cable Tag")
+            cab_tag = lc.text_input("Cable Tag")
 
             cab = st.session_state.intercon['cab_descr']
 
-            cab_purposes = st.session_state.intercon['cab_descr']['cab_purpose'].tolist()
-            cab_types = st.session_state.intercon['cab_descr']['cab_type'].tolist()
-            cab_sects = st.session_state.intercon['cab_descr']['cab_sect'].tolist()
+            cab_purposes = cab['cab_purpose'].tolist()
+            cab_types = cab['cab_type'].tolist()
+            cab_sects = cab['cab_sect'].tolist()
 
-            cab_purpose = st.selectbox("Select Cable Purpose", cab_purposes)
-            cab_type = st.selectbox("Select Cable Type", cab_types)
-            cab_sect = st.selectbox("Select Wire Section", cab_sects)
+            cab_purpose = rc.selectbox("Select Cable Purpose", cab_purposes)
+            cab_type = lc.selectbox("Select Cable Type", cab_types)
+            cab_sect = rc.selectbox("Select Wire Section", cab_sects)
 
             if cab_tag and rc.button("Create Cable Connection", use_container_width=True):
 
@@ -77,13 +77,15 @@ def create_cab_con():
                         'cab_tag': cab_tag,
                         'cab_purpose': cab_purpose,
                         'cab_type': cab_type,
-                        'cab_sect': cab_sect
+                        'cab_sect': cab_sect,
+                        'wire_quant': 0,
                     })
 
-                st.session_state.intercon['cable'] = pd.concat([st.session_state.intercon['cable'], df2],
-                                                               ignore_index=True)
-
-                st.session_state.intercon['cable'].reset_index(inplace=True)
+                st.write(df2)
+                # st.session_state.intercon['cable'] = pd.concat([st.session_state.intercon['cable'], df2],
+                #                                                ignore_index=True)
+                #
+                # st.session_state.intercon['cable'].reset_index(inplace=True)
 
         else:
             st.warning('Some Panels not available...')
