@@ -68,9 +68,9 @@ def create_cab_con():
             cab_type = lc.selectbox("Select Cable Type", cab_types)
             cab_sect = rc.selectbox("Select Wire Section", cab_sects)
 
-            if cab_tag and rc.button("Create Cable Connection", use_container_width=True):
+            if cab_tag and st.button("Create Cable Connection", use_container_width=True):
 
-                df2 = pd.DataFrame.from_dict(
+                df2 = pd.DataFrame.from_dict([
                     {
                         'full_pan_tag_left': left_pan,
                         'full_pan_tag_right': right_pan,
@@ -79,7 +79,8 @@ def create_cab_con():
                         'cab_type': cab_type,
                         'cab_sect': cab_sect,
                         'wire_quant': 0,
-                    })
+                    }
+                ])
 
                 st.write(df2)
                 # st.session_state.intercon['cable'] = pd.concat([st.session_state.intercon['cable'], df2],
