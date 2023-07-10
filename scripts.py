@@ -1379,8 +1379,9 @@ def scripts_tab():
             st.divider()
 
             if mode == 'Create New Document':
-                action = st.radio('Select the Operation', ['Create Equipment', 'Create Panel', 'Create Terminal Block',
-                                                           'Create Connection by Cable'], horizontal=True)
+                action = st.radio('Select the Operation',
+                                  ['Create Connection by Cable', 'Create Equipment',
+                                   'Create Panel', 'Create Terminal Block',], horizontal=True)
                 eq_list=[]
                 pan_list=[]
                 block_list=[]
