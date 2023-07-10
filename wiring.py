@@ -11,8 +11,8 @@ def open_inercon_doc():
                                                           sheet_name='terminal')
     st.session_state.intercon['cable'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='cable')
     st.session_state.intercon['wire'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='wire')
-    st.session_state.intercon['cab_types'] = pd.read_excel(st.session_state.intercon['doc'],
-                                                           sheet_name='cab_types')
+    st.session_state.intercon['cab_descr'] = pd.read_excel(st.session_state.intercon['doc'],
+                                                           sheet_name='cab_descr')
 
 
 def create_new_doc():
@@ -41,26 +41,50 @@ def create_equipment():
         add_equip_to_doc(eq_tag, eq_descr)
 
 
-def create_cab_con(pan_list):
+def create_cab_con():
     lc, rc = st.columns(2, gap='medium')
-    left_eq = lc.selectbox("Select the Left Equipment", pan_list)
-    right_eq = rc.selectbox("Select the Right Equipment", pan_list)
+    eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
+    if len(eq_list):
+        left_eq = lc.selectbox("Select the Left Equipment", eq_list)
+        right_eq = rc.selectbox("Select the Right Equipment", eq_list)
 
-    left_pan = lc.selectbox("Select the Left Panel", pan_list)
-    right_pan = rc.selectbox("Select the Right Panel", pan_list)
+        panels = st.session_state.intercon['panel']
+        left_pan_list = panels.loc[panels.eq_tag == left_eq, 'full_pan_tag'].tolist()
+        right_pan_list = panels.loc[panels.eq_tag == right_eq, 'full_pan_tag'].tolist()
 
-    cab_tag = st.text_input("Cable Tag")
+        if len(left_pan_list) and len(right_pan_list):
+            left_pan = lc.selectbox("Select the Left Panel", left_pan_list)
+            right_pan = rc.selectbox("Select the Right Panel", right_pan_list)
 
-    rc.text('')
-    if rc.button("Create Cable Connection", use_container_width=True):
+            cab_tag = st.text_input("Cable Tag")
 
-        st.session_state.inter_doc['cable'] = \
-            st.session_state.inter_doc['cable'].append(
-                {
-                    'full_pan_tag_left': left_pan,
-                    'full_pan_tag_right': right_pan,
-                    'cab_tag': cab_tag,
-                    'cab_type': cab_type,
-                    'cab_constr': cab_constr,
-                    'cab_sect': cab_sect
-                }, ignore_index=True)
+            cab = st.session_state.intercon['cab_descr']
+
+            cab_purposes = st.session_state.intercon['cab_descr']['cab_purpose'].tolist()
+            cab_types = st.session_state.intercon['cab_descr']['cab_type'].tolist()
+            cab_sects = st.session_state.intercon['cab_descr']['cab_sect'].tolist()
+
+            cab_purpose = st.selectbox("Select Cable Purpose", cab_purposes)
+            cab_type = st.selectbox("Select Cable Type", cab_types)
+            cab_sect = st.selectbox("Select Wire Section", cab_sects)
+
+            if cab_tag and rc.button("Create Cable Connection", use_container_width=True):
+                st.session_state.inter_doc['cable'] = \
+                    st.session_state.inter_doc['cable'].append(
+                        {
+                            'full_pan_tag_left': left_pan,
+                            'full_pan_tag_right': right_pan,
+                            'cab_tag': cab_tag,
+                            'cab_purpose': cab_purpose,
+                            'cab_type': cab_type,
+                            'cab_sect': cab_sect
+                        }, ignore_index=True)
+
+
+        else:
+            st.warning('Some Panels not available...')
+
+            cab_tag = st.text_input("Cable Tag")
+    else:
+        st.warning('Equipment not available...')
+

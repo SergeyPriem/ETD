@@ -266,7 +266,7 @@ def create_states():
             'terminal': None,
             'cable': None,
             'wire': None,
-            'cab_types': None,
+            'cab_descr': None,
         }
     if 'proj_names' not in st.session_state:
         try:
