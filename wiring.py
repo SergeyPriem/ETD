@@ -89,7 +89,7 @@ def create_cab_con():
                                                                ignore_index=True)
                 st.session_state.intercon['cable'].reset_index(inplace=True)
 
-                st.write(st.session_state.intercon['cable'])
+                st.button(f"New Cable {cab_tag} is Added. CLOSE")
 
 
         else:
