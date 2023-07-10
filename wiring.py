@@ -83,12 +83,12 @@ def create_cab_con():
                 ])
 
                 st.write(df2)
-                if st.button("Add to Cables"):
-                    st.session_state.intercon['cable'] = pd.concat([st.session_state.intercon['cable'], df2],
-                                                                   ignore_index=True)
-                    st.session_state.intercon['cable'].reset_index(inplace=True)
 
-                    st.write(st.session_state.intercon['cable'])
+                st.session_state.intercon['cable'] = pd.concat([st.session_state.intercon['cable'], df2],
+                                                               ignore_index=True)
+                st.session_state.intercon['cable'].reset_index(inplace=True)
+
+                st.write(st.session_state.intercon['cable'])
 
         else:
             st.warning('Some Panels not available...')
