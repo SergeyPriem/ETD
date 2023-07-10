@@ -14,12 +14,6 @@ def open_inercon_doc():
     st.session_state.intercon['cab_types'] = pd.read_excel(st.session_state.intercon['doc'],
                                                            sheet_name='cab_types')
 
-    preview_list = [None, 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_types']
-
-    prev_sel = st.radio("Temp - preview document", preview_list, horizontal=True)
-    if prev_sel:
-        st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
-
 
 def create_new_doc():
     st.session_state.inter_doc = True
@@ -49,10 +43,11 @@ def create_equipment():
 
 def create_cab_con(pan_list):
     lc, rc = st.columns(2, gap='medium')
-    lc.selectbox("Select the Panel", pan_list)
+    left_eq = lc.selectbox("Select the Left Equipment", pan_list)
+    right_eq = rc.selectbox("Select the Right Equipment", pan_list)
+
+    left_pan = lc.selectbox("Select the Left Panel", pan_list)
+    right_pan = rc.selectbox("Select the Right Panel", pan_list)
+
     rc.text('')
-    rc.text('')
-    rc.button("Create New Equipment", use_container_width=True)
-    rc.text('')
-    rc.text('')
-    rc.button("Create New Panel", use_container_width=True)
+    rc.button("Create Cable Connection", use_container_width=True)

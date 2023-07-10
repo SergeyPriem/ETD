@@ -1396,6 +1396,11 @@ def scripts_tab():
                 st.divider()
 
                 open_inercon_doc()
+                preview_list = ['equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_types']
+
+                prev_sel = st.radio("Select the Table", preview_list, horizontal=True)
+
+                st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
 
                 st.divider()
 
@@ -1411,5 +1416,5 @@ def scripts_tab():
                 if action == 'Create Equipment':
                     create_equipment()
 
-                if action == 'Create Connection by Cable':
+                if action == 'Create Cable':
                     create_cab_con(panel_list)
