@@ -1408,7 +1408,7 @@ def scripts_tab():
                             st.experimental_rerun()
             else:
                 work, close_b = st.columns([12, 2], gap="medium")
-                work.info(f"### You are working with document :blue[{st.session_state.intercon['doc']}]")
+                work.info(f"### You are working with document :blue[{st.session_state.intercon['doc']['name']}]")
                 close_b.text('')
                 close_b.text('')
                 if close_b.button('Download and Close', use_container_width=True):

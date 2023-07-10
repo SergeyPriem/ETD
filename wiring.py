@@ -16,9 +16,9 @@ def open_inercon_doc():
 
     preview_list = [None, 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_types']
 
-    prev_sel = st.radio("Temp - preview document", preview_list)
+    prev_sel = st.radio("Temp - preview document", preview_list, horizontal=True)
     if prev_sel:
-        st.write(st.session_state.intercon[prev_sel])
+        st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
 
 
 def create_new_doc():
