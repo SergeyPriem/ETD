@@ -69,22 +69,22 @@ def create_cab_con():
             cab_sect = st.selectbox("Select Wire Section", cab_sects)
 
             if cab_tag and rc.button("Create Cable Connection", use_container_width=True):
-                st.session_state.intercon['cable'] = \
-                    st.session_state.intercon['cable'].append(
-                        {
-                            'full_pan_tag_left': left_pan,
-                            'full_pan_tag_right': right_pan,
-                            'cab_tag': cab_tag,
-                            'cab_purpose': cab_purpose,
-                            'cab_type': cab_type,
-                            'cab_sect': cab_sect
-                        }, ignore_index=True)
+
+                st.write(type(st.session_state.intercon['cable']))
+                # st.session_state.intercon['cable'] = \
+                #     st.session_state.intercon['cable'].append(
+                #         {
+                #             'full_pan_tag_left': left_pan,
+                #             'full_pan_tag_right': right_pan,
+                #             'cab_tag': cab_tag,
+                #             'cab_purpose': cab_purpose,
+                #             'cab_type': cab_type,
+                #             'cab_sect': cab_sect
+                #         }, ignore_index=True)
 
 
         else:
             st.warning('Some Panels not available...')
-
-            cab_tag = st.text_input("Cable Tag")
     else:
         st.warning('Equipment not available...')
 
