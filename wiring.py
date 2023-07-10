@@ -90,7 +90,7 @@ def create_cab_con():
                 # st.session_state.intercon['cable'].reset_index(inplace=True)
 
                 st.write(st.session_state.intercon['cable'])
-                st.experimental_rerun()
+
 
         else:
             st.warning('Some Panels not available...')
