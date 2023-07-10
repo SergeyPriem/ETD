@@ -1376,8 +1376,10 @@ def scripts_tab():
 
             if st.session_state.intercon['doc'] is None:
                 cr_l, cr_r = st.columns(2, gap='medium')
+                cr_l.text('')
+                cr_l.text('')
                 cr_l.info('Add the File of Interconnection 👉')
-                st.session_state.intercon['doc'] = cr_r.file_uploader('INTERCONNECTION TEMPLATE', 'xlsx')
+                st.session_state.intercon['doc'] = cr_r.file_uploader('INTERCONNECTION FILE', 'xlsx')
 
                 # inter_name = cr_r.text_input("Interconnection Document Name")
                 if st.session_state.intercon['doc']:
