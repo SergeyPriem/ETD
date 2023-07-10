@@ -257,6 +257,13 @@ def create_states():
             'out_note': None,
         }
 
+    if 'intercon' not in st.session_state:
+        st.session_state.intercon = {
+            'doctype': None, # new, exist
+            'eq_list': [],
+            'pan_list': [],
+            'block:list': [],
+        }
     if 'proj_names' not in st.session_state:
         try:
             st.session_state.proj_names = st.session_state.adb['project'].short_name.tolist()
@@ -280,7 +287,7 @@ def create_states():
             st.stop()
 
     state_list = ['logged', 'code_sent', 'upd_code_sent', 'conf_num', 'task_preview', 'cab_list_for_sect',
-                  'sect_df', 'st.session_state.p_x', 'del_conf', 'loads_df', 'menu', 'icons', 'inter_doc']
+                  'sect_df', 'st.session_state.p_x', 'del_conf', 'loads_df', 'menu', 'icons', ]
     for state in state_list:
         if state not in st.session_state:
             st.session_state[state] = False

@@ -1379,26 +1379,38 @@ def scripts_tab():
             st.divider()
 
             if mode == 'Create New Document':
-                action = st.radio('Select the Operation',
-                                  ['Create Connection by Cable', 'Create Equipment',
-                                   'Create Panel', 'Create Terminal Block',], horizontal=True)
-                eq_list=[]
-                pan_list=[]
-                block_list=[]
+                if st.session_state.intercon['doctype'] is None:
+                    st.info('Creating new Document...')
+                    inter_doc = st.file_uploader('CONNECTION TEMPLATE', 'xlsx')
+                    inter_name = st.text_input("Interconnection Document Name")
+                    if inter_doc and inter_name:
+                        if st.button("Create New Interconnection Document"):
+                            st.warning('Create DataFrames for connections - Save template to internal memory ??')
 
-                # equip, panel, term_block, link = st.columns(4, gap="large")
-                # equip.button("Create Equipment", use_container_width=True)
-                # panel.button("Create Panel", use_container_width=True)
-                # term_block.button("Create Terminal Block", use_container_width=True)
-                # link.button("Create Connection", use_container_width=True)
-                if action == 'Create Equipment':
-                    create_equipment()
 
-                if action == 'Create Connection by Cable':
-                    create_cab_con(eq_list, pan_list, block_list)
-
+                    st.info("Document is Exist")
             else:
                 st.write("### Under Development")
+
+            action = st.radio('Select the Operation',
+                              ['Create Connection by Cable', 'Create Equipment',
+                               'Create Panel', 'Create Terminal Block',], horizontal=True)
+            eq_list=[]
+            pan_list=[]
+            block_list=[]
+
+            # equip, panel, term_block, link = st.columns(4, gap="large")
+            # equip.button("Create Equipment", use_container_width=True)
+            # panel.button("Create Panel", use_container_width=True)
+            # term_block.button("Create Terminal Block", use_container_width=True)
+            # link.button("Create Connection", use_container_width=True)
+            if action == 'Create Equipment':
+                create_equipment()
+
+            if action == 'Create Connection by Cable':
+                create_cab_con(eq_list, pan_list, block_list)
+
+
 
 
             # left_load, center_load, right_load = st.columns(3, gap="large")
