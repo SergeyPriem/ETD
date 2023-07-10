@@ -92,7 +92,7 @@ def create_cab_con():
                 df1 = st.session_state.intercon['cable'].copy(deep=True)
                 st.session_state.intercon['cable'] = pd.concat([df1, df2],
                                                                ignore_index=True)
-                st.session_state.intercon['cable'].reset_index(inplace=True)
+                # st.session_state.intercon['cable'].reset_index(inplace=True)
 
                 st.button(f"New Cable {cab_tag} is Added. CLOSE")
 
