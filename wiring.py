@@ -69,8 +69,8 @@ def create_cab_con():
             cab_sect = st.selectbox("Select Wire Section", cab_sects)
 
             if cab_tag and rc.button("Create Cable Connection", use_container_width=True):
-                st.session_state.inter_doc['cable'] = \
-                    st.session_state.inter_doc['cable'].append(
+                st.session_state.intercon['cable'] = \
+                    st.session_state.intercon['cable'].append(
                         {
                             'full_pan_tag_left': left_pan,
                             'full_pan_tag_right': right_pan,
