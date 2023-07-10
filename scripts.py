@@ -1374,25 +1374,32 @@ def scripts_tab():
 
             st.title(':orange[Create Interconnection Wiring Diagram - under development...]')
 
-            mode = st.radio('Select the Operation', ['Create New Document', 'Edit Existing Document'],
-                            horizontal=True)
-            st.divider()
+            if st.session_state.intercon['doctype'] is None:
 
-            if mode == 'Create New Document':
-                cr_l, cr_r = st.columns(2, gap='medium')
-                if st.session_state.intercon['doctype'] is None:
+                mode = st.radio('Select the Operation',
+                                ['Create New Document', 'Edit Existing Document'], horizontal=True)
+                st.divider()
+
+                if mode == 'Create New Document':
                     st.info('Creating new Document...')
                     cr_l, cr_r = st.columns(2, gap='medium')
-                    inter_doc = cr_l.file_uploader('CONNECTION TEMPLATE', 'xlsx')
+                    inter_doc = cr_l.file_uploader('INTERCONNECTION TEMPLATE', 'xlsx')
                     inter_name = cr_r.text_input("Interconnection Document Name")
                     if inter_doc and inter_name:
                         if cr_r.button("Create New Interconnection Document"):
                             st.warning('Create DataFrames for connections - Save template to internal memory ??')
 
                 else:
-                    st.info("Document is Exist")
+                    st.info('Opening Existing Document...')
+                    cr_l, cr_r = st.columns(2, gap='medium')
+                    inter_ex_doc = cr_l.file_uploader('INERCONNECTION DOCUMENT', 'xlsx')
+
+                    if inter_ex_doc:
+                        if cr_r.button("OPEN"):
+                            st.warning('Opening document XXX - Save to internal memory ??')
+
             else:
-                st.write("### Under Development")
+                st.info("### Working with document XXXX")
 
             action = st.radio('Select the Operation',
                               ['Create Connection by Cable', 'Create Equipment',
