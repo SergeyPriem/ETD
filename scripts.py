@@ -1396,9 +1396,10 @@ def scripts_tab():
                 st.divider()
 
                 open_inercon_doc()
-                preview_list = ['equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_types']
+                preview_list = [None, 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_types']
 
-                prev_sel = st.radio("Select the Table", preview_list, horizontal=True)
+                if preview_list:
+                    prev_sel = st.radio("Select the Table", preview_list, horizontal=True)
 
                 st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
 
