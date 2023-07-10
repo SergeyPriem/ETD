@@ -260,9 +260,13 @@ def create_states():
     if 'intercon' not in st.session_state:
         st.session_state.intercon = {
             'doc': None, # new, exist
-            'eq_list': [],
-            'pan_list': [],
-            'block:list': [],
+            'equip': None,
+            'panel': None,
+            'block': None,
+            'terminal': None,
+            'cable': None,
+            'wire': None,
+            'cab_types': None,
         }
     if 'proj_names' not in st.session_state:
         try:

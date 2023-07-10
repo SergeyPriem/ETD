@@ -1382,9 +1382,9 @@ def scripts_tab():
                 if mode == 'Create New Document':
                     st.info('Add the Template of Interconnection, Give the name and create new Document 👇')
                     cr_l, cr_r = st.columns(2, gap='medium')
-                    inter_doc = cr_l.file_uploader('INTERCONNECTION TEMPLATE', 'xlsx')
+                    st.session_state.intercon['doc'] = cr_l.file_uploader('INTERCONNECTION TEMPLATE', 'xlsx')
                     inter_name = cr_r.text_input("Interconnection Document Name")
-                    if inter_doc and inter_name:
+                    if st.session_state.intercon['doc'] and inter_name:
                         cr_r.text('')
                         cr_r.text('')
                         if cr_r.button("Create New Interconnection Document", use_container_width=True):
@@ -1415,81 +1415,36 @@ def scripts_tab():
                     st.session_state.intercon['doc'] = None
                     st.experimental_rerun()
 
-            st.divider()
-            action = st.radio('Select the Operation',
-                              ['Create Connection by Cable', 'Create Equipment',
-                               'Create Panel', 'Create Terminal Block',], horizontal=True)
-            eq_list=[]
-            pan_list=[]
-            block_list=[]
+                st.divider()
+                action = st.radio('Select the Operation',
+                                  ['Create Cable', 'Create Cable\'s Wires', 'Create Equipment',
+                                   'Create Panel', 'Create Terminal Block',], horizontal=True)
 
-            # equip, panel, term_block, link = st.columns(4, gap="large")
-            # equip.button("Create Equipment", use_container_width=True)
-            # panel.button("Create Panel", use_container_width=True)
-            # term_block.button("Create Terminal Block", use_container_width=True)
-            # link.button("Create Connection", use_container_width=True)
+                st.session_state.intercon['equip'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='equip')
+                st.session_state.intercon['panel'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='panel')
+                st.session_state.intercon['block'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='block')
+                st.session_state.intercon['terminal'] = pd.read_excel(st.session_state.intercon['doc'],
+                                                                      sheet_name='terminal')
+                st.session_state.intercon['cable'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='cable')
+                st.session_state.intercon['wire'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='wire')
+                st.session_state.intercon['cab_types'] = pd.read_excel(st.session_state.intercon['doc'],
+                                                                       sheet_name='cab_types')
+
+                preview_list = ['equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_types']
+
+                prev_sel = st.selectbox("Temp - preview document", preview_list)
+                if st.button("Preview Loaded"):
+                    st.write(st.session_state.intercon[prev_sel])
+
+                # equip_list = st.session_state.intercon['equip'].loc[:, 'eq_tag']
+                panel_list = st.session_state.intercon['panel'].loc[:, 'ful_pan_tag']
+
             if action == 'Create Equipment':
                 create_equipment()
 
             if action == 'Create Connection by Cable':
-                create_cab_con(eq_list, pan_list, block_list)
+                create_cab_con(panel_list)
 
 
 
 
-            # left_load, center_load, right_load = st.columns(3, gap="large")
-            #
-            # cab_list = left_load.file_uploader("CABLE LIST Loader", 'xlsx')
-            # load_list = center_load.file_uploader("LOAD LIST Loader", 'xlsx')
-            # term_template = right_load.file_uploader("DXF TEMPLATE Loader", 'dxf')
-            #
-            # manual, auto = st.tabs(["1️⃣ Manual Creation", "2️⃣ Automatic Creation"])
-            #
-            # with manual:
-            #     panel, terminals, connect = st.columns(3, gap="large")
-            #
-            #     # field.markdown("### Create Field")
-            #     # field_name = field.text_input("Enter Field Numbers", placeholder="1-4")
-            #
-            #     panel.markdown("#### Create Panel")
-            #     panel_equip = panel.text_input("Enter Equipment Name",
-            #                                    placeholder="Fill it to add new equipment, otherwise leave it empty")
-            #     panel_name = panel.text_input("Enter Panel Name")
-            #     panel_tag = panel.text_input("Enter Panel Tag Number")
-            #     panel_side = panel.radio("Panel Side", ['Left', 'Right'], horizontal=True)
-            #     panel_descr = panel.text_area("Enter Short Panel Description")
-            #
-            #
-            #     panel_list = [1, 2]
-            #
-            #     terminals.markdown("#### Create Terminal Block")
-            #     term_tag = terminals.text_input("Enter Terminal Block Number")
-            #     # term_quant = terminals.number_input("Enter Quantity of Terminals",
-            #     #                                     min_value=1, max_value=150, step=1)
-            #     term_numbering = terminals.text_input("Enter Range of Terminals",
-            #                                           placeholder='1-10, 26, 27')
-            #     term_side = terminals.radio("Connection Side", ['Left', 'Right'], horizontal=True)
-            #     term_pan_tag = terminals.selectbox('Select the Panel to Add Terminal Block', panel_list)
-
-
-                # term_block_list = ['XC10', 'XC20']
-                #
-                # connect.markdown("#### Create Connection")
-                # connect_left_term = connect.selectbox("Select Left Terminal Block", term_block_list)
-                # connect_right_term = connect.selectbox("Select Right Terminal Box", term_block_list)
-                # connect_tag = connect.text_input('Enter Cable Tag')
-                # connect_wire_num = connect.number_input('Enter Number of Cable Wires',
-                #                                         min_value=1, max_value=37, step=1
-                #                                         )
-                # connect_wire_sect = connect.selectbox('Select Cable Section',
-                #                                       ["1.5", "2.5", "4", "6", "10", "16", "25"])
-                #
-                # lb, cb, rb = st.columns(3, gap="large")
-                # panel_button = lb.button("Add Panel", use_container_width=True)
-                # cb.button("Add Terminal Block", use_container_width=True)
-                # rb.button("Add Connection", use_container_width=True)
-
-            # st.write('Load List is required')
-            # st.write('Typical Diagrams is required')
-            # st.write('Settings form is required')
-            # st.write('Consider Options: typical Connection, manual creation...')

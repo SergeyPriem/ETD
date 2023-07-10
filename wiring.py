@@ -29,17 +29,12 @@ def create_equipment():
         add_equip_to_doc(eq_tag, eq_descr)
 
 
-def create_cab_con(eq_list, pan_list, block_list):
+def create_cab_con(pan_list):
     lc, rc = st.columns(2, gap='medium')
-    lc.selectbox("Select the Equipment", eq_list)
     lc.selectbox("Select the Panel", pan_list)
-    lc.selectbox("Select the Terminal Block", block_list)
     rc.text('')
     rc.text('')
     rc.button("Create New Equipment", use_container_width=True)
     rc.text('')
     rc.text('')
     rc.button("Create New Panel", use_container_width=True)
-    rc.text('')
-    rc.text('')
-    rc.button("Create New Terminal Block", use_container_width=True)
