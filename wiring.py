@@ -72,7 +72,7 @@ def create_cab_con():
 
             if cab_tag and st.button("Create Cable Connection", use_container_width=True):
                 if cab_tag in cab_tags:
-                    st.button("Cable with such tag already exist...CLOSE and try again")
+                    st.button("Cable with such tag already exist...CLOSE and try again", type='primary')
                     st.stop()
 
                 df2 = pd.DataFrame.from_dict([
