@@ -70,18 +70,20 @@ def create_cab_con():
 
             if cab_tag and rc.button("Create Cable Connection", use_container_width=True):
 
-                st.write(type(st.session_state.intercon['cable']))
-                # st.session_state.intercon['cable'] = \
-                #     st.session_state.intercon['cable'].append(
-                #         {
-                #             'full_pan_tag_left': left_pan,
-                #             'full_pan_tag_right': right_pan,
-                #             'cab_tag': cab_tag,
-                #             'cab_purpose': cab_purpose,
-                #             'cab_type': cab_type,
-                #             'cab_sect': cab_sect
-                #         }, ignore_index=True)
+                df2 = pd.DataFrame(
+                    {
+                        'full_pan_tag_left': left_pan,
+                        'full_pan_tag_right': right_pan,
+                        'cab_tag': cab_tag,
+                        'cab_purpose': cab_purpose,
+                        'cab_type': cab_type,
+                        'cab_sect': cab_sect
+                    })
 
+                st.session_state.intercon['cable'] = pd.concat([st.session_state.intercon['cable'], df2],
+                                                               ignore_index=True)
+
+                st.session_state.intercon['cable'].reset_index(inplace=True)
 
         else:
             st.warning('Some Panels not available...')
