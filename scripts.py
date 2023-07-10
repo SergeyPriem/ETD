@@ -1380,12 +1380,12 @@ def scripts_tab():
                                 ['Create New Document', 'Edit Existing Document'], horizontal=True)
 
                 if mode == 'Create New Document':
-                    st.info('Creating new Document...')
+                    st.info('Add the Template of Interconnection, Give the name and create new Document 👇')
                     cr_l, cr_r = st.columns(2, gap='medium')
                     inter_doc = cr_l.file_uploader('INTERCONNECTION TEMPLATE', 'xlsx')
                     inter_name = cr_r.text_input("Interconnection Document Name")
                     if inter_doc and inter_name:
-                        if cr_r.button("Create New Interconnection Document"):
+                        if cr_r.button("Create New Interconnection Document", use_container_width=True):
                             st.warning('Create DataFrames for connections - Save template to internal memory ??')
 
                 else:
