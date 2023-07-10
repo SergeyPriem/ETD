@@ -15,7 +15,7 @@ from utilities import center_style, open_dxf_file, check_df
 # p_rat_a = 0
 # p_rat_b = 0
 # p_rat_em = 0
-from wiring import create_equipment
+from wiring import create_equipment, create_cab_con
 
 cab_dict = {
     1.5: 1.5, 2.5: 2.5, 4: 4,
