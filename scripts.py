@@ -1374,7 +1374,7 @@ def scripts_tab():
 
             st.title(':orange[Create Interconnection Wiring Diagram - under development...]')
 
-            if st.session_state.intercon['doctype'] is None:
+            if st.session_state.intercon['doc'] is None:
 
                 mode = st.radio('Select the Operation',
                                 ['Create New Document', 'Edit Existing Document'], horizontal=True)
@@ -1389,6 +1389,8 @@ def scripts_tab():
                         cr_r.text('')
                         if cr_r.button("Create New Interconnection Document", use_container_width=True):
                             st.warning('Create DataFrames for connections - Save template to internal memory ??')
+                            st.session_state.intercon['doc'] = inter_name + '.xlsx' ###
+
 
                 else:
                     st.info('Opening Existing Document...')
@@ -1401,9 +1403,9 @@ def scripts_tab():
                         cr_r.text('')
                         if cr_r.button("OPEN", use_container_width=True):
                             st.warning('Opening document XXX - Save to internal memory ??')
-
+                            st.session_state.intercon['doc'] = 'exist_doc' + '.xlsx'  ###
             else:
-                st.info("### Working with document XXXX")
+                st.info(f"### Working with document {st.session_state.intercon['doc']}")
 
             st.divider()
             action = st.radio('Select the Operation',

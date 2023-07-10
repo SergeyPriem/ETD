@@ -259,7 +259,7 @@ def create_states():
 
     if 'intercon' not in st.session_state:
         st.session_state.intercon = {
-            'doctype': None, # new, exist
+            'doc': None, # new, exist
             'eq_list': [],
             'pan_list': [],
             'block:list': [],
