@@ -1382,6 +1382,7 @@ def scripts_tab():
                 st.session_state.intercon['doc'] = cr_r.file_uploader('INTERCONNECTION FILE', 'xlsx')
 
                 if st.session_state.intercon['doc']:
+                    open_inercon_doc()
                     st.experimental_rerun()
 
             else:
@@ -1395,7 +1396,6 @@ def scripts_tab():
 
                 st.divider()
 
-                open_inercon_doc()
                 preview_list = [None, 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
 
                 prev_sel = st.radio("Select the Table for preview", preview_list, horizontal=True)
