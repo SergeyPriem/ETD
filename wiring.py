@@ -84,11 +84,13 @@ def create_cab_con():
 
                 st.write(df2)
 
-                st.session_state.intercon['cable'] = pd.concat([st.session_state.intercon['cable'], df2],
+                df1 = st.session_state.intercon['cable'].deepcopy()
+                st.session_state.intercon['cable'] = pd.concat([df1, df2],
                                                                ignore_index=True)
                 st.session_state.intercon['cable'].reset_index(inplace=True)
 
                 st.write(st.session_state.intercon['cable'])
+                st.experimental_rerun()
 
         else:
             st.warning('Some Panels not available...')

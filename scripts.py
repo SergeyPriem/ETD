@@ -1399,6 +1399,7 @@ def scripts_tab():
                 preview_list = [None, 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
 
                 prev_sel = st.radio("Select the Table for preview", preview_list, horizontal=True)
+
                 if prev_sel:
                     st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
 
