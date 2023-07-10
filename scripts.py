@@ -1378,7 +1378,6 @@ def scripts_tab():
 
                 mode = st.radio('Select the Operation',
                                 ['Create New Document', 'Edit Existing Document'], horizontal=True)
-                st.divider()
 
                 if mode == 'Create New Document':
                     st.info('Creating new Document...')
@@ -1392,15 +1391,18 @@ def scripts_tab():
                 else:
                     st.info('Opening Existing Document...')
                     cr_l, cr_r = st.columns(2, gap='medium')
-                    inter_ex_doc = cr_l.file_uploader('INERCONNECTION DOCUMENT', 'xlsx')
+                    inter_ex_doc = cr_l.file_uploader('EXISTING INTERCONNECTION DOCUMENT', 'xlsx')
 
                     if inter_ex_doc:
-                        if cr_r.button("OPEN"):
+                        cr_r.text('')
+                        cr_r.text('')
+                        if cr_r.button("OPEN", use_container_width=True):
                             st.warning('Opening document XXX - Save to internal memory ??')
 
             else:
                 st.info("### Working with document XXXX")
 
+            st.divider()
             action = st.radio('Select the Operation',
                               ['Create Connection by Cable', 'Create Equipment',
                                'Create Panel', 'Create Terminal Block',], horizontal=True)
