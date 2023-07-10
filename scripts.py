@@ -1398,8 +1398,8 @@ def scripts_tab():
                 open_inercon_doc()
                 preview_list = [None, 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_types']
 
-                if preview_list:
-                    prev_sel = st.radio("Select the Table", preview_list, horizontal=True)
+                prev_sel = st.radio("Select the Table for preview", preview_list, horizontal=True)
+                if prev_sel:
                     st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
                     st.divider()
 

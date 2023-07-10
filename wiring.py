@@ -49,5 +49,18 @@ def create_cab_con(pan_list):
     left_pan = lc.selectbox("Select the Left Panel", pan_list)
     right_pan = rc.selectbox("Select the Right Panel", pan_list)
 
+    cab_tag = st.text_input("Cable Tag")
+
     rc.text('')
-    rc.button("Create Cable Connection", use_container_width=True)
+    if rc.button("Create Cable Connection", use_container_width=True):
+
+        st.session_state.inter_doc['cable'] = \
+            st.session_state.inter_doc['cable'].append(
+                {
+                    'full_pan_tag_left': left_pan,
+                    'full_pan_tag_right': right_pan,
+                    'cab_tag': cab_tag,
+                    'cab_type': cab_type,
+                    'cab_constr': cab_constr,
+                    'cab_sect': cab_sect
+                }, ignore_index=True)
