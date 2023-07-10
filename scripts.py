@@ -1382,17 +1382,17 @@ def scripts_tab():
                 action = st.radio('Select the Operation', ['Create Equipment', 'Create Panel', 'Create Terminal Block',
                                                            'Create Connection by Cable'], horizontal=True)
 
-                equip, panel, term_block, link = st.columns(4, gap="large")
+                # equip, panel, term_block, link = st.columns(4, gap="large")
+                # equip.button("Create Equipment", use_container_width=True)
+                # panel.button("Create Panel", use_container_width=True)
+                # term_block.button("Create Terminal Block", use_container_width=True)
+                # link.button("Create Connection", use_container_width=True)
+                if action == 'Create Equipment':
+                    create_equipment()
 
-                equip.button("Create Equipment", use_container_width=True)
-                panel.button("Create Panel", use_container_width=True)
-                term_block.button("Create Terminal Block", use_container_width=True)
-                link.button("Create Connection", use_container_width=True)
             else:
                 st.write("### Under Development")
 
-            if action == 'Create Equipment':
-                create_equipment()
 
             # left_load, center_load, right_load = st.columns(3, gap="large")
             #
