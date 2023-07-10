@@ -1390,6 +1390,7 @@ def scripts_tab():
                         if cr_r.button("Create New Interconnection Document", use_container_width=True):
                             st.warning('Create DataFrames for connections - Save template to internal memory ??')
                             st.session_state.intercon['doc'] = inter_name + '.xlsx' ###
+                            st.experimental_rerun()
 
 
                 else:
@@ -1404,8 +1405,14 @@ def scripts_tab():
                         if cr_r.button("OPEN", use_container_width=True):
                             st.warning('Opening document XXX - Save to internal memory ??')
                             st.session_state.intercon['doc'] = 'exist_doc' + '.xlsx'  ###
+                            st.experimental_rerun()
             else:
-                st.info(f"### Working with document {st.session_state.intercon['doc']}")
+                work, close_b = st.columns([12, 2], gap="medium")
+                work.info(f"### Working with document {st.session_state.intercon['doc']}")
+                close_b.text('')
+                close_b.text('')
+                if close_b.button('Download and Close', use_container_width=True):
+                    st.session_state.intercon['doc'] = None
 
             st.divider()
             action = st.radio('Select the Operation',
