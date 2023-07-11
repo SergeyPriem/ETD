@@ -1404,22 +1404,22 @@ def scripts_tab():
 
                 st.divider()
 
-                action = st.radio('Select the Operation',
-                                  ['1️⃣ Create Equipment', '2️⃣ Create Panel', '3️⃣ Create Terminal Block', '4️⃣ Create Cable',
-                                   '5️⃣ Create Cable Wires',], horizontal=True)
+                action = st.radio('SELECT THE OPTION TO EDIT',
+                                  ['1️⃣  Equipment', '2️⃣  Panel', '3️⃣  Terminal Block', '4️⃣  Cable',
+                                   '5️⃣  Cable Wires',], horizontal=True)
 
-                if action == '1️⃣ Create Equipment':
+                if action == '1️⃣  Equipment':
                     create_equipment()
 
-                if action == '2️⃣ Create Panel':
+                if action == '2️⃣  Panel':
                     create_panel()
 
-                if action == '3️⃣ Create Terminal Block':
+                if action == '3️⃣  Terminal Block':
                     create_block()
 
-                if action == '4️⃣ Create Cable':
+                if action == '4️⃣  Cable':
                     create_cab_con()
 
-                if action == '5️⃣ Create Cable Wires':
+                if action == '5️⃣  Cable Wires':
                     create_wires()
 
