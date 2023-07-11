@@ -149,4 +149,4 @@ def create_equipment():
                 st.session_state.intercon['equip'] = pd.concat([df1, df2], ignore_index=True)
                 st.button(f"New Equipment {eq_tag} is Added. CLOSE")
         else:
-            st.warning('Some fields are empty...')
+            st.button('❗ Some fields are empty...')
