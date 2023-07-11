@@ -267,7 +267,7 @@ def create_wires():
 
         upd_cable_wires_df = st.data_editor(current_cable_wires_df,
                                       column_config={
-                                          "full_term_tag_left": st.column_config.SelectboxColumn(
+                                          "full_block_tag_left": st.column_config.SelectboxColumn(
                                               "Left Cable Terminal Block",
                                               help="Available terminals at the Left Panel",
                                               width="medium",
@@ -288,7 +288,7 @@ def create_wires():
                                               width="small",
                                           ),
 
-                                          "full_term_tag_right": st.column_config.SelectboxColumn(
+                                          "full_block_tag_right": st.column_config.SelectboxColumn(
                                               "Right Cable Terminal Block",
                                               help="Available terminals at the Right Panel",
                                               width="medium",
@@ -297,6 +297,7 @@ def create_wires():
                                       },
                                       hide_index=True, use_container_width=True)
 
+        rc.text('')
         add_wire_button = rc.button(f'Add wire to cable {act_cable}')
 
 
