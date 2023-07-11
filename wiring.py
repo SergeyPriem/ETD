@@ -159,6 +159,7 @@ def create_panel():
         pan_tag = rc.text_input('Panel Tag')
         pan_descr = lc.text_input('Panel Description')
         rc.text('')
+        rc.text('')
         add_pan_button = rc.form_submit_button("Add Panel to Document", use_container_width=True)
 
     if add_pan_button:
@@ -190,3 +191,51 @@ def create_panel():
                 st.button(f"New Panel {full_pan_tag} is Added. CLOSE")
         else:
             st.button('❗ Some fields are empty...')
+
+
+def create_block():
+    lc, rc = st.columns(2, gap='medium')
+    eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
+    if len(eq_list):
+        equip = lc.selectbox("Select theEquipment", eq_list)
+        panels = st.session_state.intercon['panel']
+        pan_list = panels.loc[panels.eq_tag == equip, 'full_pan_tag'].tolist()
+
+        if len(pan_list):
+            full_pan_tag = lc.selectbox("Select the Left Panel", pan_list)
+
+            block_tag = rc.text_input("Terminal Block\'s Tag")
+
+            block_descr = st.text_input('Block Description - optional', value="-")
+
+            rc.text('')
+            rc.text('')
+
+            if all([full_pan_tag, block_tag, rc.button("Create Terminal Block", use_container_width=True)]):
+                full_block_tags = st.session_state.intercon['block'].loc[:, 'ful_block_tag'].tolist()
+
+                full_block_tag = str(full_pan_tag) + ":" + block_tag
+
+                if full_block_tag in full_block_tags:
+                    st.button(f"❗ Terminal Block with Tag {full_block_tag} already exist...CLOSE and try again")
+                    st.stop()
+
+                df2 = pd.DataFrame.from_dict([
+                    {
+                        'full_pan_tag': full_pan_tag,
+                        'block_tag': block_tag,
+                        'block_descr': block_descr,
+                        'full_block_tag': full_block_tag,
+                    }
+                ])
+
+                st.write(df2)
+
+                df1 = st.session_state.intercon['terminal'].copy(deep=True)
+                st.session_state.intercon['terminal'] = pd.concat([df1, df2], ignore_index=True)
+                st.button(f"New Terminal Block {full_block_tag} is Added. CLOSE")
+        else:
+            st.warning('Panels not available...')
+    else:
+        st.warning('Equipment not available...')
+
