@@ -22,6 +22,7 @@ def open_inercon_doc():
     design_sheets.sort()
     st.write(f"ddesign_sheets={design_sheets}")
 
+    st.stop()
     if doc_sheets != design_sheets:
         st.warning('Uploaded document is wrong...Upload another one')
         if st.button('Uploaded document is wrong...Upload another one'):
