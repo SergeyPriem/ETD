@@ -4,16 +4,16 @@ import pandas as pd
 
 
 def open_inercon_doc():
-    doc_sheets = pd.read_excel(st.session_state.intercon['doc'], sheet_name=None)
-    st.write(type(doc_sheets))
+    doc_sheets = list(pd.read_excel(st.session_state.intercon['doc'], sheet_name=None).keys()).sort()
+    # st.write(f"doc_sheets={list(doc_sheets)}")
     design_sheets = ['equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr'].sort()
 
-    if doc_sheets == design_sheets:
-        st.header("great")
+    if doc_sheets != design_sheets:
+        st.warning('Uploaded document is wrong...Upload another one')
+        st.stop()
     else:
-        st.header('wrong file')
+        st.button("File uploaded successfully")
 
-    st.write(pd.read_excel(st.session_state.intercon['doc'], sheet_name=None).keys())
     try:
         st.session_state.intercon['equip'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='equip')
         st.session_state.intercon['panel'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='panel')

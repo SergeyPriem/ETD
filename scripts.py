@@ -1373,7 +1373,6 @@ def scripts_tab():
         with st.expander('CREATE INTERCONNECTION WIRING DIAGRAM'):
 
             st.title(':orange[Create Interconnection Wiring Diagram - under development...]')
-            st.write(st.session_state.intercon)
 
             if st.session_state.intercon['doc'] is None:
                 cr_l, cr_r = st.columns(2, gap='medium')
@@ -1384,7 +1383,7 @@ def scripts_tab():
 
                 if st.session_state.intercon['doc']:
                     open_inercon_doc()
-                    # st.experimental_rerun()
+                    st.experimental_rerun()
 
             else:
                 work, close_b = st.columns([12, 2], gap="medium")
