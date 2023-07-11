@@ -17,19 +17,20 @@ def close_intercon_doc():
 def open_inercon_doc():
     doc_sheets = list(pd.read_excel(st.session_state.intercon['doc'], sheet_name=None).keys())
     doc_sheets.sort()
-    st.write(f"doc_sheets={doc_sheets}")
+    # st.write(f"doc_sheets={doc_sheets}")
     design_sheets = ['drw', 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
     design_sheets.sort()
-    st.write(f"design_sheets={design_sheets}")
-    st.write(doc_sheets != design_sheets)
-    st.stop()
+    # st.write(f"design_sheets={design_sheets}")
+    # st.write(doc_sheets != design_sheets)
+    # st.stop()
     if doc_sheets != design_sheets:
         st.warning('Uploaded document is wrong...Upload another one')
         if st.button('Uploaded document is wrong...Upload another one'):
             close_intercon_doc()
+            return "Wrong"
     else:
         st.button("File uploaded successfully")
-        st.stop()
+        return 'OK'
 
     try:
         st.session_state.intercon['equip'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='equip')

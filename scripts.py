@@ -1383,7 +1383,6 @@ def scripts_tab():
 
                 if st.session_state.intercon['doc']:
                     open_inercon_doc()
-                    st.experimental_rerun()
 
             else:
                 work, close_b = st.columns([12, 2], gap="medium")
