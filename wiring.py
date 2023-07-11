@@ -4,15 +4,19 @@ import pandas as pd
 
 
 def open_inercon_doc():
-    st.session_state.intercon['equip'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='equip')
-    st.session_state.intercon['panel'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='panel')
-    st.session_state.intercon['block'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='block')
-    st.session_state.intercon['terminal'] = pd.read_excel(st.session_state.intercon['doc'],
-                                                          sheet_name='terminal')
-    st.session_state.intercon['cable'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='cable')
-    st.session_state.intercon['wire'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='wire')
-    st.session_state.intercon['cab_descr'] = pd.read_excel(st.session_state.intercon['doc'],
-                                                           sheet_name='cab_descr')
+    try:
+        st.session_state.intercon['equip'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='equip')
+        st.session_state.intercon['panel'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='panel')
+        st.session_state.intercon['block'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='block')
+        st.session_state.intercon['terminal'] = pd.read_excel(st.session_state.intercon['doc'],
+                                                              sheet_name='terminal')
+        st.session_state.intercon['cable'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='cable')
+        st.session_state.intercon['wire'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='wire')
+        st.session_state.intercon['cab_descr'] = pd.read_excel(st.session_state.intercon['doc'],
+                                                               sheet_name='cab_descr')
+    except Exception as e:
+        st.warning('Seems the uploaded file is wrong...')
+        st.write(e)
 
 
 def create_new_doc():
