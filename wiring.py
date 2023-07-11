@@ -90,29 +90,33 @@ def create_cab_con():
             cab_type = lc.selectbox("Select Cable Type", cab_types)
             cab_sect = rc.selectbox("Select Wire Section", cab_sects)
 
-            if cab_tag and st.button("Create Cable Connection", use_container_width=True):
-                if cab_tag in cab_tags:
-                    st.button("Cable with such tag already exist...CLOSE and try again", type='primary')
-                    st.stop()
+            if st.button("Create Cable Connection", use_container_width=True):
 
-                df2 = pd.DataFrame.from_dict([
-                    {
-                        'full_pan_tag_left': left_pan,
-                        'full_pan_tag_right': right_pan,
-                        'cab_tag': cab_tag,
-                        'cab_purpose': cab_purpose,
-                        'cab_type': cab_type,
-                        'cab_sect': cab_sect,
-                        'wire_quant': 0,
-                    }
-                ])
+                if cab_tag:
+                    if cab_tag in cab_tags:
+                        st.button(f"❗ Cable with Tag {cab_tag} already exist...CLOSE and try again")
+                        st.stop()
 
-                st.write(df2)
+                    df2 = pd.DataFrame.from_dict([
+                        {
+                            'full_pan_tag_left': left_pan,
+                            'full_pan_tag_right': right_pan,
+                            'cab_tag': cab_tag,
+                            'cab_purpose': cab_purpose,
+                            'cab_type': cab_type,
+                            'cab_sect': cab_sect,
+                            'wire_quant': 0,
+                        }
+                    ])
 
-                df1 = st.session_state.intercon['cable'].copy(deep=True)
-                st.session_state.intercon['cable'] = pd.concat([df1, df2],
-                                                               ignore_index=True)
-                st.button(f"New Cable {cab_tag} is Added. CLOSE")
+                    st.write(df2)
+
+                    df1 = st.session_state.intercon['cable'].copy(deep=True)
+                    st.session_state.intercon['cable'] = pd.concat([df1, df2],
+                                                                   ignore_index=True)
+                    st.button(f"New Cable {cab_tag} is Added. CLOSE")
+                else:
+                    st.button("❗ Enter the Cable Tag")
         else:
             st.warning('Some Panels not available...')
     else:
