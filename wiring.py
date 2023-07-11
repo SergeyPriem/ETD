@@ -253,10 +253,11 @@ def create_wires():
                 "4 Mach one wire with one terminal AND PUSH CONNECT"
                 "5 Make RIGHT dataframe with selection of terminal block and necessary terminals quantity"
                 "6 Mach one wire with one terminal  AND PUSH CONNECT")
+    lc, rc =st.columns(2, gap='medium')
     cab_list = st.session_state.intercon['cable'].loc[:, 'cab_tag'].tolist()
     wires_qty_list = st.session_state.intercon['cable'].loc[:, 'wire_quant'].tolist()
-    act_cable = st.selectbox('Select Cable for wires connection', cab_list)
-    wire_num = st.radio('Select Wires Quantity', wires_qty_list)
+    act_cable = lc.selectbox('Select Cable for wires connection', cab_list)
+    wire_num = rc.radio('Select Wires Quantity', wires_qty_list, horizontal=True)
     wires_df = pd.DataFrame(columns=['full_term_tag_left', 'cab_tag', 'wire_num', 'full_term_tag_right'])
 
     if wire_num:
