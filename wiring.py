@@ -158,11 +158,11 @@ def create_panel():
         eq_tag = lc.selectbox('Equipment Tag', eq_list)
         pan_tag = rc.text_input('Panel Tag')
         pan_descr = lc.text_input('Panel Description')
-
-        add_pan_button = rc.button("Add Panel to Document")
+        rc.text('')
+        add_pan_button = rc.form_submit_button("Add Panel to Document", use_container_width=True)
 
     if add_pan_button:
-        if all(eq_tag, pan_tag, pan_descr):
+        if all([eq_tag, pan_tag, pan_descr]):
             full_pan_tags = st.session_state.intercon['panel'].loc[:, 'full_pan_tag'].tolist()
 
             full_pan_tag = str(eq_tag) + ":" + str(pan_tag)
