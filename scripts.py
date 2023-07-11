@@ -1404,8 +1404,8 @@ def scripts_tab():
                 st.divider()
 
                 action = st.radio('Select the Operation',
-                                  ['Create Cable', 'Create Cable\'s Wires', 'Create Equipment',
-                                   'Create Panel', 'Create Terminal Block', ], horizontal=True)
+                                  ['Create Equipment', 'Create Panel', 'Create Terminal Block', 'Create Cable',
+                                   'Create Cable\'s Wires',], horizontal=True)
 
 
 
