@@ -5,7 +5,7 @@ import pandas as pd
 
 def open_inercon_doc():
     doc_sheets = pd.read_excel(st.session_state.intercon['doc'], sheet_name=None)
-    st.write(doc_sheets)
+    st.write(doc_sheets[0])
     design_sheets = ['equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr'].sort()
 
     if doc_sheets == design_sheets:
