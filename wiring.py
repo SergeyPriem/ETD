@@ -297,8 +297,9 @@ def create_wires():
                                       },
                                       hide_index=True, num_rows='dynamic', use_container_width=True)
 
+        wires_to_del = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_del == True, 'wire_num'].tolist()
         rc.text('')
-        add_wire_button = rc.button(f'Add wire to cable {act_cable}')
+        del_wire_button = rc.button(f'Delete selected wires {wires_to_del}')
 
 
 
