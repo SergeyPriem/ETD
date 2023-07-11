@@ -6,7 +6,8 @@ import pandas as pd
 def open_inercon_doc():
     doc_sheets = list(pd.read_excel(st.session_state.intercon['doc'], sheet_name=None).keys()).sort()
     st.write(f"doc_sheets={doc_sheets}")
-    design_sheets = ['equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr'].sort()
+    design_sheets = ['equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
+    design_sheets.sort()
     st.write(f"ddesign_sheets={design_sheets}")
 
     if doc_sheets != design_sheets:
@@ -14,7 +15,7 @@ def open_inercon_doc():
         st.stop()
     else:
         st.button("File uploaded successfully")
-    st.stop()
+        st.stop()
 
     try:
         st.session_state.intercon['equip'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='equip')
