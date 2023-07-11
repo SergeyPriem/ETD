@@ -127,23 +127,26 @@ def create_equipment():
         add_eq_button = st.form_submit_button("Add equipment to Document")
 
     if add_eq_button:
-        eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
+        if eq_tag and eq_descr:
+            eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
 
-        if eq_tag in eq_list:
-            st.button(f"❗ Equipment with tag {eq_tag} already exists...Close and try again")
-            st.stop()
+            if eq_tag in eq_list:
+                st.button(f"❗ Equipment with tag {eq_tag} already exists...Close and try again")
+                st.stop()
+            else:
+                df2 = pd.DataFrame.from_dict(
+                    [
+                        {
+                            'eq_tag': eq_tag,
+                            'eq_descr': eq_descr,
+                        }
+                    ]
+                )
+
+                st.write(df2)
+
+                df1 = st.session_state.intercon['equip'].copy(deep=True)
+                st.session_state.intercon['equip'] = pd.concat([df1, df2], ignore_index=True)
+                st.button(f"New Equipment {eq_tag} is Added. CLOSE")
         else:
-            df2 = pd.DataFrame.from_dict(
-                [
-                    {
-                        'eq_tag': eq_tag,
-                        'eq_descr': eq_descr,
-                    }
-                ]
-            )
-
-            st.write(df2)
-
-            df1 = st.session_state.intercon['equip'].copy(deep=True)
-            st.session_state.intercon['equip'] = pd.concat([df1, df2], ignore_index=True)
-            st.button(f"New Equipment {eq_tag} is Added. CLOSE")
+            st.warning('Some fields are empty...')
