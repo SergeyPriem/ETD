@@ -258,7 +258,8 @@ def create_wires():
     wires_qty_list = st.session_state.intercon['cab_descr'].loc[:, 'wire_quant'].tolist()
     act_cable = lc.selectbox('Select Cable for wires connection', cab_list)
     wire_num = rc.radio('Select Wires Quantity', wires_qty_list, horizontal=True)
-    wires_df = pd.DataFrame(columns=['full_term_tag_left', 'cab_tag', 'wire_num', 'full_term_tag_right'])
+    wires_df = pd.DataFrame(columns=['cab_tag', 'full_term_tag_left', 'term_num_left',
+                                     'wire_num', 'term_num_right', 'full_term_tag_right'])
 
     if wire_num:
         if st.button(f'Create {wire_num} Wires'):
@@ -270,25 +271,31 @@ def create_wires():
     wires_con_df = st.data_editor(wires_df,
                                   column_config={
                                       "full_term_tag_left": st.column_config.SelectboxColumn(
-                                          "Left Cable Terminal",
+                                          "Left Cable Terminal Block",
                                           help="Available terminals at the Left Panel",
                                           width="medium",
-                                          options=[
-                                              1,
-                                              2,
-                                              3,
-                                          ],
+                                          options=[1, 2, 3, ],
                                       ),
+                                      "term_num_left": st.column_config.NumberColumn(
+                                          "Left Terminal Number",
+                                          help="Number of Terminal",
+                                          min_value=1,
+                                          max_value=250,
+                                          width="small",
+                                      ),
+                                      "term_num_right": st.column_config.NumberColumn(
+                                          "Right Terminal Number",
+                                          help="Number of Terminal",
+                                          min_value=1,
+                                          max_value=250,
+                                          width="small",
+                                      ),
+
                                       "full_term_tag_right": st.column_config.SelectboxColumn(
-                                          "Right Cable Terminal",
+                                          "Right Cable Terminal Block",
                                           help="Available terminals at the Right Panel",
                                           width="medium",
-                                          options=[
-                                              4,
-                                              5,
-                                              6,
-                                          ],
+                                          options=[4, 5, 6, ],
                                       )
                                   },
-                                  hide_index=True,
-                                  use_container_width=True)
+                                  hide_index=True, use_container_width=True)
