@@ -295,7 +295,7 @@ def create_wires():
                                               options=[4, 5, 6, ],
                                           )
                                       },
-                                      hide_index=True, use_container_width=True)
+                                      hide_index=True, num_rows='dynamic', use_container_width=True)
 
         rc.text('')
         add_wire_button = rc.button(f'Add wire to cable {act_cable}')
