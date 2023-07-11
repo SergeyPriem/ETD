@@ -15,7 +15,7 @@ from utilities import center_style, open_dxf_file, check_df
 # p_rat_a = 0
 # p_rat_b = 0
 # p_rat_em = 0
-from wiring import create_equipment, create_cab_con, open_inercon_doc
+from wiring import create_equipment, create_cab_con, open_inercon_doc, close_intercon_doc
 
 cab_dict = {
     1.5: 1.5, 2.5: 2.5, 4: 4,
@@ -1384,7 +1384,7 @@ def scripts_tab():
 
                 if st.session_state.intercon['doc']:
                     open_inercon_doc()
-                    st.experimental_rerun()
+                    # st.experimental_rerun()
 
             else:
                 work, close_b = st.columns([12, 2], gap="medium")
@@ -1392,7 +1392,7 @@ def scripts_tab():
                 close_b.text('')
                 close_b.text('')
                 if close_b.button('Download and Close', use_container_width=True):
-                    st.session_state.intercon['doc'] = None
+                    close_intercon_doc()
                     st.experimental_rerun()
 
                 st.divider()

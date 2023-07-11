@@ -28,6 +28,16 @@ def open_inercon_doc():
         st.write(e)
 
 
+def close_intercon_doc():
+    st.session_state.intercon['doc'] = None
+    st.session_state.intercon['equip'] = None
+    st.session_state.intercon['panel'] = None
+    st.session_state.intercon['block'] = None
+    st.session_state.intercon['terminal'] = None
+    st.session_state.intercon['cable'] = None
+    st.session_state.intercon['wire'] = None
+    st.session_state.intercon['cab_descr'] = None
+
 
 def create_new_doc():
     st.session_state.inter_doc = True
@@ -69,7 +79,6 @@ def create_cab_con():
         if len(left_pan_list) and len(right_pan_list):
             left_pan = lc.selectbox("Select the Left Panel", left_pan_list)
             right_pan = rc.selectbox("Select the Right Panel", right_pan_list)
-
 
             cab_tag = lc.text_input("Cable Tag")
 
@@ -115,4 +124,3 @@ def create_cab_con():
             st.warning('Some Panels not available...')
     else:
         st.warning('Equipment not available...')
-
