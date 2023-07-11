@@ -245,3 +245,25 @@ def create_block():
     else:
         st.warning('Equipment not available...')
 
+
+def create_wires():
+    st.markdown("1 Select Cable  "
+                "2 Create wires by filling dataframe  "
+                "3 Make LEFT dataframe with selection of terminal block and necessary terminals quantity"
+                "4 Mach one wire with one terminal AND PUSH CONNECT"
+                "5 Make RIGHT dataframe with selection of terminal block and necessary terminals quantity"
+                "6 Mach one wire with one terminal  AND PUSH CONNECT")
+    cab_list = st.session_state.intercon['cable'].loc[:, 'cab_tag'].tolist()
+    wires_qty_list = st.session_state.intercon['cable'].loc[:, 'wire_quant'].tolist()
+    act_cable = st.selectbox('Select Cable for wires connection', cab_list)
+    wire_num = st.radio('Select Wires Quantity', wires_qty_list)
+    wires_df = pd.DataFrame(columns=['full_term_tag_left', 'cab_tag', 'wire_num', 'full_term_tag_right'])
+
+    if wire_num:
+        if st.button(f'Create {wire_num} Wires'):
+            for i in range(1, wire_num+1):
+                wires_df.loc[i-1, 'cab_tag'] = act_cable
+                wires_df.loc[i-1, 'wire_num'] = i
+
+
+    wires_con_df = st.data_editor(wires_df, use_container_width=True)
