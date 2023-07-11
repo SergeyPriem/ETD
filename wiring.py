@@ -267,4 +267,28 @@ def create_wires():
                 wires_df.loc[i-1, 'wire_num'] = i
 
 
-    wires_con_df = st.data_editor(wires_df, use_container_width=True)
+    wires_con_df = st.data_editor(wires_df,
+                                  column_config={
+                                      "full_term_tag_left": st.column_config.SelectboxColumn(
+                                          "Left Cable Terminal",
+                                          help="Available terminals at the Left Panel",
+                                          width="medium",
+                                          options=[
+                                              1,
+                                              2,
+                                              3,
+                                          ],
+                                      ),
+                                      "full_term_tag_right": st.column_config.SelectboxColumn(
+                                          "Right Cable Terminal",
+                                          help="Available terminals at the Right Panel",
+                                          width="medium",
+                                          options=[
+                                              4,
+                                              5,
+                                              6,
+                                          ],
+                                      )
+                                  },
+                                  hide_index=True,
+                                  use_container_width=True)
