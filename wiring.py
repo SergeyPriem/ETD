@@ -24,10 +24,10 @@ def open_inercon_doc():
     # st.write(doc_sheets != design_sheets)
     # st.stop()
     if doc_sheets != design_sheets:
-        st.warning('Uploaded document is wrong...Upload another one')
-        if st.button('Uploaded document is wrong...Upload another one'):
-            close_intercon_doc()
-            st.stop()
+        # st.warning('Uploaded document is wrong...Upload another one')
+        st.button('❗ Uploaded document is wrong...Upload another one')
+        close_intercon_doc()
+        st.stop()
     else:
         st.button("File uploaded successfully")
 
