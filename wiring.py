@@ -18,7 +18,7 @@ def open_inercon_doc():
     doc_sheets = list(pd.read_excel(st.session_state.intercon['doc'], sheet_name=None).keys())
     doc_sheets.sort()
     st.write(f"doc_sheets={doc_sheets}")
-    design_sheets = ['equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
+    design_sheets = ['drw', 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
     design_sheets.sort()
     st.write(f"design_sheets={design_sheets}")
     st.write(doc_sheets != design_sheets)
