@@ -15,7 +15,7 @@ from utilities import center_style, open_dxf_file, check_df
 # p_rat_a = 0
 # p_rat_b = 0
 # p_rat_em = 0
-from wiring import create_equipment, create_cab_con, open_inercon_doc, close_intercon_doc, create_panel
+from wiring import create_equipment, create_cab_con, open_inercon_doc, close_intercon_doc, create_panel, create_block
 
 cab_dict = {
     1.5: 1.5, 2.5: 2.5, 4: 4,
@@ -1417,3 +1417,7 @@ def scripts_tab():
 
                 if action == 'Create Cable':
                     create_cab_con()
+
+                if action == 'Create Terminal Block':
+                    create_block()
+
