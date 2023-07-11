@@ -131,7 +131,7 @@ def create_equipment():
             eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
 
             if eq_tag in eq_list:
-                st.button(f"❗ Equipment with tag {eq_tag} already exists...Close and try again")
+                st.button(f"❗ Equipment with Tag {eq_tag} already exists...Close and try again")
                 st.stop()
             else:
                 df2 = pd.DataFrame.from_dict(
@@ -148,5 +148,45 @@ def create_equipment():
                 df1 = st.session_state.intercon['equip'].copy(deep=True)
                 st.session_state.intercon['equip'] = pd.concat([df1, df2], ignore_index=True)
                 st.button(f"New Equipment {eq_tag} is Added. CLOSE")
+        else:
+            st.button('❗ Some fields are empty...')
+
+def create_panel():
+    with st.form('create_pan'):
+        lc, rc = st.columns(2, gap='medium')
+        eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
+        eq_tag = lc.selectbox('Equipment Tag', eq_list)
+        pan_tag = rc.text_input('Panel Tag')
+        pan_descr = lc.text_input('Panel Description')
+
+        add_pan_button = rc.button("Add Panel to Document")
+
+    if add_pan_button:
+        if all(eq_tag, pan_tag, pan_descr):
+            full_pan_tags = st.session_state.intercon['panel'].loc[:, 'full_pan_tag'].tolist()
+
+            full_pan_tag = str(eq_tag) + ":" + str(pan_tag)
+
+            if full_pan_tag in full_pan_tags:
+                st.button(f'❗ Panel with Tag {full_pan_tag} already exists...CLOSE and try again')
+                st.stop()
+
+            else:
+                df2 = pd.DataFrame.from_dict(
+                    [
+                        {
+                            'eq_tag': eq_tag,
+                            'pan_tag': pan_tag,
+                            'pan_descr': pan_descr,
+                            'full_pan_tag': full_pan_tag,
+                        }
+                    ]
+                )
+
+                st.write(df2)
+
+                df1 = st.session_state.intercon['panel'].copy(deep=True)
+                st.session_state.intercon['panel'] = pd.concat([df1, df2], ignore_index=True)
+                st.button(f"New Panel {full_pan_tag} is Added. CLOSE")
         else:
             st.button('❗ Some fields are empty...')
