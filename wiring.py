@@ -20,8 +20,8 @@ def open_inercon_doc():
     st.write(f"doc_sheets={doc_sheets}")
     design_sheets = ['equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
     design_sheets.sort()
-    st.write(f"ddesign_sheets={design_sheets}")
-
+    st.write(f"design_sheets={design_sheets}")
+    st.write(doc_sheets != design_sheets)
     st.stop()
     if doc_sheets != design_sheets:
         st.warning('Uploaded document is wrong...Upload another one')
