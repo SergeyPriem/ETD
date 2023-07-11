@@ -3,6 +3,17 @@ import streamlit as st
 import pandas as pd
 
 
+def close_intercon_doc():
+    st.session_state.intercon['doc'] = None
+    st.session_state.intercon['equip'] = None
+    st.session_state.intercon['panel'] = None
+    st.session_state.intercon['block'] = None
+    st.session_state.intercon['terminal'] = None
+    st.session_state.intercon['cable'] = None
+    st.session_state.intercon['wire'] = None
+    st.session_state.intercon['cab_descr'] = None
+
+
 def open_inercon_doc():
     doc_sheets = list(pd.read_excel(st.session_state.intercon['doc'], sheet_name=None).keys())
     doc_sheets.sort()
@@ -13,7 +24,8 @@ def open_inercon_doc():
 
     if doc_sheets != design_sheets:
         st.warning('Uploaded document is wrong...Upload another one')
-        st.stop()
+        if st.button('Uploaded document is wrong...Upload another one'):
+            close_intercon_doc()
     else:
         st.button("File uploaded successfully")
         st.stop()
@@ -31,17 +43,6 @@ def open_inercon_doc():
     except Exception as e:
         st.warning('It seems the uploaded file is wrong...')
         st.write(e)
-
-
-def close_intercon_doc():
-    st.session_state.intercon['doc'] = None
-    st.session_state.intercon['equip'] = None
-    st.session_state.intercon['panel'] = None
-    st.session_state.intercon['block'] = None
-    st.session_state.intercon['terminal'] = None
-    st.session_state.intercon['cable'] = None
-    st.session_state.intercon['wire'] = None
-    st.session_state.intercon['cab_descr'] = None
 
 
 def create_new_doc():
