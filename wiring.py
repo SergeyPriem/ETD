@@ -257,45 +257,61 @@ def create_wires():
     cab_list = st.session_state.intercon['cable'].loc[:, 'cab_tag'].tolist()
     wires_qty_list = st.session_state.intercon['cab_descr'].loc[:, 'wire_quant'].tolist()
     act_cable = lc.selectbox('Select Cable for wires connection', cab_list)
-    wire_num = rc.radio('Select Wires Quantity', wires_qty_list, horizontal=True)
-    wires_df = pd.DataFrame(columns=['cab_tag', 'full_term_tag_left', 'term_num_left',
-                                     'wire_num', 'term_num_right', 'full_term_tag_right'])
+    # wire_num = rc.radio('Select Wires Quantity', wires_qty_list, horizontal=True)
 
-    if wire_num:
-        if st.button(f'Create {wire_num} Wires'):
-            for i in range(1, wire_num+1):
-                wires_df.loc[i-1, 'cab_tag'] = act_cable
-                wires_df.loc[i-1, 'wire_num'] = i
+    if act_cable:
+
+        wire_df = st.session_state.intercon['wire']
+
+        current_cable_wires_df = wire_df.loc[wire_df.cab_tag == act_cable]
+
+        upd_cable_wires_df = st.data_editor(current_cable_wires_df,
+                                      column_config={
+                                          "full_term_tag_left": st.column_config.SelectboxColumn(
+                                              "Left Cable Terminal Block",
+                                              help="Available terminals at the Left Panel",
+                                              width="medium",
+                                              options=[1, 2, 3, ],
+                                          ),
+                                          "term_num_left": st.column_config.NumberColumn(
+                                              "Left Terminal Number",
+                                              help="Number of Terminal",
+                                              min_value=1,
+                                              max_value=250,
+                                              width="small",
+                                          ),
+                                          "term_num_right": st.column_config.NumberColumn(
+                                              "Right Terminal Number",
+                                              help="Number of Terminal",
+                                              min_value=1,
+                                              max_value=250,
+                                              width="small",
+                                          ),
+
+                                          "full_term_tag_right": st.column_config.SelectboxColumn(
+                                              "Right Cable Terminal Block",
+                                              help="Available terminals at the Right Panel",
+                                              width="medium",
+                                              options=[4, 5, 6, ],
+                                          )
+                                      },
+                                      hide_index=True, use_container_width=True)
+
+        add_wire_button = rc.button(f'Add wire to cable {act_cable}')
 
 
-    wires_con_df = st.data_editor(wires_df,
-                                  column_config={
-                                      "full_term_tag_left": st.column_config.SelectboxColumn(
-                                          "Left Cable Terminal Block",
-                                          help="Available terminals at the Left Panel",
-                                          width="medium",
-                                          options=[1, 2, 3, ],
-                                      ),
-                                      "term_num_left": st.column_config.NumberColumn(
-                                          "Left Terminal Number",
-                                          help="Number of Terminal",
-                                          min_value=1,
-                                          max_value=250,
-                                          width="small",
-                                      ),
-                                      "term_num_right": st.column_config.NumberColumn(
-                                          "Right Terminal Number",
-                                          help="Number of Terminal",
-                                          min_value=1,
-                                          max_value=250,
-                                          width="small",
-                                      ),
 
-                                      "full_term_tag_right": st.column_config.SelectboxColumn(
-                                          "Right Cable Terminal Block",
-                                          help="Available terminals at the Right Panel",
-                                          width="medium",
-                                          options=[4, 5, 6, ],
-                                      )
-                                  },
-                                  hide_index=True, use_container_width=True)
+    # wires_df = pd.DataFrame(columns=['cab_tag', 'full_term_tag_left', 'term_num_left',
+    #                                  'wire_num', 'term_num_right', 'full_term_tag_right'])
+
+
+    # if act_cable and wire_num:
+    #     if st.session_state.wires_df is None:
+    #         if st.button(f'Create {wire_num} Wires'):
+    #             for i in range(1, wire_num+1):
+    #                 wires_df.loc[i-1, 'cab_tag'] = act_cable
+    #                 wires_df.loc[i-1, 'wire_num'] = i
+    #
+    #             st.session_state.intercon['wire'] = wires_df.copy(deep=True)
+
+
