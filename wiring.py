@@ -231,8 +231,8 @@ def create_block():
 
                     st.write(df2)
 
-                    df1 = st.session_state.intercon['terminal'].copy(deep=True)
-                    st.session_state.intercon['terminal'] = pd.concat([df1, df2], ignore_index=True)
+                    df1 = st.session_state.intercon['block'].copy(deep=True)
+                    st.session_state.intercon['block'] = pd.concat([df1, df2], ignore_index=True)
                     st.button(f"New Terminal Block {full_block_tag} is Added. CLOSE")
                 else:
                     st.button('❗ Some fields are empty...')
