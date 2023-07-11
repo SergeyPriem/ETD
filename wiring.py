@@ -27,10 +27,9 @@ def open_inercon_doc():
         st.warning('Uploaded document is wrong...Upload another one')
         if st.button('Uploaded document is wrong...Upload another one'):
             close_intercon_doc()
-            return "Wrong"
+            st.stop()
     else:
         st.button("File uploaded successfully")
-        return 'OK'
 
     try:
         st.session_state.intercon['equip'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='equip')
