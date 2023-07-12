@@ -1389,6 +1389,8 @@ def scripts_tab():
                     }
                 }
 
+                if st.session_state['user']['access_level'] == "dev":
+                    st.header("Developer")
                 # st.write(credentials)
 
                 gc, authorized_user = gspread.oauth_from_dict(credentials)
