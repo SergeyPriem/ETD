@@ -1378,16 +1378,26 @@ def scripts_tab():
             if st.session_state['user']['access_level'] == "dev":
 
                 local_remote = st.radio("select the mode", ['Local', 'Remote'], horizontal=True)
-
-                if st.session_state.intercon['doc'] is None:
-                    if local_remote == "Local":
-                        cr_l, cr_r = st.columns(2, gap='medium')
-                        cr_l.text('')
-                        cr_l.text('')
-                        cr_l.info('Add the File of Interconnection 👉')
-                        st.session_state.intercon['doc'] = cr_r.file_uploader('INTERCONNECTION FILE', 'xlsx')
-
+                if local_remote == "Local":
+                    if st.session_state.intercon['doc'] is None:
+                            cr_l, cr_r = st.columns(2, gap='medium')
+                            cr_l.text('')
+                            cr_l.text('')
+                            cr_l.info('Add the File of Interconnection 👉')
+                            st.session_state.intercon['doc'] = cr_r.file_uploader('INTERCONNECTION FILE', 'xlsx')
                     else:
+                        work, close_b = st.columns([12, 2], gap="medium")
+                        open_inercon_doc()
+                        work.info(f"#### You are working with document :blue[{st.session_state.intercon['doc'].name}]")
+                        close_b.button('Save', use_container_width=True)
+
+                        if close_b.button('Download and Close', use_container_width=True):
+                            close_intercon_doc()
+                            st.experimental_rerun()
+
+
+                if local_remote == "Remote":
+                    if st.session_state.intercon['doc'] is None:
                         credentials = {
                             "type": "service_account",
                             "project_id": "termination-bgpp",
@@ -1406,22 +1416,8 @@ def scripts_tab():
                         st.write("МАЯК")
                         s_sh = gc.open('termination BGPP')
                         st.session_state.intercon['doc'] = s_sh
-
-                    st.write(st.session_state.intercon['doc'])
-                else:
-                    if local_remote == "Local":
-                        work, close_b = st.columns([12, 2], gap="medium")
-                        open_inercon_doc()
-                        work.info(f"#### You are working with document :blue[{st.session_state.intercon['doc'].name}]")
-
-                        close_b.button('Save', use_container_width=True)
-
-                        if close_b.button('Download and Close', use_container_width=True):
-                            close_intercon_doc()
-                            st.experimental_rerun()
-
+                        st.write(st.session_state.intercon['doc'])
                     else:
-
                         open_intercon_google()
                         st.info(f"#### You are working with document :blue[termination BGPP]")
 
@@ -1454,4 +1450,3 @@ def scripts_tab():
 
                     if action == '5️⃣  Cable Wires':
                         create_wires()
-
