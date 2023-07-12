@@ -16,7 +16,7 @@ from utilities import center_style, open_dxf_file, check_df
 # p_rat_b = 0
 # p_rat_em = 0
 from wiring import create_equipment, create_cab_con, open_inercon_doc, close_intercon_doc, create_panel, create_block, \
-    create_wires
+    create_wires, open_intercon_google
 
 cab_dict = {
     1.5: 1.5, 2.5: 2.5, 4: 4,
@@ -1375,92 +1375,75 @@ def scripts_tab():
 
             st.title(':orange[Create Interconnection Wiring Diagram - under development...]')
 
-            if st.radio("select the mode", ['Local', 'Remote'], horizontal=True) == 'Remote':
+            if st.session_state['user']['access_level'] == "dev":
 
-                if st.session_state['user']['access_level'] == "dev":
+                local_remote = st.radio("select the mode", ['Local', 'Remote'], horizontal=True)
 
-                    credentials = {
-                        "type": "service_account",
-                        "project_id": "termination-bgpp",
-                        "private_key_id": st.secrets['sak']['private_key_id'],
-                        "private_key": st.secrets['sak']['private_key'],
-                        "client_email": st.secrets['sak']['client_email'],
-                        "client_id": st.secrets['sak']['client_id'],
-                        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-                        "token_uri": "https://oauth2.googleapis.com/token",
-                        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-                        "client_x509_cert_url": st.secrets['sak']['client_x509_cert_url'],
-                        "universe_domain": "googleapis.com"
-                    }
+                if st.session_state.intercon['doc'] is None:
+                    if local_remote == "Local":
+                        cr_l, cr_r = st.columns(2, gap='medium')
+                        cr_l.text('')
+                        cr_l.text('')
+                        cr_l.info('Add the File of Interconnection 👉')
+                        st.session_state.intercon['doc'] = cr_r.file_uploader('INTERCONNECTION FILE', 'xlsx')
 
-                    gc = gspread.service_account_from_dict(credentials)
+                    else:
+                        credentials = {
+                            "type": "service_account",
+                            "project_id": "termination-bgpp",
+                            "private_key_id": st.secrets['sak']['private_key_id'],
+                            "private_key": st.secrets['sak']['private_key'],
+                            "client_email": st.secrets['sak']['client_email'],
+                            "client_id": st.secrets['sak']['client_id'],
+                            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                            "token_uri": "https://oauth2.googleapis.com/token",
+                            "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+                            "client_x509_cert_url": st.secrets['sak']['client_x509_cert_url'],
+                            "universe_domain": "googleapis.com"
+                        }
+                        gc = gspread.service_account_from_dict(credentials)
+                        s_sh = gc.open('termination BGPP')
+                        st.session_state.intercon['doc'] = s_sh
+                else:
+                    if local_remote == "Local":
+                        work, close_b = st.columns([12, 2], gap="medium")
+                        open_inercon_doc()
+                        work.info(f"#### You are working with document :blue[{st.session_state.intercon['doc'].name}]")
+                        close_b.button('Save', use_container_width=True)
+                        if close_b.button('Download and Close', use_container_width=True):
+                            close_intercon_doc()
+                            st.experimental_rerun()
 
-                    s_sh = gc.open('termination BGPP')
-                    # sheet_selection = st.radio("Select the table", [
-                    #     'drw', 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr'
-                    # ])
-                    # g_sheet = s_sh.worksheet(sheet_selection)
-                    #
-                    # equip_df = pd.DataFrame(g_sheet.get_all_records())
+                    else:
+                        open_intercon_google()
 
-                    # if isinstance(equip_df, pd.DataFrame):
-                    #     st.write("Connected to Google")
-                    #     st.write(equip_df)
-                    #     st.stop()
-                    # else:
-                    #     st.write("can't connect")
+                    st.divider()
 
-                    for sh_name in ['drw', 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']:
-                        g_sheet = s_sh.worksheet(sh_name)
-                        equip_df = pd.DataFrame(g_sheet.get_all_records())
-                        st.write(equip_df)
-                    st.stop()
+                    preview_list = [None, 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
 
-            if st.session_state.intercon['doc'] is None:
-                cr_l, cr_r = st.columns(2, gap='medium')
-                cr_l.text('')
-                cr_l.text('')
-                cr_l.info('Add the File of Interconnection 👉')
-                st.session_state.intercon['doc'] = cr_r.file_uploader('INTERCONNECTION FILE', 'xlsx')
+                    prev_sel = st.radio("Select the Table for preview", preview_list, horizontal=True)
 
-                if st.session_state.intercon['doc']:
-                    open_inercon_doc()
+                    if prev_sel:
+                        st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
 
-            else:
-                work, close_b = st.columns([12, 2], gap="medium")
-                work.info(f"#### You are working with document :blue[{st.session_state.intercon['doc'].name}]")
-                close_b.button('Save', use_container_width=True)
-                if close_b.button('Download and Close', use_container_width=True):
-                    close_intercon_doc()
-                    st.experimental_rerun()
+                    st.divider()
 
-                st.divider()
+                    action = st.radio('SELECT THE OPTION TO EDIT',
+                                      ['1️⃣  Equipment', '2️⃣  Panel', '3️⃣  Terminal Block', '4️⃣  Cable',
+                                       '5️⃣  Cable Wires', ], horizontal=True)
 
-                preview_list = [None, 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
+                    if action == '1️⃣  Equipment':
+                        create_equipment()
 
-                prev_sel = st.radio("Select the Table for preview", preview_list, horizontal=True)
+                    if action == '2️⃣  Panel':
+                        create_panel()
 
-                if prev_sel:
-                    st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
+                    if action == '3️⃣  Terminal Block':
+                        create_block()
 
-                st.divider()
+                    if action == '4️⃣  Cable':
+                        create_cab_con()
 
-                action = st.radio('SELECT THE OPTION TO EDIT',
-                                  ['1️⃣  Equipment', '2️⃣  Panel', '3️⃣  Terminal Block', '4️⃣  Cable',
-                                   '5️⃣  Cable Wires',], horizontal=True)
-
-                if action == '1️⃣  Equipment':
-                    create_equipment()
-
-                if action == '2️⃣  Panel':
-                    create_panel()
-
-                if action == '3️⃣  Terminal Block':
-                    create_block()
-
-                if action == '4️⃣  Cable':
-                    create_cab_con()
-
-                if action == '5️⃣  Cable Wires':
-                    create_wires()
+                    if action == '5️⃣  Cable Wires':
+                        create_wires()
 

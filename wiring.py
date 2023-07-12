@@ -17,20 +17,14 @@ def close_intercon_doc():
 def open_inercon_doc():
     doc_sheets = list(pd.read_excel(st.session_state.intercon['doc'], sheet_name=None).keys())
     doc_sheets.sort()
-    # st.write(f"doc_sheets={doc_sheets}")
     design_sheets = ['drw', 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
     design_sheets.sort()
-    # st.write(f"design_sheets={design_sheets}")
-    # st.write(doc_sheets != design_sheets)
-    # st.stop()
     if doc_sheets != design_sheets:
-        # st.warning('Uploaded document is wrong...Upload another one')
         st.button('❗ Uploaded document is wrong...Upload another one')
         close_intercon_doc()
         st.stop()
     else:
         st.button("File uploaded successfully")
-
     try:
         st.session_state.intercon['equip'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='equip')
         st.session_state.intercon['panel'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='panel')
@@ -41,6 +35,16 @@ def open_inercon_doc():
         st.session_state.intercon['wire'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='wire')
         st.session_state.intercon['cab_descr'] = pd.read_excel(st.session_state.intercon['doc'],
                                                                sheet_name='cab_descr')
+    except Exception as e:
+        st.warning('It seems the uploaded file is wrong...')
+        st.write(e)
+
+
+def open_intercon_google():
+    try:
+        for sh_name in ['equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']:
+            st.session_state.intercon[sh_name] = pd.DataFrame(
+                st.session_state.intercon['doc'].worksheet(sh_name).get_all_records())
     except Exception as e:
         st.warning('It seems the uploaded file is wrong...')
         st.write(e)
