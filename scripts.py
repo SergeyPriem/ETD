@@ -1402,7 +1402,7 @@ def scripts_tab():
 
                     st.header("Developer-2")
 
-                    st.write(gc)
+                    # st.write(gc)
 
                     s_sh = gc.open('termination BGPP')
 
