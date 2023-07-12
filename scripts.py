@@ -1384,11 +1384,12 @@ def scripts_tab():
                         "auth_uri": "https://accounts.google.com/o/oauth2/auth",
                         "token_uri": "https://oauth2.googleapis.com/token",
                         "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-                        "client_secret": st.secrets['installed']["client_secret"]
+                        "client_secret": st.secrets['installed']["client_secret"],
+                        "redirect_uris": ["http://localhost"]
                     }
                 }
 
-                st.write(credentials)
+                # st.write(credentials)
 
                 gc, authorized_user = gspread.oauth_from_dict(credentials)
 
