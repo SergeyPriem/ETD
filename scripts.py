@@ -1383,7 +1383,7 @@ def scripts_tab():
                         "type": "service_account",
                         "project_id": "termination-bgpp",
                         "private_key_id": st.secrets['sak']['private_key_id'],
-                        "private_key": st.secrets['sak']['private_key_id'],
+                        "private_key": st.secrets['sak']['private_key'],
                         "client_email": st.secrets['sak']['client_email'],
                         "client_id": st.secrets['sak']['client_id'],
                         "auth_uri": "https://accounts.google.com/o/oauth2/auth",
