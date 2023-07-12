@@ -1396,19 +1396,25 @@ def scripts_tab():
                     gc = gspread.service_account_from_dict(credentials)
 
                     s_sh = gc.open('termination BGPP')
-                    sheet_selection = st.radio("Select the table", [
-                        'drw', 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr'
-                    ])
-                    g_sheet = s_sh.worksheet(sheet_selection)
+                    # sheet_selection = st.radio("Select the table", [
+                    #     'drw', 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr'
+                    # ])
+                    # g_sheet = s_sh.worksheet(sheet_selection)
+                    #
+                    # equip_df = pd.DataFrame(g_sheet.get_all_records())
 
-                    equip_df = pd.DataFrame(g_sheet.get_all_records())
+                    # if isinstance(equip_df, pd.DataFrame):
+                    #     st.write("Connected to Google")
+                    #     st.write(equip_df)
+                    #     st.stop()
+                    # else:
+                    #     st.write("can't connect")
 
-                    if isinstance(equip_df, pd.DataFrame):
-                        st.write("Connected to Google")
+                    for sh_name in ['drw', 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']:
+                        g_sheet = s_sh.worksheet(sh_name)
+                        equip_df = pd.DataFrame(g_sheet.get_all_records())
                         st.write(equip_df)
-                        st.stop()
-                    else:
-                        st.write("can't connect")
+                    st.stop()
 
             if st.session_state.intercon['doc'] is None:
                 cr_l, cr_r = st.columns(2, gap='medium')
