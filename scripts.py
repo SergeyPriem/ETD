@@ -1394,21 +1394,16 @@ def scripts_tab():
                     }
 
 
-                    st.header("Developer")
-
-                    st.write(credentials)
 
                     gc = gspread.service_account_from_dict(credentials)
 
-                    st.header("Developer-2")
-
-                    # st.write(gc)
-
                     s_sh = gc.open('termination BGPP')
+                    sheet_selection = st.selectbox("select the table", [
+                        'drw', 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr'
+                    ])
+                    g_sheet = s_sh.worksheet(sheet_selection)
 
-                    s_equip = s_sh.worksheet('equip')
-
-                    equip_df = pd.DataFrame(s_equip.get_all_records())
+                    equip_df = pd.DataFrame(g_sheet.get_all_records())
 
                     if isinstance(equip_df, pd.DataFrame):
                         st.write("Connected to Google")
