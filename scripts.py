@@ -1393,6 +1393,11 @@ def scripts_tab():
 
                 gc, authorized_user = gspread.oauth_from_dict(credentials)
 
+                if st.session_state['user']['access_level'] == "dev":
+                    st.write(gc)
+
+                    st.write(authorized_user)
+
                 s_sh = gc.open('termination BGPP')
 
                 s_equip = s_sh.worksheet('equip')
