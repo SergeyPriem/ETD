@@ -1391,27 +1391,29 @@ def scripts_tab():
 
                 if st.session_state['user']['access_level'] == "dev":
                     st.header("Developer")
-                # st.write(credentials)
 
-                gc, authorized_user = gspread.oauth_from_dict(credentials)
+                    st.write(credentials)
 
-                if st.session_state['user']['access_level'] == "dev":
+                    gc, authorized_user = gspread.oauth_from_dict(credentials)
+
+                    st.header("Developer-2")
+
                     st.write(gc)
 
                     st.write(authorized_user)
 
-                s_sh = gc.open('termination BGPP')
+                    s_sh = gc.open('termination BGPP')
 
-                s_equip = s_sh.worksheet('equip')
+                    s_equip = s_sh.worksheet('equip')
 
-                equip_df = pd.DataFrame(s_equip.get_all_records())
+                    equip_df = pd.DataFrame(s_equip.get_all_records())
 
-                if equip_df:
-                    st.write("Connected to Google")
-                    st.write(equip_df)
-                    st.stop()
-                else:
-                    st.write("cant connect")
+                    if equip_df:
+                        st.write("Connected to Google")
+                        st.write(equip_df)
+                        st.stop()
+                    else:
+                        st.write("cant connect")
 
             if st.session_state.intercon['doc'] is None:
                 cr_l, cr_r = st.columns(2, gap='medium')
