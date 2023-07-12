@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import math
 import os
-
+import gspread
 from create_xml import add_main_bus, add_feeder
 from section_generator import get_tags_from_cablist, generate_dxf, get_sect_from_layout
 from users import err_handler, reg_action
@@ -1374,6 +1374,42 @@ def scripts_tab():
         with st.expander('CREATE INTERCONNECTION WIRING DIAGRAM'):
 
             st.title(':orange[Create Interconnection Wiring Diagram - under development...]')
+
+            # gs = {
+            #     "url": "https://docs.google.com/spreadsheets/d/1AV3RGFBL-ZiR8AIlR0WW7aJvnFYnHtY78xrMRZ3UavQ/edit#gid=",
+            #     "id": "1AV3RGFBL-ZiR8AIlR0WW7aJvnFYnHtY78xrMRZ3UavQ",
+            #     "drw": "0",
+            #     "equip": "602833884",
+            #     "panel": "598126044",
+            #     "block": "1302258089",
+            #     "terminal": "1474027137",
+            #     "cable": "1248509354",
+            #     "wire": "1924125475",
+            #     "cab_descr": "809797518",
+            # }
+
+            credentials = {
+                "web": {
+                    "client_id": st.secrets['web']['client_id'],
+                    "project_id": st.secrets['web']['project_id'],
+                    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                    "token_uri": "https://oauth2.googleapis.com/token",
+                    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+                    "client_secret": st.secrets['web']["client_secret"]
+                }
+            }
+
+            gc, authorized_user = gspread.oauth_from_dict(credentials)
+
+            s_sh = gc.open('termination BGPP')
+
+            s_equip = s_sh.worksheet('equip')
+
+            equip_df = pd.DataFrame(s_equip.get_all_records())
+
+            if equip_df:
+                st.write("Connected to Google")
+                st.write(equip_df)
 
             if st.session_state.intercon['doc'] is None:
                 cr_l, cr_r = st.columns(2, gap='medium')
