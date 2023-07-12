@@ -1387,8 +1387,6 @@ def scripts_tab():
                         cr_l.info('Add the File of Interconnection 👉')
                         st.session_state.intercon['doc'] = cr_r.file_uploader('INTERCONNECTION FILE', 'xlsx')
 
-
-
                     else:
                         credentials = {
                             "type": "service_account",
@@ -1404,6 +1402,8 @@ def scripts_tab():
                             "universe_domain": "googleapis.com"
                         }
                         gc = gspread.service_account_from_dict(credentials)
+
+                        st.write("МАЯК")
                         s_sh = gc.open('termination BGPP')
                         st.session_state.intercon['doc'] = s_sh
 
