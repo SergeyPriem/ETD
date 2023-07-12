@@ -1375,21 +1375,22 @@ def scripts_tab():
 
             st.title(':orange[Create Interconnection Wiring Diagram - under development...]')
 
-            if st.radio("select the mode", ['Local', 'Remote']) == 'Remote':
-
-                credentials = {
-                    "installed": {
-                        "client_id": st.secrets['installed']['client_id'],
-                        "project_id": st.secrets['installed']['project_id'],
-                        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-                        "token_uri": "https://oauth2.googleapis.com/token",
-                        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-                        "client_secret": st.secrets['installed']["client_secret"],
-                        "redirect_uris": ["http://localhost"]
-                    }
-                }
+            if st.radio("select the mode", ['Local', 'Remote'], horizontal=True) == 'Remote':
 
                 if st.session_state['user']['access_level'] == "dev":
+
+                    credentials = {
+                        "installed": {
+                            "client_id": st.secrets['installed']['client_id'],
+                            "project_id": st.secrets['installed']['project_id'],
+                            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                            "token_uri": "https://oauth2.googleapis.com/token",
+                            "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+                            "client_secret": st.secrets['installed']["client_secret"],
+                            "redirect_uris": ["http://localhost"]
+                        }
+                    }
+
                     st.header("Developer")
 
                     st.write(credentials)
@@ -1413,7 +1414,7 @@ def scripts_tab():
                         st.write(equip_df)
                         st.stop()
                     else:
-                        st.write("cant connect")
+                        st.write("can't connect")
 
             if st.session_state.intercon['doc'] is None:
                 cr_l, cr_r = st.columns(2, gap='medium')
