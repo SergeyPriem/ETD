@@ -1387,7 +1387,7 @@ def scripts_tab():
                             "token_uri": "https://oauth2.googleapis.com/token",
                             "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
                             "client_secret": st.secrets['installed']["client_secret"],
-                            "redirect_uris": ["http://localhost"]
+                            "redirect_uris": ["http://e-design.streamlit.app/"]
                         }
                     }
 
