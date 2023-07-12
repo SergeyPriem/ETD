@@ -1408,50 +1408,50 @@ def scripts_tab():
                         st.session_state.intercon['doc'] = s_sh
 
                     st.write(st.session_state.intercon['doc'])
-                # else:
-                #     if local_remote == "Local":
-                #         work, close_b = st.columns([12, 2], gap="medium")
-                #         open_inercon_doc()
-                #         work.info(f"#### You are working with document :blue[{st.session_state.intercon['doc'].name}]")
-                #
-                #         close_b.button('Save', use_container_width=True)
-                #
-                #         if close_b.button('Download and Close', use_container_width=True):
-                #             close_intercon_doc()
-                #             st.experimental_rerun()
-                #
-                #     else:
-                #
-                #         open_intercon_google()
-                #         st.info(f"#### You are working with document :blue[termination BGPP]")
-                #
-                #     st.divider()
-                #
-                #     preview_list = [None, 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
-                #
-                #     prev_sel = st.radio("Select the Table for preview", preview_list, horizontal=True)
-                #
-                #     if prev_sel:
-                #         st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
-                #
-                #     st.divider()
-                #
-                #     action = st.radio('SELECT THE OPTION TO EDIT',
-                #                       ['1️⃣  Equipment', '2️⃣  Panel', '3️⃣  Terminal Block', '4️⃣  Cable',
-                #                        '5️⃣  Cable Wires', ], horizontal=True)
-                #
-                #     if action == '1️⃣  Equipment':
-                #         create_equipment()
-                #
-                #     if action == '2️⃣  Panel':
-                #         create_panel()
-                #
-                #     if action == '3️⃣  Terminal Block':
-                #         create_block()
-                #
-                #     if action == '4️⃣  Cable':
-                #         create_cab_con()
-                #
-                #     if action == '5️⃣  Cable Wires':
-                #         create_wires()
-                #
+                else:
+                    if local_remote == "Local":
+                        work, close_b = st.columns([12, 2], gap="medium")
+                        open_inercon_doc()
+                        work.info(f"#### You are working with document :blue[{st.session_state.intercon['doc'].name}]")
+
+                        close_b.button('Save', use_container_width=True)
+
+                        if close_b.button('Download and Close', use_container_width=True):
+                            close_intercon_doc()
+                            st.experimental_rerun()
+
+                    else:
+
+                        open_intercon_google()
+                        st.info(f"#### You are working with document :blue[termination BGPP]")
+
+                    st.divider()
+
+                    preview_list = [None, 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
+
+                    prev_sel = st.radio("Select the Table for preview", preview_list, horizontal=True)
+
+                    if prev_sel:
+                        st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
+
+                    st.divider()
+
+                    action = st.radio('SELECT THE OPTION TO EDIT',
+                                      ['1️⃣  Equipment', '2️⃣  Panel', '3️⃣  Terminal Block', '4️⃣  Cable',
+                                       '5️⃣  Cable Wires', ], horizontal=True)
+
+                    if action == '1️⃣  Equipment':
+                        create_equipment()
+
+                    if action == '2️⃣  Panel':
+                        create_panel()
+
+                    if action == '3️⃣  Terminal Block':
+                        create_block()
+
+                    if action == '4️⃣  Cable':
+                        create_cab_con()
+
+                    if action == '5️⃣  Cable Wires':
+                        create_wires()
+
