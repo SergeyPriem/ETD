@@ -1378,7 +1378,7 @@ def scripts_tab():
             if st.radio("select the mode", ['Local', 'Remote']) == 'Remote':
 
                 credentials = {
-                    "web": {
+                    "installed": {
                         "client_id": st.secrets['web']['client_id'],
                         "project_id": st.secrets['web']['project_id'],
                         "auth_uri": "https://accounts.google.com/o/oauth2/auth",
