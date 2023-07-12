@@ -246,11 +246,12 @@ def create_block():
         st.warning('Equipment not available...')
 
 
-def delete_wires(cab_tag, wire_num):
+def delete_wires(cab_tag, wire_nums):
 
     temp_df = st.session_state.intercon['wire'].copy(deep=True)
+
     st.session_state.intercon['wire'] = temp_df.drop(
-        temp_df[(temp_df.cab_tag == cab_tag) & (temp_df.wire_num == wire_num)].index
+        temp_df[(temp_df.cab_tag == cab_tag) & (temp_df.wire_num.isin(wire_nums))].index
     )
     st.experimental_rerun()
 
