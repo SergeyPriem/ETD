@@ -1400,6 +1400,7 @@ def scripts_tab():
                 if equip_df:
                     st.write("Connected to Google")
                     st.write(equip_df)
+                    st.stop()
 
             if st.session_state.intercon['doc'] is None:
                 cr_l, cr_r = st.columns(2, gap='medium')
