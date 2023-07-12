@@ -1393,12 +1393,10 @@ def scripts_tab():
                         "universe_domain": "googleapis.com"
                     }
 
-
-
                     gc = gspread.service_account_from_dict(credentials)
 
                     s_sh = gc.open('termination BGPP')
-                    sheet_selection = st.selectbox("select the table", [
+                    sheet_selection = st.radio("Select the table", [
                         'drw', 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr'
                     ])
                     g_sheet = s_sh.worksheet(sheet_selection)
