@@ -41,6 +41,7 @@ def open_inercon_doc():
 
 
 def open_intercon_google():
+
     try:
         for sh_name in ['equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']:
             st.session_state.intercon[sh_name] = pd.DataFrame(

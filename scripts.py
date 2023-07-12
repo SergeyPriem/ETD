@@ -1409,13 +1409,17 @@ def scripts_tab():
                         work, close_b = st.columns([12, 2], gap="medium")
                         open_inercon_doc()
                         work.info(f"#### You are working with document :blue[{st.session_state.intercon['doc'].name}]")
+
                         close_b.button('Save', use_container_width=True)
+
                         if close_b.button('Download and Close', use_container_width=True):
                             close_intercon_doc()
                             st.experimental_rerun()
 
                     else:
+
                         open_intercon_google()
+                        st.info(f"#### You are working with document :blue[termination BGPP]")
 
                     st.divider()
 
