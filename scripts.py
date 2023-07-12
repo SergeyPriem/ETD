@@ -1379,17 +1379,17 @@ def scripts_tab():
 
                 credentials = {
                     "installed": {
-                        "client_id": st.secrets['web']['client_id'],
-                        "project_id": st.secrets['web']['project_id'],
+                        "client_id": st.secrets['installed']['client_id'],
+                        "project_id": st.secrets['installed']['project_id'],
                         "auth_uri": "https://accounts.google.com/o/oauth2/auth",
                         "token_uri": "https://oauth2.googleapis.com/token",
                         "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-                        "client_secret": st.secrets['web']["client_secret"]
+                        "client_secret": st.secrets['installed']["client_secret"]
                     }
                 }
 
 
-                gc = gspread.oauth_from_dict(credentials)
+                gc, authorized_user = gspread.oauth_from_dict(credentials)
 
                 s_sh = gc.open('termination BGPP')
 
