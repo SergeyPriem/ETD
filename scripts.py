@@ -1388,6 +1388,7 @@ def scripts_tab():
                     }
                 }
 
+
                 gc, authorized_user = gspread.oauth_from_dict(credentials)
 
                 s_sh = gc.open('termination BGPP')
