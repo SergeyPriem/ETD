@@ -1413,10 +1413,10 @@ def scripts_tab():
                         }
                         gc = gspread.service_account_from_dict(credentials)
 
-                        st.write("МАЯК")
+
                         s_sh = gc.open('termination BGPP')
                         st.session_state.intercon['doc'] = s_sh
-                        st.write(st.session_state.intercon['doc'])
+
                     else:
                         open_intercon_google()
                         st.info(f"#### You are working with document :blue[termination BGPP]")
@@ -1424,12 +1424,10 @@ def scripts_tab():
                     st.divider()
 
                     preview_list = [None, 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
-
                     prev_sel = st.radio("Select the Table for preview", preview_list, horizontal=True)
 
                     if prev_sel:
                         st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
-
                     st.divider()
 
                     action = st.radio('SELECT THE OPTION TO EDIT',
