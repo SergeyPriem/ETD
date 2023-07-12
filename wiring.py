@@ -246,6 +246,14 @@ def create_block():
         st.warning('Equipment not available...')
 
 
+def delete_wires(cab_tag, wire_num):
+
+    temp_df = st.session_state.intercon['wire'].copy(deep=True)
+    st.session_state.intercon['wire'] = temp_df.drop(
+        temp_df[(temp_df.cab_tag == cab_tag) & (temp_df.wire_num == wire_num)].index
+    )
+    st.experimental_rerun()
+
 def create_wires():
     st.markdown("1 Select Cable  "
                 "2 Create wires by filling dataframe  "
@@ -257,10 +265,13 @@ def create_wires():
     cab_list = st.session_state.intercon['cable'].loc[:, 'cab_tag'].tolist()
     wires_qty_list = st.session_state.intercon['cab_descr'].loc[:, 'wire_quant'].tolist()
     act_cable = lc.selectbox('Select Cable for wires connection', cab_list)
+
+
+
     # wire_num = rc.radio('Select Wires Quantity', wires_qty_list, horizontal=True)
 
     if act_cable:
-
+        st.subheader(f'Termination Table for Cable :blue[{act_cable}]')
         wire_df = st.session_state.intercon['wire']
 
         current_cable_wires_df = wire_df.loc[wire_df.cab_tag == act_cable]
@@ -299,9 +310,13 @@ def create_wires():
 
         wires_to_del = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_del == True, 'wire_num'].tolist()
         rc.text('')
+
         del_wire_button = rc.button(f'Delete selected wires {wires_to_del}')
+        if del_wire_button:
+            delete_wires(act_cable, wires_to_del)
 
-
+    else:
+        st.subheader(f'Select the Cable for Termination')
 
     # wires_df = pd.DataFrame(columns=['cab_tag', 'full_term_tag_left', 'term_num_left',
     #                                  'wire_num', 'term_num_right', 'full_term_tag_right'])
