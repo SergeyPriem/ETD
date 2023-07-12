@@ -1388,6 +1388,7 @@ def scripts_tab():
                     }
                 }
 
+                st.write(credentials)
 
                 gc, authorized_user = gspread.oauth_from_dict(credentials)
 
