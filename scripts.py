@@ -1410,7 +1410,7 @@ def scripts_tab():
 
                     equip_df = pd.DataFrame(s_equip.get_all_records())
 
-                    if equip_df:
+                    if isinstance(equip_df, pd.DataFrame):
                         st.write("Connected to Google")
                         st.write(equip_df)
                         st.stop()
