@@ -255,6 +255,10 @@ def delete_wires(cab_tag, wire_nums):
     )
     st.experimental_rerun()
 
+
+def add_wires(cab_tag, wire_nums, upd_cable_wires_df):
+    pass
+
 def create_wires():
     st.markdown("1 Select Cable  "
                 "2 Create wires by filling dataframe  "
@@ -262,12 +266,10 @@ def create_wires():
                 "4 Mach one wire with one terminal AND PUSH CONNECT"
                 "5 Make RIGHT dataframe with selection of terminal block and necessary terminals quantity"
                 "6 Mach one wire with one terminal  AND PUSH CONNECT")
-    lc, rc =st.columns(2, gap='medium')
+    lc, cc, rc =st.columns(3, gap='medium')
     cab_list = st.session_state.intercon['cable'].loc[:, 'cab_tag'].tolist()
     wires_qty_list = st.session_state.intercon['cab_descr'].loc[:, 'wire_quant'].tolist()
     act_cable = lc.selectbox('Select Cable for wires connection', cab_list)
-
-
 
     # wire_num = rc.radio('Select Wires Quantity', wires_qty_list, horizontal=True)
 
@@ -312,9 +314,15 @@ def create_wires():
         wires_to_del = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_del == True, 'wire_num'].tolist()
         rc.text('')
 
-        del_wire_button = rc.button(f'Delete selected wires {wires_to_del}')
-        if del_wire_button:
+        wires_to_add = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_add == True, 'wire_num'].tolist()
+        rc.text('')
+
+
+        if rc.button(f'Delete selected wires {wires_to_del}'):
             delete_wires(act_cable, wires_to_del)
+
+        if cc.button(f'Add new wires {wires_to_add}'):
+            add_wires(act_cable, wires_to_add, upd_cable_wires_df)
 
     else:
         st.subheader(f'Select the Cable for Termination')
