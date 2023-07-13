@@ -15,8 +15,8 @@ from utilities import center_style, open_dxf_file, check_df
 # p_rat_a = 0
 # p_rat_b = 0
 # p_rat_em = 0
-from wiring import create_equipment, create_cab_con, open_inercon_doc, close_intercon_doc, create_panel, create_block, \
-    create_wires, open_intercon_google
+from wiring import create_equipment, edit_cab_con, open_inercon_doc, close_intercon_doc, edit_panel, edit_block, \
+    edit_wires, open_intercon_google
 
 cab_dict = {
     1.5: 1.5, 2.5: 2.5, 4: 4,
@@ -1380,11 +1380,11 @@ def scripts_tab():
                 local_remote = st.radio("select the mode", ['Local', 'Remote'], horizontal=True)
                 if local_remote == "Local":
                     if st.session_state.intercon['doc'] is None:
-                            cr_l, cr_r = st.columns(2, gap='medium')
-                            cr_l.text('')
-                            cr_l.text('')
-                            cr_l.info('Add the File of Interconnection 👉')
-                            st.session_state.intercon['doc'] = cr_r.file_uploader('INTERCONNECTION FILE', 'xlsx')
+                        cr_l, cr_r = st.columns(2, gap='medium')
+                        cr_l.text('')
+                        cr_l.text('')
+                        cr_l.info('Add the File of Interconnection 👉')
+                        st.session_state.intercon['doc'] = cr_r.file_uploader('INTERCONNECTION FILE', 'xlsx')
                     else:
                         work, close_b = st.columns([12, 2], gap="medium")
                         open_inercon_doc()
@@ -1394,7 +1394,6 @@ def scripts_tab():
                         if close_b.button('Download and Close', use_container_width=True):
                             close_intercon_doc()
                             st.experimental_rerun()
-
 
                 if local_remote == "Remote":
 
@@ -1417,7 +1416,7 @@ def scripts_tab():
                         st.session_state.intercon['doc'] = s_sh
                     else:
                         open_intercon_google()
-                        st.info(f"#### You are working with document :blue[termination BGPP]")
+                        st.info(f"#### You are working with CLOUD document :blue[termination BGPP]")
 
                     st.divider()
 
@@ -1438,13 +1437,13 @@ def scripts_tab():
                         create_equipment()
 
                     if action == '2️⃣  Panel':
-                        create_panel()
+                        edit_panel()
 
                     if action == '3️⃣  Terminal Block':
-                        create_block()
+                        edit_block()
 
                     if action == '4️⃣  Cable':
-                        create_cab_con()
+                        edit_cab_con()
 
                     if action == '5️⃣  Cable Wires':
-                        create_wires()
+                        edit_wires()

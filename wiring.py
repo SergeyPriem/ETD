@@ -69,7 +69,7 @@ def create_new_doc():
 #         st.write(f"Saved To Doc after doc creation: {tag}:{descr}")
 
 
-def create_cab_con():
+def edit_cab_con():
     lc, rc = st.columns(2, gap='medium')
     eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
     if len(eq_list):
@@ -130,7 +130,7 @@ def create_cab_con():
         st.warning('Equipment not available...')
 
 
-def create_equipment():
+def edit_equipment():
     with st.form('create_eq'):
         lc, rc = st.columns(2, gap='medium')
         eq_tag = lc.text_input('Equipment Tag')
@@ -162,7 +162,8 @@ def create_equipment():
         else:
             st.button('❗ Some fields are empty...')
 
-def create_panel():
+
+def edit_panel():
     with st.form('create_pan'):
         lc, rc = st.columns(2, gap='medium')
         eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
@@ -204,7 +205,7 @@ def create_panel():
             st.button('❗ Some fields are empty...')
 
 
-def create_block():
+def edit_block():
     lc, rc = st.columns(2, gap='medium')
     eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
     if len(eq_list):
@@ -266,7 +267,7 @@ def delete_wires(cab_tag, wire_nums):
 def add_wires(cab_tag, wire_nums, upd_cable_wires_df):
     pass
 
-def create_wires():
+def edit_wires():
     st.markdown("1 Select Cable  "
                 "2 Create wires by filling dataframe  "
                 "3 Make LEFT dataframe with selection of terminal block and necessary terminals quantity"
@@ -288,6 +289,10 @@ def create_wires():
 
         upd_cable_wires_df = st.data_editor(current_cable_wires_df,
                                       column_config={
+                                          "wire_to_add": st.column_config.CheckboxColumn(
+                                              "Add Wire",
+                                              width="small"
+                                          ),
                                           "full_block_tag_left": st.column_config.SelectboxColumn(
                                               "Left Cable Terminal Block",
                                               help="Available terminals at the Left Panel",
@@ -314,6 +319,10 @@ def create_wires():
                                               help="Available terminals at the Right Panel",
                                               width="medium",
                                               options=[4, 5, 6, ],
+                                          ),
+                                          "wire_to_del": st.column_config.CheckboxColumn(
+                                              "Delete Wire",
+                                              width="small"
                                           )
                                       },
                                       hide_index=True, num_rows='dynamic', use_container_width=True)
