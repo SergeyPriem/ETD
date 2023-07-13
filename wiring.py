@@ -259,7 +259,7 @@ def edit_block():
         st.warning('Equipment not available...')
 
 
-def delete_wires(cab_tag, wire_nums):
+def delete_wires():
     temp_df = st.session_state.intercon['wire'].copy(deep=True)
     #
     # st.session_state.intercon['wire'] = temp_df.drop(
