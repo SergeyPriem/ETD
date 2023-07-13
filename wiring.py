@@ -298,6 +298,9 @@ def add_wires(act_cable, wires_to_add):
     st.experimental_rerun()
 
 
+def create_uniq():
+    st.write('change')
+
 def edit_wires():
     # st.markdown("""1 Select Cable
     # 2 Create wires by filling dataframe
@@ -381,7 +384,7 @@ def edit_wires():
                         width="small"
                     )
                                                 },
-                hide_index=True, num_rows='dynamic', use_container_width=True)
+                hide_index=True, num_rows='dynamic', use_container_width=True, on_change=create_uniq)
 
             wires_to_del = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_del, 'wire_uniq'].tolist()
 
