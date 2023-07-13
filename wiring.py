@@ -311,6 +311,7 @@ def edit_wires():
         current_cable_wires_df = wire_df.loc[wire_df.cab_tag == act_cable]
 
         wires_to_del = []
+        wires_to_show = []
 
         if len(current_cable_wires_df):
             upd_cable_wires_df = st.data_editor(current_cable_wires_df,
