@@ -261,10 +261,12 @@ def edit_block():
 
 def delete_wires(cab_tag, wire_nums):
     temp_df = st.session_state.intercon['wire'].copy(deep=True)
+    #
+    # st.session_state.intercon['wire'] = temp_df.drop(
+    #     temp_df[(temp_df.cab_tag == cab_tag) & (temp_df.wire_num.isin(wire_nums))].index
+    # )
 
-    st.session_state.intercon['wire'] = temp_df.drop(
-        temp_df[(temp_df.cab_tag == cab_tag) & (temp_df.wire_num.isin(wire_nums))].index
-    )
+    st.session_state.intercon['wire'] = temp_df[temp_df.wire_to_del == "True"]
     st.experimental_rerun()
 
 
@@ -359,7 +361,7 @@ def edit_wires():
             add_wires(act_cable, wires_to_add)
 
         if rc.button(f'Delete selected wires {wires_to_del}', use_container_width=True):
-            delete_wires(act_cable, wires_to_del)
+            delete_wires()
 
     else:
         st.subheader(f'Select the Cable for Termination')
