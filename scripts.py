@@ -1386,8 +1386,9 @@ def scripts_tab():
                         cr_l.text('')
                         cr_l.info('Add the File of Interconnection 👉')
                         st.session_state.intercon['doc'] = cr_r.file_uploader('INTERCONNECTION FILE', 'xlsx')
-                        open_inercon_doc()
+
                     else:
+                        open_inercon_doc()
                         work, close_b = st.columns([12, 2], gap="medium")
                         work.info(f"#### You are working with document :blue[{st.session_state.intercon['doc'].name}]")
                         close_b.button('Save', use_container_width=True)
