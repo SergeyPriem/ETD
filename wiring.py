@@ -357,7 +357,7 @@ def edit_wires():
                         min_value=1,
                         max_value=100,
                         width='small',
-                        default=max(current_cable_wires_df.wire_num)
+                        default=current_cable_wires_df.wire_num.max()+1
                     ),
 
                     "term_num_right": st.column_config.NumberColumn(
@@ -376,7 +376,7 @@ def edit_wires():
                     ),
                     "wire_uniq": st.column_config.TextColumn(
                         "Full Wire Tag",
-                        default=str(act_cable)+":"
+                        default=str(act_cable)+":"+str(current_cable_wires_df.wire_num.max()+1)
 
                     ),
                     "wire_to_del": st.column_config.CheckboxColumn(
