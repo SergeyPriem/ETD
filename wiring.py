@@ -331,6 +331,11 @@ def edit_wires():
                         help="Here is shown filling mistakes. Fix it and save again",
                         width="small"
                     ),
+                    "cab_tag": st.column_config.TextColumn(
+                        "Cable Tag",
+                        disabled=True,
+                        default=act_cable,
+                    ),
                     "full_block_tag_left": st.column_config.SelectboxColumn(
                         "Left Cable Terminal Block",
                         help="Available terminals at the Left Panel",
