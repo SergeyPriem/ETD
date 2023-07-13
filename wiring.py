@@ -267,16 +267,16 @@ def add_wires(cab_tag, wire_nums, upd_cable_wires_df):
 
 
 def edit_wires():
-    st.markdown("""1 Select Cable  
-    2 Create wires by filling dataframe  
-    3 Make LEFT dataframe with selection of terminal block and necessary terminals quantity
-    4 Mach one wire with one terminal AND PUSH CONNECT
-    5 Make RIGHT dataframe with selection of terminal block and necessary terminals quantity
-    6 Mach one wire with one terminal  AND PUSH CONNECT""")
+    # st.markdown("""1 Select Cable
+    # 2 Create wires by filling dataframe
+    # 3 Make LEFT dataframe with selection of terminal block and necessary terminals quantity
+    # 4 Mach one wire with one terminal AND PUSH CONNECT
+    # 5 Make RIGHT dataframe with selection of terminal block and necessary terminals quantity
+    # 6 Mach one wire with one terminal  AND PUSH CONNECT""")
 
     lc, cc, rc = st.columns([1, 2, 1], gap='medium')
     cab_list = st.session_state.intercon['cable'].loc[:, 'cab_tag'].tolist()
-    wires_qty_list = st.session_state.intercon['cab_descr'].loc[:, 'wire_quant'].tolist()
+    # wires_qty_list = st.session_state.intercon['cab_descr'].loc[:, 'wire_quant'].tolist()
     act_cable = cc.selectbox('Select Cable for wires connection', cab_list)
 
     # wire_num = rc.radio('Select Wires Quantity', wires_qty_list, horizontal=True)
@@ -326,6 +326,10 @@ def edit_wires():
                                                 )
                                             },
                                             hide_index=True, num_rows='dynamic', use_container_width=True)
+
+        st.button("Check wires")
+
+        st.write(upd_cable_wires_df)
 
         wires_to_del = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_del, 'wire_num'].tolist()
 
