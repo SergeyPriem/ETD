@@ -2,7 +2,14 @@
 import streamlit as st
 import pandas as pd
 
+def save_wires(upd_cable_wires_df, act_cable):
+    temp_df = st.session_state.intercon['wire'].copy(deep=True)
+    temp_df = temp_df[temp_df.cab_tag != act_cable]
 
+    st.session_state.intercon['wire'] = pd.concat([temp_df, upd_cable_wires_df])
+    st.session_state.intercon['wire'].reset_index(drop=True, inplace=True)
+
+    st.write("#### Wires saved")
 def close_intercon_doc():
     st.session_state.intercon['doc'] = None
     st.session_state.intercon['equip'] = None
@@ -12,6 +19,7 @@ def close_intercon_doc():
     st.session_state.intercon['cable'] = None
     st.session_state.intercon['wire'] = None
     st.session_state.intercon['cab_descr'] = None
+    st.write("#### Wires Doc Closed")
 
 
 def open_inercon_doc():
@@ -52,7 +60,7 @@ def open_intercon_google():
         st.write(e)
 
     if len(st.session_state.intercon['wire']) == 0:
-        st.session_state.intercon['wire'] = pd.DataFrame(columns=['wire_to_add', 'cab_tag', 'full_block_tag_left',
+        st.session_state.intercon['wire'] = pd.DataFrame(columns=['wire_trouble', 'cab_tag', 'full_block_tag_left',
                                                                   'term_num_left', 'wire_num', 'term_num_right',
                                                                   'full_block_tag_right', 'wire_uniq', 'wire_to_del'])
         st.write(st.session_state.intercon['wire'])
@@ -314,57 +322,66 @@ def edit_wires():
         wires_to_show = []
 
         if len(current_cable_wires_df):
-            upd_cable_wires_df = st.data_editor(current_cable_wires_df,
-                                                column_config={
-                                                    "wire_to_add": st.column_config.CheckboxColumn(
-                                                        "Add Wire",
-                                                        width="small"
-                                                    ),
-                                                    "full_block_tag_left": st.column_config.SelectboxColumn(
-                                                        "Left Cable Terminal Block",
-                                                        help="Available terminals at the Left Panel",
-                                                        width="medium",
-                                                        options=[1, 2, 3, ],
-                                                    ),
-                                                    "term_num_left": st.column_config.NumberColumn(
-                                                        "Left Terminal Number",
-                                                        help="Number of Terminal",
-                                                        min_value=1,
-                                                        max_value=250,
-                                                        width="small",
-                                                    ),
-                                                    "wire_num": st.column_config.NumberColumn(
-                                                        "Number of Wire",
-                                                        min_value=1,
-                                                        max_value=100,
-                                                        width='small',
-                                                    ),
+            upd_cable_wires_df = st.data_editor(
+                current_cable_wires_df['full_block_tag_left', 'term_num_left', 'wire_num', 'term_num_right',
+                                       'full_block_tag_right', 'wire_uniq', 'wire_to_del'],
+                column_config={
+                    "wire_trouble": st.column_config.TextColumn(
+                        "Trouble",
+                        help="Here is shown filling mistakes. Fix it and save again",
+                        width="small"
+                    ),
+                    "full_block_tag_left": st.column_config.SelectboxColumn(
+                        "Left Cable Terminal Block",
+                        help="Available terminals at the Left Panel",
+                        width="medium",
+                        options=[1, 2, 3, ],
+                    ),
+                    "term_num_left": st.column_config.NumberColumn(
+                        "Left Terminal Number",
+                        help="Number of Terminal",
+                        min_value=1,
+                        max_value=250,
+                        width="small",
+                    ),
+                    "wire_num": st.column_config.NumberColumn(
+                        "Number of Wire",
+                        min_value=1,
+                        max_value=100,
+                        width='small',
+                    ),
 
-                                                    "term_num_right": st.column_config.NumberColumn(
-                                                        "Right Terminal Number",
-                                                        help="Number of Terminal",
-                                                        min_value=1,
-                                                        max_value=250,
-                                                        width="small",
-                                                    ),
+                    "term_num_right": st.column_config.NumberColumn(
+                        "Right Terminal Number",
+                        help="Number of Terminal",
+                        min_value=1,
+                        max_value=250,
+                        width="small",
+                    ),
 
-                                                    "full_block_tag_right": st.column_config.SelectboxColumn(
-                                                        "Right Cable Terminal Block",
-                                                        help="Available terminals at the Right Panel",
-                                                        width="medium",
-                                                        options=[4, 5, 6, ],
-                                                    ),
-                                                    "wire_to_del": st.column_config.CheckboxColumn(
-                                                        "Delete Wire",
-                                                        width="small"
-                                                    )
+                    "full_block_tag_right": st.column_config.SelectboxColumn(
+                        "Right Cable Terminal Block",
+                        help="Available terminals at the Right Panel",
+                        width="medium",
+                        options=[4, 5, 6, ],
+                    ),
+                    "wire_to_del": st.column_config.CheckboxColumn(
+                        "Delete Wire",
+                        width="small"
+                    )
                                                 },
-                                                hide_index=True, num_rows='dynamic', use_container_width=True)
+                hide_index=True, num_rows='dynamic', use_container_width=True)
 
             wires_to_del = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_del, 'wire_uniq'].tolist()
 
             wires_to_show = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_del, 'wire_num'].tolist()
             wires_to_show = [int(x) for x in wires_to_show]
+
+            if st.button("S A V E", use_container_width=True):
+                save_wires(upd_cable_wires_df, act_cable)
+
+        else:
+            st.markdown("#### :blue[Please add wires to the cable]")
 
         rc.text('')
         rc.text('')
@@ -375,6 +392,8 @@ def edit_wires():
 
         if lc2.button("Add wires"):
             add_wires(act_cable, wires_to_add)
+            st.write("#### Wires added")
+            st.write("#### Wires deleted")
 
         if rc.button(f'Delete selected wires {wires_to_show}', use_container_width=True):
             delete_wires(wires_to_del)
