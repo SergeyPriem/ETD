@@ -277,8 +277,8 @@ def add_wires(act_cable, wires_to_add):
 
         df2.loc[last_ind + w, ["cab_tag", 'wire_num']] = [act_cable, 0]
 
-    st.write(df2)
-        # st.session_state.intercon['cab_descr']
+    # st.write(df2)
+    st.session_state.intercon['wire'] = pd.concat([st.session_state.intercon['wire'], df2])
 
 
 def edit_wires():
@@ -353,7 +353,7 @@ def edit_wires():
         rc.text('')
         rc.text('')
 
-        wires_to_add = lc.radio(f'Add new wires', [0,1,2,4,5,7,10,14,19,27])
+        wires_to_add = lc.radio(f'Add new wires', [0,1,2,4,5,7,10,14,19,27], horizontal=True)
 
         if wires_to_add:
             add_wires(act_cable, wires_to_add)
