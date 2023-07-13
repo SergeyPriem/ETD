@@ -270,11 +270,13 @@ def add_wires(act_cable, wires_to_add):
     wire_df = st.session_state.intercon['wire']
 
     df2 = pd.DataFrame()
-    last_ind = len(df2)
+    last_ind = 0
     last_num = wire_df.loc[wire_df.cab_tag == act_cable, 'wire_num'].max()
 
-    if not last_num:
+    if not last_num or not isinstance(last_num, int):
         last_num = 1
+
+    st.write("last_num=", last_num)
 
     for w in range(0, wires_to_add):
         wire_num = last_num + w + 1
