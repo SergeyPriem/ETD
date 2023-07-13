@@ -381,9 +381,9 @@ def edit_wires():
             wires_to_show = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_del, 'wire_num'].tolist()
             wires_to_show = [int(x) for x in wires_to_show]
 
-            if st.button("S A V E", use_container_width=True):
+            if st.button("SAVE TERMINATION TABLE", use_container_width=True):
                 check =0
-                for ind, row in upd_cable_wires_df:
+                for ind, row in upd_cable_wires_df.iterrows():
                     if str(row.cab_tag) + ":" +str(row.wire_num) != row.wire_uniq:
                         upd_cable_wires_df.loc[ind, 'wire_trouble'] = "Wrong Full Wire Tag"
                         check +=1
