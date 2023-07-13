@@ -15,7 +15,7 @@ from utilities import center_style, open_dxf_file, check_df
 # p_rat_a = 0
 # p_rat_b = 0
 # p_rat_em = 0
-from wiring import create_equipment, edit_cab_con, open_inercon_doc, close_intercon_doc, edit_panel, edit_block, \
+from wiring import edit_equipment, edit_cab_con, open_inercon_doc, close_intercon_doc, edit_panel, edit_block, \
     edit_wires, open_intercon_google
 
 cab_dict = {
@@ -1434,7 +1434,7 @@ def scripts_tab():
                                        '5️⃣  Cable Wires', ], horizontal=True)
 
                     if action == '1️⃣  Equipment':
-                        create_equipment()
+                        edit_equipment()
 
                     if action == '2️⃣  Panel':
                         edit_panel()
