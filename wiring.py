@@ -285,7 +285,7 @@ def add_wires(act_cable, wires_to_add):
     last_ind = len(df2)
     for w in range(0, wires_to_add):
 
-        df2.loc[last_ind + w, ["cab_tag", 'wire_num']] = [act_cable, 0]
+        df2.loc[last_ind + w, ["cab_tag", 'wire_num', 'wire_to_del']] = [act_cable, 0, False]
 
     st.session_state.intercon['wire'] = pd.concat([st.session_state.intercon['wire'], df2])
     st.session_state.intercon['wire'] = st.session_state.intercon['wire'].reset_index(drop=True)
