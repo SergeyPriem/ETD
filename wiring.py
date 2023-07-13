@@ -260,7 +260,7 @@ def edit_block():
 
 
 def delete_wires():
-    st.session_state.intercon['wire'] = st.session_state.intercon['wire'][st.session_state.intercon['wire'] == False]
+    st.session_state.intercon['wire'] = st.session_state.intercon['wire'][st.session_state.intercon['wire'] == "False"]
     st.experimental_rerun()
 
 
