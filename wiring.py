@@ -269,7 +269,7 @@ def delete_wires():
     #     temp_df[(temp_df.cab_tag == cab_tag) & (temp_df.wire_num.isin(wire_nums))].index
     # )
 
-    st.session_state.intercon['wire'] = temp_df[temp_df.wire_to_del == "False"].copy(deep=True)
+    st.session_state.intercon['wire'] = temp_df[temp_df.wire_to_del == False].copy(deep=True)
 
     st.write(2)
     st.write(st.session_state.intercon['wire'])
