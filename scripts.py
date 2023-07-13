@@ -1450,4 +1450,4 @@ def scripts_tab():
                         edit_cab_con()
 
                     if action == '5️⃣  Cable Wires':
-                        edit_wires()
+                        edit_wires(None)

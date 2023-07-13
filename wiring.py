@@ -301,7 +301,7 @@ def add_wires(act_cable, wires_to_add):
 def create_uniq():
     st.write('change')
 
-def edit_wires():
+def edit_wires(upd_cable_wires_df=None):
     # st.markdown("""1 Select Cable
     # 2 Create wires by filling dataframe
     # 3 Make LEFT dataframe with selection of terminal block and necessary terminals quantity
@@ -332,7 +332,8 @@ def edit_wires():
                     "wire_trouble": st.column_config.TextColumn(
                         "Trouble",
                         help="Here is shown filling mistakes. Fix it and save again",
-                        width="small"
+                        width="small",
+                        default="-"
                     ),
                     "cab_tag": st.column_config.TextColumn(
                         "Cable Tag",
@@ -376,15 +377,17 @@ def edit_wires():
                     ),
                     "wire_uniq": st.column_config.TextColumn(
                         "Full Wire Tag",
-                        default=str(act_cable)+":"+str(current_cable_wires_df.wire_num.max()+1)
+                        default=str(act_cable)+":"+str(int(current_cable_wires_df.wire_num.max() + 1))
 
                     ),
                     "wire_to_del": st.column_config.CheckboxColumn(
                         "Delete Wire",
-                        width="small"
+                        width="small",
+                        default=False
                     )
                                                 },
-                hide_index=True, num_rows='dynamic', use_container_width=True)
+                hide_index=True, num_rows='dynamic', use_container_width=True, on_change=save_wires,
+                args=(upd_cable_wires_df, act_cable))
 
             wires_to_del = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_del, 'wire_uniq'].tolist()
 
