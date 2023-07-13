@@ -375,7 +375,6 @@ def edit_wires():
 
         if rc.button(f'Delete selected wires {wires_to_show}', use_container_width=True):
             delete_wires(wires_to_del)
-
     else:
         st.subheader(f'Select the Cable for Termination')
 
