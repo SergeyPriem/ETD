@@ -273,13 +273,15 @@ def add_wires(act_cable, wires_to_add):
     last_ind = 0
     last_num = wire_df.loc[wire_df.cab_tag == act_cable, 'wire_num'].max()
 
+    st.write("last_num_before=", last_num)
+
     if not last_num or not isinstance(last_num, int):
         last_num = 1
 
-    st.write("last_num=", last_num)
+    st.write("last_num_after=", last_num)
 
     for w in range(0, wires_to_add):
-        wire_num = last_num + w + 1
+        wire_num = last_num + w
         df2.loc[last_ind + w, ["cab_tag", 'wire_num', 'wire_uniq', 'wire_to_del']] = \
             [act_cable, wire_num, str(act_cable)+":"+str(wire_num), False]
 
