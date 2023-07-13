@@ -266,7 +266,7 @@ def delete_wires():
     #     temp_df[(temp_df.cab_tag == cab_tag) & (temp_df.wire_num.isin(wire_nums))].index
     # )
 
-    st.session_state.intercon['wire'] = temp_df[temp_df.wire_to_del == "False"]
+    st.session_state.intercon['wire'] = temp_df[temp_df.wire_to_del == "False"].copy(deep=True)
     st.experimental_rerun()
 
 
@@ -279,6 +279,7 @@ def add_wires(act_cable, wires_to_add):
         df2.loc[last_ind + w, ["cab_tag", 'wire_num']] = [act_cable, 0]
 
     st.session_state.intercon['wire'] = pd.concat([st.session_state.intercon['wire'], df2])
+    st.session_state.intercon['wire'] = st.session_state.intercon['wire'].reset_index()
     st.experimental_rerun()
 
 
