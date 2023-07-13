@@ -384,11 +384,13 @@ def edit_wires():
             if st.button("SAVE TERMINATION TABLE", use_container_width=True):
                 check =0
                 for ind, row in upd_cable_wires_df.iterrows():
-                    if str(row.cab_tag) + ":" +str(row.wire_num) != row.wire_uniq:
+                    if str(row.cab_tag) + ":" + str(int(row.wire_num)) != row.wire_uniq:
+                        st.write(f"wire {ind}  has problem...")
                         upd_cable_wires_df.loc[ind, 'wire_trouble'] = "Wrong Full Wire Tag"
                         check +=1
                     else:
                         upd_cable_wires_df.loc[ind, 'wire_trouble'] = "-"
+
                 save_wires(upd_cable_wires_df, act_cable)
 
                 if check == 0:
