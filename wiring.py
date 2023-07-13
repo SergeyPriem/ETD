@@ -389,12 +389,12 @@ def edit_wires():
                         check +=1
                     else:
                         upd_cable_wires_df.loc[ind, 'wire_trouble'] = "-"
+                save_wires(upd_cable_wires_df, act_cable)
 
                 if check == 0:
-                    save_wires(upd_cable_wires_df, act_cable)
                     st.write("#### Wires saved")
                 else:
-                    st.write("#### Fix mistakes!!!")
+                    st.button("#### Fix mistakes!!!")
         else:
             st.markdown("#### :blue[Please add wires to the cable]")
 
