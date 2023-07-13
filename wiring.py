@@ -8,8 +8,9 @@ def save_wires(upd_cable_wires_df, act_cable):
 
     st.session_state.intercon['wire'] = pd.concat([temp_df, upd_cable_wires_df])
     st.session_state.intercon['wire'].reset_index(drop=True, inplace=True)
+    st.experimental_rerun()
 
-    st.write("#### Wires saved")
+
 def close_intercon_doc():
     st.session_state.intercon['doc'] = None
     st.session_state.intercon['equip'] = None
@@ -289,8 +290,8 @@ def add_wires(act_cable, wires_to_add):
 
     for w in range(0, wires_to_add):
         wire_num = last_num + w +1
-        df2.loc[last_ind + w, ["cab_tag", 'wire_num', 'wire_uniq', 'wire_to_del']] = \
-            [act_cable, wire_num, str(act_cable)+":"+str(wire_num), False]
+        df2.loc[last_ind + w, ["wire_trouble", "cab_tag", 'wire_num', 'wire_uniq', 'wire_to_del']] = \
+            ["-", act_cable, wire_num, str(act_cable)+":"+str(wire_num), False]
 
     st.session_state.intercon['wire'] = pd.concat([st.session_state.intercon['wire'], df2])
     st.session_state.intercon['wire'] = st.session_state.intercon['wire'].reset_index(drop=True)
@@ -323,8 +324,7 @@ def edit_wires():
 
         if len(current_cable_wires_df):
             upd_cable_wires_df = st.data_editor(
-                current_cable_wires_df[['wire_trouble','full_block_tag_left', 'term_num_left', 'wire_num',
-                                        'term_num_right', 'full_block_tag_right', 'wire_uniq', 'wire_to_del']],
+                current_cable_wires_df,
                 column_config={
                     "wire_trouble": st.column_config.TextColumn(
                         "Trouble",
@@ -365,6 +365,10 @@ def edit_wires():
                         width="medium",
                         options=[4, 5, 6, ],
                     ),
+                    "wire_uniq": st.column_config.TextColumn(
+                        "Full Wire Tag",
+
+                    ),
                     "wire_to_del": st.column_config.CheckboxColumn(
                         "Delete Wire",
                         width="small"
@@ -379,7 +383,7 @@ def edit_wires():
 
             if st.button("S A V E", use_container_width=True):
                 save_wires(upd_cable_wires_df, act_cable)
-
+                st.write("#### Wires saved")
         else:
             st.markdown("#### :blue[Please add wires to the cable]")
 
