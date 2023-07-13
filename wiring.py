@@ -261,13 +261,20 @@ def edit_block():
 
 def delete_wires():
     temp_df = st.session_state.intercon['wire'].copy(deep=True)
+    st.write(1)
+    st.write(temp_df)
+
     #
     # st.session_state.intercon['wire'] = temp_df.drop(
     #     temp_df[(temp_df.cab_tag == cab_tag) & (temp_df.wire_num.isin(wire_nums))].index
     # )
 
     st.session_state.intercon['wire'] = temp_df[temp_df.wire_to_del == "False"].copy(deep=True)
-    st.experimental_rerun()
+
+    st.write(2)
+    st.write(st.session_state.intercon['wire'])
+
+    # st.experimental_rerun()
 
 
 def add_wires(act_cable, wires_to_add):
