@@ -272,6 +272,10 @@ def add_wires(act_cable, wires_to_add):
     df2 = pd.DataFrame()
     last_ind = len(df2)
     last_num = wire_df.loc[wire_df.cab_tag == act_cable, 'wire_num'].max()
+
+    if not last_num:
+        last_num = 1
+
     for w in range(0, wires_to_add):
         wire_num = last_num + w + 1
         df2.loc[last_ind + w, ["cab_tag", 'wire_num', 'wire_uniq', 'wire_to_del']] = \
