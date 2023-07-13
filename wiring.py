@@ -329,8 +329,8 @@ def edit_wires():
 
         st.button("Check wires")
 
-        st.write(upd_cable_wires_df.wire_to_add)
-        st.write(upd_cable_wires_df.wire_to_del)
+        st.write(upd_cable_wires_df.wire_to_add[0])
+        st.write(upd_cable_wires_df.wire_to_del[0])
         # st.write(upd_cable_wires_df.loc[upd_cable_wires_df['wire_to_add'], 'wire_num'])
         # st.write(upd_cable_wires_df.loc[upd_cable_wires_df['wire_to_del'], 'wire_num'])
 
