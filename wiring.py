@@ -382,8 +382,19 @@ def edit_wires():
             wires_to_show = [int(x) for x in wires_to_show]
 
             if st.button("S A V E", use_container_width=True):
-                save_wires(upd_cable_wires_df, act_cable)
-                st.write("#### Wires saved")
+                check =0
+                for ind, row in upd_cable_wires_df:
+                    if str(row.cab_tag) + ":" +str(row.wire_num) != row.wire_uniq:
+                        upd_cable_wires_df.loc[ind, 'wire_trouble'] = "Wrong Full Wire Tag"
+                        check +=1
+                    else:
+                        upd_cable_wires_df.loc[ind, 'wire_trouble'] = "-"
+
+                if check == 0:
+                    save_wires(upd_cable_wires_df, act_cable)
+                    st.write("#### Wires saved")
+                else:
+                    st.write("#### Fix mistakes!!!")
         else:
             st.markdown("#### :blue[Please add wires to the cable]")
 
