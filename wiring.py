@@ -301,7 +301,7 @@ def add_wires(act_cable, wires_to_add):
 def create_uniq():
     st.write('change')
 
-def edit_wires(upd_cable_wires_df=None):
+def edit_wires():
     # st.markdown("""1 Select Cable
     # 2 Create wires by filling dataframe
     # 3 Make LEFT dataframe with selection of terminal block and necessary terminals quantity
@@ -397,9 +397,14 @@ def edit_wires(upd_cable_wires_df=None):
             if st.button("SAVE TERMINATION TABLE", use_container_width=True):
                 check =0
                 for ind, row in upd_cable_wires_df.iterrows():
+                    if all(isinstance(row.cab_tag, str), isinstance(row.wire_num, int), isinstance(row.wire_num, int),):
+                        pass
+                    else:
+                        upd_cable_wires_df.loc[ind, 'wire_trouble'] += "Empty Cells"
+
                     if str(row.cab_tag) + ":" + str(int(row.wire_num)) != row.wire_uniq:
                         st.write(f"wire {ind}  has problem...")
-                        upd_cable_wires_df.loc[ind, 'wire_trouble'] = "Wrong Full Wire Tag"
+                        upd_cable_wires_df.loc[ind, 'wire_trouble'] += "Wrong Full Wire Tag"
                         check +=1
                     else:
                         upd_cable_wires_df.loc[ind, 'wire_trouble'] = "-"
@@ -412,7 +417,8 @@ def edit_wires(upd_cable_wires_df=None):
                 else:
                     st.button("#### Fix mistakes!!!")
 
-            truoble_sum = (upd_cable_wires_df.wire_trouble.values == "Wrong Full Wire Tag").sum()
+            truoble_sum = (upd_cable_wires_df.wire_trouble.values == "Wrong Full Wire Tag").sum() + \
+            (upd_cable_wires_df.wire_trouble.values == "Empty Cells").sum()
 
             if truoble_sum:
                 st.write(f"### :red[{truoble_sum} trouble(s) in this table]")
