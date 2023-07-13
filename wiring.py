@@ -289,7 +289,7 @@ def edit_wires():
     # 5 Make RIGHT dataframe with selection of terminal block and necessary terminals quantity
     # 6 Mach one wire with one terminal  AND PUSH CONNECT""")
 
-    lc, cc, rc = st.columns([2, 2, 1], gap='medium')
+    lc1, lc2, cc, rc = st.columns(4, gap='medium')
     cab_list = st.session_state.intercon['cable'].loc[:, 'cab_tag'].tolist()
     wires_qty_list = st.session_state.intercon['cab_descr'].loc[:, 'wire_quant'].tolist()
     act_cable = cc.selectbox('Select Cable for wires connection', cab_list)
@@ -350,12 +350,12 @@ def edit_wires():
 
         rc.text('')
         rc.text('')
+        lc2.text('')
+        lc2.text('')
 
-        wires_to_add = lc.radio(f'Add new wires', [0,1,2,4,5,7,10,14,19,27], horizontal=True)
+        wires_to_add = lc1.number_input(f'Add new wires', min_value=1, max_value=37)
 
-
-
-        if wires_to_add:
+        if lc2.button("Add wires"):
             add_wires(act_cable, wires_to_add)
 
         if rc.button(f'Delete selected wires {wires_to_del}', use_container_width=True):
