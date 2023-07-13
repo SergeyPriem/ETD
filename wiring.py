@@ -51,6 +51,11 @@ def open_intercon_google():
         st.warning('It seems the uploaded file is wrong...')
         st.write(e)
 
+    if len(st.session_state.intercon['wire']) == 0:
+        st.session_state.intercon['wire'] = pd.DataFrame(columns=['wire_to_add'	'cab_tag', 'full_block_tag_left',
+                                                                  'term_num_left', 'wire_num', 'term_num_right',
+                                                                  'full_block_tag_right', 'wire_uniq', 'wire_to_del'])
+
 
 def create_new_doc():
     st.session_state.inter_doc = True
