@@ -340,6 +340,7 @@ def edit_wires():
                                                 hide_index=True, num_rows='dynamic', use_container_width=True)
 
             wires_to_del = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_del == "True", 'wire_num'].tolist()
+            st.write(f"wires_te_del={wires_to_del}")
 
         rc.text('')
         rc.text('')
@@ -357,14 +358,3 @@ def edit_wires():
     else:
         st.subheader(f'Select the Cable for Termination')
 
-    # wires_df = pd.DataFrame(columns=['cab_tag', 'full_term_tag_left', 'term_num_left',
-    #                                  'wire_num', 'term_num_right', 'full_term_tag_right'])
-
-    # if act_cable and wire_num:
-    #     if st.session_state.wires_df is None:
-    #         if st.button(f'Create {wire_num} Wires'):
-    #             for i in range(1, wire_num+1):
-    #                 wires_df.loc[i-1, 'cab_tag'] = act_cable
-    #                 wires_df.loc[i-1, 'wire_num'] = i
-    #
-    #             st.session_state.intercon['wire'] = wires_df.copy(deep=True)
