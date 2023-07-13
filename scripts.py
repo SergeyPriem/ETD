@@ -1421,7 +1421,6 @@ def scripts_tab():
                             close_intercon_doc()
                             st.experimental_rerun()
 
-
                 st.divider()
 
                 if st.session_state.intercon['doc']:
