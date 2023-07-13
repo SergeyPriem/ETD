@@ -52,7 +52,7 @@ def open_intercon_google():
         st.write(e)
 
     if len(st.session_state.intercon['wire']) == 0:
-        st.session_state.intercon['wire'] = pd.DataFrame(columns=['wire_to_add'	'cab_tag', 'full_block_tag_left',
+        st.session_state.intercon['wire'] = pd.DataFrame(columns=['wire_to_add', 'cab_tag', 'full_block_tag_left',
                                                                   'term_num_left', 'wire_num', 'term_num_right',
                                                                   'full_block_tag_right', 'wire_uniq', 'wire_to_del'])
         st.write(st.session_state.intercon['wire'])
