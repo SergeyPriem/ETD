@@ -271,7 +271,10 @@ def add_wires(act_cable, wires_to_add):
 
     df2 = pd.DataFrame()
     last_ind = 0
-    last_num = int(wire_df.loc[wire_df.cab_tag == act_cable, 'wire_num'].max())
+    try:
+        last_num = int(wire_df.loc[wire_df.cab_tag == act_cable, 'wire_num'].max())
+    except:
+        last_num = 0
 
     st.write("last_num_before=", last_num)
 
