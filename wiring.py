@@ -397,15 +397,15 @@ def edit_wires():
             if st.button("SAVE TERMINATION TABLE", use_container_width=True):
                 check =0
                 for ind, row in upd_cable_wires_df.iterrows():
-                    if all(isinstance(row.cab_tag, str), isinstance(row.wire_num, int), isinstance(row.wire_num, int),):
+                    if all([isinstance(row.cab_tag, str), isinstance(row.wire_num, int), isinstance(row.wire_num, int)]):
                         pass
                     else:
-                        upd_cable_wires_df.loc[ind, 'wire_trouble'] += "Empty Cells"
+                        upd_cable_wires_df.loc[ind, 'wire_trouble'] += "Empty Cells  "
 
                     if str(row.cab_tag) + ":" + str(int(row.wire_num)) != row.wire_uniq:
                         st.write(f"wire {ind}  has problem...")
-                        upd_cable_wires_df.loc[ind, 'wire_trouble'] += "Wrong Full Wire Tag"
-                        check +=1
+                        upd_cable_wires_df.loc[ind, 'wire_trouble'] += "Wrong Full Wire Tag  "
+                        check += 1
                     else:
                         upd_cable_wires_df.loc[ind, 'wire_trouble'] = "-"
 
