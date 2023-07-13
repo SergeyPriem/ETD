@@ -8,7 +8,7 @@ def save_wires(upd_cable_wires_df, act_cable):
 
     st.session_state.intercon['wire'] = pd.concat([temp_df, upd_cable_wires_df])
     st.session_state.intercon['wire'].reset_index(drop=True, inplace=True)
-    st.experimental_rerun()
+
 
 
 def close_intercon_doc():
@@ -405,6 +405,7 @@ def edit_wires(upd_cable_wires_df=None):
                         upd_cable_wires_df.loc[ind, 'wire_trouble'] = "-"
 
                 save_wires(upd_cable_wires_df, act_cable)
+                st.experimental_rerun()
 
                 if check == 0:
                     st.write("#### Wires saved")
