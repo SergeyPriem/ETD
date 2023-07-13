@@ -360,8 +360,8 @@ def edit_wires():
                                                 },
                                                 hide_index=True, num_rows='dynamic', use_container_width=True)
 
-            wires_to_del, wires_to_show = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_del,
-                                                                 ['wire_uniq', 'wire_num']].tolist()
+            wires_to_del, wires_to_show = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_del, ['wire_uniq']].tolist()
+            wires_to_show = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_del, 'wire_num'].tolist()
 
         rc.text('')
         rc.text('')
