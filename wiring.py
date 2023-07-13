@@ -411,6 +411,12 @@ def edit_wires(upd_cable_wires_df=None):
                     st.write("#### Wires saved")
                 else:
                     st.button("#### Fix mistakes!!!")
+
+            truoble_sum = (upd_cable_wires_df.wire_trouble.values == "Wrong Full Wire Tag").sum()
+
+            if truoble_sum:
+                st.write(f"### :red[{truoble_sum} trouble(s) in this table]")
+
         else:
             st.markdown("#### :blue[Please add wires to the cable]")
 
