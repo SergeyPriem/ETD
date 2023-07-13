@@ -385,9 +385,9 @@ def edit_wires(upd_cable_wires_df=None):
                         width="small",
                         default=False
                     )
-                                                },
-                hide_index=True, num_rows='dynamic', use_container_width=True, on_change=save_wires,
-                args=(upd_cable_wires_df, act_cable))
+                    },
+                hide_index=True, num_rows='dynamic', use_container_width=True, )
+            #on_change=save_wires, args=(upd_cable_wires_df, act_cable)
 
             wires_to_del = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_del, 'wire_uniq'].tolist()
 
