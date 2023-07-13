@@ -1397,6 +1397,7 @@ def scripts_tab():
 
 
                 if local_remote == "Remote":
+
                     if st.session_state.intercon['doc'] is None:
                         credentials = {
                             "type": "service_account",
@@ -1412,16 +1413,15 @@ def scripts_tab():
                             "universe_domain": "googleapis.com"
                         }
                         gc = gspread.service_account_from_dict(credentials)
-
-
                         s_sh = gc.open('termination BGPP')
                         st.session_state.intercon['doc'] = s_sh
-
                     else:
                         open_intercon_google()
                         st.info(f"#### You are working with document :blue[termination BGPP]")
 
                     st.divider()
+
+                if st.session_state.intercon['doc']:
 
                     preview_list = [None, 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
                     prev_sel = st.radio("Select the Table for preview", preview_list, horizontal=True)

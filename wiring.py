@@ -19,12 +19,14 @@ def open_inercon_doc():
     doc_sheets.sort()
     design_sheets = ['drw', 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
     design_sheets.sort()
+
     if doc_sheets != design_sheets:
         st.button('❗ Uploaded document is wrong...Upload another one')
         close_intercon_doc()
         st.stop()
     else:
         st.button("File uploaded successfully")
+
     try:
         st.session_state.intercon['equip'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='equip')
         st.session_state.intercon['panel'] = pd.read_excel(st.session_state.intercon['doc'], sheet_name='panel')
