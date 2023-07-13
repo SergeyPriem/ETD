@@ -1378,6 +1378,7 @@ def scripts_tab():
             if st.session_state['user']['access_level'] == "dev":
 
                 local_remote = st.radio("select the mode", ['Local', 'Remote'], horizontal=True)
+
                 if local_remote == "Local":
                     if st.session_state.intercon['doc'] is None:
                         cr_l, cr_r = st.columns(2, gap='medium')
@@ -1385,15 +1386,12 @@ def scripts_tab():
                         cr_l.text('')
                         cr_l.info('Add the File of Interconnection 👉')
                         st.session_state.intercon['doc'] = cr_r.file_uploader('INTERCONNECTION FILE', 'xlsx')
+                        open_inercon_doc()
                     else:
                         work, close_b = st.columns([12, 2], gap="medium")
-                        open_inercon_doc()
                         work.info(f"#### You are working with document :blue[{st.session_state.intercon['doc'].name}]")
                         close_b.button('Save', use_container_width=True)
 
-                        if close_b.button('Download and Close', use_container_width=True):
-                            close_intercon_doc()
-                            st.experimental_rerun()
 
                 if local_remote == "Remote":
 
@@ -1414,11 +1412,17 @@ def scripts_tab():
                         gc = gspread.service_account_from_dict(credentials)
                         s_sh = gc.open('termination BGPP')
                         st.session_state.intercon['doc'] = s_sh
-                    else:
                         open_intercon_google()
+                    else:
+                        work, close_b = st.columns([12, 2], gap="medium")
                         st.info(f"#### You are working with CLOUD document :blue[termination BGPP]")
+                        close_b.button('Save', use_container_width=True)
+                        if close_b.button('Download and Close', use_container_width=True):
+                            close_intercon_doc()
+                            st.experimental_rerun()
 
-                    st.divider()
+
+                st.divider()
 
                 if st.session_state.intercon['doc']:
 
