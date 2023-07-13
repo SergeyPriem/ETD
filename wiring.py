@@ -325,6 +325,11 @@ def edit_wires():
         wires_to_del = []
         wires_to_show = []
 
+        def highlight_truobles(s):
+            return ['background-color: grey'] * len(s) if s.wire_trouble != "-" else ['background-color: red'] * len(s)
+
+        st.dataframe(current_cable_wires_df.style.apply(highlight_truobles, axis=1))
+
         if len(current_cable_wires_df):
             upd_cable_wires_df = st.data_editor(
                 current_cable_wires_df,
