@@ -262,17 +262,26 @@ def delete_wires(cab_tag, wire_nums):
     st.experimental_rerun()
 
 
-def add_wires(cab_tag, wire_nums, upd_cable_wires_df):
-    pass
+def add_wires(act_cable, wires_to_add):
+
+
+    df2 = pd.DataFrame()
+    last_ind = len(df2)
+    for w in range(0, wires_to_add):
+
+        df2.loc[last_ind + w, ["cab_tag", 'wire_num']] = [act_cable, 0]
+
+    st.write(df2)
+        # st.session_state.intercon['cab_descr']
 
 
 def edit_wires():
-    st.markdown("""1 Select Cable  
-    2 Create wires by filling dataframe  
-    3 Make LEFT dataframe with selection of terminal block and necessary terminals quantity
-    4 Mach one wire with one terminal AND PUSH CONNECT
-    5 Make RIGHT dataframe with selection of terminal block and necessary terminals quantity
-    6 Mach one wire with one terminal  AND PUSH CONNECT""")
+    # st.markdown("""1 Select Cable
+    # 2 Create wires by filling dataframe
+    # 3 Make LEFT dataframe with selection of terminal block and necessary terminals quantity
+    # 4 Mach one wire with one terminal AND PUSH CONNECT
+    # 5 Make RIGHT dataframe with selection of terminal block and necessary terminals quantity
+    # 6 Mach one wire with one terminal  AND PUSH CONNECT""")
 
     lc, cc, rc = st.columns([1, 2, 1], gap='medium')
     cab_list = st.session_state.intercon['cable'].loc[:, 'cab_tag'].tolist()
@@ -287,57 +296,61 @@ def edit_wires():
 
         current_cable_wires_df = wire_df.loc[wire_df.cab_tag == act_cable]
 
-        upd_cable_wires_df = st.data_editor(current_cable_wires_df,
-                                            column_config={
-                                                "wire_to_add": st.column_config.CheckboxColumn(
-                                                    "Add Wire",
-                                                    width="small"
-                                                ),
-                                                "full_block_tag_left": st.column_config.SelectboxColumn(
-                                                    "Left Cable Terminal Block",
-                                                    help="Available terminals at the Left Panel",
-                                                    width="medium",
-                                                    options=[1, 2, 3, ],
-                                                ),
-                                                "term_num_left": st.column_config.NumberColumn(
-                                                    "Left Terminal Number",
-                                                    help="Number of Terminal",
-                                                    min_value=1,
-                                                    max_value=250,
-                                                    width="small",
-                                                ),
-                                                "term_num_right": st.column_config.NumberColumn(
-                                                    "Right Terminal Number",
-                                                    help="Number of Terminal",
-                                                    min_value=1,
-                                                    max_value=250,
-                                                    width="small",
-                                                ),
+        if len(current_cable_wires_df):
 
-                                                "full_block_tag_right": st.column_config.SelectboxColumn(
-                                                    "Right Cable Terminal Block",
-                                                    help="Available terminals at the Right Panel",
-                                                    width="medium",
-                                                    options=[4, 5, 6, ],
-                                                ),
-                                                "wire_to_del": st.column_config.CheckboxColumn(
-                                                    "Delete Wire",
-                                                    width="small"
-                                                )
-                                            },
-                                            hide_index=True, num_rows='dynamic', use_container_width=True)
+            upd_cable_wires_df = st.data_editor(current_cable_wires_df,
+                                                column_config={
+                                                    "wire_to_add": st.column_config.CheckboxColumn(
+                                                        "Add Wire",
+                                                        width="small"
+                                                    ),
+                                                    "full_block_tag_left": st.column_config.SelectboxColumn(
+                                                        "Left Cable Terminal Block",
+                                                        help="Available terminals at the Left Panel",
+                                                        width="medium",
+                                                        options=[1, 2, 3, ],
+                                                    ),
+                                                    "term_num_left": st.column_config.NumberColumn(
+                                                        "Left Terminal Number",
+                                                        help="Number of Terminal",
+                                                        min_value=1,
+                                                        max_value=250,
+                                                        width="small",
+                                                    ),
+                                                    "term_num_right": st.column_config.NumberColumn(
+                                                        "Right Terminal Number",
+                                                        help="Number of Terminal",
+                                                        min_value=1,
+                                                        max_value=250,
+                                                        width="small",
+                                                    ),
 
-        wires_to_del = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_del == "True", 'wire_num'].tolist()
+                                                    "full_block_tag_right": st.column_config.SelectboxColumn(
+                                                        "Right Cable Terminal Block",
+                                                        help="Available terminals at the Right Panel",
+                                                        width="medium",
+                                                        options=[4, 5, 6, ],
+                                                    ),
+                                                    "wire_to_del": st.column_config.CheckboxColumn(
+                                                        "Delete Wire",
+                                                        width="small"
+                                                    )
+                                                },
+                                                hide_index=True, num_rows='dynamic', use_container_width=True)
 
-        wires_to_add = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_add == "True", 'wire_num'].tolist()
+            wires_to_del = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_del == "True", 'wire_num'].tolist()
+
+        # wires_to_add = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_add == "True", 'wire_num'].tolist()
 
         lc.text('')
         lc.text('')
         rc.text('')
         rc.text('')
 
-        if lc.button(f'Add new wires {wires_to_add}', use_container_width=True):
-            add_wires(act_cable, wires_to_add, upd_cable_wires_df)
+        wires_to_add = lc.radio(f'Add new wires', [0,1,2,4,5,7,10,14,19,27])
+
+        if wires_to_add:
+            add_wires(act_cable, wires_to_add)
 
         if rc.button(f'Delete selected wires {wires_to_del}', use_container_width=True):
             delete_wires(act_cable, wires_to_del)
