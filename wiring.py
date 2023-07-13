@@ -398,9 +398,9 @@ def edit_wires():
                 check =0
                 for ind, row in upd_cable_wires_df.iterrows():
                     if all([isinstance(row.cab_tag, str), isinstance(row.wire_num, int), isinstance(row.wire_num, int)]):
-                        pass
+                        upd_cable_wires_df.loc[ind, 'wire_trouble'] = "No troubles"
                     else:
-                        upd_cable_wires_df.loc[ind, 'wire_trouble'] += "Empty Cells  "
+                        upd_cable_wires_df.loc[ind, 'wire_trouble'] = "Empty Cells  "
 
                     if str(row.cab_tag) + ":" + str(int(row.wire_num)) != row.wire_uniq:
                         st.write(f"wire {ind}  has problem...")
