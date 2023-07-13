@@ -276,12 +276,12 @@ def add_wires(act_cable, wires_to_add):
     st.write("last_num_before=", last_num)
 
     if not last_num or not isinstance(last_num, int):
-        last_num = 1
+        last_num = 0
 
     st.write("last_num_after=", last_num)
 
     for w in range(0, wires_to_add):
-        wire_num = last_num + w
+        wire_num = last_num + w +1
         df2.loc[last_ind + w, ["cab_tag", 'wire_num', 'wire_uniq', 'wire_to_del']] = \
             [act_cable, wire_num, str(act_cable)+":"+str(wire_num), False]
 
