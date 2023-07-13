@@ -330,7 +330,7 @@ def edit_wires():
 
         if len(current_cable_wires_df):
             upd_cable_wires_df = st.data_editor(
-                current_cable_wires_df.style.apply(highlight_truobles, axis=1),
+                current_cable_wires_df,
                 column_config={
                     "wire_trouble": st.column_config.TextColumn(
                         "Trouble",
