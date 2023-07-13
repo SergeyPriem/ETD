@@ -323,8 +323,8 @@ def edit_wires():
 
         if len(current_cable_wires_df):
             upd_cable_wires_df = st.data_editor(
-                current_cable_wires_df[['full_block_tag_left', 'term_num_left', 'wire_num', 'term_num_right',
-                                       'full_block_tag_right', 'wire_uniq', 'wire_to_del']],
+                current_cable_wires_df[['wire_trouble','full_block_tag_left', 'term_num_left', 'wire_num',
+                                        'term_num_right', 'full_block_tag_right', 'wire_uniq', 'wire_to_del']],
                 column_config={
                     "wire_trouble": st.column_config.TextColumn(
                         "Trouble",
