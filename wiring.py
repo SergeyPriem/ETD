@@ -259,16 +259,23 @@ def edit_block():
         st.warning('Equipment not available...')
 
 
-def delete_wires():
-    st.session_state.intercon['wire'] = st.session_state.intercon['wire'][st.session_state.intercon['wire'] == "False"]
+def delete_wires(wires_to_del):
+    st.session_state.intercon['wire'] = \
+        st.session_state.intercon['wire'][~st.session_state.intercon['wire'].wire_uniq.isin(wires_to_del)]
     st.experimental_rerun()
 
 
 def add_wires(act_cable, wires_to_add):
+
+    wire_df = st.session_state.intercon['wire']
+
     df2 = pd.DataFrame()
     last_ind = len(df2)
+    last_num = wire_df.loc[wire_df.cab_tag == act_cable, 'wire_num'].max()
     for w in range(0, wires_to_add):
-        df2.loc[last_ind + w, ["cab_tag", 'wire_num', 'wire_to_del']] = [act_cable, 0, False]
+        wire_num = last_num + w + 1
+        df2.loc[last_ind + w, ["cab_tag", 'wire_num', 'wire_uniq', 'wire_to_del']] = \
+            [act_cable, wire_num, str(act_cable)+":"+wire_num, False]
 
     st.session_state.intercon['wire'] = pd.concat([st.session_state.intercon['wire'], df2])
     st.session_state.intercon['wire'] = st.session_state.intercon['wire'].reset_index(drop=True)
@@ -318,6 +325,13 @@ def edit_wires():
                                                         max_value=250,
                                                         width="small",
                                                     ),
+                                                    "wire_num": st.column_config.NumberColumn(
+                                                        "Number of Wire",
+                                                        min_value=1,
+                                                        max_value=100,
+                                                        width='small',
+                                                    ),
+
                                                     "term_num_right": st.column_config.NumberColumn(
                                                         "Right Terminal Number",
                                                         help="Number of Terminal",
@@ -339,7 +353,7 @@ def edit_wires():
                                                 },
                                                 hide_index=True, num_rows='dynamic', use_container_width=True)
 
-            wires_to_del = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_del, 'wire_num'].tolist()
+            wires_to_del = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_del, 'wire_uniq'].tolist()
             st.write(f"wires_te_del={wires_to_del}")
 
         rc.text('')
@@ -353,7 +367,7 @@ def edit_wires():
             add_wires(act_cable, wires_to_add)
 
         if rc.button(f'Delete selected wires {wires_to_del}', use_container_width=True):
-            delete_wires()
+            delete_wires(wires_to_del)
 
     else:
         st.subheader(f'Select the Cable for Termination')
