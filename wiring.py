@@ -276,12 +276,8 @@ def add_wires(act_cable, wires_to_add):
     except:
         last_num = 0
 
-    st.write("last_num_before=", last_num)
-
     if not last_num or not isinstance(last_num, int):
         last_num = 0
-
-    st.write("last_num_after=", last_num)
 
     for w in range(0, wires_to_add):
         wire_num = last_num + w +1
@@ -364,8 +360,8 @@ def edit_wires():
                                                 },
                                                 hide_index=True, num_rows='dynamic', use_container_width=True)
 
-            wires_to_del = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_del, 'wire_uniq'].tolist()
-            st.write(f"wires_te_del={wires_to_del}")
+            wires_to_del, wires_to_show = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_del,
+                                                                 ['wire_uniq', 'wire_num']].tolist()
 
         rc.text('')
         rc.text('')
@@ -377,7 +373,7 @@ def edit_wires():
         if lc2.button("Add wires"):
             add_wires(act_cable, wires_to_add)
 
-        if rc.button(f'Delete selected wires {wires_to_del}', use_container_width=True):
+        if rc.button(f'Delete selected wires {wires_to_show}', use_container_width=True):
             delete_wires(wires_to_del)
 
     else:
