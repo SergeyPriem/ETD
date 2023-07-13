@@ -261,20 +261,18 @@ def edit_block():
 
 def delete_wires():
     st.session_state.intercon['wire'] = st.session_state.intercon['wire'][st.session_state.intercon['wire'] == False]
+    st.experimental_rerun()
 
 
 def add_wires(act_cable, wires_to_add):
-
     df2 = pd.DataFrame()
     last_ind = len(df2)
     for w in range(0, wires_to_add):
-
         df2.loc[last_ind + w, ["cab_tag", 'wire_num', 'wire_to_del']] = [act_cable, 0, False]
 
     st.session_state.intercon['wire'] = pd.concat([st.session_state.intercon['wire'], df2])
     st.session_state.intercon['wire'] = st.session_state.intercon['wire'].reset_index(drop=True)
     st.experimental_rerun()
-
 
 
 def edit_wires():
@@ -301,7 +299,6 @@ def edit_wires():
         wires_to_del = []
 
         if len(current_cable_wires_df):
-
             upd_cable_wires_df = st.data_editor(current_cable_wires_df,
                                                 column_config={
                                                     "wire_to_add": st.column_config.CheckboxColumn(
