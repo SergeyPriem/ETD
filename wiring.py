@@ -346,6 +346,9 @@ def edit_wires():
 
             wires_to_del = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_del == "True", 'wire_num'].tolist()
 
+        else:
+            wires_to_del = []
+
         # wires_to_add = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_add == "True", 'wire_num'].tolist()
 
         lc.text('')
@@ -354,6 +357,8 @@ def edit_wires():
         rc.text('')
 
         wires_to_add = lc.radio(f'Add new wires', [0,1,2,4,5,7,10,14,19,27], horizontal=True)
+
+
 
         if wires_to_add:
             add_wires(act_cable, wires_to_add)
