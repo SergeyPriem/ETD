@@ -1432,7 +1432,7 @@ def scripts_tab():
                     prev_sel = st.radio("Select the Table for preview", preview_list, horizontal=True)
 
                     preview_list = option_menu(None, preview_list,
-                                            icons=['', '', '', '', '', '', '', ''],
+                                            icons=['x-circle', '', '', '', '', '', '', ''],
                                             orientation="horizontal")
                                             # menu_icon="cast", default_index=0, orientation="horizontal")
                     # st.write(selected2)
