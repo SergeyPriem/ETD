@@ -1379,8 +1379,8 @@ def scripts_tab():
 
             if st.session_state['user']['access_level'] == "dev":
                 open_b, work, close_b = st.columns([2, 12, 2], gap="medium")
-                local_remote = st.radio("select the mode", ['Local', 'Remote'], horizontal=True)
-                local_remote = open_b.option_menu("Select the Mode", ['LOCAL', 'REMOTE',],
+                # local_remote = st.radio("select the mode", ['Local', 'Remote'], horizontal=True)
+                local_remote = open_b.option_menu("Select the Mode", ['LOCAL', 'REMOTE'],
                                             icons=['-', '-', ],
                                             orientation="vertical")
 
