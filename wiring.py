@@ -406,8 +406,8 @@ def edit_wires():
         cab_df = st.session_state.intercon['cable']
         block_df = st.session_state.intercon['block']
 
-        left_pan = cab_df.loc[cab_df.cab_tag == act_cable, 'full_pan_tag_left']
-        right_pan = cab_df.loc[cab_df.cab_tag == act_cable, 'full_pan_tag_right']
+        left_pan = cab_df.loc[cab_df.cab_tag == act_cable, 'full_pan_tag_left'].to_numpy()[0]
+        right_pan = cab_df.loc[cab_df.cab_tag == act_cable, 'full_pan_tag_right'].to_numpy()[0]
 
         left_block_list = block_df.loc[block_df.full_pan_tag == left_pan, "block_tag"].tolist()
         right_block_list = block_df.loc[block_df.full_pan_tag == right_pan, "block_tag"].tolist()
