@@ -1432,11 +1432,11 @@ def scripts_tab():
 
                 if st.session_state.intercon['doc']:
 
-                    preview_list = ["View:", 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
+                    preview_list = ["VIEW:", 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
                     # prev_sel = st.radio("Select the Table for preview", preview_list, horizontal=True)
 
                     prev_sel = option_menu(None, preview_list,
-                                           icons=['-', '-', '-', '-', '-', '-', '-', '-', '-'],
+                                           icons=['search', '-', '-', '-', '-', '-', '-', '-', '-'],
                                            orientation="horizontal", default_index=1)
                     # menu_icon="cast", default_index=0, orientation="horizontal")
                     # st.write(selected2)
@@ -1449,22 +1449,20 @@ def scripts_tab():
                     #                   ['1️⃣  Equipment', '2️⃣  Panel', '3️⃣  Terminal Block', '4️⃣  Cable',
                     #                    '5️⃣  Cable Wires', ], horizontal=True)
 
-                    action = option_menu("SELECT THE OPTION TO EDIT", ['Equipment', 'Panel',
-                                                                       'Terminal Block', 'Cable',
-                                                                       'Cable Wires', ],
-                                         icons=['1-circle', '2-circle', '3-circle', '-', '5-circle', ],
+                    action = option_menu(None, ['EDIT:', 'Equipment', 'Panel', 'Terminal Block', 'Cable', 'Cable Wires'],
+                                         icons=['pencil-square', '1-circle', '2-circle', '3-circle', '-', '5-circle', ],
                                          orientation="horizontal")
 
-                    if action == '1️⃣  Equipment':
+                    if action == 'Equipment':
                         edit_equipment()
 
-                    if action == '2️⃣  Panel':
+                    if action == 'Panel':
                         edit_panel()
 
-                    if action == '3️⃣  Terminal Block':
+                    if action == 'Terminal Block':
                         edit_block()
 
-                    if action == '4️⃣  Cable':
+                    if action == 'Cable':
                         edit_cab_con()
 
                     if action == 'Cable Wires':
