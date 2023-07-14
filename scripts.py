@@ -1378,11 +1378,13 @@ def scripts_tab():
             st.title(':orange[Create Interconnection Wiring Diagram - under development...]')
 
             if st.session_state['user']['access_level'] == "dev":
-                work, close_b = st.columns([12, 2], gap="medium")
+                # work, close_b = st.columns([12, 2], gap="medium")
                 # local_remote = st.radio("select the mode", ['Local', 'Remote'], horizontal=True)
-                st.markdown('Select the Operation Mode', unsafe_allow_html=False,
+                l_col, r_col = st.columns(2)
+                l_col.markdown('Select the Operation Mode', unsafe_allow_html=False,
                             help="!!! If switched without save - data will be lost")
-                local_remote = option_menu(None, ['LOCAL', 'REMOTE'], icons=['-', '-', ], orientation="horizontal")
+                with r_col:
+                    local_remote = option_menu(None, ['LOCAL', 'REMOTE'], icons=['-', '-', ], orientation="horizontal")
 
                 if local_remote == "Local":
                     if st.session_state.intercon['doc'] is None:
