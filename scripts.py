@@ -1378,8 +1378,11 @@ def scripts_tab():
             st.title(':orange[Create Interconnection Wiring Diagram - under development...]')
 
             if st.session_state['user']['access_level'] == "dev":
-
+                open_b, work, close_b = st.columns([2, 12, 2], gap="medium")
                 local_remote = st.radio("select the mode", ['Local', 'Remote'], horizontal=True)
+                local_remote = open_b.option_menu("Select the Mode", ['LOCAL', 'REMOTE',],
+                                            icons=['-', '-', ],
+                                            orientation="vertical")
 
                 if local_remote == "Local":
                     if st.session_state.intercon['doc'] is None:
@@ -1391,7 +1394,7 @@ def scripts_tab():
 
                     else:
                         open_inercon_doc()
-                        work, close_b = st.columns([12, 2], gap="medium")
+                        # work, close_b = st.columns([12, 2], gap="medium")
                         work.info(f"#### You are working with document :blue[{st.session_state.intercon['doc'].name}]")
                         close_b.button('Save', use_container_width=True)
 
@@ -1417,7 +1420,6 @@ def scripts_tab():
                         st.session_state.intercon['doc'] = s_sh
                         open_intercon_google()
                     else:
-                        work, close_b = st.columns([12, 2], gap="medium")
                         st.info(f"#### You are working with CLOUD document :blue[termination BGPP]")
                         close_b.button('Save', use_container_width=True)
                         if close_b.button('Download and Close', use_container_width=True):
@@ -1439,14 +1441,14 @@ def scripts_tab():
 
                     if prev_sel:
                         st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
-                    st.divider()
+                    # st.divider()
 
-                    action = st.radio('SELECT THE OPTION TO EDIT',
-                                      ['1️⃣  Equipment', '2️⃣  Panel', '3️⃣  Terminal Block', '4️⃣  Cable',
-                                       '5️⃣  Cable Wires', ], horizontal=True)
+                    # action = st.radio('SELECT THE OPTION TO EDIT',
+                    #                   ['1️⃣  Equipment', '2️⃣  Panel', '3️⃣  Terminal Block', '4️⃣  Cable',
+                    #                    '5️⃣  Cable Wires', ], horizontal=True)
 
-                    action = option_menu("SELECT THE OPTION TO EDIT", ['1️⃣  Equipment', '2️⃣  Panel',
-                                                                       '3️⃣  Terminal Block', '4️⃣  Cable',
+                    action = option_menu("SELECT THE OPTION TO EDIT", ['Equipment', 'Panel',
+                                                                       'Terminal Block', 'Cable',
                                                                        'Cable Wires', ],
                                             icons=['1-circle', '2-circle', '3-circle', '-', '5-circle',],
                                             orientation="horizontal")
