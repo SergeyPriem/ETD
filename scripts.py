@@ -1430,7 +1430,7 @@ def scripts_tab():
 
                 if st.session_state.intercon['doc']:
 
-                    preview_list = ["Select for preview", 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
+                    preview_list = ["View:", 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
                     # prev_sel = st.radio("Select the Table for preview", preview_list, horizontal=True)
 
                     prev_sel = option_menu(None, preview_list,
@@ -1439,7 +1439,7 @@ def scripts_tab():
                     # menu_icon="cast", default_index=0, orientation="horizontal")
                     # st.write(selected2)
 
-                    if prev_sel != "Select the Table for preview":
+                    if prev_sel != "View:":
                         st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
                     # st.divider()
 
