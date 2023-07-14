@@ -409,8 +409,8 @@ def edit_wires():
         left_pan = cab_df.loc[cab_df.cab_tag == act_cable, 'full_pan_tag_left']
         right_pan = cab_df.loc[cab_df.cab_tag == act_cable, 'full_pan_tag_right']
 
-        left_block_list = block_df.loc[block_df.full_pan_tag == left_pan].tolist()
-        right_block_list = block_df.loc[block_df.full_pan_tag == right_pan].tolist()
+        left_block_list = block_df.loc[block_df.full_pan_tag == left_pan, "block_tag"].tolist()
+        right_block_list = block_df.loc[block_df.full_pan_tag == right_pan, "block_tag"].tolist()
 
         left_block_list.insert(0, "select")
         right_block_list.insert(0, "select")
