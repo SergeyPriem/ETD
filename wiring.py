@@ -398,16 +398,19 @@ def edit_wires():
             wires_to_show = [int(x) for x in wires_to_show]
 
             if st.button("SAVE TERMINATION TABLE", use_container_width=True):
-                check =0
+                check = 0
+
+                checked_list = upd_cable_wires_df.wire_num.tolist()
+
+                if min(checked_list) == 1 and max(checked_list) == len(checked_list) == len(set(checked_list)):
+                    st.warning("Wire numbers not in order...")
+                    st.stop()
+
                 for ind, row in upd_cable_wires_df.iterrows():
-                    if all([isinstance(row.cab_tag, str), isinstance(row.wire_num, int), isinstance(row.wire_num, int)]):
-                        upd_cable_wires_df.loc[ind, 'wire_trouble'] = "No troubles"
-                    else:
-                        upd_cable_wires_df.loc[ind, 'wire_trouble'] = "Empty Cells  "
 
                     if str(row.cab_tag) + ":" + str(int(row.wire_num)) != row.wire_uniq:
                         st.write(f"wire {ind}  has problem...")
-                        upd_cable_wires_df.loc[ind, 'wire_trouble'] += "Wrong Full Wire Tag  "
+                        upd_cable_wires_df.loc[ind, 'wire_trouble'] += "Wrong Full Wire Tag"
                         check += 1
                     else:
                         upd_cable_wires_df.loc[ind, 'wire_trouble'] = "-"
@@ -420,8 +423,7 @@ def edit_wires():
                 else:
                     st.button("#### Fix mistakes!!!")
 
-            truoble_sum = (upd_cable_wires_df.wire_trouble.values == "Wrong Full Wire Tag").sum() + \
-            (upd_cable_wires_df.wire_trouble.values == "Empty Cells").sum()
+            truoble_sum = (upd_cable_wires_df.wire_trouble.values == "Wrong Full Wire Tag").sum()
 
             if truoble_sum:
                 st.write(f"### :red[{truoble_sum} trouble(s) in this table]")
