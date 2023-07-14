@@ -403,6 +403,19 @@ def edit_wires():
         # def highlight_truobles(s):
         #     return ['background-color: grey'] * len(s) if s.wire_trouble == "-" else ['background-color: red'] * len(s)
 
+        cab_df = st.session_state.intercon['cable']
+        block_df = st.session_state.intercon['block']
+
+        left_pan = cab_df.loc[cab_df.cab_tag == act_cable, 'full_pan_tag_left']
+        right_pan = cab_df.loc[cab_df.cab_tag == act_cable, 'full_pan_tag_right']
+
+        left_block_list = block_df.loc[block_df.full_pan_tag == left_pan].tolist()
+        right_block_list = block_df.loc[block_df.full_pan_tag == right_pan].tolist()
+
+        left_block_list.insert(0, "select")
+        right_block_list.insert(0, "select")
+
+
         if len(current_cable_wires_df):
             upd_cable_wires_df = st.data_editor(
                 current_cable_wires_df,
@@ -422,7 +435,7 @@ def edit_wires():
                         "Left Cable Terminal Block",
                         help="Available terminals at the Left Panel",
                         width="medium",
-                        options=[1, 2, 3, ],
+                        options=left_block_list,
                     ),
                     "term_num_left": st.column_config.NumberColumn(
                         "Left Terminal Number",
@@ -451,7 +464,7 @@ def edit_wires():
                         "Right Cable Terminal Block",
                         help="Available terminals at the Right Panel",
                         width="medium",
-                        options=[4, 5, 6, ],
+                        options=right_block_list,
                     ),
                     "wire_uniq": st.column_config.TextColumn(
                         "Full Wire Tag",
