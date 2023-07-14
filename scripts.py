@@ -1380,9 +1380,10 @@ def scripts_tab():
             if st.session_state['user']['access_level'] == "dev":
                 open_b, work, close_b = st.columns([2, 12, 2], gap="medium")
                 # local_remote = st.radio("select the mode", ['Local', 'Remote'], horizontal=True)
-                local_remote = open_b.option_menu("Select the Mode", ['LOCAL', 'REMOTE'],
-                                            icons=['-', '-', ],
-                                            orientation="vertical")
+                with open_b:
+                    local_remote = option_menu("Select the Mode", ['LOCAL', 'REMOTE'],
+                                               icons=['-', '-', ],
+                                               orientation="vertical")
 
                 if local_remote == "Local":
                     if st.session_state.intercon['doc'] is None:
@@ -1397,7 +1398,6 @@ def scripts_tab():
                         # work, close_b = st.columns([12, 2], gap="medium")
                         work.info(f"#### You are working with document :blue[{st.session_state.intercon['doc'].name}]")
                         close_b.button('Save', use_container_width=True)
-
 
                 if local_remote == "Remote":
 
@@ -1434,9 +1434,9 @@ def scripts_tab():
                     # prev_sel = st.radio("Select the Table for preview", preview_list, horizontal=True)
 
                     prev_sel = option_menu("Select the Table for preview", preview_list,
-                                            icons=['x-circle', '-', '-', '-', '-', '-', '-', '-'],
-                                            orientation="horizontal")
-                                            # menu_icon="cast", default_index=0, orientation="horizontal")
+                                           icons=['x-circle', '-', '-', '-', '-', '-', '-', '-'],
+                                           orientation="horizontal")
+                    # menu_icon="cast", default_index=0, orientation="horizontal")
                     # st.write(selected2)
 
                     if prev_sel:
@@ -1450,8 +1450,8 @@ def scripts_tab():
                     action = option_menu("SELECT THE OPTION TO EDIT", ['Equipment', 'Panel',
                                                                        'Terminal Block', 'Cable',
                                                                        'Cable Wires', ],
-                                            icons=['1-circle', '2-circle', '3-circle', '-', '5-circle',],
-                                            orientation="horizontal")
+                                         icons=['1-circle', '2-circle', '3-circle', '-', '5-circle', ],
+                                         orientation="horizontal")
 
                     if action == '1️⃣  Equipment':
                         edit_equipment()
