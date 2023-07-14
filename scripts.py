@@ -1458,7 +1458,9 @@ def scripts_tab():
                                          icons=['pencil-square', '1-circle', '2-circle', '3-circle', '4-circle',
                                                 '5-circle', ],
                                          orientation="horizontal")
-                    if
+                    if action == 'EDIT:':
+                        st.write("Here you can preview Connections related Tables")
+
                     if action == 'Equipment':
                         edit_equipment()
 
