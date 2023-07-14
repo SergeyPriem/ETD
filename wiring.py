@@ -402,6 +402,10 @@ def edit_wires():
 
                 checked_list = upd_cable_wires_df.wire_num.tolist()
                 st.write(checked_list)
+                st.write(min(checked_list))
+                st.write(max(checked_list))
+                st.write(len(checked_list))
+                st.write(len(set(checked_list)))
 
                 if min(checked_list) == 1 and max(checked_list) == len(checked_list) and len(checked_list) == len(set(checked_list)):
                     st.warning("Wire numbers not in order...")
@@ -417,7 +421,7 @@ def edit_wires():
                         upd_cable_wires_df.loc[ind, 'wire_trouble'] = "-"
 
                 save_wires(upd_cable_wires_df, act_cable)
-                st.experimental_rerun()
+                st.button("OK", key='saved_ok')
 
                 if check == 0:
                     st.write("#### Wires saved")
