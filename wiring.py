@@ -401,8 +401,9 @@ def edit_wires():
                 check = 0
 
                 checked_list = upd_cable_wires_df.wire_num.tolist()
+                st.write(checked_list)
 
-                if min(checked_list) == 1 and max(checked_list) == len(checked_list) == len(set(checked_list)):
+                if min(checked_list) == 1 and max(checked_list) == len(checked_list) and len(checked_list) == len(set(checked_list)):
                     st.warning("Wire numbers not in order...")
                     st.stop()
 
