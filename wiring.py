@@ -423,13 +423,13 @@ def edit_wires():
                 upd_cable_wires_df.term_num_left = upd_cable_wires_df.term_num_left.astype("int")
                 upd_cable_wires_df.term_num_right = upd_cable_wires_df.term_num_right.astype("int")
 
-                upd_cable_wires_df.wire_uniq = upd_cable_wires_df.cab_tag + ":" + upd_cable_wires_df.wire_num.astype(
-                    'str')
+                upd_cable_wires_df.wire_uniq = upd_cable_wires_df.cab_tag.astype('str') + ":" + \
+                                               upd_cable_wires_df.wire_num.astype('str')
 
-                upd_cable_wires_df.full_term_tag_left = upd_cable_wires_df.full_block_tag_left + ":" + \
+                upd_cable_wires_df.full_term_tag_left = upd_cable_wires_df.full_block_tag_left.astype('str') + ":" + \
                                                         upd_cable_wires_df.term_num_left.astype('str')
 
-                upd_cable_wires_df.full_term_tag_right = upd_cable_wires_df.full_block_tag_right + ":" + \
+                upd_cable_wires_df.full_term_tag_right = upd_cable_wires_df.full_block_tag_right.astype('str') + ":" + \
                                                          upd_cable_wires_df.term_num_right.astype('str')
 
                 left_duplicates = upd_cable_wires_df.full_term_tag_left.duplicated()
