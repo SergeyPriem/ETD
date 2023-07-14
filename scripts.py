@@ -1447,8 +1447,8 @@ def scripts_tab():
 
                     action = option_menu("SELECT THE OPTION TO EDIT", ['1️⃣  Equipment', '2️⃣  Panel',
                                                                        '3️⃣  Terminal Block', '4️⃣  Cable',
-                                                                       '5️⃣  Cable Wires', ],
-                                            icons=['-', '-', '-', '-', '-',],
+                                                                       'Cable Wires', ],
+                                            icons=['1-circle', '2-circle', '3-circle', '-', '5-circle',],
                                             orientation="horizontal")
 
                     if action == '1️⃣  Equipment':
@@ -1463,5 +1463,5 @@ def scripts_tab():
                     if action == '4️⃣  Cable':
                         edit_cab_con()
 
-                    if action == '5️⃣  Cable Wires':
+                    if action == 'Cable Wires':
                         edit_wires()
