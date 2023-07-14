@@ -1394,7 +1394,7 @@ def scripts_tab():
 
                     else:
                         open_inercon_doc()
-                        # work, close_b = st.columns([12, 2], gap="medium")
+                        work, close_b = st.columns([12, 2], gap="medium")
                         work.info(f"#### You are working with document :blue[{st.session_state.intercon['doc'].name}]")
                         close_b.button('Save', use_container_width=True)
 
@@ -1419,7 +1419,8 @@ def scripts_tab():
                         st.session_state.intercon['doc'] = s_sh
                         open_intercon_google()
                     else:
-                        st.info(f"#### You are working with CLOUD document :blue[termination BGPP]")
+                        work, close_b = st.columns([12, 2], gap="medium")
+                        work.info(f"#### You are working with CLOUD document :blue[termination BGPP]")
                         close_b.button('Save', use_container_width=True)
                         if close_b.button('Download and Close', use_container_width=True):
                             close_intercon_doc()
@@ -1429,16 +1430,16 @@ def scripts_tab():
 
                 if st.session_state.intercon['doc']:
 
-                    preview_list = [None, 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
+                    preview_list = ["Select the Table for preview", 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
                     # prev_sel = st.radio("Select the Table for preview", preview_list, horizontal=True)
 
-                    prev_sel = option_menu("Select the Table for preview", preview_list,
-                                           icons=['x-circle', '-', '-', '-', '-', '-', '-', '-'],
-                                           orientation="horizontal")
+                    prev_sel = option_menu(None, preview_list,
+                                           icons=['-', 'x-circle', '-', '-', '-', '-', '-', '-', '-'],
+                                           orientation="horizontal", default_index=1)
                     # menu_icon="cast", default_index=0, orientation="horizontal")
                     # st.write(selected2)
 
-                    if prev_sel:
+                    if prev_sel != "Select the Table for preview":
                         st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
                     # st.divider()
 
