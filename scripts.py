@@ -1430,11 +1430,11 @@ def scripts_tab():
 
                 if st.session_state.intercon['doc']:
 
-                    preview_list = ["Select the Table for preview", 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
+                    preview_list = ["Select for preview", 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
                     # prev_sel = st.radio("Select the Table for preview", preview_list, horizontal=True)
 
                     prev_sel = option_menu(None, preview_list,
-                                           icons=['-', 'x-circle', '-', '-', '-', '-', '-', '-', '-'],
+                                           icons=['-', '-', '-', '-', '-', '-', '-', '-', '-'],
                                            orientation="horizontal", default_index=1)
                     # menu_icon="cast", default_index=0, orientation="horizontal")
                     # st.write(selected2)
