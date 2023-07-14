@@ -1441,7 +1441,7 @@ def scripts_tab():
                     # menu_icon="cast", default_index=0, orientation="horizontal")
                     # st.write(selected2)
 
-                    if prev_sel != "View:":
+                    if prev_sel != "VIEW:":
                         st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
                     # st.divider()
 
