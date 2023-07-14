@@ -319,7 +319,7 @@ def check_wires_df(df):
     order_of_wires(df)
     full_tag_duplicates(df)
 
-    for ind, row in df:
+    for ind, row in df.iterrows():
         pass
 
     # check for duplicates
@@ -354,9 +354,9 @@ def check_wires_df(df):
         st.write("Duplicates in Left Terminal Block Found")
         st.write(df.loc[left_duplicates, "full_term_tag_left"])
 
-        for i in df.loc[left_duplicates, "full_term_tag_left"]:
-            if not i.endswith(":0"):
-                st
+        # for i in df.loc[left_duplicates, "full_term_tag_left"]:
+        #     if not i.endswith(":0"):
+        #         st
 
     right_duplicates = df.full_term_tag_right.duplicated()
 
@@ -409,8 +409,8 @@ def edit_wires():
         left_pan = cab_df.loc[cab_df.cab_tag == act_cable, 'full_pan_tag_left'].to_numpy()[0]
         right_pan = cab_df.loc[cab_df.cab_tag == act_cable, 'full_pan_tag_right'].to_numpy()[0]
 
-        left_block_list = block_df.loc[block_df.full_pan_tag == left_pan, "block_tag"].tolist()
-        right_block_list = block_df.loc[block_df.full_pan_tag == right_pan, "block_tag"].tolist()
+        left_block_list = block_df.loc[block_df.full_pan_tag == left_pan, "full_block_tag"].tolist()
+        right_block_list = block_df.loc[block_df.full_pan_tag == right_pan, "full_block_tag"].tolist()
 
         left_block_list.insert(0, "select")
         right_block_list.insert(0, "select")
