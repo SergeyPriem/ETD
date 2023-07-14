@@ -407,7 +407,8 @@ def edit_wires():
                 st.write(len(checked_list))
                 st.write(len(set(checked_list)))
 
-                if min(checked_list) == 1 and max(checked_list) == len(checked_list) and len(checked_list) == len(set(checked_list)):
+                if int(min(checked_list)) == 1 and int(max(checked_list)) == len(
+                        checked_list) and len(checked_list) == len(set(checked_list)):
                     st.warning("Wire numbers not in order...")
                     st.stop()
 
