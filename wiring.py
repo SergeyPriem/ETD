@@ -9,10 +9,8 @@ def save_wires(upd_cable_wires_df, act_cable):
 
     # adjustment of Full Wire Tag:
 
-
     st.session_state.intercon['wire'] = pd.concat([temp_df, upd_cable_wires_df])
     st.session_state.intercon['wire'].reset_index(drop=True, inplace=True)
-
 
 
 def close_intercon_doc():
@@ -279,7 +277,6 @@ def delete_wires(wires_to_del):
 
 
 def add_wires(act_cable, wires_to_add):
-
     wire_df = st.session_state.intercon['wire']
 
     df2 = pd.DataFrame()
@@ -293,9 +290,9 @@ def add_wires(act_cable, wires_to_add):
         last_num = 0
 
     for w in range(0, wires_to_add):
-        wire_num = last_num + w +1
+        wire_num = last_num + w + 1
         df2.loc[last_ind + w, ["wire_trouble", "cab_tag", 'wire_num', 'wire_uniq', 'wire_to_del']] = \
-            ["-", act_cable, wire_num, str(act_cable)+":"+str(wire_num), False]
+            ["-", act_cable, wire_num, str(act_cable) + ":" + str(wire_num), False]
 
     st.session_state.intercon['wire'] = pd.concat([st.session_state.intercon['wire'], df2])
     st.session_state.intercon['wire'] = st.session_state.intercon['wire'].reset_index(drop=True)
@@ -304,6 +301,7 @@ def add_wires(act_cable, wires_to_add):
 
 def create_uniq():
     st.write('change')
+
 
 def edit_wires():
     # st.markdown("""1 Select Cable
@@ -365,7 +363,7 @@ def edit_wires():
                         min_value=1,
                         max_value=100,
                         width='small',
-                        default=current_cable_wires_df.wire_num.max()+1
+                        default=current_cable_wires_df.wire_num.max() + 1
                     ),
 
                     "term_num_right": st.column_config.NumberColumn(
@@ -384,7 +382,7 @@ def edit_wires():
                     ),
                     "wire_uniq": st.column_config.TextColumn(
                         "Full Wire Tag",
-                        default=str(act_cable)+":"+str(int(current_cable_wires_df.wire_num.max() + 1))
+                        default=str(act_cable) + ":" + str(int(current_cable_wires_df.wire_num.max() + 1))
 
                     ),
                     "wire_to_del": st.column_config.CheckboxColumn(
@@ -392,9 +390,9 @@ def edit_wires():
                         width="small",
                         default=False
                     )
-                    },
+                },
                 hide_index=True, num_rows='fixed', use_container_width=True)
-            #on_change=save_wires, args=(upd_cable_wires_df, act_cable)
+            # on_change=save_wires, args=(upd_cable_wires_df, act_cable)
 
             wires_to_del = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_del, 'wire_uniq'].tolist()
 
@@ -406,7 +404,7 @@ def edit_wires():
 
                 checked_list = upd_cable_wires_df.wire_num.tolist()
 
-                if not(int(min(checked_list)) == 1 and int(max(checked_list)) == len(
+                if not (int(min(checked_list)) == 1 and int(max(checked_list)) == len(
                         checked_list) and len(checked_list) == len(set(checked_list))):
                     st.warning("Wire numbers not in order...")
                     st.stop()
@@ -421,20 +419,24 @@ def edit_wires():
                 #     else:
                 #         upd_cable_wires_df.loc[ind, 'wire_trouble'] = "-"
 
-                upd_cable_wires_df.wire_uniq = upd_cable_wires_df.cab_tag+":"+upd_cable_wires_df.wire_num.astype("int").astype('str')
+                upd_cable_wires_df.wire_num = upd_cable_wires_df.wire_num.astype("int")
+                upd_cable_wires_df.full_block_tag_left = upd_cable_wires_df.full_block_tag_left.astype("int")
+                upd_cable_wires_df.full_block_tag_right = upd_cable_wires_df.full_block_tag_right.astype("int")
+
+                upd_cable_wires_df.wire_uniq = upd_cable_wires_df.cab_tag + ":" + upd_cable_wires_df.wire_num.astype(
+                    'str')
 
                 upd_cable_wires_df.full_term_tag_left = upd_cable_wires_df.full_block_tag_left + ":" + \
-                                                        (upd_cable_wires_df.term_num_left.astype("int")).astype('str')
+                                                        upd_cable_wires_df.term_num_left.astype('str')
 
                 upd_cable_wires_df.full_term_tag_right = upd_cable_wires_df.full_block_tag_right + ":" + \
-                                                         (upd_cable_wires_df.term_num_right.astype("int")).astype('str')
+                                                         upd_cable_wires_df.term_num_right.astype('str')
 
                 left_duplicates = upd_cable_wires_df.full_term_tag_left.duplicated()
 
                 if True in left_duplicates:
                     st.write("Duplicates in Left Terminal Block Found")
                     st.write(upd_cable_wires_df.loc[left_duplicates, "full_term_tag_left"])
-
 
                 right_duplicates = upd_cable_wires_df.full_term_tag_right.duplicated()
 
@@ -478,4 +480,3 @@ def edit_wires():
             delete_wires(wires_to_del)
     else:
         st.subheader(f'Select the Cable for Termination')
-
