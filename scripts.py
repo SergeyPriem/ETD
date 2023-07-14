@@ -1431,7 +1431,7 @@ def scripts_tab():
                     preview_list = [None, 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
                     # prev_sel = st.radio("Select the Table for preview", preview_list, horizontal=True)
 
-                    prev_sel = option_menu(None, preview_list,
+                    prev_sel = option_menu("Select the Table for preview", preview_list,
                                             icons=['x-circle', '-', '-', '-', '-', '-', '-', '-'],
                                             orientation="horizontal")
                                             # menu_icon="cast", default_index=0, orientation="horizontal")
