@@ -406,6 +406,11 @@ def edit_wires():
                 st.write(max(checked_list))
                 st.write(len(checked_list))
                 st.write(len(set(checked_list)))
+                st.write('***')
+                st.write(int(min(checked_list)) == 1)
+                st.write(int(max(checked_list)) == len(checked_list))
+                st.write(len(checked_list) == len(set(checked_list)))
+                st.write("***")
 
                 if int(min(checked_list)) == 1 and int(max(checked_list)) == len(
                         checked_list) and len(checked_list) == len(set(checked_list)):
