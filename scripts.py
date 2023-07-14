@@ -1378,10 +1378,10 @@ def scripts_tab():
             st.title(':orange[Create Interconnection Wiring Diagram - under development...]')
 
             if st.session_state['user']['access_level'] == "dev":
-                open_b, work, close_b = st.columns([5, 12, 2], gap="medium")
+                open_b, work, close_b = st.columns([3, 12, 2], gap="medium")
                 # local_remote = st.radio("select the mode", ['Local', 'Remote'], horizontal=True)
                 with open_b:
-                    local_remote = option_menu("Select the Mode", ['LOCAL', 'REMOTE'],
+                    local_remote = option_menu(None, ['LOCAL', 'REMOTE'],
                                                icons=['-', '-', ],
                                                orientation="vertical")
 
