@@ -412,10 +412,6 @@ def edit_wires():
         left_block_list = block_df.loc[block_df.full_pan_tag == left_pan, "full_block_tag"].tolist()
         right_block_list = block_df.loc[block_df.full_pan_tag == right_pan, "full_block_tag"].tolist()
 
-        left_block_list.insert(0, "select")
-        right_block_list.insert(0, "select")
-
-
         if len(current_cable_wires_df):
             upd_cable_wires_df = st.data_editor(
                 current_cable_wires_df,
@@ -475,7 +471,15 @@ def edit_wires():
                         "Delete Wire",
                         width="small",
                         default=False
-                    )
+                    ),
+                    "full_term_tag_left:": st.column_config.TextColumn(
+                        width="small",
+                        disabled=True,
+                    ),
+                    "full_term_tag_right:": st.column_config.TextColumn(
+                        width="small",
+                        disabled=True,
+                    ),
                 },
                 hide_index=True, num_rows='fixed', use_container_width=True)
             # on_change=save_wires, args=(upd_cable_wires_df, act_cable)

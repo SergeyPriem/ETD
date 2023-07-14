@@ -7,6 +7,8 @@ import numpy as np
 import math
 import os
 import gspread
+from streamlit_option_menu import option_menu
+
 from create_xml import add_main_bus, add_feeder
 from section_generator import get_tags_from_cablist, generate_dxf, get_sect_from_layout
 from users import err_handler, reg_action
@@ -1428,6 +1430,11 @@ def scripts_tab():
 
                     preview_list = [None, 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
                     prev_sel = st.radio("Select the Table for preview", preview_list, horizontal=True)
+
+                    selected2 = option_menu(None, [None, 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr'],
+                                            # icons=['house', 'cloud-upload', "list-task", 'gear'],
+                                            menu_icon="cast", default_index=0, orientation="horizontal")
+                    st.write(selected2)
 
                     if prev_sel:
                         st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
