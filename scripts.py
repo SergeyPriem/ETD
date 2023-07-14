@@ -1443,6 +1443,8 @@ def scripts_tab():
 
                     if prev_sel != "VIEW:":
                         st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
+                    else:
+                        st.write("Here you can preview Connections related Tables")
                     # st.divider()
 
                     # action = st.radio('SELECT THE OPTION TO EDIT',
