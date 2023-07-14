@@ -1380,13 +1380,13 @@ def scripts_tab():
             if st.session_state['user']['access_level'] == "dev":
                 # work, close_b = st.columns([12, 2], gap="medium")
                 # local_remote = st.radio("select the mode", ['Local', 'Remote'], horizontal=True)
-                l_col, r_col = st.columns(2)
+                l_col, c_col, r_col = st.columns(3)
                 l_col.markdown('Select the Operation Mode', unsafe_allow_html=False,
                             help="!!! If switched without save - data will be lost")
-                with r_col:
+                with c_col:
                     local_remote = option_menu(None, ['LOCAL', 'REMOTE'], icons=['-', '-', ], orientation="horizontal")
 
-                if local_remote == "Local":
+                if local_remote == "LOCAL":
                     if st.session_state.intercon['doc'] is None:
                         cr_l, cr_r = st.columns(2, gap='medium')
                         cr_l.text('')
@@ -1400,7 +1400,7 @@ def scripts_tab():
                         work.info(f"#### You are working with document :blue[{st.session_state.intercon['doc'].name}]")
                         close_b.button('Save', use_container_width=True)
 
-                if local_remote == "Remote":
+                if local_remote == "REMOTE":
 
                     if st.session_state.intercon['doc'] is None:
                         credentials = {
@@ -1437,7 +1437,7 @@ def scripts_tab():
 
                     prev_sel = option_menu(None, preview_list,
                                            icons=['search', '-', '-', '-', '-', '-', '-', '-', '-'],
-                                           orientation="horizontal", default_index=1)
+                                           orientation="horizontal", default_index=0)
                     # menu_icon="cast", default_index=0, orientation="horizontal")
                     # st.write(selected2)
 
