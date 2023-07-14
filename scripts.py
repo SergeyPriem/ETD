@@ -1448,7 +1448,7 @@ def scripts_tab():
                     action = option_menu("SELECT THE OPTION TO EDIT", ['1️⃣  Equipment', '2️⃣  Panel',
                                                                        '3️⃣  Terminal Block', '4️⃣  Cable',
                                                                        '5️⃣  Cable Wires', ],
-                                            icons=['-', '-', '-', '-', '-', '-', '-', '-'],
+                                            icons=['-', '-', '-', '-', '-',],
                                             orientation="horizontal")
 
                     if action == '1️⃣  Equipment':
