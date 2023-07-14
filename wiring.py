@@ -6,6 +6,9 @@ def save_wires(upd_cable_wires_df, act_cable):
     temp_df = st.session_state.intercon['wire'].copy(deep=True)
     temp_df = temp_df[temp_df.cab_tag != act_cable]
 
+    # adjustment of Full Wire Tag:
+    upd_cable_wires_df.wire_uniq = upd_cable_wires_df.cab_tag + ":" + upd_cable_wires_df.wire_num
+
     st.session_state.intercon['wire'] = pd.concat([temp_df, upd_cable_wires_df])
     st.session_state.intercon['wire'].reset_index(drop=True, inplace=True)
 
@@ -427,17 +430,18 @@ def edit_wires():
                         upd_cable_wires_df.loc[ind, 'wire_trouble'] = "-"
 
                 save_wires(upd_cable_wires_df, act_cable)
-                st.button("OK", key='saved_ok')
+
+                truoble_sum = (upd_cable_wires_df.wire_trouble.values == "Wrong Full Wire Tag").sum()
+
+                if truoble_sum:
+                    st.write(f"### :red[{truoble_sum} trouble(s) in this table]")
 
                 if check == 0:
-                    st.write("#### Wires saved")
+                    st.button("#### Wires saved")
                 else:
-                    st.button("#### Fix mistakes!!!")
+                    st.button("#### Wires saved, but fix mistakes!!!")
 
-            truoble_sum = (upd_cable_wires_df.wire_trouble.values == "Wrong Full Wire Tag").sum()
 
-            if truoble_sum:
-                st.write(f"### :red[{truoble_sum} trouble(s) in this table]")
 
         else:
             st.markdown("#### :blue[Please add wires to the cable]")
