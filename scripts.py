@@ -1445,6 +1445,12 @@ def scripts_tab():
                                       ['1️⃣  Equipment', '2️⃣  Panel', '3️⃣  Terminal Block', '4️⃣  Cable',
                                        '5️⃣  Cable Wires', ], horizontal=True)
 
+                    action = option_menu("SELECT THE OPTION TO EDIT", ['1️⃣  Equipment', '2️⃣  Panel',
+                                                                       '3️⃣  Terminal Block', '4️⃣  Cable',
+                                                                       '5️⃣  Cable Wires', ],
+                                            icons=['-', '-', '-', '-', '-', '-', '-', '-'],
+                                            orientation="horizontal")
+
                     if action == '1️⃣  Equipment':
                         edit_equipment()
 
