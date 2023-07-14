@@ -2,12 +2,13 @@
 import streamlit as st
 import pandas as pd
 
+
 def save_wires(upd_cable_wires_df, act_cable):
     temp_df = st.session_state.intercon['wire'].copy(deep=True)
     temp_df = temp_df[temp_df.cab_tag != act_cable]
 
     # adjustment of Full Wire Tag:
-    upd_cable_wires_df.wire_uniq = upd_cable_wires_df.cab_tag + ":" + upd_cable_wires_df.wire_num
+
 
     st.session_state.intercon['wire'] = pd.concat([temp_df, upd_cable_wires_df])
     st.session_state.intercon['wire'].reset_index(drop=True, inplace=True)
@@ -404,30 +405,45 @@ def edit_wires():
                 check = 0
 
                 checked_list = upd_cable_wires_df.wire_num.tolist()
-                # st.write(checked_list)
-                # st.write(min(checked_list))
-                # st.write(max(checked_list))
-                # st.write(len(checked_list))
-                # st.write(len(set(checked_list)))
-                # st.write('***')
-                # st.write(int(min(checked_list)) == 1)
-                # st.write(int(max(checked_list)) == len(checked_list))
-                # st.write(len(checked_list) == len(set(checked_list)))
-                # st.write("***")
 
                 if not(int(min(checked_list)) == 1 and int(max(checked_list)) == len(
                         checked_list) and len(checked_list) == len(set(checked_list))):
                     st.warning("Wire numbers not in order...")
                     st.stop()
 
-                for ind, row in upd_cable_wires_df.iterrows():
+                # check for duplicates
+                # for ind, row in upd_cable_wires_df.iterrows():
+                #
+                #     if str(row.cab_tag) + ":" + str(int(row.wire_num)) != row.wire_uniq:
+                #         st.write(f"wire {ind}  has problem...")
+                #         upd_cable_wires_df.loc[ind, 'wire_trouble'] += "Wrong Full Wire Tag"
+                #         check += 1
+                #     else:
+                #         upd_cable_wires_df.loc[ind, 'wire_trouble'] = "-"
 
-                    if str(row.cab_tag) + ":" + str(int(row.wire_num)) != row.wire_uniq:
-                        st.write(f"wire {ind}  has problem...")
-                        upd_cable_wires_df.loc[ind, 'wire_trouble'] += "Wrong Full Wire Tag"
-                        check += 1
-                    else:
-                        upd_cable_wires_df.loc[ind, 'wire_trouble'] = "-"
+                upd_cable_wires_df.wire_uniq = upd_cable_wires_df.cab_tag+":"+upd_cable_wires_df.wire_num.astype('str')
+
+                upd_cable_wires_df.full_term_tag_left = upd_cable_wires_df.full_block_tag_left + ":" + \
+                                                        upd_cable_wires_df.term_num_left.astype('str')
+
+                upd_cable_wires_df.full_term_tag_right = upd_cable_wires_df.full_block_tag_right + ":" + \
+                                                         upd_cable_wires_df.term_num_right.astype('str')
+
+                left_duplicates = upd_cable_wires_df.full_term_tag_left.duplicated()
+
+                if True in left_duplicates:
+                    st.write("Duplicates in Left Terminal Block Found")
+                    st.write(upd_cable_wires_df.loc[left_duplicates, "full_term_tag_left"])
+
+
+                right_duplicates = upd_cable_wires_df.full_term_tag_right.duplicated()
+
+                if True in right_duplicates:
+                    st.write("Duplicates in Right Terminal Block Found")
+                    st.write(upd_cable_wires_df.loc[left_duplicates, "full_term_tag_right"])
+
+                if True in left_duplicates or True in right_duplicates:
+                    st.stop()
 
                 save_wires(upd_cable_wires_df, act_cable)
 
