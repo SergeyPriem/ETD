@@ -63,7 +63,7 @@ def settings_content():
 
                 with l_f:
                     menu_position = st_btn_group(buttons=buttons, key="1", shape='default', size='compact',
-                                                 align='left', disabled=False, merge_buttons=True,
+                                                 align='center', disabled=False, merge_buttons=True,
                                                  gap_between_buttons=44, display_divider=False, return_value=False)
 
                 appl_upd_set_but = r_f.form_submit_button('Apply menu position', use_container_width=True)
