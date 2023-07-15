@@ -51,7 +51,7 @@ def settings_content():
 
                 # menu_position = l_f.radio('Location of menu', ("Top", "Left"),
                 #                           index=st.session_state.user['vert_menu'], horizontal=True)
-                # r_f.write('')
+                r_f.write('')
 
                 buttons = [
                     {"label": "Left of the Screen",
