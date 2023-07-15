@@ -19,7 +19,7 @@ def drawing_sets():
 
     u_df = st.session_state.adb['users']
     proj_df = st.session_state.adb['project']
-    sod_df = st.session_state.adb['sod']
+    sod_all_df = st.session_state.adb['sod']
 
     empty1, content, empty2 = st.columns([1, 30, 1])
     with empty1:
@@ -41,35 +41,25 @@ def drawing_sets():
                 )
 
     with content:
-        # h_cont= """
-        # <p style="text-align: center; color: #249ded;">На вкладке <b>Drawings</b> отображаются комплекты чертежей,
-        # в которых Вы Координатор или Разработчик (если выбрано <b>My Units</b>). Выбрав <b>All Units</b> можно
-        # просмотреть все комплекты ЭлектроОтдела</p>
-        # <hr>
-        # <p style="text-align: center; color: #249ded;">The <b>Drawings</b> tab displays sets of drawings,
-        # in which you are the Coordinator or Developer (if <b>My Units</b> is selected). By selecting <b>All Units</b>
-        # you can view all Units of Electrical Department.</p>
-        # """
-        #
-        # title_with_help('Drawings', help_content=h_cont, ratio=36)
-
 
         st.title(":orange[Drawings]")
         st.divider()
 
         ds_left, lc, ds_center, cr, ds_right = st.columns([5, 6, 4, 6, 5])
-        # ds_center.text('')
 
-        # my_all = ds_center.radio("Select the Option", ["My Units", 'All Units'],
-        #                          horizontal=True, label_visibility='collapsed')
+        user_id = st.session_state.user['id']
+        sod_my_df = sod_all_df[(sod_all_df.coord_id == user_id) | (sod_all_df.perf_id == user_id)]
 
         with ds_center:
-            my_all = option_menu(None, ['My Units', 'All Units'], icons=['-', '-'],
-                                 default_index=0, orientation="horizontal")
+            my_all = option_menu(None, [
+                f'My Units: {len(sod_my_df)}',
+                f'All Units: {len(sod_all_df)}'
+            ], icons=['-', '-'], default_index=0, orientation="horizontal")
 
-        if my_all == "My Units":
-            user_id = st.session_state.user['id']
-            sod_df = sod_df[(sod_df.coord_id == user_id) | (sod_df.perf_id == user_id)]
+        if my_all == f'My Units: {len(sod_my_df)}':
+            sod_df = sod_my_df
+        else:
+            sod_df = sod_all_df
 
         sod_df.loc[:, 'unit_id'] = sod_df.index
         sod_df = sod_df.set_index('project_id').join(proj_df['short_name'])
@@ -380,17 +370,6 @@ def drawing_sets():
             st.data_editor(tasks_to_show[list_to_show].set_index('task_id'), use_container_width=True)
         if in_out_radio == f"AVAILABLE TASKS: {len(units_tasks)}":
             st.write("#### Select the Direction 👆")
-            # tasks_to_show = units_tasks.sort_values(by=['speciality', 'date'], ascending=[True, False])
-
-
-        # with task_col:
-        #     st.subheader(f"Available Tasks")
-
-        # with quant_col:
-        #     st.write("")
-        #     st.subheader(f'Quantity: :blue[{len(units_tasks)}]')
-
-
 
         st.divider()
 
