@@ -802,7 +802,7 @@ def manage_users():
                                             default_index=0, orientation='horizontal')
                 st.text("")
                 user_department = option_menu('Department', DEPARTMENTS,
-                                              icons=['-', '-', '-', '-', '-', '-', ],
+                                              icons=['house', '-', '-', '-', '-', '-', ],
                                               default_index=0, orientation='horizontal')
 
                 st.text("")
@@ -812,7 +812,7 @@ def manage_users():
                                                 default_index=0,
                                                 orientation='horizontal')
                 st.text("")
-                e_l, l_c, c_c, r_c, e_c = st.columns([1,1,2,3,1], gap='medium')
+                e_l, l_c, c_c, r_c, e_c = st.columns([1,1,3,4,1], gap='medium')
                 l_c.text('')
                 l_c.text('')
                 script_acc_chb_init = l_c.checkbox('Access to Scripts', key="acc_to_scr", value=0)
