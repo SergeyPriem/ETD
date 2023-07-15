@@ -354,29 +354,30 @@ def drawing_sets():
 
         units_tasks['speciality'] = units_tasks.abbrev
 
-        task_col, in_out_col, quant_col = st.columns([9, 2, 2])
+        task_col, quant_col = st.columns([12, 2])
 
-        with in_out_col:
-            in_out_radio = st.radio("Select Incoming / Outgoing", ('In', 'Out'), horizontal=True)
+        with task_col:
+            # in_out_radio = st.radio("Select Incoming / Outgoing", ('In', 'Out'), horizontal=True)
+            in_out_radio = option_menu(f"Available Tasks", ['Incoming', 'Outgoing'], icons=['-', '-'],
+                                       default_index=0, orientation="horizontal")
 
-        if in_out_radio == "In":
+        if in_out_radio == "Incoming":
             units_tasks = units_tasks[(units_tasks.in_out == 'In')]
         else:
             units_tasks = units_tasks[(units_tasks.in_out == 'Out')]
 
-        with task_col:
-            st.subheader(f"Available Tasks")
+        # with task_col:
+        #     st.subheader(f"Available Tasks")
 
         with quant_col:
             st.write("")
-            st.write("")
-            st.write(f'Quantity: {len(units_tasks)}')
+            st.subheader(f'Quantity: :blue[{len(units_tasks)}]')
 
         units_tasks = units_tasks.sort_values(by=['speciality', 'date'], ascending=[True, False])
-        st.data_editor(units_tasks[['stage', 'speciality', 'date', 'description', 'link', 'source',
-                                                 'comment', 'backup_copy', 'coord_log', 'perf_log', 'added_by',
-                                                 'task_id']].set_index('task_id'),
-                                    use_container_width=True)
+        st.data_editor(units_tasks[
+                           ['stage', 'speciality', 'date', 'description', 'link', 'source', 'comment', 'backup_copy',
+                            'coord_log', 'perf_log', 'added_by', 'task_id']
+                       ].set_index('task_id'), use_container_width=True)
         st.divider()
 
         aval_spec = list(units_tasks.speciality.drop_duplicates())
