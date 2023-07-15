@@ -103,9 +103,11 @@ def settings_content():
 
                 scope = option_menu(None,
                                     ['Only Current Projects', 'All Projects', 'All excluding cancelled and suspended'],
-                                    icons=['-','-','-',],
-                                    default_index=0,
-                                    orientation='horizontal')
+                                    icons=['-', '-', '-', ],
+                                    default_index=get_list_index(
+                                        ['Only Current Projects', 'All Projects',
+                                         'All excluding cancelled and suspended'],
+                                        st.session_state.proj_scope), orientation='horizontal')
 
                 scope_conf_but = st.form_submit_button('Apply Selected Scope', use_container_width=True)
 
