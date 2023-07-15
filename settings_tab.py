@@ -63,16 +63,17 @@ def settings_content():
                 ]
 
                 with l_f:
-                    menu_position = st_btn_group(buttons=buttons, key="1", shape='default', size='compact',
-                                                 align='center', disabled=False, merge_buttons=False,
-                                                 gap_between_buttons=44, display_divider=False, return_value=False)
+                    # menu_position = st_btn_group(buttons=buttons, key="1", shape='default', size='compact',
+                    #                              align='center', disabled=False, merge_buttons=False,
+                    #                              gap_between_buttons=44, display_divider=False, return_value=False)
 
-                    menu_position = option_menu(None, ['Left', 'REMOTE'], icons=['-', '-', ], orientation="horizontal")
+                    menu_position = option_menu(None, ['Left Side', 'Top Side'], icons=['arrow-left', 'arrow-up', ],
+                                                orientation="horizontal")
 
                 appl_upd_set_but = r_f.form_submit_button('Apply menu position', use_container_width=True)
 
             if appl_upd_set_but:
-                if menu_position == 'Left':
+                if menu_position == 'Left Side':
                     st.session_state.user['vert_menu'] = 1
                 else:
                     st.session_state.user['vert_menu'] = 0
