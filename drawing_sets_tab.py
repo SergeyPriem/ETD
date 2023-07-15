@@ -345,15 +345,12 @@ def drawing_sets():
 
         units_tasks_in = units_tasks[(units_tasks.in_out == 'In')]
         units_tasks_out = units_tasks[(units_tasks.in_out == 'Out')]
-        # units_tasks_all = units_tasks
 
-        # with task_col:
-            # in_out_radio = st.radio("Select Incoming / Outgoing", ('In', 'Out'), horizontal=True)
         in_out_radio = option_menu(None, [
             f"AVAILABLE TASKS: {len(units_tasks)}",
             f'Incoming: {len(units_tasks_in)}',
             f'Outgoing: {len(units_tasks_out)}'
-        ], icons=['journal', 'journal-arrow-down', 'journal-arrow-up'], default_index=0, orientation="horizontal")
+        ], icons=['journal', 'journal-arrow-down', 'journal-arrow-up'], default_index=1, orientation="horizontal")
 
         list_to_show = ['stage', 'speciality', 'date', 'description', 'link', 'source', 'comment', 'backup_copy',
                             'coord_log', 'perf_log', 'added_by', 'task_id']
@@ -382,7 +379,7 @@ def drawing_sets():
         not_aval_df['request'] = False
         not_aval_df = not_aval_df.set_index('speciality')
 
-        if in_out_radio == "In":
+        if f'Incoming: {len(units_tasks_in)}':
             req_checkbox = st.checkbox('Create Draft for not available Tasks',
                                        help=":blue[Тут Вы можете cгенерировать Запрос Задания в другие отделы и "
                                             "скопировать-вставить в e-mail] \n"
