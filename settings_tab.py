@@ -62,7 +62,7 @@ def settings_content():
                 ]
 
                 with l_f:
-                    menu_position = st_btn_group(buttons=buttons, key="1", shape='default', size='default',
+                    menu_position = st_btn_group(buttons=buttons, key="1", shape='default', size='compact',
                                                  align='left', disabled=False, merge_buttons=True,
                                                  gap_between_buttons=44, display_divider=False, return_value=False)
 
