@@ -793,80 +793,78 @@ def manage_users():
         add_tab1, edit_tab2, view_tab3 = st.tabs(['Add New User', 'Edit User Details', 'View All Users'])
 
         with add_tab1:
-            l, c, r = st.columns([1,4,1])
-            with c:
-                with st.form("Add_new_user"):
-                    # l, c, r = st.columns(3)
-                    user_email = st.text_input('Email')
-                    user_position = option_menu('Position', POSITIONS,
-                                                icons=['-', '-', '-', '-', '-', '-', '-', '-', ],
-                                                default_index=0, orientation='horizontal')
-                    st.text("")
-                    user_department = option_menu('Department', DEPARTMENTS,
-                                                  icons=['-', '-', '-', '-', '-', '-', ],
-                                                  default_index=0, orientation='horizontal')
+            with st.form("Add_new_user"):
+                l, c, r = st.columns(3)
+                user_email = c.text_input('Email')
+                user_position = option_menu('Position', POSITIONS,
+                                            icons=['-', '-', '-', '-', '-', '-', '-', '-', ],
+                                            default_index=0, orientation='horizontal')
+                st.text("")
+                user_department = option_menu('Department', DEPARTMENTS,
+                                              icons=['-', '-', '-', '-', '-', '-', ],
+                                              default_index=0, orientation='horizontal')
 
-                    st.text("")
-                    user_access_level = option_menu('Access level',
-                                                    ['performer', 'admin', 'super'],
-                                                    icons=['star', 'star-half', 'star-fill', ],
-                                                    default_index=0,
-                                                    orientation='horizontal')
-                    st.text("")
-                    l_c, c_c,r_c = st.columns([1,2,3], gap='medium')
-                    l_c.text('')
-                    l_c.text('')
-                    script_acc_chb_init = l_c.checkbox('Access to Scripts', key="acc_to_scr", value=0)
+                st.text("")
+                user_access_level = option_menu('Access level',
+                                                ['performer', 'admin', 'super'],
+                                                icons=['star', 'star-half', 'star-fill', ],
+                                                default_index=0,
+                                                orientation='horizontal')
+                st.text("")
+                l_c, c_c,r_c = st.columns([1,2,3], gap='medium')
+                l_c.text('')
+                l_c.text('')
+                script_acc_chb_init = l_c.checkbox('Access to Scripts', key="acc_to_scr", value=0)
 
-                    user_start_date = c_c.date_input('Start Date', datetime.date.today())
-                    r_c.text('')
-                    r_c.text('')
-                    create_appl_user_but = r_c.form_submit_button('Create New User', use_container_width=True)
+                user_start_date = c_c.date_input('Start Date', datetime.date.today())
+                r_c.text('')
+                r_c.text('')
+                create_appl_user_but = r_c.form_submit_button('Create New User', use_container_width=True)
 
-                lc, rc = st.columns(2, gap='medium')
+            lc, rc = st.columns(2, gap='medium')
 
-                if create_appl_user_but:
-                    script_acc_init = 1 if script_acc_chb_init else 0
-                    reply = create_appl_user(
-                        user_email, user_position, user_department, user_access_level, "current",
-                        user_start_date, script_acc_init)
-                    if reply['status'] == 201:
-                        lc.success(reply['message'])
-                        st.session_state.adb['users'] = get_table(Users)
+            if create_appl_user_but:
+                script_acc_init = 1 if script_acc_chb_init else 0
+                reply = create_appl_user(
+                    user_email, user_position, user_department, user_access_level, "current",
+                    user_start_date, script_acc_init)
+                if reply['status'] == 201:
+                    lc.success(reply['message'])
+                    st.session_state.adb['users'] = get_table(Users)
 
-                        subj = 'You were added to Electrical Department Database'
+                    subj = 'You were added to Electrical Department Database'
 
-                        html = f"""
-                            <html>
-                              <head></head>
-                              <body>
-                                <h3>
-                                  Hello, Colleague!
-                                  <hr>
-                                </h3>
-                                <h5>
-                                  You got this message because of want to use the <a href="https://e-design.streamlit.app/">
-                                  Site of Electrical Department </a>
-                                </h5>
-                                <p>
-                                    Now you can register.
-                                    <br>
-                                    <br>
-                                    <hr>
-                                    Best regards, Administration 😎
-                                </p>
-                              </body>
-                            </html>
-                        """
+                    html = f"""
+                        <html>
+                          <head></head>
+                          <body>
+                            <h3>
+                              Hello, Colleague!
+                              <hr>
+                            </h3>
+                            <h5>
+                              You got this message because of want to use the <a href="https://e-design.streamlit.app/">
+                              Site of Electrical Department </a>
+                            </h5>
+                            <p>
+                                Now you can register.
+                                <br>
+                                <br>
+                                <hr>
+                                Best regards, Administration 😎
+                            </p>
+                          </body>
+                        </html>
+                    """
 
-                        reply_2 = send_mail(user_email, 'sergey.priemshiy@uzliti-en.com', subj, html)
+                    reply_2 = send_mail(user_email, 'sergey.priemshiy@uzliti-en.com', subj, html)
 
-                        if reply_2 == 200:
-                            rc.success(f'Informational e-mail was sent to {user_email}, sergey.priemshiy@uzliti-en.com')
-                        else:
-                            rc.warning(reply_2)
+                    if reply_2 == 200:
+                        rc.success(f'Informational e-mail was sent to {user_email}, sergey.priemshiy@uzliti-en.com')
                     else:
-                        st.warning(reply['message'])
+                        rc.warning(reply_2)
+                else:
+                    st.warning(reply['message'])
 
 
         with edit_tab2:
