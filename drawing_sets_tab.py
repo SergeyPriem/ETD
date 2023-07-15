@@ -379,7 +379,7 @@ def drawing_sets():
             tasks_to_show = units_tasks_in.sort_values(by=['speciality', 'date'], ascending=[True, False])
             st.data_editor(tasks_to_show[list_to_show].set_index('task_id'), use_container_width=True)
         if in_out_radio == f"AVAILABLE TASKS: {len(units_tasks)}":
-            st.write("#### Select the Direction")
+            st.write("#### Select the Direction 👆")
             # tasks_to_show = units_tasks.sort_values(by=['speciality', 'date'], ascending=[True, False])
 
 
