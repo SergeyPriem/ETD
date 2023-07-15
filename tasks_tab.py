@@ -78,7 +78,7 @@ def add_task(task_content):
                 specialities = left_col2.multiselect("Speciality *", st.session_state.spec)
                 description = right_col2.text_input('Description of Task *', max_chars=249)
 
-                col_31, col_32l, col_32r, col_33, col_34 = st.columns([6, 1, 3, 2, 12])
+                col_31, col_32l, col_32r, col_33, col_34 = st.columns([6, 1, 2, 3, 12])
                 # direction = col_31.radio('Direction *', ('In', 'Out'), horizontal=True)
                 with col_31:
                     st.text('')
