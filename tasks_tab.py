@@ -50,8 +50,7 @@ def tasks_content():
             add_task(task_tab1)
 
         with task_tab2:
-            my_all = st.radio('Select', ("My", "All"), horizontal=True, label_visibility='collapsed')
-            view_tasks(task_tab2, my_all)
+            view_tasks(task_tab2)
 
 
 def add_task(task_content):
@@ -318,6 +317,7 @@ def add_task(task_content):
 
 
 def view_tasks(ass_tab2, my_all):
+    # my_all = st.radio('Select', ("My", "All"), horizontal=True, label_visibility='collapsed')
     with ass_tab2:
 
         df = st.session_state.adb['task']
@@ -335,7 +335,16 @@ def view_tasks(ass_tab2, my_all):
         df = df[['project', 'unit', 'stage', 'in_out', 'date', 'speciality', 'description', 'link',
                  'backup_copy', 'source', 'coord_log', 'perf_log', 'comment', 'added_by', 'coord_id', 'perf_id']]
 
-        if my_all == 'My':
+        e1, my_all_col, e2, in_out_col, e3 = st.columns(5)
+
+        with my_all_col:
+            # my_all = st.radio('Select', ("My", "All"), horizontal=True, label_visibility='collapsed')
+            my_all = option_menu(None, ["My Tasks", "All Tasks"], default_index=0, orientation="horizontal")
+
+        with in_out_col:
+            dir_val = option_menu(None, ["Incoming", "Outgoing"], default_index=0, orientation="horizontal")
+
+        if my_all == 'My Tasks':
             df = df[(df.coord_id == st.session_state.user['id']) | (df.perf_id == st.session_state.user['id'])]
 
         df_orig = df.copy()
@@ -365,7 +374,12 @@ def view_tasks(ass_tab2, my_all):
         set_val = set_col.text_input('Set of Drawings / Unit')
         spec_val = spec_col.selectbox("Speciality", real_spec, disabled=st.session_state.spec_disable)
 
-        dir_val = dir_col.radio("In-Out", ('In', 'Out'), horizontal=True)
+        # dir_val = dir_col.radio("In-Out", ('In', 'Out'), horizontal=True)
+        if dir_val == "Incoming":
+            dir_val = 'In'
+        else:
+            dir_val = 'Out'
+
         df_orig = df_orig[df_orig.in_out == dir_val]
 
         df_temp = df_orig.copy()
