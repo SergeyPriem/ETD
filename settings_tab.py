@@ -3,6 +3,7 @@ import random
 
 import streamlit as st
 from st_btn_group import st_btn_group
+from streamlit_option_menu import option_menu
 
 from admin_tools import get_list_index
 from models import Users
@@ -57,14 +58,16 @@ def settings_content():
                      "value": "Left",
                      },
                     {"label": "Top of the Screen",
-                     "value": "2",
+                     "value": "Top",
                      },
                 ]
 
                 with l_f:
                     menu_position = st_btn_group(buttons=buttons, key="1", shape='default', size='compact',
-                                                 align='center', disabled=False, merge_buttons=True,
+                                                 align='center', disabled=False, merge_buttons=False,
                                                  gap_between_buttons=44, display_divider=False, return_value=False)
+
+                    menu_position = option_menu(None, ['Left', 'REMOTE'], icons=['-', '-', ], orientation="horizontal")
 
                 appl_upd_set_but = r_f.form_submit_button('Apply menu position', use_container_width=True)
 
