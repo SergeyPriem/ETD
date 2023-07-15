@@ -315,7 +315,6 @@ def add_task(task_content):
                     st.session_state.task_preview = False
 
 
-
 def view_tasks(ass_tab2):
     # my_all = st.radio('Select', ("My", "All"), horizontal=True, label_visibility='collapsed')
     with ass_tab2:
@@ -339,10 +338,12 @@ def view_tasks(ass_tab2):
 
         with my_all_col:
             # my_all = st.radio('Select', ("My", "All"), horizontal=True, label_visibility='collapsed')
-            my_all = option_menu(None, ["My Tasks", "All Tasks"], default_index=0, orientation="horizontal")
+            my_all = option_menu(None, ["My Tasks", "All Tasks"], icons=["-", "-"],
+                                 default_index=0, orientation="horizontal")
 
         with in_out_col:
-            dir_val = option_menu(None, ["Incoming", "Outgoing"], default_index=0, orientation="horizontal")
+            dir_val = option_menu(None, ["Incoming", "Outgoing"], icons=["journal-arrow-down", "journal-arrow-up"],
+                                  default_index=0, orientation="horizontal")
 
         if my_all == 'My Tasks':
             df = df[(df.coord_id == st.session_state.user['id']) | (df.perf_id == st.session_state.user['id'])]
@@ -352,7 +353,7 @@ def view_tasks(ass_tab2):
         df.project = df.project.str.upper()
         df.unit = df.unit.str.upper()
 
-        id_col, proj_col, set_col, dir_col, check_col, spec_col = st.columns([2, 3, 4, 4, 3, 4], gap='medium')
+        id_col, proj_col, set_col, link_col, check_col, spec_col = st.columns([2, 3, 4, 4, 3, 4], gap='medium')
 
         real_spec = set(df.speciality)
 
@@ -375,6 +376,10 @@ def view_tasks(ass_tab2):
         spec_val = spec_col.selectbox("Speciality", real_spec, disabled=st.session_state.spec_disable)
 
         # dir_val = dir_col.radio("In-Out", ('In', 'Out'), horizontal=True)
+
+        with link_col:
+            task_link = st.text_input('Task Link on server')
+
         if dir_val == "Incoming":
             dir_val = 'In'
         else:
@@ -395,6 +400,8 @@ def view_tasks(ass_tab2):
                 df_orig = df_orig.loc[df_temp.project.str.contains(proj_val.upper())]
             if set_val:
                 df_orig = df_orig.loc[df_temp.unit.str.contains(set_val.upper())]
+            if task_link:
+                df_orig = df_orig.loc[df_temp.link.str.contains(set_val.upper())]
 
         df_orig.sort_values(by=['task_id'], ascending=False)
         st.write(f"{len(df_orig)} records found for '{st.session_state.proj_scope}' mode")
