@@ -58,10 +58,10 @@ def drawing_sets():
         st.divider()
 
         ds_left, lc, ds_center, cr, ds_right = st.columns([5, 6, 4, 5, 5])
-        ds_center.text('')
+        # ds_center.text('')
 
-        my_all = ds_center.radio("Select the Option", ["My Units", 'All Units'],
-                                 horizontal=True, label_visibility='collapsed')
+        # my_all = ds_center.radio("Select the Option", ["My Units", 'All Units'],
+        #                          horizontal=True, label_visibility='collapsed')
 
         with ds_center:
             my_all = option_menu(None, ['My Units', 'All Units'], icons=['-', '-'],
@@ -86,7 +86,7 @@ def drawing_sets():
 
         proj_list = sod_df['project'].drop_duplicates()
 
-        ds_left.subheader(f"{my_all}: {len(sod_df)}")
+        ds_left.subheader(f"{my_all}: :blue[{len(sod_df)}]")
 
         ds_right.text('')
         units_ch_b = ds_right.checkbox("Show Units Table",
