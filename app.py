@@ -795,7 +795,6 @@ def manage_users():
         with add_tab1:
             with st.form("Add_new_user"):
                 user_email = st.text_input('Email')
-                user_position = st.radio('Position', POSITIONS, horizontal=True)
                 user_position = option_menu('Position', POSITIONS,
                                             icons=['-', '-', '-', '-', '-', '-', '-', '-', ],
                                             default_index=0, orientation='horizontal')
@@ -805,19 +804,18 @@ def manage_users():
                                               default_index=0, orientation='horizontal')
 
                 st.markdown("---")
-                lc, rc = st.columns(2, gap='medium')
-                with lc:
-                    user_access_level = option_menu('Access level',
-                                                    ['performer', 'admin', 'super'],
-                                                    icons=['star', 'star-half', 'star-fill', ],
-                                                    default_index=0,
-                                                    orientation='horizontal')
-                rc.text('')
-                rc.text('')
-                script_acc_chb_init = rc.checkbox('Access to Scripts', key="acc_to_scr", value=0)
+                user_access_level = option_menu('Access level',
+                                                ['performer', 'admin', 'super'],
+                                                icons=['star', 'star-half', 'star-fill', ],
+                                                default_index=0,
+                                                orientation='horizontal')
                 st.markdown("---")
-                l_c, r_c = st.columns(2, gap='medium')
-                user_start_date = l_c.date_input('Start Date', datetime.date.today())
+                l_c, c_c,r_c = st.columns(3, gap='medium')
+                l_c.text('')
+                l_c.text('')
+                script_acc_chb_init = l_c.checkbox('Access to Scripts', key="acc_to_scr", value=0)
+
+                user_start_date = c_c.date_input('Start Date', datetime.date.today())
                 r_c.text('')
                 r_c.text('')
                 create_appl_user_but = r_c.form_submit_button('Create New User', use_container_width=True)
