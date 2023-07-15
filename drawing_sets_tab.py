@@ -362,10 +362,11 @@ def drawing_sets():
                                        icons=['journal', 'journal-arrow-down', 'journal-arrow-up'],
                                        default_index=0, orientation="horizontal")
 
-        if in_out_radio == "Incoming":
-            units_tasks = units_tasks[(units_tasks.in_out == 'In')]
-        else:
+        if in_out_radio != "Incoming":
+
             units_tasks = units_tasks[(units_tasks.in_out == 'Out')]
+        else:
+            units_tasks = units_tasks[(units_tasks.in_out == 'In')]
 
         # with task_col:
         #     st.subheader(f"Available Tasks")
