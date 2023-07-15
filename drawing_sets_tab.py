@@ -43,7 +43,7 @@ def drawing_sets():
         st.title(":orange[Drawings]")
         st.divider()
 
-        ds_left, ds_center, ds_right = st.columns(3)
+        ds_left, ds_center, ds_right1, ds_right2 = st.columns([2, 2, 1, 1])
 
         user_id = st.session_state.user['id']
         sod_my_df = sod_all_df[(sod_all_df.coord_id == user_id) | (sod_all_df.perf_id == user_id)]
@@ -74,10 +74,8 @@ def drawing_sets():
 
         proj_list = sod_df['project'].drop_duplicates()
 
-        # ds_left.subheader(f"{my_all}: :blue[{len(sod_df)}]")
-
-        ds_right.text('')
-        units_ch_b = ds_right.checkbox("Show Units Table",
+        ds_right2.text('')
+        units_ch_b = ds_right2.checkbox("Show Units Table",
                                        help=":blue[Вывод таблицы всех Ваших Комплектов Чертежей] \n"
                                             "***"
                                             "\n"
