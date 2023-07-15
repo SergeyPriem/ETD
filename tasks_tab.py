@@ -82,6 +82,7 @@ def add_task(task_content):
                 col_31, col_32, col_33, col_34 = st.columns([2, 1, 1, 4])
                 # direction = col_31.radio('Direction *', ('In', 'Out'), horizontal=True)
                 with col_31:
+                    st.text('')
                     direction = option_menu(None, ['Incoming', 'Outgoing'],
                                             icons=['journal-arrow-down', 'journal-arrow-up'],
                                             default_index=0, orientation='horizontal')
@@ -93,6 +94,7 @@ def add_task(task_content):
                 #                                'Adaptation', 'As-built'), horizontal=True)
 
                 with col_34:
+                    st.text('')
                     stage = option_menu(None,
                                         ['Detail Design', 'Basic Design', 'Feasibility Study', 'Adaptation','As-built'],
                                         icons=['-', '-', '-', '-', '-'], default_index=0, orientation='horizontal')
@@ -199,7 +201,7 @@ def add_task(task_content):
 
                     st.session_state.task_preview = False
 
-                    if direction == "In":
+                    if direction == "Incoming":
                         for unit in units:
                             for spec in specialities:
 
