@@ -57,7 +57,7 @@ def drawing_sets():
         st.title(":orange[Drawings]")
         st.divider()
 
-        ds_left, lc, ds_center, cr, ds_right = st.columns([5, 6, 4, 5, 5])
+        ds_left, lc, ds_center, cr, ds_right = st.columns([5, 6, 4, 6, 5])
         # ds_center.text('')
 
         # my_all = ds_center.radio("Select the Option", ["My Units", 'All Units'],
