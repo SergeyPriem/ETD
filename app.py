@@ -796,6 +796,7 @@ def manage_users():
             with st.form("Add_new_user"):
                 l, c, r = st.columns(3)
                 user_email = c.text_input('Email')
+                st.text('')
                 user_position = option_menu('Position', POSITIONS,
                                             icons=['-', '-', '-', '-', '-', '-', '-', '-', ],
                                             default_index=0, orientation='horizontal')
