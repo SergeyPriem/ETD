@@ -79,18 +79,23 @@ def add_task(task_content):
                 specialities = left_col2.multiselect("Speciality *", st.session_state.spec)
                 description = right_col2.text_input('Description of Task *', max_chars=249)
 
-                col_31, col_32, col_33, col_34 = st.columns([1, 1, 1, 3])
+                col_31, col_32, col_33, col_34 = st.columns([2, 1, 1, 4])
                 # direction = col_31.radio('Direction *', ('In', 'Out'), horizontal=True)
                 with col_31:
                     direction = option_menu(None, ['Incoming', 'Outgoing'],
                                             icons=['journal-arrow-down', 'journal-arrow-up'],
-                                            default_index=0)
+                                            default_index=0, orientation='horizontal')
                 col_32.write('')
                 col_32.write('')
                 date = col_33.date_input('Date *')
                 non_task = col_32.checkbox('Non-Task')
-                stage = col_34.radio('Stage *', ('Detail Design', 'Basic Design', 'Feasibility Study',
-                                               'Adaptation', 'As-built'), horizontal=True)
+                # stage = col_34.radio('Stage *', ('Detail Design', 'Basic Design', 'Feasibility Study',
+                #                                'Adaptation', 'As-built'), horizontal=True)
+
+                with col_34:
+                    stage = option_menu(None,
+                                        ['Detail Design', 'Basic Design', 'Feasibility Study', 'Adaptation','As-built'],
+                                        icons=['-', '-', '-', '-', '-'], default_index=0, orientation='horizontal')
 
                 left_col3, right_col3 = st.columns(2)
                 link = left_col3.text_input('Link *', max_chars=500)
