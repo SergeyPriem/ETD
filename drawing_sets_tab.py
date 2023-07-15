@@ -2,6 +2,8 @@
 import datetime
 import pandas as pd
 import streamlit as st
+from streamlit_option_menu import option_menu
+
 from admin_tools import get_list_index
 from send_emails import send_mail
 from utilities import REVISIONS, COMPLETION, STAGES, center_style, update_state, \
@@ -60,6 +62,10 @@ def drawing_sets():
 
         my_all = ds_center.radio("Select the Option", ["My Units", 'All Units'],
                                  horizontal=True, label_visibility='collapsed')
+
+        with ds_center:
+            my_all = option_menu(None, ['My Units', 'All Units'], icons=['-', '-'],
+                                 default_index=0, orientation="horizontal")
 
         if my_all == "My Units":
             user_id = st.session_state.user['id']
