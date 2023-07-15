@@ -316,7 +316,7 @@ def add_task(task_content):
 
 
 
-def view_tasks(ass_tab2, my_all):
+def view_tasks(ass_tab2):
     # my_all = st.radio('Select', ("My", "All"), horizontal=True, label_visibility='collapsed')
     with ass_tab2:
 
