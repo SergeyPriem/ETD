@@ -369,7 +369,7 @@ def drawing_sets():
 
         st.divider()
 
-        aval_spec = list(units_tasks.speciality.drop_duplicates())
+        aval_spec = list(units_tasks_in.speciality.drop_duplicates())
 
         spec_dual = st.session_state.spec  # (*specialities, *specialities_rus)
         not_aval_spec = []
