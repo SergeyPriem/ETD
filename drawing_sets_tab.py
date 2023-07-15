@@ -358,7 +358,8 @@ def drawing_sets():
 
         with task_col:
             # in_out_radio = st.radio("Select Incoming / Outgoing", ('In', 'Out'), horizontal=True)
-            in_out_radio = option_menu(f"Available Tasks", ['Incoming', 'Outgoing'], icons=['-', '-'],
+            in_out_radio = option_menu(None, ["AVAILABLE TASKS:",'Incoming', 'Outgoing'],
+                                       icons=['journal', 'journal-arrow-down', 'journal-arrow-up'],
                                        default_index=0, orientation="horizontal")
 
         if in_out_radio == "Incoming":
