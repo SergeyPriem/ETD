@@ -15,7 +15,7 @@ from utilities import center_style, update_tables
 
 def settings_content():
     center_style()
-    empty1_set, content_set, empty2_set = st.columns([1, 2, 1])
+    empty1_set, content_set, empty2_set = st.columns([3, 2, 3])
     with empty1_set:
         st.empty()
     with empty2_set:
@@ -47,33 +47,33 @@ def settings_content():
 
         with menu_pos_tab:
             with st.form('adjust_settings'):
-                l_f, r_f = st.columns(2)
+                # l_f, r_f = st.columns(2)
+                #
+                # # menu_position = l_f.radio('Location of menu', ("Top", "Left"),
+                # #                           index=st.session_state.user['vert_menu'], horizontal=True)
+                # r_f.write('')
+                #
+                # buttons = [
+                #     {"label": "Left of the Screen",
+                #      "value": "Left",
+                #      },
+                #     {"label": "Top of the Screen",
+                #      "value": "Top",
+                #      },
+                # ]
 
-                # menu_position = l_f.radio('Location of menu', ("Top", "Left"),
-                #                           index=st.session_state.user['vert_menu'], horizontal=True)
-                r_f.write('')
+                # with l_f:
+                #     # menu_position = st_btn_group(buttons=buttons, key="1", shape='default', size='compact',
+                #     #                              align='center', disabled=False, merge_buttons=False,
+                #     #                              gap_between_buttons=44, display_divider=False, return_value=False)
+                #
+                menu_position = option_menu(None, ['👈 Left Side', '👆 Top Side'], icons=['arrow-left', 'arrow-up'],
+                                            orientation="horizontal")
 
-                buttons = [
-                    {"label": "Left of the Screen",
-                     "value": "Left",
-                     },
-                    {"label": "Top of the Screen",
-                     "value": "Top",
-                     },
-                ]
-
-                with l_f:
-                    # menu_position = st_btn_group(buttons=buttons, key="1", shape='default', size='compact',
-                    #                              align='center', disabled=False, merge_buttons=False,
-                    #                              gap_between_buttons=44, display_divider=False, return_value=False)
-
-                    menu_position = option_menu(None, ['Left Side', 'Top Side'], icons=['arrow-left', 'arrow-up', ],
-                                                orientation="horizontal")
-
-                appl_upd_set_but = r_f.form_submit_button('Apply menu position', use_container_width=True)
+                appl_upd_set_but = st.form_submit_button('Apply menu position', use_container_width=True)
 
             if appl_upd_set_but:
-                if menu_position == 'Left Side':
+                if menu_position == '👈 Left Side':
                     st.session_state.user['vert_menu'] = 1
                 else:
                     st.session_state.user['vert_menu'] = 0
