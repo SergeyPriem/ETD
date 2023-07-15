@@ -796,12 +796,22 @@ def manage_users():
             with st.form("Add_new_user"):
                 user_email = st.text_input('Email')
                 user_position = st.radio('Position', POSITIONS, horizontal=True)
+                user_position = option_menu('Position', POSITIONS,
+                                            icons=['-', '-', '-', '-', '-', '-', '-', '-', ],
+                                            default_index=0, orientation='horizontal')
                 st.markdown("---")
-                user_department = st.radio('Department', DEPARTMENTS, horizontal=True)
+                user_department = option_menu('Department', DEPARTMENTS,
+                                              icons=['-', '-', '-', '-', '-', '-', ],
+                                              default_index=0, orientation='horizontal')
+
                 st.markdown("---")
                 lc, rc = st.columns(2, gap='medium')
-                user_access_level = lc.radio('Access level',
-                                             ('performer', 'admin', 'super'), horizontal=True)
+                with lc:
+                    user_access_level = option_menu('Access level',
+                                                    ['performer', 'admin', 'super'],
+                                                    icons=['star', 'star-half', 'star-fill', ],
+                                                    default_index=0,
+                                                    orientation='horizontal')
                 rc.text('')
                 rc.text('')
                 script_acc_chb_init = rc.checkbox('Access to Scripts', key="acc_to_scr", value=0)
