@@ -2,6 +2,7 @@
 import random
 
 import streamlit as st
+from st_btn_group import st_btn_group
 
 from admin_tools import get_list_index
 from models import Users
@@ -13,7 +14,7 @@ from utilities import center_style, update_tables
 
 def settings_content():
     center_style()
-    empty1_set, content_set, empty2_set = st.columns([1, 4, 1])
+    empty1_set, content_set, empty2_set = st.columns([1, 2, 1])
     with empty1_set:
         st.empty()
     with empty2_set:
@@ -47,9 +48,23 @@ def settings_content():
             with st.form('adjust_settings'):
                 l_f, r_f = st.columns(2)
 
-                menu_position = l_f.radio('Location of menu', ("Top", "Left"),
-                                          index=st.session_state.user['vert_menu'], horizontal=True)
-                r_f.write('')
+                # menu_position = l_f.radio('Location of menu', ("Top", "Left"),
+                #                           index=st.session_state.user['vert_menu'], horizontal=True)
+                # r_f.write('')
+
+                buttons = [
+                    {"label": "Left of the Screen",
+                     "value": "Left",
+                     },
+                    {"label": "Top of the Screen",
+                     "value": "2",
+                     },
+                ]
+
+                with l_f:
+                    menu_position = st_btn_group(buttons=buttons, key="1", shape='default', size='default',
+                                                 align='left', disabled=False, merge_buttons=True,
+                                                 gap_between_buttons=44, display_divider=False, return_value=False)
 
                 appl_upd_set_but = r_f.form_submit_button('Apply menu position', use_container_width=True)
 
@@ -66,7 +81,7 @@ def settings_content():
 
         with scope_tab:
             with st.form('change_scope'):
-                l_c, r_c = st.columns([2,1], gap='medium')
+                l_c, r_c = st.columns([2, 1], gap='medium')
                 scope = l_c.radio("Choose the Preferred Scope loaded from DB",
                                   ['Only Current Projects', 'All Projects', 'All excluding cancelled and suspended'],
                                   index=get_list_index(
