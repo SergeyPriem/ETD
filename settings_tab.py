@@ -85,19 +85,29 @@ def settings_content():
 
         with scope_tab:
             with st.form('change_scope'):
-                l_c, r_c = st.columns([2, 1], gap='medium')
-                scope = l_c.radio("Choose the Preferred Scope loaded from DB",
-                                  ['Only Current Projects', 'All Projects', 'All excluding cancelled and suspended'],
-                                  index=get_list_index(
-                                      ['Only Current Projects', 'All Projects',
-                                       'All excluding cancelled and suspended'],
-                                      st.session_state.proj_scope
-                                  ),
-                                  help=":green[Only Current Projects] is preferable for speed of Application "
-                                       "and Memory Usage",
-                                  horizontal=True)
-                r_c.text("")
-                scope_conf_but = r_c.form_submit_button('Apply Selected Scope', use_container_width=True)
+                # l_c, r_c = st.columns([2, 1], gap='medium')
+                st.text("Choose the Preferred Scope loaded from DB",
+                        help=":green[Only Current Projects] is preferable for speed of Application "
+                             "and Memory Usage",
+                        )
+                # scope = l_c.radio("Choose the Preferred Scope loaded from DB",
+                #                   ['Only Current Projects', 'All Projects', 'All excluding cancelled and suspended'],
+                #                   index=get_list_index(
+                #                       ['Only Current Projects', 'All Projects',
+                #                        'All excluding cancelled and suspended'],
+                #                       st.session_state.proj_scope
+                #                   ),
+                #                   help=":green[Only Current Projects] is preferable for speed of Application "
+                #                        "and Memory Usage",
+                #                   horizontal=True)
+
+                scope = option_menu(None,
+                                    ['Only Current Projects', 'All Projects', 'All excluding cancelled and suspended'],
+                                    icons=['-','-','-',],
+                                    default_index=0,
+                                    orientation='horizontal')
+
+                scope_conf_but = st.form_submit_button('Apply Selected Scope', use_container_width=True)
 
             if scope_conf_but:
                 st.session_state.proj_scope = scope
