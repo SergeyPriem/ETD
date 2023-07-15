@@ -2,6 +2,7 @@
 import time
 
 import streamlit as st
+from streamlit_option_menu import option_menu
 
 from projects import add_in_to_db, add_out_to_db
 from send_emails import send_mail
@@ -79,7 +80,11 @@ def add_task(task_content):
                 description = right_col2.text_input('Description of Task *', max_chars=249)
 
                 col_31, col_32, col_33, col_34 = st.columns([1, 1, 1, 3])
-                direction = col_31.radio('Direction *', ('In', 'Out'), horizontal=True)
+                # direction = col_31.radio('Direction *', ('In', 'Out'), horizontal=True)
+                with col_31:
+                    direction = option_menu(None, ['Incoming', 'Outgoing'],
+                                            icons=['journal-arrow-down', 'journal-arrow-up'],
+                                            default_index=0)
                 col_32.write('')
                 col_32.write('')
                 date = col_33.date_input('Date *')
