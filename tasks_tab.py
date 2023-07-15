@@ -401,7 +401,7 @@ def view_tasks(ass_tab2):
             if set_val:
                 df_orig = df_orig.loc[df_temp.unit.str.contains(set_val.upper())]
             if task_link:
-                df_orig = df_orig.loc[df_temp.link.str.contains(set_val.upper())]
+                df_orig = df_orig.loc[df_temp.link.str.contains(task_link)]
 
         df_orig.sort_values(by=['task_id'], ascending=False)
         st.write(f"{len(df_orig)} records found for '{st.session_state.proj_scope}' mode")
