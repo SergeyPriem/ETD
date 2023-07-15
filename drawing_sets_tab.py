@@ -354,29 +354,39 @@ def drawing_sets():
 
         units_tasks['speciality'] = units_tasks.abbrev
 
-        task_col, quant_col = st.columns([12, 2])
+        # task_col, quant_col = st.columns([12, 2])
 
-        with task_col:
+
+        units_tasks_in = units_tasks[(units_tasks.in_out == 'In')]
+        units_tasks_out = units_tasks[(units_tasks.in_out == 'Out')]
+        # units_tasks_all = units_tasks
+
+        # with task_col:
             # in_out_radio = st.radio("Select Incoming / Outgoing", ('In', 'Out'), horizontal=True)
-            in_out_radio = option_menu(None, ["AVAILABLE TASKS:",'Incoming', 'Outgoing'],
-                                       icons=['journal', 'journal-arrow-down', 'journal-arrow-up'],
-                                       default_index=0, orientation="horizontal")
+        in_out_radio = option_menu(None, [
+            f"AVAILABLE TASKS: {len(units_tasks)}",
+            f'Incoming: {len(units_tasks_in)}',
+            f'Outgoing: {len(units_tasks_out)}'
+        ], icons=['journal', 'journal-arrow-down', 'journal-arrow-up'], default_index=0, orientation="horizontal")
 
-        if in_out_radio != "Incoming":
+        if in_out_radio == f'Outgoing: {len(units_tasks_out)}':
+            tasks_to_show = units_tasks_out.sort_values(by=['speciality', 'date'], ascending=[True, False])
+        if in_out_radio == f'Incoming: {len(units_tasks_in)}':
+            tasks_to_show = units_tasks_in.sort_values(by=['speciality', 'date'], ascending=[True, False])
+        if in_out_radio == f"AVAILABLE TASKS: {len(units_tasks)}":
+            st.write("#### Select the Direction")
+            tasks_to_show = units_tasks.sort_values(by=['speciality', 'date'], ascending=[True, False])
 
-            units_tasks = units_tasks[(units_tasks.in_out == 'Out')]
-        else:
-            units_tasks = units_tasks[(units_tasks.in_out == 'In')]
 
         # with task_col:
         #     st.subheader(f"Available Tasks")
 
-        with quant_col:
-            st.write("")
-            st.subheader(f'Quantity: :blue[{len(units_tasks)}]')
+        # with quant_col:
+        #     st.write("")
+        #     st.subheader(f'Quantity: :blue[{len(units_tasks)}]')
 
-        units_tasks = units_tasks.sort_values(by=['speciality', 'date'], ascending=[True, False])
-        st.data_editor(units_tasks[
+
+        st.data_editor(tasks_to_show[
                            ['stage', 'speciality', 'date', 'description', 'link', 'source', 'comment', 'backup_copy',
                             'coord_log', 'perf_log', 'added_by', 'task_id']
                        ].set_index('task_id'), use_container_width=True)
