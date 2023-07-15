@@ -794,23 +794,24 @@ def manage_users():
 
         with add_tab1:
             with st.form("Add_new_user"):
-                user_email = st.text_input('Email')
+                l, c, r = st.columns(3)
+                user_email = c.text_input('Email')
                 user_position = option_menu('Position', POSITIONS,
                                             icons=['-', '-', '-', '-', '-', '-', '-', '-', ],
                                             default_index=0, orientation='horizontal')
-                st.markdown("---")
+                # st.markdown("---")
                 user_department = option_menu('Department', DEPARTMENTS,
                                               icons=['-', '-', '-', '-', '-', '-', ],
                                               default_index=0, orientation='horizontal')
 
-                st.markdown("---")
+                # st.markdown("---")
                 user_access_level = option_menu('Access level',
                                                 ['performer', 'admin', 'super'],
                                                 icons=['star', 'star-half', 'star-fill', ],
                                                 default_index=0,
                                                 orientation='horizontal')
-                st.markdown("---")
-                l_c, c_c,r_c = st.columns(3, gap='medium')
+                # st.markdown("---")
+                l_c, c_c,r_c = st.columns([1,2,3], gap='medium')
                 l_c.text('')
                 l_c.text('')
                 script_acc_chb_init = l_c.checkbox('Access to Scripts', key="acc_to_scr", value=0)
