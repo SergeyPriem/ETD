@@ -3,11 +3,9 @@ import datetime
 import pandas as pd
 import streamlit as st
 from streamlit_option_menu import option_menu
-
 from admin_tools import get_list_index
 from send_emails import send_mail
-from utilities import REVISIONS, COMPLETION, STAGES, center_style, update_state, \
-    title_with_help  # , make_long_delay, make_short_delay
+from utilities import REVISIONS, COMPLETION, STAGES, center_style, update_state
 from projects import update_sod, add_sod, update_unit_name_stage
 from utilities import err_handler
 from functools import lru_cache
@@ -45,7 +43,7 @@ def drawing_sets():
         st.title(":orange[Drawings]")
         st.divider()
 
-        ds_left, lc, ds_center, cr, ds_right = st.columns([5, 6, 4, 6, 5])
+        ds_left, ds_center, ds_right = st.columns(3)
 
         user_id = st.session_state.user['id']
         sod_my_df = sod_all_df[(sod_all_df.coord_id == user_id) | (sod_all_df.perf_id == user_id)]
@@ -76,7 +74,7 @@ def drawing_sets():
 
         proj_list = sod_df['project'].drop_duplicates()
 
-        ds_left.subheader(f"{my_all}: :blue[{len(sod_df)}]")
+        # ds_left.subheader(f"{my_all}: :blue[{len(sod_df)}]")
 
         ds_right.text('')
         units_ch_b = ds_right.checkbox("Show Units Table",
