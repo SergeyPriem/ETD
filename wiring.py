@@ -313,19 +313,21 @@ def full_tag_duplicates(df):
     df_left = df[df.full_term_tag_left != 'nan:0']
     st.write(df_left)
 
-    if len(df_left[df_left.duplicated()]):
+    left_len = len(df_left[df_left.duplicated()])
+
+    if left_len:
         st.write('duplicates in left terminal block')
         st.write(df_left[df_left.duplicated()])
 
     # right side
     df_right = df[df.full_term_tag_right != 'nan:0']
     st.write(df_right)
+    right_len = len(df_right[df_right.duplicated()])
 
-
-    if len(df_right[df_right.duplicated()]):
+    if right_len:
         st.write('duplicates in left terminal block')
         st.write(df_right[df_right.duplicated()])
-    if len(df_left.duplicated()) or len(df_right.duplicated()):
+    if left_len or right_len:
         st.write(len(df_left.duplicated()),"--", len(df_right.duplicated()))
         st.stop()
 
