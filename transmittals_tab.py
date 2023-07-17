@@ -124,6 +124,7 @@ def transmittals_content():
                 cc.write("")
                 link = rc.text_input("Link *", max_chars=200)
                 rc.write('')
+                rc.write('')
                 reply_date = rc.date_input("Due Date")
                 notes = rc.text_input('Notes', max_chars=500)
 
