@@ -91,7 +91,7 @@ def transmittals_content():
             with st.form("add_trans"):
                 lc, cc, rc = st.columns([5, 4, 4], gap='medium')
                 project = lc.selectbox("Project *", proj_list)
-                t_type = lc.radio("Transmittal Type *", TRANS_TYPES, horizontal=True)
+                # t_type = lc.radio("Transmittal Type *", TRANS_TYPES, horizontal=True)
 
                 with lc:
                     t_type = option_menu(None,
@@ -99,7 +99,6 @@ def transmittals_content():
                                          icons=["-", "-", "-", "-", "-", "-"],
                                          default_index=0,
                                          orientation='horizontal')
-                t_type = lc.radio("Transmittal Type *", TRANS_TYPES, horizontal=True)
 
                 lc.write("")
                 ref_trans = rc.text_input("Previous Transmittal",
@@ -109,10 +108,12 @@ def transmittals_content():
                                           )
                 trans_num = cc.text_input("Transmittal Number *", max_chars=50)
                 subj = cc.text_input("Subject *", max_chars=255)
-                ans_required = cc.radio("Our Reply Required *", ('Yes', 'No'), horizontal=True)
+                # ans_required = cc.radio("Our Reply Required *", ('Yes', 'No'), horizontal=True)
 
-                # with cc:
-                #     ans_required = option_menu(None, [], )
+                with cc:
+                    ans_required = option_menu(None, ["Is our reply requited:", "Yes", "No"],
+                                               default_index=1,
+                                               orientation='horizontal')
 
                 cc.write("")
                 responsible = cc.selectbox("Responsible Employee *", responsible_list)
@@ -189,6 +190,10 @@ def transmittals_content():
                 else:
                     st.info('Make proper selection...')
                     st.stop()
+
+            if ans_required == "Is our reply requited:":
+                st.write("Select is answer required or not...")
+                st.stop()
 
             ans_required_num = 1 if ans_required == "Yes" else 0
 
