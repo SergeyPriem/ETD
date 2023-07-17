@@ -93,6 +93,7 @@ def transmittals_content():
                 project = lc.selectbox("Project *", proj_list)
                 # t_type = lc.radio("Transmittal Type *", TRANS_TYPES, horizontal=True)
                 trans_date = lc.date_input("Transmittal Date *")
+
                 with lc:
                     t_type = option_menu(None,
                                          TRANS_TYPES,
