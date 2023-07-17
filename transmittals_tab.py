@@ -111,7 +111,8 @@ def transmittals_content():
                 # ans_required = cc.radio("Our Reply Required *", ('Yes', 'No'), horizontal=True)
 
                 with cc:
-                    ans_required = option_menu(None, ["Is our reply requited:", "Yes", "No"],
+                    ans_required = option_menu(None,
+                                               ["Is our reply requited:", "Yes", "No"],
                                                icons=['-', '-', '-'],
                                                default_index=1,
                                                orientation='horizontal')
