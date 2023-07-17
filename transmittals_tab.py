@@ -94,6 +94,7 @@ def transmittals_content():
                 # t_type = lc.radio("Transmittal Type *", TRANS_TYPES, horizontal=True)
                 trans_date = lc.date_input("Transmittal Date *")
 
+                lc.write("")
                 with lc:
                     t_type = option_menu(None,
                                          TRANS_TYPES,
@@ -101,7 +102,7 @@ def transmittals_content():
                                          default_index=0,
                                          orientation='horizontal')
 
-                lc.write("")
+
                 ref_trans = rc.text_input("Previous Transmittal",
                                           help=":blue[Номер трансмиттала, на который получен текущий ответ] \n"
                                           "***"
@@ -111,6 +112,7 @@ def transmittals_content():
                 subj = cc.text_input("Subject *", max_chars=255)
                 # ans_required = cc.radio("Our Reply Required *", ('Yes', 'No'), horizontal=True)
 
+                cc.write("")
                 with cc:
                     ans_required = option_menu(None,
                                                ["Is our reply requited:", "Yes", "No"],
@@ -118,10 +120,10 @@ def transmittals_content():
                                                default_index=1,
                                                orientation='horizontal')
 
-                cc.write("")
                 responsible = cc.selectbox("Responsible Employee *", responsible_list)
                 cc.write("")
                 link = rc.text_input("Link *", max_chars=200)
+                rc.write('')
                 reply_date = rc.date_input("Due Date")
                 notes = rc.text_input('Notes', max_chars=500)
 
