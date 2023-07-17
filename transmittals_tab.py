@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
 import streamlit as st
+from streamlit_option_menu import option_menu
+
 from utilities import TRANS_TYPES, center_style, update_state, get_list_index, \
     TRANS_STATUSES  # , make_short_delay, make_long_delay
 from projects import add_new_trans, update_trans
@@ -90,6 +92,15 @@ def transmittals_content():
                 lc, cc, rc = st.columns([5, 4, 4], gap='medium')
                 project = lc.selectbox("Project *", proj_list)
                 t_type = lc.radio("Transmittal Type *", TRANS_TYPES, horizontal=True)
+
+                with lc:
+                    t_type = option_menu(None,
+                                         TRANS_TYPES,
+                                         icons=["-", "-", "-", "-", "-", "-"],
+                                         default_index=0,
+                                         orientation='horizontal')
+                t_type = lc.radio("Transmittal Type *", TRANS_TYPES, horizontal=True)
+
                 lc.write("")
                 ref_trans = rc.text_input("Previous Transmittal",
                                           help=":blue[Номер трансмиттала, на который получен текущий ответ] \n"
@@ -99,6 +110,10 @@ def transmittals_content():
                 trans_num = cc.text_input("Transmittal Number *", max_chars=50)
                 subj = cc.text_input("Subject *", max_chars=255)
                 ans_required = cc.radio("Our Reply Required *", ('Yes', 'No'), horizontal=True)
+
+                # with cc:
+                #     ans_required = option_menu(None, [], )
+
                 cc.write("")
                 responsible = cc.selectbox("Responsible Employee *", responsible_list)
                 cc.write("")
