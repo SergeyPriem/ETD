@@ -260,12 +260,10 @@ def edit_panel():
                             ),
                             "full_pan_tag": st.column_config.TextColumn(
                                 "Full Panel Tag",
-                                min_value=1,
-                                max_value=100,
                                 width='small',
                                 disabled=True,
                             ),
-                            "pan_to_del": st.column_config.TextColumn(
+                            "pan_to_del": st.column_config.CheckboxColumn(
                                 "Panel to delete",
                                 width="small",
                             ),
