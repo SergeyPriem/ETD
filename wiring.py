@@ -311,8 +311,8 @@ def order_of_wires(df):
 def full_tag_duplicates(df):
     # left side
     df_left = df[df.full_term_tag_left != 'nan:0']
-    # st.write("left side")
-    # st.write(df_left)
+    st.write("left side")
+    st.write(df_left)
     # st.write(df_left[df_left.duplicated()])
 
     left_len = len(df_left[df_left.full_term_tag_left.duplicated()])
@@ -323,8 +323,8 @@ def full_tag_duplicates(df):
 
     # right side
     df_right = df[df.full_term_tag_right != 'nan:0']
-    # st.write("right side")
-    # st.write(df_right)
+    st.write("right side")
+    st.write(df_right)
     #
     # st.write(df_right[df_right.duplicated()])
 
