@@ -280,6 +280,7 @@ def edit_panel():
                         "pan_to_del": st.column_config.CheckboxColumn(
                             "Panel to delete",
                             width="small",
+                            default=False,
                         ),
                     },
                     hide_index=True, num_rows='fixed', use_container_width=True)
@@ -287,8 +288,8 @@ def edit_panel():
                 rc2.text('')
                 rc2.text('')
 
-                pan_to_del = pan_edited_df[pan_edited_df.pan_to_del, "full_pan_tag"].tolist()
-                pan_to_show = pan_edited_df[pan_edited_df.pan_to_del, "full_pan_tag"].tolist()
+                pan_to_del = pan_edited_df.loc[pan_edited_df.pan_to_del, "full_pan_tag"].tolist()
+                pan_to_show = pan_edited_df.loc[pan_edited_df.pan_to_del, "full_pan_tag"].tolist()
                 del_pan_button = rc2.button(f"Delete selected Panels {pan_to_show}", use_container_width=True)
 
                 if del_pan_button:
