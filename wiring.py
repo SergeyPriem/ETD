@@ -454,7 +454,7 @@ def create_uniq():
 
 def edit_wires():
 
-    lc1, lc2, cc, rc = st.columns(4, gap='medium')
+    lc1, lc2, cc, rc = st.columns([2, 1, 1, 2], gap='medium')
     cab_list = st.session_state.intercon['cable'].loc[:, 'cab_tag'].tolist()
     # wires_qty_list = st.session_state.intercon['cab_descr'].loc[:, 'wire_quant'].tolist()
     act_cable = lc1.selectbox('Select Cable for wires connection', cab_list)
@@ -563,12 +563,12 @@ def edit_wires():
 
         rc.text('')
         rc.text('')
-        lc2.text('')
-        lc2.text('')
+        cc.text('')
+        cc.text('')
 
         wires_to_add = lc2.number_input(f'Add new wires', min_value=1, max_value=37)
 
-        if cc.button("Add wires"):
+        if cc.button("Add wires", use_container_width=True):
             add_wires(act_cable, wires_to_add)
             st.write("##### Wires added")
 
