@@ -219,6 +219,18 @@ def edit_equipment():
             st.button('❗ Some fields are empty...')
 
 
+def add_panels(act_equip, q_ty):
+
+    df2 = pd.DataFrame()
+
+    for w in range(0, q_ty):
+        df2.loc[w, "eq_tag"] = act_equip
+
+    st.session_state.intercon['panel'] = pd.concat([st.session_state.intercon['panel'], df2])
+    st.session_state.intercon['panel'] = st.session_state.intercon['panel'].reset_index(drop=True)
+    st.experimental_rerun()
+
+
 def edit_panel():
     eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
 
@@ -236,47 +248,54 @@ def edit_panel():
 
 
         if add_pan_button:
-            if eq_tag:
-                pan_df = st.session_state.intercon['equip']
-                pan_filtered_df = pan_df[pan_df.eq_tag == eq_tag]
+            add_panels()
 
-                if len(pan_filtered_df):
+        if eq_tag:
+            pan_df = st.session_state.intercon['equip']
+            pan_filtered_df = pan_df[pan_df.eq_tag == eq_tag]
 
-                    pan_edited_df = st.data_editor(
-                        pan_filtered_df,
-                        column_config={
-                            "eq_tag": st.column_config.TextColumn(
-                                "Equipment Tag",
-                                disabled=True,
-                                width='small',
-                            ),
-                            "pan_tag": st.column_config.TextColumn(
-                                "Panel Tag",
-                                width='small',
-                            ),
-                            "pan_descr": st.column_config.TextColumn(
-                                "Panel Description",
-                                width="medium",
-                            ),
-                            "full_pan_tag": st.column_config.TextColumn(
-                                "Full Panel Tag",
-                                width='small',
-                                disabled=True,
-                            ),
-                            "pan_to_del": st.column_config.CheckboxColumn(
-                                "Panel to delete",
-                                width="small",
-                            ),
-                        },
-                        hide_index=True, num_rows='fixed', use_container_width=True)
+            if len(pan_filtered_df):
 
-                    rc2.text('')
-                    rc2.text('')
-                    del_pan_button = rc2.button("Delete selected Panels []", use_container_width=True)
+                pan_edited_df = st.data_editor(
+                    pan_filtered_df,
+                    column_config={
+                        "eq_tag": st.column_config.TextColumn(
+                            "Equipment Tag",
+                            disabled=True,
+                            width='small',
+                        ),
+                        "pan_tag": st.column_config.TextColumn(
+                            "Panel Tag",
+                            width='small',
+                        ),
+                        "pan_descr": st.column_config.TextColumn(
+                            "Panel Description",
+                            width="medium",
+                        ),
+                        "full_pan_tag": st.column_config.TextColumn(
+                            "Full Panel Tag",
+                            width='small',
+                            disabled=True,
+                        ),
+                        "pan_to_del": st.column_config.CheckboxColumn(
+                            "Panel to delete",
+                            width="small",
+                        ),
+                    },
+                    hide_index=True, num_rows='fixed', use_container_width=True)
 
-                # full_pan_tags = st.session_state.intercon['panel'].loc[:, 'full_pan_tag'].tolist()
-                #
-                # full_pan_tag = str(eq_tag) + ":" + str(pan_tag)
+                rc2.text('')
+                rc2.text('')
+
+                pan_to_del = pan_edited_df[pan_edited_df.pan_to_del == "True", "full_pan_tag"].tolist()
+                del_pan_button = rc2.button(f"Delete selected Panels {pan_to_del}", use_container_width=True)
+
+                if del_pan_button:
+                    delete_panels(pan_to_del)
+
+            # full_pan_tags = st.session_state.intercon['panel'].loc[:, 'full_pan_tag'].tolist()
+            #
+            # full_pan_tag = str(eq_tag) + ":" + str(pan_tag)
 
             #     if full_pan_tag in full_pan_tags:
             #         st.button(f'❗ Panel with Tag {full_pan_tag} already exists...CLOSE and try again')
@@ -357,6 +376,12 @@ def edit_block():
 def delete_equipment(equip_to_del):
     st.session_state.intercon['equip'] = \
         st.session_state.intercon['equip'][~st.session_state.intercon['equip'].eq_tag.isin(equip_to_del)]
+    st.experimental_rerun()
+
+
+def delete_panels(pan_to_del):
+    st.session_state.intercon['panel'] = \
+        st.session_state.intercon['panel'][~st.session_state.intercon['panel'].full_pan_tag.isin(pan_to_del)]
     st.experimental_rerun()
 
 
