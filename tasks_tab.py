@@ -101,7 +101,7 @@ def add_task(task_content):
                 left_col3, right_col3 = st.columns(2)
                 link = left_col3.text_input('Link *', max_chars=500)
                 comments = left_col3.text_input('Comments', max_chars=250)
-                source = right_col3.text_area('Received by *', value='Paper', height=127, max_chars=2500,
+                source = right_col3.text_area('Received by *', value='Paper', height=120, max_chars=2500,
                                               help=":blue[Если не получается вставить текст, скорее всего, "
                                               "его длина :red[превышает 2500 символов]. Нужно сократить] \n"
                                               "***"
