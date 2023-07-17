@@ -169,13 +169,14 @@ def edit_equipment():
                 ),
                 'eq_to_del': st.column_config.CheckboxColumn(
                     'Delete Equipment',
+                    default=False,
                     width='small'
                 )
             },
             hide_index=True, num_rows='fixed', use_container_width=True
             )
 
-        eq_to_del = upd_equip_df.loc[upd_equip_df.eq_to_del == "True", 'eq_tag'].tolist()
+        eq_to_del = upd_equip_df.loc[upd_equip_df.eq_to_del, 'eq_tag'].tolist()
         #
         rc2.text('')
         rc2.text('')
@@ -559,7 +560,6 @@ def edit_wires():
         if lc2.button("Add wires"):
             add_wires(act_cable, wires_to_add)
             st.write("##### Wires added")
-
 
         if rc.button(f'Delete selected wires {wires_to_show}', use_container_width=True):
             delete_wires(wires_to_del)
