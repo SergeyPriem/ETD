@@ -331,7 +331,7 @@ def full_tag_duplicates(df):
     right_len = len(df_right[df_right.full_term_tag_right.duplicated()])
 
     if right_len:
-        st.write('duplicates in left terminal block')
+        st.write('duplicates in right terminal block')
         # st.write(df_right[df_right.duplicated()])
 
     if left_len or right_len:
