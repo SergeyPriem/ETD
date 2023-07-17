@@ -92,7 +92,7 @@ def transmittals_content():
                 lc, cc, rc = st.columns([5, 4, 4], gap='medium')
                 project = lc.selectbox("Project *", proj_list)
                 # t_type = lc.radio("Transmittal Type *", TRANS_TYPES, horizontal=True)
-
+                trans_date = lc.date_input("Transmittal Date *")
                 with lc:
                     t_type = option_menu(None,
                                          TRANS_TYPES,
@@ -123,7 +123,7 @@ def transmittals_content():
                 link = rc.text_input("Link *", max_chars=200)
                 reply_date = rc.date_input("Due Date")
                 notes = rc.text_input('Notes', max_chars=500)
-                trans_date = lc.date_input("Transmittal Date *")
+
                 author = lc.text_input('Originator of the Transmittal *', max_chars=50)
 
                 l_c, r_c = st.columns([1, 9], gap='medium')
