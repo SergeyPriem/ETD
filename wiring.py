@@ -325,15 +325,15 @@ def both_side_connection(df):
 
     for ind, row in df_left.iterrows():
         if "nan" in row.full_term_tag_left.split(":")[0] or "0" in row.full_term_tag_left.split(":")[-1]:
-            st.write(":red[Not selected LEFT terminal block or terminal in row:]")
+            st.write(":red[Not selected LEFT terminal block or terminal for wire:]")
             checker = False
-            st.write(row)
+            st.write(row.wire_num)
 
     for ind, row in df_right.iterrows():
         if "nan" in row.full_term_tag_right.split(":")[0] or "0" in row.full_term_tag_right.split(":")[-1]:
-            st.write(":red[Not selected RIGHT terminal block or terminal in row:]")
+            st.write(":red[Not selected RIGHT terminal block or terminal for wire:]")
             checker = False
-            st.write(row)
+            st.write(row.wire_num)
 
     if not checker:
         st.button("Fix and save - OK")
