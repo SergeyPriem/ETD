@@ -68,7 +68,16 @@ def open_intercon_google():
                                                                   'full_block_tag_right', 'wire_to_del',
                                                                   'full_term_tag_left', 'wire_uniq',
                                                                   'full_term_tag_right'])
-        # st.write(st.session_state.intercon['wire'])
+    if len(st.session_state.intercon['equip']) == 0:
+        st.session_state.intercon['equip'] = pd.DataFrame(columns=['eq_tag', 'eq_descr', 'eq_to_del'])
+
+    if len(st.session_state.intercon['panel']) == 0:
+        st.session_state.intercon['panel'] = pd.DataFrame(columns=['eq_tag', 'pan_tag',
+                                                                   'pan_descr', 'full_pan_tag', 'pan_to_del'])
+
+    if len(st.session_state.intercon['block']) == 0:
+        st.session_state.intercon['block'] = pd.DataFrame(columns=['full_pan_tag', 'block_tag',
+                                                                   'block_descr', 'full_block_tag', 'block_to_del'])
 
 
 
@@ -214,45 +223,51 @@ def edit_equipment():
 
 
 def edit_panel():
-    with st.form('create_pan'):
-        lc, rc = st.columns(2, gap='medium')
-        eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
-        eq_tag = lc.selectbox('Equipment Tag', eq_list)
-        pan_tag = rc.text_input('Panel Tag')
-        pan_descr = lc.text_input('Panel Description')
-        rc.text('')
-        rc.text('')
-        add_pan_button = rc.form_submit_button("Add Panel to Document", use_container_width=True)
 
-    if add_pan_button:
-        if all([eq_tag, pan_tag, pan_descr]):
-            full_pan_tags = st.session_state.intercon['panel'].loc[:, 'full_pan_tag'].tolist()
+    eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
 
-            full_pan_tag = str(eq_tag) + ":" + str(pan_tag)
+    if len(eq_list):
+        with st.form('create_pan'):
+            lc1, lc2, rc1, rc2 = st.columns(4, gap='medium')
+            eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
+            eq_tag = lc1.selectbox('Equipment Tag', eq_list)
+            pan_tag = lc2.text_input('Panel Tag')
+            pan_descr = rc1.text_input('Panel Description')
+            rc2.text('')
+            rc2.text('')
+            add_pan_button = rc2.form_submit_button("Add Panel to Document", use_container_width=True)
 
-            if full_pan_tag in full_pan_tags:
-                st.button(f'❗ Panel with Tag {full_pan_tag} already exists...CLOSE and try again')
-                st.stop()
+        if add_pan_button:
+            if all([eq_tag, pan_tag, pan_descr]):
+                full_pan_tags = st.session_state.intercon['panel'].loc[:, 'full_pan_tag'].tolist()
 
+                full_pan_tag = str(eq_tag) + ":" + str(pan_tag)
+
+                if full_pan_tag in full_pan_tags:
+                    st.button(f'❗ Panel with Tag {full_pan_tag} already exists...CLOSE and try again')
+                    st.stop()
+
+                else:
+                    df2 = pd.DataFrame.from_dict(
+                        [
+                            {
+                                'eq_tag': eq_tag,
+                                'pan_tag': pan_tag,
+                                'pan_descr': pan_descr,
+                                'full_pan_tag': full_pan_tag,
+                            }
+                        ]
+                    )
+
+                    st.write(df2)
+
+                    df1 = st.session_state.intercon['panel'].copy(deep=True)
+                    st.session_state.intercon['panel'] = pd.concat([df1, df2], ignore_index=True)
+                    st.button(f"New Panel {full_pan_tag} is Added. CLOSE")
             else:
-                df2 = pd.DataFrame.from_dict(
-                    [
-                        {
-                            'eq_tag': eq_tag,
-                            'pan_tag': pan_tag,
-                            'pan_descr': pan_descr,
-                            'full_pan_tag': full_pan_tag,
-                        }
-                    ]
-                )
-
-                st.write(df2)
-
-                df1 = st.session_state.intercon['panel'].copy(deep=True)
-                st.session_state.intercon['panel'] = pd.concat([df1, df2], ignore_index=True)
-                st.button(f"New Panel {full_pan_tag} is Added. CLOSE")
-        else:
-            st.button('❗ Some fields are empty...')
+                st.button('❗ Some fields are empty...')
+    else:
+        st.write("Equipment not available...")
 
 
 def edit_block():
@@ -436,16 +451,10 @@ def create_uniq():
 
 
 def edit_wires():
-    # st.markdown("""1 Select Cable
-    # 2 Create wires by filling dataframe
-    # 3 Make LEFT dataframe with selection of terminal block and necessary terminals quantity
-    # 4 Mach one wire with one terminal AND PUSH CONNECT
-    # 5 Make RIGHT dataframe with selection of terminal block and necessary terminals quantity
-    # 6 Mach one wire with one terminal  AND PUSH CONNECT""")
 
     lc1, lc2, cc, rc = st.columns(4, gap='medium')
     cab_list = st.session_state.intercon['cable'].loc[:, 'cab_tag'].tolist()
-    wires_qty_list = st.session_state.intercon['cab_descr'].loc[:, 'wire_quant'].tolist()
+    # wires_qty_list = st.session_state.intercon['cab_descr'].loc[:, 'wire_quant'].tolist()
     act_cable = cc.selectbox('Select Cable for wires connection', cab_list)
 
     # wire_num = rc.radio('Select Wires Quantity', wires_qty_list, horizontal=True)
