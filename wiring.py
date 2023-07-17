@@ -247,10 +247,10 @@ def edit_panel():
         add_pan_button = rc1.button("Add Panel to Document", use_container_width=True)
 
 
-        if add_pan_button:
-            add_panels()
-
         if eq_tag:
+            if add_pan_button:
+                add_panels(eq_tag, pan_to_add)
+
             pan_df = st.session_state.intercon['panel']
             pan_filtered_df = pan_df[pan_df.eq_tag == eq_tag]
 
