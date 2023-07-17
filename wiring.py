@@ -335,7 +335,7 @@ def full_tag_duplicates(df):
         # st.write(df_right[df_right.duplicated()])
 
     if left_len or right_len:
-        st.write("Please fix and try again")
+        st.button("Please fix and try again")
         # st.write(len(df_left.duplicated()),"--", len(df_right.duplicated()))
         st.stop()
 
