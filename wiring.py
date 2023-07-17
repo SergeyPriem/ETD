@@ -232,12 +232,12 @@ def edit_panel():
         eq_tag = lc1.selectbox('Equipment Tag', eq_list)
         pan_tag = lc2.text_input('Panel Tag')
         pan_descr = lc3.text_input('Panel Description')
-        pan_to_add = rc1.number_input('Quantity of Panels to add')
+        pan_to_add = st.number_input('Quantity of Panels to add', step=1, min_value=1, max_value=50)
 
         rc2.text('')
         rc2.text('')
         add_pan_button = rc2.button("Add Panel to Document", use_container_width=True)
-        del_pan_button = rc3.button("Delete []", use_container_width=True)
+        del_pan_button = rc3.button("Delete selected Panels []", use_container_width=True)
 
         if add_pan_button:
             if all([eq_tag, pan_tag, pan_descr]):
@@ -457,7 +457,7 @@ def edit_wires():
     lc1, lc2, cc, rc = st.columns(4, gap='medium')
     cab_list = st.session_state.intercon['cable'].loc[:, 'cab_tag'].tolist()
     # wires_qty_list = st.session_state.intercon['cab_descr'].loc[:, 'wire_quant'].tolist()
-    act_cable = cc.selectbox('Select Cable for wires connection', cab_list)
+    act_cable = lc1.selectbox('Select Cable for wires connection', cab_list)
 
     # wire_num = rc.radio('Select Wires Quantity', wires_qty_list, horizontal=True)
 
@@ -566,9 +566,9 @@ def edit_wires():
         lc2.text('')
         lc2.text('')
 
-        wires_to_add = lc1.number_input(f'Add new wires', min_value=1, max_value=37)
+        wires_to_add = lc2.number_input(f'Add new wires', min_value=1, max_value=37)
 
-        if lc2.button("Add wires"):
+        if cc.button("Add wires"):
             add_wires(act_cable, wires_to_add)
             st.write("##### Wires added")
 
