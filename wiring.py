@@ -384,6 +384,8 @@ def check_wires_df(df):
 
     full_tag_duplicates(df)
 
+    both_side_connection(df)
+
 
     st.button("#### :green[Wires saved]")
 
