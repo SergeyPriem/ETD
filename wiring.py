@@ -251,7 +251,7 @@ def edit_panel():
             add_panels()
 
         if eq_tag:
-            pan_df = st.session_state.intercon['equip']
+            pan_df = st.session_state.intercon['panel']
             pan_filtered_df = pan_df[pan_df.eq_tag == eq_tag]
 
             if len(pan_filtered_df):
