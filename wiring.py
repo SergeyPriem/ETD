@@ -80,7 +80,6 @@ def open_intercon_google():
                                                                    'block_descr', 'full_block_tag', 'block_to_del'])
 
 
-
 # def add_equip_to_doc(tag, descr):
 #     st.text(descr)
 #     if st.session_state.inter_doc:
@@ -183,7 +182,7 @@ def edit_equipment():
                 )
             },
             hide_index=True, num_rows='fixed', use_container_width=True
-            )
+        )
 
         eq_to_del = upd_equip_df.loc[upd_equip_df.eq_to_del, 'eq_tag'].tolist()
         #
@@ -220,54 +219,90 @@ def edit_equipment():
             st.button('❗ Some fields are empty...')
 
 
-
-
 def edit_panel():
-
     eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
 
     if len(eq_list):
-        lc1, lc2, lc3, rc1, rc2, rc3 = st.columns([1,1,2,1,1,1], gap='medium')
+        lc1, lc2, rc1, rc2 = st.columns([2,1,1,2], gap='medium')
         eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
         eq_tag = lc1.selectbox('Equipment Tag', eq_list)
-        pan_tag = lc2.text_input('Panel Tag')
-        pan_descr = lc3.text_input('Panel Description')
-        pan_to_add = st.number_input('Quantity of Panels to add', step=1, min_value=1, max_value=50)
+        # pan_tag = lc2.text_input('Panel Tag')
+        # pan_descr = lc3.text_input('Panel Description')
+        pan_to_add = lc2.number_input('Quantity of Panels to add', step=1, min_value=1, max_value=50)
 
-        rc2.text('')
-        rc2.text('')
-        add_pan_button = rc2.button("Add Panel to Document", use_container_width=True)
-        del_pan_button = rc3.button("Delete selected Panels []", use_container_width=True)
+        rc1.text('')
+        rc1.text('')
+        add_pan_button = rc1.button("Add Panel to Document", use_container_width=True)
+
 
         if add_pan_button:
-            if all([eq_tag, pan_tag, pan_descr]):
-                full_pan_tags = st.session_state.intercon['panel'].loc[:, 'full_pan_tag'].tolist()
+            if eq_tag:
+                pan_df = st.session_state.intercon['equip']
+                pan_filtered_df = pan_df[pan_df.eq_tag == eq_tag]
 
-                full_pan_tag = str(eq_tag) + ":" + str(pan_tag)
+                if len(pan_filtered_df):
 
-                if full_pan_tag in full_pan_tags:
-                    st.button(f'❗ Panel with Tag {full_pan_tag} already exists...CLOSE and try again')
-                    st.stop()
+                    pan_edited_df = st.data_editor(
+                        pan_filtered_df,
+                        column_config={
+                            "eq_tag": st.column_config.TextColumn(
+                                "Equipment Tag",
+                                disabled=True,
+                                width='small',
+                            ),
+                            "pan_tag": st.column_config.TextColumn(
+                                "Panel Tag",
+                                width='small',
+                            ),
+                            "pan_descr": st.column_config.TextColumn(
+                                "Panel Description",
+                                width="medium",
+                            ),
+                            "full_pan_tag": st.column_config.TextColumn(
+                                "Full Panel Tag",
+                                min_value=1,
+                                max_value=100,
+                                width='small',
+                                disabled=True,
+                            ),
+                            "pan_to_del": st.column_config.TextColumn(
+                                "Panel to delete",
+                                width="small",
+                            ),
+                        },
+                        hide_index=True, num_rows='fixed', use_container_width=True)
 
-                else:
-                    df2 = pd.DataFrame.from_dict(
-                        [
-                            {
-                                'eq_tag': eq_tag,
-                                'pan_tag': pan_tag,
-                                'pan_descr': pan_descr,
-                                'full_pan_tag': full_pan_tag,
-                            }
-                        ]
-                    )
+                    rc2.text('')
+                    rc2.text('')
+                    del_pan_button = rc2.button("Delete selected Panels []", use_container_width=True)
 
-                    st.write(df2)
+                # full_pan_tags = st.session_state.intercon['panel'].loc[:, 'full_pan_tag'].tolist()
+                #
+                # full_pan_tag = str(eq_tag) + ":" + str(pan_tag)
 
-                    df1 = st.session_state.intercon['panel'].copy(deep=True)
-                    st.session_state.intercon['panel'] = pd.concat([df1, df2], ignore_index=True)
-                    st.button(f"New Panel {full_pan_tag} is Added. CLOSE")
-            else:
-                st.button('❗ Some fields are empty...')
+            #     if full_pan_tag in full_pan_tags:
+            #         st.button(f'❗ Panel with Tag {full_pan_tag} already exists...CLOSE and try again')
+            #         st.stop()
+            #
+            #     else:
+            #         df2 = pd.DataFrame.from_dict(
+            #             [
+            #                 {
+            #                     'eq_tag': eq_tag,
+            #                     'pan_tag': pan_tag,
+            #                     'pan_descr': pan_descr,
+            #                     'full_pan_tag': full_pan_tag,
+            #                 }
+            #             ]
+            #         )
+            #
+            #         st.write(df2)
+            #
+            #         df1 = st.session_state.intercon['panel'].copy(deep=True)
+            #         st.session_state.intercon['panel'] = pd.concat([df1, df2], ignore_index=True)
+            #         st.button(f"New Panel {full_pan_tag} is Added. CLOSE")
+            # else:
+            #     st.button('❗ Some fields are empty...')
     else:
         st.write("Equipment not available...")
 
@@ -327,7 +362,6 @@ def delete_equipment(equip_to_del):
     st.experimental_rerun()
 
 
-
 def delete_wires(wires_to_del):
     st.session_state.intercon['wire'] = \
         st.session_state.intercon['wire'][~st.session_state.intercon['wire'].wire_uniq.isin(wires_to_del)]
@@ -367,7 +401,6 @@ def order_of_wires(df):
 
 
 def both_side_connection(df):
-
     checker = True
     df_left = df[df.full_term_tag_left != 'nan:0']
     df_right = df[df.full_term_tag_right != 'nan:0']
@@ -395,9 +428,8 @@ def both_side_connection(df):
         st.button("OK")
         st.stop()
 
+        # not completed connection
 
-
-        #not completed connection
 
 def full_tag_duplicates(df):
     df_left = df[df.full_term_tag_left != 'nan:0']
@@ -418,7 +450,6 @@ def full_tag_duplicates(df):
 
 
 def check_wires_df(df):
-
     order_of_wires(df)
 
     for ind, row in df.iterrows():
@@ -432,18 +463,17 @@ def check_wires_df(df):
         st.write(e)
 
     df.wire_uniq = df.cab_tag.astype('str') + ":" + \
-                                   df.wire_num.astype('str')
+                   df.wire_num.astype('str')
 
     df.full_term_tag_left = df.full_block_tag_left.astype('str') + ":" + \
-                                            df.term_num_left.astype('str')
+                            df.term_num_left.astype('str')
 
     df.full_term_tag_right = df.full_block_tag_right.astype('str') + ":" + \
-                                             df.term_num_right.astype('str')
+                             df.term_num_right.astype('str')
 
     full_tag_duplicates(df)
 
     both_side_connection(df)
-
 
     st.button("#### :green[Wires saved]")
 
@@ -453,7 +483,6 @@ def create_uniq():
 
 
 def edit_wires():
-
     lc1, lc2, cc, rc = st.columns([2, 1, 1, 2], gap='medium')
     cab_list = st.session_state.intercon['cable'].loc[:, 'cab_tag'].tolist()
     # wires_qty_list = st.session_state.intercon['cab_descr'].loc[:, 'wire_quant'].tolist()
@@ -553,7 +582,6 @@ def edit_wires():
             wires_to_show = [int(x) for x in wires_to_show]
 
             if st.button("SAVE TERMINATION TABLE", use_container_width=True):
-
                 check_wires_df(upd_cable_wires_df)
                 save_wires(upd_cable_wires_df, act_cable)
 
