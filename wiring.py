@@ -224,7 +224,7 @@ def add_panels(act_equip, q_ty):
     df2 = pd.DataFrame()
 
     for w in range(0, q_ty):
-        df2.loc[w, "eq_tag"] = act_equip
+        df2.loc[w, ["eq_tag", 'pan_to_del']] = [act_equip, False]
 
     st.session_state.intercon['panel'] = pd.concat([st.session_state.intercon['panel'], df2])
     st.session_state.intercon['panel'] = st.session_state.intercon['panel'].reset_index(drop=True)
