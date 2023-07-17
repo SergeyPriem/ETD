@@ -63,16 +63,13 @@ def open_intercon_google():
         st.write(e)
 
     if len(st.session_state.intercon['wire']) == 0:
-        st.session_state.intercon['wire'] = pd.DataFrame(columns=['wire_trouble', 'cab_tag', 'full_block_tag_left',
+        st.session_state.intercon['wire'] = pd.DataFrame(columns=['cab_tag', 'full_block_tag_left',
                                                                   'term_num_left', 'wire_num', 'term_num_right',
-                                                                  'full_block_tag_right', 'wire_uniq', 'wire_to_del',
-                                                                  'full_term_tag_left', 'full_term_tag_right'])
+                                                                  'full_block_tag_right', 'wire_to_del',
+                                                                  'full_term_tag_left', 'wire_uniq',
+                                                                  'full_term_tag_right'])
         # st.write(st.session_state.intercon['wire'])
 
-
-def create_new_doc():
-    st.session_state.inter_doc = True
-    st.write("Doc Created")
 
 
 # def add_equip_to_doc(tag, descr):
@@ -292,8 +289,8 @@ def add_wires(act_cable, wires_to_add):
 
     for w in range(0, wires_to_add):
         wire_num = last_num + w + 1
-        df2.loc[last_ind + w, ["wire_trouble", "cab_tag", 'term_num_left', 'wire_num', 'term_num_right', 'wire_uniq', 'wire_to_del']] = \
-            ["-", act_cable, 0, wire_num, 0, str(act_cable) + ":" + str(wire_num), False]
+        df2.loc[last_ind + w, ["cab_tag", 'term_num_left', 'wire_num', 'term_num_right', 'wire_uniq', 'wire_to_del']] = \
+            [act_cable, 0, wire_num, 0, str(act_cable) + ":" + str(wire_num), False]
 
     st.session_state.intercon['wire'] = pd.concat([st.session_state.intercon['wire'], df2])
     st.session_state.intercon['wire'] = st.session_state.intercon['wire'].reset_index(drop=True)
@@ -435,12 +432,6 @@ def edit_wires():
             upd_cable_wires_df = st.data_editor(
                 current_cable_wires_df,
                 column_config={
-                    "wire_trouble": st.column_config.TextColumn(
-                        "Trouble",
-                        help="Here is shown filling mistakes. Fix it and save again",
-                        width="small",
-                        default="-"
-                    ),
                     "cab_tag": st.column_config.TextColumn(
                         "Cable Tag",
                         disabled=True,
@@ -481,21 +472,20 @@ def edit_wires():
                         width="medium",
                         options=right_block_list,
                     ),
-                    "wire_uniq": st.column_config.TextColumn(
-                        "Full Wire Tag",
-                        default=str(act_cable) + ":" + str(int(current_cable_wires_df.wire_num.max() + 1))
-
-                    ),
                     "wire_to_del": st.column_config.CheckboxColumn(
                         "Delete Wire",
                         width="small",
                         default=False
                     ),
-                    "full_term_tag_left:": st.column_config.TextColumn(
+                    "full_term_tag_left": st.column_config.TextColumn(
                         width="small",
                         disabled=True,
                     ),
-                    "full_term_tag_right:": st.column_config.TextColumn(
+                    "wire_uniq": st.column_config.TextColumn(
+                        width="small",
+                        disabled=True,
+                    ),
+                    "full_term_tag_right": st.column_config.TextColumn(
                         width="small",
                         disabled=True,
                     ),
