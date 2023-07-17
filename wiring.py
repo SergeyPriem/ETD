@@ -176,7 +176,7 @@ def edit_equipment():
             hide_index=True, num_rows='fixed', use_container_width=True
             )
 
-        eq_to_del = upd_equip_df.loc[upd_equip_df.eq_to_del, 'eq_tag'].tolist()
+        eq_to_del = upd_equip_df.loc[upd_equip_df.eq_to_del == "True", 'eq_tag'].tolist()
         #
         rc2.text('')
         rc2.text('')
