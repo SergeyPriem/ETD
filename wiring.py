@@ -145,14 +145,112 @@ def edit_cab_con():
 
 
 def edit_equipment():
-    with st.form('create_eq'):
-        lc1, lc2, rc1, rc2 = st.columns(4, gap='medium')
-        eq_tag = lc1.text_input('Equipment Tag')
-        eq_descr = lc2.text_input('Equipment Descr')
-        add_eq_button = rc1.form_submit_button("Add Equipment to Document")
-        del_eq_button = rc2.form_submit_button("Delete Equipment from Document")
+    # with st.form('create_eq'):
+    lc1, lc2, rc1, rc2 = st.columns(4, gap='medium')
+    eq_tag = lc1.text_input('Equipment Tag')
+    eq_descr = lc2.text_input('Equipment Descr')
+    add_eq_button = rc1.button("Add Equipment to Document")
 
-    eq_to_del = []
+    equip_df = st.session_state.intercon['equip']
+
+    if len(equip_df):
+        upd_equip_df = st.data_editor(
+            equip_df,
+            column_config={
+                'eq_tag': st.column_config.TextColumn(
+                    'Equipment Tag',
+                    width='medium',
+                ),
+                'eq_descr': st.column_config.TextColumn(
+                    'Equipment Description',
+                    width='large'
+                ),
+                'eq_to_del': st.column_config.CheckboxColumn(
+                    'Delete Equipment',
+                    width='small'
+                )
+            },
+            hide_index=True, num_rows='fixed', use_container_width=True
+            )
+
+        # upd_cable_wires_df = st.data_editor(
+        #     current_cable_wires_df,
+        #     column_config={
+        #         "cab_tag": st.column_config.TextColumn(
+        #             "Cable Tag",
+        #             disabled=True,
+        #             default=act_cable,
+        #         ),
+        #         "full_block_tag_left": st.column_config.SelectboxColumn(
+        #             "Left Cable Terminal Block",
+        #             help="Available terminals at the Left Panel",
+        #             width="medium",
+        #             options=left_block_list,
+        #         ),
+        #         "term_num_left": st.column_config.NumberColumn(
+        #             "Left Terminal Number",
+        #             help="Number of Terminal",
+        #             min_value=0,
+        #             max_value=250,
+        #             width="small",
+        #         ),
+        #         "wire_num": st.column_config.NumberColumn(
+        #             "Number of Wire",
+        #             min_value=1,
+        #             max_value=100,
+        #             width='small',
+        #             default=current_cable_wires_df.wire_num.max() + 1
+        #         ),
+        #
+        #         "term_num_right": st.column_config.NumberColumn(
+        #             "Right Terminal Number",
+        #             help="Number of Terminal",
+        #             min_value=0,
+        #             max_value=250,
+        #             width="small",
+        #         ),
+        #
+        #         "full_block_tag_right": st.column_config.SelectboxColumn(
+        #             "Right Cable Terminal Block",
+        #             help="Available terminals at the Right Panel",
+        #             width="medium",
+        #             options=right_block_list,
+        #         ),
+        #         "wire_to_del": st.column_config.CheckboxColumn(
+        #             "Delete Wire",
+        #             width="small",
+        #             default=False
+        #         ),
+        #         "full_term_tag_left": st.column_config.TextColumn(
+        #             width="small",
+        #             disabled=True,
+        #         ),
+        #         "wire_uniq": st.column_config.TextColumn(
+        #             width="small",
+        #             disabled=True,
+        #         ),
+        #         "full_term_tag_right": st.column_config.TextColumn(
+        #             width="small",
+        #             disabled=True,
+        #         ),
+        #     },
+        #     hide_index=True, num_rows='fixed', use_container_width=True)
+        # # on_change=save_wires, args=(upd_cable_wires_df, act_cable)
+        #
+        # wires_to_del = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_del, 'wire_uniq'].tolist()
+        #
+        # wires_to_show = upd_cable_wires_df.loc[upd_cable_wires_df.wire_to_del, 'wire_num'].tolist()
+        # wires_to_show = [int(x) for x in wires_to_show]
+        #
+        # if st.button("SAVE TERMINATION TABLE", use_container_width=True):
+        #     check_wires_df(upd_cable_wires_df)
+        #     save_wires(upd_cable_wires_df, act_cable)
+
+        eq_to_del = upd_equip_df.loc[upd_equip_df.eq_to_del, 'eq_tag']
+
+        del_eq_button = rc2.button("Delete Equipment {eq_to_del}")
+        if del_eq_button:
+            delete_equipment(eq_to_del)
 
     if add_eq_button:
         if eq_tag and eq_descr:
@@ -167,6 +265,7 @@ def edit_equipment():
                         {
                             'eq_tag': eq_tag,
                             'eq_descr': eq_descr,
+                            'eq_to_del': False
                         }
                     ]
                 )
@@ -179,8 +278,7 @@ def edit_equipment():
         else:
             st.button('❗ Some fields are empty...')
 
-    if del_eq_button:
-        delete_equipment(eq_to_del)
+
 
 
 def edit_panel():
