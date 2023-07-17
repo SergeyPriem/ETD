@@ -322,6 +322,7 @@ def full_tag_duplicates(df):
         st.write('duplicates in left terminal block')
 
     if len(df_left.duplicated()) or len(df_right.duplicated()):
+        st.write(len(df_left.duplicated()),"--", len(df_right.duplicated()))
         st.stop()
 
 
