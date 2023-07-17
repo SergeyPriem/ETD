@@ -67,7 +67,7 @@ def open_intercon_google():
                                                                   'term_num_left', 'wire_num', 'term_num_right',
                                                                   'full_block_tag_right', 'wire_uniq', 'wire_to_del',
                                                                   'full_term_tag_left', 'full_term_tag_right'])
-        st.write(st.session_state.intercon['wire'])
+        # st.write(st.session_state.intercon['wire'])
 
 
 def create_new_doc():
