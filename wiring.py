@@ -287,7 +287,7 @@ def edit_panel():
                 rc2.text('')
                 rc2.text('')
 
-                pan_to_del = pan_edited_df[pan_edited_df.pan_to_del == "True", "full_pan_tag"].tolist()
+                pan_to_del = pan_edited_df[pan_edited_df.pan_to_del, "full_pan_tag"].tolist()
                 del_pan_button = rc2.button(f"Delete selected Panels {pan_to_del}", use_container_width=True)
 
                 if del_pan_button:
