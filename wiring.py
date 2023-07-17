@@ -246,7 +246,7 @@ def edit_equipment():
         #     check_wires_df(upd_cable_wires_df)
         #     save_wires(upd_cable_wires_df, act_cable)
 
-        eq_to_del = upd_equip_df.loc[upd_equip_df.eq_to_del, 'eq_tag']
+        eq_to_del = upd_equip_df.loc[upd_equip_df.eq_to_del == True, 'eq_tag']
 
         del_eq_button = rc2.button(f"Delete Equipment {eq_to_del}")
         if del_eq_button:
