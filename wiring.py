@@ -227,15 +227,17 @@ def edit_panel():
     eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
 
     if len(eq_list):
-        with st.form('create_pan'):
-            lc1, lc2, rc1, rc2 = st.columns(4, gap='medium')
-            eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
-            eq_tag = lc1.selectbox('Equipment Tag', eq_list)
-            pan_tag = lc2.text_input('Panel Tag')
-            pan_descr = rc1.text_input('Panel Description')
-            rc2.text('')
-            rc2.text('')
-            add_pan_button = rc2.form_submit_button("Add Panel to Document", use_container_width=True)
+        lc1, lc2, lc3, rc1, rc2, rc3 = st.columns([1,1,2,1,1,1], gap='medium')
+        eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
+        eq_tag = lc1.selectbox('Equipment Tag', eq_list)
+        pan_tag = lc2.text_input('Panel Tag')
+        pan_descr = lc3.text_input('Panel Description')
+        pan_to_add = rc1.number_input('Quantity of Panels to add')
+
+        rc2.text('')
+        rc2.text('')
+        add_pan_button = rc2.button("Add Panel to Document", use_container_width=True)
+        del_pan_button = rc3.button("Delete []", use_container_width=True)
 
         if add_pan_button:
             if all([eq_tag, pan_tag, pan_descr]):
