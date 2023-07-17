@@ -112,6 +112,7 @@ def transmittals_content():
 
                 with cc:
                     ans_required = option_menu(None, ["Is our reply requited:", "Yes", "No"],
+                                               icons=['-', '-', '-'],
                                                default_index=1,
                                                orientation='horizontal')
 
