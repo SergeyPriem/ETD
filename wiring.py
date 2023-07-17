@@ -248,7 +248,7 @@ def edit_equipment():
 
         eq_to_del = upd_equip_df.loc[upd_equip_df.eq_to_del, 'eq_tag']
 
-        del_eq_button = rc2.button("Delete Equipment {eq_to_del}")
+        del_eq_button = rc2.button(f"Delete Equipment {eq_to_del}")
         if del_eq_button:
             delete_equipment(eq_to_del)
 
