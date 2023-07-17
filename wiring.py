@@ -334,7 +334,8 @@ def both_side_connection(df):
             checker = False
 
     if not checker:
-        st.button("Fix and save - OK")
+        st.write('Fix and save!')
+        st.button("OK")
         st.stop()
 
 
@@ -352,10 +353,10 @@ def full_tag_duplicates(df):
     right_len = len(df_right[df_right.full_term_tag_right.duplicated()])
 
     if right_len:
-        st.write(':red[duplicates in right terminal block]')
+        st.write(':red[duplicates in right terminal block. Please fix and try again]')
 
     if left_len or right_len:
-        st.button("Please fix and try again - OK")
+        st.button("OK")
         st.stop()
 
 
