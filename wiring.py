@@ -308,35 +308,54 @@ def order_of_wires(df):
         st.write("#### :red[Wire numbers not in order...]")
         st.stop()
 
-def full_tag_duplicates(df):
-    # left side
-    df_left = df[df.full_term_tag_left != 'nan:0']
-    # st.write("left side")
-    # st.write(df_left)
-    # st.write(df_left[df_left.duplicated()])
 
+def both_side_connection(df):
+
+    checker = True
+    df_left = df[df.full_term_tag_left != 'nan:0']
+    df_right = df[df.full_term_tag_right != 'nan:0']
+
+    if len(df_left) != len(df_right):
+        st.button("Left and right connections quantity is different - OK")
+        st.stop()
+    # if len filtered left == len filtered right
+    # OK
+
+    for ind, row in df_left.iterrows():
+        if "nan" in row.full_term_tag_left.split(":")[0] or "0" in row.full_term_tag_left.split(":")[0]:
+            st.write(":red[Not selected LEFT terminal block or terminal in row:]")
+            checker = False
+            st.write(row)
+
+    for ind, row in df_right.iterrows():
+        if "nan" in row.full_term_tag_right.split(":")[0] or "0" in row.full_term_tag_right.split(":")[0]:
+            st.write(":red[Not selected LEFT terminal block or terminal in row:]")
+            checker = False
+            st.write(row)
+
+    if not checker:
+        st.button("Fix and save - OK")
+        st.stop()
+
+
+
+        #not completed connection
+
+def full_tag_duplicates(df):
+    df_left = df[df.full_term_tag_left != 'nan:0']
     left_len = len(df_left[df_left.full_term_tag_left.duplicated()])
 
     if left_len:
         st.write(':red[duplicates in left terminal block]')
-        # st.write(df_left[df_left.duplicated()])
 
-    # right side
     df_right = df[df.full_term_tag_right != 'nan:0']
-    # st.write("right side")
-    # st.write(df_right)
-    #
-    # st.write(df_right[df_right.duplicated()])
-
     right_len = len(df_right[df_right.full_term_tag_right.duplicated()])
 
     if right_len:
         st.write(':red[duplicates in right terminal block]')
-        # st.write(df_right[df_right.duplicated()])
 
     if left_len or right_len:
-        st.button("Please fix and try again")
-        # st.write(len(df_left.duplicated()),"--", len(df_right.duplicated()))
+        st.button("Please fix and try again - OK")
         st.stop()
 
 
