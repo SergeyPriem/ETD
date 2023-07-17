@@ -432,7 +432,7 @@ def edit_wires():
                     "term_num_left": st.column_config.NumberColumn(
                         "Left Terminal Number",
                         help="Number of Terminal",
-                        min_value=1,
+                        min_value=0,
                         max_value=250,
                         width="small",
                     ),
@@ -447,7 +447,7 @@ def edit_wires():
                     "term_num_right": st.column_config.NumberColumn(
                         "Right Terminal Number",
                         help="Number of Terminal",
-                        min_value=1,
+                        min_value=0,
                         max_value=250,
                         width="small",
                     ),
