@@ -146,10 +146,13 @@ def edit_cab_con():
 
 def edit_equipment():
     with st.form('create_eq'):
-        lc, rc = st.columns(2, gap='medium')
-        eq_tag = lc.text_input('Equipment Tag')
-        eq_descr = rc.text_input('Equipment Descr')
-        add_eq_button = st.form_submit_button("Add equipment to Document")
+        lc1, lc2, rc1, rc2 = st.columns(4, gap='medium')
+        eq_tag = lc1.text_input('Equipment Tag')
+        eq_descr = lc2.text_input('Equipment Descr')
+        add_eq_button = rc1.form_submit_button("Add Equipment to Document")
+        del_eq_button = rc2.form_submit_button("Delete Equipment from Document")
+
+    eq_to_del = []
 
     if add_eq_button:
         if eq_tag and eq_descr:
@@ -175,6 +178,9 @@ def edit_equipment():
                 st.button(f"New Equipment {eq_tag} is Added. CLOSE")
         else:
             st.button('❗ Some fields are empty...')
+
+    if del_eq_button:
+        delete_equipment(eq_to_del)
 
 
 def edit_panel():
@@ -266,6 +272,13 @@ def edit_block():
             st.warning('Panels not available...')
     else:
         st.warning('Equipment not available...')
+
+
+def delete_equipment(equip_to_del):
+    st.session_state.intercon['equip'] = \
+        st.session_state.intercon['equip'][~st.session_state.intercon['equip'].eq_tag.isin(equip_to_del)]
+    st.experimental_rerun()
+
 
 
 def delete_wires(wires_to_del):
