@@ -309,28 +309,28 @@ def order_of_wires(df):
         st.stop()
 
 def full_tag_duplicates(df):
-    # for i, row in df.iterrows():
-    #     if row.full_block_tag_left is None
-    pass
+    # left side
+    df_left = df[df.full_term_tag_left != 'nan:0']
+
+    if len(df_left.duplicated()):
+        st.write('duplicates in left terminal block')
+
+    # right side
+    df_right = df[df.full_term_tag_right != 'nan:0']
+
+    if len(df_right.duplicated()):
+        st.write('duplicates in left terminal block')
+
+    if len(df_left.duplicated()) or len(df_right.duplicated()):
+        st.stop()
+
 
 def check_wires_df(df):
-    check = 0
 
     order_of_wires(df)
-    full_tag_duplicates(df)
 
     for ind, row in df.iterrows():
         pass
-
-    # check for duplicates
-    # for ind, row in upd_cable_wires_df.iterrows():
-    #
-    #     if str(row.cab_tag) + ":" + str(int(row.wire_num)) != row.wire_uniq:
-    #         st.write(f"wire {ind}  has problem...")
-    #         upd_cable_wires_df.loc[ind, 'wire_trouble'] += "Wrong Full Wire Tag"
-    #         check += 1
-    #     else:
-    #         upd_cable_wires_df.loc[ind, 'wire_trouble'] = "-"
 
     try:
         df.wire_num = df.wire_num.astype("int")
@@ -348,25 +348,7 @@ def check_wires_df(df):
     df.full_term_tag_right = df.full_block_tag_right.astype('str') + ":" + \
                                              df.term_num_right.astype('str')
 
-    left_duplicates = df.full_term_tag_left.duplicated()
-
-    if True in left_duplicates:
-        st.write("Duplicates in Left Terminal Block Found")
-        st.write(df.loc[left_duplicates, "full_term_tag_left"])
-
-        # for i in df.loc[left_duplicates, "full_term_tag_left"]:
-        #     if not i.endswith(":0"):
-        #         st
-
-    right_duplicates = df.full_term_tag_right.duplicated()
-
-    if True in right_duplicates:
-        st.write("Duplicates in Right Terminal Block Found")
-        st.write(df.loc[left_duplicates, "full_term_tag_right"])
-
-    if True in left_duplicates or True in right_duplicates:
-        st.stop()
-
+    full_tag_duplicates(df)
 
 
     st.button("#### :green[Wires saved]")
