@@ -91,7 +91,7 @@ def edit_cab_con():
             if rc.button(f'Delete selected {cab_to_del_list}'):
                 def delete_cable(cab_to_del_list):
                     st.session_state.intercon['cable'] = \
-                        st.session_state.intercon['cable'][~st.session_state.intercon['cable'].cabtag.isin(cab_to_del_list)]
+                        st.session_state.intercon['cable'][~st.session_state.intercon['cable'].cab_tag.isin(cab_to_del_list)]
                     st.experimental_rerun()
 
                 delete_cable(cab_to_del_list)
