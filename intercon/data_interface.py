@@ -84,10 +84,12 @@ def save_to_gsheet():
         for sh_name in ['equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']:
             df = st.session_state.intercon[sh_name]
             st.session_state.intercon['doc'].worksheet(sh_name).update([df.columns.values.tolist()] + df.values.tolist())
-            st.write(f"#### :blue[GOOGLE doc: sheet {sh_name} is updated]")
+            st.write(f"##### :blue[GOOGLE doc: sheet {sh_name} is updated]")
     except Exception as e:
         st.warning('It seems the uploaded file is wrong...')
         st.write(e)
+
+    st.button("OK", key="google_updated")
 
 
 
