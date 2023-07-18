@@ -155,9 +155,6 @@ class Action(db.Entity):
 
 set_sql_debug(False)
 
-# db.bind(provider='sqlite', filename='DBB.sqlite', create_db=True)
-# @st.cache_resource(ttl=3600)
-# def binding():
 db.bind(
     provider='mysql',
     host=st.secrets["db_host"],
@@ -166,11 +163,6 @@ db.bind(
     db=st.secrets["db_database"]
 )
 
-# binding()
 
 db.generate_mapping(create_tables=True)
 
-# return db
-
-
-# db = make_db(db)

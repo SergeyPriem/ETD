@@ -1,7 +1,12 @@
 ﻿# -*- coding: utf-8 -*-
-
+import streamlit as st
 from pony.orm import *
-from models import Project, SOD, Task, Users, Speciality, Trans
+
+try:
+    from models import Project, SOD, Task, Users, Speciality, Trans
+except Exception as e:
+    st.write(e)
+
 import pandas as pd
 from datetime import date, datetime
 import streamlit as st
