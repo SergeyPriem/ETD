@@ -76,11 +76,9 @@ def edit_block():
                         ),
                     }, hide_index=False, use_container_width=True)
 
-                blocks_to_del = \
-                    blocks_edited_df.loc[blocks_edited_df.block_to_del.astype('str') == "True", "full_block_tag"].tolist()
+                blocks_to_del = blocks_edited_df.loc[blocks_edited_df.block_to_del.astype('str') == "True", "full_block_tag"].tolist()
 
-                blocks_to_show = \
-                    blocks_edited_df.loc[blocks_edited_df.block_to_del.astype('str') == "True", "block_tag"].tolist()
+                blocks_to_show = blocks_edited_df.loc[blocks_edited_df.block_to_del.astype('str') == "True", "block_tag"].tolist()
 
                 if c5.button(f'Delete selected {blocks_to_show}', use_container_width=True):
                     delete_block(blocks_to_del)
@@ -93,7 +91,7 @@ def edit_block():
 
                         # st.write(df)
 
-                        check_list = df[df.full_block_tag.duplicated(), "full_block_tag"].tolist()
+                        check_list = df.loc[df.full_block_tag.duplicated(), "full_block_tag"].tolist()
                         if len(check_list):
                             st.write(f"#### :red[Dulicated Terminal Blocks {check_list}. Please fix and save]")
                             st.button("OK", key='duplicated_blocks')
