@@ -112,4 +112,4 @@ def edit_panel():
             else:
                 st.write("#### :blue[No panels for this equipment]")
     else:
-        st.write("Equipment not available...")
+        st.warning("Equipment not available...")

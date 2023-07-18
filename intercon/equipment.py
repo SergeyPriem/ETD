@@ -66,6 +66,9 @@ def edit_equipment():
         if st.button("SAVE EQUIPMENT TABLE"):
             save_equipment(upd_equip_df)
 
+    else:
+        st.warning("#### :blue[No equipment available...]")
+
     if add_eq_button:
         if eq_tag and eq_descr:
             eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
@@ -85,10 +88,9 @@ def edit_equipment():
                     ]
                 )
 
-                st.write(df2)
 
                 df1 = st.session_state.intercon['equip'].copy(deep=True)
                 st.session_state.intercon['equip'] = pd.concat([df1, df2], ignore_index=True)
-                st.button(f"New Equipment {eq_tag} is Added. CLOSE")
+                st.experimental_rerun()
         else:
             st.button('❗ Some fields are empty...')

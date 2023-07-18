@@ -69,6 +69,11 @@ def open_intercon_google():
         st.session_state.intercon['block'] = pd.DataFrame(columns=['full_pan_tag', 'block_tag',
                                                                    'block_descr', 'full_block_tag', 'block_to_del'])
 
+    if len(st.session_state.intercon['cable']) == 0:
+        st.session_state.intercon['cable'] = pd.DataFrame(columns=['full_pan_tag_left', 'cab_tag',
+                                                                   'full_pan_tag_right', 'cab_purpose', 'cab_type',
+                                                                   'cab_sect', 'wire_quant', 'cab_to_del'])
+
 
 
 
