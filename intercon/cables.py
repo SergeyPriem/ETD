@@ -4,21 +4,21 @@ import streamlit as st
 
 
 def edit_cab_con():
-    lc, rc = st.columns(2, gap='medium')
+    lc1, lc2, rc1, rc2 = st.columns(4, gap='medium')
     eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
     if len(eq_list):
-        left_eq = lc.selectbox("Select the Left Equipment", eq_list)
-        right_eq = rc.selectbox("Select the Right Equipment", eq_list)
+        left_eq = lc1.selectbox("Select the Left Equipment", eq_list)
+        right_eq = rc1.selectbox("Select the Right Equipment", eq_list)
 
         panels = st.session_state.intercon['panel']
         left_pan_list = panels.loc[panels.eq_tag == left_eq, 'full_pan_tag'].tolist()
         right_pan_list = panels.loc[panels.eq_tag == right_eq, 'full_pan_tag'].tolist()
 
         if len(left_pan_list) and len(right_pan_list):
-            left_pan = lc.selectbox("Select the Left Panel", left_pan_list)
-            right_pan = rc.selectbox("Select the Right Panel", right_pan_list)
+            left_pan = lc2.selectbox("Select the Left Panel", left_pan_list)
+            right_pan = rc2.selectbox("Select the Right Panel", right_pan_list)
 
-            cab_tag = lc.text_input("Cable Tag")
+            cab_tag = lc1.text_input("Cable Tag")
 
             cab = st.session_state.intercon['cab_descr']
 
@@ -27,9 +27,9 @@ def edit_cab_con():
             cab_sects = cab['cab_sect'].tolist()
             cab_tags = st.session_state.intercon['cable']['cab_tag'].tolist()
 
-            cab_purpose = rc.selectbox("Select Cable Purpose", cab_purposes)
-            cab_type = lc.selectbox("Select Cable Type", cab_types)
-            cab_sect = rc.selectbox("Select Wire Section", cab_sects)
+            cab_purpose = lc2.selectbox("Select Cable Purpose", cab_purposes)
+            cab_type = rc1.selectbox("Select Cable Type", cab_types)
+            cab_sect = rc2.selectbox("Select Wire Section", cab_sects)
 
             if st.button("Create Cable Connection", use_container_width=True):
 
