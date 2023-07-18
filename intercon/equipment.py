@@ -13,7 +13,7 @@ def save_equipment(df):
 
     df_check = df.loc[df.eq_tag.duplicated(), 'eq_tag']
     if len(df_check):
-        st.write(f":red[Duplicates in Equipment Tags {df_check.tolist()}. Please fix and save]")
+        st.write(f"#### :red[Duplicates in Equipment Tags {df_check.tolist()}. Please fix and save]")
         st.button("OK", key='eq_duplicates')
         st.stop()
 
