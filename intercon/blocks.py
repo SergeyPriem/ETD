@@ -89,11 +89,9 @@ def edit_block():
 
                         df.full_block_tag = df.full_pan_tag.astype('str')+":"+df.block_tag.astype('str')
 
-                        # st.write(df)
-
-                        check_list = df.loc[df.full_block_tag.duplicated(), "full_block_tag"].tolist()
+                        check_list = df.loc[df.full_block_tag.duplicated(), "block_tag"].tolist()
                         if len(check_list):
-                            st.write(f"#### :red[Dulicated Terminal Blocks {check_list}. Please fix and save]")
+                            st.write(f"Dulicated Terminal Blocks {check_list}. Please fix and save")
                             st.button("OK", key='duplicated_blocks')
                             st.stop()
 
