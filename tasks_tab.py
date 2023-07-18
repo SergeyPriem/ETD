@@ -205,7 +205,7 @@ def add_task(task_content):
                         for unit in units:
                             for spec in specialities:
 
-                                reply = add_in_to_db(project, unit, stage, direction, spec, date, description.strip(),
+                                reply = add_in_to_db(project, unit, stage, short_dir, spec, date, description.strip(),
                                                      link.strip(), source.strip(), comments.strip())
 
                                 if '<*>' in reply:
