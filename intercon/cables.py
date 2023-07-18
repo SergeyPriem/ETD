@@ -3,6 +3,12 @@ import pandas as pd
 import streamlit as st
 
 
+def delete_cable(cab_to_del_list):
+    st.session_state.intercon['cable'] = \
+        st.session_state.intercon['cable'][~st.session_state.intercon['cable'].cab_tag.isin(cab_to_del_list)]
+    st.experimental_rerun()
+
+
 def edit_cab_con():
     lc1, lc2, rc1, rc2 = st.columns(4, gap='medium')
     eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
@@ -53,8 +59,6 @@ def edit_cab_con():
                         }
                     ])
 
-                    st.write(df2)
-
                     df1 = st.session_state.intercon['cable'].copy(deep=True)
                     st.session_state.intercon['cable'] = pd.concat([df1, df2],
                                                                    ignore_index=True)
@@ -89,11 +93,7 @@ def edit_cab_con():
 
                 cab_to_del_list = edited_cab_df.loc[edited_cab_df.cab_to_del.astype('str') == "True", "cab_tag"].tolist()
 
-                if rc.button(f'Delete selected {cab_to_del_list}'):
-                    def delete_cable(cab_to_del_list):
-                        st.session_state.intercon['cable'] = \
-                            st.session_state.intercon['cable'][~st.session_state.intercon['cable'].cab_tag.isin(cab_to_del_list)]
-                        st.experimental_rerun()
+                if rc.button(f'Delete selected {cab_to_del_list}', use_container_width=True):
 
                     delete_cable(cab_to_del_list)
             else:

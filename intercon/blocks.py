@@ -3,6 +3,26 @@ import pandas as pd
 import streamlit as st
 
 
+def save_blocks(df, act_panel):
+    temp_df = st.session_state.intercon['block'].copy(deep=True)
+    temp_df = temp_df[temp_df.full_pan_tag != act_panel]
+
+    st.session_state.intercon['block'] = pd.concat([temp_df, df])
+    st.session_state.intercon['block'].reset_index(drop=True, inplace=True)
+    st.write("#### :green[Blocks saved successfully]")
+    st.button("OK", key='blocks_saved')
+
+
+def check_blocks(df):
+    df.full_block_tag = df.full_pan_tag.astype('str') + ":" + df.block_tag.astype('str')
+
+    check_list = df.loc[df.full_block_tag.duplicated(), "block_tag"].tolist()
+    if len(check_list):
+        st.write(f"#### :red[Dulicated Terminal Blocks {check_list}. Please fix and save]")
+        st.button("OK", key='duplicated_blocks')
+        st.stop()
+
+
 def add_blocks(act_pan, q_ty):
 
     df2 = pd.DataFrame()
@@ -84,32 +104,10 @@ def edit_block():
                     delete_block(blocks_to_del)
 
                 if st.button("SAVE TERMINAL BLOCKS"):
-
-                    def check_blocks(df):
-
-                        df.full_block_tag = df.full_pan_tag.astype('str')+":"+df.block_tag.astype('str')
-
-                        check_list = df.loc[df.full_block_tag.duplicated(), "block_tag"].tolist()
-                        if len(check_list):
-                            st.write(f"#### :red[Dulicated Terminal Blocks {check_list}. Please fix and save]")
-                            st.button("OK", key='duplicated_blocks')
-                            st.stop()
-
                     check_blocks(blocks_edited_df)
-
-                    def save_blocks(df, act_panel):
-                        temp_df = st.session_state.intercon['block'].copy(deep=True)
-                        temp_df = temp_df[temp_df.full_pan_tag != act_panel]
-
-                        st.session_state.intercon['block'] = pd.concat([temp_df, df])
-                        st.session_state.intercon['block'].reset_index(drop=True, inplace=True)
-                        st.write("#### :green[Blocks saved successfully]")
-                        st.button("OK", key='blocks_saved')
-
                     save_blocks(blocks_edited_df, full_pan_tag)
             else:
                 st.write("#### :blue[No terminal blocks in selected panel]")
-
         else:
             st.warning('Panels not available...')
     else:
