@@ -19,7 +19,7 @@ from intercon.cables import  edit_cab_con
 from intercon.panels import edit_panel
 from intercon.blocks import edit_block
 from intercon.wires import edit_wires
-from intercon.data_interface import open_inercon_doc, close_intercon_doc, open_intercon_google
+from intercon.data_interface import open_inercon_doc, close_intercon_doc, open_intercon_google, save_to_gsheet
 
 cab_dict = {
     1.5: 1.5, 2.5: 2.5, 4: 4,
@@ -1422,7 +1422,8 @@ def scripts_tab():
                     else:
                         work, close_b = st.columns([12, 2], gap="medium")
                         work.info(f"#### You are working with CLOUD document :blue[termination BGPP]")
-                        close_b.button('Save', use_container_width=True)
+                        if close_b.button('Save', use_container_width=True):
+                            save_to_gsheet()
                         if close_b.button('Download and Close', use_container_width=True):
                             close_intercon_doc()
                             st.experimental_rerun()
@@ -1432,13 +1433,10 @@ def scripts_tab():
                 if st.session_state.intercon['doc']:
 
                     preview_list = ["VIEW:", 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
-                    # prev_sel = st.radio("Select the Table for preview", preview_list, horizontal=True)
 
                     prev_sel = option_menu(None, preview_list,
                                            icons=['search', '-', '-', '-', '-', '-', '-', '-', '-'],
                                            orientation="horizontal", default_index=0)
-                    # menu_icon="cast", default_index=0, orientation="horizontal")
-                    # st.write(selected2)
 
                     if prev_sel != "VIEW:":
                         st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
@@ -1446,11 +1444,6 @@ def scripts_tab():
                     else:
                         st.write("Here you can preview Connections related Tables")
                     st.divider()
-                    # st.divider()
-
-                    # action = st.radio('SELECT THE OPTION TO EDIT',
-                    #                   ['1️⃣  Equipment', '2️⃣  Panel', '3️⃣  Terminal Block', '4️⃣  Cable',
-                    #                    '5️⃣  Cable Wires', ], horizontal=True)
 
                     action = option_menu(None, ['EDIT:', 'Equipment', 'Panel', 'Terminal Block', 'Cable',
                                                 'Cable Wires'],

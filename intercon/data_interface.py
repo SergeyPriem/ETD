@@ -74,6 +74,16 @@ def open_intercon_google():
                                                                    'full_pan_tag_right', 'cab_purpose', 'cab_type',
                                                                    'cab_sect', 'wire_quant', 'cab_to_del'])
 
+    if len(st.session_state.intercon['terminal']) == 0:
+        st.session_state.intercon['terminal'] = pd.DataFrame(columns=['full_block_tag', 'term_tag',
+                                                                      'full_term_tag', 'int_link', 'ext_link'])
+
+def save_to_gsheet():
+
+    df = st.session_state.intercon['wire']
+
+    st.session_state.intercon['doc'].worksheet('wire').update([df.columns.values.tolist()] + df.values.tolist())
+
 
 
 

@@ -67,7 +67,7 @@ def edit_equipment():
             save_equipment(upd_equip_df)
 
     else:
-        st.warning("#### :blue[No equipment available...]")
+        st.warning("Equipment not available...")
 
     if add_eq_button:
         if eq_tag and eq_descr:
