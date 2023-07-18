@@ -30,8 +30,6 @@ def edit_block():
         if len(pan_list):
 
             full_pan_tag = c2.selectbox("Select the Panel", pan_list)
-            # block_tag = c3.text_input("Terminal Block\'s Tag")
-            # block_descr = c4.text_input('Block Description - optional', value="-")
 
             c4.text('')
             c4.text('')
@@ -39,76 +37,76 @@ def edit_block():
             c5.text('')
 
             blocks_q_ty = c3.number_input("Quantity of Blocks to Add", min_value=1, max_value=50, step=1)
+
             if c4.button("Add Blocks"):
                 add_blocks(full_pan_tag, blocks_q_ty)
-
 
             blocks_df = st.session_state.intercon['block']
 
             blocks_to_edit_df = blocks_df[blocks_df.full_pan_tag == full_pan_tag]
 
-            blocks_edited_df = st.data_editor(
-                blocks_to_edit_df,
-                column_config = {
-                    "full_pan_tag": st.column_config.TextColumn(
-                        "Full Panel Tag",
-                        width="small"
-                    ),
+            if len(blocks_to_edit_df):
 
-                    "block_tag": st.column_config.TextColumn(
-                        "Block Tag",
-                        width="small"
-                    ),
-                    "block_descr": st.column_config.TextColumn(
-                        "Block Description",
-                        width="medium"
-                    ),
-                    "block_to_del": st.column_config.CheckboxColumn(
-                        "Delete Block",
-                        width="small",
-                        default=False
-                    ),
-                    "full_block_tag": st.column_config.TextColumn(
-                        "Full Block Tag",
-                        width="small"
-                    ),
-                }, hide_index=True, use_container_width=True, num_rows='fixed'
-            )
+                blocks_edited_df = st.data_editor(
+                    blocks_to_edit_df,
+                    column_config = {
+                        "full_pan_tag": st.column_config.TextColumn(
+                            "Full Panel Tag",
+                            width="small"
+                        ),
 
-            blocks_to_del = \
-                blocks_edited_df.loc[blocks_edited_df.block_to_del.astype('str') == "True", "full_block_tag"].tolist()
+                        "block_tag": st.column_config.TextColumn(
+                            "Block Tag",
+                            width="small"
+                        ),
+                        "block_descr": st.column_config.TextColumn(
+                            "Block Description",
+                            width="medium"
+                        ),
+                        "block_to_del": st.column_config.CheckboxColumn(
+                            "Delete Block",
+                            width="small",
+                            default=False
+                        ),
+                        "full_block_tag": st.column_config.TextColumn(
+                            "Full Block Tag",
+                            width="small"
+                        ),
+                    }, hide_index=True, use_container_width=True, num_rows='fixed'
+                )
 
-            blocks_to_show = \
-                blocks_edited_df.loc[blocks_edited_df.block_to_del.astype('str') == "True", "block_tag"].tolist()
+                blocks_to_del = \
+                    blocks_edited_df.loc[blocks_edited_df.block_to_del.astype('str') == "True", "full_block_tag"].tolist()
 
-            if c5.button(f'Delete selected {blocks_to_show}'):
-                delete_block(blocks_to_del)
-            # if st.button("Create Terminal Block"):
-            #     if full_pan_tag and block_tag:
-            #         full_block_tags = st.session_state.intercon['block'].loc[:, 'ful_block_tag'].tolist()
-            #
-            #         full_block_tag = str(full_pan_tag) + ":" + block_tag
-            #
-            #         if full_block_tag in full_block_tags:
-            #             st.button(f"❗ Terminal Block with Tag {full_block_tag} already exist...CLOSE and try again")
-            #             st.stop()
-            #
-            #         df2 = pd.DataFrame.from_dict([
-            #             {
-            #                 'full_pan_tag': full_pan_tag,
-            #                 'block_tag': block_tag,
-            #                 'block_descr': block_descr,
-            #                 'full_block_tag': full_block_tag,
-            #             }
-            #         ])
-            #
-            #         st.write(df2)
-            #
-            #         df1 = st.session_state.intercon['block'].copy(deep=True)
-            #         st.session_state.intercon['block'] = pd.concat([df1, df2], ignore_index=True)
-            #         st.button(f"New Terminal Block {full_block_tag} is Added. CLOSE")
-            #     else:
-            #         st.button('❗ Some fields are empty...')
+                blocks_to_show = \
+                    blocks_edited_df.loc[blocks_edited_df.block_to_del.astype('str') == "True", "block_tag"].tolist()
+
+                if c5.button(f'Delete selected {blocks_to_show}'):
+                    delete_block(blocks_to_del)
+
+                if st.button("SAVE TERMINAL BLOCKS"):
+
+                    def check_blocks(df):
+                        check_list = df[df.full_block_tag.duplicated(), "full_block_tag"]
+                        if len(check_list):
+                            st.write(f"#### :red[Dulicated Terminal Blocks {check_list}. Please fix and save]")
+                            st.button("OK", key='duplicated_blocks')
+
+                    check_blocks(blocks_edited_df)
+
+                    def save_blocks(df, act_panel):
+                        temp_df = st.session_state.intercon['block'].copy(deep=True)
+                        temp_df = temp_df[temp_df.full_block_tag != act_panel]
+
+                        st.session_state.intercon['block'] = pd.concat([temp_df, df])
+                        st.session_state.intercon['block'].reset_index(drop=True, inplace=True)
+                        st.write("#### :green[Blocks saved successfully]")
+                        st.button("OK", key='blocks_saved')
+
+                    save_blocks(blocks_edited_df, full_pan_tag)
+            else:
+                st.write("#### :blue[No terminal blocks in selected panel]")
+
         else:
             st.warning('Panels not available...')
     else:
