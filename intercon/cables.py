@@ -51,15 +51,14 @@ def edit_cab_con():
             lc, cc, rc = st.columns(3, gap='medium')
             cab_tag = lc.text_input("Cable Tag")
 
-
-
-
+            cc.text('')
+            cc.text('')
+            rc.text('')
+            rc.text('')
 
             # cab_purpose = lc2.selectbox("Select Cable Purpose", cab_purposes)
             # cab_type = rc1.selectbox("Select Cable Type", cab_types)
             # cab_sect = rc2.selectbox("Select Wire Section", cab_sects)
-
-
 
             if cc.button("Create Cable Connection", use_container_width=True):
 
