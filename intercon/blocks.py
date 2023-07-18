@@ -19,9 +19,9 @@ def edit_block():
 
             lc, cc, rc = st.columns(3, gap='medium')
 
-            st.number_input("Quantity of Blocks to Add")
-            st.button("Add Blocks")
-            st.button('Delete selected')
+            lc.number_input("Quantity of Blocks to Add")
+            cc.button("Add Blocks")
+            rc.button('Delete selected')
 
             blocks_df = st.session_state.intercon['block']
 
@@ -47,7 +47,7 @@ def edit_block():
                         "Delete Block",
                         width="small"
                     ),
-                    "full_block_tag": st.column_config.CheckboxColumn(
+                    "full_block_tag": st.column_config.TextColumn(
                         "Full Block Tag",
                         width="small"
                     ),
