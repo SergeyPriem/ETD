@@ -47,8 +47,6 @@ def edit_panel():
         lc1, lc2, rc1, rc2 = st.columns([2, 1, 1, 2], gap='medium')
         eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
         eq_tag = lc1.selectbox('Equipment Tag', eq_list)
-        # pan_tag = lc2.text_input('Panel Tag')
-        # pan_descr = lc3.text_input('Panel Description')
         pan_to_add = lc2.number_input('Quantity of Panels to add', step=1, min_value=1, max_value=50)
 
         rc1.text('')
@@ -111,7 +109,5 @@ def edit_panel():
 
             else:
                 st.write(":blue[No panels for this equipment]")
-
-
     else:
         st.write("Equipment not available...")
