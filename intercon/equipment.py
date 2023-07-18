@@ -17,7 +17,7 @@ def save_equipment(df):
 
     st.session_state.intercon['equip'] = df
     st.session_state.intercon['equip'].reset_index(drop=True, inplace=True)
-    st.write("#### :green[Equipment saved successfully")
+    st.write("#### :green[Equipment saved successfully]")
     st.button("OK", key='eq_saved')
 
 
