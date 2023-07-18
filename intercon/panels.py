@@ -104,6 +104,8 @@ def edit_panel():
 
                 if del_pan_button:
                     delete_panels(pan_to_del)
+            else:
+                st.write(":blue[No panels for this equipment]")
 
             if st.button('SAVE PANELS'):
                 check_panels(upd_pan_df)
