@@ -13,6 +13,11 @@ def add_blocks(act_pan, q_ty):
     st.session_state.intercon['block'] = pd.concat([st.session_state.intercon['block'], df2])
 
 
+def delete_block(blocks_to_del):
+    st.session_state.intercon['block'] = \
+        st.session_state.intercon['block'][~st.session_state.intercon['block'].full_block_tag.isin(blocks_to_del)]
+    st.experimental_rerun()
+
 
 def edit_block():
     c1, c2, c3, c4 = st.columns(4, gap='medium')
@@ -72,6 +77,14 @@ def edit_block():
                 }, hide_index=True, use_container_width=True, num_rows='fixed'
             )
 
+            blocks_to_del = \
+                blocks_edited_df.loc[blocks_edited_df.block_to_del.astype('str') == "True", "full_block_tag"].tolist()
+
+            blocks_to_show = \
+                blocks_edited_df.loc[blocks_edited_df.block_to_del.astype('str') == "True", "block_tag"].tolist()
+
+            if rc.button(f'Delete selected {blocks_to_show}'):
+                delete_block(blocks_to_del)
             # if st.button("Create Terminal Block"):
             #     if full_pan_tag and block_tag:
             #         full_block_tags = st.session_state.intercon['block'].loc[:, 'ful_block_tag'].tolist()
