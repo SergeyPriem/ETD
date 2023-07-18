@@ -90,8 +90,8 @@ def edit_panel():
 
                 st.write(upd_pan_df.pan_to_del)
 
-                pan_to_del = upd_pan_df.loc[upd_pan_df.pan_to_del == True, "full_pan_tag"].tolist()
-                pan_to_show = upd_pan_df.loc[upd_pan_df.pan_to_del == True, "full_pan_tag"].tolist()
+                pan_to_del = upd_pan_df.loc[upd_pan_df.pan_to_del.astype('str') == 'True', "full_pan_tag"].tolist()
+                pan_to_show = upd_pan_df.loc[upd_pan_df.pan_to_del.astype('str') == 'True', "full_pan_tag"].tolist()
                 del_pan_button = rc2.button(f"Delete selected Panels {pan_to_show}", use_container_width=True)
 
                 if del_pan_button:
