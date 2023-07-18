@@ -31,6 +31,7 @@ def edit_cab_con():
             cab_purposes = cab['cab_purpose'].tolist()
             cab_types = cab['cab_type'].tolist()
             cab_sects = cab['cab_sect'].tolist()
+            cab_wire_qtys = cab['wire_quant'].tolist()
             cab_tags = st.session_state.intercon['cable']['cab_tag'].tolist()
 
             cab_purpose = lc2.selectbox("Select Cable Purpose", cab_purposes)
@@ -78,10 +79,34 @@ def edit_cab_con():
                             width="small",
                             disabled=True
                         ),
+                        "cab_tag": st.column_config.TextColumn(
+                            "Cable Tag",
+                            width="medium",
+                        ),
                         "full_pan_tag_right": st.column_config.TextColumn(
                             "Right Panel Tag",
                             width="small",
                             disabled=True
+                        ),
+                        "cab_purpose": st.column_config.SelectboxColumn(
+                            "Cable Purpose",
+                            options=cab_purposes,
+                            width='small',
+                        ),
+                        "cab_type": st.column_config.SelectboxColumn(
+                            "Cable Type",
+                            options=cab_types,
+                            width='small',
+                        ),
+                        "cab_sect": st.column_config.SelectboxColumn(
+                            "Wire Section",
+                            options=cab_sects,
+                            width='small',
+                        ),
+                        "wire_quant": st.column_config.SelectboxColumn(
+                            "Wires Quantity",
+                            options=cab_wire_qtys,
+                            width='small',
                         ),
                         "cab_to_del": st.column_config.CheckboxColumn(
                             "Cable to delete",
