@@ -18,6 +18,10 @@ def edit_block():
             block_descr = c4.text_input('Block Description - optional', value="-")
 
             lc, cc, rc = st.columns(3, gap='medium')
+            cc.text('')
+            cc.text('')
+            rc.text('')
+            rc.text('')
 
             lc.number_input("Quantity of Blocks to Add")
             cc.button("Add Blocks")
