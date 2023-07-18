@@ -8,7 +8,7 @@ def check_panels(df):
     check_list = df.loc[df.full_pan_tag.duplicated(), 'full_pan_tag'].tolist()
 
     if len(check_list):
-        st.write(f"#### :red[Duplicated Panel Tags {check_list}]. Please fix and save]")
+        st.write(f"#### :red[Duplicated Panel Tags {check_list}. Please fix and save]")
         st.button('OK', key='duplicated_panels')
         st.stop()
 
