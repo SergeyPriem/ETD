@@ -9,9 +9,10 @@ def delete_cable(cab_to_del_list):
     st.experimental_rerun()
 
 
-def save_cables(df, cab_tag):
+def save_cables(df, cab_tag, full_pan_tag_left, full_pan_tag_right):
     temp_df = st.session_state.intercon['cable'].copy(deep=True)
-    temp_df = temp_df[temp_df.cab_tag != cab_tag]
+    temp_df = temp_df[(temp_df.full_pan_tag_left != full_pan_tag_left) & (
+            temp_df.full_pan_tag_right != full_pan_tag_right)]
     st.session_state.intercon['cable'] = pd.concat([temp_df, df])
     st.session_state.intercon['cable'].reset_index(drop=True, inplace=True)
     st.write("#### :green[Cables saved successfully]")
