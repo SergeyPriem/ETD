@@ -65,36 +65,39 @@ def edit_cab_con():
             cab_df = st.session_state.intercon['cable']
             cab_to_edit_df = cab_df[(cab_df.full_pan_tag_left == left_pan) & (cab_df.full_pan_tag_right == right_pan)]
 
-            edited_cab_df = st.data_editor(
-                cab_to_edit_df,
-                column_config={
-                    "full_pan_tag_left": st.column_config.TextColumn(
-                        "Left Panel Tag",
-                        width="small",
-                        disabled=True
-                    ),
-                    "full_pan_tag_right": st.column_config.TextColumn(
-                        "Right Panel Tag",
-                        width="small",
-                        disabled=True
-                    ),
-                    "cab_to_del": st.column_config.CheckboxColumn(
-                        "Cable to delete",
-                        default=False
-                    )
-                },
-                use_container_width=True, hide_index=True
-            )
+            if len(cab_to_edit_df):
+                edited_cab_df = st.data_editor(
+                    cab_to_edit_df,
+                    column_config={
+                        "full_pan_tag_left": st.column_config.TextColumn(
+                            "Left Panel Tag",
+                            width="small",
+                            disabled=True
+                        ),
+                        "full_pan_tag_right": st.column_config.TextColumn(
+                            "Right Panel Tag",
+                            width="small",
+                            disabled=True
+                        ),
+                        "cab_to_del": st.column_config.CheckboxColumn(
+                            "Cable to delete",
+                            default=False
+                        )
+                    },
+                    use_container_width=True, hide_index=True
+                )
 
-            cab_to_del_list = edited_cab_df.loc[edited_cab_df.cab_to_del.astype('str') == "True", "cab_tag"].tolist()
+                cab_to_del_list = edited_cab_df.loc[edited_cab_df.cab_to_del.astype('str') == "True", "cab_tag"].tolist()
 
-            if rc.button(f'Delete selected {cab_to_del_list}'):
-                def delete_cable(cab_to_del_list):
-                    st.session_state.intercon['cable'] = \
-                        st.session_state.intercon['cable'][~st.session_state.intercon['cable'].cab_tag.isin(cab_to_del_list)]
-                    st.experimental_rerun()
+                if rc.button(f'Delete selected {cab_to_del_list}'):
+                    def delete_cable(cab_to_del_list):
+                        st.session_state.intercon['cable'] = \
+                            st.session_state.intercon['cable'][~st.session_state.intercon['cable'].cab_tag.isin(cab_to_del_list)]
+                        st.experimental_rerun()
 
-                delete_cable(cab_to_del_list)
+                    delete_cable(cab_to_del_list)
+            else:
+                st.write("#### :blue[No cables between selected panels]")
         else:
             st.warning('Some Panels not available...')
     else:
