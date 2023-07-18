@@ -65,7 +65,7 @@ def edit_block():
                             width="medium"
                         ),
                         "block_to_del": st.column_config.CheckboxColumn(
-                            "Delete Block",
+                            "Delete Block Fuck",
                             width="small",
                             default=False,
                         ),
@@ -73,7 +73,7 @@ def edit_block():
                             "Full Block Tag",
                             width="small",
                         ),
-                    }, hide_index=True)
+                    }, hide_index=True, use_container_width=True)
 
                 blocks_to_del = \
                     blocks_edited_df.loc[blocks_edited_df.block_to_del.astype('str') == "True", "full_block_tag"].tolist()
@@ -81,7 +81,7 @@ def edit_block():
                 blocks_to_show = \
                     blocks_edited_df.loc[blocks_edited_df.block_to_del.astype('str') == "True", "block_tag"].tolist()
 
-                if c5.button(f'Delete selected {blocks_to_show}'):
+                if c5.button(f'Delete selected {blocks_to_show}', use_container_width=True):
                     delete_block(blocks_to_del)
 
                 if st.button("SAVE TERMINAL BLOCKS"):
