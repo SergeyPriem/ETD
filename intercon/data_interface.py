@@ -82,6 +82,7 @@ def save_to_gsheet():
 
     try:
         for sh_name in ['equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']:
+            st.session_state.intercon['doc'].worksheet(sh_name).clear()
             df = st.session_state.intercon[sh_name]
             st.session_state.intercon['doc'].worksheet(sh_name).update([df.columns.values.tolist()] + df.values.tolist())
             st.write(f"##### :blue[GOOGLE doc: sheet {sh_name} is updated]")
