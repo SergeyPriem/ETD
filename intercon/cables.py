@@ -86,7 +86,7 @@ def edit_cab_con():
                 use_container_width=True, hide_index=True
             )
 
-            cab_to_del_list = edited_cab_df.loc[edited_cab_df.cab_to_del.astype('str') == "True", "cab_tab"].tolist()
+            cab_to_del_list = edited_cab_df.loc[edited_cab_df.cab_to_del.astype('str') == "True", "cab_tag"].tolist()
 
             if rc.button(f'Delete selected {cab_to_del_list}'):
                 def delete_cable(cab_to_del_list):
