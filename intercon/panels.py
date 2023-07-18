@@ -10,6 +10,7 @@ def check_panels(df):
     if len(check_list):
         st.write(f"#### :red[Duplicated Panel Tags {check_list}]. Please fix and save]")
         st.button('OK', key='duplicated_panels')
+        st.stop()
 
 
 
