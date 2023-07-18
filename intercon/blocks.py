@@ -7,10 +7,10 @@ def add_blocks(act_pan, q_ty):
 
     df2 = pd.DataFrame()
     for i in range(q_ty):
-        df2.loc[i,['full_pan_tag', 'block_tag', 'block_descr', 'block_to_del', 'full_block_tag', ]] \
+        df2.loc[i, ['full_pan_tag', 'block_tag', 'block_descr', 'block_to_del', 'full_block_tag', ]] \
             = [str(act_pan), "XT", "-", False, str(act_pan)+":XT"]
 
-    st.session_state.intercon['block'] = pd.concat([st.session_state.intercon['block'], df2])
+    st.session_state.intercon['block'] = pd.concat([st.session_state.intercon['block'], df2],ignore_index=True)
     st.session_state.intercon['block'].reset_index(drop=True, inplace=True)
 
 
