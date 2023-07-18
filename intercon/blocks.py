@@ -36,8 +36,10 @@ def edit_block():
             rc.text('')
             rc.text('')
 
-            lc.number_input("Quantity of Blocks to Add", min_value=1, max_value=50, step=1)
-            cc.button("Add Blocks")
+            blocks_q_ty = lc.number_input("Quantity of Blocks to Add", min_value=1, max_value=50, step=1)
+            if cc.button("Add Blocks"):
+                add_blocks(full_pan_tag, blocks_q_ty)
+
             rc.button('Delete selected')
 
             blocks_df = st.session_state.intercon['block']
