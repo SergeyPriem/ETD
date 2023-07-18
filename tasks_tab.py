@@ -201,6 +201,7 @@ def add_task(task_content):
                     st.session_state.task_preview = False
 
                     if direction == "Incoming":
+                        short_dir = "In"
                         for unit in units:
                             for spec in specialities:
 
@@ -287,9 +288,10 @@ def add_task(task_content):
                         st.button('Close Report', key='close_upd_task_report')
 
                     else:  # Outgoing Tasks
+                        short_dir = "Out"
                         for unit in units:
                             for spec in specialities:
-                                reply = add_out_to_db(project, unit, stage, direction, spec, date,
+                                reply = add_out_to_db(project, unit, stage, short_dir, spec, date,
                                                       description.strip(),
                                                       link.strip(), source.strip(), comments.strip())
 
