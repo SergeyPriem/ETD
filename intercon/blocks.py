@@ -102,7 +102,7 @@ def edit_block():
 
                     def save_blocks(df, act_panel):
                         temp_df = st.session_state.intercon['block'].copy(deep=True)
-                        temp_df = temp_df[temp_df.full_block_tag != act_panel]
+                        temp_df = temp_df[temp_df.full_pan_tag != act_panel]
 
                         st.session_state.intercon['block'] = pd.concat([temp_df, df])
                         st.session_state.intercon['block'].reset_index(drop=True, inplace=True)
