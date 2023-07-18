@@ -12,6 +12,7 @@ def add_blocks(act_pan, q_ty):
 
     st.session_state.intercon['block'] = pd.concat([st.session_state.intercon['block'], df2],ignore_index=True)
     st.session_state.intercon['block'].reset_index(drop=True, inplace=True)
+    st.experimental_rerun()
 
 
 def delete_block(blocks_to_del):
