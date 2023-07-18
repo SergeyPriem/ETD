@@ -94,6 +94,7 @@ def edit_block():
                         if len(check_list):
                             st.write(f"#### :red[Dulicated Terminal Blocks {check_list}. Please fix and save]")
                             st.button("OK", key='duplicated_blocks')
+                            st.stop()
 
                     check_blocks(blocks_edited_df)
 
