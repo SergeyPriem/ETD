@@ -9,6 +9,23 @@ def delete_cable(cab_to_del_list):
     st.experimental_rerun()
 
 
+def save_cables(df, cab_tag):
+    temp_df = st.session_state.intercon['cable'].copy(deep=True)
+    temp_df = temp_df[temp_df.cab_tag != cab_tag]
+    st.session_state.intercon['cable'] = pd.concat([temp_df, df])
+    st.session_state.intercon['cable'].reset_index(drop=True, inplace=True)
+    st.write("#### :green[Cables saved successfully]")
+    st.button("OK", key='cables_saved')
+
+
+def check_cables(df):
+    check_list = df.loc[df.cab_tag.duplicated(), 'cab_tag'].tolist()
+    if len(check_list):
+        st.write(f"#### :red[Duplicated Cable Tags {check_list}. Please fix and save]")
+        st.button('OK', key='duplicated_cables')
+        st.stop()
+
+
 def edit_cab_con():
     lc1, lc2, rc1, rc2 = st.columns(4, gap='medium')
     eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
@@ -115,12 +132,12 @@ def edit_cab_con():
                     },
                     use_container_width=True, hide_index=True
                 )
-
                 cab_to_del_list = edited_cab_df.loc[edited_cab_df.cab_to_del.astype('str') == "True", "cab_tag"].tolist()
-
                 if rc.button(f'Delete selected {cab_to_del_list}', use_container_width=True):
-
                     delete_cable(cab_to_del_list)
+                if st.button("SAVE CABLES", use_container_width=True):
+                    check_cables(edited_cab_df)
+                    save_cables(edited_cab_df, cab_tag)
             else:
                 st.write("#### :blue[No cables between selected panels]")
         else:
