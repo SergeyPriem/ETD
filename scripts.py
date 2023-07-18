@@ -14,11 +14,12 @@ from section_generator import get_tags_from_cablist, generate_dxf, get_sect_from
 from users import err_handler, reg_action
 from utilities import center_style, open_dxf_file, check_df
 
-# p_rat_a = 0
-# p_rat_b = 0
-# p_rat_em = 0
-from wiring import edit_equipment, edit_cab_con, open_inercon_doc, close_intercon_doc, edit_panel, edit_block, \
-    edit_wires, open_intercon_google
+from intercon.equipment import edit_equipment
+from intercon.cables import  edit_cab_con
+from intercon.panels import edit_panel
+from intercon.blocks import edit_block
+from intercon.wires import edit_wires
+from intercon.data_interface import open_inercon_doc, close_intercon_doc, open_intercon_google
 
 cab_dict = {
     1.5: 1.5, 2.5: 2.5, 4: 4,
@@ -1378,11 +1379,9 @@ def scripts_tab():
             st.title(':orange[Create Interconnection Wiring Diagram - under development...]')
 
             if st.session_state['user']['access_level'] == "dev":
-                # work, close_b = st.columns([12, 2], gap="medium")
-                # local_remote = st.radio("select the mode", ['Local', 'Remote'], horizontal=True)
                 l_col, c_col, r_col = st.columns(3)
                 l_col.markdown('Select the Operation Mode', unsafe_allow_html=False,
-                            help="!!! If switched without save - data will be lost")
+                               help="!!! If switched without save - data will be lost")
                 with c_col:
                     local_remote = option_menu(None, ['LOCAL', 'REMOTE'], icons=['-', '-', ], orientation="horizontal")
 
