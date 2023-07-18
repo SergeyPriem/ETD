@@ -62,7 +62,7 @@ def edit_cab_con():
                     df1 = st.session_state.intercon['cable'].copy(deep=True)
                     st.session_state.intercon['cable'] = pd.concat([df1, df2],
                                                                    ignore_index=True)
-                    st.button(f"New Cable {cab_tag} is Added. CLOSE")
+                    st.experimental_rerun()
                 else:
                     st.button("❗ Enter the Cable Tag")
 
