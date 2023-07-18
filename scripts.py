@@ -1458,7 +1458,7 @@ def scripts_tab():
                                                 '5-circle', ],
                                          orientation="horizontal")
                     if action == 'EDIT:':
-                        st.write("Here you can preview Connections related Tables")
+                        st.write("Here you can edit Connections related Tables")
 
                     if action == 'Equipment':
                         edit_equipment()
