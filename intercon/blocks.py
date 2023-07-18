@@ -36,7 +36,7 @@ def edit_block():
             rc.text('')
             rc.text('')
 
-            st.number_input("Quantity of Blocks to Add", min_value=1, max_value=50, step=1)
+            lc.number_input("Quantity of Blocks to Add", min_value=1, max_value=50, step=1)
             cc.button("Add Blocks")
             rc.button('Delete selected')
 
