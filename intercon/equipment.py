@@ -11,6 +11,8 @@ def delete_equipment(equip_to_del):
 
 def save_equipment(df):
 
+    st.write(df.eq_tag.duplicated())
+
     if True in df.eq_tag.duplicated():
         st.write(":[Duplicates in Equipment Tags. Please fix and save]")
         st.button("OK", key='eq_duplicates')
