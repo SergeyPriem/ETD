@@ -9,7 +9,7 @@ def delete_cable(cab_to_del_list):
     st.experimental_rerun()
 
 
-def save_cables(df, cab_tag, full_pan_tag_left, full_pan_tag_right):
+def save_cables(df, full_pan_tag_left, full_pan_tag_right):
     temp_df = st.session_state.intercon['cable'].copy(deep=True)
     temp_df = temp_df[(temp_df.full_pan_tag_left != full_pan_tag_left) & (
             temp_df.full_pan_tag_right != full_pan_tag_right)]
@@ -147,7 +147,7 @@ def edit_cab_con():
                     delete_cable(cab_to_del_list)
                 if st.button("SAVE CABLES", use_container_width=True):
                     check_cables(edited_cab_df)
-                    save_cables(edited_cab_df, cab_tag)
+                    save_cables(edited_cab_df, left_pan, right_pan)
             else:
                 st.write("#### :blue[No cables between selected panels]")
         else:
