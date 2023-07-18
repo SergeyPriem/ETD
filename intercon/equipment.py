@@ -11,11 +11,11 @@ def delete_equipment(equip_to_del):
 
 def save_equipment(df):
 
-
     df_check = df.loc[df.eq_tag.duplicated(), 'eq_tag']
     if len(df_check):
         st.write(f":red[Duplicates in Equipment Tags {df_check.tolist()}. Please fix and save]")
         st.button("OK", key='eq_duplicates')
+        st.stop()
 
     st.session_state.intercon['equip'] = df
     st.session_state.intercon['equip'].reset_index(drop=True, inplace=True)
