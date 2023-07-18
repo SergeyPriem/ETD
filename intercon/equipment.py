@@ -71,7 +71,8 @@ def edit_equipment():
             eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
 
             if eq_tag in eq_list:
-                st.button(f"❗ Equipment with Tag {eq_tag} already exists...Close and try again")
+                st.write(f"#### :red[❗ Equipment with Tag {eq_tag} already exists...Close and try again]")
+                st.button("OK", key="equip_duplicates")
                 st.stop()
             else:
                 df2 = pd.DataFrame.from_dict(
