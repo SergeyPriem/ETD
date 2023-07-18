@@ -31,7 +31,9 @@ def edit_cab_con():
             cab_type = rc1.selectbox("Select Cable Type", cab_types)
             cab_sect = rc2.selectbox("Select Wire Section", cab_sects)
 
-            if st.button("Create Cable Connection", use_container_width=True):
+            lc, rc = st.columns(2, gap='medium')
+
+            if lc.button("Create Cable Connection", use_container_width=True):
 
                 if cab_tag:
                     if cab_tag in cab_tags:
@@ -47,6 +49,7 @@ def edit_cab_con():
                             'cab_type': cab_type,
                             'cab_sect': cab_sect,
                             'wire_quant': 0,
+                            'cab_to_del': False
                         }
                     ])
 
@@ -58,6 +61,40 @@ def edit_cab_con():
                     st.button(f"New Cable {cab_tag} is Added. CLOSE")
                 else:
                     st.button("❗ Enter the Cable Tag")
+
+            cab_df = st.session_state.intercon['cable']
+            cab_to_edit_df = cab_df[(cab_df.full_pan_tag_left == left_pan) & (cab_df.full_pan_tag_right == right_pan)]
+
+            edited_cab_df = st.data_editor(
+                cab_to_edit_df,
+                column_config={
+                    "full_pan_tag_left": st.column_config.TextColumn(
+                        "Left Panel Tag",
+                        width="small",
+                        disabled=True
+                    ),
+                    "full_pan_tag_right": st.column_config.TextColumn(
+                        "Right Panel Tag",
+                        width="small",
+                        disabled=True
+                    ),
+                    "cab_to_del": st.column_config.CheckboxColumn(
+                        "Cable to delete",
+                        default=False
+                    )
+                },
+                use_container_width=True, hide_index=True
+            )
+
+            cab_to_del_list = edited_cab_df.loc[edited_cab_df.cab_to_del.astype('str') == "True", "cab_tab"].tolist()
+
+            if rc.button(f'Delete selected {cab_to_del_list}'):
+                def delete_cable(cab_to_del_list):
+                    st.session_state.intercon['cable'] = \
+                        st.session_state.intercon['cable'][~st.session_state.intercon['cable'].cabtag.isin(cab_to_del_list)]
+                    st.experimental_rerun()
+
+                delete_cable(cab_to_del_list)
         else:
             st.warning('Some Panels not available...')
     else:
