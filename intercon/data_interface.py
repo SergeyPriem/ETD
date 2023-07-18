@@ -80,9 +80,15 @@ def open_intercon_google():
 
 def save_to_gsheet():
 
-    df = st.session_state.intercon['wire']
+    try:
+        for sh_name in ['equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']:
+            df = st.session_state.intercon[sh_name]
+            st.session_state.intercon['doc'].worksheet('wire').update([df.columns.values.tolist()] + df.values.tolist())
+            st.write("#### :blue[GOOGLE doc is updated]")
+    except Exception as e:
+        st.warning('It seems the uploaded file is wrong...')
+        st.write(e)
 
-    st.session_state.intercon['doc'].worksheet('wire').update([df.columns.values.tolist()] + df.values.tolist())
 
 
 
