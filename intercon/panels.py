@@ -5,10 +5,10 @@ import streamlit as st
 def check_panels(df):
 
     df.full_pan_tag = df.eq_tag.astype('str')  + ":" +df.pan_tag.astype('str')
-    check_list = df.loc[df.full_pan_tag.duplicated(), 'full_pan_tag']
+    check_list = df.loc[df.full_pan_tag.duplicated(), 'full_pan_tag'].tolist()
 
     if len(check_list):
-        st.write(f"#### :red[Duplicated Panel Tags {check_list}]. Please fix and save")
+        st.write(f"#### :red[Duplicated Panel Tags {check_list}]. Please fix and save]")
         st.button('OK', key='duplicated_panels')
 
 
