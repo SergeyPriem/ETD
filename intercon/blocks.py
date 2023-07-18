@@ -20,7 +20,7 @@ def delete_block(blocks_to_del):
 
 
 def edit_block():
-    c1, c2, c3, c4 = st.columns(4, gap='medium')
+    c1, c2, c3, c4, c5 = st.columns(5, gap='medium')
     eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
     if len(eq_list):
         equip = c1.selectbox("Select the Equipment", eq_list)
@@ -30,20 +30,18 @@ def edit_block():
         if len(pan_list):
 
             full_pan_tag = c2.selectbox("Select the Panel", pan_list)
-            block_tag = c3.text_input("Terminal Block\'s Tag")
-            block_descr = c4.text_input('Block Description - optional', value="-")
+            # block_tag = c3.text_input("Terminal Block\'s Tag")
+            # block_descr = c4.text_input('Block Description - optional', value="-")
 
-            lc, cc, rc = st.columns(3, gap='medium')
-            cc.text('')
-            cc.text('')
-            rc.text('')
-            rc.text('')
+            c4.text('')
+            c4.text('')
+            c5.text('')
+            c5.text('')
 
-            blocks_q_ty = lc.number_input("Quantity of Blocks to Add", min_value=1, max_value=50, step=1)
-            if cc.button("Add Blocks"):
+            blocks_q_ty = c3.number_input("Quantity of Blocks to Add", min_value=1, max_value=50, step=1)
+            if c4.button("Add Blocks"):
                 add_blocks(full_pan_tag, blocks_q_ty)
 
-            rc.button('Delete selected')
 
             blocks_df = st.session_state.intercon['block']
 
@@ -83,7 +81,7 @@ def edit_block():
             blocks_to_show = \
                 blocks_edited_df.loc[blocks_edited_df.block_to_del.astype('str') == "True", "block_tag"].tolist()
 
-            if rc.button(f'Delete selected {blocks_to_show}'):
+            if c5.button(f'Delete selected {blocks_to_show}'):
                 delete_block(blocks_to_del)
             # if st.button("Create Terminal Block"):
             #     if full_pan_tag and block_tag:
