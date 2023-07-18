@@ -73,7 +73,7 @@ def edit_block():
                             "Full Block Tag",
                             width="small",
                         ),
-                    }, hide_index=True, use_container_width=True)
+                    }, hide_index=True)
 
                 blocks_to_del = \
                     blocks_edited_df.loc[blocks_edited_df.block_to_del.astype('str') == "True", "full_block_tag"].tolist()
