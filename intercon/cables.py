@@ -62,6 +62,11 @@ def edit_cab_con():
 
             if cc.button("Create Cable Connection", use_container_width=True):
 
+                if left_pan == right_pan:
+                    st.write("#### :red[Select different left and right panels]")
+                    st.button("OK", key='select_different')
+                    st.stop()
+
                 if cab_tag:
                     if cab_tag in cab_tags:
                         st.button(f"❗ Cable with Tag {cab_tag} already exist...CLOSE and try again")
