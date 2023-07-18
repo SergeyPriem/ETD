@@ -41,23 +41,27 @@ def edit_cab_con():
             left_pan = lc2.selectbox("Select the Left Panel", left_pan_list)
             right_pan = rc2.selectbox("Select the Right Panel", right_pan_list)
 
-            cab_tag = lc1.text_input("Cable Tag")
-
             cab = st.session_state.intercon['cab_descr']
-
             cab_purposes = cab['cab_purpose'].tolist()
             cab_types = cab['cab_type'].tolist()
             cab_sects = cab['cab_sect'].tolist()
             cab_wire_qtys = cab['wire_quant'].tolist()
             cab_tags = st.session_state.intercon['cable']['cab_tag'].tolist()
 
-            cab_purpose = lc2.selectbox("Select Cable Purpose", cab_purposes)
-            cab_type = rc1.selectbox("Select Cable Type", cab_types)
-            cab_sect = rc2.selectbox("Select Wire Section", cab_sects)
+            lc, cc, rc = st.columns(3, gap='medium')
+            cab_tag = lc.text_input("Cable Tag")
 
-            lc, rc = st.columns(2, gap='medium')
 
-            if lc.button("Create Cable Connection", use_container_width=True):
+
+
+
+            # cab_purpose = lc2.selectbox("Select Cable Purpose", cab_purposes)
+            # cab_type = rc1.selectbox("Select Cable Type", cab_types)
+            # cab_sect = rc2.selectbox("Select Wire Section", cab_sects)
+
+
+
+            if cc.button("Create Cable Connection", use_container_width=True):
 
                 if cab_tag:
                     if cab_tag in cab_tags:
@@ -69,9 +73,9 @@ def edit_cab_con():
                             'full_pan_tag_left': left_pan,
                             'full_pan_tag_right': right_pan,
                             'cab_tag': cab_tag,
-                            'cab_purpose': cab_purpose,
-                            'cab_type': cab_type,
-                            'cab_sect': cab_sect,
+                            # 'cab_purpose': cab_purpose,
+                            # 'cab_type': cab_type,
+                            # 'cab_sect': cab_sect,
                             'wire_quant': 0,
                             'cab_to_del': False
                         }
@@ -99,6 +103,7 @@ def edit_cab_con():
                         "cab_tag": st.column_config.TextColumn(
                             "Cable Tag",
                             width="medium",
+                            disabled=True
                         ),
                         "full_pan_tag_right": st.column_config.TextColumn(
                             "Right Panel Tag",
