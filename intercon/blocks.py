@@ -65,7 +65,7 @@ def edit_block():
                             width="medium"
                         ),
                         "block_to_del": st.column_config.CheckboxColumn(
-                            "Delete Block Fuck",
+                            "Block to delete",
                             width="small",
                             default=False,
                         ),
