@@ -4,7 +4,7 @@ import streamlit as st
 
 def check_panels(df):
 
-    df.full_pan_tag = df.eq_tag.astype('str')  + ":" +df.pan_tag.astype('str')
+    df.full_pan_tag = df.eq_tag.astype('str') + ":" + df.pan_tag.astype('str')
     check_list = df.loc[df.full_pan_tag.duplicated(), 'full_pan_tag'].tolist()
 
     if len(check_list):
@@ -26,6 +26,8 @@ def save_panels(upd_panels_df, act_equip):
 
     st.session_state.intercon['panel'] = pd.concat([temp_df, upd_panels_df])
     st.session_state.intercon['panel'].reset_index(drop=True, inplace=True)
+    st.write("#### :green[Panels saved successfully]")
+    st.button("OK", key='panels_saved')
 
 
 def add_panels(act_equip, q_ty):
@@ -97,7 +99,7 @@ def edit_panel():
                 # st.write(upd_pan_df.pan_to_del)
 
                 pan_to_del = upd_pan_df.loc[upd_pan_df.pan_to_del.astype('str') == 'True', "full_pan_tag"].tolist()
-                pan_to_show = upd_pan_df.loc[upd_pan_df.pan_to_del.astype('str') == 'True', "full_pan_tag"].tolist()
+                pan_to_show = upd_pan_df.loc[upd_pan_df.pan_to_del.astype('str') == 'True', "pan_tag"].tolist()
                 del_pan_button = rc2.button(f"Delete selected Panels {pan_to_show}", use_container_width=True)
 
                 if del_pan_button:
@@ -108,6 +110,6 @@ def edit_panel():
                     save_panels(upd_pan_df, eq_tag)
 
             else:
-                st.write(":blue[No panels for this equipment]")
+                st.write("#### :blue[No panels for this equipment]")
     else:
         st.write("Equipment not available...")
