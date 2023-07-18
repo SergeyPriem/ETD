@@ -87,6 +87,9 @@ def edit_block():
                 if st.button("SAVE TERMINAL BLOCKS"):
 
                     def check_blocks(df):
+
+                        df.full_block_tag = df.full_pan_tag.astype('str')+":"+df.block_tag.astype('str')
+
                         check_list = df[df.full_block_tag.duplicated(), "full_block_tag"]
                         if len(check_list):
                             st.write(f"#### :red[Dulicated Terminal Blocks {check_list}. Please fix and save]")
