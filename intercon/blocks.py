@@ -3,6 +3,19 @@ import pandas as pd
 import streamlit as st
 
 
+def add_blocks(act_pan, q_ty):
+
+    df2 = pd.DataFrame()
+    for i in range(q_ty):
+        df2.loc[i, [
+            'full_pan_tag', 'block_tag', 'block_decr', 'full_block_tag', 'block_to_del'
+        ]
+        ] = [act_pan, "XT", "-", None, False]
+
+    st.session_state.intercon['block'] = pd.concat([st.session_state.intercon['block'], df2])
+
+
+
 def edit_block():
     c1, c2, c3, c4 = st.columns(4, gap='medium')
     eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
@@ -23,7 +36,7 @@ def edit_block():
             rc.text('')
             rc.text('')
 
-            lc.number_input("Quantity of Blocks to Add")
+            st.number_input("Quantity of Blocks to Add", min_value=1, max_value=50, step=1)
             cc.button("Add Blocks")
             rc.button('Delete selected')
 
@@ -44,12 +57,13 @@ def edit_block():
                         width="small"
                     ),
                     "block_descr": st.column_config.TextColumn(
-                        "Panel Description",
+                        "Block Description",
                         width="medium"
                     ),
                     "block_to_del": st.column_config.CheckboxColumn(
                         "Delete Block",
-                        width="small"
+                        width="small",
+                        default=False
                     ),
                     "full_block_tag": st.column_config.TextColumn(
                         "Full Block Tag",
