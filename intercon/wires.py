@@ -137,7 +137,7 @@ def edit_wires():
 
         if len(wire_df):
 
-            current_cable_wires_df = wire_df.loc[wire_df.cab_tag == act_cable]
+            current_cable_wires_df = wire_df[wire_df.cab_tag == act_cable]
 
             wires_to_del = []
             wires_to_show = []
