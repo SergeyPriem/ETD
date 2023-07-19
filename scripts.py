@@ -1383,7 +1383,8 @@ def scripts_tab():
                 l_col.markdown('Select the Operation Mode', unsafe_allow_html=False,
                                help="!!! If switched without save - data will be lost")
                 with c_col:
-                    local_remote = option_menu(None, ['LOCAL', 'REMOTE'], icons=['-', '-', ], orientation="horizontal")
+                    local_remote = option_menu(None, ['LOCAL', 'REMOTE'], icons=['-', '-', ], orientation="horizontal",
+                                               default_index=1)
 
                 if local_remote == "LOCAL":
                     if st.session_state.intercon['doc'] is None:
