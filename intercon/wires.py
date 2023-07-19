@@ -135,100 +135,100 @@ def edit_wires():
         st.subheader(f'Termination Table for Cable :blue[{act_cable}]')
         wire_df = st.session_state.intercon['wire']
 
-        current_cable_wires_df = wire_df.loc[wire_df.cab_tag == act_cable]
+        if len(wire_df):
 
-        wires_to_del = []
-        wires_to_show = []
+            current_cable_wires_df = wire_df.loc[wire_df.cab_tag == act_cable]
 
-        # def highlight_truobles(s):
-        #     return ['background-color: grey'] * len(s) if s.wire_trouble == "-" else ['background-color: red'] * len(s)
+            wires_to_del = []
+            wires_to_show = []
 
-        cab_df = st.session_state.intercon['cable']
-        block_df = st.session_state.intercon['block']
+            # def highlight_truobles(s):
+            #     return ['background-color: grey'] * len(s) if s.wire_trouble == "-" else ['background-color: red'] * len(s)
 
-        left_pan = cab_df.loc[cab_df.cab_tag == act_cable, 'full_pan_tag_left'].to_numpy()[0]
-        right_pan = cab_df.loc[cab_df.cab_tag == act_cable, 'full_pan_tag_right'].to_numpy()[0]
+            cab_df = st.session_state.intercon['cable']
+            block_df = st.session_state.intercon['block']
 
-        left_block_list = block_df.loc[block_df.full_pan_tag == left_pan, "full_block_tag"].tolist()
-        right_block_list = block_df.loc[block_df.full_pan_tag == right_pan, "full_block_tag"].tolist()
+            left_pan = cab_df.loc[cab_df.cab_tag == act_cable, 'full_pan_tag_left'].to_numpy()[0]
+            right_pan = cab_df.loc[cab_df.cab_tag == act_cable, 'full_pan_tag_right'].to_numpy()[0]
 
-        if len(current_cable_wires_df):
-            upd_cable_wires_df = st.data_editor(
-                current_cable_wires_df,
-                column_config={
-                    "cab_tag": st.column_config.TextColumn(
-                        "Cable Tag",
-                        disabled=True,
-                        default=act_cable,
-                    ),
-                    "full_block_tag_left": st.column_config.SelectboxColumn(
-                        "Left Cable Terminal Block",
-                        help="Available terminals at the Left Panel",
-                        width="medium",
-                        options=left_block_list,
-                    ),
-                    "term_num_left": st.column_config.NumberColumn(
-                        "Left Terminal Number",
-                        help="Number of Terminal",
-                        min_value=0,
-                        max_value=250,
-                        width="small",
-                    ),
-                    "wire_num": st.column_config.NumberColumn(
-                        "Number of Wire",
-                        min_value=1,
-                        max_value=100,
-                        width='small',
-                        default=current_cable_wires_df.wire_num.max() + 1
-                    ),
+            left_block_list = block_df.loc[block_df.full_pan_tag == left_pan, "full_block_tag"].tolist()
+            right_block_list = block_df.loc[block_df.full_pan_tag == right_pan, "full_block_tag"].tolist()
 
-                    "term_num_right": st.column_config.NumberColumn(
-                        "Right Terminal Number",
-                        help="Number of Terminal",
-                        min_value=0,
-                        max_value=250,
-                        width="small",
-                    ),
+            if len(current_cable_wires_df):
+                upd_cable_wires_df = st.data_editor(
+                    current_cable_wires_df,
+                    column_config={
+                        "cab_tag": st.column_config.TextColumn(
+                            "Cable Tag",
+                            disabled=True,
+                            default=act_cable,
+                        ),
+                        "full_block_tag_left": st.column_config.SelectboxColumn(
+                            "Left Cable Terminal Block",
+                            help="Available terminals at the Left Panel",
+                            width="medium",
+                            options=left_block_list,
+                        ),
+                        "term_num_left": st.column_config.NumberColumn(
+                            "Left Terminal Number",
+                            help="Number of Terminal",
+                            min_value=0,
+                            max_value=250,
+                            width="small",
+                        ),
+                        "wire_num": st.column_config.NumberColumn(
+                            "Number of Wire",
+                            min_value=1,
+                            max_value=100,
+                            width='small',
+                            default=current_cable_wires_df.wire_num.max() + 1
+                        ),
 
-                    "full_block_tag_right": st.column_config.SelectboxColumn(
-                        "Right Cable Terminal Block",
-                        help="Available terminals at the Right Panel",
-                        width="medium",
-                        options=right_block_list,
-                    ),
-                    "wire_to_del": st.column_config.CheckboxColumn(
-                        "Delete Wire",
-                        width="small",
-                        default=False
-                    ),
-                    "full_term_tag_left": st.column_config.TextColumn(
-                        width="small",
-                        disabled=True,
-                    ),
-                    "wire_uniq": st.column_config.TextColumn(
-                        width="small",
-                        disabled=True,
-                    ),
-                    "full_term_tag_right": st.column_config.TextColumn(
-                        width="small",
-                        disabled=True,
-                    ),
-                },
-                hide_index=True, num_rows='fixed', use_container_width=True)
-            # on_change=save_wires, args=(upd_cable_wires_df, act_cable)
+                        "term_num_right": st.column_config.NumberColumn(
+                            "Right Terminal Number",
+                            help="Number of Terminal",
+                            min_value=0,
+                            max_value=250,
+                            width="small",
+                        ),
 
-            wires_to_del = upd_cable_wires_df.loc[
-                upd_cable_wires_df.wire_to_del.astype('str') == 'True', 'wire_uniq'].tolist()
+                        "full_block_tag_right": st.column_config.SelectboxColumn(
+                            "Right Cable Terminal Block",
+                            help="Available terminals at the Right Panel",
+                            width="medium",
+                            options=right_block_list,
+                        ),
+                        "wire_to_del": st.column_config.CheckboxColumn(
+                            "Delete Wire",
+                            width="small",
+                            default=False
+                        ),
+                        "full_term_tag_left": st.column_config.TextColumn(
+                            width="small",
+                            disabled=True,
+                        ),
+                        "wire_uniq": st.column_config.TextColumn(
+                            width="small",
+                            disabled=True,
+                        ),
+                        "full_term_tag_right": st.column_config.TextColumn(
+                            width="small",
+                            disabled=True,
+                        ),
+                    },
+                    hide_index=True, num_rows='fixed', use_container_width=True)
+                # on_change=save_wires, args=(upd_cable_wires_df, act_cable)
 
-            wires_to_show = upd_cable_wires_df.loc[
-                upd_cable_wires_df.wire_to_del.astype('str') == 'True', 'wire_num'].tolist()
-            wires_to_show = [int(x) for x in wires_to_show]
+                wires_to_del = upd_cable_wires_df.loc[
+                    upd_cable_wires_df.wire_to_del.astype('str') == 'True', 'wire_uniq'].tolist()
 
-            if st.button("SAVE TERMINATION TABLE", use_container_width=True):
-                check_wires_df(upd_cable_wires_df)
-                save_wires(upd_cable_wires_df, act_cable)
+                wires_to_show = upd_cable_wires_df.loc[
+                    upd_cable_wires_df.wire_to_del.astype('str') == 'True', 'wire_num'].tolist()
+                wires_to_show = [int(x) for x in wires_to_show]
 
-
+                if st.button("SAVE TERMINATION TABLE", use_container_width=True):
+                    check_wires_df(upd_cable_wires_df)
+                    save_wires(upd_cable_wires_df, act_cable)
         else:
             st.markdown("#### :blue[Please add wires to the cable]")
 
