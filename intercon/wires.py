@@ -225,6 +225,8 @@ def edit_wires():
                 if st.button("SAVE TERMINATION TABLE", use_container_width=True):
                     check_wires_df(upd_cable_wires_df)
                     save_wires(upd_cable_wires_df, act_cable)
+            else:
+                st.markdown("#### :blue[Please add wires to the cable]")
         else:
             st.markdown("#### :blue[Please add wires to the cable]")
 
