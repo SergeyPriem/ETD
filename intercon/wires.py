@@ -142,9 +142,6 @@ def edit_wires():
             wires_to_del = []
             wires_to_show = []
 
-            # def highlight_truobles(s):
-            #     return ['background-color: grey'] * len(s) if s.wire_trouble == "-" else ['background-color: red'] * len(s)
-
             cab_df = st.session_state.intercon['cable']
             block_df = st.session_state.intercon['block']
 
@@ -155,7 +152,7 @@ def edit_wires():
             right_block_list = block_df.loc[block_df.full_pan_tag == right_pan, "full_block_tag"].tolist()
 
             if len(current_cable_wires_df):
-                st.write(current_cable_wires_df)
+                # st.write(current_cable_wires_df)
                 upd_cable_wires_df = st.data_editor(
                     current_cable_wires_df,
                     column_config={
@@ -217,19 +214,18 @@ def edit_wires():
                         ),
                     },
                     hide_index=True, num_rows='fixed', use_container_width=True)
-        #         # on_change=save_wires, args=(upd_cable_wires_df, act_cable)
-        #
-        #         wires_to_del = upd_cable_wires_df.loc[
-        #             upd_cable_wires_df.wire_to_del.astype('str') == 'True', 'wire_uniq'].tolist()
-        #
-        #         wires_to_show = upd_cable_wires_df.loc[
-        #             upd_cable_wires_df.wire_to_del.astype('str') == 'True', 'wire_num'].tolist()
-        #         wires_to_show = [int(x) for x in wires_to_show]
-        #
-        #         if st.button("SAVE TERMINATION TABLE", use_container_width=True):
-        #             check_wires_df(upd_cable_wires_df)
-        #             save_wires(upd_cable_wires_df, act_cable)
-        # else:
+
+                wires_to_del = upd_cable_wires_df.loc[
+                    upd_cable_wires_df.wire_to_del.astype('str') == 'True', 'wire_uniq'].tolist()
+
+                wires_to_show = upd_cable_wires_df.loc[
+                    upd_cable_wires_df.wire_to_del.astype('str') == 'True', 'wire_num'].tolist()
+                wires_to_show = [int(x) for x in wires_to_show]
+
+                if st.button("SAVE TERMINATION TABLE", use_container_width=True):
+                    check_wires_df(upd_cable_wires_df)
+                    save_wires(upd_cable_wires_df, act_cable)
+        else:
             st.markdown("#### :blue[Please add wires to the cable]")
 
         rc.text('')
