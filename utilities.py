@@ -62,6 +62,7 @@ def center_style():
         </style>
         """, unsafe_allow_html=True)
 
+
 def left_style():
     return st.markdown("""
         <style>
@@ -244,7 +245,7 @@ def check_df(df):
 
 
 def title_with_help(title, help_content, ratio=24, divider=True):
-    #h_content = """
+    # h_content = """
     #    <p style="text-align: justify; color: #249ded;">На вкладке <b>Home</b> отображаются новые
     #    <b>Задания</b> от смежных отделов (если их внесли в базу не Вы) и <b>Трансмитталы</b>.
     #    Чтобы скрыть Задания и  Трансмитталы, нажмите кнопку под соответствующим блоком.</p>
@@ -263,7 +264,6 @@ def title_with_help(title, help_content, ratio=24, divider=True):
     if rc.button('❔', key=f'{title}_help', use_container_width=True):
         cc.markdown(help_content, unsafe_allow_html=True)
         rc.button('❌️', key=f'{title}_help_close', use_container_width=True)
-
 
     # rc.text('', help=help_content)
 

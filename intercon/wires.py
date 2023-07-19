@@ -156,68 +156,67 @@ def edit_wires():
 
             if len(current_cable_wires_df):
                 st.write(current_cable_wires_df)
-        #         upd_cable_wires_df = st.data_editor(
-        #             current_cable_wires_df,
-        #             column_config={
-        #                 "cab_tag": st.column_config.TextColumn(
-        #                     "Cable Tag",
-        #                     disabled=True,
-        #                     default=act_cable,
-        #                 ),
-        #                 "full_block_tag_left": st.column_config.SelectboxColumn(
-        #                     "Left Cable Terminal Block",
-        #                     help="Available terminals at the Left Panel",
-        #                     width="medium",
-        #                     options=left_block_list,
-        #                 ),
-        #                 "term_num_left": st.column_config.NumberColumn(
-        #                     "Left Terminal Number",
-        #                     help="Number of Terminal",
-        #                     min_value=0,
-        #                     max_value=250,
-        #                     width="small",
-        #                 ),
-        #                 "wire_num": st.column_config.NumberColumn(
-        #                     "Number of Wire",
-        #                     min_value=1,
-        #                     max_value=100,
-        #                     width='small',
-        #                     default=current_cable_wires_df.wire_num.max() + 1
-        #                 ),
-        #
-        #                 "term_num_right": st.column_config.NumberColumn(
-        #                     "Right Terminal Number",
-        #                     help="Number of Terminal",
-        #                     min_value=0,
-        #                     max_value=250,
-        #                     width="small",
-        #                 ),
-        #
-        #                 "full_block_tag_right": st.column_config.SelectboxColumn(
-        #                     "Right Cable Terminal Block",
-        #                     help="Available terminals at the Right Panel",
-        #                     width="medium",
-        #                     options=right_block_list,
-        #                 ),
-        #                 "wire_to_del": st.column_config.CheckboxColumn(
-        #                     "Delete Wire",
-        #                     width="small",
-        #                     default=False
-        #                 ),
-        #                 "full_term_tag_left": st.column_config.TextColumn(
-        #                     width="small",
-        #                     disabled=True,
-        #                 ),
-        #                 "wire_uniq": st.column_config.TextColumn(
-        #                     width="small",
-        #                     disabled=True,
-        #                 ),
-        #                 "full_term_tag_right": st.column_config.TextColumn(
-        #                     width="small",
-        #                     disabled=True,
-        #                 ),
-        #             },
-        #             hide_index=True, num_rows='fixed', use_container_width=True)
+                upd_cable_wires_df = st.data_editor(
+                    current_cable_wires_df,
+                    column_config={
+                        "cab_tag": st.column_config.TextColumn(
+                            "Cable Tag",
+                            disabled=True,
+                            default=act_cable,
+                        ),
+                        "full_block_tag_left": st.column_config.SelectboxColumn(
+                            "Left Cable Terminal Block",
+                            help="Available terminals at the Left Panel",
+                            width="medium",
+                            options=left_block_list,
+                        ),
+                        "term_num_left": st.column_config.NumberColumn(
+                            "Left Terminal Number",
+                            help="Number of Terminal",
+                            min_value=0,
+                            max_value=250,
+                            width="small",
+                        ),
+                        "wire_num": st.column_config.NumberColumn(
+                            "Number of Wire",
+                            min_value=1,
+                            max_value=100,
+                            width='small',
+                        ),
+
+                        "term_num_right": st.column_config.NumberColumn(
+                            "Right Terminal Number",
+                            help="Number of Terminal",
+                            min_value=0,
+                            max_value=250,
+                            width="small",
+                        ),
+
+                        "full_block_tag_right": st.column_config.SelectboxColumn(
+                            "Right Cable Terminal Block",
+                            help="Available terminals at the Right Panel",
+                            width="medium",
+                            options=right_block_list,
+                        ),
+                        "wire_to_del": st.column_config.CheckboxColumn(
+                            "Delete Wire",
+                            width="small",
+                            default=False
+                        ),
+                        "full_term_tag_left": st.column_config.TextColumn(
+                            width="small",
+                            disabled=True,
+                        ),
+                        "wire_uniq": st.column_config.TextColumn(
+                            width="small",
+                            disabled=True,
+                        ),
+                        "full_term_tag_right": st.column_config.TextColumn(
+                            width="small",
+                            disabled=True,
+                        ),
+                    },
+                    hide_index=True, num_rows='fixed', use_container_width=True)
         #         # on_change=save_wires, args=(upd_cable_wires_df, act_cable)
         #
         #         wires_to_del = upd_cable_wires_df.loc[
