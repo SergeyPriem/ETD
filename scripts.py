@@ -1417,7 +1417,6 @@ def scripts_tab():
                         if close_b.button('Download and Close', use_container_width=True):
                             close_intercon_doc()
                             st.experimental_rerun()
-
                 st.divider()
 
                 if st.session_state.intercon['doc']:
