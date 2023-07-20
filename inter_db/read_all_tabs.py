@@ -36,13 +36,16 @@ def get_all_blocks():
         try:
             data = select(
                 (b.id,
+                 p.eq_id.equipment_tag,
                  b.pan_id.panel_tag,
                  b.block_tag,
                  b.descr,
                  b.to_del,
                  b.notes,
                  )
-                for b in Block)[:]
+                for b in Block
+                for p in b.pan_id
+            )[:]
             df = pd.DataFrame(data, columns=['id', 'panel_tag', 'block_tag', 'description', 'to_del', 'notes'])
             return df
         except Exception as e:
