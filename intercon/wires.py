@@ -231,7 +231,7 @@ def edit_wires():
             st.markdown("#### :blue[Please add wires to the cable]")
 
         rc.text('')
-        rc.text('')
+        rc.text('', help="Select the wires by checkbox 'Delete Wire'")
         cc.text('')
         cc.text('')
 
