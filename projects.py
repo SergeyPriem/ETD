@@ -3,8 +3,10 @@ import streamlit as st
 from pony.orm import *
 
 
+
 try:
     from models import Project, SOD, Task, Users, Speciality, Trans
+    from utilities import err_handler, tab_to_df
 except Exception as e:
     st.write(e)
 
@@ -12,7 +14,7 @@ import pandas as pd
 from datetime import date, datetime
 import streamlit as st
 from pathlib import Path
-from utilities import err_handler, tab_to_df
+
 
 set_sql_debug(True)
 
