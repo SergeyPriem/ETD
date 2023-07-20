@@ -1410,13 +1410,13 @@ def scripts_tab():
                     else:
                         work, close_b = st.columns([12, 2], gap="medium")
                         work.info(f"#### You are working with CLOUD document :blue[termination BGPP]")
-                        if st.session_state['user']['access_level'] == "dev":
-                            st.write("[Open file](https://docs.google.com/spreadsheets/d/1AV3RGFBL-ZiR8AIlR0WW7aJvnFYnHtY78xrMRZ3UavQ/edit#gid=1924125475)")
-                        if close_b.button('Save', use_container_width=True):
+                        if close_b.button('Save to G-sheet', use_container_width=True):
                             save_to_gsheet()
-                        if close_b.button('Download and Close', use_container_width=True):
-                            close_intercon_doc()
-                            st.experimental_rerun()
+                        # if close_b.button('Download and Close', use_container_width=True):
+                        #     close_intercon_doc()
+                        #     st.experimental_rerun()
+                        if st.session_state['user']['access_level'] == "dev":
+                            close_b.write("[Open file](https://docs.google.com/spreadsheets/d/1AV3RGFBL-ZiR8AIlR0WW7aJvnFYnHtY78xrMRZ3UavQ/edit#gid=1924125475)")
                 st.divider()
 
                 if st.session_state.intercon['doc']:
