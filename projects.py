@@ -2,13 +2,8 @@
 import streamlit as st
 from pony.orm import *
 
-
-
-try:
-    from models import Project, SOD, Task, Users, Speciality, Trans
-    from utilities import err_handler, tab_to_df
-except Exception as e:
-    st.write(e)
+from utilities import err_handler, tab_to_df
+from models import Project, SOD, Task, Users, Speciality, Trans
 
 import pandas as pd
 from datetime import date, datetime
