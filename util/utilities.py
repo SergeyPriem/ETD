@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-import time
+
 import pandas as pd
 import streamlit as st
 import json
 import os
 import ezdxf
 
-from projects import get_sod_repeat, get_proj_repeat, get_tasks_repeat, get_trans_repeat
 
 POSITIONS = ('Trainee', 'III cat.', 'II cat.', 'I cat.', 'Lead', 'Group Head', 'Senior', 'Dep. Head')
 DEPARTMENTS = ('UzLITI Engineering', 'En-Solut', 'En-Concept', 'En-Smart', 'En-Design', 'Remote')
@@ -111,18 +110,6 @@ def mail_to_name(mail):
         return "Colleague"
 
 
-def get_state():
-    if os.path.exists("temp_dxf/state.json"):
-        # print('file exists')
-        try:
-            with open("temp_dxf/state.json", "r", encoding="utf-8") as f:
-                state_json = f.read()
-            cur_state = json.loads(state_json)
-            return cur_state
-        except Exception as e:
-            return err_handler(e)
-    else:
-        return "File does not exist"
 
 
 def set_init_state(data=None):
@@ -178,55 +165,6 @@ def update_state(tab_name: str):
 
 
 
-def update_tables():
-    st.session_state.new_state = get_state()
-
-    counter = 0
-
-    for table in ('sod', 'task', 'trans', 'project'):
-        if st.session_state.local_marker[table]['id'] != st.session_state.new_state[table]['id']:
-
-            counter += 1
-
-            try:
-                upd_login = st.session_state.new_state[table]['user']
-            except:
-                upd_login = None
-
-            reply_dict = {
-                'sod': get_sod_repeat,
-                'project': get_proj_repeat,
-                'task': get_tasks_repeat,
-                'trans': get_trans_repeat,
-            }
-
-            tab_name_dict = {
-                'sod': "Units",
-                'project': "Projects",
-                'task': "Tasks",
-                'trans': "Transmittals",
-            }
-
-            reply = reply_dict.get(table)()
-
-            if reply['status'] == 200:
-                st.session_state.adb[table] = reply[table]
-                st.session_state.refresh_status = f'Units Updated by {upd_login}'
-                st.session_state.local_marker[table]['id'] = st.session_state.new_state[table]['id']
-
-                if st.session_state.user['vert_menu'] == 1:
-                    st.sidebar.success(f"'{tab_name_dict[table]}' were updated by {upd_login}. \n\n Data is refreshed")
-                    time.sleep(1)
-                    return None
-                else:
-                    return f"'{tab_name_dict[table]}' were updated by {upd_login}. Data is refreshed"
-
-            else:
-                st.session_state.refresh_status = f"{reply['status']} by {upd_login}"
-                return f"{reply['status']} by {upd_login}"
-
-    if counter:
-        st.experimental_rerun()
 
 
 def open_dxf_file(path):
