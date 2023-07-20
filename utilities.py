@@ -23,8 +23,21 @@ TRANS_STATUSES = ("Open", "Closed", "For Info", "Not Enough Data", "In Progress"
 
 TRANS_TYPES = ('Comments', "Letter", 'Vendor Docs', 'TBE', 'FCN', 'Design Docs')
 
+
+
 def err_handler(e):
     return f"{type(e).__name__}{getattr(e, 'args', None)}"
+
+def tab_to_df(tab):
+    t_dict = [t.to_dict() for t in tab]
+    t_df = pd.DataFrame(t_dict)
+    if 'id' in list(t_df.columns):
+        t_df = t_df.set_index('id')
+    if len(t_df) > 0:
+        return t_df
+    else:
+        return "Empty Table"
+
 
 
 def appearance_settings():
@@ -285,13 +298,4 @@ credentials = {
     "universe_domain": "googleapis.com"
 }
 
-def tab_to_df(tab):
-    t_dict = [t.to_dict() for t in tab]
-    t_df = pd.DataFrame(t_dict)
-    if 'id' in list(t_df.columns):
-        t_df = t_df.set_index('id')
-    if len(t_df) > 0:
-        return t_df
-    else:
-        return "Empty Table"
 
