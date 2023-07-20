@@ -1483,6 +1483,10 @@ def scripts_tab():
                         # st.write(get_all_data(prev_dict.get(prev_sel)))
                         st.write(prev_dict[prev_sel]())
 
+                        act = option_menu(None,
+                                          ['Select required:','Create', 'Update', 'Delete'],
+                                          icons=['-','-','-','-'], default_index=0, orientation='horizontal')
+
                     else:
                         st.write("Here you can preview Connections related Tables")
                     st.divider()

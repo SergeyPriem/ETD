@@ -89,6 +89,7 @@ def get_all_cables():
                  c.left_pan_id.panel_tag,
                  c.right_pan_id.panel_tag,
                  c.notes,
+                 c.to_del
                  )
                 for c in Cable
             )[:]
@@ -98,4 +99,3 @@ def get_all_cables():
         except Exception as e:
             return err_handler(e)
 
-# AttributeError('Entity Terminal does not have attribute block_tag: t.block_tag',)

@@ -155,6 +155,14 @@ class Action(db.Entity):
 
 # below is interconnection tables
 
+# class Equip(db.Entity):
+#     id = PrimaryKey(int, size=24, auto=True)
+#     equipment_tag = Required(str, 50, unique=True)
+#     descr = Required(str, 100)
+#     to_del = Required(bool, default=False)
+#     notes = Optional(str, 200)
+#     panels = Set('Panel')
+
 class Equip(db.Entity):
     id = PrimaryKey(int, size=24, auto=True)
     equipment_tag = Required(str, 50, unique=True)
@@ -179,7 +187,7 @@ class Panel(db.Entity):
 class Block(db.Entity):
     id = PrimaryKey(int, size=32, auto=True)
     pan_id = Required(Panel)
-    block_tag = Required(str, 20)
+    block_tag = Required(str, 70, unique=True)
     descr = Optional(str, 100)
     to_del = Required(bool, default=False)
     notes = Optional(str, 200)
@@ -191,6 +199,7 @@ class Cable(db.Entity):
     cable_tag = Required(str, 100, unique=True)
     wires = Set('Wire')
     notes = Optional(str)
+    to_del = Required(bool, default=False)
     purpose_id = Required('Cab_purpose')
     type_id = Required('Cab_types')
     sect_id = Required('Cab_sect')
@@ -243,6 +252,7 @@ class Terminal(db.Entity):
     to_del = Optional(bool, default=False)
     wires_l = Set(Wire, reverse='left_term_id')
     wires_r = Set(Wire, reverse='right_term_id')
+
 
 set_sql_debug(False)
 
