@@ -10,7 +10,7 @@ import gspread
 from streamlit_option_menu import option_menu
 
 from create_xml import add_main_bus, add_feeder
-from inter_db.read_all_tabs import get_all_data
+from inter_db.read_all_tabs import get_all_equip
 from section_generator import get_tags_from_cablist, generate_dxf, get_sect_from_layout
 from users import err_handler, reg_action
 from util.utilities import center_style, open_dxf_file, check_df, credentials
@@ -1472,7 +1472,7 @@ def scripts_tab():
                         # st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
 
                         prev_dict = {
-                            'Equipment': Equip,
+                            'Equipment': get_all_equip,
                             'Panels': Panel,
                             'Terminal block': Block,
                             'Terminals': Terminal,
@@ -1480,7 +1480,8 @@ def scripts_tab():
                             'Wires': Wire,
                         }
 
-                        st.write(get_all_data(prev_dict.get(prev_sel)))
+                        # st.write(get_all_data(prev_dict.get(prev_sel)))
+                        st.write(prev_dict[prev_sel]())
 
                     else:
                         st.write("Here you can preview Connections related Tables")
