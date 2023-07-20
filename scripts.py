@@ -20,8 +20,8 @@ from intercon.cables import  edit_cab_con
 from intercon.panels import edit_panel
 from intercon.blocks import edit_block
 from intercon.wires import edit_wires
-from intercon.data_interface import open_inercon_doc, close_intercon_doc, open_intercon_google, save_to_gsheet
-from models import Equip, Cable, Block, Terminal, Cable, Wire, Panel
+from intercon.data_interface import open_inercon_doc, open_intercon_google, save_to_gsheet
+from models import Equip, Block, Terminal, Cable, Wire, Panel
 
 cab_dict = {
     1.5: 1.5, 2.5: 2.5, 4: 4,
@@ -1486,25 +1486,3 @@ def scripts_tab():
                         st.write("Here you can preview Connections related Tables")
                     st.divider()
 
-                    # action = option_menu(None, ['EDIT:', 'Equipment', 'Panel', 'Terminal Block', 'Cable',
-                    #                             'Cable Wires'],
-                    #                      icons=['pencil-square', '1-circle', '2-circle', '3-circle', '4-circle',
-                    #                             '5-circle', ],
-                    #                      orientation="horizontal")
-                    # if action == 'EDIT:':
-                    #     st.write("Here you can edit Connections related Tables")
-                    #
-                    # if action == 'Equipment':
-                    #     edit_equipment()
-                    #
-                    # if action == 'Panel':
-                    #     edit_panel()
-                    #
-                    # if action == 'Terminal Block':
-                    #     edit_block()
-                    #
-                    # if action == 'Cable':
-                    #     edit_cab_con()
-                    #
-                    # if action == 'Cable Wires':
-                    #     edit_wires()

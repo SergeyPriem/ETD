@@ -1,5 +1,4 @@
 ﻿# -*- coding: utf-8 -*-
-import streamlit as st
 from pony.orm import *
 
 from utilities import err_handler, tab_to_df
