@@ -269,3 +269,18 @@ def title_with_help(title, help_content, ratio=24, divider=True):
 
     if divider:
         st.divider()
+
+
+credentials = {
+    "type": "service_account",
+    "project_id": "termination-bgpp",
+    "private_key_id": st.secrets['sak']['private_key_id'],
+    "private_key": st.secrets['sak']['private_key'],
+    "client_email": st.secrets['sak']['client_email'],
+    "client_id": st.secrets['sak']['client_id'],
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": st.secrets['sak']['client_x509_cert_url'],
+    "universe_domain": "googleapis.com"
+}

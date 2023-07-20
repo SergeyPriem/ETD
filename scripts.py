@@ -12,7 +12,7 @@ from streamlit_option_menu import option_menu
 from create_xml import add_main_bus, add_feeder
 from section_generator import get_tags_from_cablist, generate_dxf, get_sect_from_layout
 from users import err_handler, reg_action
-from utilities import center_style, open_dxf_file, check_df
+from utilities import center_style, open_dxf_file, check_df, credentials
 
 from intercon.equipment import edit_equipment
 from intercon.cables import  edit_cab_con
@@ -1403,19 +1403,6 @@ def scripts_tab():
                 if local_remote == "REMOTE":
 
                     if st.session_state.intercon['doc'] is None:
-                        credentials = {
-                            "type": "service_account",
-                            "project_id": "termination-bgpp",
-                            "private_key_id": st.secrets['sak']['private_key_id'],
-                            "private_key": st.secrets['sak']['private_key'],
-                            "client_email": st.secrets['sak']['client_email'],
-                            "client_id": st.secrets['sak']['client_id'],
-                            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-                            "token_uri": "https://oauth2.googleapis.com/token",
-                            "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-                            "client_x509_cert_url": st.secrets['sak']['client_x509_cert_url'],
-                            "universe_domain": "googleapis.com"
-                        }
                         gc = gspread.service_account_from_dict(credentials)
                         s_sh = gc.open('termination BGPP')
                         st.session_state.intercon['doc'] = s_sh
@@ -1423,6 +1410,8 @@ def scripts_tab():
                     else:
                         work, close_b = st.columns([12, 2], gap="medium")
                         work.info(f"#### You are working with CLOUD document :blue[termination BGPP]")
+                        if st.session_state['user']['access_level'] == "dev":
+                            st.write(f"Open file by link: https://docs.google.com/spreadsheets/d/1AV3RGFBL-ZiR8AIlR0WW7aJvnFYnHtY78xrMRZ3UavQ/edit#gid=1924125475")
                         if close_b.button('Save', use_container_width=True):
                             save_to_gsheet()
                         if close_b.button('Download and Close', use_container_width=True):
