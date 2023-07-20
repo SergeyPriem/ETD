@@ -60,10 +60,8 @@ def get_all_terminals():
                  p.eq_id.equipment_tag,
                  b.pan_id.panel_tag,
                  t.block_id.block_tag,
-                 t.eq_id.equipment_tag,
-                 t.pan_id.panel_tag,
                  t.block_tag,
-                 t.descr,
+                 t.terminal_num,
                  t.to_del,
                  t.notes,
                  )
@@ -77,3 +75,4 @@ def get_all_terminals():
         except Exception as e:
             return err_handler(e)
 
+# AttributeError('Entity Terminal does not have attribute eq_id: t.eq_id',)
