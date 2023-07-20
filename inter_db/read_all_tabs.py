@@ -82,7 +82,7 @@ def get_all_cables():
             data = select(
                 (c.id,
                  c.cable_tag,
-                 c.purpose_id.curcuit_descr,
+                 c.purpose_id.circuit_descr,
                  c.type_id.cab_type,
                  c.wires_id.wire_num,
                  c.sect_id.section,

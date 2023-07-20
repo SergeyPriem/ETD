@@ -21,7 +21,7 @@ from intercon.panels import edit_panel
 from intercon.blocks import edit_block
 from intercon.wires import edit_wires
 from intercon.data_interface import open_inercon_doc, open_intercon_google, save_to_gsheet
-from models import Equip, Block, Terminal, Cable, Wire, Panel
+
 
 cab_dict = {
     1.5: 1.5, 2.5: 2.5, 4: 4,
