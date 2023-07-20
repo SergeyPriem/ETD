@@ -46,7 +46,8 @@ def get_all_blocks():
                 for b in Block
                 for p in b.pan_id
             )[:]
-            df = pd.DataFrame(data, columns=['id', 'panel_tag', 'block_tag', 'description', 'to_del', 'notes'])
+            df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag',
+                                             'block_tag', 'description', 'to_del', 'notes'])
             return df
         except Exception as e:
             return err_handler(e)
