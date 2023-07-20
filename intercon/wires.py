@@ -230,12 +230,12 @@ def edit_wires():
         else:
             st.markdown("#### :blue[Please add wires to the cable]")
 
-        rc.text('')
+        # rc.text('')
         rc.text('', help="Select the wires by checkbox 'Delete Wire'")
-        cc.text('')
-        cc.text('')
+        # cc.text('')
+        cc.text('', help="Select wires quantity first. Wires will be numbered in order")
 
-        wires_to_add = lc2.number_input(f'Add new wires', min_value=1, max_value=37)
+        wires_to_add = lc2.number_input(f'Number of wires to add', min_value=1, max_value=37)
 
         if cc.button("Add wires", use_container_width=True):
             add_wires(act_cable, wires_to_add)
