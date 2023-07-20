@@ -153,7 +153,7 @@ class Action(db.Entity):
     action_time = Required(datetime)
 
 
-
+# below is interconnection tables
 
 class Equip(db.Entity):
     id = PrimaryKey(int, size=24, auto=True)
@@ -188,7 +188,7 @@ class Block(db.Entity):
 
 class Cable(db.Entity):
     id = PrimaryKey(int, size=32, auto=True)
-    cable_tag = Optional(str, 100)
+    cable_tag = Required(str, 100, unique=True)
     wires = Set('Wire')
     notes = Optional(str)
     purpose_id = Required('Cab_purpose')
