@@ -153,73 +153,60 @@ class Action(db.Entity):
     action_time = Required(datetime)
 
 
-set_sql_debug(False)
-
-db.bind(
-    provider='mysql',
-    host=st.secrets["db_host"],
-    user=st.secrets["db_user"],
-    passwd=st.secrets["db_password"],
-    db=st.secrets["db_database"]
-)
 
 
 class Equip(db.Entity):
     id = PrimaryKey(int, size=24, auto=True)
-    tag = Required(str, 50, unique=True)
+    equipment_tag = Required(str, 50, unique=True)
     descr = Required(str, 100)
     to_del = Required(bool, default=False)
-    panels = Set('Panel')
     notes = Optional(str, 200)
+    panels = Set('Panel')
 
 
 class Panel(db.Entity):
     id = PrimaryKey(int, size=32, auto=True)
-    tag = Required(str, 50)
+    eq_id = Required(Equip)
+    panel_tag = Required(str, 50)
     descr = Required(str, 100)
     to_del = Required(bool, default=False)
-    blocks = Set('Block')
-    equip = Required(Equip)
-    cables = Set('Cable')
     notes = Optional(str, 200)
+    blocks = Set('Block')
+    cables_r = Set('Cable', reverse='right_pan_id')
+    cables_l = Set('Cable', reverse='left_pan_id')
 
 
 class Block(db.Entity):
     id = PrimaryKey(int, size=32, auto=True)
-    tag = Required(str, 20)
+    pan_id = Required(Panel)
+    block_tag = Required(str, 20)
     descr = Optional(str, 100)
     to_del = Required(bool, default=False)
-    wires = Set('Wire')
     notes = Optional(str, 200)
-    panel = Required(Panel)
+    terminals = Set('Terminal')
 
 
 class Cable(db.Entity):
     id = PrimaryKey(int, size=32, auto=True)
+    cable_tag = Optional(str, 100)
     wires = Set('Wire')
-    panels = Set(Panel)
     notes = Optional(str)
-    tag = Optional(str, 100)
-    purpose = Optional(str)
-    type = Optional(str, 50)
-    cab_purpose = Required('Cab_purpose')
-    cab_types = Required('Cab_types')
-    section = Optional(str, 4)
-    cab_sect = Required('Cab_sect')
-    cab_wires = Required('Cab_wires')
+    purpose_id = Required('Cab_purpose')
+    type_id = Required('Cab_types')
+    sect_id = Required('Cab_sect')
+    wires_id = Required('Cab_wires')
+    right_pan_id = Required(Panel, reverse='cables_r')
+    left_pan_id = Required(Panel, reverse='cables_l')
 
 
 class Wire(db.Entity):
     id = PrimaryKey(int, size=64, auto=True)
-    blocks = Set(Block)
-    cable = Required(Cable)
+    cable_id = Required(Cable)
     notes = Optional(str, 200)
-    num = Required(int, size=8)
-    left_block = Optional(str, 20)
-    left_term = Optional(str, 8)
-    right_block = Optional(str, 20)
-    right_term = Optional(str, 8)
+    wire_num = Required(int, size=8)
     to_del = Optional(bool, default=False)
+    left_term_id = Required('Terminal', reverse='wires_l')
+    right_term_id = Required('Terminal', reverse='wires_r')
 
 
 class Cab_purpose(db.Entity):
@@ -244,6 +231,27 @@ class Cab_wires(db.Entity):
     id = PrimaryKey(int, auto=True)
     wire_num = Required(int, size=8)
     cables = Set(Cable)
+
+
+class Terminal(db.Entity):
+    id = PrimaryKey(int, auto=True)
+    block_id = Required(Block)
+    terminal_num = Required(str, 10)
+    int_circuit = Optional(str, 10)
+    int_link = Optional(str, 10)
+    wires_l = Set(Wire, reverse='left_term_id')
+    wires_r = Set(Wire, reverse='right_term_id')
+
+set_sql_debug(False)
+
+db.bind(
+    provider='mysql',
+    host=st.secrets["db_host"],
+    user=st.secrets["db_user"],
+    passwd=st.secrets["db_password"],
+    db=st.secrets["db_database"]
+)
+
 
 db.generate_mapping(create_tables=True)
 

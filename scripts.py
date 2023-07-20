@@ -1383,8 +1383,9 @@ def scripts_tab():
                 l_col.markdown('Select the Operation Mode', unsafe_allow_html=False,
                                help="!!! If switched without save - data will be lost")
                 with c_col:
-                    local_remote = option_menu(None, ['LOCAL', 'REMOTE'], icons=['-', '-', ], orientation="horizontal",
-                                               default_index=1)
+                    local_remote = option_menu(None, ['LOCAL', 'REMOTE', 'DB'],
+                                               icons=['-', '-', '-', ], orientation="horizontal",
+                                               default_index=2)
 
                 if local_remote == "LOCAL":
                     if st.session_state.intercon['doc'] is None:
@@ -1417,6 +1418,9 @@ def scripts_tab():
                         #     st.experimental_rerun()
                         if st.session_state['user']['access_level'] == "dev":
                             close_b.write("[Open file](https://docs.google.com/spreadsheets/d/1AV3RGFBL-ZiR8AIlR0WW7aJvnFYnHtY78xrMRZ3UavQ/edit#gid=1924125475)")
+
+                if local_remote == "DB":
+                    pass
                 st.divider()
 
                 if st.session_state.intercon['doc']:
