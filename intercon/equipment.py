@@ -40,6 +40,7 @@ def edit_equipment():
             column_config={
                 'eq_tag': st.column_config.TextColumn(
                     'Equipment Tag',
+                    disabled=True,
                     width='medium',
                 ),
                 'eq_descr': st.column_config.TextColumn(

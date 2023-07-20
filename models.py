@@ -164,5 +164,86 @@ db.bind(
 )
 
 
+class Equip(db.Entity):
+    id = PrimaryKey(int, size=24, auto=True)
+    tag = Required(str, 50, unique=True)
+    descr = Required(str, 100)
+    to_del = Required(bool, default=False)
+    panels = Set('Panel')
+    notes = Optional(str, 200)
+
+
+class Panel(db.Entity):
+    id = PrimaryKey(int, size=32, auto=True)
+    tag = Required(str, 50)
+    descr = Required(str, 100)
+    to_del = Required(bool, default=False)
+    blocks = Set('Block')
+    equip = Required(Equip)
+    cables = Set('Cable')
+    notes = Optional(str, 200)
+
+
+class Block(db.Entity):
+    id = PrimaryKey(int, size=32, auto=True)
+    tag = Required(str, 20)
+    descr = Optional(str, 100)
+    to_del = Required(bool, default=False)
+    wires = Set('Wire')
+    notes = Optional(str, 200)
+    panel = Required(Panel)
+
+
+class Cable(db.Entity):
+    id = PrimaryKey(int, size=32, auto=True)
+    wires = Set('Wire')
+    panels = Set(Panel)
+    notes = Optional(str)
+    tag = Optional(str, 100)
+    purpose = Optional(str)
+    type = Optional(str, 50)
+    cab_purpose = Required('Cab_purpose')
+    cab_types = Required('Cab_types')
+    section = Optional(str, 4)
+    cab_sect = Required('Cab_sect')
+    cab_wires = Required('Cab_wires')
+
+
+class Wire(db.Entity):
+    id = PrimaryKey(int, size=64, auto=True)
+    blocks = Set(Block)
+    cable = Required(Cable)
+    notes = Optional(str, 200)
+    num = Required(int, size=8)
+    left_block = Optional(str, 20)
+    left_term = Optional(str, 8)
+    right_block = Optional(str, 20)
+    right_term = Optional(str, 8)
+    to_del = Optional(bool, default=False)
+
+
+class Cab_purpose(db.Entity):
+    id = PrimaryKey(int, size=8, auto=True)
+    circuit_descr = Required(str, 20)
+    cables = Set(Cable)
+
+
+class Cab_types(db.Entity):
+    id = PrimaryKey(int, size=8, auto=True)
+    cab_type = Required(str, 50)
+    cables = Set(Cable)
+
+
+class Cab_sect(db.Entity):
+    id = PrimaryKey(int, auto=True)
+    cables = Set(Cable)
+    section = Required(str, 4)
+
+
+class Cab_wires(db.Entity):
+    id = PrimaryKey(int, auto=True)
+    wire_num = Required(int, size=8)
+    cables = Set(Cable)
+
 db.generate_mapping(create_tables=True)
 
