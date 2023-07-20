@@ -284,3 +284,14 @@ credentials = {
     "client_x509_cert_url": st.secrets['sak']['client_x509_cert_url'],
     "universe_domain": "googleapis.com"
 }
+
+def tab_to_df(tab):
+    t_dict = [t.to_dict() for t in tab]
+    t_df = pd.DataFrame(t_dict)
+    if 'id' in list(t_df.columns):
+        t_df = t_df.set_index('id')
+    if len(t_df) > 0:
+        return t_df
+    else:
+        return "Empty Table"
+

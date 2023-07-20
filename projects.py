@@ -2,6 +2,8 @@
 import streamlit as st
 from pony.orm import *
 
+from utilities import err_handler, tab_to_df
+
 try:
     from models import Project, SOD, Task, Users, Speciality, Trans
 except Exception as e:
@@ -15,10 +17,6 @@ from pathlib import Path
 set_sql_debug(True)
 
 BACKUP_FOLDER: Path = Path('//uz-fs/Uzle/Work/Отдел ЭЛ/Архив заданий/')
-
-
-def err_handler(e):
-    return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
 
 def delete_table_row(table, row_id):
@@ -43,17 +41,6 @@ def create_backup_string(source_link, backup_folder, task_num):
         return str(f'{backup_folder}\\{task_num}\\'.replace("/\\", "\\")).replace("/", "\\"), backup_string
     else:
         return "Non-assignment", "Non-assignment"
-
-
-def tab_to_df(tab):
-    t_dict = [t.to_dict() for t in tab]
-    t_df = pd.DataFrame(t_dict)
-    if 'id' in list(t_df.columns):
-        t_df = t_df.set_index('id')
-    if len(t_df) > 0:
-        return t_df
-    else:
-        return "Empty Table"
 
 
 def create_project(proj_short, proj_full, client, proj_man, responsible_el, proj_status, proj_tech_ass,

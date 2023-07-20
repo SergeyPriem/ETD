@@ -10,6 +10,7 @@ import gspread
 from streamlit_option_menu import option_menu
 
 from create_xml import add_main_bus, add_feeder
+from inter_db.read_all_tabs import get_all_data
 from section_generator import get_tags_from_cablist, generate_dxf, get_sect_from_layout
 from users import err_handler, reg_action
 from utilities import center_style, open_dxf_file, check_df, credentials
@@ -20,6 +21,7 @@ from intercon.panels import edit_panel
 from intercon.blocks import edit_block
 from intercon.wires import edit_wires
 from intercon.data_interface import open_inercon_doc, close_intercon_doc, open_intercon_google, save_to_gsheet
+from models import Equip, Cable, Block, Terminal, Cable, Wire, Panel
 
 cab_dict = {
     1.5: 1.5, 2.5: 2.5, 4: 4,
@@ -1386,77 +1388,123 @@ def scripts_tab():
                     local_remote = option_menu(None, ['LOCAL', 'REMOTE', 'DB'],
                                                icons=['-', '-', '-', ], orientation="horizontal",
                                                default_index=2)
+                if local_remote != 'DB':
+                    if local_remote == "LOCAL":
+                        if st.session_state.intercon['doc'] is None:
+                            cr_l, cr_r = st.columns(2, gap='medium')
+                            cr_l.text('')
+                            cr_l.text('')
+                            cr_l.info('Add the File of Interconnection 👉')
+                            st.session_state.intercon['doc'] = cr_r.file_uploader('INTERCONNECTION FILE', 'xlsx')
 
-                if local_remote == "LOCAL":
-                    if st.session_state.intercon['doc'] is None:
-                        cr_l, cr_r = st.columns(2, gap='medium')
-                        cr_l.text('')
-                        cr_l.text('')
-                        cr_l.info('Add the File of Interconnection 👉')
-                        st.session_state.intercon['doc'] = cr_r.file_uploader('INTERCONNECTION FILE', 'xlsx')
+                        else:
+                            open_inercon_doc()
+                            work, close_b = st.columns([12, 2], gap="medium")
+                            work.info(f"#### You are working with document :blue[{st.session_state.intercon['doc'].name}]")
+                            close_b.button('Save', use_container_width=True)
 
-                    else:
-                        open_inercon_doc()
-                        work, close_b = st.columns([12, 2], gap="medium")
-                        work.info(f"#### You are working with document :blue[{st.session_state.intercon['doc'].name}]")
-                        close_b.button('Save', use_container_width=True)
+                    if local_remote == "REMOTE":
 
-                if local_remote == "REMOTE":
+                        if st.session_state.intercon['doc'] is None:
+                            gc = gspread.service_account_from_dict(credentials)
+                            s_sh = gc.open('termination BGPP')
+                            st.session_state.intercon['doc'] = s_sh
+                            open_intercon_google()
+                        else:
+                            work, close_b = st.columns([12, 2], gap="medium")
+                            work.info(f"#### You are working with CLOUD document :blue[termination BGPP]")
+                            if close_b.button('Save to G-sheet', use_container_width=True):
+                                save_to_gsheet()
+                            # if close_b.button('Download and Close', use_container_width=True):
+                            #     close_intercon_doc()
+                            #     st.experimental_rerun()
+                            if st.session_state['user']['access_level'] == "dev":
+                                close_b.write("[Open file](https://docs.google.com/spreadsheets/d/1AV3RGFBL-ZiR8AIlR0WW7aJvnFYnHtY78xrMRZ3UavQ/edit#gid=1924125475)")
 
-                    if st.session_state.intercon['doc'] is None:
-                        gc = gspread.service_account_from_dict(credentials)
-                        s_sh = gc.open('termination BGPP')
-                        st.session_state.intercon['doc'] = s_sh
-                        open_intercon_google()
-                    else:
-                        work, close_b = st.columns([12, 2], gap="medium")
-                        work.info(f"#### You are working with CLOUD document :blue[termination BGPP]")
-                        if close_b.button('Save to G-sheet', use_container_width=True):
-                            save_to_gsheet()
-                        # if close_b.button('Download and Close', use_container_width=True):
-                        #     close_intercon_doc()
-                        #     st.experimental_rerun()
-                        if st.session_state['user']['access_level'] == "dev":
-                            close_b.write("[Open file](https://docs.google.com/spreadsheets/d/1AV3RGFBL-ZiR8AIlR0WW7aJvnFYnHtY78xrMRZ3UavQ/edit#gid=1924125475)")
+                    st.divider()
 
-                if local_remote == "DB":
-                    pass
-                st.divider()
+                    if st.session_state.intercon['doc']:
 
-                if st.session_state.intercon['doc']:
+                        preview_list = ["VIEW:", 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
 
-                    preview_list = ["VIEW:", 'equip', 'panel', 'block', 'terminal', 'cable', 'wire', 'cab_descr']
+                        prev_sel = option_menu(None, preview_list,
+                                               icons=['search', '-', '-', '-', '-', '-', '-', '-', '-'],
+                                               orientation="horizontal", default_index=0)
+
+                        if prev_sel != "VIEW:":
+                            st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
+
+                        else:
+                            st.write("Here you can preview Connections related Tables")
+                        st.divider()
+
+                        action = option_menu(None, ['EDIT:', 'Equipment', 'Panel', 'Terminal Block', 'Cable',
+                                                    'Cable Wires'],
+                                             icons=['pencil-square', '1-circle', '2-circle', '3-circle', '4-circle',
+                                                    '5-circle', ],
+                                             orientation="horizontal")
+                        if action == 'EDIT:':
+                            st.write("Here you can edit Connections related Tables")
+
+                        if action == 'Equipment':
+                            edit_equipment()
+
+                        if action == 'Panel':
+                            edit_panel()
+
+                        if action == 'Terminal Block':
+                            edit_block()
+
+                        if action == 'Cable':
+                            edit_cab_con()
+
+                        if action == 'Cable Wires':
+                            edit_wires()
+
+                if local_remote == 'DB':
+                    preview_list = ["VIEW:", 'Equipment', 'Panels', 'Terminal block', 'Terminals', 'Cables', 'Wires']
 
                     prev_sel = option_menu(None, preview_list,
                                            icons=['search', '-', '-', '-', '-', '-', '-', '-', '-'],
                                            orientation="horizontal", default_index=0)
 
                     if prev_sel != "VIEW:":
-                        st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
+                        # st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
+
+                        prev_dict = {
+                            'Equipment': Equip,
+                            'Panels': Panel,
+                            'Terminal block': Block,
+                            'Terminals': Terminal,
+                            'Cables': Cable,
+                            'Wires': Wire,
+                        }
+
+                        st.write(get_all_data(prev_dict.get(prev_sel)))
 
                     else:
                         st.write("Here you can preview Connections related Tables")
                     st.divider()
 
-                    action = option_menu(None, ['EDIT:', 'Equipment', 'Panel', 'Terminal Block', 'Cable',
-                                                'Cable Wires'],
-                                         icons=['pencil-square', '1-circle', '2-circle', '3-circle', '4-circle',
-                                                '5-circle', ],
-                                         orientation="horizontal")
-                    if action == 'EDIT:':
-                        st.write("Here you can edit Connections related Tables")
-
-                    if action == 'Equipment':
-                        edit_equipment()
-
-                    if action == 'Panel':
-                        edit_panel()
-
-                    if action == 'Terminal Block':
-                        edit_block()
-
-                    if action == 'Cable':
-                        edit_cab_con()
-
-                    if action == 'Cable Wires':
-                        edit_wires()
+                    # action = option_menu(None, ['EDIT:', 'Equipment', 'Panel', 'Terminal Block', 'Cable',
+                    #                             'Cable Wires'],
+                    #                      icons=['pencil-square', '1-circle', '2-circle', '3-circle', '4-circle',
+                    #                             '5-circle', ],
+                    #                      orientation="horizontal")
+                    # if action == 'EDIT:':
+                    #     st.write("Here you can edit Connections related Tables")
+                    #
+                    # if action == 'Equipment':
+                    #     edit_equipment()
+                    #
+                    # if action == 'Panel':
+                    #     edit_panel()
+                    #
+                    # if action == 'Terminal Block':
+                    #     edit_block()
+                    #
+                    # if action == 'Cable':
+                    #     edit_cab_con()
+                    #
+                    # if action == 'Cable Wires':
+                    #     edit_wires()
