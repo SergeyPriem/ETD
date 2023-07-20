@@ -2,7 +2,7 @@
 import pandas as pd
 from pony.orm import *
 
-from models import Equip, Panel, Block, Terminal
+from models import Equip, Panel, Block, Terminal, Cable
 from util.utilities import err_handler, tab_to_df
 
 
@@ -72,6 +72,28 @@ def get_all_terminals():
             )[:]
             df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag', 'block_tag', 'terminal_num',
                                              'internal_circuit', 'internal_link', 'to_del', 'notes'])
+            return df
+        except Exception as e:
+            return err_handler(e)
+
+def get_all_cables():
+    with db_session:
+        try:
+            data = select(
+                (c.id,
+                 c.cable_tag,
+                 c.purpose_id.curcuit_descr,
+                 c.type_id.cab_type,
+                 c.wires_id.wire_num,
+                 c.sect_id.section,
+                 c.left_pan_id.panel_tag,
+                 c.right_pan_id.panel_tag,
+                 c.notes,
+                 )
+                for c in Cable
+            )[:]
+            df = pd.DataFrame(data, columns=['id', 'cable_tag', 'cable_purpose', 'cable_type', 'wires_number',
+                                             'wire_section', 'left_panel', 'right_panel', 'notes'])
             return df
         except Exception as e:
             return err_handler(e)
