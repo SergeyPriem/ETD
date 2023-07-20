@@ -1079,7 +1079,7 @@ def home():
         home_content()
 
 
-# @lru_cache(15)
+
 def win_selector(selected):
     tab_dict = {
         "Home": home,
