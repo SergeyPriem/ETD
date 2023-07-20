@@ -2,7 +2,7 @@
 
 import streamlit as st
 from streamlit_extras.dataframe_explorer import dataframe_explorer
-from utilities import PROJECT_STATUSES, center_style, get_list_index, update_state, err_handler
+from util.utilities import PROJECT_STATUSES, center_style, get_list_index, update_state, err_handler
 from projects import create_project, update_projects
 from send_emails import send_mail
 

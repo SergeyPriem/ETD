@@ -5,9 +5,9 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 from admin_tools import get_list_index
 from send_emails import send_mail
-from utilities import REVISIONS, COMPLETION, STAGES, center_style, update_state
+from util.utilities import REVISIONS, COMPLETION, STAGES, center_style, update_state
 from projects import update_sod, add_sod, update_unit_name_stage
-from utilities import err_handler
+from util.utilities import err_handler
 from functools import lru_cache
 from streamlit_extras.dataframe_explorer import dataframe_explorer
 

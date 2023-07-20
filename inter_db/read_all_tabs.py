@@ -1,8 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 
-from models import Equip, Panel, Cable, Block, Terminal, Cable, Wire
 from pony.orm import *
-from utilities import err_handler, tab_to_df
+from util.utilities import err_handler, tab_to_df
 
 
 def get_all_data(db_table):

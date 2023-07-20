@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 from pony.orm import *
 
-from utilities import err_handler, tab_to_df
+from util.utilities import err_handler, tab_to_df
 from models import Project, SOD, Task, Users, Speciality, Trans
 
 import pandas as pd

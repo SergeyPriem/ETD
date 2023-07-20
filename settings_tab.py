@@ -2,7 +2,6 @@
 import random
 
 import streamlit as st
-from st_btn_group import st_btn_group
 from streamlit_option_menu import option_menu
 
 from admin_tools import get_list_index
@@ -10,7 +9,7 @@ from models import Users
 from projects import get_table, get_all
 from send_emails import send_mail
 from users import update_settings, update_user_reg_data
-from utilities import center_style, update_tables
+from util.utilities import center_style
 
 
 def settings_content():

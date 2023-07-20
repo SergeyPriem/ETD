@@ -10,7 +10,7 @@ import ezdxf
 from ezdxf import zoom
 from ezdxf.math import Vec2
 
-from utilities import open_dxf_file
+from util.utilities import open_dxf_file
 
 
 def kill_comma(value):

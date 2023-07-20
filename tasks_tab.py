@@ -6,7 +6,7 @@ from streamlit_option_menu import option_menu
 
 from projects import add_in_to_db, add_out_to_db
 from send_emails import send_mail
-from utilities import center_style, update_state
+from util.utilities import center_style, update_state
 
 
 def disable_add_task(cur_stat):

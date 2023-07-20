@@ -13,7 +13,7 @@ from create_xml import add_main_bus, add_feeder
 from inter_db.read_all_tabs import get_all_data
 from section_generator import get_tags_from_cablist, generate_dxf, get_sect_from_layout
 from users import err_handler, reg_action
-from utilities import center_style, open_dxf_file, check_df, credentials
+from util.utilities import center_style, open_dxf_file, check_df, credentials
 
 from intercon.equipment import edit_equipment
 from intercon.cables import  edit_cab_con

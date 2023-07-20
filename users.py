@@ -6,7 +6,7 @@ from models import Users, VisitLog, Action
 from pony.orm import *
 
 
-from utilities import mail_to_name, err_handler, tab_to_df
+from util.utilities import mail_to_name, err_handler, tab_to_df
 
 set_sql_debug(False)
 
