@@ -23,6 +23,9 @@ TRANS_STATUSES = ("Open", "Closed", "For Info", "Not Enough Data", "In Progress"
 
 TRANS_TYPES = ('Comments', "Letter", 'Vendor Docs', 'TBE', 'FCN', 'Design Docs')
 
+def err_handler(e):
+    return f"{type(e).__name__}{getattr(e, 'args', None)}"
+
 
 def appearance_settings():
     hide_menu_style = """
@@ -160,9 +163,6 @@ def update_state(tab_name: str):
     else:
         return "Wrong Data Format"
 
-
-def err_handler(e):
-    return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
 
 def update_tables():
