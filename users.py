@@ -5,8 +5,8 @@ import bcrypt
 from models import Users, VisitLog, Action
 from pony.orm import *
 
-from projects import tab_to_df
-from utilities import mail_to_name, err_handler
+
+from utilities import mail_to_name, err_handler, tab_to_df
 
 set_sql_debug(False)
 
