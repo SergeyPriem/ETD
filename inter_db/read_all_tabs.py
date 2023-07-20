@@ -60,8 +60,9 @@ def get_all_terminals():
                  p.eq_id.equipment_tag,
                  b.pan_id.panel_tag,
                  t.block_id.block_tag,
-                 t.block_tag,
                  t.terminal_num,
+                 t.int_circuit,
+                 t.int_link,
                  t.to_del,
                  t.notes,
                  )
@@ -69,10 +70,10 @@ def get_all_terminals():
                 for b in t.block_id
                 for p in b.pan_id
             )[:]
-            df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag',
-                                             'block_tag', 'terminal_num', 'description', 'to_del', 'notes'])
+            df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag', 'block_tag', 'terminal_num',
+                                             'internal_circuit', 'internal_link', 'to_del', 'notes'])
             return df
         except Exception as e:
             return err_handler(e)
 
-# AttributeError('Entity Terminal does not have attribute eq_id: t.eq_id',)
+# AttributeError('Entity Terminal does not have attribute block_tag: t.block_tag',)
