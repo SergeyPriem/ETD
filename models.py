@@ -239,6 +239,8 @@ class Terminal(db.Entity):
     terminal_num = Required(str, 10)
     int_circuit = Optional(str, 10)
     int_link = Optional(str, 10)
+    notes = Optional(str, 100)
+    to_del = Optional(bool, default=False)
     wires_l = Set(Wire, reverse='left_term_id')
     wires_r = Set(Wire, reverse='right_term_id')
 

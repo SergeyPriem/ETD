@@ -10,7 +10,7 @@ import gspread
 from streamlit_option_menu import option_menu
 
 from create_xml import add_main_bus, add_feeder
-from inter_db.read_all_tabs import get_all_equip, get_all_panels, get_all_blocks
+from inter_db.read_all_tabs import get_all_equip, get_all_panels, get_all_blocks, get_all_terminals
 from section_generator import get_tags_from_cablist, generate_dxf, get_sect_from_layout
 from users import err_handler, reg_action
 from util.utilities import center_style, open_dxf_file, check_df, credentials
@@ -1475,7 +1475,7 @@ def scripts_tab():
                             'Equipment': get_all_equip,
                             'Panels': get_all_panels,
                             'Terminal block': get_all_blocks,
-                            # 'Terminals': Terminal,
+                            'Terminals': get_all_terminals,
                             # 'Cables': Cable,
                             # 'Wires': Wire,
                         }

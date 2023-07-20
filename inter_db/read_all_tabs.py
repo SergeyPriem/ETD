@@ -2,7 +2,7 @@
 import pandas as pd
 from pony.orm import *
 
-from models import Equip, Panel, Block
+from models import Equip, Panel, Block, Terminal
 from util.utilities import err_handler, tab_to_df
 
 
@@ -48,6 +48,31 @@ def get_all_blocks():
             )[:]
             df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag',
                                              'block_tag', 'description', 'to_del', 'notes'])
+            return df
+        except Exception as e:
+            return err_handler(e)
+
+def get_all_terminals():
+    with db_session:
+        try:
+            data = select(
+                (t.id,
+                 p.eq_id.equipment_tag,
+                 b.pan_id.panel_tag,
+                 t.block_id.block_tag,
+                 t.eq_id.equipment_tag,
+                 t.pan_id.panel_tag,
+                 t.block_tag,
+                 t.descr,
+                 t.to_del,
+                 t.notes,
+                 )
+                for t in Terminal
+                for b in t.block_id
+                for p in b.pan_id
+            )[:]
+            df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag',
+                                             'block_tag', 'terminal_num', 'description', 'to_del', 'notes'])
             return df
         except Exception as e:
             return err_handler(e)
