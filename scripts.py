@@ -1411,7 +1411,7 @@ def scripts_tab():
                         work, close_b = st.columns([12, 2], gap="medium")
                         work.info(f"#### You are working with CLOUD document :blue[termination BGPP]")
                         if st.session_state['user']['access_level'] == "dev":
-                            st.write("Open file by [link](https://docs.google.com/spreadsheets/d/1AV3RGFBL-ZiR8AIlR0WW7aJvnFYnHtY78xrMRZ3UavQ/edit#gid=1924125475)")
+                            st.write("[Open file](https://docs.google.com/spreadsheets/d/1AV3RGFBL-ZiR8AIlR0WW7aJvnFYnHtY78xrMRZ3UavQ/edit#gid=1924125475)")
                         if close_b.button('Save', use_container_width=True):
                             save_to_gsheet()
                         if close_b.button('Download and Close', use_container_width=True):
