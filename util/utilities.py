@@ -23,9 +23,9 @@ TRANS_STATUSES = ("Open", "Closed", "For Info", "Not Enough Data", "In Progress"
 TRANS_TYPES = ('Comments', "Letter", 'Vendor Docs', 'TBE', 'FCN', 'Design Docs')
 
 
-
 def err_handler(e):
     return f"{type(e).__name__}{getattr(e, 'args', None)}"
+
 
 def tab_to_df(tab):
     t_dict = [t.to_dict() for t in tab]
@@ -36,7 +36,6 @@ def tab_to_df(tab):
         return t_df
     else:
         return "Empty Table"
-
 
 
 def appearance_settings():
@@ -108,8 +107,6 @@ def mail_to_name(mail):
             return head
     except AttributeError:
         return "Colleague"
-
-
 
 
 def set_init_state(data=None):
@@ -235,5 +232,3 @@ credentials = {
     "client_x509_cert_url": st.secrets['sak']['client_x509_cert_url'],
     "universe_domain": "googleapis.com"
 }
-
-

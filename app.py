@@ -260,7 +260,7 @@ def create_states():
 
     if 'intercon' not in st.session_state:
         st.session_state.intercon = {
-            'doc': None, # new, exist
+            'doc': None,  # new, exist
             'equip': None,
             'panel': None,
             'block': None,
@@ -813,7 +813,7 @@ def manage_users():
                                                 default_index=0,
                                                 orientation='horizontal')
                 st.text("")
-                e_l, l_c, c_c, r_c, e_c = st.columns([1,1,2,4,1], gap='medium')
+                e_l, l_c, c_c, r_c, e_c = st.columns([1, 1, 2, 4, 1], gap='medium')
                 l_c.text('')
                 l_c.text('')
                 script_acc_chb_init = l_c.checkbox('Access to Scripts', key="acc_to_scr", value=0)
@@ -867,7 +867,6 @@ def manage_users():
                         rc.warning(reply_2)
                 else:
                     st.warning(reply['message'])
-
 
         with edit_tab2:
 
@@ -954,12 +953,12 @@ def manage_users():
             st.data_editor(filtered_u_df, use_container_width=True, height=1500)
 
 
-def fresh_data():
-    update_tables()
-    st.header("")
-    st.header("")
-    st.header("")
-    st.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>", unsafe_allow_html=True)
+# def fresh_data():
+#     update_tables()
+#     st.header("")
+#     st.header("")
+#     st.header("")
+#     st.markdown("<h1 style='text-align: center; color: #00bbf9;'>Data is Fresh</h1>", unsafe_allow_html=True)
 
 
 def services():
@@ -1080,7 +1079,6 @@ def home():
         home_content()
 
 
-
 def win_selector(selected):
     tab_dict = {
         "Home": home,
@@ -1097,6 +1095,7 @@ def win_selector(selected):
         "Units": manage_units,
         "Service": services,
     }
+
 
     tab_dict.get(selected)()
 
@@ -1276,10 +1275,7 @@ if __name__ == "__main__":
 
         reply = update_tables()
 
-
         if st.session_state.user['vert_menu'] == 0:
             footer(reply)
         else:
             show_sidebar_info()
-
-

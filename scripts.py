@@ -16,7 +16,7 @@ from users import err_handler, reg_action
 from util.utilities import center_style, open_dxf_file, check_df, credentials
 
 from intercon.equipment import edit_equipment
-from intercon.cables import  edit_cab_con
+from intercon.cables import edit_cab_con
 from intercon.panels import edit_panel
 from intercon.blocks import edit_block
 from intercon.wires import edit_wires

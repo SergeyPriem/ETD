@@ -156,13 +156,6 @@ class Action(db.Entity):
 
 # below is interconnection tables
 
-# class Equip(db.Entity):
-#     id = PrimaryKey(int, size=24, auto=True)
-#     equipment_tag = Required(str, 50, unique=True)
-#     descr = Required(str, 100)
-#     to_del = Required(bool, default=False)
-#     notes = Optional(str, 200)
-#     panels = Set('Panel')
 
 class Equip(db.Entity):
     id = PrimaryKey(int, size=24, auto=True)
