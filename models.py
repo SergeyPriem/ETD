@@ -246,5 +246,25 @@ def db_func():
 
 
 if __name__ == "__main__":
-    (Project, SOD, Users, Task, VisitLog, Speciality, Message, Trans, Condition, Action, Equip, Panel, Block, Cable,
-     Wire, Cab_purpose, Cab_types, Cab_sect, Cab_wires, Terminal, db) = db_func()
+    d = db_func()
+    Project = d[0]
+    SOD = d[1]
+    Users = d[2]
+    Task = d[3]
+    VisitLog = d[4]
+    Speciality = d[5]
+    Message = d[6]
+    Trans = d[7]
+    Condition = d[8]
+    Action = d[9]
+    Equip = d[10]
+    Panel = d[11]
+    Block = d[12]
+    Cab = d[13]
+    Wire = d[14]
+    Cab_purpose = d[15]
+    Cab_types = d[16]
+    Cab_sect = d[17]
+    Cab_wires = d[18]
+    Terminal = d[19]
+    db = d[20]
