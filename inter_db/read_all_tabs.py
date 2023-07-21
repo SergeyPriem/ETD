@@ -1,11 +1,11 @@
 ﻿# -*- coding: utf-8 -*-
 import pandas as pd
 from pony.orm import *
-
+import streamlit as st
 from models import Equip, Panel, Block, Terminal, Cable
 from util.utilities import err_handler, tab_to_df
 
-
+@st.cache_data
 def get_all_equip():
     with db_session:
         try:
@@ -14,6 +14,8 @@ def get_all_equip():
         except Exception as e:
             return err_handler(e)
 
+
+@st.cache_data
 def get_all_panels():
     with db_session:
         try:
@@ -31,6 +33,8 @@ def get_all_panels():
         except Exception as e:
             return err_handler(e)
 
+
+@st.cache_data
 def get_all_blocks():
     with db_session:
         try:
@@ -52,6 +56,8 @@ def get_all_blocks():
         except Exception as e:
             return err_handler(e)
 
+
+@st.cache_data
 def get_all_terminals():
     with db_session:
         try:
@@ -76,6 +82,8 @@ def get_all_terminals():
         except Exception as e:
             return err_handler(e)
 
+
+@st.cache_data
 def get_all_cables():
     with db_session:
         try:
@@ -94,7 +102,7 @@ def get_all_cables():
                 for c in Cable
             )[:]
             df = pd.DataFrame(data, columns=['id', 'cable_tag', 'cable_purpose', 'cable_type', 'wires_number',
-                                             'wire_section', 'left_panel', 'right_panel', 'notes'])
+                                             'wire_section', 'left_panel', 'right_panel', 'notes', 'to_del'])
             return df
         except Exception as e:
             return err_handler(e)
