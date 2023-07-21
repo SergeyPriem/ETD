@@ -431,6 +431,7 @@ def drawing_sets():
                             st.warning("Select specialities for request")
 
 
+
 def show_all_units(sod_df):
 
     temp_sod = sod_df.copy()
