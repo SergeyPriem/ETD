@@ -5,7 +5,7 @@ import streamlit as st
 from models import Equip, Panel, Block, Terminal, Cable
 from util.utilities import err_handler, tab_to_df
 
-@st.cache_data
+# @st.cache_data
 def get_all_equip():
     with db_session:
         try:
@@ -15,7 +15,7 @@ def get_all_equip():
             return err_handler(e)
 
 
-@st.cache_data
+# @st.cache_data
 def get_all_panels():
     with db_session:
         try:
@@ -34,7 +34,7 @@ def get_all_panels():
             return err_handler(e)
 
 
-@st.cache_data
+# @st.cache_data
 def get_all_blocks():
     with db_session:
         try:
@@ -57,7 +57,7 @@ def get_all_blocks():
             return err_handler(e)
 
 
-@st.cache_data
+# @st.cache_data
 def get_all_terminals():
     with db_session:
         try:
@@ -83,7 +83,7 @@ def get_all_terminals():
             return err_handler(e)
 
 
-@st.cache_data
+# @st.cache_data
 def get_all_cables():
     with db_session:
         try:
