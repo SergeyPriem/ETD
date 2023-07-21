@@ -430,13 +430,11 @@ def drawing_sets():
                         else:
                             st.warning("Select specialities for request")
 
-
+@st.cache_data
 def show_all_units(sod_df):
 
     temp_sod = sod_df.copy()
     temp_sod['request_update'] = False
-
-
 
     try:
         filtered_sod = dataframe_explorer(temp_sod, case=False)
