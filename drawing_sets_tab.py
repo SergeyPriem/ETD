@@ -208,10 +208,10 @@ def drawing_sets():
 
                 if reply['status'] == 201:
 
-                    lc, cc, rc = st.columns([1, 2, 1], gap='medium')
+                    lc, cc, rc = st.columns(3, gap='medium')
 
-                    lc.success("Updated!")
-                    st.toast("Updated!", icon="🆗")
+                    # lc.success("Updated!")
+                    st.toast("Updated!", icon="👌")
 
                     coord_email = reply['coord_email']
                     perf_email = reply['perf_email']
@@ -261,7 +261,7 @@ def drawing_sets():
                     reply2 = send_mail(coord_email, perf_email, subj, html)
 
                     if reply2 == 200:
-                        cc.success(f'Notifications were sent to {coord_email}, {perf_email}')
+                        # cc.success(f'Notifications were sent to {coord_email}, {perf_email}')
                         st.toast(f'Notifications were sent to {coord_email}, {perf_email}', icon="👌")
 
                         reply3 = update_state('sod')
@@ -270,8 +270,8 @@ def drawing_sets():
                             st.warning(reply3)
                             st.stop()
 
-                        rc.text('')
-                        rc.button('Close Report', key='close_unit_report', use_container_width=True)
+                        cc.text('')
+                        cc.button('OK', key='close_unit_report', use_container_width=True)
 
                 else:
                     st.warning(reply['err_descr'])
