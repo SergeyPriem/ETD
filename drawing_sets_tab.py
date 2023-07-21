@@ -430,7 +430,7 @@ def drawing_sets():
                         else:
                             st.warning("Select specialities for request")
 
-@st.cache_data
+@st.cache_data(experimental_allow_widgets=True)
 def show_all_units(sod_df):
 
     temp_sod = sod_df.copy()
