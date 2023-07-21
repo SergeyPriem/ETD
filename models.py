@@ -8,11 +8,11 @@ import streamlit as st
 
 @st.cache_resource
 def db_func():
-    db = Database()
+    db_int = Database()
 
     set_sql_debug(False)
 
-    class Project(db.Entity):
+    class Project(db_int.Entity):
         id = PrimaryKey(int, size=16, auto=True)
         short_name = Required(str, 150)
         full_name = Optional(str, 200, unique=True)
@@ -29,7 +29,7 @@ def db_func():
         orders = Set('Message')
         transs = Set('Trans')
 
-    class SOD(db.Entity):
+    class SOD(db_int.Entity):
         id = PrimaryKey(int, size=16, auto=True)
         project_id = Required(Project)
         set_name = Required(str, 200)
@@ -46,7 +46,7 @@ def db_func():
         aux = Optional(date, nullable=True)
         assigs = Set('Task')
 
-    class Users(db.Entity):
+    class Users(db_int.Entity):
         id = PrimaryKey(int, size=24, auto=True)
         login = Required(str, 30)
         email = Required(str, 60)
@@ -74,7 +74,7 @@ def db_func():
         transs = Set('Trans', reverse='responsible')
         trans_add = Set('Trans', reverse='users')
 
-    class Task(db.Entity):
+    class Task(db_int.Entity):
         id = PrimaryKey(int, size=24, auto=True)
         stage = Optional(str, 20)
         in_out = Required(str, 10)
@@ -90,18 +90,18 @@ def db_func():
         speciality = Required('Speciality')
         s_o_d = Required(SOD)
 
-    class VisitLog(db.Entity):
+    class VisitLog(db_int.Entity):
         id = PrimaryKey(int, size=32, auto=True)
         login_time = Required(datetime)
         users = Required(Users)
 
-    class Speciality(db.Entity):
+    class Speciality(db_int.Entity):
         id = PrimaryKey(int, size=8, auto=True)
         abbrev = Required(str, 40)
         descr = Optional(str, 100)
         tasks = Set(Task)
 
-    class Message(db.Entity):
+    class Message(db_int.Entity):
         id = PrimaryKey(int, size=32, auto=True)
         start_date = Required(date)
         end_date = Optional(date)
@@ -117,7 +117,7 @@ def db_func():
         notes = Optional(str, 500)
         archieve = Optional(str, 300)
 
-    class Trans(db.Entity):
+    class Trans(db_int.Entity):
         id = PrimaryKey(int, size=24, auto=True)
         trans_num = Required(str, 50)
         trans_date = Required(date)
@@ -136,12 +136,12 @@ def db_func():
         users = Required(Users, reverse='trans_add')
         status = Optional(str, 50, nullable=True)
 
-    class Condition(db.Entity):
+    class Condition(db_int.Entity):
         id = PrimaryKey(int, size=24, auto=True)
         table_name = Required(str, 20)
         user_login = Required(str, 50)
 
-    class Action(db.Entity):
+    class Action(db_int.Entity):
         id = PrimaryKey(int, size=24, auto=True)
         user_login = Required(str, 50)
         act = Required(str, 100)
@@ -149,7 +149,7 @@ def db_func():
 
     # below is interconnection tables
 
-    class Equip(db.Entity):
+    class Equip(db_int.Entity):
         id = PrimaryKey(int, size=24, auto=True)
         equipment_tag = Required(str, 50, unique=True)
         descr = Required(str, 100)
@@ -157,7 +157,7 @@ def db_func():
         notes = Optional(str, 200)
         panels = Set('Panel')
 
-    class Panel(db.Entity):
+    class Panel(db_int.Entity):
         id = PrimaryKey(int, size=32, auto=True)
         eq_id = Required(Equip)
         panel_tag = Required(str, 50)
@@ -168,7 +168,7 @@ def db_func():
         cables_r = Set('Cable', reverse='right_pan_id')
         cables_l = Set('Cable', reverse='left_pan_id')
 
-    class Block(db.Entity):
+    class Block(db_int.Entity):
         id = PrimaryKey(int, size=32, auto=True)
         pan_id = Required(Panel)
         block_tag = Required(str, 70, unique=True)
@@ -177,7 +177,7 @@ def db_func():
         notes = Optional(str, 200)
         terminals = Set('Terminal')
 
-    class Cable(db.Entity):
+    class Cable(db_int.Entity):
         id = PrimaryKey(int, size=32, auto=True)
         cable_tag = Required(str, 100, unique=True)
         wires = Set('Wire')
@@ -190,7 +190,7 @@ def db_func():
         right_pan_id = Required(Panel, reverse='cables_r')
         left_pan_id = Required(Panel, reverse='cables_l')
 
-    class Wire(db.Entity):
+    class Wire(db_int.Entity):
         id = PrimaryKey(int, size=64, auto=True)
         cable_id = Required(Cable)
         notes = Optional(str, 200)
@@ -199,27 +199,27 @@ def db_func():
         left_term_id = Required('Terminal', reverse='wires_l')
         right_term_id = Required('Terminal', reverse='wires_r')
 
-    class Cab_purpose(db.Entity):
+    class Cab_purpose(db_int.Entity):
         id = PrimaryKey(int, size=8, auto=True)
         circuit_descr = Required(str, 20)
         cables = Set(Cable)
 
-    class Cab_types(db.Entity):
+    class Cab_types(db_int.Entity):
         id = PrimaryKey(int, size=8, auto=True)
         cab_type = Required(str, 50)
         cables = Set(Cable)
 
-    class Cab_sect(db.Entity):
+    class Cab_sect(db_int.Entity):
         id = PrimaryKey(int, auto=True)
         cables = Set(Cable)
         section = Required(str, 4)
 
-    class Cab_wires(db.Entity):
+    class Cab_wires(db_int.Entity):
         id = PrimaryKey(int, auto=True)
         wire_num = Required(int, size=8)
         cables = Set(Cable)
 
-    class Terminal(db.Entity):
+    class Terminal(db_int.Entity):
         id = PrimaryKey(int, auto=True)
         block_id = Required(Block)
         terminal_num = Required(str, 10)
@@ -230,7 +230,7 @@ def db_func():
         wires_l = Set(Wire, reverse='left_term_id')
         wires_r = Set(Wire, reverse='right_term_id')
 
-    db.bind(
+    db_int.bind(
         provider='mysql',
         host=st.secrets["db_host"],
         user=st.secrets["db_user"],
@@ -238,11 +238,11 @@ def db_func():
         db=st.secrets["db_database"]
     )
 
-    db.generate_mapping(create_tables=True)
+    db_int.generate_mapping(create_tables=True)
 
     return (
         Project, SOD, Users, Task, VisitLog, Speciality, Message, Trans, Condition, Action, Equip, Panel, Block, Cable,
-        Wire, Cab_purpose, Cab_types, Cab_sect, Cab_wires, Terminal, db
+        Wire, Cab_purpose, Cab_types, Cab_sect, Cab_wires, Terminal, db_int
     )
 
 
