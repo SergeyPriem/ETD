@@ -348,6 +348,8 @@ def drawing_sets():
         units_tasks_in = units_tasks[(units_tasks.in_out == 'In')]
         units_tasks_out = units_tasks[(units_tasks.in_out == 'Out')]
 
+        st.text('')
+
         in_out_radio = option_menu(None, [
             f"AVAILABLE TASKS: {len(units_tasks)}",
             f'Incoming: {len(units_tasks_in)}',
