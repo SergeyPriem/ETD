@@ -10,6 +10,7 @@ import gspread
 from streamlit_option_menu import option_menu
 
 from create_xml import add_main_bus, add_feeder
+from inter_db.equipment import create_equipment
 from inter_db.read_all_tabs import get_all_equip, get_all_panels, get_all_blocks, get_all_terminals, get_all_cables
 from section_generator import get_tags_from_cablist, generate_dxf, get_sect_from_layout
 from users import err_handler, reg_action
@@ -1486,7 +1487,7 @@ def scripts_tab():
                         act = option_menu(None,
                                           ['Select required:','Create', 'Update', 'Delete'],
                                           icons=['-','-','-','-'], default_index=0, orientation='horizontal')
-                        if act == "Create" and prev_sel == 'Equipment:
+                        if act == "Create" and prev_sel == 'Equipment':
                             create_equipment()
 
 
