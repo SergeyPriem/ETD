@@ -209,6 +209,10 @@ def drawing_sets():
                 if reply['status'] == 201:
 
                     lc, cc, rc = st.columns(3, gap='medium')
+                    lc.text("")
+                    lc.text("")
+                    lc.text("")
+                    lc.text("")
 
                     # lc.success("Updated!")
                     st.toast("### :orange[Updated!]", icon="👌")
