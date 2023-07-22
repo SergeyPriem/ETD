@@ -24,7 +24,7 @@ def create_equipment():
                     to_del=False,
                     notes=eq_notes
                 )
-                st.toast(f":orange[Equipment {eq_tag}: {eq_descr} added!]", icon=":white_check_mark:")
+                st.toast(f":orange[Equipment {eq_tag}: {eq_descr} added!]", icon="✅")
             except Exception as e:
                 st.toast(err_handler(e))
 
