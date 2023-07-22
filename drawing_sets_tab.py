@@ -211,7 +211,7 @@ def drawing_sets():
                     lc, cc, rc = st.columns(3, gap='medium')
 
                     # lc.success("Updated!")
-                    st.toast("Updated!", icon="👌")
+                    st.toast("### :orange[Updated!]", icon="👌")
 
                     coord_email = reply['coord_email']
                     perf_email = reply['perf_email']
@@ -262,7 +262,7 @@ def drawing_sets():
 
                     if reply2 == 200:
                         # cc.success(f'Notifications were sent to {coord_email}, {perf_email}')
-                        st.toast(f'Notifications were sent to {coord_email}, {perf_email}', icon="👌")
+                        st.toast(f'### :blue[Notifications were sent to {coord_email}, {perf_email}]', icon="👌")
 
                         reply3 = update_state('sod')
 
