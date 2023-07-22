@@ -6,10 +6,35 @@ from models import Equip
 from utilities import err_handler
 
 
+def edit_equipment(df):
+    eq_df = df[df.to_del.astype('str') == "True"]
+    if len(eq_df):
+        st.session_state.inter_stat['equipment'] += 1
+        with db_session:
+            try:
+                for ind, row in eq_df.iterrows():
+                    edit_row = Equip.get(equipment_tag=row.equipment_tag)
+                    if not edit_row:
+                        st.toast(f"#### :red[Fail, equipment {row.equipment_tag} not found]")
+                        continue
+
+                    edit_row.equipment_tag=row.equipment_tag,
+                    edit_row.descr=row.descr,
+                    edit_row.to_del=False,
+                    edit_row.notes=row.notes
+
+                    st.toast(f"#### :green[Equipment: {row.equipment_tag} is updated]")
+            except Exception as e:
+                st.toast(f"Can't update {row.equipment_tag}")
+                st.toast(f"##### {err_handler(e)}")
+            finally:
+                st.button("OK", key='eq_updated')
+
+
 def delete_equipment(df):
-    st.session_state.inter_stat['equipment'] +=1
     tag_list = df.loc[df.to_del.astype('str') == "True", 'equipment_tag'].tolist()
     if tag_list:
+        st.session_state.inter_stat['equipment'] += 1
         with db_session:
             try:
                 for tag in tag_list:
@@ -23,9 +48,7 @@ def delete_equipment(df):
                 st.toast(f"Can't delete {tag}")
                 st.toast(f"##### {err_handler(e)}")
             finally:
-                if st.button("OK", key='eq_deleted'):
-                    st.toast("RERUN")
-                    # st.experimental_rerun()
+                st.button("OK", key='eq_deleted')
 
 
 

@@ -92,13 +92,13 @@ def intercon_expander():
             #         if action == 'Cable Wires':
             #             edit_wires()
 
-            preview_list = ["VIEW:", 'Equipment', 'Panels', 'Terminal block', 'Terminals', 'Cables', 'Wires']
+            preview_list = ["SELECT:", 'Equipment', 'Panels', 'Terminal block', 'Terminals', 'Cables', 'Wires']
 
             prev_sel = option_menu(None, preview_list,
-                                   icons=['search', '-', '-', '-', '-', '-', '-', '-', '-'],
+                                   icons=['-', '-', '-', '-', '-', '-', '-', '-', '-'],
                                    orientation="horizontal", default_index=0)
 
-            if prev_sel != "VIEW:":
+            if prev_sel != "SELECT:":
                 # st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
 
                 prev_dict = {
@@ -111,29 +111,50 @@ def intercon_expander():
                 }
 
                 act = option_menu(None,
-                                  ['Select required:', 'View', 'Create', 'Update', 'Delete'],
-                                  icons=['-', '-', '-', '-', '-'], default_index=0, orientation='horizontal')
+                                  ['Select required:', 'View', 'Create', 'Edit', 'Delete'],
+                                  icons=['-', '-', '-', '-', '-'], default_index=1, orientation='horizontal')
 
-                df_to_show = prev_dict[prev_sel][0](prev_dict[prev_sel][1])
+                def make_df_to_show():
+                    df = prev_dict[prev_sel][0](prev_dict[prev_sel][1])
+                    return df
 
                 if st.session_state['user']['access_level'] == "dev":
                     st.toast(st.session_state.inter_stat['equipment']) ###
 
-                if act == 'Create' and prev_sel == 'Equipment':
-                    create_equipment()
+
+                if prev_sel == 'Equipment':
+                    if act == 'Create':
+                        create_equipment()
+
+                    if act == 'View':
+                        df_to_show = make_df_to_show()
+                        if isinstance(df_to_show, pd.DataFrame):
+                            st.data_editor(df_to_show)
+                        else:
+                            st.write(f"#### :blue[Equipment not available...]")
+
+                    if act == 'Delete':
+                        df_to_show = make_df_to_show()
+                        if isinstance(df_to_show, pd.DataFrame):
+                            edited_df = st.data_editor(df_to_show)
+                            if st.button("Delete Equipment"):
+                                delete_equipment(edited_df)
+                        else:
+                            st.write(f"#### :blue[Equipment not available...]")
+
+                    if act == 'Edit':
+                        df_to_show = make_df_to_show()
+                        if isinstance(df_to_show, pd.DataFrame):
+                            edited_df = st.data_editor(df_to_show)
+                            if st.button("Delete Equipment"):
+                                edit_equipment(edited_df)
+                        else:
+                            st.write(f"#### :blue[Equipment not available...]")
 
 
-                if isinstance(df_to_show, pd.DataFrame):
 
-                    if act == 'View' and prev_sel == 'Equipment':
-                        st.data_editor(df_to_show)
-
-                    if act == 'Delete' and prev_sel == 'Equipment':
-                        edited_df = st.data_editor(df_to_show)
-                        if st.button("Delete Equipment"):
-                            delete_equipment(edited_df)
-                else:
-                    st.write(f"#### :blue[Data not available...]")
+                # else:
+                #
 
             else:
                 st.write("Here you can preview Connections related Tables")
