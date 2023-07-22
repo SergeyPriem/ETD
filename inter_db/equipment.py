@@ -12,6 +12,8 @@ def create_equipment():
         eq_tag = lc.text_input('Equipment Tag')
         eq_descr = cc.text_input('Equipment Description')
         eq_notes = rc.text_input('Notes')
+        bc.text('')
+        bc.text('')
         eq_but = bc.form_submit_button("Add")
 
     if all([eq_but, len(eq_tag), len(eq_descr)]):
