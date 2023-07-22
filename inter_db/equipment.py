@@ -26,6 +26,7 @@ def delete_equipment(df):
 
     if st.button("OK", key='eq_deleted'):
         st.session_state.inter_stat['equipment'] += 1
+        st.toast("RERUN")
         st.experimental_rerun()
 
 
