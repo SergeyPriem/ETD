@@ -123,6 +123,12 @@ def intercon_expander():
 
                 if prev_sel == 'Equipment':
                     if act == 'Create':
+                        df_to_show = make_df_to_show()
+                        if isinstance(df_to_show, pd.DataFrame):
+                            st.data_editor(df_to_show)
+                        else:
+                            st.write(f"#### :blue[Equipment not available...]")
+
                         create_equipment()
 
                     if act == 'View':
