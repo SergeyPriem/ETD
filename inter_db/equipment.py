@@ -10,28 +10,28 @@ def edit_equipment(df):
     if len(eq_df):
         st.session_state.inter_stat['equipment'] += 1
         with db_session:
-            try:
-                for ind, row in eq_df.iterrows():
-                    st.write(row)
+            # try:
+            for ind, row in eq_df.iterrows():
+                st.write(row)
 
-                    edit_row = Equip.get(equipment_tag=row.equipment_tag)
-                    st.text(type(edit_row.equipment_tag))
-                    st.text(type(edit_row.descr))
-                    # if not edit_row:
-                    #     st.toast(f"#### :red[Fail, equipment {row.equipment_tag} not found]")
-                    #     continue
-                    #
-                    edit_row.equipment_tag = row.equipment_tag,
-                    edit_row.descr = row.descr,
-                    edit_row.to_del = 0,
-                    edit_row.notes = row.notes
+                edit_row = Equip.get(equipment_tag=row.equipment_tag)
+                st.text(type(edit_row.equipment_tag))
+                st.text(type(edit_row.descr))
+                # if not edit_row:
+                #     st.toast(f"#### :red[Fail, equipment {row.equipment_tag} not found]")
+                #     continue
+                #
+                edit_row.equipment_tag = row.equipment_tag,
+                edit_row.descr = row.descr,
+                edit_row.to_del = 0,
+                edit_row.notes = row.notes
 
-                    st.toast(f"#### :green[Equipment: {row.equipment_tag} is updated]")
-            except Exception as e:
-                st.toast(f"Can't update {row.equipment_tag}")
-                st.toast(f"##### {err_handler(e)}")
-            finally:
-                st.button("OK", key='eq_updated')
+                st.toast(f"#### :green[Equipment: {row.equipment_tag} is updated]")
+            # except Exception as e:
+            #     st.toast(f"Can't update {row.equipment_tag}")
+            #     st.toast(f"##### {err_handler(e)}")
+            # finally:
+            #     st.button("OK", key='eq_updated')
 
 
 def delete_equipment(df):
