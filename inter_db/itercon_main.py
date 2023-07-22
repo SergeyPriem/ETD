@@ -116,7 +116,8 @@ def intercon_expander():
 
                 df_to_show = prev_dict[prev_sel][0](prev_dict[prev_sel][1])
 
-                st.subheader(st.session_state.inter_stat['equipment']) ###
+                if st.session_state['user']['access_level'] == "dev":
+                    st.toast(st.session_state.inter_stat['equipment']) ###
 
                 if act == 'Create' and prev_sel == 'Equipment':
                     create_equipment()
