@@ -12,15 +12,15 @@ def edit_equipment(df):
         with db_session:
             try:
                 for ind, row in eq_df.iterrows():
-                    edit_row = Equip.get(equipment_tag=row.equipment_tag)
+                    edit_row = Equip.get(equipment_tag=row.equipment_tag.to_numpy()[0])
                     if not edit_row:
                         st.toast(f"#### :red[Fail, equipment {row.equipment_tag} not found]")
                         continue
 
-                    edit_row.equipment_tag = str(row.equipment_tag.values[0]),
-                    edit_row.descr = str(row.descr.values[0]),
+                    edit_row.equipment_tag = str(row.equipment_tag.to_numpy()[0]),
+                    edit_row.descr = str(row.descr.to_numpy()[0]),
                     edit_row.to_del = False,
-                    edit_row.notes = str(row.notes.values[0])
+                    edit_row.notes = str(row.notes.to_numpy()[0])
 
                     st.toast(f"#### :green[Equipment: {row.equipment_tag} is updated]")
             except Exception as e:
