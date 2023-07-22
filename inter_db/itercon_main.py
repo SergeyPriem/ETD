@@ -109,15 +109,13 @@ def intercon_expander():
                     # 'Wires': Wire,
                 }
 
-                # st.write(get_all_data(prev_dict.get(prev_sel)))
-
 
                 act = option_menu(None,
                                   ['Select required:', 'View', 'Create', 'Update', 'Delete'],
                                   icons=['-', '-', '-', '-', '-'], default_index=0, orientation='horizontal')
 
                 if act == 'View' and prev_sel == 'Equipment':
-                    st.write(prev_dict[prev_sel][0](prev_dict[prev_sel][1]))
+                    st.data_editor(prev_dict[prev_sel][0](prev_dict[prev_sel][1]))
 
                 if act == 'Create' and prev_sel == 'Equipment':
                     create_equipment()
