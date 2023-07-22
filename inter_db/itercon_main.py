@@ -114,11 +114,17 @@ def intercon_expander():
                                   ['Select required:', 'View', 'Create', 'Update', 'Delete'],
                                   icons=['-', '-', '-', '-', '-'], default_index=0, orientation='horizontal')
 
+                df_to_show = prev_dict[prev_sel][0](prev_dict[prev_sel][1])
+
                 if act == 'View' and prev_sel == 'Equipment':
-                    st.data_editor(prev_dict[prev_sel][0](prev_dict[prev_sel][1]))
+                    st.data_editor(df_to_show)
 
                 if act == 'Create' and prev_sel == 'Equipment':
                     create_equipment()
+
+                if act == 'Delete' and prev_sel == 'Equipment':
+                    edited_df = st.data_editor(df_to_show)
+                    delete_equipment(edited_df)
             else:
                 st.write("Here you can preview Connections related Tables")
             st.divider()

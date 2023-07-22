@@ -6,6 +6,23 @@ from models import Equip
 from utilities import err_handler
 
 
+def delete_equipment(df):
+    tag_list = df.loc[df.to_del.astype('str') == "True", 'equipment_tag'].tolist()
+
+    if tag_list:
+        with db_session:
+            for tag in tag_list:
+                try:
+                    del_row = Equip[tag]
+                    if not del_row:
+                        st.toast("Fail, record not found")
+                        continue
+                    del_row.delete()
+                    st.toast(f"#### :green[Equipment: {tag} is deleted]")
+                except Exception as e:
+                    st.toast(err_handler(e))
+
+
 def create_equipment():
     with st.form('add_eq'):
         lc, cc, rc, bc = st.columns(4, gap='medium')
