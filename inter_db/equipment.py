@@ -29,7 +29,7 @@ def create_equipment():
                     notes=eq_notes
                 )
                 st.toast(f"""#### :orange[Equipment {eq_tag}: {eq_descr} added!]""")
-                st.cache_data.clear()
+                st.session_state.inter_stat['equipment'] +=1
                 if st.button("OK", key='eq_added'):
                     st.experimental_rerun()
 

@@ -6,7 +6,7 @@ from models import Equip, Panel, Block, Terminal, Cable
 from utilities import err_handler, tab_to_df
 
 @st.cache_data
-def get_all_equip():
+def get_all_equip(k):
     with db_session:
         try:
             table = select(u for u in Equip)[:]

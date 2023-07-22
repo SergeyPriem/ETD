@@ -1473,16 +1473,16 @@ def scripts_tab():
                         # st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
 
                         prev_dict = {
-                            'Equipment': get_all_equip,
-                            'Panels': get_all_panels,
-                            'Terminal block': get_all_blocks,
-                            'Terminals': get_all_terminals,
-                            'Cables': get_all_cables,
+                            'Equipment': [get_all_equip, st.session_state.inter_stat['equipment']],
+                            'Panels': [get_all_panels, st.session_state.inter_stat['panel']],
+                            'Terminal block': [get_all_blocks, st.session_state.inter_stat['block']],
+                            'Terminals': [get_all_terminals, st.session_state.inter_stat['terminal']],
+                            'Cables': [get_all_cables, st.session_state.inter_stat['cable']]
                             # 'Wires': Wire,
                         }
 
                         # st.write(get_all_data(prev_dict.get(prev_sel)))
-                        st.write(prev_dict[prev_sel]())
+                        st.write(prev_dict[prev_sel][0](prev_dict[prev_sel][1]))
 
                         act = option_menu(None,
                                           ['Select required:','Create', 'Update', 'Delete'],
