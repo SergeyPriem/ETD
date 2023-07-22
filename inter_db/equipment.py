@@ -17,10 +17,10 @@ def edit_equipment(df):
                         st.toast(f"#### :red[Fail, equipment {row.equipment_tag} not found]")
                         continue
 
-                    edit_row.equipment_tag=row.equipment_tag,
-                    edit_row.descr=row.descr,
-                    edit_row.to_del=False,
-                    edit_row.notes=row.notes
+                    edit_row.equipment_tag = str(row.equipment_tag.values[0]),
+                    edit_row.descr = str(row.descr.values[0]),
+                    edit_row.to_del = False,
+                    edit_row.notes = str(row.notes.values[0])
 
                     st.toast(f"#### :green[Equipment: {row.equipment_tag} is updated]")
             except Exception as e:
@@ -50,8 +50,6 @@ def delete_equipment(df):
                 st.button("OK", key='eq_deleted')
 
 
-
-
 def create_equipment():
     with st.form('add_eq'):
         lc, cc, rc, bc = st.columns(4, gap='medium')
@@ -75,7 +73,7 @@ def create_equipment():
                     notes=eq_notes
                 )
                 st.toast(f"""#### :orange[Equipment {eq_tag}: {eq_descr} added!]""")
-                st.session_state.inter_stat['equipment'] +=1
+                st.session_state.inter_stat['equipment'] += 1
                 if st.button("OK", key='eq_added'):
                     st.experimental_rerun()
 
