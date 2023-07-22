@@ -16,7 +16,7 @@ def get_all_equip(k):
 
 
 @st.cache_data
-def get_all_panels():
+def get_all_panels(k):
     with db_session:
         try:
             data = select(
@@ -35,7 +35,7 @@ def get_all_panels():
 
 
 @st.cache_data
-def get_all_blocks():
+def get_all_blocks(k):
     with db_session:
         try:
             data = select(
@@ -58,7 +58,7 @@ def get_all_blocks():
 
 
 @st.cache_data
-def get_all_terminals():
+def get_all_terminals(k):
     with db_session:
         try:
             data = select(
@@ -84,7 +84,7 @@ def get_all_terminals():
 
 
 @st.cache_data
-def get_all_cables():
+def get_all_cables(k):
     with db_session:
         try:
             data = select(
