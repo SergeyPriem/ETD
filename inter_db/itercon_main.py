@@ -3,7 +3,7 @@ import pandas as pd
 import streamlit as st
 from streamlit_option_menu import option_menu
 
-from inter_db.equipment import create_equipment, delete_equipment
+from inter_db.equipment import create_equipment, delete_equipment, edit_equipment
 from inter_db.read_all_tabs import get_all_equip, get_all_panels, get_all_blocks, get_all_terminals, get_all_cables
 
 def intercon_expander():
@@ -146,16 +146,10 @@ def intercon_expander():
                         df_to_show = make_df_to_show()
                         if isinstance(df_to_show, pd.DataFrame):
                             edited_df = st.data_editor(df_to_show)
-                            if st.button("Delete Equipment"):
+                            if st.button("Edit Equipment"):
                                 edit_equipment(edited_df)
                         else:
                             st.write(f"#### :blue[Equipment not available...]")
-
-
-
-                # else:
-                #
-
             else:
                 st.write("Here you can preview Connections related Tables")
             # st.divider()
