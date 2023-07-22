@@ -118,6 +118,10 @@ def intercon_expander():
 
                 st.subheader(st.session_state.inter_stat['equipment']) ###
 
+                if act == 'Create' and prev_sel == 'Equipment':
+                    create_equipment()
+
+
                 if not isinstance(df_to_show, pd.DataFrame):
                     st.write(f"#### :blue[Data not available...]")
                     st.stop()
@@ -125,8 +129,6 @@ def intercon_expander():
                 if act == 'View' and prev_sel == 'Equipment':
                     st.data_editor(df_to_show)
 
-                if act == 'Create' and prev_sel == 'Equipment':
-                    create_equipment()
 
                 if act == 'Delete' and prev_sel == 'Equipment':
                     edited_df = st.data_editor(df_to_show)
