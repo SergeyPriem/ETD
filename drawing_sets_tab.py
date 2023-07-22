@@ -273,7 +273,7 @@ def drawing_sets():
                             st.warning(reply3)
                             st.stop()
 
-                        cc.button('OK', key='close_unit_report', use_container_width=True)
+                        cc.button('OK', type='primary', key='close_unit_report', use_container_width=True)
 
                 else:
                     st.warning(reply['err_descr'])
@@ -323,10 +323,10 @@ def drawing_sets():
 
                 if reply2 == 200:
                     lc, rc = st.columns([2, 1], gap='medium')
-                    lc.success(f'Notifications were sent to {coord_email}, {perf_email}')
+                    st.toast(f':orange[Notifications were sent to] {coord_email}, {perf_email}')
 
                     rc.text('')
-                    rc.button('Close Report', type='primary', key='close_upd_sod2_report', use_container_width=True,)
+                    rc.button('OK', type='primary', key='close_upd_sod2_report', use_container_width=True,)
 
         st.write("")
 
