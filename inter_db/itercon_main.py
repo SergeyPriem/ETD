@@ -122,7 +122,7 @@ def intercon_expander():
                     create_equipment()
 
 
-                if not isinstance(df_to_show, pd.DataFrame):
+                if not isinstance(df_to_show, pd.DataFrame) and act != 'Select required:':
                     st.write(f"#### :blue[Data not available...]")
                     st.stop()
 
