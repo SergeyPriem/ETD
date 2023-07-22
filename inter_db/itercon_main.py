@@ -11,9 +11,9 @@ def intercon_expander():
 
         if st.session_state['user']['access_level'] == "dev":
             l_col, c_col, r_col = st.columns(3)
-            l_col.markdown('Select the Operation Mode', unsafe_allow_html=False,
-                           help="!!! If switched without save - data will be lost")
-            with c_col:
+            # l_col.markdown('Select the Operation Mode', unsafe_allow_html=False,
+            #                help="!!! If switched without save - data will be lost")
+            # with c_col:
                 # local_remote = option_menu(None, ['LOCAL', 'REMOTE', 'DB'],
                 #                            icons=['-', '-', '-', ], orientation="horizontal",
                 #                            default_index=2)
