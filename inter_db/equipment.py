@@ -2,6 +2,30 @@
 import streamlit as st
 import pandas as pd
 
+from models import db, Equip
+from utilities import err_handler
+
+
+def create_equipment():
+    with st.form('add_eq'):
+        lc, cc, rc, bc = st.columns(4, gap='medium')
+        eq_tag = st.text_input('Equipment Tag')
+        eq_descr = st.text_input('Equipment Description')
+        eq_notes = st.text_input('Notes')
+        eq_but = st.form_submit_button("Add")
+
+    if eq_but:
+        with db.session:
+            try:
+                Equip(
+                    equipment_tag=eq_tag,
+                    descr=eq_descr,
+                    to_del=False,
+                    notes=eq_notes
+                )
+                st.toast(f":orange[Equipment {eq_tag}: {eq_descr} added!]")
+            except Exception as e:
+                return err_handler(e)
 
 def delete_equipment(equip_to_del):
     st.session_state.intercon['equip'] = \

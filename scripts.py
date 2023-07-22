@@ -1486,6 +1486,9 @@ def scripts_tab():
                         act = option_menu(None,
                                           ['Select required:','Create', 'Update', 'Delete'],
                                           icons=['-','-','-','-'], default_index=0, orientation='horizontal')
+                        if act == "Create" and prev_sel == 'Equipment:
+                            create_equipment()
+
 
                     else:
                         st.write("Here you can preview Connections related Tables")
