@@ -12,7 +12,7 @@ def edit_equipment(df):
         with db_session:
             try:
                 for ind, row in eq_df.iterrows():
-                    st.write(row.equipment_tag)
+                    st.write(type(row.equipment_tag))
 
                     # edit_row = Equip.get(equipment_tag=row.equipment_tag)
                     # if not edit_row:
