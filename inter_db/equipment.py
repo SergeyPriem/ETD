@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 import streamlit as st
 import pandas as pd
-from pony.orm import db_session
+from pony.orm import db_session, select
 from models import Equip
 from utilities import err_handler
 
@@ -18,6 +18,9 @@ def create_equipment():
 
     if all([eq_but, len(eq_tag), len(eq_descr)]):
         with db_session:
+            if eq_tag in select(eq.equipment_tag for eq in Equip)[:]:
+                st.toast(f"""### Equipment {eq_tag} already in DataBase""")
+
             try:
                 Equip(
                     equipment_tag=eq_tag,
@@ -25,9 +28,9 @@ def create_equipment():
                     to_del=False,
                     notes=eq_notes
                 )
-                st.success(f":orange[Equipment {eq_tag}: {eq_descr} added!]", icon="✅")
+                st.toast(f":orange[Equipment {eq_tag}: {eq_descr} added!]", icon="✅")
                 st.cache_data.clear()
-                # st.experimental_rerun()
+                st.experimental_rerun()
             except Exception as e:
                 st.warning(err_handler(e))
 
