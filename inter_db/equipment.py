@@ -15,8 +15,8 @@ def edit_equipment(df):
                     st.write(row)
 
                     edit_row = Equip.get(equipment_tag=row.equipment_tag)
-                    st.text(edit_row.equipment_tag)
-                    st.text(edit_row.descr)
+                    st.text(type(edit_row.equipment_tag))
+                    st.text(type(edit_row.descr))
                     # if not edit_row:
                     #     st.toast(f"#### :red[Fail, equipment {row.equipment_tag} not found]")
                     #     continue
