@@ -27,7 +27,7 @@ def create_equipment():
                 )
                 st.success(f":orange[Equipment {eq_tag}: {eq_descr} added!]", icon="✅")
                 st.cache_data.clear()
-                st.experimental_rerun()
+                # st.experimental_rerun()
             except Exception as e:
                 st.warning(err_handler(e))
 
