@@ -23,7 +23,7 @@ def edit_equipment(df):
                     #
                     edit_row.equipment_tag = str(row.equipment_tag),
                     edit_row.descr = str(row.descr),
-                    edit_row.to_del = False,
+                    edit_row.to_del = 0,
                     edit_row.notes = str(row.notes)
 
                     st.toast(f"#### :green[Equipment: {row.equipment_tag} is updated]")
