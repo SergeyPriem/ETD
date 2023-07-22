@@ -53,10 +53,10 @@ def create_equipment():
             except Exception as e:
                 st.toast(err_handler(e))
 
-def delete_equipment(equip_to_del):
-    st.session_state.intercon['equip'] = \
-        st.session_state.intercon['equip'][~st.session_state.intercon['equip'].eq_tag.isin(equip_to_del)]
-    st.experimental_rerun()
+# def delete_equipment(equip_to_del):
+#     st.session_state.intercon['equip'] = \
+#         st.session_state.intercon['equip'][~st.session_state.intercon['equip'].eq_tag.isin(equip_to_del)]
+#     st.experimental_rerun()
 
 
 def save_equipment(df):

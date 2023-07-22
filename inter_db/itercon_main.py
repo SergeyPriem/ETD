@@ -2,7 +2,7 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 
-from inter_db.equipment import create_equipment
+from inter_db.equipment import create_equipment, delete_equipment
 from inter_db.read_all_tabs import get_all_equip, get_all_panels, get_all_blocks, get_all_terminals, get_all_cables
 
 def intercon_expander():
@@ -124,7 +124,8 @@ def intercon_expander():
 
                 if act == 'Delete' and prev_sel == 'Equipment':
                     edited_df = st.data_editor(df_to_show)
-                    delete_equipment(edited_df)
+                    if st.button("Delete Equipment"):
+                        delete_equipment(edited_df)
             else:
                 st.write("Here you can preview Connections related Tables")
             st.divider()
