@@ -30,7 +30,8 @@ def create_equipment():
                 )
                 st.toast(f":orange[Equipment {eq_tag}: {eq_descr} added!]", icon="✅")
                 st.cache_data.clear()
-                st.experimental_rerun()
+                if st.button("OK", key='eq_added'):
+                    st.experimental_rerun()
             except Exception as e:
                 st.warning(err_handler(e))
 
