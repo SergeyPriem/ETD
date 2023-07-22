@@ -19,11 +19,13 @@ def delete_equipment(df):
                         continue
                     del_row.delete()
                     st.toast(f"#### :green[Equipment: {tag} is deleted]")
-                    st.session_state.inter_stat['equipment'] += 1
+
                 except Exception as e:
                     st.toast(f"Can't delete {tag}")
                     st.toast(f"##### {err_handler(e)}")
+
     if st.button("OK", key='eq_deleted'):
+        st.session_state.inter_stat['equipment'] += 1
         st.experimental_rerun()
 
 
