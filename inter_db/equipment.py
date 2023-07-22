@@ -12,10 +12,11 @@ def edit_equipment(df):
         with db_session:
             try:
                 for ind, row in eq_df.iterrows():
-                    st.write(type(row.equipment_tag))
+                    # st.write(type(row.equipment_tag))
 
                     edit_row = Equip.get(equipment_tag=row.equipment_tag)
-                    st.write(edit_row)
+                    st.write(edit_row.equipment_tag)
+                    st.write(edit_row.descr)
                     # if not edit_row:
                     #     st.toast(f"#### :red[Fail, equipment {row.equipment_tag} not found]")
                     #     continue
