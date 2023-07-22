@@ -184,6 +184,11 @@ def drawing_sets():
             c_c.text('')
             upd_unit_but = c_c.form_submit_button(label=button_label, use_container_width=True)
 
+        lc, cc, rc = st.columns(3, gap='medium')
+        lc.text("")
+        lc.text("")
+        lc.text("")
+        lc.text("")
 
         if upd_unit_but:
 
@@ -208,11 +213,6 @@ def drawing_sets():
 
                 if reply['status'] == 201:
 
-                    lc, cc, rc = st.columns(3, gap='medium')
-                    lc.text("")
-                    lc.text("")
-                    lc.text("")
-                    lc.text("")
 
                     # lc.success("Updated!")
                     st.toast("### :orange[Updated!]", icon="👌")
@@ -266,7 +266,7 @@ def drawing_sets():
 
                     if reply2 == 200:
                         # cc.success(f'Notifications were sent to {coord_email}, {perf_email}')
-                        st.toast(f'### :blue[Notifications were sent to {coord_email}, {perf_email}]', icon="👌")
+                        st.toast(f'### :orange[Notifications were sent to] {coord_email}\n{perf_email}', icon="👌")
 
                         reply3 = update_state('sod')
 
@@ -274,7 +274,6 @@ def drawing_sets():
                             st.warning(reply3)
                             st.stop()
 
-                        cc.text('')
                         cc.button('OK', key='close_unit_report', use_container_width=True)
 
                 else:
