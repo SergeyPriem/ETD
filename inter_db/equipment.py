@@ -19,7 +19,7 @@ def create_equipment():
     if all([eq_but, len(eq_tag), len(eq_descr)]):
         with db_session:
             if eq_tag in select(eq.equipment_tag for eq in Equip)[:]:
-                st.toast(f"""#### Equipment {eq_tag} already in DataBase""")
+                st.toast(f"""#### :red[Equipment {eq_tag} already in DataBase]""")
                 return
             try:
                 Equip(
@@ -28,7 +28,7 @@ def create_equipment():
                     to_del=False,
                     notes=eq_notes
                 )
-                st.toast(f"""#### :orange[Equipment {eq_tag}: {eq_descr} added!]""", icon="✅")
+                st.toast(f"""#### :orange[Equipment {eq_tag}: {eq_descr} added!]""")
                 st.cache_data.clear()
                 if st.button("OK", key='eq_added'):
                     st.experimental_rerun()
