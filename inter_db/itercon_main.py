@@ -10,7 +10,7 @@ def intercon_expander():
         st.title(':orange[Create Interconnection Wiring Diagram - under development...]')
 
         if st.session_state['user']['access_level'] == "dev":
-            l_col, c_col, r_col = st.columns(3)
+            # l_col, c_col, r_col = st.columns(3)
             # l_col.markdown('Select the Operation Mode', unsafe_allow_html=False,
             #                help="!!! If switched without save - data will be lost")
             # with c_col:
