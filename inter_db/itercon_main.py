@@ -109,12 +109,13 @@ def intercon_expander():
                     # 'Wires': Wire,
                 }
 
-
                 act = option_menu(None,
                                   ['Select required:', 'View', 'Create', 'Update', 'Delete'],
                                   icons=['-', '-', '-', '-', '-'], default_index=0, orientation='horizontal')
 
                 df_to_show = prev_dict[prev_sel][0](prev_dict[prev_sel][1])
+
+                st.subheader(st.session_state.inter_stat['equipment'])
 
                 if act == 'View' and prev_sel == 'Equipment':
                     st.data_editor(df_to_show)

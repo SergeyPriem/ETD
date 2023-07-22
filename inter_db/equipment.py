@@ -8,7 +8,6 @@ from utilities import err_handler
 
 def delete_equipment(df):
     tag_list = df.loc[df.to_del.astype('str') == "True", 'equipment_tag'].tolist()
-
     if tag_list:
         with db_session:
             try:
