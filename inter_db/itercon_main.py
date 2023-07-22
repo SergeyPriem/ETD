@@ -117,8 +117,6 @@ def intercon_expander():
                                       ['Select required:', 'View', 'Create', 'Update', 'Delete'],
                                       icons=['-', '-', '-', '-', '-'], default_index=0, orientation='horizontal')
 
-                    st.write(prev_dict[prev_sel][0](prev_dict[prev_sel][1]))
-
                     if act == 'View' and prev_sel == 'Equipment':
                         st.write(prev_dict[prev_sel][0](prev_dict[prev_sel][1]))
 
