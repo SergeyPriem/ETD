@@ -15,7 +15,7 @@ def delete_equipment(df):
                 try:
                     del_row = Equip.get(equipment_tag=tag)
                     if not del_row:
-                        st.toast(f"#### :red[Fail, record not found]")
+                        st.toast(f"#### :red[Fail, equipment {tag} not found]")
                         continue
                     del_row.delete()
                     st.toast(f"#### :green[Equipment: {tag} is deleted]")
@@ -28,6 +28,8 @@ def delete_equipment(df):
         st.session_state.inter_stat['equipment'] += 1
         st.toast("RERUN")
         st.experimental_rerun()
+
+    st.toast(st.session_state.inter_stat['equipment'])
 
 
 def create_equipment():
