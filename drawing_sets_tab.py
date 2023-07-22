@@ -322,11 +322,8 @@ def drawing_sets():
                 reply2 = send_mail(coord_email, perf_email, subj, html)
 
                 if reply2 == 200:
-                    lc, rc = st.columns([2, 1], gap='medium')
                     st.toast(f':orange[Notifications were sent to] {coord_email}, {perf_email}')
-
-                    rc.text('')
-                    rc.button('OK', type='primary', key='close_upd_sod2_report', use_container_width=True,)
+                    cc.button('OK', type='primary', key='close_upd_sod2_report', use_container_width=True,)
 
         st.write("")
 
