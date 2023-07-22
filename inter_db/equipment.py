@@ -25,7 +25,7 @@ def delete_equipment(df):
             finally:
                 if st.button("OK", key='eq_deleted'):
                     st.toast("RERUN")
-                    st.experimental_rerun()
+                    # st.experimental_rerun()
 
 
 
