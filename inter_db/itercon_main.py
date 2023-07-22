@@ -1,4 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
+import pandas as pd
 import streamlit as st
 from streamlit_option_menu import option_menu
 
@@ -115,7 +116,11 @@ def intercon_expander():
 
                 df_to_show = prev_dict[prev_sel][0](prev_dict[prev_sel][1])
 
-                st.subheader(st.session_state.inter_stat['equipment'])
+                st.subheader(st.session_state.inter_stat['equipment']) ###
+
+                if not isinstance(df_to_show, pd.DataFrame):
+                    st.write(f"#### :blue[Data not available...]")
+                    st.stop()
 
                 if act == 'View' and prev_sel == 'Equipment':
                     st.data_editor(df_to_show)

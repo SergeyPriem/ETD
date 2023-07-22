@@ -1352,7 +1352,6 @@ def scripts_tab():
                         form_conf_but = st.form_submit_button('Generate Sections', use_container_width=True)
 
                     if form_conf_but:
-
                         if vertical_trays_gap - trays_height < 100:
                             st.write(":red[Not enough vertical space to pull cables]")
                             st.write(":red[Please increase vertical gap or reduce tray height]")
