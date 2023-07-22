@@ -13,7 +13,7 @@ def delete_equipment(df):
         with db_session:
             for tag in tag_list:
                 try:
-                    del_row = Equip[tag]
+                    del_row = Equip.get(equipment_tag=tag)
                     if not del_row:
                         st.toast("Fail, record not found")
                         continue
