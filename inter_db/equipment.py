@@ -1,6 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 import streamlit as st
 import pandas as pd
+from pony.orm import db_session
 
 from models import db, Equip
 from utilities import err_handler
@@ -15,7 +16,7 @@ def create_equipment():
         eq_but = bc.form_submit_button("Add")
 
     if all([eq_but, len(eq_tag), len(eq_descr)]):
-        with db.session:
+        with db_session:
             try:
                 Equip(
                     equipment_tag=eq_tag,
