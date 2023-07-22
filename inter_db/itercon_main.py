@@ -14,9 +14,9 @@ def intercon_expander():
             l_col.markdown('Select the Operation Mode', unsafe_allow_html=False,
                            help="!!! If switched without save - data will be lost")
             with c_col:
-                local_remote = option_menu(None, ['LOCAL', 'REMOTE', 'DB'],
-                                           icons=['-', '-', '-', ], orientation="horizontal",
-                                           default_index=2)
+                # local_remote = option_menu(None, ['LOCAL', 'REMOTE', 'DB'],
+                #                            icons=['-', '-', '-', ], orientation="horizontal",
+                #                            default_index=2)
             # if local_remote != 'DB':
             #     if local_remote == "LOCAL":
             #         if st.session_state.intercon['doc'] is None:
@@ -91,38 +91,37 @@ def intercon_expander():
             #         if action == 'Cable Wires':
             #             edit_wires()
 
-            if local_remote == 'DB':
-                preview_list = ["VIEW:", 'Equipment', 'Panels', 'Terminal block', 'Terminals', 'Cables', 'Wires']
+            preview_list = ["VIEW:", 'Equipment', 'Panels', 'Terminal block', 'Terminals', 'Cables', 'Wires']
 
-                prev_sel = option_menu(None, preview_list,
-                                       icons=['search', '-', '-', '-', '-', '-', '-', '-', '-'],
-                                       orientation="horizontal", default_index=0)
+            prev_sel = option_menu(None, preview_list,
+                                   icons=['search', '-', '-', '-', '-', '-', '-', '-', '-'],
+                                   orientation="horizontal", default_index=0)
 
-                if prev_sel != "VIEW:":
-                    # st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
+            if prev_sel != "VIEW:":
+                # st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
 
-                    prev_dict = {
-                        'Equipment': [get_all_equip, st.session_state.inter_stat['equipment']],
-                        'Panels': [get_all_panels, st.session_state.inter_stat['panel']],
-                        'Terminal block': [get_all_blocks, st.session_state.inter_stat['block']],
-                        'Terminals': [get_all_terminals, st.session_state.inter_stat['terminal']],
-                        'Cables': [get_all_cables, st.session_state.inter_stat['cable']]
-                        # 'Wires': Wire,
-                    }
+                prev_dict = {
+                    'Equipment': [get_all_equip, st.session_state.inter_stat['equipment']],
+                    'Panels': [get_all_panels, st.session_state.inter_stat['panel']],
+                    'Terminal block': [get_all_blocks, st.session_state.inter_stat['block']],
+                    'Terminals': [get_all_terminals, st.session_state.inter_stat['terminal']],
+                    'Cables': [get_all_cables, st.session_state.inter_stat['cable']]
+                    # 'Wires': Wire,
+                }
 
-                    # st.write(get_all_data(prev_dict.get(prev_sel)))
+                # st.write(get_all_data(prev_dict.get(prev_sel)))
 
 
-                    act = option_menu(None,
-                                      ['Select required:', 'View', 'Create', 'Update', 'Delete'],
-                                      icons=['-', '-', '-', '-', '-'], default_index=0, orientation='horizontal')
+                act = option_menu(None,
+                                  ['Select required:', 'View', 'Create', 'Update', 'Delete'],
+                                  icons=['-', '-', '-', '-', '-'], default_index=0, orientation='horizontal')
 
-                    if act == 'View' and prev_sel == 'Equipment':
-                        st.write(prev_dict[prev_sel][0](prev_dict[prev_sel][1]))
+                if act == 'View' and prev_sel == 'Equipment':
+                    st.write(prev_dict[prev_sel][0](prev_dict[prev_sel][1]))
 
-                    if act == 'Create' and prev_sel == 'Equipment':
-                        create_equipment()
-                else:
-                    st.write("Here you can preview Connections related Tables")
-                st.divider()
+                if act == 'Create' and prev_sel == 'Equipment':
+                    create_equipment()
+            else:
+                st.write("Here you can preview Connections related Tables")
+            st.divider()
 
