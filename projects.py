@@ -5,7 +5,7 @@ import time
 
 from pony.orm import *
 
-from util.utilities import err_handler, tab_to_df
+from utilities import err_handler, tab_to_df
 from models import Project, SOD, Task, Users, Speciality, Trans
 
 import pandas as pd

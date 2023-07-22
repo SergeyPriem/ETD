@@ -3,7 +3,7 @@ import pandas as pd
 from pony.orm import *
 import streamlit as st
 from models import Equip, Panel, Block, Terminal, Cable
-from util.utilities import err_handler, tab_to_df
+from utilities import err_handler, tab_to_df
 
 @st.cache_data
 def get_all_equip():

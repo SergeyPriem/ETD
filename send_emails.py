@@ -5,7 +5,7 @@ import streamlit as st
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-from util.utilities import err_handler
+from utilities import err_handler
 
 
 def send_mail(receiver: str, cc_rec: str, subj: str, html: str):

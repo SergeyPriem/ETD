@@ -2,7 +2,7 @@
 
 import streamlit as st
 
-from util.utilities import center_style
+from utilities import center_style
 
 
 def lessons_content():

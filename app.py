@@ -22,7 +22,7 @@ from tasks_tab import tasks_content
 from transmittals_tab import transmittals_content
 from users import check_user, add_to_log, create_appl_user, update_users_in_db, move_to_former, register_user, \
     err_handler
-from util.utilities import appearance_settings, POSITIONS, DEPARTMENTS, mail_to_name, TRANS_STATUSES, \
+from utilities import appearance_settings, POSITIONS, DEPARTMENTS, mail_to_name, TRANS_STATUSES, \
     center_style, set_init_state, update_state, get_list_index, title_with_help
 
 from projects import get_state, update_tables

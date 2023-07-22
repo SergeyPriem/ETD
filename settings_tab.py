@@ -9,7 +9,7 @@ from models import Users
 from projects import get_table, get_all
 from send_emails import send_mail
 from users import update_settings, update_user_reg_data
-from util.utilities import center_style
+from utilities import center_style
 
 
 def settings_content():

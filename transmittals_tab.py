@@ -3,7 +3,7 @@ import pandas as pd
 import streamlit as st
 from streamlit_option_menu import option_menu
 
-from util.utilities import TRANS_TYPES, center_style, update_state, get_list_index, \
+from utilities import TRANS_TYPES, center_style, update_state, get_list_index, \
     TRANS_STATUSES  # , make_short_delay, make_long_delay
 from projects import add_new_trans, update_trans
 
