@@ -20,7 +20,7 @@ def create_equipment():
         with db_session:
             if eq_tag in select(eq.equipment_tag for eq in Equip)[:]:
                 st.toast(f"""#### Equipment {eq_tag} already in DataBase""")
-
+                return
             try:
                 Equip(
                     equipment_tag=eq_tag,
@@ -32,8 +32,9 @@ def create_equipment():
                 st.cache_data.clear()
                 if st.button("OK", key='eq_added'):
                     st.experimental_rerun()
+
             except Exception as e:
-                st.warning(err_handler(e))
+                st.toast(err_handler(e))
 
 def delete_equipment(equip_to_del):
     st.session_state.intercon['equip'] = \
