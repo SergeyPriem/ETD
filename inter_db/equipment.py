@@ -23,11 +23,11 @@ def create_equipment():
                     to_del=False,
                     notes=eq_notes
                 )
-                st.toast(f":orange[Equipment {eq_tag}: {eq_descr} added!]", icon="✅")
+                st.success(f":orange[Equipment {eq_tag}: {eq_descr} added!]", icon="✅")
                 st.cache_data.clear()
                 st.experimental_rerun()
             except Exception as e:
-                st.toast(err_handler(e))
+                st.warning(err_handler(e))
 
 def delete_equipment(equip_to_del):
     st.session_state.intercon['equip'] = \
