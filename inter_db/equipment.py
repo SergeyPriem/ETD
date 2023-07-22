@@ -9,12 +9,12 @@ from utilities import err_handler
 def create_equipment():
     with st.form('add_eq'):
         lc, cc, rc, bc = st.columns(4, gap='medium')
-        eq_tag = st.text_input('Equipment Tag')
-        eq_descr = st.text_input('Equipment Description')
-        eq_notes = st.text_input('Notes')
-        eq_but = st.form_submit_button("Add")
+        eq_tag = lc.text_input('Equipment Tag')
+        eq_descr = cc.text_input('Equipment Description')
+        eq_notes = rc.text_input('Notes')
+        eq_but = bc.form_submit_button("Add")
 
-    if eq_but:
+    if all([eq_but, len(eq_tag), len(eq_descr)]):
         with db.session:
             try:
                 Equip(
