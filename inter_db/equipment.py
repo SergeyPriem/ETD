@@ -15,7 +15,7 @@ def delete_equipment(df):
                 try:
                     del_row = Equip.get(equipment_tag=tag)
                     if not del_row:
-                        st.toast("Fail, record not found")
+                        st.toast(f"#### :red[Fail, record not found]")
                         continue
                     del_row.delete()
                     st.toast(f"#### :green[Equipment: {tag} is deleted]")
