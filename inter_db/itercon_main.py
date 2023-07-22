@@ -121,7 +121,6 @@ def intercon_expander():
                 if st.session_state['user']['access_level'] == "dev":
                     st.toast(st.session_state.inter_stat['equipment']) ###
 
-
                 if prev_sel == 'Equipment':
                     if act == 'Create':
                         create_equipment()
@@ -152,5 +151,4 @@ def intercon_expander():
                             st.write(f"#### :blue[Equipment not available...]")
             else:
                 st.write("Here you can preview Connections related Tables")
-            # st.divider()
 
