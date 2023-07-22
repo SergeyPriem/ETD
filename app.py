@@ -233,12 +233,12 @@ def create_states():
 
     if 'inter_stat' not in st.session_state:
         st.session_state.inter_stat = {
-            "equipment": 0,
-            "panel": 0,
-            "block": 0,
-            "terminal": 0,
-            "cable": 0,
-            "wire": 0,
+            "equipment": 1,
+            "panel": 1,
+            "block": 1,
+            "terminal": 1,
+            "cable": 1,
+            "wire": 1,
         }
 
     if 'disable_add_task' not in st.session_state:
