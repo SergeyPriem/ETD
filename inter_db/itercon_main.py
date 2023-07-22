@@ -114,12 +114,15 @@ def intercon_expander():
 
 
                     act = option_menu(None,
-                                      ['Select required:', 'Create', 'Update', 'Delete'],
-                                      icons=['-', '-', '-', '-'], default_index=0, orientation='horizontal')
+                                      ['Select required:', 'View', 'Create', 'Update', 'Delete'],
+                                      icons=['-', '-', '-', '-', '-'], default_index=0, orientation='horizontal')
 
                     st.write(prev_dict[prev_sel][0](prev_dict[prev_sel][1]))
 
-                    if act == "Create" and prev_sel == 'Equipment':
+                    if act == 'View' and prev_sel == 'Equipment':
+                        st.write(prev_dict[prev_sel][0](prev_dict[prev_sel][1]))
+
+                    if act == 'Create' and prev_sel == 'Equipment':
                         create_equipment()
                 else:
                     st.write("Here you can preview Connections related Tables")
