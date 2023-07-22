@@ -11,25 +11,24 @@ def delete_equipment(df):
 
     if tag_list:
         with db_session:
-            for tag in tag_list:
-                try:
+            try:
+                for tag in tag_list:
                     del_row = Equip.get(equipment_tag=tag)
                     if not del_row:
                         st.toast(f"#### :red[Fail, equipment {tag} not found]")
                         continue
                     del_row.delete()
                     st.toast(f"#### :green[Equipment: {tag} is deleted]")
+            except Exception as e:
+                st.toast(f"Can't delete {tag}")
+                st.toast(f"##### {err_handler(e)}")
+            finally:
+                if st.button("OK", key='eq_deleted'):
+                    st.session_state.inter_stat['equipment'] += 1
+                    st.toast("RERUN")
+                    st.experimental_rerun()
 
-                except Exception as e:
-                    st.toast(f"Can't delete {tag}")
-                    st.toast(f"##### {err_handler(e)}")
 
-    if st.button("OK", key='eq_deleted'):
-        st.session_state.inter_stat['equipment'] += 1
-        st.toast("RERUN")
-        st.experimental_rerun()
-
-    st.toast(st.session_state.inter_stat['equipment'])
 
 
 def create_equipment():
