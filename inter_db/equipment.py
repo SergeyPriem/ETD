@@ -2,8 +2,7 @@
 import streamlit as st
 import pandas as pd
 from pony.orm import db_session
-
-from models import db, Equip
+from models import Equip
 from utilities import err_handler
 
 
@@ -25,6 +24,8 @@ def create_equipment():
                     notes=eq_notes
                 )
                 st.toast(f":orange[Equipment {eq_tag}: {eq_descr} added!]", icon="✅")
+                st.cache_data.clear()
+                st.experimental_rerun()
             except Exception as e:
                 st.toast(err_handler(e))
 
