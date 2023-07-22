@@ -122,19 +122,19 @@ def intercon_expander():
                     create_equipment()
 
 
-                if not isinstance(df_to_show, pd.DataFrame) and act != 'Select required:':
+                if isinstance(df_to_show, pd.DataFrame):
+
+                    if act == 'View' and prev_sel == 'Equipment':
+                        st.data_editor(df_to_show)
+
+                    if act == 'Delete' and prev_sel == 'Equipment':
+                        edited_df = st.data_editor(df_to_show)
+                        if st.button("Delete Equipment"):
+                            delete_equipment(edited_df)
+                else:
                     st.write(f"#### :blue[Data not available...]")
-                    st.stop()
 
-                if act == 'View' and prev_sel == 'Equipment':
-                    st.data_editor(df_to_show)
-
-
-                if act == 'Delete' and prev_sel == 'Equipment':
-                    edited_df = st.data_editor(df_to_show)
-                    if st.button("Delete Equipment"):
-                        delete_equipment(edited_df)
             else:
                 st.write("Here you can preview Connections related Tables")
-            st.divider()
+            # st.divider()
 
