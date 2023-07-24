@@ -46,10 +46,10 @@ def edit_block(df):
                         continue
                     pan_id = Panel.get(panel_un=row.panel_tag)
                     edit_row.set(pan_id=pan_id, block_tag=row.block_tag, descr=row.description,
-                                 notes=row.notes, block_un=str(row.panel_tag)+":"+str(row.block_tag))
-                    st.toast(f"#### :green[Panel: {row.panel_tag} is updated]")
+                                 notes=row.notes, block_un=str(row.block_un)+":"+str(row.block_tag))
+                    st.toast(f"#### :green[Terminal Block: {row.block_un} is updated]")
         except Exception as e:
-            st.toast(f"Can't update {row.panel_tag}")
+            st.toast(f"Can't update {row.block_un}")
             st.toast(f"##### {err_handler(e)}")
         finally:
             get_all_blocks.clear()
