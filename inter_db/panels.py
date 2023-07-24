@@ -76,7 +76,7 @@ def panels_main(act, prev_dict, prev_sel):
     if act == 'Create':
         df_to_show = prev_dict[prev_sel]()
         if isinstance(df_to_show, pd.DataFrame):
-            st.data_editor(df_to_show)
+            st.data_editor(df_to_show, use_container_width=True, hide_index=True)
         else:
             st.write(f"#### :blue[Panels not available...]")
         create_panel()
@@ -84,14 +84,14 @@ def panels_main(act, prev_dict, prev_sel):
     if act == 'View':
         df_to_show = prev_dict[prev_sel]()
         if isinstance(df_to_show, pd.DataFrame):
-            st.data_editor(df_to_show)
+            st.data_editor(df_to_show, use_container_width=True, hide_index=True)
         else:
             st.write(f"#### :blue[Panels not available...]")
 
     if act == 'Delete':
         df_to_show = prev_dict[prev_sel]()
         if isinstance(df_to_show, pd.DataFrame):
-            edited_df = st.data_editor(df_to_show)
+            edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
             if st.button("Delete Equipment"):
                 delete_panel(edited_df)
         else:
@@ -100,7 +100,7 @@ def panels_main(act, prev_dict, prev_sel):
     if act == 'Edit':
         df_to_show = prev_dict[prev_sel]()
         if isinstance(df_to_show, pd.DataFrame):
-            edited_df = st.data_editor(df_to_show)
+            edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
             if st.button("Edit Panel"):
                 edit_panel(edited_df)
         else:
