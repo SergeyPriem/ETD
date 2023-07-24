@@ -137,7 +137,7 @@ def create_panel():
 
 
 def panels_main(act, prev_dict, prev_sel):
-    eq_tag_list = get_eqip_tags()
+    eq_tag_list = list(get_eqip_tags())
     eq_tag_list.insert(0, 'ALL')
     selected_equip = st.selectbox('Select the Equipment', eq_tag_list)
 
