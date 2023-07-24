@@ -8,6 +8,45 @@ from models import Equip, Panel
 from utilities import err_handler
 
 
+@st.cache_data(show_spinner=False)
+
+def get_filtered_panels(equip):
+    try:
+        equip_id = Equip.get(equipment_tag=equip)
+        data = select(
+            (p.id,
+             p.eq_id.equipment_tag,
+             p.panel_tag,
+             p.descr,
+             p.edit,
+             p.notes,
+             )
+            for p in Panel
+            if p.eq_id == equip_id
+        )[:]
+        df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag', 'description', 'edit', 'notes'])
+        return df
+
+    except Exception as e:
+        st.toast(err_handler(e))
+
+    with db_session:
+        try:
+            data = select(
+                (p.id,
+                 p.eq_id.equipment_tag,
+                 p.panel_tag,
+                 p.descr,
+                 p.edit,
+                 p.notes,
+                 )
+                for p in Panel)[:]
+            df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag', 'description', 'edit', 'notes'])
+            return df
+        except Exception as e:
+            return err_handler(e)
+
+
 def delete_panel(df):
     tag_list = df.loc[df.edit.astype('str') == "True", 'panel_tag'].tolist()
     if tag_list:
@@ -25,6 +64,7 @@ def delete_panel(df):
             st.toast(f"##### {err_handler(e)}")
         finally:
             get_all_panels.clear()
+            get_filtered_panels.clear()
             st.button("OK", key='panel_deleted')
     else:
         st.toast(f"#### :orange[Select the Panel to delete in column 'edit']")
@@ -50,6 +90,7 @@ def edit_panel(df):
             st.toast(f"##### {err_handler(e)}")
         finally:
             get_all_panels.clear()
+            get_filtered_panels.clear()
             st.button("OK", key='eq_updated')
     else:
         st.toast(f"#### :orange[Select the Panel to edit in column 'edit']")
@@ -57,9 +98,12 @@ def edit_panel(df):
 
 @st.cache_data(show_spinner=False)
 def get_eqip_tags():
-    with db_session:
-        eq_tags = select(eq.equipment_tag for eq in Equip)[:]
-    return eq_tags
+    try:
+        with db_session:
+            eq_tags = select(eq.equipment_tag for eq in Equip)[:]
+        return eq_tags
+    except Exception as e:
+        st.toast(err_handler(e))
 
 
 def create_panel():
@@ -83,6 +127,7 @@ def create_panel():
 
             st.toast(f"""#### :green[Panel {panel_tag}: {panel_descr} added!]""")
             get_all_panels.clear()
+            get_filtered_panels.clear()
             if st.button("OK", key='eq_added'):
                 st.experimental_rerun()
 
@@ -92,38 +137,48 @@ def create_panel():
 
 
 def panels_main(act, prev_dict, prev_sel):
-    if act == 'Create':
+    eq_tag_list = get_eqip_tags()
+    eq_tag_list.insert(0, 'ALL')
+    selected_equip = st.selectbox('Select the Equipment', eq_tag_list)
+
+    if selected_equip == 'ALL' and act != 'Select required:':
         df_to_show = prev_dict[prev_sel]()
-        if isinstance(df_to_show, pd.DataFrame):
-            st.data_editor(df_to_show, use_container_width=True, hide_index=True)
-        else:
-            st.write(f"#### :blue[Panels not available...]")
+    else:
+        df_to_show = prev_dict[prev_sel]()
+
+    if isinstance(df_to_show, pd.DataFrame):
+        data_to_show = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
+    else:
+        data_to_show = st.write(f"#### :blue[Panels not available...]")
+        st.stop()
+
+    if act == 'Create':
+        # df_to_show = prev_dict[prev_sel]()
+        # if isinstance(df_to_show, pd.DataFrame):
+        #     st.data_editor(df_to_show, use_container_width=True, hide_index=True)
+        # else:
+        #     st.write(f"#### :blue[Panels not available...]")
+        data_to_show
         create_panel()
 
     if act == 'View':
-        df_to_show = prev_dict[prev_sel]()
-        if isinstance(df_to_show, pd.DataFrame):
-            st.data_editor(df_to_show, use_container_width=True, hide_index=True)
-        else:
-            st.write(f"#### :blue[Panels not available...]")
+        # df_to_show = prev_dict[prev_sel]()
+        # if isinstance(df_to_show, pd.DataFrame):
+        #     st.data_editor(df_to_show, use_container_width=True, hide_index=True)
+        # else:
+        #     st.write(f"#### :blue[Panels not available...]")
+        data_to_show
 
     if act == 'Delete':
-        df_to_show = prev_dict[prev_sel]()
-        if isinstance(df_to_show, pd.DataFrame):
-            edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
-            if st.button("Delete Equipment"):
-                delete_panel(edited_df)
-        else:
-            st.write(f"#### :blue[Panels not available...]")
+        # df_to_show = prev_dict[prev_sel]()
+        edited_df = data_to_show
+        if st.button("Delete Equipment"):
+            delete_panel(edited_df)
 
     if act == 'Edit':
-        df_to_show = prev_dict[prev_sel]()
-        if isinstance(df_to_show, pd.DataFrame):
-            edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
-            if st.button("Edit Panel"):
+        edited_df = data_to_show
+        if st.button("Edit Panel"):
                 edit_panel(edited_df)
-        else:
-            st.write(f"#### :blue[Panels not available...]")
 
 
 def check_panels(df):
@@ -161,3 +216,5 @@ def add_panels(act_equip, q_ty):
     st.session_state.intercon['panel'] = pd.concat([st.session_state.intercon['panel'], df2])
     st.session_state.intercon['panel'] = st.session_state.intercon['panel'].reset_index(drop=True)
     st.experimental_rerun()
+
+
