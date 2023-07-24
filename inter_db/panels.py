@@ -8,7 +8,6 @@ from models import Equip, Panel
 from utilities import err_handler
 
 
-
 def delete_panel(df):
     tag_list = df.loc[df.edit.astype('str') == "True", 'panel_tag'].tolist()
     if tag_list:
@@ -29,7 +28,6 @@ def delete_panel(df):
             st.button("OK", key='panel_deleted')
     else:
         st.toast(f"#### :orange[Select the Panel to delete in column 'edit']")
-
 
 
 def edit_panel(df):
@@ -57,7 +55,6 @@ def edit_panel(df):
         st.toast(f"#### :orange[Select the Panel to edit in column 'edit']")
 
 
-
 @st.cache_data(show_spinner=False)
 def get_eqip_tags():
     with db_session:
@@ -69,14 +66,14 @@ def create_panel():
     eqip_tag_list = get_eqip_tags()
 
     with st.form('add_panel'):
-        c1, c2, c3, c4, c5 = st.columns(5, gap='medium')
+        c1, c2, c3, c4, c5 = st.columns([1, 1, 1, 1.5, 0.5], gap='medium')
         eq_tag = c1.selectbox('Equipment Tag', eqip_tag_list)
         panel_tag = c2.text_input('Panel Tag')
         panel_descr = c3.text_input('Panel Description')
         panel_notes = c4.text_input('Notes')
         c5.text('')
         c5.text('')
-        pan_but = c5.form_submit_button("Add")
+        pan_but = c5.form_submit_button("Add", use_container_width=True)
 
     if all([pan_but, len(eq_tag), len(panel_tag), len(panel_descr)]):
         try:
@@ -164,5 +161,3 @@ def add_panels(act_equip, q_ty):
     st.session_state.intercon['panel'] = pd.concat([st.session_state.intercon['panel'], df2])
     st.session_state.intercon['panel'] = st.session_state.intercon['panel'].reset_index(drop=True)
     st.experimental_rerun()
-
-
