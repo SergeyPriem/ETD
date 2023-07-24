@@ -14,7 +14,26 @@ def delete_panel(df):
 
 
 def edit_panel(df):
-    pass
+    pan_df = df[df.to_del.astype('str') == "True"]
+
+    if len(pan_df):
+        try:
+            with db_session:
+                for ind, row in pan_df.iterrows():
+                    edit_row = Panel.get(panel_tag=row.panel_tag)
+                    if not edit_row:
+                        st.toast(f"#### :red[Fail, Panel: {str(row.equipment_tag)} not found]")
+                        continue
+
+                    edit_row.set(equipment_tag=row.equipment_tag, descr=row.descr, notes=row.notes)
+
+            st.toast(f"#### :green[Equipment: {str(row.equipment_tag)} is updated]")
+        except Exception as e:
+            st.toast(f"Can't update {str(row.equipment_tag)}")
+            st.toast(f"##### {err_handler(e)}")
+        finally:
+            get_all_panels.clear()
+            st.button("OK", key='eq_updated')
 
 
 @st.cache_data(show_spinner=False)

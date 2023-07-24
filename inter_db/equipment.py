@@ -21,7 +21,7 @@ def edit_equipment(df):
                         st.toast(f"#### :red[Fail, equipment {str(row.equipment_tag)} not found]")
                         continue
 
-                    Equip[ind].set(equipment_tag=row.equipment_tag,descr=row.descr,notes=row.notes)
+                    edit_row.set(equipment_tag=row.equipment_tag,descr=row.descr,notes=row.notes)
 
                     st.toast(f"#### :green[Equipment: {str(row.equipment_tag)} is updated]")
             except Exception as e:
