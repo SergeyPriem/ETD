@@ -9,6 +9,7 @@ from utilities import err_handler
 
 def edit_equipment(df):
     eq_df = df[df.to_del.astype('str') == "True"]
+
     if len(eq_df):
         with db_session:
             try:
@@ -21,6 +22,10 @@ def edit_equipment(df):
                     # edit_row.descr = str(row.descr),
                     # edit_row.to_del = 0,
                     # edit_row.notes = str(row.notes)
+
+                    st.write(row.equipment_tag)
+                    st.write(row.descr)
+                    st.write(row.notes)
 
                     st.write(edit_row.equipment_tag)
                     st.write(edit_row.descr)
