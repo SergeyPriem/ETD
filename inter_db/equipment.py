@@ -17,17 +17,17 @@ def edit_equipment(df):
                     edit_row = Equip[ind]
 
                     if not edit_row:
-                        st.toast(f"#### :red[Fail, equipment {row.equipment_tag} not found]")
+                        st.toast(f"#### :red[Fail, equipment {str(row.equipment_tag)} not found]")
                         continue
 
-                    edit_row.equipment_tag = row.equipment_tag,
-                    edit_row.descr = row.descr,
+                    edit_row.equipment_tag = str(row.equipment_tag),
+                    edit_row.descr = str(row.descr),
                     edit_row.to_del = 0,
-                    edit_row.notes = row.notes
+                    edit_row.notes = str(row.notes)
 
-                    st.toast(f"#### :green[Equipment: {row.equipment_tag} is updated]")
+                    st.toast(f"#### :green[Equipment: {str(row.equipment_tag)} is updated]")
             except Exception as e:
-                st.toast(f"Can't update {row.equipment_tag}")
+                st.toast(f"Can't update {str(row.equipment_tag)}")
                 st.toast(f"##### {err_handler(e)}")
             finally:
                 get_all_equip.clear()
