@@ -167,6 +167,7 @@ def db_func():
         blocks = Set('Block')
         cables_r = Set('Cable', reverse='right_pan_id')
         cables_l = Set('Cable', reverse='left_pan_id')
+        composite_key(eq_id, panel_tag)
 
     class Block(db_int.Entity):
         id = PrimaryKey(int, size=32, auto=True)
@@ -176,6 +177,7 @@ def db_func():
         to_del = Required(bool, default=False)
         notes = Optional(str, 200)
         terminals = Set('Terminal')
+        composite_key(pan_id, block_tag)
 
     class Cable(db_int.Entity):
         id = PrimaryKey(int, size=32, auto=True)
@@ -198,6 +200,7 @@ def db_func():
         to_del = Optional(bool, default=False)
         left_term_id = Required('Terminal', reverse='wires_l')
         right_term_id = Required('Terminal', reverse='wires_r')
+        composite_key(cable_id, wire_num)
 
     class Cab_purpose(db_int.Entity):
         id = PrimaryKey(int, size=8, auto=True)
@@ -229,6 +232,7 @@ def db_func():
         to_del = Optional(bool, default=False)
         wires_l = Set(Wire, reverse='left_term_id')
         wires_r = Set(Wire, reverse='right_term_id')
+        composite_key(block_id, terminal_num)
 
     db_int.bind(
         provider='mysql',

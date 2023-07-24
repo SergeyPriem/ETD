@@ -1,9 +1,84 @@
 ﻿# -*- coding: utf-8 -*-
 import pandas as pd
 import streamlit as st
+from pony.orm import db_session, select
+
+from inter_db.read_all_tabs import get_all_panels
+from models import Equip, Panel
+from utilities import err_handler
+
+
+
+@st.cache_data(show_spinner=False)
+def get_eqip_tags():
+    with db_session:
+        eq_tags = select(eq.equipment_tag for eq in Equip)[:]
+    return eq_tags
+
+
+def create_panel():
+    eqip_tag_list = get_eqip_tags()
+
+    with st.form('add_panel'):
+        c1, c2, c3, c4, c5 = st.columns(5, gap='medium')
+        eq_tag = c1.selectbox('Equipment Tag', eqip_tag_list)
+        panel_tag = c2.text_input('Panel Tag')
+        panel_descr = c3.text_input('Panel Description')
+        panel_notes = c4.text_input('Notes')
+        c5.text('')
+        c5.text('')
+        pan_but = c5.form_submit_button("Add", key="add_panel")
+
+    if all([pan_but, len(eq_tag), len(panel_tag), len(panel_descr)]):
+        with db_session:
+            try:
+                eq_id = select(eq.id for eq in Equip if eq.equipment_tag == eq_tag)
+                Panel(eq_id=eq_id, panel_tag=panel_tag, descr=panel_descr, to_del=False, notes=panel_notes)
+                st.toast(f"""#### :orange[Panel {panel_tag}: {panel_descr} added!]""")
+                if st.button("OK", key='eq_added'):
+                    st.experimental_rerun()
+            except Exception as e:
+                st.toast(err_handler(e))
+            finally:
+                get_all_panels.clear()
+
+
+def panels_main(act, prev_dict, prev_sel):
+    if act == 'Create':
+        df_to_show = prev_dict[prev_sel]()
+        if isinstance(df_to_show, pd.DataFrame):
+            st.data_editor(df_to_show)
+        else:
+            st.write(f"#### :blue[Panels not available...]")
+        create_panel()
+
+    if act == 'View':
+        df_to_show = prev_dict[prev_sel]()
+        if isinstance(df_to_show, pd.DataFrame):
+            st.data_editor(df_to_show)
+        else:
+            st.write(f"#### :blue[Panels not available...]")
+
+    if act == 'Delete':
+        df_to_show = prev_dict[prev_sel]()
+        if isinstance(df_to_show, pd.DataFrame):
+            edited_df = st.data_editor(df_to_show)
+            if st.button("Delete Equipment"):
+                delete_panel(edited_df)
+        else:
+            st.write(f"#### :blue[Panels not available...]")
+
+    if act == 'Edit':
+        df_to_show = prev_dict[prev_sel]()
+        if isinstance(df_to_show, pd.DataFrame):
+            edited_df = st.data_editor(df_to_show)
+            if st.button("Edit Equipment"):
+                edit_panel(edited_df)
+        else:
+            st.write(f"#### :blue[Panels not available...]")
+
 
 def check_panels(df):
-
     df.full_pan_tag = df.eq_tag.astype('str') + ":" + df.pan_tag.astype('str')
     check_list = df.loc[df.full_pan_tag.duplicated(), 'full_pan_tag'].tolist()
 
@@ -11,7 +86,6 @@ def check_panels(df):
         st.write(f"#### :red[Duplicated Panel Tags {check_list}. Please fix and save]")
         st.button('OK', key='duplicated_panels')
         st.stop()
-
 
 
 def delete_panels(pan_to_del):
@@ -31,7 +105,6 @@ def save_panels(upd_panels_df, act_equip):
 
 
 def add_panels(act_equip, q_ty):
-
     df2 = pd.DataFrame()
 
     for w in range(0, q_ty):

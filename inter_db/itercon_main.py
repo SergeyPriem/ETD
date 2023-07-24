@@ -3,7 +3,8 @@ import pandas as pd
 import streamlit as st
 from streamlit_option_menu import option_menu
 
-from inter_db.equipment import create_equipment, delete_equipment, edit_equipment
+from inter_db.equipment import create_equipment, delete_equipment, edit_equipment, equipment_main
+from inter_db.panels import panels_main
 from inter_db.read_all_tabs import get_all_equip, get_all_panels, get_all_blocks, get_all_terminals, get_all_cables
 
 def intercon_expander():
@@ -114,45 +115,10 @@ def intercon_expander():
                                   ['Select required:', 'View', 'Create', 'Edit', 'Delete'],
                                   icons=['-', '-', '-', '-', '-'], default_index=1, orientation='horizontal')
 
-                def make_df_to_show():
-                    # df = prev_dict[prev_sel][0](prev_dict[prev_sel][1])
-                    df = prev_dict[prev_sel]()
-                    return df
-
                 if prev_sel == 'Equipment':
-                    if act == 'Create':
-                        df_to_show = make_df_to_show()
-                        if isinstance(df_to_show, pd.DataFrame):
-                            st.data_editor(df_to_show)
-                        else:
-                            st.write(f"#### :blue[Equipment not available...]")
-
-                        create_equipment()
-
-                    if act == 'View':
-                        df_to_show = make_df_to_show()
-                        if isinstance(df_to_show, pd.DataFrame):
-                            st.data_editor(df_to_show)
-                        else:
-                            st.write(f"#### :blue[Equipment not available...]")
-
-                    if act == 'Delete':
-                        df_to_show = make_df_to_show()
-                        if isinstance(df_to_show, pd.DataFrame):
-                            edited_df = st.data_editor(df_to_show)
-                            if st.button("Delete Equipment"):
-                                delete_equipment(edited_df)
-                        else:
-                            st.write(f"#### :blue[Equipment not available...]")
-
-                    if act == 'Edit':
-                        df_to_show = make_df_to_show()
-                        if isinstance(df_to_show, pd.DataFrame):
-                            edited_df = st.data_editor(df_to_show)
-                            if st.button("Edit Equipment"):
-                                edit_equipment(edited_df)
-                        else:
-                            st.write(f"#### :blue[Equipment not available...]")
+                    equipment_main(act, prev_dict, prev_sel)
+                if prev_sel == 'Panels':
+                    panels_main(act, prev_dict, prev_sel)
             else:
                 st.write("Here you can preview Connections related Tables")
 
