@@ -231,15 +231,15 @@ def create_states():
             "tg_id": None
         }
 
-    if 'inter_stat' not in st.session_state:
-        st.session_state.inter_stat = {
-            "equipment": 1,
-            "panel": 1,
-            "block": 1,
-            "terminal": 1,
-            "cable": 1,
-            "wire": 1,
-        }
+    # if 'inter_stat' not in st.session_state:
+    #     st.session_state.inter_stat = {
+    #         "equipment": 1,
+    #         "panel": 1,
+    #         "block": 1,
+    #         "terminal": 1,
+    #         "cable": 1,
+    #         "wire": 1,
+    #     }
 
     if 'disable_add_task' not in st.session_state:
         st.session_state.disable_add_task = True

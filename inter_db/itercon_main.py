@@ -102,11 +102,11 @@ def intercon_expander():
                 # st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
 
                 prev_dict = {
-                    'Equipment': [get_all_equip, st.session_state.inter_stat['equipment']],
-                    'Panels': [get_all_panels, st.session_state.inter_stat['panel']],
-                    'Terminal block': [get_all_blocks, st.session_state.inter_stat['block']],
-                    'Terminals': [get_all_terminals, st.session_state.inter_stat['terminal']],
-                    'Cables': [get_all_cables, st.session_state.inter_stat['cable']]
+                    'Equipment': get_all_equip,
+                    'Panels': get_all_panels,
+                    'Terminal block': get_all_blocks,
+                    'Terminals': get_all_terminals,
+                    'Cables': get_all_cables,
                     # 'Wires': Wire,
                 }
 
@@ -116,11 +116,8 @@ def intercon_expander():
 
                 def make_df_to_show():
                     # df = prev_dict[prev_sel][0](prev_dict[prev_sel][1])
-                    df = prev_dict[prev_sel][0]()
+                    df = prev_dict[prev_sel]()
                     return df
-
-                if st.session_state['user']['access_level'] == "dev":
-                    st.toast(st.session_state.inter_stat['equipment']) ###
 
                 if prev_sel == 'Equipment':
                     if act == 'Create':

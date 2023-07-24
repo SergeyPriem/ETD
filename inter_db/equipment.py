@@ -10,7 +10,6 @@ from utilities import err_handler
 def edit_equipment(df):
     eq_df = df[df.to_del.astype('str') == "True"]
     if len(eq_df):
-        st.session_state.inter_stat['equipment'] += 1
         with db_session:
             try:
                 for ind, row in eq_df.iterrows():
@@ -38,7 +37,6 @@ def edit_equipment(df):
 def delete_equipment(df):
     tag_list = df.loc[df.to_del.astype('str') == "True", 'equipment_tag'].tolist()
     if tag_list:
-        st.session_state.inter_stat['equipment'] += 1
         with db_session:
             try:
                 for tag in tag_list:
@@ -79,7 +77,6 @@ def create_equipment():
                     notes=eq_notes
                 )
                 st.toast(f"""#### :orange[Equipment {eq_tag}: {eq_descr} added!]""")
-                st.session_state.inter_stat['equipment'] += 1
                 if st.button("OK", key='eq_added'):
                     st.experimental_rerun()
 
