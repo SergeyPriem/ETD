@@ -1,11 +1,33 @@
 ﻿# -*- coding: utf-8 -*-
 import pandas as pd
 import streamlit as st
-from pony.orm import db_session
+from pony.orm import db_session, select
 
-from inter_db.panels import get_eqip_tags
-from models import Equip, Panel
+from inter_db.panels import get_eqip_tags, get_filtered_panels
+from inter_db.read_all_tabs import get_all_blocks
+from models import Equip, Panel, Block
+from utilities import err_handler
 
+
+def get_filtered_blocks(panel_id):
+    try:
+        with db_session:
+            data = select(
+                (
+                    b.id,
+                    p.panel_tag,
+                    b.block_tag,
+                    b.descr,
+                    b.edit,
+                    b.notes)
+                for b in Block
+                for p in b.pan_id
+                if b.pan_id == panel_id
+                 )[:]
+            df = pd.DataFrame(data, columns=['id', 'panel_tag', 'block_tag', 'description', 'edit', 'notes'])
+            return df
+    except Exception as e:
+        st.toast(err_handler(e))
 
 def create_block():
     eqip_tag_list = get_eqip_tags()
@@ -37,35 +59,50 @@ def create_block():
 
 
 def blocks_main(act, prev_dict, prev_sel):
+    eq_tag_list = list(get_eqip_tags())
+    eq_tag_list.insert(0, 'ALL')
+    selected_equip = st.selectbox('Select the Equipment', eq_tag_list)
+
+    if selected_equip == 'ALL' and act != 'Select required:':
+        df_to_show_prel = prev_dict[prev_sel]()
+    else:
+        df_to_show_prel = get_filtered_panels(selected_equip)
+
+    panel_list = df_to_show_prel.panel_tag.tolist()
+    panel_list.insert(0, 'ALL')
+
+    selected_panel = st.selectbox('Select the Panel', panel_list)
+
+    if selected_panel != 'ALL':
+        selected_panel_id = df_to_show_prel[df_to_show_prel.panel_tag == selected_panel].index
+
+
+
+    if selected_equip == 'ALL' and selected_panel == 'ALL':
+        df_to_show = get_all_blocks()
+    else:
+        df_to_show = get_filtered_blocks(selected_panel_id)
+
+
+    if isinstance(df_to_show, pd.DataFrame):
+        data_to_show = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
+    else:
+        data_to_show = st.write(f"#### :blue[Panels not available...]")
+        st.stop()
+
     if act == 'Create':
-        df_to_show = prev_dict[prev_sel]()
-        if isinstance(df_to_show, pd.DataFrame):
-            st.data_editor(df_to_show, use_container_width=True, hide_index=True)
-        else:
-            st.write(f"#### :blue[Panels not available...]")
-        create_block()
+        data_to_show
+        create_panel()
 
     if act == 'View':
-        df_to_show = prev_dict[prev_sel]()
-        if isinstance(df_to_show, pd.DataFrame):
-            st.data_editor(df_to_show, use_container_width=True, hide_index=True)
-        else:
-            st.write(f"#### :blue[Terminal Blocks not available...]")
+        data_to_show
 
     if act == 'Delete':
-        df_to_show = prev_dict[prev_sel]()
-        if isinstance(df_to_show, pd.DataFrame):
-            edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
-            if st.button("Delete Equipment"):
-                delete_block(edited_df)
-        else:
-            st.write(f"#### :blue[Panels not available...]")
+        edited_df = data_to_show
+        if st.button("Delete Equipment"):
+            delete_panel(edited_df)
 
     if act == 'Edit':
-        df_to_show = prev_dict[prev_sel]()
-        if isinstance(df_to_show, pd.DataFrame):
-            edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
-            if st.button("Edit Panel"):
-                edit_block(edited_df)
-        else:
-            st.write(f"#### :blue[Panels not available...]")
+        edited_df = data_to_show
+        if st.button("Edit Panel"):
+                edit_panel(edited_df)
