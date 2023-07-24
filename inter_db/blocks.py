@@ -75,8 +75,6 @@ def create_block():
 def get_selected_blocks(panel_un):
     try:
         with db_session:
-            # pan_id = Panel.get(panel_un=panel_un).id
-
             data = select(
                 (b.id,
                  b.pan_id.panel_un,
@@ -107,9 +105,7 @@ def blocks_main(act, prev_dict, prev_sel):
 
     df_to_show = get_selected_blocks(selected_panel)
 
-
-
-    if isinstance(df_to_show, pd.DataFrame):
+    if isinstance(df_to_show, pd.DataFrame) and len(df_to_show):
         data_to_show = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
     else:
         data_to_show = st.write(f"#### :blue[Blocks not available...]")
