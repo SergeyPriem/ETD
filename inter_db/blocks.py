@@ -39,11 +39,18 @@ def edit_block(df):
         try:
             with db_session:
                 for ind, row in block_df.iterrows():
+                    block_un_list = select(b.block_un for b in Block)[:]
+
+                    if row.block_un in block_un_list:
+                        st.toast(f"#### :red[Fail, Terminal Block: {row.block_tag} already exists]")
+                        continue
+
                     edit_row = Block.get(block_un=row.block_un)
-                    # eq_id = Equip.get(equipment_tag=row.equipment_tag).id
+
                     if not edit_row:
                         st.toast(f"#### :red[Fail, Terminal Block: {row.block_tag} not found]")
                         continue
+
                     pan_id = Panel.get(panel_un=row.panel_tag)
                     edit_row.set(pan_id=pan_id, block_tag=row.block_tag, descr=row.description,
                                  notes=row.notes, block_un=str(row.panel_tag)+":"+str(row.block_tag))
