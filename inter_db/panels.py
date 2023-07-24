@@ -1,8 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 import pandas as pd
-import pony
 import streamlit as st
-from pony.orm import db_session, select
+from pony.orm import *
 
 from inter_db.read_all_tabs import get_all_panels
 from models import Equip, Panel
@@ -50,7 +49,7 @@ def create_panel():
                     st.experimental_rerun()
             except Exception as e:
                 st.toast(err_handler(e))
-            except pony.orm.core.TransactionIntegrityError as e1:
+            except TransactionIntegrityError as e1:
                 st.toast(err_handler(e1))
             finally:
                 get_all_panels.clear()
