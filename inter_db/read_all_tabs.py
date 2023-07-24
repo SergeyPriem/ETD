@@ -5,7 +5,8 @@ import streamlit as st
 from models import Equip, Panel, Block, Terminal, Cable
 from utilities import err_handler, tab_to_df
 
-@st.cache_data
+
+@st.cache_data(show_spinner=False)
 def get_all_equip():
     with db_session:
         try:
@@ -106,4 +107,3 @@ def get_all_cables():
             return df
         except Exception as e:
             return err_handler(e)
-
