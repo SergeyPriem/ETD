@@ -49,6 +49,7 @@ def create_panel():
                 st.experimental_rerun()
 
         except Exception as e2:
+            st.toast(f"""#### :red[Seems, such Panel already exists!]""")
             st.toast(err_handler(e2))
 
 
