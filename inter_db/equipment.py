@@ -22,7 +22,9 @@ def edit_equipment(df):
                     # edit_row.to_del = 0,
                     # edit_row.notes = str(row.notes)
 
-                    st.write(edit_row)
+                    st.write(edit_row.equipment_tag)
+                    st.write(edit_row.descr)
+                    st.write(edit_row.notes)
 
                     st.toast(f"#### :green[Equipment: {str(row.equipment_tag)} is updated]")
             except Exception as e:
