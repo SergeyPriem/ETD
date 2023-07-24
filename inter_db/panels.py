@@ -54,7 +54,7 @@ def edit_panel(df):
             get_all_panels.clear()
             st.button("OK", key='eq_updated')
     else:
-        st.toast(f"#### :orange[Select the Panel to delete in column 'edit']")
+        st.toast(f"#### :orange[Select the Panel to edit in column 'edit']")
 
 
 
@@ -97,7 +97,7 @@ def create_panel():
 def panels_main(act, prev_dict, prev_sel):
     if act == 'Create':
         df_to_show = prev_dict[prev_sel]()
-        if isinstance(df_to_show, pd.DataFrame):
+        if isinstance(df_to_show, pd.DataFrame) and st.checkbox("Show Table"):
             st.data_editor(df_to_show, use_container_width=True, hide_index=True)
         else:
             st.write(f"#### :blue[Panels not available...]")
@@ -112,7 +112,7 @@ def panels_main(act, prev_dict, prev_sel):
 
     if act == 'Delete':
         df_to_show = prev_dict[prev_sel]()
-        if isinstance(df_to_show, pd.DataFrame):
+        if isinstance(df_to_show, pd.DataFrame) and st.checkbox("Show Table"):
             edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
             if st.button("Delete Equipment"):
                 delete_panel(edited_df)
@@ -121,7 +121,7 @@ def panels_main(act, prev_dict, prev_sel):
 
     if act == 'Edit':
         df_to_show = prev_dict[prev_sel]()
-        if isinstance(df_to_show, pd.DataFrame):
+        if isinstance(df_to_show, pd.DataFrame) and st.checkbox("Show Table"):
             edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
             if st.button("Edit Panel"):
                 edit_panel(edited_df)
