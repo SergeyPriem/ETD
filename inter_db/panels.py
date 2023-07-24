@@ -27,7 +27,7 @@ def edit_panel(df):
                         continue
 
                     edit_row.set(eq_id=eq_id, panel_tag=row.panel_tag, descr=row.description, notes=row.notes)
-            st.toast(f"#### :green[Panel: {row.panel_tag} is updated]")
+                    st.toast(f"#### :green[Panel: {row.panel_tag} is updated]")
         except Exception as e:
             st.toast(f"Can't update {row.panel_tag}")
             st.toast(f"##### {err_handler(e)}")
