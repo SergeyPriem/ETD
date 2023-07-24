@@ -115,7 +115,8 @@ def intercon_expander():
                                   icons=['-', '-', '-', '-', '-'], default_index=1, orientation='horizontal')
 
                 def make_df_to_show():
-                    df = prev_dict[prev_sel][0](prev_dict[prev_sel][1])
+                    # df = prev_dict[prev_sel][0](prev_dict[prev_sel][1])
+                    df = prev_dict[prev_sel][0]()
                     return df
 
                 if st.session_state['user']['access_level'] == "dev":
