@@ -55,7 +55,7 @@ def create_block():
                 Panel(eq_id=eq_id, panel_tag=panel_tag, descr=panel_descr, edit=False, notes=panel_notes)
 
             st.toast(f"""#### :green[Panel {panel_tag}: {panel_descr} added!]""")
-            get_all_panels.clear()
+            get_all_blocks.clear()
             if st.button("OK", key='eq_added'):
                 st.experimental_rerun()
 
