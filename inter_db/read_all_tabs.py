@@ -27,9 +27,11 @@ def get_all_panels():
                  p.descr,
                  p.edit,
                  p.notes,
+                 p.panel_un,
                  )
                 for p in Panel)[:]
-            df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag', 'description', 'edit', 'notes'])
+            df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag', 'description', 'edit',
+                                             'notes', 'panel_un'])
             return df
         except Exception as e:
             return err_handler(e)

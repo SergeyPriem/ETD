@@ -65,37 +65,35 @@ def create_block():
 
 
 def blocks_main(act, prev_dict, prev_sel):
-    eq_tag_list = list(get_eqip_tags())
-    eq_tag_list.insert(0, 'ALL')
-    selected_equip = st.selectbox('Select the Equipment', eq_tag_list)
+    c1, c2 = st.columns(2, gap='medium')
+    # eq_tag_list = list(get_eqip_tags())
+    # eq_tag_list.insert(0, 'ALL')
+    # selected_equip = c1.selectbox('Select the Equipment', eq_tag_list)
+
+    df_to_show = prev_dict[prev_sel]()
+
+    df_to_show.full_tag = df_to_show.eqastype('str') + ":"
+
 
     if selected_equip == 'ALL' and act != 'Select required:':
-        df_to_show_prel = prev_dict[prev_sel]()
-    else:
-        df_to_show_prel = get_filtered_panels(selected_equip)
-
-    panel_list = df_to_show_prel.panel_tag.tolist()
-    panel_list.insert(0, 'ALL')
-
-    selected_panel = st.selectbox('Select the Panel', panel_list)
-
-    selected_panel_id = None
-
-    if selected_panel != 'ALL':
-        selected_panel_id = df_to_show_prel[df_to_show_prel.panel_tag == selected_panel].index
+        df_to_show = prev_dict[prev_sel]()
 
 
+    if selected_equip != 'ALL' and act != 'Select required:':
 
-    if selected_equip == 'ALL' and selected_panel == 'ALL':
-        df_to_show = get_all_blocks()
-    else:
-        df_to_show = get_filtered_blocks(selected_panel_id)
+        panel_list = df_to_show_prel.panel_tag.tolist()
+        panel_list.insert(0, 'ALL')
+        selected_panel = c2.selectbox('Select the Panel', panel_list)
+
+        if selected_equip != 'ALL' and act != 'Select required:' and selected_panel != 'ALL':
+            selected_panel_id = df_to_show_prel[df_to_show_prel.panel_tag == selected_panel].index
+            df_to_show = get_filtered_blocks(selected_panel_id)
 
 
     if isinstance(df_to_show, pd.DataFrame):
         data_to_show = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
     else:
-        data_to_show = st.write(f"#### :blue[Panels not available...]")
+        data_to_show = st.write(f"#### :blue[Blocks not available...]")
         st.stop()
 
     if act == 'Create':

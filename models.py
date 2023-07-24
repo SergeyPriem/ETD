@@ -168,6 +168,7 @@ def db_func():
         cables_r = Set('Cable', reverse='right_pan_id')
         cables_l = Set('Cable', reverse='left_pan_id')
         composite_key(eq_id, panel_tag)
+        panel_un = Required(str, 100, unique=True)
 
     class Block(db_int.Entity):
         id = PrimaryKey(int, size=32, auto=True)

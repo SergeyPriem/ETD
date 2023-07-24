@@ -20,11 +20,13 @@ def get_filtered_panels(equip):
                  p.descr,
                  p.edit,
                  p.notes,
+                 p.panel_un,
                  )
                 for p in Panel
                 if p.eq_id == equip_id
             )[:]
-        df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag', 'description', 'edit', 'notes'])
+        df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag', 'description',
+                                         'edit', 'notes', 'panel_un'])
         return df
 
     except Exception as e:
@@ -69,7 +71,9 @@ def edit_panel(df):
                         st.toast(f"#### :red[Fail, Panel: {row.panel_tag} not found]")
                         continue
 
-                    edit_row.set(eq_id=eq_id, panel_tag=row.panel_tag, descr=row.description, notes=row.notes)
+
+                    edit_row.set(eq_id=eq_id, panel_tag=row.panel_tag, descr=row.description,
+                                 notes=row.notes, panel_un=str(row.equipment_tag)+":"+str(row.panel_tag))
                     st.toast(f"#### :green[Panel: {row.panel_tag} is updated]")
         except Exception as e:
             st.toast(f"Can't update {row.panel_tag}")
@@ -109,7 +113,8 @@ def create_panel():
         try:
             with db_session:
                 eq_id = Equip.get(equipment_tag=eq_tag)
-                Panel(eq_id=eq_id, panel_tag=panel_tag, descr=panel_descr, edit=False, notes=panel_notes)
+                Panel(eq_id=eq_id, panel_tag=panel_tag, descr=panel_descr, edit=False, notes=panel_notes,
+                      panel_un=str(eq_tag)+":"+str(panel_tag))
 
             st.toast(f"""#### :green[Panel {panel_tag}: {panel_descr} added!]""")
             get_all_panels.clear()
