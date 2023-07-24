@@ -75,7 +75,7 @@ def create_block():
 def get_selected_blocks(panel_un):
     try:
         with db_session:
-            pan_id = Panel.get(panel_un=panel_un).id
+            # pan_id = Panel.get(panel_un=panel_un).id
 
             data = select(
                 (b.id,
@@ -85,7 +85,7 @@ def get_selected_blocks(panel_un):
                  b.edit,
                  b.notes,
                  b.block_un)
-                for b in Block if b.pan_id == pan_id
+                for b in Block if panel_un in b.block_un
             )[:]
 
             df =  pd.DataFrame(data, columns=['id', 'panel_tag', 'block_tag', 'description',
