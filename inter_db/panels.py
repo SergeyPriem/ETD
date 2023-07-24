@@ -9,7 +9,6 @@ from utilities import err_handler
 
 
 @st.cache_data(show_spinner=False)
-
 def get_filtered_panels(equip):
     try:
         equip_id = Equip.get(equipment_tag=equip)
