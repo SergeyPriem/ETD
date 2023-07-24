@@ -29,22 +29,8 @@ def get_filtered_panels(equip):
 
     except Exception as e:
         st.toast(err_handler(e))
+        return
 
-    with db_session:
-        try:
-            data = select(
-                (p.id,
-                 p.eq_id.equipment_tag,
-                 p.panel_tag,
-                 p.descr,
-                 p.edit,
-                 p.notes,
-                 )
-                for p in Panel)[:]
-            df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag', 'description', 'edit', 'notes'])
-            return df
-        except Exception as e:
-            return err_handler(e)
 
 
 def delete_panel(df):
@@ -144,7 +130,7 @@ def panels_main(act, prev_dict, prev_sel):
     if selected_equip == 'ALL' and act != 'Select required:':
         df_to_show = prev_dict[prev_sel]()
     else:
-        df_to_show = prev_dict[prev_sel]()
+        df_to_show = get_filtered_panels(selected_equip)
 
     if isinstance(df_to_show, pd.DataFrame):
         data_to_show = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
