@@ -38,21 +38,24 @@ def create_panel():
         pan_but = c5.form_submit_button("Add")
 
     if all([pan_but, len(eq_tag), len(panel_tag), len(panel_descr)]):
-        with db_session:
-            try:
-                # eq_id = select(eq.id for eq in Equip if eq.equipment_tag == eq_tag)
-                eq_id = Equip.get(equipment_tag=eq_tag)
+        try:
+            with db_session:
+                try:
+                    # eq_id = select(eq.id for eq in Equip if eq.equipment_tag == eq_tag)
+                    eq_id = Equip.get(equipment_tag=eq_tag)
 
-                Panel(eq_id=eq_id, panel_tag=panel_tag, descr=panel_descr, to_del=False, notes=panel_notes)
-                st.toast(f"""#### :orange[Panel {panel_tag}: {panel_descr} added!]""")
-                if st.button("OK", key='eq_added'):
-                    st.experimental_rerun()
-            except Exception as e:
-                st.toast(err_handler(e))
-            except TransactionIntegrityError as e1:
-                st.toast(err_handler(e1))
-            finally:
-                get_all_panels.clear()
+                    Panel(eq_id=eq_id, panel_tag=panel_tag, descr=panel_descr, to_del=False, notes=panel_notes)
+                    st.toast(f"""#### :orange[Panel {panel_tag}: {panel_descr} added!]""")
+                    if st.button("OK", key='eq_added'):
+                        st.experimental_rerun()
+                except Exception as e:
+                    st.toast(err_handler(e))
+                except TransactionIntegrityError as e1:
+                    st.toast(err_handler(e1))
+                finally:
+                    get_all_panels.clear()
+        except Exception as e2:
+            st.toast(err_handler(e2))
 
 
 def panels_main(act, prev_dict, prev_sel):
