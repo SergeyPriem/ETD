@@ -109,6 +109,7 @@ def edit_block():
             else:
                 st.write("#### :blue[No terminal blocks in selected panel]")
         else:
+            if
             st.warning('Panels not available...')
     else:
         st.warning('Equipment not available...')
