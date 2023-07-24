@@ -13,17 +13,16 @@ def edit_equipment(df):
         with db_session:
             try:
                 for ind, row in eq_df.iterrows():
-
                     edit_row = Equip[ind]
-
                     if not edit_row:
                         st.toast(f"#### :red[Fail, equipment {str(row.equipment_tag)} not found]")
                         continue
+                    # edit_row.equipment_tag = str(row.equipment_tag),
+                    # edit_row.descr = str(row.descr),
+                    # edit_row.to_del = 0,
+                    # edit_row.notes = str(row.notes)
 
-                    edit_row.equipment_tag = str(row.equipment_tag),
-                    edit_row.descr = str(row.descr),
-                    edit_row.to_del = 0,
-                    edit_row.notes = str(row.notes)
+                    st.write(edit_row)
 
                     st.toast(f"#### :green[Equipment: {str(row.equipment_tag)} is updated]")
             except Exception as e:
