@@ -42,14 +42,14 @@ def edit_block(df):
                     edit_row = Block.get(block_un=row.block_un)
                     # eq_id = Equip.get(equipment_tag=row.equipment_tag).id
                     if not edit_row:
-                        st.toast(f"#### :red[Fail, Terminal Block: {row.block_un} not found]")
+                        st.toast(f"#### :red[Fail, Terminal Block: {row.block_tag} not found]")
                         continue
                     pan_id = Panel.get(panel_un=row.panel_tag)
                     edit_row.set(pan_id=pan_id, block_tag=row.block_tag, descr=row.description,
-                                 notes=row.notes, block_un=str(row.block_un)+":"+str(row.block_tag))
-                    st.toast(f"#### :green[Terminal Block: {row.block_un} is updated]")
+                                 notes=row.notes, block_un=str(row.panel_tag)+":"+str(row.block_tag))
+                    st.toast(f"#### :green[Terminal Block: {row.block_tag} is updated]")
         except Exception as e:
-            st.toast(f"Can't update {row.block_un}")
+            st.toast(f"Can't update {row.block_tag}")
             st.toast(f"##### {err_handler(e)}")
         finally:
             get_all_blocks.clear()
