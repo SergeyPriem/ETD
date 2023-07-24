@@ -16,7 +16,7 @@ def get_all_equip():
             return err_handler(e)
 
 
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def get_all_panels():
     with db_session:
         try:
@@ -35,7 +35,7 @@ def get_all_panels():
             return err_handler(e)
 
 
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def get_all_blocks():
     with db_session:
         try:
@@ -58,7 +58,7 @@ def get_all_blocks():
             return err_handler(e)
 
 
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def get_all_terminals():
     with db_session:
         try:
@@ -84,7 +84,7 @@ def get_all_terminals():
             return err_handler(e)
 
 
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def get_all_cables():
     with db_session:
         try:

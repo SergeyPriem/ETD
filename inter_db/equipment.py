@@ -14,7 +14,7 @@ def edit_equipment(df):
             try:
                 for ind, row in eq_df.iterrows():
 
-                    edit_row = Equip.get(equipment_tag=row.equipment_tag)
+                    edit_row = Equip[ind]
 
                     if not edit_row:
                         st.toast(f"#### :red[Fail, equipment {row.equipment_tag} not found]")
