@@ -10,7 +10,27 @@ from utilities import err_handler
 
 
 def delete_block(df):
-    pass
+    block_list = df.loc[df.edit.astype('str') == "True", 'block_un'].tolist()
+    if block_list:
+        try:
+            with db_session:
+                for tag in block_list:
+                    del_row = Block.get(block_un=tag)
+                    if not del_row:
+                        st.toast(f"#### :red[Fail, Terminal Block {tag} not found]")
+                        continue
+                    del_row.delete()
+                    st.toast(f"#### :green[Terminal Block: {tag} is deleted]")
+        except Exception as e:
+            st.toast(f"#### :red[Can't delete {tag}]")
+            st.toast(f"##### {err_handler(e)}")
+        finally:
+            get_all_blocks.clear()
+            get_selected_blocks.clear()
+            st.button("OK", key='block_deleted')
+    else:
+        st.toast(f"#### :orange[Select the Terminal Block to delete in column 'edit']")
+
 
 def edit_block(df):
     pass
@@ -41,11 +61,9 @@ def edit_block(df):
 #         st.toast(err_handler(e))
 
 def create_block(panel_tag):
-    pan_tag_list = list(get_panel_tags())
 
     with st.form('add_block'):
         c1, c2, c3, c4, c5 = st.columns([1, 1, 1, 1.5, 0.5], gap='medium')
-        # eq_tag = c1.selectbox('Equipment Tag', eqip_tag_list)
         c1.text_input('Panel Tag', value=panel_tag, disabled=True)
         block_tag = c2.text_input('Block Tag')
         block_descr = c3.text_input('Block Description')
@@ -95,21 +113,15 @@ def get_selected_blocks(panel_un):
 
 
 def blocks_main(act, prev_dict, prev_sel):
-    # c1, c2 = st.columns(2, gap='medium')
-    # eq_tag_list = list(get_eqip_tags())
-    # eq_tag_list.insert(0, 'ALL')
 
     pan_tag_list = list(get_panel_tags())
-
     selected_panel = st.selectbox('Select the Panel', pan_tag_list)
-
     df_to_show = get_selected_blocks(selected_panel)
 
     if isinstance(df_to_show, pd.DataFrame) and len(df_to_show):
         data_to_show = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
     else:
         data_to_show = st.write(f"#### :blue[Blocks not available...]")
-        # st.stop()
 
     if act == 'Create':
         data_to_show
