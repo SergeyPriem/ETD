@@ -61,14 +61,14 @@ def create_block():
                 Block(pan_id=pan_id, block_tag=block_tag, descr=block_descr, edit=False,
                       notes=block_notes, block_un=str(panel_tag)+":"+str(block_tag))
 
-            st.toast(f"""#### :green[Block {str(panel_tag)+":"+str(block_tag)} added!]""")
+            st.toast(f"""#### :green[Block {block_tag} added!]""")
             get_all_blocks.clear()
             get_selected_blocks.clear()
             if st.button("OK", key='eq_added'):
                 st.experimental_rerun()
 
         except Exception as e2:
-            st.toast(f"""#### :red[Seems, such Panel already exists!]""")
+            st.toast(f"""#### :red[Seems, such Terminal Block already exists!]""")
             st.toast(err_handler(e2))
 
 @st.cache_data(show_spinner=False)
