@@ -95,13 +95,13 @@ def get_selected_blocks(panel_un):
 
 
 def blocks_main(act, prev_dict, prev_sel):
-    c1, c2 = st.columns(2, gap='medium')
+    # c1, c2 = st.columns(2, gap='medium')
     # eq_tag_list = list(get_eqip_tags())
     # eq_tag_list.insert(0, 'ALL')
 
     pan_tag_list = list(get_panel_tags())
 
-    selected_panel = c1.selectbox('Select the Panel', pan_tag_list)
+    selected_panel = st.selectbox('Select the Panel', pan_tag_list)
 
     df_to_show = get_selected_blocks(selected_panel)
 
