@@ -14,7 +14,7 @@ def delete_panel(df):
 
 
 def edit_panel(df):
-    pan_df = df[df.to_del.astype('str') == "True"]
+    pan_df = df[df.edit.astype('str') == "True"]
 
     if len(pan_df):
         try:
@@ -60,7 +60,7 @@ def create_panel():
         try:
             with db_session:
                 eq_id = Equip.get(equipment_tag=eq_tag)
-                Panel(eq_id=eq_id, panel_tag=panel_tag, descr=panel_descr, to_del=False, notes=panel_notes)
+                Panel(eq_id=eq_id, panel_tag=panel_tag, descr=panel_descr, edit=False, notes=panel_notes)
 
             st.toast(f"""#### :orange[Panel {panel_tag}: {panel_descr} added!]""")
             get_all_panels.clear()

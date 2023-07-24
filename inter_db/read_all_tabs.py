@@ -25,11 +25,11 @@ def get_all_panels():
                  p.eq_id.equipment_tag,
                  p.panel_tag,
                  p.descr,
-                 p.to_del,
+                 p.edit,
                  p.notes,
                  )
                 for p in Panel)[:]
-            df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag', 'description', 'to_del', 'notes'])
+            df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag', 'description', 'edit', 'notes'])
             return df
         except Exception as e:
             return err_handler(e)
@@ -45,14 +45,14 @@ def get_all_blocks():
                  b.pan_id.panel_tag,
                  b.block_tag,
                  b.descr,
-                 b.to_del,
+                 b.edit,
                  b.notes,
                  )
                 for b in Block
                 for p in b.pan_id
             )[:]
             df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag',
-                                             'block_tag', 'description', 'to_del', 'notes'])
+                                             'block_tag', 'description', 'edit', 'notes'])
             return df
         except Exception as e:
             return err_handler(e)
@@ -70,7 +70,7 @@ def get_all_terminals():
                  t.terminal_num,
                  t.int_circuit,
                  t.int_link,
-                 t.to_del,
+                 t.edit,
                  t.notes,
                  )
                 for t in Terminal
@@ -78,7 +78,7 @@ def get_all_terminals():
                 for p in b.pan_id
             )[:]
             df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag', 'block_tag', 'terminal_num',
-                                             'internal_circuit', 'internal_link', 'to_del', 'notes'])
+                                             'internal_circuit', 'internal_link', 'edit', 'notes'])
             return df
         except Exception as e:
             return err_handler(e)
@@ -98,12 +98,12 @@ def get_all_cables():
                  c.left_pan_id.panel_tag,
                  c.right_pan_id.panel_tag,
                  c.notes,
-                 c.to_del
+                 c.edit
                  )
                 for c in Cable
             )[:]
             df = pd.DataFrame(data, columns=['id', 'cable_tag', 'cable_purpose', 'cable_type', 'wires_number',
-                                             'wire_section', 'left_panel', 'right_panel', 'notes', 'to_del'])
+                                             'wire_section', 'left_panel', 'right_panel', 'notes', 'edit'])
             return df
         except Exception as e:
             return err_handler(e)

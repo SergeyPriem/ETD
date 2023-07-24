@@ -10,7 +10,7 @@ from utilities import err_handler
 
 
 def edit_equipment(df):
-    eq_df = df[df.to_del.astype('str') == "True"]
+    eq_df = df[df.edit.astype('str') == "True"]
 
     if len(eq_df):
         with db_session:
@@ -34,7 +34,7 @@ def edit_equipment(df):
 
 
 def delete_equipment(df):
-    tag_list = df.loc[df.to_del.astype('str') == "True", 'equipment_tag'].tolist()
+    tag_list = df.loc[df.edit.astype('str') == "True", 'equipment_tag'].tolist()
     if tag_list:
         with db_session:
             try:
@@ -70,7 +70,7 @@ def create_equipment():
                 st.toast(f"""#### :red[Equipment {eq_tag} already in DataBase]""")
                 return
             try:
-                Equip(equipment_tag=eq_tag,descr=eq_descr,to_del=False,notes=eq_notes)
+                Equip(equipment_tag=eq_tag,descr=eq_descr,edit=False,notes=eq_notes)
                 st.toast(f"""#### :orange[Equipment {eq_tag}: {eq_descr} added!]""")
                 if st.button("OK", key='eq_added'):
                     st.experimental_rerun()
