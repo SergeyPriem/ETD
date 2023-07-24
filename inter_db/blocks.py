@@ -33,7 +33,30 @@ def delete_block(df):
 
 
 def edit_block(df):
-    pass
+    block_df = df[df.edit.astype('str') == "True"]
+
+    if len(block_df):
+        try:
+            with db_session:
+                for ind, row in block_df.iterrows():
+                    edit_row = Block.get(block_un=row.block_un)
+                    # eq_id = Equip.get(equipment_tag=row.equipment_tag).id
+                    if not edit_row:
+                        st.toast(f"#### :red[Fail, Terminal Block: {row.block_un} not found]")
+                        continue
+                    pan_id = Panel.get(panel_un=row.panel_tag)
+                    edit_row.set(pam_id=pan_id, block_tag=row.block_tag, descr=row.description,
+                                 notes=row.notes, block_un=str(row.panel_tag)+":"+str(row.block_tag))
+                    st.toast(f"#### :green[Panel: {row.panel_tag} is updated]")
+        except Exception as e:
+            st.toast(f"Can't update {row.panel_tag}")
+            st.toast(f"##### {err_handler(e)}")
+        finally:
+            get_all_blocks.clear()
+            get_selected_blocks.clear()
+            st.button("OK", key='blocks_updated')
+    else:
+        st.toast(f"#### :orange[Select the Panel to edit in column 'edit']")
 
 
 # @st.cache_data(show_spinner=False)
@@ -132,10 +155,10 @@ def blocks_main(act, prev_dict, prev_sel):
 
     if act == 'Delete':
         edited_df = data_to_show
-        if st.button("Delete Equipment"):
+        if st.button("Delete Terminal Block"):
             delete_block(edited_df)
 
     if act == 'Edit':
         edited_df = data_to_show
-        if st.button("Edit Panel"):
+        if st.button("Edit Terminal Block"):
                 edit_block(edited_df)

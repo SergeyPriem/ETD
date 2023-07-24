@@ -83,7 +83,7 @@ def edit_panel(df):
             get_all_panels.clear()
             get_filtered_panels.clear()
             get_panel_tags.clear()
-            st.button("OK", key='eq_updated')
+            st.button("OK", key='panels_updated')
     else:
         st.toast(f"#### :orange[Select the Panel to edit in column 'edit']")
 
