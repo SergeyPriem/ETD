@@ -28,7 +28,7 @@ def delete_panel(df):
             get_all_panels.clear()
             st.button("OK", key='panel_deleted')
     else:
-        st.toast(f"#### :yellow[Select the Panel to delete in column 'edit']")
+        st.toast(f"#### :orange[Select the Panel to delete in column 'edit']")
 
 
 
@@ -54,7 +54,7 @@ def edit_panel(df):
             get_all_panels.clear()
             st.button("OK", key='eq_updated')
     else:
-        st.toast(f"#### :yellow[Select the Panel to delete in column 'edit']")
+        st.toast(f"#### :orange[Select the Panel to delete in column 'edit']")
 
 
 
