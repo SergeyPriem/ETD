@@ -31,7 +31,7 @@ def edit_equipment(df):
                 st.toast(f"Can't update {row.equipment_tag}")
                 st.toast(f"##### {err_handler(e)}")
             finally:
-                get_all_equip().clear()
+                get_all_equip.clear()
                 st.button("OK", key='eq_updated')
 
 
@@ -52,7 +52,7 @@ def delete_equipment(df):
                 st.toast(f"Can't delete {tag}")
                 st.toast(f"##### {err_handler(e)}")
             finally:
-                get_all_equip().clear()
+                get_all_equip.clear()
                 st.button("OK", key='eq_deleted')
 
 
@@ -86,7 +86,7 @@ def create_equipment():
             except Exception as e:
                 st.toast(err_handler(e))
             finally:
-                get_all_equip().clear()
+                get_all_equip.clear()
 
 # def delete_equipment(equip_to_del):
 #     st.session_state.intercon['equip'] = \
