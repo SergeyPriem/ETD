@@ -3,7 +3,7 @@ import pandas as pd
 import streamlit as st
 from pony.orm import db_session, select
 
-from inter_db.panels import get_eqip_tags, get_filtered_panels
+from inter_db.panels import get_eqip_tags, get_filtered_panels, get_panel_tags
 from inter_db.read_all_tabs import get_all_blocks
 from models import Equip, Panel, Block
 from utilities import err_handler
@@ -16,29 +16,29 @@ def edit_block(df):
     pass
 
 
-@st.cache_data(show_spinner=False)
-def get_filtered_blocks(panel_id):
-    try:
-        with db_session:
-            data = select(
-                (
-                    b.id,
-                    p.panel_tag,
-                    b.block_tag,
-                    b.descr,
-                    b.edit,
-                    b.notes,
-                    b.block_un
-                )
-                for b in Block
-                for p in b.pan_id
-                if b.pan_id == panel_id
-                 )[:]
-            df = pd.DataFrame(data, columns=['id', 'panel_tag', 'block_tag', 'description', 'edit',
-                                             'notes', 'block_un'])
-            return df
-    except Exception as e:
-        st.toast(err_handler(e))
+# @st.cache_data(show_spinner=False)
+# def get_filtered_blocks(panel_id):
+#     try:
+#         with db_session:
+#             data = select(
+#                 (
+#                     b.id,
+#                     p.panel_tag,
+#                     b.block_tag,
+#                     b.descr,
+#                     b.edit,
+#                     b.notes,
+#                     b.block_un
+#                 )
+#                 for b in Block
+#                 for p in b.pan_id
+#                 if b.pan_id == panel_id
+#                  )[:]
+#             df = pd.DataFrame(data, columns=['id', 'panel_tag', 'block_tag', 'description', 'edit',
+#                                              'notes', 'block_un'])
+#             return df
+#     except Exception as e:
+#         st.toast(err_handler(e))
 
 def create_block():
     eqip_tag_list = list(get_eqip_tags())
@@ -63,7 +63,7 @@ def create_block():
 
             st.toast(f"""#### :green[Block {str(panel_tag)+":"+str(block_tag)} added!]""")
             get_all_blocks.clear()
-            get_filtered_blocks.clear()
+            get_selected_blocks.clear()
             if st.button("OK", key='eq_added'):
                 st.experimental_rerun()
 
@@ -71,31 +71,42 @@ def create_block():
             st.toast(f"""#### :red[Seems, such Panel already exists!]""")
             st.toast(err_handler(e2))
 
+@st.cache_data(show_spinner=False)
+def get_selected_blocks(panel_un):
+    try:
+        with db_session:
+            pan_id = Panel.get(panel_un=panel_un).id
+
+            data = select(
+                (b.id,
+                 b.pan_id.panel_un,
+                 b.block_tag,
+                 b.descr,
+                 b.edit,
+                 b.notes,
+                 b.block_un)
+                for b in Block if b.pan_id == pan_id
+            )[:]
+
+            df =  pd.DataFrame(data, columns=['id', 'panel_tag', 'block_tag', 'description',
+                                             'edit', 'notes', 'block_un'])
+
+    except Exception as e:
+        st.toast(err_handler(e))
+
+
 
 def blocks_main(act, prev_dict, prev_sel):
     c1, c2 = st.columns(2, gap='medium')
     # eq_tag_list = list(get_eqip_tags())
     # eq_tag_list.insert(0, 'ALL')
-    # selected_equip = c1.selectbox('Select the Equipment', eq_tag_list)
 
-    df_to_show = prev_dict[prev_sel]()
+    pan_tag_list = list(get_panel_tags())
 
-    df_to_show.full_tag = df_to_show.eqastype('str') + ":"
+    selected_panel = c1.selectbox('Select the Equipment', pan_tag_list)
 
+    df_to_show = get_selected_blocks(selected_panel)
 
-    if selected_equip == 'ALL' and act != 'Select required:':
-        df_to_show = prev_dict[prev_sel]()
-
-
-    if selected_equip != 'ALL' and act != 'Select required:':
-
-        panel_list = df_to_show_prel.panel_tag.tolist()
-        panel_list.insert(0, 'ALL')
-        selected_panel = c2.selectbox('Select the Panel', panel_list)
-
-        if selected_equip != 'ALL' and act != 'Select required:' and selected_panel != 'ALL':
-            selected_panel_id = df_to_show_prel[df_to_show_prel.panel_tag == selected_panel].index
-            df_to_show = get_filtered_blocks(selected_panel_id)
 
 
     if isinstance(df_to_show, pd.DataFrame):
