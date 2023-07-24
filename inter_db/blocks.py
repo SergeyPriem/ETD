@@ -41,13 +41,13 @@ def edit_block(df):
 #         st.toast(err_handler(e))
 
 def create_block():
-    eqip_tag_list = list(get_eqip_tags())
+    pan_tag_list = list(get_panel_tags())
 
     with st.form('add_block'):
-        c2, c3, c4, c5 = st.columns([1, 1, 1.5, 0.5], gap='medium')
+        c1, c2, c3, c4, c5 = st.columns([1, 1, 1.5, 0.5], gap='medium')
         # eq_tag = c1.selectbox('Equipment Tag', eqip_tag_list)
-        panel_tag = c2.selectbox('Panel Tag', eqip_tag_list)
-        block_tag = c3.text_input('Block Tag')
+        panel_tag = c1.selectbox('Panel Tag', pan_tag_list)
+        block_tag = c2.text_input('Block Tag')
         block_descr = c3.text_input('Block Description')
         block_notes = c4.text_input('Notes')
         c5.text('')
