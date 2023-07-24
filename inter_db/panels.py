@@ -11,18 +11,19 @@ from utilities import err_handler
 @st.cache_data(show_spinner=False)
 def get_filtered_panels(equip):
     try:
-        equip_id = Equip.get(equipment_tag=equip)
-        data = select(
-            (p.id,
-             p.eq_id.equipment_tag,
-             p.panel_tag,
-             p.descr,
-             p.edit,
-             p.notes,
-             )
-            for p in Panel
-            if p.eq_id == equip_id
-        )[:]
+        with db_session:
+            equip_id = Equip.get(equipment_tag=equip)
+            data = select(
+                (p.id,
+                 p.eq_id.equipment_tag,
+                 p.panel_tag,
+                 p.descr,
+                 p.edit,
+                 p.notes,
+                 )
+                for p in Panel
+                if p.eq_id == equip_id
+            )[:]
         df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag', 'description', 'edit', 'notes'])
         return df
 
