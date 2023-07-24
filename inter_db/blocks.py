@@ -9,6 +9,12 @@ from models import Equip, Panel, Block
 from utilities import err_handler
 
 
+def delete_block(df):
+    pass
+
+def edit_block(df):
+    pass
+
 def get_filtered_blocks(panel_id):
     try:
         with db_session:
@@ -92,7 +98,7 @@ def blocks_main(act, prev_dict, prev_sel):
 
     if act == 'Create':
         data_to_show
-        create_panel()
+        create_block()
 
     if act == 'View':
         data_to_show
@@ -100,9 +106,9 @@ def blocks_main(act, prev_dict, prev_sel):
     if act == 'Delete':
         edited_df = data_to_show
         if st.button("Delete Equipment"):
-            delete_panel(edited_df)
+            delete_block(edited_df)
 
     if act == 'Edit':
         edited_df = data_to_show
         if st.button("Edit Panel"):
-                edit_panel(edited_df)
+                edit_block(edited_df)
