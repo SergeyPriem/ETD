@@ -79,6 +79,8 @@ def blocks_main(act, prev_dict, prev_sel):
 
     selected_panel = st.selectbox('Select the Panel', panel_list)
 
+    selected_panel_id = None
+
     if selected_panel != 'ALL':
         selected_panel_id = df_to_show_prel[df_to_show_prel.panel_tag == selected_panel].index
 
