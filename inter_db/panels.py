@@ -10,7 +10,26 @@ from utilities import err_handler
 
 
 def delete_panel(df):
-    pass
+    tag_list = df.loc[df.edit.astype('str') == "True", 'panel_tag'].tolist()
+    if tag_list:
+        try:
+            with db_session:
+                for tag in tag_list:
+                    del_row = Panel.get(panel_tag=tag)
+                    if not del_row:
+                        st.toast(f"#### :red[Fail, equipment {tag} not found]")
+                        continue
+                    del_row.delete()
+                    st.toast(f"#### :green[Equipment: {tag} is deleted]")
+        except Exception as e:
+            st.toast(f"#### :red[Can't delete {tag}]")
+            st.toast(f"##### {err_handler(e)}")
+        finally:
+            get_all_panels.clear()
+            st.button("OK", key='panel_deleted')
+    else:
+        st.toast(f"#### :yellow[Select the Panel to delete in column 'edit']")
+
 
 
 def edit_panel(df):
@@ -34,6 +53,9 @@ def edit_panel(df):
         finally:
             get_all_panels.clear()
             st.button("OK", key='eq_updated')
+    else:
+        st.toast(f"#### :yellow[Select the Panel to delete in column 'edit']")
+
 
 
 @st.cache_data(show_spinner=False)
