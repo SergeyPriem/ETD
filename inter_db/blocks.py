@@ -109,7 +109,7 @@ def blocks_main(act, prev_dict, prev_sel):
         data_to_show = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
     else:
         data_to_show = st.write(f"#### :blue[Blocks not available...]")
-        st.stop()
+        # st.stop()
 
     if act == 'Create':
         data_to_show
