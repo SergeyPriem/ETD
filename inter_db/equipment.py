@@ -14,22 +14,10 @@ def edit_equipment(df):
         with db_session:
             try:
                 for ind, row in eq_df.iterrows():
-                    edit_row = Equip[ind]
-                    # if not edit_row:
-                    #     st.toast(f"#### :red[Fail, equipment {str(row.equipment_tag)} not found]")
-                    #     continue
-                    # edit_row.equipment_tag = str(row.equipment_tag),
-                    # edit_row.descr = str(row.descr),
-                    # edit_row.to_del = 0,
-                    # edit_row.notes = str(row.notes)
-                    #
-                    # st.write(row.equipment_tag)
-                    # st.write(row.descr)
-                    # st.write(row.notes)
-                    #
-                    # st.write(edit_row.equipment_tag)
-                    # st.write(edit_row.descr)
-                    # st.write(edit_row.notes)
+                    edit_row = Equip.get(equipment_tag=row.equipment_tag)
+                    if not edit_row:
+                        st.toast(f"#### :red[Fail, equipment {str(row.equipment_tag)} not found]")
+                        continue
 
                     Equip[ind].set(
                         equipment_tag=row.equipment_tag,
