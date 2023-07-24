@@ -53,6 +53,7 @@ def delete_panel(df):
         finally:
             get_all_panels.clear()
             get_filtered_panels.clear()
+            get_panel_tags.clear()
             st.button("OK", key='panel_deleted')
     else:
         st.toast(f"#### :orange[Select the Panel to delete in column 'edit']")
@@ -81,6 +82,7 @@ def edit_panel(df):
         finally:
             get_all_panels.clear()
             get_filtered_panels.clear()
+            get_panel_tags.clear()
             st.button("OK", key='eq_updated')
     else:
         st.toast(f"#### :orange[Select the Panel to edit in column 'edit']")
@@ -91,6 +93,16 @@ def get_eqip_tags():
     try:
         with db_session:
             eq_tags = select(eq.equipment_tag for eq in Equip)[:]
+        return eq_tags
+    except Exception as e:
+        st.toast(err_handler(e))
+
+
+@st.cache_data(show_spinner=False)
+def get_panel_tags():
+    try:
+        with db_session:
+            eq_tags = select(p.panel_un for p in Panel)[:]
         return eq_tags
     except Exception as e:
         st.toast(err_handler(e))
@@ -119,6 +131,7 @@ def create_panel():
             st.toast(f"""#### :green[Panel {panel_tag}: {panel_descr} added!]""")
             get_all_panels.clear()
             get_filtered_panels.clear()
+            get_panel_tags.clear()
             if st.button("OK", key='eq_added'):
                 st.experimental_rerun()
 

@@ -15,6 +15,8 @@ def delete_block(df):
 def edit_block(df):
     pass
 
+
+@st.cache_data(show_spinner=False)
 def get_filtered_blocks(panel_id):
     try:
         with db_session:
@@ -25,37 +27,43 @@ def get_filtered_blocks(panel_id):
                     b.block_tag,
                     b.descr,
                     b.edit,
-                    b.notes)
+                    b.notes,
+                    b.block_un
+                )
                 for b in Block
                 for p in b.pan_id
                 if b.pan_id == panel_id
                  )[:]
-            df = pd.DataFrame(data, columns=['id', 'panel_tag', 'block_tag', 'description', 'edit', 'notes'])
+            df = pd.DataFrame(data, columns=['id', 'panel_tag', 'block_tag', 'description', 'edit',
+                                             'notes', 'block_un'])
             return df
     except Exception as e:
         st.toast(err_handler(e))
 
 def create_block():
-    eqip_tag_list = get_eqip_tags()
+    eqip_tag_list = list(get_eqip_tags())
 
-    with st.form('add_panel'):
-        c1, c2, c3, c4, c5 = st.columns([1, 1, 1, 1.5, 0.5], gap='medium')
-        eq_tag = c1.selectbox('Equipment Tag', eqip_tag_list)
-        panel_tag = c2.text_input('Panel Tag')
-        panel_descr = c3.text_input('Panel Description')
-        panel_notes = c4.text_input('Notes')
+    with st.form('add_block'):
+        c2, c3, c4, c5 = st.columns([1, 1, 1.5, 0.5], gap='medium')
+        # eq_tag = c1.selectbox('Equipment Tag', eqip_tag_list)
+        panel_tag = c2.selectbox('Panel Tag', eqip_tag_list)
+        block_tag = c3.text_input('Block Tag')
+        block_descr = c3.text_input('Block Description')
+        block_notes = c4.text_input('Notes')
         c5.text('')
         c5.text('')
-        pan_but = c5.form_submit_button("Add", use_container_width=True)
+        block_but = c5.form_submit_button("Add", use_container_width=True)
 
-    if all([pan_but, len(eq_tag), len(panel_tag), len(panel_descr)]):
+    if all([block_but, len(panel_tag), len(block_tag)]):
         try:
             with db_session:
-                eq_id = Equip.get(equipment_tag=eq_tag)
-                Panel(eq_id=eq_id, panel_tag=panel_tag, descr=panel_descr, edit=False, notes=panel_notes)
+                pan_id = Panel.get(panel_un=panel_tag)
+                Block(pan_id=pan_id, block_tag=block_tag, descr=block_descr, edit=False,
+                      notes=block_notes, block_un=str(panel_tag)+":"+str(block_tag))
 
-            st.toast(f"""#### :green[Panel {panel_tag}: {panel_descr} added!]""")
+            st.toast(f"""#### :green[Block {str(panel_tag)+":"+str(block_tag)} added!]""")
             get_all_blocks.clear()
+            get_filtered_blocks.clear()
             if st.button("OK", key='eq_added'):
                 st.experimental_rerun()
 
