@@ -40,7 +40,9 @@ def create_panel():
     if all([pan_but, len(eq_tag), len(panel_tag), len(panel_descr)]):
         with db_session:
             try:
-                eq_id = select(eq.id for eq in Equip if eq.equipment_tag == eq_tag)
+                # eq_id = select(eq.id for eq in Equip if eq.equipment_tag == eq_tag)
+                eq_id = Equip.get(equipment_tag=eq_tag)
+
                 Panel(eq_id=eq_id, panel_tag=panel_tag, descr=panel_descr, to_del=False, notes=panel_notes)
                 st.toast(f"""#### :orange[Panel {panel_tag}: {panel_descr} added!]""")
                 if st.button("OK", key='eq_added'):
