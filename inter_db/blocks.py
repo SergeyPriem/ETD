@@ -88,9 +88,9 @@ def get_selected_blocks(panel_un):
                 for b in Block if panel_un in b.block_un
             )[:]
 
-            df =  pd.DataFrame(data, columns=['id', 'panel_tag', 'block_tag', 'description',
+            df = pd.DataFrame(data, columns=['id', 'panel_tag', 'block_tag', 'description',
                                              'edit', 'notes', 'block_un'])
-
+            return df
     except Exception as e:
         st.toast(err_handler(e))
 
@@ -103,7 +103,7 @@ def blocks_main(act, prev_dict, prev_sel):
 
     pan_tag_list = list(get_panel_tags())
 
-    selected_panel = c1.selectbox('Select the Equipment', pan_tag_list)
+    selected_panel = c1.selectbox('Select the Panel', pan_tag_list)
 
     df_to_show = get_selected_blocks(selected_panel)
 
