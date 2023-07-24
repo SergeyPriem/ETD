@@ -17,12 +17,12 @@ def delete_block(df):
                 for tag in block_list:
                     del_row = Block.get(block_un=tag)
                     if not del_row:
-                        st.toast(f"#### :red[Fail, Terminal Block {tag} not found]")
+                        st.toast(f"#### :red[Fail, Terminal Block {del_row.block_tag} not found]")
                         continue
                     del_row.delete()
-                    st.toast(f"#### :green[Terminal Block: {tag} is deleted]")
+                    st.toast(f"#### :green[Terminal Block: {del_row.block_tag} is deleted]")
         except Exception as e:
-            st.toast(f"#### :red[Can't delete {tag}]")
+            st.toast(f"#### :red[Can't delete {del_row.block_tag}]")
             st.toast(f"##### {err_handler(e)}")
         finally:
             get_all_blocks.clear()
