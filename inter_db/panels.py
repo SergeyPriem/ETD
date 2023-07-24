@@ -25,7 +25,7 @@ def edit_panel(df):
                         st.toast(f"#### :red[Fail, Panel: {(row.panel_tag)} not found]")
                         continue
 
-                    edit_row.set(equipment_tag=row.equipment_tag, description=row.descr, notes=row.notes)
+                    edit_row.set(equipment_tag=row.equipment_tag, descr=row.description, notes=row.notes)
 
             st.toast(f"#### :green[Panel: {row.panel_tag} is updated]")
         except Exception as e:
