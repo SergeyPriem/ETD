@@ -45,7 +45,7 @@ def edit_block(df):
                         st.toast(f"#### :red[Fail, Terminal Block: {row.block_un} not found]")
                         continue
                     pan_id = Panel.get(panel_un=row.panel_tag)
-                    edit_row.set(pam_id=pan_id, block_tag=row.block_tag, descr=row.description,
+                    edit_row.set(pan_id=pan_id, block_tag=row.block_tag, descr=row.description,
                                  notes=row.notes, block_un=str(row.panel_tag)+":"+str(row.block_tag))
                     st.toast(f"#### :green[Panel: {row.panel_tag} is updated]")
         except Exception as e:
