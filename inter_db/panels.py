@@ -22,14 +22,14 @@ def edit_panel(df):
                 for ind, row in pan_df.iterrows():
                     edit_row = Panel.get(panel_tag=row.panel_tag)
                     if not edit_row:
-                        st.toast(f"#### :red[Fail, Panel: {str(row.equipment_tag)} not found]")
+                        st.toast(f"#### :red[Fail, Panel: {(row.panel_tag)} not found]")
                         continue
 
                     edit_row.set(equipment_tag=row.equipment_tag, descr=row.descr, notes=row.notes)
 
-            st.toast(f"#### :green[Equipment: {str(row.equipment_tag)} is updated]")
+            st.toast(f"#### :green[Panel: {row.panel_tag} is updated]")
         except Exception as e:
-            st.toast(f"Can't update {str(row.equipment_tag)}")
+            st.toast(f"Can't update {row.panel_tag}")
             st.toast(f"##### {err_handler(e)}")
         finally:
             get_all_panels.clear()
