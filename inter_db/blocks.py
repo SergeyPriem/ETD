@@ -46,7 +46,7 @@ def create_block(panel_tag):
     with st.form('add_block'):
         c1, c2, c3, c4, c5 = st.columns([1, 1, 1, 1.5, 0.5], gap='medium')
         # eq_tag = c1.selectbox('Equipment Tag', eqip_tag_list)
-        # panel_tag = c1.selectbox('Panel Tag', pan_tag_list)
+        st.text_input('Panel Tag', value=panel_tag, disabled=True)
         block_tag = c2.text_input('Block Tag')
         block_descr = c3.text_input('Block Description')
         block_notes = c4.text_input('Notes')
