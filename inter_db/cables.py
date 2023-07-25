@@ -34,7 +34,7 @@ def get_filtered_cables(left_pan, right_pan):
                  c.notes,
                  )
                  for c in Cable
-                 if (left_pan_id in c.left_pan_id) and (right_pan_id in c.right_pan_id))[:]
+                 if (left_pan_id in left_pan_id.panel_un) and (right_pan_id in c.right_pan_id.panel_un))[:]
 
             df = pd.DataFrame(data, columns=['id', 'cable_tag', 'purpose', 'type', 'wire', 'section',
                                              'left_pan_tag', 'right_pan_tag', 'edit', 'notes',])
