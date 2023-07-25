@@ -11,6 +11,7 @@ from streamlit_option_menu import option_menu
 
 from admin_tools import manage_projects
 from drawing_sets_tab import drawing_sets, manage_units
+from inter_db.read_all_tabs import get_all_cables
 from just_for_fun_tab import manual
 from lesson_learned_tab import lessons_content
 from models import Users, Task, Trans, VisitLog, Action
@@ -1047,6 +1048,8 @@ def services():
     c1, c2 = st.columns(2)
     if c1.button(f"### :red[Clear Data Cache]"): st.cache_data.clear()
     if c2.button(f"### :red[Clear Resource Cache]"): st.cache_resource.clear()
+
+    st.write(get_all_cables())
 
 
 def download_file(file_name, rc):
