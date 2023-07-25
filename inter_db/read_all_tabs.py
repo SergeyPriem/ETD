@@ -87,7 +87,7 @@ def get_all_terminals():
             return err_handler(e)
 
 
-@st.cache_data(show_spinner=False)
+# @st.cache_data(show_spinner=False)
 def get_all_cables():
     # try:
     #     with db_session:
