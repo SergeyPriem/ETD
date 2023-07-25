@@ -93,7 +93,7 @@ def get_all_cables():
         with db_session:
             data = select(
                 (c.id,
-                 # c.cable_tag,
+                 c.cable_tag,
                  # c.purpose_id.circuit_descr,
                  # c.type_id.cab_type,
                  # c.wires.wire_num,
@@ -108,7 +108,7 @@ def get_all_cables():
 
         df = pd.DataFrame(data, columns=[
             'id',
-            # 'cable_tag',
+            'cable_tag',
             # 'purpose',
             # 'type',
             # 'wire',
