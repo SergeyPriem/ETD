@@ -104,7 +104,7 @@ def get_all_cables():
                  c.edit,
                  c.notes,
                  )
-                 for c in Cable)[:]
+                for c in Cable)[:]
 
             df = pd.DataFrame(data, columns=[
                 'id',
@@ -118,7 +118,7 @@ def get_all_cables():
                 'right_pan_tag',
                 'edit',
                 'notes',
-                ])
+            ])
             return df
         except Exception as e:
             return err_handler(e)

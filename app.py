@@ -1044,6 +1044,9 @@ def services():
     n = gc.collect()
     serv_cont.markdown(f"### :red[Number of unreachable objects collected by GC: {n}]")
     serv_cont.markdown(f"#### :red[Uncollected garbage: {gc.garbage}]")
+    c1, c2 = st.columns(2)
+    if c1.button(f"### :red[Clear Data Cache]"): st.cache_data.clear()
+    if c2.button(f"### :red[Clear Resource Cache]"): st.cache_resource.clear()
 
 
 def download_file(file_name, rc):
@@ -1105,7 +1108,6 @@ def win_selector(selected):
         "Units": manage_units,
         "Service": services,
     }
-
 
     tab_dict.get(selected)()
 
