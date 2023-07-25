@@ -19,28 +19,27 @@ def edit_cable(edited_df):
 @st.cache_data(show_spinner=False)
 def get_filtered_cables(left_pan, right_pan):
     try:
-        with db_session:
-            left_pan_id = Panel.get(panel_un=left_pan)
-            right_pan_id = Panel.get(panel_un=right_pan)
-            # left_pan_id = left_pan_int.get_pk()
-            # right_pan_id = right_pan_int.get_pk()
-            data = select(
-                (c.id,
-                 c.cable_tag,
-                 c.purpose_id.circuit_descr,
-                 c.type_id.cab_type,
-                 c.wires_id.wire_num,
-                 c.sect_id.section,
-                 c.left_pan_id.panel_un,
-                 c.right_pan_id.panel_un,
-                 c.edit,
-                 c.notes,
-                 )
-                for c in Cable
-                if (left_pan in c.left_pan_id.panel_un) and (right_pan in c.right_pan_id.panel_un))[:]
 
-            df = pd.DataFrame(data, columns=['id', 'cable_tag', 'purpose', 'type', 'wire', 'section',
-                                             'left_pan_tag', 'right_pan_tag', 'edit', 'notes', ])
+        with db_session:
+            # left_pan_id = Panel.get(panel_un=left_pan)
+            # right_pan_id = Panel.get(panel_un=right_pan)
+            # # left_pan_id = left_pan_int.get_pk()
+            # # right_pan_id = right_pan_int.get_pk()
+            if left_pan and right_pan:
+                data = select(
+                    (c.id, c.cable_tag, c.purpose_id.circuit_descr, c.type_id.cab_type, c.wires_id.wire_num,
+                     c.sect_id.section, c.left_pan_id.panel_un, c.right_pan_id.panel_un, c.edit, c.notes,)
+                    for c in Cable
+                    if (left_pan in c.left_pan_id.panel_un) and (right_pan in c.right_pan_id.panel_un))[:]
+            else:
+                data = select(
+                    (c.id, c.cable_tag, c.purpose_id.circuit_descr, c.type_id.cab_type, c.wires_id.wire_num,
+                     c.sect_id.section, c.left_pan_id.panel_un, c.right_pan_id.panel_un, c.edit, c.notes,)
+                    for c in Cable)[:]
+
+
+                df = pd.DataFrame(data, columns=['id', 'cable_tag', 'purpose', 'type', 'wire', 'section',
+                                                 'left_pan_tag', 'right_pan_tag', 'edit', 'notes', ])
 
             return df
     except Exception as e:
