@@ -7,13 +7,16 @@ from inter_db.panels import get_eqip_tags, get_filtered_panels, get_panel_tags
 from models import Cable, Cab_purpose, Cab_types, Cab_wires, Cab_sect, Panel
 from utilities import err_handler, tab_to_df
 
+
 def delete_cable(edited_df):
     pass
+
 
 def edit_cable(edited_df):
     pass
 
 
+@st.cache_data(show_spinner=False)
 def get_filtered_cables(left_pan, right_pan):
     try:
         with db_session:
@@ -33,11 +36,11 @@ def get_filtered_cables(left_pan, right_pan):
                  c.edit,
                  c.notes,
                  )
-                 for c in Cable
-                 if (left_pan in c.left_pan_id.panel_un) and (right_pan in c.right_pan_id.panel_un))[:]
+                for c in Cable
+                if (left_pan in c.left_pan_id.panel_un) and (right_pan in c.right_pan_id.panel_un))[:]
 
             df = pd.DataFrame(data, columns=['id', 'cable_tag', 'purpose', 'type', 'wire', 'section',
-                                             'left_pan_tag', 'right_pan_tag', 'edit', 'notes',])
+                                             'left_pan_tag', 'right_pan_tag', 'edit', 'notes', ])
 
             return df
     except Exception as e:
@@ -63,9 +66,9 @@ def create_cable(pan_tag_list):
         wire_section = c1.selectbox('Wires Quantity', wire_sections)
         add_cab_but = st.form_submit_button("Add Cable")
 
-
     if left_pan == right_pan:
         st.warning("Left and Right panels should be different")
+
 
 def cables_main(act, prev_dict, prev_sel):
     pan_tag_list = list(get_panel_tags())
@@ -105,8 +108,6 @@ def cables_main(act, prev_dict, prev_sel):
         edited_df = data_to_show
         # if st.button("Edit Panel"):
         #     edit_cable(edited_df)
-
-
 
 # def delete_cable(cab_to_del_list):
 #     st.session_state.intercon['cable'] = \
