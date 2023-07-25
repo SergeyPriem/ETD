@@ -89,8 +89,8 @@ def get_all_terminals():
 
 @st.cache_data(show_spinner=False)
 def get_all_cables():
-    with db_session:
-        try:
+    try:
+        with db_session:
             data = select(
                 (c.id,
                  c.cable_tag,
@@ -106,19 +106,19 @@ def get_all_cables():
                  )
                 for c in Cable)[:]
 
-            df = pd.DataFrame(data, columns=[
-                'id',
-                'cable_tag',
-                'purpose',
-                'type',
-                'wire',
-                'section',
-                'wires_num',
-                'left_pan_tag',
-                'right_pan_tag',
-                'edit',
-                'notes',
-            ])
-            return df
-        except Exception as e:
-            return err_handler(e)
+        df = pd.DataFrame(data, columns=[
+            'id',
+            'cable_tag',
+            'purpose',
+            'type',
+            'wire',
+            'section',
+            'wires_num',
+            'left_pan_tag',
+            'right_pan_tag',
+            'edit',
+            'notes',
+        ])
+        return df
+    except Exception as e:
+        return err_handler(e)
