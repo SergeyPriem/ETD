@@ -17,8 +17,8 @@ def edit_cable(edited_df):
 def get_filtered_cables(left_pan, right_pan):
     try:
         with db_session:
-            left_pan_id = Panel[left_pan].panel_un
-            right_pan_id = Panel[right_pan].panel_un
+            left_pan_id = Panel.get(panel_un=left_pan).id
+            right_pan_id = Panel.get(panel_un=right_pan).id
             data = select(
                 (c.id,
                  c.cable_tag,
