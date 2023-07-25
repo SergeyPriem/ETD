@@ -38,7 +38,7 @@ def get_filtered_cables(left_pan, right_pan):
                     for c in Cable)[:]
 
 
-                df = pd.DataFrame(data, columns=['id', 'cable_tag', 'purpose', 'type', 'wire', 'section',
+            df = pd.DataFrame(data, columns=['id', 'cable_tag', 'purpose', 'type', 'wire', 'section',
                                                  'left_pan_tag', 'right_pan_tag', 'edit', 'notes', ])
 
             return df
