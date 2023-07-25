@@ -96,17 +96,29 @@ def get_all_cables():
                  c.cable_tag,
                  c.purpose_id.circuit_descr,
                  c.type_id.cab_type,
-                 c.wires_id.wire_num,
+                 c.wires.wire_num,
                  c.sect_id.section,
-                 c.left_pan_id.panel_tag,
-                 c.right_pan_id.panel_tag,
+                 c.wires_id.wire_num,
+                 c.left_pan_id.panel_un,
+                 c.right_pan_id.panel_un,
+                 c.edit,
                  c.notes,
-                 c.edit
                  )
-                for c in Cable
-            )[:]
-            df = pd.DataFrame(data, columns=['id', 'cable_tag', 'cable_purpose', 'cable_type', 'wires_number',
-                                             'wire_section', 'left_panel', 'right_panel', 'notes', 'edit'])
+                 for c in Cable)[:]
+
+            df = pd.DataFrame(data, columns=[
+                'id',
+                'cable_tag',
+                'purpose',
+                'type',
+                'wire',
+                'section',
+                'wires_num',
+                'left_pan_tag',
+                'right_pan_tag',
+                'edit',
+                'notes',
+                ])
             return df
         except Exception as e:
             return err_handler(e)

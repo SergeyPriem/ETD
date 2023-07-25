@@ -4,7 +4,7 @@ import streamlit as st
 from pony.orm import db_session, select
 
 from inter_db.panels import get_eqip_tags, get_filtered_panels, get_panel_tags
-from models import Cable, Cab_purpose, Cab_types, Cab_wires, Cab_sect
+from models import Cable, Cab_purpose, Cab_types, Cab_wires, Cab_sect, Panel
 from utilities import err_handler, tab_to_df
 
 def delete_cable(edited_df):
@@ -14,12 +14,41 @@ def edit_cable(edited_df):
     pass
 
 
-def get_filtered_cables(panel_un):
+def get_filtered_cables(left_pan, right_pan):
     try:
         with db_session:
-            data = select(c for c in Cable if (panel_un == c.left_pan_id) or (panel_un == c.right_pan_id))[:]
+            left_pan_id = Panel[left_pan].panel_un
+            right_pan_id = Panel[right_pan].panel_un
+            data = select(
+                (c.id,
+                 c.cable_tag,
+                 c.purpose_id.circuit_descr,
+                 c.type_id.cab_type,
+                 c.wires.wire_num,
+                 c.sect_id.section,
+                 c.wires_id.wire_num,
+                 c.left_pan_id.panel_un,
+                 c.right_pan_id.panel_un,
+                 c.edit,
+                 c.notes,
+                 )
+                 for c in Cable
+                 if (left_pan_id == c.left_pan_id) and (right_pan_id == c.right_pan_id))[:]
 
-            df = tab_to_df(data)
+            df = pd.DataFrame(data, columns=[
+                'id',
+                'cable_tag',
+                'purpose',
+                'type',
+                'wire',
+                'section',
+                'wires_num',
+                'left_pan_tag',
+                'right_pan_tag',
+                'edit',
+                'notes',
+                ])
+
             return df
     except Exception as e:
         st.toast(err_handler(e))
@@ -51,12 +80,15 @@ def create_cable(pan_tag_list):
 def cables_main(act, prev_dict, prev_sel):
     pan_tag_list = list(get_panel_tags())
     pan_tag_list.insert(0, 'ALL')
-    selected_pan = st.selectbox('Select the Equipment', pan_tag_list)
 
-    if pan_tag_list == 'ALL' and act != 'Select required:':
+    c1, c2 = st.columns(2, gap='medium')
+    selected_pan_left = c1.selectbox('Select Left Panel', pan_tag_list)
+    selected_pan_right = c2.selectbox('Select Right Panel', pan_tag_list)
+
+    if all([selected_pan_left == 'ALL', selected_pan_right == 'ALL', act != 'Select required:']):
         df_to_show = prev_dict[prev_sel]()
     else:
-        df_to_show = get_filtered_cables(selected_pan)
+        df_to_show = get_filtered_cables(selected_pan_left, selected_pan_right)
 
     if isinstance(df_to_show, pd.DataFrame):
         data_to_show = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
