@@ -1,16 +1,91 @@
 ﻿# -*- coding: utf-8 -*-
 import pandas as pd
 import streamlit as st
+from pony.orm import db_session, select
 
+from inter_db.panels import get_eqip_tags, get_filtered_panels, get_panel_tags
+from models import Cable, Cab_purpose, Cab_types, Cab_wires, Cab_sect
+from utilities import err_handler, tab_to_df
 
-def cables_main(act, prev_dict, prev_sel):
+def delete_cable(edited_df):
+    pass
+
+def edit_cable(edited_df):
     pass
 
 
-def delete_cable(cab_to_del_list):
-    st.session_state.intercon['cable'] = \
-        st.session_state.intercon['cable'][~st.session_state.intercon['cable'].cab_tag.isin(cab_to_del_list)]
-    st.experimental_rerun()
+def get_filtered_cables(panel_un):
+    try:
+        with db_session:
+            data = select(c for c in Cable if (panel_un == c.left_pan_id) or (panel_un == c.right_pan_id))[:]
+
+            df = tab_to_df(data)
+            return df
+    except Exception as e:
+        st.toast(err_handler(e))
+
+
+def create_cable(pan_tag_list):
+    c1, c2 = st.columns(2, gap='medium')
+    with db_session:
+        cab_puproses = select(cp.circuit_descr for cp in Cab_purpose)[:]
+        cab_types = select(ct.cab_type for ct in Cab_types)[:]
+        wire_numbers = select(w.wire_num for w in Cab_wires)[:]
+        wire_sections = select(s.section for s in Cab_sect)[:]
+
+    with st.form('add_cab'):
+        left_pan = c1.selectbox("Select Left Panel", pan_tag_list)
+        right_pan = c2.selectbox("Select Left Panel", pan_tag_list)
+
+        cab_tag = c1.text_input("Cable Tag")
+        cab_purpose = c2.selectbox('Cable Purpose', cab_puproses)
+        cab_type = c1.selectbox('Cable Type', cab_types)
+        wire_number = c2.selectbox('Wires Quantity', wire_numbers)
+        wire_section = c1.selectbox('Wires Quantity', wire_sections)
+        add_cab_but = st.form_submit_button("Add Cable")
+
+
+    if left_pan == right_pan:
+        st.warning("Left and Right panels should be different")
+
+def cables_main(act, prev_dict, prev_sel):
+    pan_tag_list = list(get_panel_tags())
+    pan_tag_list.insert(0, 'ALL')
+    selected_pan = st.selectbox('Select the Equipment', pan_tag_list)
+
+    if pan_tag_list == 'ALL' and act != 'Select required:':
+        df_to_show = prev_dict[prev_sel]()
+    else:
+        df_to_show = get_filtered_cables(selected_pan)
+
+    if isinstance(df_to_show, pd.DataFrame):
+        data_to_show = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
+    else:
+        data_to_show = st.write(f"#### :blue[Panels not available...]")
+        st.stop()
+
+    if act == 'Create':
+        data_to_show
+        create_cable(pan_tag_list)
+
+    if act == 'View':
+        data_to_show
+
+    if act == 'Delete':
+        edited_df = data_to_show
+        if st.button("Delete Equipment"):
+            delete_cable(edited_df)
+
+    if act == 'Edit':
+        edited_df = data_to_show
+        if st.button("Edit Panel"):
+            edit_cable(edited_df)
+
+
+# def delete_cable(cab_to_del_list):
+#     st.session_state.intercon['cable'] = \
+#         st.session_state.intercon['cable'][~st.session_state.intercon['cable'].cab_tag.isin(cab_to_del_list)]
+#     st.experimental_rerun()
 
 
 def save_cables(df, full_pan_tag_left, full_pan_tag_right):

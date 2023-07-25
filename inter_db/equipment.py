@@ -23,9 +23,9 @@ def edit_equipment(df):
 
                         edit_row.set(equipment_tag=row.equipment_tag,descr=row.descr,notes=row.notes)
                         st.toast(f"#### :green[Equipment: {str(row.equipment_tag)} is updated]")
-            # except Exception as e:
-            #     st.toast(f"Can't update {str(row.equipment_tag)}")
-            #     st.toast(f"##### {err_handler(e)}")
+            except Exception as e:
+                st.toast(f"Can't update {str(row.equipment_tag)}")
+                st.toast(f"##### {err_handler(e)}")
             except IntegrityError as e2:
                 st.toast(f"#### :red[Equipment {str(row.equipment_tag)} already exists...]")
                 st.toast(f"##### {err_handler(e2)}")

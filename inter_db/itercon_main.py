@@ -4,6 +4,7 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 
 from inter_db.blocks import blocks_main
+from inter_db.cables import cables_main
 from inter_db.equipment import create_equipment, delete_equipment, edit_equipment, equipment_main
 from inter_db.panels import panels_main
 from inter_db.read_all_tabs import get_all_equip, get_all_panels, get_all_blocks, get_all_terminals, get_all_cables
