@@ -98,20 +98,20 @@ def cables_main(act, prev_dict, prev_sel):
 
     if act == 'Create':
         data_to_show
-        create_cable(pan_tag_list)
+        # create_cable(pan_tag_list)
 
     if act == 'View':
         data_to_show
 
     if act == 'Delete':
         edited_df = data_to_show
-        if st.button("Delete Equipment"):
-            delete_cable(edited_df)
+        # if st.button("Delete Equipment"):
+        #     delete_cable(edited_df)
 
     if act == 'Edit':
         edited_df = data_to_show
-        if st.button("Edit Panel"):
-            edit_cable(edited_df)
+        # if st.button("Edit Panel"):
+        #     edit_cable(edited_df)
 
 
 
