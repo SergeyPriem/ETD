@@ -99,9 +99,9 @@ def get_all_cables():
                  # c.wires.wire_num,
                  # c.sect_id.section,
                  # c.wires_id.wire_num,
-                 # c.left_pan_id.panel_un,
-                 # c.right_pan_id.panel_un,
-                 # c.edit,
+                 c.left_pan_id.panel_un,
+                 c.right_pan_id.panel_un,
+                 c.edit,
                  c.notes,
                  )
                 for c in Cable)[:]
@@ -114,9 +114,9 @@ def get_all_cables():
             # 'wire',
             # 'section',
             # 'wires_num',
-            # 'left_pan_tag',
-            # 'right_pan_tag',
-            # 'edit',
+            'left_pan_tag',
+            'right_pan_tag',
+            'edit',
             'notes',
         ])
         return df
