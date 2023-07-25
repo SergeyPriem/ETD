@@ -3,6 +3,10 @@ import pandas as pd
 import streamlit as st
 
 
+def cables_main(act, prev_dict, prev_sel):
+    pass
+
+
 def delete_cable(cab_to_del_list):
     st.session_state.intercon['cable'] = \
         st.session_state.intercon['cable'][~st.session_state.intercon['cable'].cab_tag.isin(cab_to_del_list)]

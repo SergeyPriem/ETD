@@ -1256,7 +1256,7 @@ def footer(reply):
             "telegram:&nbsp&nbsp+998&nbsp90&nbsp959&nbsp80&nbsp30"
             "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "
             "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-            f"Current&nbspMode:&nbsp&nbsp'{st.session_state.proj_scope}'"
+            f"Mode:&nbsp&nbsp'{st.session_state.proj_scope}'"
             "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "
         ]
 
