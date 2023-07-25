@@ -1,7 +1,8 @@
 ﻿# -*- coding: utf-8 -*-
 import pandas as pd
 import streamlit as st
-from pony.orm import db_session, select
+from pony.orm import db_session, select, IntegrityError
+
 
 from inter_db.panels import get_eqip_tags
 from inter_db.read_all_tabs import get_all_equip
@@ -11,22 +12,25 @@ from utilities import err_handler
 
 def edit_equipment(df):
     eq_df = df[df.edit.astype('str') == "True"]
-
     if len(eq_df):
-        with db_session:
             try:
-                for ind, row in eq_df.iterrows():
-                    edit_row = Equip[ind]
-                    if not edit_row:
-                        st.toast(f"#### :red[Fail, equipment {str(row.equipment_tag)} not found]")
-                        continue
+                with db_session:
+                    for ind, row in eq_df.iterrows():
+                        edit_row = Equip[ind]
+                        if not edit_row:
+                            st.toast(f"#### :red[Fail, equipment {str(row.equipment_tag)} not found]")
+                            continue
 
-                    edit_row.set(equipment_tag=row.equipment_tag,descr=row.descr,notes=row.notes)
+                        edit_row.set(equipment_tag=row.equipment_tag,descr=row.descr,notes=row.notes)
 
-                    st.toast(f"#### :green[Equipment: {str(row.equipment_tag)} is updated]")
+                        st.toast(f"#### :green[Equipment: {str(row.equipment_tag)} is updated]")
             except Exception as e:
                 st.toast(f"Can't update {str(row.equipment_tag)}")
                 st.toast(f"##### {err_handler(e)}")
+            except IntegrityError as e2:
+                st.toast(f"Can't update {str(row.equipment_tag)}")
+                st.toast(f"##### {err_handler(e2)}")
+
             finally:
                 get_all_equip.clear()
                 get_eqip_tags.clear()
