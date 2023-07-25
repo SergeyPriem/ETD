@@ -186,13 +186,13 @@ def db_func():
         cable_tag = Required(str, 100, unique=True)
         purpose_id = Required('Cab_purpose')
         type_id = Required('Cab_types')
-        wires = Set('Wire')
         sect_id = Required('Cab_sect')
         wires_id = Required('Cab_wires')
         left_pan_id = Required(Panel, reverse='cables_l')
         right_pan_id = Required(Panel, reverse='cables_r')
         edit = Required(bool, default=False)
         notes = Optional(str)
+        wires = Set('Wire')
 
     class Wire(db_int.Entity):
         id = PrimaryKey(int, size=64, auto=True)
