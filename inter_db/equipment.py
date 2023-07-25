@@ -27,7 +27,7 @@ def edit_equipment(df):
             #     st.toast(f"Can't update {str(row.equipment_tag)}")
             #     st.toast(f"##### {err_handler(e)}")
             except IntegrityError as e2:
-                st.toast(f"Equipment {str(row.equipment_tag)} already exists...")
+                st.toast(f"#### :red[Equipment {str(row.equipment_tag)} already exists...]")
                 st.toast(f"##### {err_handler(e2)}")
             finally:
                 get_all_equip.clear()
