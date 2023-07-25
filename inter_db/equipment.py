@@ -16,7 +16,7 @@ def edit_equipment(df):
         with db_session:
             try:
                 for ind, row in eq_df.iterrows():
-                    edit_row = Equip[row.index]
+                    edit_row = Equip[ind]
                     if not edit_row:
                         st.toast(f"#### :red[Fail, equipment {str(row.equipment_tag)} not found]")
                         continue
