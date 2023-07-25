@@ -34,7 +34,7 @@ def get_filtered_cables(left_pan, right_pan):
                  c.notes,
                  )
                  for c in Cable
-                 if (left_pan_id == c.left_pan_id) and (right_pan_id == c.right_pan_id))[:]
+                 if (left_pan_id in c.left_pan_id) and (right_pan_id in c.right_pan_id))[:]
 
             df = pd.DataFrame(data, columns=['id', 'cable_tag', 'purpose', 'type', 'wire', 'section',
                                              'left_pan_tag', 'right_pan_tag', 'edit', 'notes',])
@@ -72,8 +72,11 @@ def cables_main(act, prev_dict, prev_sel):
     pan_tag_list.insert(0, 'ALL')
 
     c1, c2 = st.columns(2, gap='medium')
-    selected_pan_left = c1.selectbox('Select Left Panel', pan_tag_list)
-    selected_pan_right = c2.selectbox('Select Right Panel', pan_tag_list)
+    # selected_pan_left = c1.selectbox('Select Left Panel', pan_tag_list)
+    # selected_pan_right = c2.selectbox('Select Right Panel', pan_tag_list)
+
+    selected_pan_left = c1.text_input('Select Left Panel')
+    selected_pan_right = c2.text_input('Select Right Panel')
 
     if all([selected_pan_left == 'ALL', selected_pan_right == 'ALL', act != 'Select required:']):
         df_to_show = prev_dict[prev_sel]()
