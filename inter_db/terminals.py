@@ -18,7 +18,7 @@ def delete_terminals(df):
                 for tag in term_list:
                     del_row = Terminal.get(terminal_un=tag)
                     if not del_row:
-                        st.toast(f"#### :red[Fail, Terminal {tag} not found]")
+                        st.toast(f"##### :red[Fail, Terminal {tag} not found]")
                         continue
                     del_row.delete()
                     list_deleted.append(tag)
