@@ -72,7 +72,6 @@ def edit_panel(df):
                         st.toast(f"#### :red[Fail, Panel: {row.panel_tag} not found]")
                         continue
 
-
                     edit_row.set(eq_id=eq_id, panel_tag=row.panel_tag, descr=row.description,
                                  notes=row.notes, panel_un=str(row.equipment_tag)+":"+str(row.panel_tag))
                     st.toast(f"#### :green[Panel: {row.panel_tag} is updated]")

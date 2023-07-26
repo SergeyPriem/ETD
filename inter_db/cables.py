@@ -32,8 +32,47 @@ def delete_cable(df):
         st.toast(f"#### :orange[Select the Cable to delete in column 'edit']")
 
 
-def edit_cable(edited_df):
-    pass
+def edit_cable(df):
+    cables_df = df[df.edit.astype('str') == "True"]
+
+    if len(cables_df):
+        try:
+            with db_session:
+                for ind, row in cables_df.iterrows():
+                    edit_row = Cable[ind]
+                    # eq_id = Equip.get(equipment_tag=row.equipment_tag).id
+                    if not edit_row:
+                        st.toast(f"#### :red[Fail, Cable: {row.cable_tag} not found]")
+                        continue
+
+                    purpose = Cab_purpose.get(circuit_descr=row.purpose)
+                    c_type = Cab_types.get(cab_type=row.type)
+                    c_wires = Cab_wires.get(wire_num=row.wire)
+                    c_sect = Cab_sect.get(section=row.section)
+                    left_pan = Panel.get(panel_un=left_pan)
+                    right_pan = Panel.get(panel_un=right_pan)
+
+                    edit_row.set(
+                        cable_tag=row.cable_tag,
+                        purpose_id=purpose,
+                        type_id=c_type,
+                        wires_id=c_wires,
+                        sect_id=c_sect,
+                        left_pan_id=left_pan,
+                        right_pan_id=right_pan,
+                        edit=False,
+                        notes=row.notes,
+                    )
+                    st.toast(f"#### :green[Cable: {row.cable_tag} is updated]")
+        except Exception as e:
+            st.toast(f"Can't update {row.cable_tag}")
+            st.toast(f"##### {err_handler(e)}")
+        finally:
+            get_filtered_cables.clear()
+            get_all_cables.clear()
+            st.button("OK", key='cables_updated')
+    else:
+        st.toast(f"#### :orange[Select the Cables to edit in column 'edit']")
 
 
 @st.cache_data(show_spinner=False)
@@ -80,11 +119,6 @@ def get_cab_params():
 
 
 def create_cable(pan_tag_list):
-    # with db_session:
-    #     cab_puproses = select(cp.circuit_descr for cp in Cab_purpose)[:]
-    #     cab_types = select(ct.cab_type for ct in Cab_types)[:]
-    #     wire_numbers = select(w.wire_num for w in Cab_wires)[:]
-    #     wire_sections = select(s.section for s in Cab_sect)[:]
 
     cab_purposes, cab_types, wire_numbers, wire_sections = get_cab_params()
 
