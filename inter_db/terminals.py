@@ -41,9 +41,9 @@ def edit_terminals(df, block_un):
                         notes=row.notes,
                         terminal_un=str(block_un)+":"+str(row.terminal_num),
                     )
-                    st.toast(f"#### :green[Cable: {row.cable_tag} is updated]")
+                    st.toast(f"#### :green[Terminal: {row.terminal_num} is updated]")
         except Exception as e:
-            st.toast(f"Can't update {row.cable_tag}")
+            st.toast(f"Can't update {row.terminal_num}")
             st.toast(f"##### {err_handler(e)}")
         finally:
             get_filtered_terminals.clear()
