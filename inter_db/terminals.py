@@ -129,7 +129,7 @@ def terminals_main(act, prev_dict, prev_sel):
 
         terminals = convert_txt_to_list(terminals_str)
 
-        if all([c2.button("Add Trminals", use_container_width=True), len(terminals)]):
+        if all([c2.button("Add Trminals", use_container_width=True), len(terminals), isinstance(terminals, list)]):
             create_terminals(selected_block, terminals)
 
     if act == 'View':
