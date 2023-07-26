@@ -6,7 +6,27 @@ import pandas as pd
 
 from inter_db.panels import get_eqip_tags, get_filtered_panels
 from models import Terminal, Block
-from utilities import err_handler, tab_to_df
+from utilities import err_handler, tab_to_df, convert_txt_to_list
+
+
+def create_terminals(block_un, terminals):
+    try:
+        with db_session:
+            block = Block.get(block_un=block_un)
+            terminals = [10, 11, 12]
+            for t in terminals:
+                Terminal(
+                    block_id=block,
+                    terminal_num=t,
+                    int_circuit=None,
+                    int_link=None,
+                    edit=False,
+                    notes='',
+                    terminal_un=str(block_un)+":"+t,
+                )
+
+    except Exception as e:
+        st.toast(err_handler(e))
 
 
 @st.cache_data(show_spinner=False)
@@ -31,7 +51,6 @@ def get_filtered_terminals(block):
 
 
 def terminals_main(act, prev_dict, prev_sel):
-
     eq_tag_list = list(get_eqip_tags())
     # pan_tag_list.insert(0, 'ALL')
 
@@ -100,12 +119,16 @@ def terminals_main(act, prev_dict, prev_sel):
                                       # },
                                       use_container_width=True, hide_index=True)
     else:
-        data_to_show = st.write(f"#### :blue[Panels not available...]")
+        data_to_show = st.write(f"#### :blue[Terminals not available...]")
         # st.stop()
 
     if act == 'Create':
         data_to_show
-        # create_terminals(???)
+        terminals_str = st.text_input("Terminals Numbers")
+
+        terminals = convert_txt_to_list(terminals_str)
+
+        create_terminals(selected_block, terminals)
 
     if act == 'View':
         data_to_show
