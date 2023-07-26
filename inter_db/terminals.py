@@ -30,15 +30,16 @@ def edit_terminals(df, block_un):
                     # left_pan = Panel.get(panel_un=row.left_pan_tag)
                     # right_pan = Panel.get(panel_un=row.right_pan_tag)
 
+                    block = Block.get(block_un=block_un)
+
                     edit_row.set(
-                        cable_tag=row.cable_tag,
-                        block_id=row.block_id,
+                        block_id=block,
                         terminal_num=row.terminal_num,
                         int_circuit=row.int_circuit,
                         int_link=row.int_link,
                         edit=False,
-                        terminal_un=str(block_un)+":"+str(row.terminal_num),
                         notes=row.notes,
+                        terminal_un=str(block_un)+":"+str(row.terminal_num),
                     )
                     st.toast(f"#### :green[Cable: {row.cable_tag} is updated]")
         except Exception as e:
