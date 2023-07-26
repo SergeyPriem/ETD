@@ -250,6 +250,9 @@ def convert_txt_to_list(txt):
                 st.text(type(i_spl[1]))
                 st.text((i_spl[0]))
                 st.text((i_spl[1]))
+
+                st.stop()
+
                 i_start = int((i_spl[0]))
                 i_end = int((i_spl[1]))
                 if i_start > i_end:
