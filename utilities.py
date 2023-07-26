@@ -243,6 +243,8 @@ def convert_txt_to_list(txt):
             txt_spl = txt.split('.')
         elif "," in txt:
             txt_spl = txt.split(',')
+        else:
+            txt_spl = txt
 
         for i in txt_spl:
             if "-" in i:

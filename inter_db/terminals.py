@@ -13,7 +13,7 @@ def create_terminals(block_un, terminals):
     try:
         with db_session:
             block = Block.get(block_un=block_un)
-            terminals = [10, 11, 12]
+            # terminals = [10, 11, 12]
             for t in terminals:
                 Terminal(
                     block_id=block,
@@ -124,11 +124,13 @@ def terminals_main(act, prev_dict, prev_sel):
 
     if act == 'Create':
         data_to_show
-        terminals_str = st.text_input("Terminals Numbers")
+        c1, c2 = st.columns(2, gap='medium')
+        terminals_str = c1.text_input("Terminals Numbers")
 
         terminals = convert_txt_to_list(terminals_str)
 
-        create_terminals(selected_block, terminals)
+        if all([st.button("Add Trminals", use_container_width=True), len(terminals)]):
+            create_terminals(selected_block, terminals)
 
     if act == 'View':
         data_to_show
