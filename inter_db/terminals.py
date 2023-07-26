@@ -221,5 +221,5 @@ def terminals_main(act, prev_dict, prev_sel):
 
     if act == 'Edit':
         edited_df = data_to_show
-        if st.button("Edit Selected Cables"):
-            edit_terminals(edited_df)
+        if st.button("Edit Selected Terminals"):
+            edit_terminals(edited_df, selected_block)
