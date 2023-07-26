@@ -278,23 +278,30 @@ def wires_main(act):
     cab_tag_list = get_cab_tags()
     cab_tag = st.selectbox("Cable Tag", cab_tag_list)
 
-    df = select_filtered_wires(cab_tag)
+    if cab_tag:
+        df = select_filtered_wires(cab_tag)
 
-    data_to_show = st.data_editor(df, use_container_width=True, hide_index=True, )
+        data_to_show = st.data_editor(df, use_container_width=True, hide_index=True, )
 
-    if act == 'Create':
-        data_to_show
-        # create_w_con(cab_tag)
+        if isinstance(df, pd.DataFrame):
+            if len(df):
+                data_to_show = st.data_editor(df, use_container_width=True, hide_index=True, )
+            else:
+                data_to_show = st.write(f"#### :blue[Wires of cable {cab_tag} not available ...]")
 
-    if act == 'View':
-        data_to_show
+        if act == 'Create':
+            data_to_show
+            # create_w_con(cab_tag)
 
-    if act == 'Delete':
-        edited_df = data_to_show
-        # if st.button("Delete Equipment"):
-        #     delete_w_con(edited_df, cab_tag)
+        if act == 'View':
+            data_to_show
 
-    if act == 'Edit':
-        edited_df = data_to_show
-        # if st.button("Edit Selected Cables"):
-        #     edit_w_con(edited_df, cab_tag)
+        if act == 'Delete':
+            edited_df = data_to_show
+            # if st.button("Delete Equipment"):
+            #     delete_w_con(edited_df, cab_tag)
+
+        if act == 'Edit':
+            edited_df = data_to_show
+            # if st.button("Edit Selected Cables"):
+            #     edit_w_con(edited_df, cab_tag)
