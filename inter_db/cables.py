@@ -106,36 +106,36 @@ def create_cable(pan_tag_list):
         bc.text('')
         add_cab_but = bc.form_submit_button("Add Cable", use_container_width=True)
 
-    if left_pan_tag == right_pan_tag:
-        st.warning("Left and Right panels should be different")
-    else:
         if add_cab_but:
-            try:
-                with db_session:
-                    left_pan = Panel.get(panel_un=left_pan_tag)
-                    right_pan = Panel.get(panel_un=right_pan_tag)
-                    purpose = Cab_purpose.get(circuit_descr=cab_purpose)
-                    c_type = Cab_types.get(cab_type=cab_type)
-                    c_wires = Cab_wires.get(wire_num=wire_number)
-                    c_sect = Cab_sect.get(section=wire_section)
-                    Cable(
-                        cable_tag=cab_tag,
-                        purpose_id=purpose,
-                        type_id=c_type,
-                        wires_id=c_wires,
-                        sect_id=c_sect,
-                        left_pan_id=left_pan,
-                        right_pan_id=right_pan,
-                        edit=False,
-                        notes=notes,
-                    )
-                st.toast(f"#### :green[Cable {cab_tag} added]")
-            except Exception as e:
-                st.toast(err_handler(e))
-            finally:
-                get_filtered_cables.clear()
-                get_all_cables.clear()
-                st.button("OK", key='cable_added')
+            if left_pan_tag == right_pan_tag:
+                st.warning("Left and Right panels should be different")
+            else:
+                try:
+                    with db_session:
+                        left_pan = Panel.get(panel_un=left_pan_tag)
+                        right_pan = Panel.get(panel_un=right_pan_tag)
+                        purpose = Cab_purpose.get(circuit_descr=cab_purpose)
+                        c_type = Cab_types.get(cab_type=cab_type)
+                        c_wires = Cab_wires.get(wire_num=wire_number)
+                        c_sect = Cab_sect.get(section=wire_section)
+                        Cable(
+                            cable_tag=cab_tag,
+                            purpose_id=purpose,
+                            type_id=c_type,
+                            wires_id=c_wires,
+                            sect_id=c_sect,
+                            left_pan_id=left_pan,
+                            right_pan_id=right_pan,
+                            edit=False,
+                            notes=notes,
+                        )
+                    st.toast(f"#### :green[Cable {cab_tag} added]")
+                except Exception as e:
+                    st.toast(err_handler(e))
+                finally:
+                    get_filtered_cables.clear()
+                    get_all_cables.clear()
+                    st.button("OK", key='cable_added')
 
 
 def cables_main(act, prev_dict, prev_sel):
