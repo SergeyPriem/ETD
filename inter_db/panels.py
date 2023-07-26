@@ -144,33 +144,36 @@ def panels_main(act, prev_dict, prev_sel):
     eq_tag_list.insert(0, 'ALL')
     selected_equip = st.selectbox('Select the Equipment', eq_tag_list)
 
-    if selected_equip == 'ALL' and act != 'Select required:':
-        df_to_show = prev_dict[prev_sel]()
+    if act != 'Select required:':
+        if selected_equip == 'ALL' and act != 'Select required:':
+            df_to_show = prev_dict[prev_sel]()
+        else:
+            df_to_show = get_filtered_panels(selected_equip)
+
+        if isinstance(df_to_show, pd.DataFrame):
+            data_to_show = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
+        else:
+            data_to_show = st.write(f"#### :blue[Panels not available...]")
+            st.stop()
+
+        if act == 'Create':
+            data_to_show
+            create_panel()
+
+        if act == 'View':
+            data_to_show
+
+        if act == 'Delete':
+            edited_df = data_to_show
+            if st.button("Delete Equipment"):
+                delete_panel(edited_df)
+
+        if act == 'Edit':
+            edited_df = data_to_show
+            if st.button("Edit Selected Panel"):
+                    edit_panel(edited_df)
     else:
-        df_to_show = get_filtered_panels(selected_equip)
-
-    if isinstance(df_to_show, pd.DataFrame):
-        data_to_show = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
-    else:
-        data_to_show = st.write(f"#### :blue[Panels not available...]")
-        st.stop()
-
-    if act == 'Create':
-        data_to_show
-        create_panel()
-
-    if act == 'View':
-        data_to_show
-
-    if act == 'Delete':
-        edited_df = data_to_show
-        if st.button("Delete Equipment"):
-            delete_panel(edited_df)
-
-    if act == 'Edit':
-        edited_df = data_to_show
-        if st.button("Edit Selected Panel"):
-                edit_panel(edited_df)
+        st.write("Select the option 👆 to proceed")
 
 
 def check_panels(df):

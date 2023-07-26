@@ -84,35 +84,39 @@ def create_equipment():
 
 
 def equipment_main(act=None, prev_dict=None, prev_sel=None):
-    if act == 'Create':
-        df_to_show = prev_dict[prev_sel]()
-        if isinstance(df_to_show, pd.DataFrame):
-            st.data_editor(df_to_show)
-        else:
-            st.write(f"#### :blue[Equipment not available...]")
-        create_equipment()
 
-    if act == 'View':
-        df_to_show = prev_dict[prev_sel]()
-        if isinstance(df_to_show, pd.DataFrame):
-            st.data_editor(df_to_show)
-        else:
-            st.write(f"#### :blue[Equipment not available...]")
+    if act != 'Select required:':
+        if act == 'Create':
+            df_to_show = prev_dict[prev_sel]()
+            if isinstance(df_to_show, pd.DataFrame):
+                st.data_editor(df_to_show)
+            else:
+                st.write(f"#### :blue[Equipment not available...]")
+            create_equipment()
 
-    if act == 'Delete':
-        df_to_show = prev_dict[prev_sel]()
-        if isinstance(df_to_show, pd.DataFrame):
-            edited_df = st.data_editor(df_to_show)
-            if st.button("Delete Equipment"):
-                delete_equipment(edited_df)
-        else:
-            st.write(f"#### :blue[Equipment not available...]")
+        if act == 'View':
+            df_to_show = prev_dict[prev_sel]()
+            if isinstance(df_to_show, pd.DataFrame):
+                st.data_editor(df_to_show)
+            else:
+                st.write(f"#### :blue[Equipment not available...]")
 
-    if act == 'Edit':
-        df_to_show = prev_dict[prev_sel]()
-        if isinstance(df_to_show, pd.DataFrame):
-            edited_df = st.data_editor(df_to_show)
-            if st.button("Edit Selected Equipment"):
-                edit_equipment(edited_df)
-        else:
-            st.write(f"#### :blue[Equipment not available...]")
+        if act == 'Delete':
+            df_to_show = prev_dict[prev_sel]()
+            if isinstance(df_to_show, pd.DataFrame):
+                edited_df = st.data_editor(df_to_show)
+                if st.button("Delete Equipment"):
+                    delete_equipment(edited_df)
+            else:
+                st.write(f"#### :blue[Equipment not available...]")
+
+        if act == 'Edit':
+            df_to_show = prev_dict[prev_sel]()
+            if isinstance(df_to_show, pd.DataFrame):
+                edited_df = st.data_editor(df_to_show)
+                if st.button("Edit Selected Equipment"):
+                    edit_equipment(edited_df)
+            else:
+                st.write(f"#### :blue[Equipment not available...]")
+    else:
+        st.write("Select the option 👆 to proceed")

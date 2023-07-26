@@ -136,13 +136,14 @@ def terminals_main(act, prev_dict, prev_sel):
     eq_tag_list = list(get_eqip_tags())
     # pan_tag_list.insert(0, 'ALL')
 
-    c1, c2 = st.columns(2, gap='medium')
-    selected_equip = c1.selectbox('Select the Equipment', eq_tag_list)
-
-    block_tag_list = list(get_filtered_blocks(selected_equip))
-    selected_block = c2.selectbox('Select the Terminal Block', block_tag_list)
 
     if act != 'Select required:':
+        c1, c2 = st.columns(2, gap='medium')
+        selected_equip = c1.selectbox('Select the Equipment', eq_tag_list)
+
+        block_tag_list = list(get_filtered_blocks(selected_equip))
+        selected_block = c2.selectbox('Select the Terminal Block', block_tag_list)
+
         if selected_equip and selected_block:
             df_to_show = get_filtered_terminals(selected_block)
             if isinstance(df_to_show, pd.DataFrame):
