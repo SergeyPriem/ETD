@@ -113,55 +113,42 @@ def terminals_main(act, prev_dict, prev_sel):
     if isinstance(df_to_show, pd.DataFrame):
         # cab_purposes, cab_types, wire_numbers, wire_sections = get_cab_params()
         data_to_show = st.data_editor(df_to_show,
-                                      # column_config={
-                                      #     "id": st.column_config.TextColumn(
-                                      #         "ID",
-                                      #         disabled=True,
-                                      #         width='small'
-                                      #     ),
-                                      #     "cable_tag": st.column_config.TextColumn(
-                                      #         "Cable Tag",
-                                      #         width='medium'
-                                      #     ),
-                                      #     "purpose": st.column_config.SelectboxColumn(
-                                      #         "Cable Purpose",
-                                      #         options=cab_purposes,
-                                      #         width='small'
-                                      #     ),
-                                      #     "type": st.column_config.SelectboxColumn(
-                                      #         "Cable Type",
-                                      #         options=cab_types,
-                                      #         width='medium'
-                                      #     ),
-                                      #     "wire": st.column_config.SelectboxColumn(
-                                      #         "Wires' Number",
-                                      #         options=wire_numbers,
-                                      #         width='small'
-                                      #     ),
-                                      #     "section": st.column_config.SelectboxColumn(
-                                      #         "Wires' Section",
-                                      #         options=wire_sections,
-                                      #         width='small'
-                                      #     ),
-                                      #     "left_pan_tag": st.column_config.SelectboxColumn(
-                                      #         "Left Panel Tag",
-                                      #         options=pan_tag_list,
-                                      #         width='medium'
-                                      #     ),
-                                      #     "right_pan_tag": st.column_config.SelectboxColumn(
-                                      #         "Right Panel Tag",
-                                      #         options=pan_tag_list,
-                                      #         width='medium'
-                                      #     ),
-                                      #     "edit": st.column_config.CheckboxColumn(
-                                      #         "Edit",
-                                      #         width='small'
-                                      #     ),
-                                      #     "notes": st.column_config.TextColumn(
-                                      #         "Notes",
-                                      #         width='large'
-                                      #     ),
-                                      # },
+                                      column_config={
+                                          "id": st.column_config.TextColumn(
+                                              "ID",
+                                              disabled=True,
+                                              width='small'
+                                          ),
+                                          "block_id": st.column_config.TextColumn(
+                                              "Block Tag",
+                                              width='small',
+                                              disabled=True,
+                                          ),
+                                          "terminal_num": st.column_config.TextColumn(
+                                              "Number of Terminal",
+                                              width='small'
+                                          ),
+                                          "int_circuit": st.column_config.TextColumn(
+                                              "Internal Circuit",
+                                              width='medium'
+                                          ),
+                                          "int_link": st.column_config.SelectboxColumn(
+                                              "Jumper to Terminal",
+                                              width='small'
+                                          ),
+                                          "edit": st.column_config.CheckboxColumn(
+                                              "Edit",
+                                              width='small'
+                                          ),
+                                          "notes": st.column_config.TextColumn(
+                                              "Notes",
+                                              width='large'
+                                          ),
+                                          "terminal_un": st.column_config.TextColumn(
+                                              "Notes",
+                                              width='large'
+                                          ),
+                                      },
                                       use_container_width=True, hide_index=True)
     else:
         data_to_show = st.write(f"#### :blue[Terminals not available...]")
