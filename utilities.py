@@ -249,8 +249,8 @@ def convert_txt_to_list(txt):
         for i in txt_spl:
             if "-" in i:
                 i_spl = i.split('-')
-                i_start = int(i_spl[0])
-                i_end = int(i_spl[1])
+                i_start = int(float(i_spl[0]))
+                i_end = int(float(i_spl[1]))
                 if i_start > i_end:
                     print(f"Я переставил местами {i_start} и {i_end}")
                     i_start, i_end = i_end, i_start
@@ -265,5 +265,5 @@ def convert_txt_to_list(txt):
                     st.toast(err_handler(e))
                     return
         return final_list
-
-    return []
+    else:
+        return []
