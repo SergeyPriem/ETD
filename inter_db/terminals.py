@@ -12,7 +12,7 @@ from utilities import err_handler, tab_to_df, convert_txt_to_list
 def delete_terminals(df):
     term_list = df.loc[df.edit.astype('str') == "True", 'terminal_un'].tolist()
     if term_list:
-        list_deleted = []
+        sum_deleted = 0
         try:
             with db_session:
                 for tag in term_list:
@@ -21,8 +21,9 @@ def delete_terminals(df):
                         st.toast(f"##### :red[Fail, Terminal {tag} not found]")
                         continue
                     del_row.delete()
-                    list_deleted.append(tag.split(":")[-1])
-                st.toast(f":green[Terminals: {list_deleted} is deleted]")
+                    sum_deleted +=1
+                    st.toast(f":green[Terminal: {tag.split(':')[-1]} is deleted]")
+                st.toast(f"#### :green[{sum_deleted} terminals deleted]")
         except Exception as e:
             st.toast(f"#### :red[Can't delete {tag}]")
             st.toast(f"##### {err_handler(e)}")
