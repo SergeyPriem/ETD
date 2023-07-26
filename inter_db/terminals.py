@@ -17,12 +17,12 @@ def delete_terminals(df):
                 for tag in term_list:
                     del_row = Terminal.get(terminal_un=tag)
                     if not del_row:
-                        st.toast(f"#### :red[Fail, Terminal {del_row.block_tag} not found]")
+                        st.toast(f"#### :red[Fail, Terminal {tag} not found]")
                         continue
                     del_row.delete()
-                    st.toast(f"#### :green[Terminal: {del_row.block_tag} is deleted]")
+                    st.toast(f"#### :green[Terminal: {tag} is deleted]")
         except Exception as e:
-            st.toast(f"#### :red[Can't delete {del_row.block_tag}]")
+            st.toast(f"#### :red[Can't delete {tag}]")
             st.toast(f"##### {err_handler(e)}")
         finally:
             get_filtered_terminals.clear()
@@ -126,7 +126,7 @@ def terminals_main(act, prev_dict, prev_sel):
                                           ),
                                           "terminal_num": st.column_config.TextColumn(
                                               "Number of Terminal",
-                                              width='small'
+                                              width='medium'
                                           ),
                                           "int_circuit": st.column_config.TextColumn(
                                               "Internal Circuit",
@@ -170,7 +170,7 @@ def terminals_main(act, prev_dict, prev_sel):
 
     if act == 'Delete':
         edited_df = data_to_show
-        if st.button("Delete Equipment"):
+        if st.button("Delete Selected Terminals"):
             delete_terminals(edited_df)
 
     if act == 'Edit':
