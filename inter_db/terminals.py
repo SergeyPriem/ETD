@@ -126,7 +126,8 @@ def terminals_main(act, prev_dict, prev_sel):
         data_to_show
         c1, c2 = st.columns(2, gap='medium')
         terminals_str = c1.text_input("Terminals Numbers")
-
+        c2.text("")
+        c2.text("")
         if c2.button("Add Terminals", use_container_width=True):
             terminals = convert_txt_to_list(terminals_str)
             if all([len(terminals), isinstance(terminals, list)]):
