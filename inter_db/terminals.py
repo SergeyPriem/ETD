@@ -22,7 +22,7 @@ def create_terminals(block_un, terminals):
                     int_link=None,
                     edit=False,
                     notes='',
-                    terminal_un=str(block_un)+":"+t,
+                    terminal_un=str(block_un)+":"+str(t),
                 )
 
     except Exception as e:
