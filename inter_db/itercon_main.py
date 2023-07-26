@@ -126,5 +126,5 @@ def intercon_expander():
                 if prev_sel == 'Cables':
                     cables_main(act, prev_dict, prev_sel)
             else:
-                st.write("Here you can preview Connections related Tables")
+                st.write("Select the option 👆 to proceed")
 
