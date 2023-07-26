@@ -100,7 +100,9 @@ def create_cable(pan_tag_list):
         wire_section = c4.selectbox('Wires Quantity', wire_sections)
         bl, bc = st.columns(2, gap='medium')
         notes = bl.text_input("Notes")
-        add_cab_but = bc.form_submit_button("Add Cable")
+        bc.text('')
+        bc.text('')
+        add_cab_but = bc.form_submit_button("Add Cable", use_container_width=True)
 
     if left_pan_tag == right_pan_tag:
         st.warning("Left and Right panels should be different")
