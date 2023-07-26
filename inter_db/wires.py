@@ -281,8 +281,6 @@ def wires_main(act):
     if cab_tag:
         df = select_filtered_wires(cab_tag)
 
-        data_to_show = st.data_editor(df, use_container_width=True, hide_index=True, )
-
         if isinstance(df, pd.DataFrame):
             if len(df):
                 data_to_show = st.data_editor(df, use_container_width=True, hide_index=True, key='wires_df')
