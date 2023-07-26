@@ -305,3 +305,6 @@ def wires_main(act):
             edited_df = data_to_show
             # if st.button("Edit Selected Cables"):
             #     edit_w_con(edited_df, cab_tag)
+    else:
+        st.write(f"#### :blue[Select Cable Tag to proceed...]")
+
