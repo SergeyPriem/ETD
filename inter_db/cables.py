@@ -54,6 +54,8 @@ def create_cable(pan_tag_list):
         wire_numbers = select(w.wire_num for w in Cab_wires)[:]
         wire_sections = select(s.section for s in Cab_sect)[:]
 
+
+
     with st.form('add_cab'):
         left_pan = c1.selectbox("Select Left Panel", pan_tag_list)
         right_pan = c2.selectbox("Select Left Panel", pan_tag_list)
@@ -93,7 +95,7 @@ def cables_main(act, prev_dict, prev_sel):
 
     if act == 'Create':
         data_to_show
-        # create_cable(pan_tag_list)
+        create_cable(pan_tag_list)
 
     if act == 'View':
         data_to_show
