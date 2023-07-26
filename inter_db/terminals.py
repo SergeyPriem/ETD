@@ -9,7 +9,6 @@ from models import Terminal, Block
 from utilities import err_handler, tab_to_df, convert_txt_to_list
 
 
-
 def edit_terminals(df, block_un):
     term_df = df[df.edit.astype('str') == "True"]
 
@@ -17,18 +16,11 @@ def edit_terminals(df, block_un):
         try:
             with db_session:
                 for ind, row in term_df.iterrows():
-                    edit_row = Terminal[row.id] #.get(cable_tag=row.cable_tag)
-                    # eq_id = Equip.get(equipment_tag=row.equipment_tag).id
+                    edit_row = Terminal[row.id]
+
                     if not edit_row:
                         st.toast(f"#### :red[Fail, Terminal: {row.terminal_num} not found]")
                         continue
-
-                    # purpose = Cab_purpose.get(circuit_descr=row.purpose)
-                    # c_type = Cab_types.get(cab_type=row.type)
-                    # c_wires = Cab_wires.get(wire_num=row.wire)
-                    # c_sect = Cab_sect.get(section=row.section)
-                    # left_pan = Panel.get(panel_un=row.left_pan_tag)
-                    # right_pan = Panel.get(panel_un=row.right_pan_tag)
 
                     block = Block.get(block_un=block_un)
 
@@ -39,7 +31,7 @@ def edit_terminals(df, block_un):
                         int_link=row.int_link,
                         edit=False,
                         notes=row.notes,
-                        terminal_un=str(block_un)+":"+str(row.terminal_num),
+                        terminal_un=str(block_un) + ":" + str(row.terminal_num),
                     )
                     st.toast(f"#### :green[Terminal: {row.terminal_num} is updated]")
         except Exception as e:
@@ -50,7 +42,6 @@ def edit_terminals(df, block_un):
             st.button("OK", key='terminal_updated')
     else:
         st.toast(f"#### :orange[Select the Cables to edit in column 'Edit']")
-
 
 
 def delete_terminals(df):
@@ -65,7 +56,7 @@ def delete_terminals(df):
                         st.toast(f"##### :red[Fail, Terminal {tag} not found]")
                         continue
                     del_row.delete()
-                    sum_deleted +=1
+                    sum_deleted += 1
                     st.toast(f":green[Terminal: {tag.split(':')[-1]} is deleted]")
                 st.toast(f"#### :green[{sum_deleted} terminals deleted]")
         except Exception as e:
@@ -76,7 +67,6 @@ def delete_terminals(df):
             st.button("OK", key='terminal_deleted')
     else:
         st.toast(f"#### :orange[Select the Terminal to delete in column 'Edit']")
-
 
 
 def create_terminals(block_un, terminals):
@@ -98,7 +88,7 @@ def create_terminals(block_un, terminals):
                     int_link="",
                     edit=False,
                     notes='',
-                    terminal_un=str(block_un)+":"+t,
+                    terminal_un=str(block_un) + ":" + t,
                 )
                 st.toast(f"##### :green[Terminal {t} added]")
 
@@ -125,15 +115,15 @@ def get_filtered_terminals(block):
         with db_session:
             selected_block = Block.get(block_un=block)
             data = select((
-                t.id,
-                t.block_id.block_tag,
-                t.terminal_num,
-                t.int_circuit,
-                t.int_link,
-                t.edit,
-                t.notes,
-                t.terminal_un
-                ) for t in Terminal if t.block_id == selected_block)[:]
+                              t.id,
+                              t.block_id.block_tag,
+                              t.terminal_num,
+                              t.int_circuit,
+                              t.int_link,
+                              t.edit,
+                              t.notes,
+                              t.terminal_un
+                          ) for t in Terminal if t.block_id == selected_block)[:]
 
             df = pd.DataFrame(data, columns=['id', 'block_id', 'terminal_num', 'int_circuit', 'int_link',
                                              'edit', 'notes', 'terminal_un'])
@@ -154,52 +144,48 @@ def terminals_main(act, prev_dict, prev_sel):
 
     if all([selected_equip, selected_block, act != 'Select required:']):
         df_to_show = get_filtered_terminals(selected_block)
-    # else:
-    #     df_to_show = get_filtered_cables(selected_pan_left, selected_pan_right)
-
-    if isinstance(df_to_show, pd.DataFrame):
-        # cab_purposes, cab_types, wire_numbers, wire_sections = get_cab_params()
-        data_to_show = st.data_editor(df_to_show,
-                                      column_config={
-                                          "id": st.column_config.TextColumn(
-                                              "ID",
-                                              disabled=True,
-                                              width='small'
-                                          ),
-                                          "block_id": st.column_config.TextColumn(
-                                              "Block Tag",
-                                              width='small',
-                                              disabled=True,
-                                          ),
-                                          "terminal_num": st.column_config.TextColumn(
-                                              "Number of Terminal",
-                                              width='medium'
-                                          ),
-                                          "int_circuit": st.column_config.TextColumn(
-                                              "Internal Circuit",
-                                              width='medium'
-                                          ),
-                                          "int_link": st.column_config.TextColumn(
-                                              "Jumper to Terminal",
-                                              width='medium'
-                                          ),
-                                          "edit": st.column_config.CheckboxColumn(
-                                              "Edit",
-                                              width='small'
-                                          ),
-                                          "notes": st.column_config.TextColumn(
-                                              "Notes",
-                                              width='large'
-                                          ),
-                                          "terminal_un": st.column_config.TextColumn(
-                                              "Terminal Unique Number",
-                                              width='large'
-                                          ),
-                                      },
-                                      use_container_width=True, hide_index=True)
-    else:
-        data_to_show = st.write(f"#### :blue[Terminals not available...]")
-        # st.stop()
+        if isinstance(df_to_show, pd.DataFrame):
+            if len(df_to_show):
+                data_to_show = st.data_editor(df_to_show,
+                                              column_config={
+                                                  "id": st.column_config.TextColumn(
+                                                      "ID",
+                                                      disabled=True,
+                                                      width='small'
+                                                  ),
+                                                  "block_id": st.column_config.TextColumn(
+                                                      "Block Tag",
+                                                      width='small',
+                                                      disabled=True,
+                                                  ),
+                                                  "terminal_num": st.column_config.TextColumn(
+                                                      "Number of Terminal",
+                                                      width='medium'
+                                                  ),
+                                                  "int_circuit": st.column_config.TextColumn(
+                                                      "Internal Circuit",
+                                                      width='medium'
+                                                  ),
+                                                  "int_link": st.column_config.TextColumn(
+                                                      "Jumper to Terminal",
+                                                      width='medium'
+                                                  ),
+                                                  "edit": st.column_config.CheckboxColumn(
+                                                      "Edit",
+                                                      width='small'
+                                                  ),
+                                                  "notes": st.column_config.TextColumn(
+                                                      "Notes",
+                                                      width='large'
+                                                  ),
+                                                  "terminal_un": st.column_config.TextColumn(
+                                                      "Terminal Unique Number",
+                                                      width='large'
+                                                  ),
+                                              },
+                                              use_container_width=True, hide_index=True)
+            else:
+                data_to_show = st.write(f"#### :blue[Terminals not available...]")
 
     if act == 'Create':
         data_to_show
