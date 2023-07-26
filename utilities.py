@@ -6,7 +6,6 @@ import json
 import os
 import ezdxf
 
-
 POSITIONS = ('Trainee', 'III cat.', 'II cat.', 'I cat.', 'Lead', 'Group Head', 'Senior', 'Dep. Head')
 DEPARTMENTS = ('UzLITI Engineering', 'En-Solut', 'En-Concept', 'En-Smart', 'En-Design', 'Remote')
 STAGES = ('Detail Design', 'Basic Design', 'Feed', 'Feasibility Study', 'Adaptation')
@@ -161,9 +160,6 @@ def update_state(tab_name: str):
         return "Wrong Data Format"
 
 
-
-
-
 def open_dxf_file(path):
     try:
         doc = ezdxf.readfile(path)
@@ -233,6 +229,7 @@ credentials = {
     "universe_domain": "googleapis.com"
 }
 
+
 @st.cache_data(show_spinner=False)
 def convert_txt_to_list(txt):
     if len(txt):
@@ -249,15 +246,15 @@ def convert_txt_to_list(txt):
         for i in txt_spl:
             if "-" in i:
                 i_spl = i.split('-')
-                i_start = int(float(i_spl[0]))
-                i_end = int(float(i_spl[1]))
+                i_start = int((i_spl[0]))
+                i_end = int((i_spl[1]))
                 if i_start > i_end:
                     print(f"Я переставил местами {i_start} и {i_end}")
                     i_start, i_end = i_end, i_start
-                k = list(range(i_start, i_end+1))
+                k = list(range(i_start, i_end + 1))
                 # print(k)
                 if isinstance(k, list):
-                    final_list +=k
+                    final_list += k
             else:
                 try:
                     final_list.append(int(i))
