@@ -110,7 +110,7 @@ def create_cable(pan_tag_list):
 
 def cables_main(act, prev_dict, prev_sel):
     pan_tag_list = list(get_panel_tags())
-    pan_tag_list.insert(0, 'ALL')
+    # pan_tag_list.insert(0, 'ALL')
 
     c1, c2 = st.columns(2, gap='medium')
     # selected_pan_left = c1.selectbox('Select Left Panel', pan_tag_list)
