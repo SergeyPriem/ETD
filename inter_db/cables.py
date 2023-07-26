@@ -47,7 +47,7 @@ def get_filtered_cables(left_pan, right_pan):
 
 
 def create_cable(pan_tag_list):
-    c1, c2 = st.columns(2, gap='medium')
+
     with db_session:
         cab_puproses = select(cp.circuit_descr for cp in Cab_purpose)[:]
         cab_types = select(ct.cab_type for ct in Cab_types)[:]
@@ -57,6 +57,7 @@ def create_cable(pan_tag_list):
 
 
     with st.form('add_cab'):
+        c1, c2 = st.columns(2, gap='medium')
         left_pan = c1.selectbox("Select Left Panel", pan_tag_list)
         right_pan = c2.selectbox("Select Right Panel", pan_tag_list)
 
@@ -79,8 +80,8 @@ def cables_main(act, prev_dict, prev_sel):
     # selected_pan_left = c1.selectbox('Select Left Panel', pan_tag_list)
     # selected_pan_right = c2.selectbox('Select Right Panel', pan_tag_list)
 
-    selected_pan_left = c1.text_input('Select Left Panel')
-    selected_pan_right = c2.text_input('Select Right Panel')
+    selected_pan_left = c1.text_input('Search Left Panel by part of tag')
+    selected_pan_right = c2.text_input('Select Right Panel  by part of tag')
 
     if all([selected_pan_left == 'ALL', selected_pan_right == 'ALL', act != 'Select required:']):
         df_to_show = prev_dict[prev_sel]()
