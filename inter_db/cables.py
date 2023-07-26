@@ -37,39 +37,75 @@ def get_filtered_cables(left_pan, right_pan):
                      c.sect_id.section, c.left_pan_id.panel_un, c.right_pan_id.panel_un, c.edit, c.notes,)
                     for c in Cable)[:]
 
-
             df = pd.DataFrame(data, columns=['id', 'cable_tag', 'purpose', 'type', 'wire', 'section',
-                                                 'left_pan_tag', 'right_pan_tag', 'edit', 'notes', ])
+                                             'left_pan_tag', 'right_pan_tag', 'edit', 'notes', ])
 
             return df
     except Exception as e:
         st.toast(err_handler(e))
 
 
+@st.cache_data(show_spinner=False, ttl=600)
+def get_cab_params():
+    try:
+        with db_session:
+            purposes = select(cp.circuit_descr for cp in Cab_purpose)[:]
+            types = select(ct.cab_type for ct in Cab_types)[:]
+            wire_num = select(w.wire_num for w in Cab_wires)[:]
+            wire_sect = select(s.section for s in Cab_sect)[:]
+
+        return purposes, types, wire_num, wire_sect
+    except Exception as e:
+        return err_handler(e)
+
+
 def create_cable(pan_tag_list):
+    # with db_session:
+    #     cab_puproses = select(cp.circuit_descr for cp in Cab_purpose)[:]
+    #     cab_types = select(ct.cab_type for ct in Cab_types)[:]
+    #     wire_numbers = select(w.wire_num for w in Cab_wires)[:]
+    #     wire_sections = select(s.section for s in Cab_sect)[:]
 
-    with db_session:
-        cab_puproses = select(cp.circuit_descr for cp in Cab_purpose)[:]
-        cab_types = select(ct.cab_type for ct in Cab_types)[:]
-        wire_numbers = select(w.wire_num for w in Cab_wires)[:]
-        wire_sections = select(s.section for s in Cab_sect)[:]
-
-
+    cab_purposes, cab_types, wire_numbers, wire_sections = get_cab_params()
 
     with st.form('add_cab'):
-        c1, c2 = st.columns(2, gap='medium')
-        left_pan = c1.selectbox("Select Left Panel", pan_tag_list)
-        right_pan = c2.selectbox("Select Right Panel", pan_tag_list)
+        lc, cc, rc = st.columns(3, gap='medium')
+        left_pan_tag = lc.selectbox("Select Left Panel", pan_tag_list)
+        cab_tag = cc.text_input("Cable Tag")
+        right_pan_tag = rc.selectbox("Select Right Panel", pan_tag_list)
 
-        cab_tag = c1.text_input("Cable Tag")
-        cab_purpose = c2.selectbox('Cable Purpose', cab_puproses)
-        cab_type = c1.selectbox('Cable Type', cab_types)
-        wire_number = c2.selectbox('Wires Quantity', wire_numbers)
-        wire_section = c1.selectbox('Wires Quantity', wire_sections)
-        add_cab_but = st.form_submit_button("Add Cable")
+        c1, c2, c3, c4 = st.columns(4, gap='medium')
 
-    if left_pan == right_pan:
+        cab_purpose = c1.selectbox('Cable Purpose', cab_purposes)
+        cab_type = c2.selectbox('Cable Type', cab_types)
+        wire_number = c3.selectbox('Wires Quantity', wire_numbers)
+        wire_section = c4.selectbox('Wires Quantity', wire_sections)
+        bl, bc = st.columns(2, gap='medium')
+        notes = bl.text_input("Notes")
+        add_cab_but = bc.form_submit_button("Add Cable")
+
+    if left_pan_tag == right_pan_tag:
         st.warning("Left and Right panels should be different")
+    else:
+        if add_cab_but:
+            try:
+                with db_session:
+                    left_pan = Panel.get(panel_un=left_pan_tag)
+                    right_pan = Panel.get(panel_un=right_pan_tag)
+                    Cable(
+                        cable_tag=cab_tag,
+                        purpose_id=cab_purpose,
+                        type_id=cab_type,
+                        wires_id=wire_number,
+                        sect_id=wire_section,
+                        left_pan_id=left_pan,
+                        right_pan_id=right_pan,
+                        edit=False,
+                        notes=notes,
+                    )
+                st.toast(f"#### :green[Cable {cab_tag} added]")
+            except Exception as e:
+                st.toast(err_handler(e))
 
 
 def cables_main(act, prev_dict, prev_sel):
