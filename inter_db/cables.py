@@ -58,7 +58,7 @@ def create_cable(pan_tag_list):
 
     with st.form('add_cab'):
         left_pan = c1.selectbox("Select Left Panel", pan_tag_list)
-        right_pan = c2.selectbox("Select Left Panel", pan_tag_list)
+        right_pan = c2.selectbox("Select Right Panel", pan_tag_list)
 
         cab_tag = c1.text_input("Cable Tag")
         cab_purpose = c2.selectbox('Cable Purpose', cab_puproses)
