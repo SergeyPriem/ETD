@@ -9,6 +9,49 @@ from models import Terminal, Block
 from utilities import err_handler, tab_to_df, convert_txt_to_list
 
 
+
+def edit_terminals(df, block_un):
+    term_df = df[df.edit.astype('str') == "True"]
+
+    if len(term_df):
+        try:
+            with db_session:
+                for ind, row in term_df.iterrows():
+                    edit_row = Terminal[row.id] #.get(cable_tag=row.cable_tag)
+                    # eq_id = Equip.get(equipment_tag=row.equipment_tag).id
+                    if not edit_row:
+                        st.toast(f"#### :red[Fail, Terminal: {row.terminal_num} not found]")
+                        continue
+
+                    # purpose = Cab_purpose.get(circuit_descr=row.purpose)
+                    # c_type = Cab_types.get(cab_type=row.type)
+                    # c_wires = Cab_wires.get(wire_num=row.wire)
+                    # c_sect = Cab_sect.get(section=row.section)
+                    # left_pan = Panel.get(panel_un=row.left_pan_tag)
+                    # right_pan = Panel.get(panel_un=row.right_pan_tag)
+
+                    edit_row.set(
+                        cable_tag=row.cable_tag,
+                        block_id=row.block_id,
+                        terminal_num=row.terminal_num,
+                        int_circuit=row.int_circuit,
+                        int_link=row.int_link,
+                        edit=False,
+                        terminal_un=str(block_un)+":"+str(row.terminal_num),
+                        notes=row.notes,
+                    )
+                    st.toast(f"#### :green[Cable: {row.cable_tag} is updated]")
+        except Exception as e:
+            st.toast(f"Can't update {row.cable_tag}")
+            st.toast(f"##### {err_handler(e)}")
+        finally:
+            get_filtered_terminals.clear()
+            st.button("OK", key='terminal_updated')
+    else:
+        st.toast(f"#### :orange[Select the Cables to edit in column 'Edit']")
+
+
+
 def delete_terminals(df):
     term_list = df.loc[df.edit.astype('str') == "True", 'terminal_un'].tolist()
     if term_list:
@@ -178,5 +221,5 @@ def terminals_main(act, prev_dict, prev_sel):
 
     if act == 'Edit':
         edited_df = data_to_show
-        # if st.button("Edit Selected Cables"):
-        #     edit_terminals(edited_df)
+        if st.button("Edit Selected Cables"):
+            edit_terminals(edited_df)
