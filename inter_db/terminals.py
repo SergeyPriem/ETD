@@ -18,8 +18,8 @@ def create_terminals(block_un, terminals):
                 Terminal(
                     block_id=block,
                     terminal_num=str(t),
-                    int_circuit=0,
-                    int_link=0,
+                    int_circuit="",
+                    int_link="",
                     edit=False,
                     notes='',
                     terminal_un=str(block_un)+":"+str(t),
