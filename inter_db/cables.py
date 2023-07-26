@@ -49,8 +49,8 @@ def edit_cable(df):
                     c_type = Cab_types.get(cab_type=row.type)
                     c_wires = Cab_wires.get(wire_num=row.wire)
                     c_sect = Cab_sect.get(section=row.section)
-                    left_pan = Panel.get(panel_un=left_pan)
-                    right_pan = Panel.get(panel_un=right_pan)
+                    left_pan = Panel.get(panel_un=row.left_pan_tag)
+                    right_pan = Panel.get(panel_un=row.right_pan_tag)
 
                     edit_row.set(
                         cable_tag=row.cable_tag,
