@@ -16,18 +16,19 @@ def create_terminals(block_un, terminals):
             exist_terminals = select(te.terminal_num for te in Terminal)[:]
             st.info(exist_terminals)
             for t in terminals:
+                t = str(t)
                 if t in exist_terminals:
                     st.toast(f"##### :[Terminal {t} already exists...]")
                     continue
 
                 Terminal(
                     block_id=block,
-                    terminal_num=str(t),
+                    terminal_num=t,
                     int_circuit="",
                     int_link="",
                     edit=False,
                     notes='',
-                    terminal_un=str(block_un)+":"+str(t),
+                    terminal_un=str(block_un)+":"+t,
                 )
                 st.toast(f"##### :green[Terminal {t} added]")
 
