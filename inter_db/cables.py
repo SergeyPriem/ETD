@@ -8,8 +8,26 @@ from models import Cable, Cab_purpose, Cab_types, Cab_wires, Cab_sect, Panel
 from utilities import err_handler, tab_to_df
 
 
-def delete_cable(edited_df):
-    pass
+def delete_cable(df):
+    tag_list = df.loc[df.edit.astype('str') == "True", 'cable_tag'].tolist()
+    if tag_list:
+        try:
+            with db_session:
+                for tag in tag_list:
+                    del_row = Cable.get(cable_tag=tag)
+                    if not del_row:
+                        st.toast(f"#### :red[Fail, cable: {tag} not found]")
+                        continue
+                    del_row.delete()
+                    st.toast(f"#### :green[Cable: {tag} is deleted]")
+        except Exception as e:
+            st.toast(f"#### :red[Can't delete {tag}]")
+            st.toast(f"##### {err_handler(e)}")
+        finally:
+            get_filtered_cables.clear()
+            st.button("OK", key='cable_deleted')
+    else:
+        st.toast(f"#### :orange[Select the Cable to delete in column 'edit']")
 
 
 def edit_cable(edited_df):
@@ -139,8 +157,8 @@ def cables_main(act, prev_dict, prev_sel):
 
     if act == 'Delete':
         edited_df = data_to_show
-        # if st.button("Delete Equipment"):
-        #     delete_cable(edited_df)
+        if st.button("Delete Equipment"):
+            delete_cable(edited_df)
 
     if act == 'Edit':
         edited_df = data_to_show
