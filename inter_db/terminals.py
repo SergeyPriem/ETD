@@ -9,12 +9,35 @@ from models import Terminal, Block
 from utilities import err_handler, tab_to_df, convert_txt_to_list
 
 
+def delete_terminals(df):
+    term_list = df.loc[df.edit.astype('str') == "True", 'terminal_un'].tolist()
+    if term_list:
+        try:
+            with db_session:
+                for tag in term_list:
+                    del_row = Terminal.get(terminal_un=tag)
+                    if not del_row:
+                        st.toast(f"#### :red[Fail, Terminal {del_row.block_tag} not found]")
+                        continue
+                    del_row.delete()
+                    st.toast(f"#### :green[Terminal: {del_row.block_tag} is deleted]")
+        except Exception as e:
+            st.toast(f"#### :red[Can't delete {del_row.block_tag}]")
+            st.toast(f"##### {err_handler(e)}")
+        finally:
+            get_filtered_terminals.clear()
+            st.button("OK", key='terminal_deleted')
+    else:
+        st.toast(f"#### :orange[Select the Terminal to delete in column 'Edit']")
+
+
+
 def create_terminals(block_un, terminals):
     try:
         with db_session:
             block = Block.get(block_un=block_un)
             exist_terminals = select(te.terminal_num for te in Terminal)[:]
-            st.info(exist_terminals)
+
             for t in terminals:
                 t = str(t)
                 if t in exist_terminals:
@@ -55,7 +78,7 @@ def get_filtered_terminals(block):
         with db_session:
             selected_block = Block.get(block_un=block)
             data = select(t for t in Terminal if t.block_id == selected_block)[:]
-            return tab_to_df(data)
+            return tab_to_df(data, keep_id=True)
     except Exception as e:
         st.toast(err_handler(e))
 
@@ -148,8 +171,8 @@ def terminals_main(act, prev_dict, prev_sel):
 
     if act == 'Delete':
         edited_df = data_to_show
-        # if st.button("Delete Equipment"):
-        #     delete_terminals(edited_df)
+        if st.button("Delete Equipment"):
+            delete_terminals(edited_df)
 
     if act == 'Edit':
         edited_df = data_to_show

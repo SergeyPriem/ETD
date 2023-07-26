@@ -29,7 +29,7 @@ def delete_cable(df):
             get_all_cables.clear()
             st.button("OK", key='cable_deleted')
     else:
-        st.toast(f"#### :orange[Select the Cable to delete in column 'edit']")
+        st.toast(f"#### :orange[Select the Cable to delete in column 'Edit']")
 
 
 def edit_cable(df):
@@ -72,7 +72,7 @@ def edit_cable(df):
             get_all_cables.clear()
             st.button("OK", key='cables_updated')
     else:
-        st.toast(f"#### :orange[Select the Cables to edit in column 'edit']")
+        st.toast(f"#### :orange[Select the Cables to edit in column 'Edit']")
 
 
 @st.cache_data(show_spinner=False)

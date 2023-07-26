@@ -26,11 +26,12 @@ def err_handler(e):
     return f"{type(e).__name__}{getattr(e, 'args', None)}"
 
 
-def tab_to_df(tab):
+def tab_to_df(tab, keep_id=False):
     t_dict = [t.to_dict() for t in tab]
     t_df = pd.DataFrame(t_dict)
-    if 'id' in list(t_df.columns):
-        t_df = t_df.set_index('id')
+    if keep_id:
+        if 'id' in list(t_df.columns):
+            t_df = t_df.set_index('id')
     if len(t_df) > 0:
         return t_df
     else:

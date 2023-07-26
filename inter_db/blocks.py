@@ -29,7 +29,7 @@ def delete_block(df):
             get_selected_blocks.clear()
             st.button("OK", key='block_deleted')
     else:
-        st.toast(f"#### :orange[Select the Terminal Block to delete in column 'edit']")
+        st.toast(f"#### :orange[Select the Terminal Block to delete in column 'Edit']")
 
 
 def edit_block(df):
@@ -39,7 +39,7 @@ def edit_block(df):
         try:
             with db_session:
                 for ind, row in block_df.iterrows():
-                    edit_row = Block[row.id] #.get(block_un=row.block_un)
+                    edit_row = Block[row.id]  # .get(block_un=row.block_un)
 
                     if not edit_row:
                         st.toast(f"#### :red[Fail, Terminal Block: {row.block_tag} not found]")
@@ -47,7 +47,7 @@ def edit_block(df):
 
                     pan_id = Panel.get(panel_un=row.panel_tag)
                     edit_row.set(pan_id=pan_id, block_tag=row.block_tag, descr=row.description,
-                                 notes=row.notes, block_un=str(row.panel_tag)+":"+str(row.block_tag))
+                                 notes=row.notes, block_un=str(row.panel_tag) + ":" + str(row.block_tag))
                     st.toast(f"#### :green[Terminal Block: {row.block_tag} is updated]")
         except Exception as e:
             st.toast(f"Can't update {row.block_tag}")
@@ -57,7 +57,7 @@ def edit_block(df):
             get_selected_blocks.clear()
             st.button("OK", key='blocks_updated')
     else:
-        st.toast(f"#### :orange[Select the Panel to edit in column 'edit']")
+        st.toast(f"#### :orange[Select the Panel to edit in column 'Edit']")
 
 
 # @st.cache_data(show_spinner=False)
@@ -85,7 +85,6 @@ def edit_block(df):
 #         st.toast(err_handler(e))
 
 def create_block(panel_tag):
-
     with st.form('add_block'):
         c1, c2, c3, c4, c5 = st.columns([1, 1, 1, 1.5, 0.5], gap='medium')
         c1.text_input('Panel Tag', value=panel_tag, disabled=True)
@@ -101,7 +100,7 @@ def create_block(panel_tag):
             with db_session:
                 pan_id = Panel.get(panel_un=panel_tag)
                 Block(pan_id=pan_id, block_tag=block_tag, descr=block_descr, edit=False,
-                      notes=block_notes, block_un=str(panel_tag)+":"+str(block_tag))
+                      notes=block_notes, block_un=str(panel_tag) + ":" + str(block_tag))
 
             st.toast(f"""#### :green[Block {block_tag} added!]""")
             get_all_blocks.clear()
@@ -113,10 +112,12 @@ def create_block(panel_tag):
             st.toast(f"""#### :red[Seems, such Terminal Block already exists!]""")
             st.toast(err_handler(e2))
 
+
 @st.cache_data(show_spinner=False)
 def get_selected_blocks(panel_un):
     try:
         with db_session:
+
             data = select(
                 (b.id,
                  b.pan_id.panel_un,
@@ -135,9 +136,7 @@ def get_selected_blocks(panel_un):
         st.toast(err_handler(e))
 
 
-
 def blocks_main(act, prev_dict, prev_sel):
-
     pan_tag_list = list(get_panel_tags())
     selected_panel = st.selectbox('Select the Panel', pan_tag_list)
     df_to_show = get_selected_blocks(selected_panel)
@@ -162,4 +161,4 @@ def blocks_main(act, prev_dict, prev_sel):
     if act == 'Edit':
         edited_df = data_to_show
         if st.button("Edit Selected Terminal Block"):
-                edit_block(edited_df)
+            edit_block(edited_df)
