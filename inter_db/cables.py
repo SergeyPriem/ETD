@@ -4,6 +4,7 @@ import streamlit as st
 from pony.orm import db_session, select
 
 from inter_db.panels import get_eqip_tags, get_filtered_panels, get_panel_tags
+from inter_db.read_all_tabs import get_all_cables
 from models import Cable, Cab_purpose, Cab_types, Cab_wires, Cab_sect, Panel
 from utilities import err_handler, tab_to_df
 
@@ -25,6 +26,7 @@ def delete_cable(df):
             st.toast(f"##### {err_handler(e)}")
         finally:
             get_filtered_cables.clear()
+            get_all_cables.clear()
             st.button("OK", key='cable_deleted')
     else:
         st.toast(f"#### :orange[Select the Cable to delete in column 'edit']")
@@ -108,28 +110,32 @@ def create_cable(pan_tag_list):
         st.warning("Left and Right panels should be different")
     else:
         if add_cab_but:
-            # try:
-            with db_session:
-                left_pan = Panel.get(panel_un=left_pan_tag)
-                right_pan = Panel.get(panel_un=right_pan_tag)
-                purpose = Cab_purpose.get(circuit_descr=cab_purpose)
-                c_type = Cab_types.get(cab_type=cab_type)
-                c_wires = Cab_wires.get(wire_num=wire_number)
-                c_sect = Cab_sect.get(section=wire_section)
-                Cable(
-                    cable_tag=cab_tag,
-                    purpose_id=purpose,
-                    type_id=c_type,
-                    wires_id=c_wires,
-                    sect_id=c_sect,
-                    left_pan_id=left_pan,
-                    right_pan_id=right_pan,
-                    edit=False,
-                    notes=notes,
-                )
-            st.toast(f"#### :green[Cable {cab_tag} added]")
-            # except Exception as e:
-            #     st.toast(err_handler(e))
+            try:
+                with db_session:
+                    left_pan = Panel.get(panel_un=left_pan_tag)
+                    right_pan = Panel.get(panel_un=right_pan_tag)
+                    purpose = Cab_purpose.get(circuit_descr=cab_purpose)
+                    c_type = Cab_types.get(cab_type=cab_type)
+                    c_wires = Cab_wires.get(wire_num=wire_number)
+                    c_sect = Cab_sect.get(section=wire_section)
+                    Cable(
+                        cable_tag=cab_tag,
+                        purpose_id=purpose,
+                        type_id=c_type,
+                        wires_id=c_wires,
+                        sect_id=c_sect,
+                        left_pan_id=left_pan,
+                        right_pan_id=right_pan,
+                        edit=False,
+                        notes=notes,
+                    )
+                st.toast(f"#### :green[Cable {cab_tag} added]")
+            except Exception as e:
+                st.toast(err_handler(e))
+            finally:
+                get_filtered_cables.clear()
+                get_all_cables.clear()
+                st.button("OK", key='cable_added')
 
 
 def cables_main(act, prev_dict, prev_sel):
