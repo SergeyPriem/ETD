@@ -17,7 +17,7 @@ def create_terminals(block_un, terminals):
             for t in terminals:
                 Terminal(
                     block_id=block,
-                    terminal_num=t,
+                    terminal_num=str(t),
                     int_circuit=None,
                     int_link=None,
                     edit=False,
