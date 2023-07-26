@@ -13,8 +13,12 @@ def create_terminals(block_un, terminals):
     try:
         with db_session:
             block = Block.get(block_un=block_un)
-            # terminals = [10, 11, 12]
+            exist_terminals = select(te.terminal_num for te in Terminal)[:]
             for t in terminals:
+                if t in exist_terminals:
+                    st.toast(f"##### :[Terminal {t} already exists...]")
+                    continue
+
                 Terminal(
                     block_id=block,
                     terminal_num=str(t),
@@ -24,7 +28,7 @@ def create_terminals(block_un, terminals):
                     notes='',
                     terminal_un=str(block_un)+":"+str(t),
                 )
-                st.toast(f"##### ;green[Terminal {t} added]")
+                st.toast(f"##### :green[Terminal {t} added]")
 
     except Exception as e:
         st.toast(err_handler(e))
