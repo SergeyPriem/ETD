@@ -39,7 +39,7 @@ def edit_cable(df):
         try:
             with db_session:
                 for ind, row in cables_df.iterrows():
-                    edit_row = Cable[ind]
+                    edit_row = Cable.get(cable_tag=row.cable_tag)
                     # eq_id = Equip.get(equipment_tag=row.equipment_tag).id
                     if not edit_row:
                         st.toast(f"#### :red[Fail, Cable: {row.cable_tag} not found]")
@@ -79,10 +79,6 @@ def get_filtered_cables(left_pan, right_pan):
     try:
 
         with db_session:
-            # left_pan_id = Panel.get(panel_un=left_pan)
-            # right_pan_id = Panel.get(panel_un=right_pan)
-            # # left_pan_id = left_pan_int.get_pk()
-            # # right_pan_id = right_pan_int.get_pk()
             if left_pan and right_pan:
                 data = select(
                     (c.id, c.cable_tag, c.purpose_id.circuit_descr, c.type_id.cab_type, c.wires_id.wire_num,
