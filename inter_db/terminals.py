@@ -201,12 +201,14 @@ def terminals_main(act, prev_dict, prev_sel):
     if act == 'View':
         data_to_show
 
-    if act == 'Delete':
-        edited_df = data_to_show
-        if st.button("Delete Selected Terminals"):
-            delete_terminals(edited_df)
+    if isinstance(df_to_show, pd.DataFrame):
+        if len(df_to_show):
+            if act == 'Delete':
+                edited_df = data_to_show
+                if st.button("Delete Selected Terminals"):
+                    delete_terminals(edited_df)
 
-    if act == 'Edit':
-        edited_df = data_to_show
-        if st.button("Edit Selected Terminals"):
-            edit_terminals(edited_df, selected_block)
+            if act == 'Edit':
+                edited_df = data_to_show
+                if st.button("Edit Selected Terminals"):
+                    edit_terminals(edited_df, selected_block)
