@@ -39,8 +39,7 @@ def edit_block(df):
         try:
             with db_session:
                 for ind, row in block_df.iterrows():
-
-                    edit_row = Block.get(block_un=row.block_un)
+                    edit_row = Block[row.id] #.get(block_un=row.block_un)
 
                     if not edit_row:
                         st.toast(f"#### :red[Fail, Terminal Block: {row.block_tag} not found]")

@@ -205,7 +205,7 @@ def cables_main(act, prev_dict, prev_sel):
                                           "type": st.column_config.SelectboxColumn(
                                               "Cable Type",
                                               options=cab_types,
-                                              width='small'
+                                              width='medium'
                                           ),
                                           "wire": st.column_config.SelectboxColumn(
                                               "Wires' Number",
@@ -233,7 +233,7 @@ def cables_main(act, prev_dict, prev_sel):
                                           ),
                                           "notes": st.column_config.TextColumn(
                                               "Notes",
-                                              width='medium'
+                                              width='large'
                                           ),
                                       },
                                       use_container_width=True, hide_index=True)
