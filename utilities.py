@@ -246,6 +246,7 @@ def convert_txt_to_list(txt):
         for i in txt_spl:
             if "-" in i:
                 i_spl = i.split('-')
+                st.text(i_spl)
                 st.text(type(i_spl[0]))
                 st.text(type(i_spl[1]))
                 st.text((i_spl[0]))
