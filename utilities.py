@@ -235,31 +235,33 @@ credentials = {
 
 @st.cache_data(show_spinner=False)
 def convert_txt_to_list(txt):
-    if "." in txt and "," in txt:
-        return "!!! dot and comma in the text, please use one of them"
-    final_list = []
-    if "." in txt:
-        txt_spl = txt.split('.')
-    elif "," in txt:
-        txt_spl = txt.split(',')
+    if len(txt):
+        if "." in txt and "," in txt:
+            return "!!! dot and comma in the text, please use one of them"
+        final_list = []
+        if "." in txt:
+            txt_spl = txt.split('.')
+        elif "," in txt:
+            txt_spl = txt.split(',')
 
-    for i in txt_spl:
-        if "-" in i:
-            i_spl = i.split('-')
-            i_start = int(i_spl[0])
-            i_end = int(i_spl[1])
-            if i_start > i_end:
-                print(f"Я переставил местами {i_start} и {i_end}")
-                i_start, i_end = i_end, i_start
-            k = list(range(i_start, i_end+1))
-            # print(k)
-            if isinstance(k, list):
-                final_list +=k
-        else:
-            try:
-                final_list.append(int(i))
-            except Exception as e:
-                st.toast(err_handler(e))
-                return
+        for i in txt_spl:
+            if "-" in i:
+                i_spl = i.split('-')
+                i_start = int(i_spl[0])
+                i_end = int(i_spl[1])
+                if i_start > i_end:
+                    print(f"Я переставил местами {i_start} и {i_end}")
+                    i_start, i_end = i_end, i_start
+                k = list(range(i_start, i_end+1))
+                # print(k)
+                if isinstance(k, list):
+                    final_list +=k
+            else:
+                try:
+                    final_list.append(int(i))
+                except Exception as e:
+                    st.toast(err_handler(e))
+                    return
+        return final_list
 
-    return final_list
+    return []
