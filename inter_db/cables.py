@@ -39,7 +39,7 @@ def edit_cable(df):
         try:
             with db_session:
                 for ind, row in cables_df.iterrows():
-                    edit_row = Cable.get(cable_tag=row.cable_tag)
+                    edit_row = Cable[row.id] #.get(cable_tag=row.cable_tag)
                     # eq_id = Equip.get(equipment_tag=row.equipment_tag).id
                     if not edit_row:
                         st.toast(f"#### :red[Fail, Cable: {row.cable_tag} not found]")
@@ -53,6 +53,7 @@ def edit_cable(df):
                     right_pan = Panel.get(panel_un=row.right_pan_tag)
 
                     edit_row.set(
+                        cable_tag=row.cab_tag,
                         purpose_id=purpose,
                         type_id=c_type,
                         wires_id=c_wires,
@@ -184,7 +185,58 @@ def cables_main(act, prev_dict, prev_sel):
         df_to_show = get_filtered_cables(selected_pan_left, selected_pan_right)
 
     if isinstance(df_to_show, pd.DataFrame):
-        data_to_show = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
+        cab_purposes, cab_types, wire_numbers, wire_sections = get_cab_params()
+        data_to_show = st.data_editor(df_to_show,
+                                      column_config={
+                                          "id": st.column_config.TextColumn(
+                                              "ID",
+                                              disabled=True,
+                                              width='small'
+                                          ),
+                                          "cable_tag": st.column_config.TextColumn(
+                                              "Cable Tag",
+                                              width='medium'
+                                          ),
+                                          "purpose": st.column_config.SelectboxColumn(
+                                              "Cable Purpose",
+                                              options=cab_purposes,
+                                              width='small'
+                                          ),
+                                          "type": st.column_config.SelectboxColumn(
+                                              "Cable Type",
+                                              options=cab_types,
+                                              width='small'
+                                          ),
+                                          "wire": st.column_config.SelectboxColumn(
+                                              "Wires' Number",
+                                              options=wire_numbers,
+                                              width='small'
+                                          ),
+                                          "section": st.column_config.SelectboxColumn(
+                                              "Wires' Section",
+                                              options=wire_sections,
+                                              width='small'
+                                          ),
+                                          "left_pan_tag": st.column_config.SelectboxColumn(
+                                              "Left Panel Tag",
+                                              options=pan_tag_list,
+                                              width='medium'
+                                          ),
+                                          "right_pan_tag": st.column_config.SelectboxColumn(
+                                              "Right Panel Tag",
+                                              options=pan_tag_list,
+                                              width='medium'
+                                          ),
+                                          "edit": st.column_config.CheckboxColumn(
+                                              "Edit",
+                                              width='small'
+                                          ),
+                                          "notes": st.column_config.TextColumn(
+                                              "Notes",
+                                              width='medium'
+                                          ),
+                                      },
+                                      use_container_width=True, hide_index=True)
     else:
         data_to_show = st.write(f"#### :blue[Panels not available...]")
         # st.stop()
