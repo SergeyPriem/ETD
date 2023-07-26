@@ -95,7 +95,7 @@ def intercon_expander():
             #         if action == 'Cable Wires':
             #             edit_wires()
 
-            preview_list = ["SELECT:", 'Equipment', 'Panels', 'Terminal block', 'Terminals', 'Cables', 'Wires']
+            preview_list = ["SELECT:", 'Equipment', 'Panels', 'Terminal Block', 'Terminals', 'Cables', 'Wires']
 
             prev_sel = option_menu(None, preview_list,
                                    icons=['-', '-', '-', '-', '-', '-', '-', '-', '-'],
@@ -107,7 +107,7 @@ def intercon_expander():
                 prev_dict = {
                     'Equipment': get_all_equip,
                     'Panels': get_all_panels,
-                    'Terminal block': get_all_blocks,
+                    'Terminal Block': get_all_blocks,
                     'Terminals': get_all_terminals,
                     'Cables': get_all_cables,
                     # 'Wires': Wire,
@@ -121,10 +121,12 @@ def intercon_expander():
                     equipment_main(act, prev_dict, prev_sel)
                 if prev_sel == 'Panels':
                     panels_main(act, prev_dict, prev_sel)
-                if prev_sel == 'Terminal block':
+                if prev_sel == 'Terminal Block':
                     blocks_main(act, prev_dict, prev_sel)
                 if prev_sel == 'Cables':
                     cables_main(act, prev_dict, prev_sel)
+                if prev_sel == 'Terminals':
+                    terminals_main(act, prev_dict, prev_sel)
             else:
                 st.write("Select the option 👆 to proceed")
 
