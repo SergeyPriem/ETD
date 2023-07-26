@@ -119,16 +119,19 @@ def intercon_expander():
                                   ['Select required:', 'View', 'Create', 'Edit', 'Delete'],
                                   icons=['-', '-', '-', '-', '-'], default_index=1, orientation='horizontal')
 
-                if prev_sel == 'Equipment':
-                    equipment_main(act, prev_dict, prev_sel)
-                if prev_sel == 'Panels':
-                    panels_main(act, prev_dict, prev_sel)
-                if prev_sel == 'Terminal Block':
-                    blocks_main(act, prev_dict, prev_sel)
-                if prev_sel == 'Cables':
-                    cables_main(act, prev_dict, prev_sel)
-                if prev_sel == 'Terminals':
-                    terminals_main(act, prev_dict, prev_sel)
+                if act != 'Select required:':
+                    if prev_sel == 'Equipment':
+                        equipment_main(act, prev_dict, prev_sel)
+                    if prev_sel == 'Panels':
+                        panels_main(act, prev_dict, prev_sel)
+                    if prev_sel == 'Terminal Block':
+                        blocks_main(act, prev_dict, prev_sel)
+                    if prev_sel == 'Cables':
+                        cables_main(act, prev_dict, prev_sel)
+                    if prev_sel == 'Terminals':
+                        terminals_main(act)
+                else:
+                    st.write("Select the option 👆 to proceed")
             else:
                 st.write("Select the option 👆 to proceed")
 

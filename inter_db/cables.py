@@ -172,95 +172,92 @@ def cables_main(act, prev_dict, prev_sel):
     pan_tag_list = list(get_panel_tags())
     # pan_tag_list.insert(0, 'ALL')
 
-    if act != 'Select required:':
-        c1, c2 = st.columns(2, gap='medium')
-        # selected_pan_left = c1.selectbox('Select Left Panel', pan_tag_list)
-        # selected_pan_right = c2.selectbox('Select Right Panel', pan_tag_list)
+    c1, c2 = st.columns(2, gap='medium')
+    # selected_pan_left = c1.selectbox('Select Left Panel', pan_tag_list)
+    # selected_pan_right = c2.selectbox('Select Right Panel', pan_tag_list)
 
-        selected_pan_left = c1.text_input('Search Left Panel by part of tag')
-        selected_pan_right = c2.text_input('Select Right Panel  by part of tag')
+    selected_pan_left = c1.text_input('Search Left Panel by part of tag')
+    selected_pan_right = c2.text_input('Select Right Panel  by part of tag')
 
-        if all([selected_pan_left == 'ALL', selected_pan_right == 'ALL', ]):
-            df_to_show = prev_dict[prev_sel]()
-        else:
-            df_to_show = get_filtered_cables(selected_pan_left, selected_pan_right)
-
-        if isinstance(df_to_show, pd.DataFrame):
-            cab_purposes, cab_types, wire_numbers, wire_sections = get_cab_params()
-            data_to_show = st.data_editor(df_to_show,
-                                          column_config={
-                                              "id": st.column_config.TextColumn(
-                                                  "ID",
-                                                  disabled=True,
-                                                  width='small'
-                                              ),
-                                              "cable_tag": st.column_config.TextColumn(
-                                                  "Cable Tag",
-                                                  width='medium'
-                                              ),
-                                              "purpose": st.column_config.SelectboxColumn(
-                                                  "Cable Purpose",
-                                                  options=cab_purposes,
-                                                  width='small'
-                                              ),
-                                              "type": st.column_config.SelectboxColumn(
-                                                  "Cable Type",
-                                                  options=cab_types,
-                                                  width='medium'
-                                              ),
-                                              "wire": st.column_config.SelectboxColumn(
-                                                  "Wires' Number",
-                                                  options=wire_numbers,
-                                                  width='small'
-                                              ),
-                                              "section": st.column_config.SelectboxColumn(
-                                                  "Wires' Section",
-                                                  options=wire_sections,
-                                                  width='small'
-                                              ),
-                                              "left_pan_tag": st.column_config.SelectboxColumn(
-                                                  "Left Panel Tag",
-                                                  options=pan_tag_list,
-                                                  width='medium'
-                                              ),
-                                              "right_pan_tag": st.column_config.SelectboxColumn(
-                                                  "Right Panel Tag",
-                                                  options=pan_tag_list,
-                                                  width='medium'
-                                              ),
-                                              "edit": st.column_config.CheckboxColumn(
-                                                  "Edit",
-                                                  width='small'
-                                              ),
-                                              "notes": st.column_config.TextColumn(
-                                                  "Notes",
-                                                  width='large'
-                                              ),
-                                          },
-                                          use_container_width=True, hide_index=True)
-        else:
-            data_to_show = st.write(f"#### :blue[Panels not available...]")
-            # st.stop()
-
-        if act == 'Create':
-            data_to_show
-            create_cable(pan_tag_list)
-
-        if act == 'View':
-            data_to_show
-
-        if act == 'Delete':
-            edited_df = data_to_show
-            if st.button("Delete Equipment"):
-                delete_cable(edited_df)
-
-        if act == 'Edit':
-            edited_df = data_to_show
-            if st.button("Edit Selected Cables"):
-                edit_cable(edited_df)
-
+    if all([selected_pan_left == 'ALL', selected_pan_right == 'ALL', ]):
+        df_to_show = prev_dict[prev_sel]()
     else:
-        st.write("Select the option 👆 to proceed")
+        df_to_show = get_filtered_cables(selected_pan_left, selected_pan_right)
+
+    if isinstance(df_to_show, pd.DataFrame):
+        cab_purposes, cab_types, wire_numbers, wire_sections = get_cab_params()
+        data_to_show = st.data_editor(df_to_show,
+                                      column_config={
+                                          "id": st.column_config.TextColumn(
+                                              "ID",
+                                              disabled=True,
+                                              width='small'
+                                          ),
+                                          "cable_tag": st.column_config.TextColumn(
+                                              "Cable Tag",
+                                              width='medium'
+                                          ),
+                                          "purpose": st.column_config.SelectboxColumn(
+                                              "Cable Purpose",
+                                              options=cab_purposes,
+                                              width='small'
+                                          ),
+                                          "type": st.column_config.SelectboxColumn(
+                                              "Cable Type",
+                                              options=cab_types,
+                                              width='medium'
+                                          ),
+                                          "wire": st.column_config.SelectboxColumn(
+                                              "Wires' Number",
+                                              options=wire_numbers,
+                                              width='small'
+                                          ),
+                                          "section": st.column_config.SelectboxColumn(
+                                              "Wires' Section",
+                                              options=wire_sections,
+                                              width='small'
+                                          ),
+                                          "left_pan_tag": st.column_config.SelectboxColumn(
+                                              "Left Panel Tag",
+                                              options=pan_tag_list,
+                                              width='medium'
+                                          ),
+                                          "right_pan_tag": st.column_config.SelectboxColumn(
+                                              "Right Panel Tag",
+                                              options=pan_tag_list,
+                                              width='medium'
+                                          ),
+                                          "edit": st.column_config.CheckboxColumn(
+                                              "Edit",
+                                              width='small'
+                                          ),
+                                          "notes": st.column_config.TextColumn(
+                                              "Notes",
+                                              width='large'
+                                          ),
+                                      },
+                                      use_container_width=True, hide_index=True)
+    else:
+        data_to_show = st.write(f"#### :blue[Panels not available...]")
+        # st.stop()
+
+    if act == 'Create':
+        data_to_show
+        create_cable(pan_tag_list)
+
+    if act == 'View':
+        data_to_show
+
+    if act == 'Delete':
+        edited_df = data_to_show
+        if st.button("Delete Equipment"):
+            delete_cable(edited_df)
+
+    if act == 'Edit':
+        edited_df = data_to_show
+        if st.button("Edit Selected Cables"):
+            edit_cable(edited_df)
+
 
 # def delete_cable(cab_to_del_list):
 #     st.session_state.intercon['cable'] = \
