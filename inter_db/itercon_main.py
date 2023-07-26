@@ -8,6 +8,8 @@ from inter_db.cables import cables_main
 from inter_db.equipment import create_equipment, delete_equipment, edit_equipment, equipment_main
 from inter_db.panels import panels_main
 from inter_db.read_all_tabs import get_all_equip, get_all_panels, get_all_blocks, get_all_terminals, get_all_cables
+from inter_db.terminals import terminals_main
+
 
 def intercon_expander():
     with st.expander('CREATE INTERCONNECTION WIRING DIAGRAM'):
