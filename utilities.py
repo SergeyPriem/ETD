@@ -241,18 +241,11 @@ def convert_txt_to_list(txt):
         elif "," in txt:
             txt_spl = txt.split(',')
         else:
-            txt_spl = txt
+            txt_spl = [txt]
 
         for i in txt_spl:
             if "-" in i:
                 i_spl = i.split('-')
-                st.text(i_spl)
-                st.text(type(i_spl[0]))
-                st.text(type(i_spl[1]))
-                st.text((i_spl[0]))
-                st.text((i_spl[1]))
-
-                st.stop()
 
                 i_start = int((i_spl[0]))
                 i_end = int((i_spl[1]))
@@ -269,6 +262,8 @@ def convert_txt_to_list(txt):
                 except Exception as e:
                     st.toast(err_handler(e))
                     return
+        final_list.sort()
+        final_list = list(set(final_list))
         return final_list
     else:
         return []
