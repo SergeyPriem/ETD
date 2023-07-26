@@ -132,9 +132,9 @@ def terminals_main(act, prev_dict, prev_sel):
                                               "Internal Circuit",
                                               width='medium'
                                           ),
-                                          "int_link": st.column_config.SelectboxColumn(
+                                          "int_link": st.column_config.TextColumn(
                                               "Jumper to Terminal",
-                                              width='small'
+                                              width='medium'
                                           ),
                                           "edit": st.column_config.CheckboxColumn(
                                               "Edit",
@@ -145,7 +145,7 @@ def terminals_main(act, prev_dict, prev_sel):
                                               width='large'
                                           ),
                                           "terminal_un": st.column_config.TextColumn(
-                                              "Notes",
+                                              "Terminal Unique Number",
                                               width='large'
                                           ),
                                       },
