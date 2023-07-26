@@ -9,6 +9,7 @@ from inter_db.equipment import create_equipment, delete_equipment, edit_equipmen
 from inter_db.panels import panels_main
 from inter_db.read_all_tabs import get_all_equip, get_all_panels, get_all_blocks, get_all_terminals, get_all_cables
 from inter_db.terminals import terminals_main
+from inter_db.wires import wires_main
 
 
 def intercon_expander():
@@ -130,6 +131,8 @@ def intercon_expander():
                         cables_main(act, prev_dict, prev_sel)
                     if prev_sel == 'Terminals':
                         terminals_main(act)
+                    if prev_sel == 'Wires':
+                        wires_main(act)
                 else:
                     st.write("Select the option 👆 to proceed")
             else:
