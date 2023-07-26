@@ -37,7 +37,7 @@ def terminals_main(act, prev_dict, prev_sel):
     c1, c2 = st.columns(2, gap='medium')
     selected_equip = c1.selectbox('Select the Equipment', eq_tag_list)
 
-    block_tag_list = get_filtered_blocks(selected_equip)().panel_un.tolist()
+    block_tag_list = list(get_filtered_blocks(selected_equip))
     selected_block = c2.selectbox('Select the Terminal Block', block_tag_list)
 
     if all([selected_equip, selected_block, act != 'Select required:']):
