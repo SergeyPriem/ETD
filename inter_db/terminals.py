@@ -14,6 +14,7 @@ def create_terminals(block_un, terminals):
         with db_session:
             block = Block.get(block_un=block_un)
             exist_terminals = select(te.terminal_num for te in Terminal)[:]
+            st.info(exist_terminals)
             for t in terminals:
                 if t in exist_terminals:
                     st.toast(f"##### :[Terminal {t} already exists...]")
