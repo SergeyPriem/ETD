@@ -21,7 +21,7 @@ def delete_terminals(df):
                         st.toast(f"##### :red[Fail, Terminal {tag} not found]")
                         continue
                     del_row.delete()
-                    list_deleted.append(tag)
+                    list_deleted.append(tag.split(":")[-1])
                 st.toast(f":green[Terminals: {list_deleted} is deleted]")
         except Exception as e:
             st.toast(f"#### :red[Can't delete {tag}]")
