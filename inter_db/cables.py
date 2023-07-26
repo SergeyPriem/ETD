@@ -112,7 +112,7 @@ def create_cable(pan_tag_list):
             with db_session:
                 left_pan = Panel.get(panel_un=left_pan_tag)
                 right_pan = Panel.get(panel_un=right_pan_tag)
-                purpose = Cab_purpose.get(circuit_descr=cab_purposes)
+                purpose = Cab_purpose.get(circuit_descr=cab_purpose)
                 c_type = Cab_types.get(cab_type=cab_type)
                 c_wires = Cab_wires.get(wire_num=wire_number)
                 c_sect = Cab_sect.get(section=wire_section)
