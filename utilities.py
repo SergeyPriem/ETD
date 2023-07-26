@@ -29,7 +29,7 @@ def err_handler(e):
 def tab_to_df(tab, keep_id=False):
     t_dict = [t.to_dict() for t in tab]
     t_df = pd.DataFrame(t_dict)
-    if keep_id:
+    if not keep_id:
         if 'id' in list(t_df.columns):
             t_df = t_df.set_index('id')
     if len(t_df) > 0:
