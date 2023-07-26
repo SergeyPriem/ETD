@@ -18,7 +18,7 @@ def create_terminals(block_un, terminals):
             for t in terminals:
                 t = str(t)
                 if t in exist_terminals:
-                    st.toast(f"##### :[Terminal {t} already exists...]")
+                    st.toast(f"##### :red[Terminal {t} already exists...]")
                     continue
 
                 Terminal(
