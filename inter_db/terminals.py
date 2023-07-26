@@ -127,9 +127,8 @@ def terminals_main(act, prev_dict, prev_sel):
         c1, c2 = st.columns(2, gap='medium')
         terminals_str = c1.text_input("Terminals Numbers")
 
-        terminals = convert_txt_to_list(terminals_str)
-
-        if c2.button("Add Trminals", use_container_width=True):
+        if c2.button("Add Terminals", use_container_width=True):
+            terminals = convert_txt_to_list(terminals_str)
             if all([len(terminals), isinstance(terminals, list)]):
                 create_terminals(selected_block, terminals)
 
