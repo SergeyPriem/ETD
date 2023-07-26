@@ -23,7 +23,8 @@ def get_filtered_blocks(equip):
 def get_filtered_terminals(block):
     try:
         with db_session:
-            data = select(t for t in Terminal if t.block_id == block)[:]
+            selected_block = Block.get(block_un=block)
+            data = select(t for t in Terminal if t.block_id == selected_block)[:]
             return tab_to_df(data)
     except Exception as e:
         st.toast(err_handler(e))
