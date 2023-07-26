@@ -53,7 +53,7 @@ def edit_cable(df):
                     right_pan = Panel.get(panel_un=row.right_pan_tag)
 
                     edit_row.set(
-                        cable_tag=row.cab_tag,
+                        cable_tag=row.cable_tag,
                         purpose_id=purpose,
                         type_id=c_type,
                         wires_id=c_wires,
