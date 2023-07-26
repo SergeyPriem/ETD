@@ -24,9 +24,13 @@ def create_terminals(block_un, terminals):
                     notes='',
                     terminal_un=str(block_un)+":"+str(t),
                 )
+                st.toast(f"##### ;green[Terminal {t} added]")
 
     except Exception as e:
         st.toast(err_handler(e))
+    finally:
+        get_filtered_terminals.clear()
+        st.button("OK", key='terminals_added')
 
 
 @st.cache_data(show_spinner=False)
