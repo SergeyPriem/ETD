@@ -67,7 +67,10 @@ def get_filtered_blocks(equip):
     try:
         with db_session:
             data = select(b.block_un for b in Block if equip in b.block_un)[:]
-            return data
+
+            df = pd.DataFrame(data, columns=['id', 'block_id', 'terminal_num', 'int_circuit', 'int_link',
+                                             'edit', 'notes', 'terminal_un'])
+            return df
     except Exception as e:
         st.toast(err_handler(e))
 
