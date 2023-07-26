@@ -248,6 +248,7 @@ import streamlit as st
 #         st.subheader(f'Select the Cable for Termination')
 from pony.orm import db_session, select
 
+from inter_db.cables import get_cab_tags
 from models import Wire, Cable
 from utilities import err_handler
 
@@ -274,7 +275,7 @@ def select_filtered_wires(cab_tag):
 
 
 def wires_main(act):
-    cab_tag_list = []
+    cab_tag_list = get_cab_tags()
     cab_tag = st.selectbox("Cable Tag", cab_tag_list)
 
     df = select_filtered_wires(cab_tag)

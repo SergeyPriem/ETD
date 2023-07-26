@@ -9,6 +9,15 @@ from models import Cable, Cab_purpose, Cab_types, Cab_wires, Cab_sect, Panel
 from utilities import err_handler, tab_to_df
 
 
+@st.cache_data(show_spinner=False)
+def get_cab_tags():
+    try:
+        with db_session:
+            cab_tags = select(c.cable_tag for c in Cable)[:]
+        return cab_tags
+    except Exception as e:
+        st.toast(err_handler(e))
+
 def delete_cable(df):
     tag_list = df.loc[df.edit.astype('str') == "True", 'cable_tag'].tolist()
     if tag_list:
@@ -27,6 +36,7 @@ def delete_cable(df):
         finally:
             get_filtered_cables.clear()
             get_all_cables.clear()
+            get_cab_tags.clear()
             st.button("OK", key='cable_deleted')
     else:
         st.toast(f"#### :orange[Select the Cable to delete in column 'Edit']")
@@ -70,6 +80,7 @@ def edit_cable(df):
         finally:
             get_filtered_cables.clear()
             get_all_cables.clear()
+            get_cab_tags.clear()
             st.button("OK", key='cables_updated')
     else:
         st.toast(f"#### :orange[Select the Cables to edit in column 'Edit']")
@@ -165,6 +176,7 @@ def create_cable(pan_tag_list):
             finally:
                 get_filtered_cables.clear()
                 get_all_cables.clear()
+                get_cab_tags.clear()
                 st.button("OK", key='cable_added')
 
 
