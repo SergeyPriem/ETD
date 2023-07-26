@@ -208,8 +208,8 @@ def cables_main(act, prev_dict, prev_sel):
 
     if act == 'Edit':
         edited_df = data_to_show
-        # if st.button("Edit Panel"):
-        #     edit_cable(edited_df)
+        if st.button("Edit Selected Cables"):
+            edit_cable(edited_df)
 
 # def delete_cable(cab_to_del_list):
 #     st.session_state.intercon['cable'] = \

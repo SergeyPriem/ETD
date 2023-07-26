@@ -169,7 +169,7 @@ def panels_main(act, prev_dict, prev_sel):
 
     if act == 'Edit':
         edited_df = data_to_show
-        if st.button("Edit Panel"):
+        if st.button("Edit Selected Panel"):
                 edit_panel(edited_df)
 
 

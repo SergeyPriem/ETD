@@ -162,5 +162,5 @@ def blocks_main(act, prev_dict, prev_sel):
 
     if act == 'Edit':
         edited_df = data_to_show
-        if st.button("Edit Terminal Block"):
+        if st.button("Edit Selected Terminal Block"):
                 edit_block(edited_df)
