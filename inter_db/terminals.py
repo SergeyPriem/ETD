@@ -67,10 +67,7 @@ def get_filtered_blocks(equip):
     try:
         with db_session:
             data = select(b.block_un for b in Block if equip in b.block_un)[:]
-
-            df = pd.DataFrame(data, columns=['id', 'block_id', 'terminal_num', 'int_circuit', 'int_link',
-                                             'edit', 'notes', 'terminal_un'])
-            return df
+            return data
     except Exception as e:
         st.toast(err_handler(e))
 
@@ -80,8 +77,20 @@ def get_filtered_terminals(block):
     try:
         with db_session:
             selected_block = Block.get(block_un=block)
-            data = select(t for t in Terminal if t.block_id == selected_block)[:]
-            return tab_to_df(data, keep_id=True)
+            data = select((
+                t.id,
+                t.block_id.block_tag,
+                t.terminal_num,
+                t.int_circuit,
+                t.int_link,
+                t.edit,
+                t.notes,
+                t.terminal_un
+                ) for t in Terminal if t.block_id == selected_block)[:]
+
+            df = pd.DataFrame(data, columns=['id', 'block_id', 'terminal_num', 'int_circuit', 'int_link',
+                                             'edit', 'notes', 'terminal_un'])
+            return df
     except Exception as e:
         st.toast(err_handler(e))
 
