@@ -26,8 +26,6 @@ def distr_main():
 
     st.divider()
 
-    lc, rc = st.columns(2, gap='large')
-
     loads_df = pd.read_excel(load_list, sheet_name="Sheet1")
 
     iterations = len(loads_df) + 5
