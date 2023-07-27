@@ -94,9 +94,11 @@ def distr_main():
 
     rc.write(f"#### {len(final_df)} loads. Consumption: {final_df.load.sum()} kW")
     st.divider()
-    lc.text('')
-    lc.text('')
-    lc.text('')
+
+    c1, c2,c3 = st.columns(3, gap='large')
+    # lc.text('')
+    # lc.text('')
+    # lc.text('')
 
     f_max = 0
     f_min = f_min_init
@@ -112,13 +114,13 @@ def distr_main():
             f_min = f_sum
             let_min = f
 
-        lc.write(f"Phase {f}: {f_sum} kW")
+        c1.write(f"Phase {f}: {f_sum} kW")
 
-    rc.text('')
-    rc.write(f"Max: Phase {let_max}: {f_max} kW")
-    rc.write(f"Min: Phase {let_min}: {f_min} kW")
-    rc.text('')
-    rc.write(f"### Delta: {f_max - f_min} kW")
+    # rc.text('')
+    c2.write(f"Max: Phase {let_max}: {f_max} kW")
+    c2.write(f"Min: Phase {let_min}: {f_min} kW")
+    # rc.text('')
+    c2.write(f"### Delta: {f_max - f_min} kW")
 
     final_df.set_index('consumer_name', inplace=True)
 
@@ -126,11 +128,11 @@ def distr_main():
 
     with pd.ExcelWriter(buffer) as writer:
         final_df.to_excel(writer)
-    lc.text('')
-    lc.text('')
-    lc.text('')
-    lc.text('')
-    rc.download_button(
+    c3.text('')
+    c3.text('')
+    c3.text('')
+    c3.text('')
+    c3.download_button(
         label='Get Distributed Load List here', data=buffer,
         file_name=f'Distributed Loads {datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}.xlsx'
     )
