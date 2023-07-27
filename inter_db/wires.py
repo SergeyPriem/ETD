@@ -288,9 +288,9 @@ def wires_main(act):
         c3.text('')
         # c1.text(f"Left Panel: {cab_pan_left}")
         # c3.text(f"Right Panel: {cab_pan_right}")
-        c1.markdown(f"<h6 style='text-align: center; color: #249ded;'>Left Panel: {cab_pan_left}</h6>",
+        c1.markdown(f"<h5 style='text-align: center; color: #249ded;'>Left Panel: {cab_pan_left}</h5>",
                        unsafe_allow_html=True)
-        c3.markdown(f"<h6 style='text-align: center; color: #249ded;'>Right Panel: {cab_pan_right}</h6>",
+        c3.markdown(f"<h5 style='text-align: center; color: #249ded;'>Right Panel: {cab_pan_right}</h5>",
                        unsafe_allow_html=True)
 
         df = select_filtered_wires(cab_tag)

@@ -47,6 +47,8 @@ def create_project(proj_short, proj_full, client, proj_man, responsible_el, proj
                    proj_tech_conditions, proj_surveys, proj_mdr, proj_notes):
     if len(proj_short) < 3:
         return f"Wrong Project's short name: {proj_short}"
+    if len(proj_full) < 3:
+        return f"Wrong Project's full name: {proj_short}"
     if proj_short in get_projects_names():
         return f'Project {proj_short} is already in DataBase'
     with db_session:
