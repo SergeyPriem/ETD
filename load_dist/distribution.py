@@ -26,13 +26,15 @@ def distr_main():
 
     st.divider()
 
+    lc, rc = st.columns(2, gap='large')
+
     loads_df = pd.read_excel(load_list, sheet_name="Sheet1")
 
     iterations = len(loads_df) + 5
 
-    st.data_editor(loads_df, use_container_width=True)
+    lc.data_editor(loads_df, use_container_width=True)
 
-    st.write(f"#### {len(loads_df)} loads. Consumption: {loads_df.load.sum()} kW")
+    lc.write(f"#### {len(loads_df)} loads. Consumption: {loads_df.load.sum()} kW")
     st.divider()
     f_max = 0
     let_max = ''
@@ -88,9 +90,9 @@ def distr_main():
         nearest_index = final_df[(final_df.load == nearest_value) & (final_df.phase == let_max)].index[0]
         final_df.loc[nearest_index, 'phase'] = let_min
 
-    st.data_editor(final_df, use_container_width=True)
-
     lc, rc = st.columns(2, gap='large')
+    rc.data_editor(final_df, use_container_width=True)
+
     lc.write(f"#### {len(final_df)} loads. Consumption: {final_df.load.sum()} kW")
 
     rc.text('')
