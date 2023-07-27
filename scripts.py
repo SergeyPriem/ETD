@@ -10,6 +10,7 @@ import streamlit as st
 
 from create_xml import add_main_bus, add_feeder
 from inter_db.itercon_main import intercon_expander
+from load_dist.distribution import distr_main
 from section_generator import get_tags_from_cablist, generate_dxf, get_sect_from_layout
 from users import err_handler, reg_action
 from utilities import center_style, open_dxf_file, check_df
@@ -1368,5 +1369,7 @@ def scripts_tab():
                 else:
                     st.write("Process Cable Layout and Add Sections' Template...")
 
-        intercon_expander()
+            intercon_expander()
 
+        with st.expander('SINGLE PHASE LOAD DISTIBUTION'):
+            distr_main()
