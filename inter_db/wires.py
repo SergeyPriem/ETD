@@ -283,14 +283,14 @@ def wires_main(act):
         cab_pan_left, cab_pan_right = get_cab_panels(cab_tag)
         # st.write(get_cab_panels(cab_tag))
         c1.text('')
-        c1.text('')
+        # c1.text('')
+        # c3.text('')
         c3.text('')
-        c3.text('')
-        c1.text(f"Left Panel: {cab_pan_left}")
-        c3.text(f"Right Panel: {cab_pan_right}")
-        c1.markdown(f"<h4 style='text-align: center; color: red;'>Left Panel: {cab_pan_left}</h4>",
+        # c1.text(f"Left Panel: {cab_pan_left}")
+        # c3.text(f"Right Panel: {cab_pan_right}")
+        c1.markdown(f"<h6 style='text-align: center; color: blue;'>Left Panel: {cab_pan_left}</h6>",
                        unsafe_allow_html=True)
-        c3.markdown(f"<h4 style='text-align: center; color: red;'>Right Panel: {cab_pan_right}</h4>",
+        c3.markdown(f"<h6 style='text-align: center; color: blue;'>Right Panel: {cab_pan_right}</h6>",
                        unsafe_allow_html=True)
 
         df = select_filtered_wires(cab_tag)
