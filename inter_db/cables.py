@@ -13,7 +13,7 @@ from utilities import err_handler
 def get_cab_panels(cab_tag):
     try:
         with db_session:
-            cab_tags = select((c.left_pan_id.panel_tag, c.right_pan_id.panel_tag)
+            cab_tags = select((c.left_pan_id.panel_un, c.right_pan_id.panel_un)
                               for c in Cable if c.cable_tag == cab_tag).first()
         return cab_tags
     except Exception as e:
