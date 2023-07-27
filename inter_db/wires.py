@@ -289,7 +289,7 @@ def wires_main(act):
         l.subheader(f"{cab_pan_left}")
         r.subheader(cab_pan_right)
         l.markdown(f"{cab_pan_left}")
-        r.markdown("512:XT02")
+        r.markdown("""512:XT02""")
 
         df = select_filtered_wires(cab_tag)
 
