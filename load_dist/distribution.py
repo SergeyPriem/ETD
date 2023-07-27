@@ -5,11 +5,12 @@ import io
 import pandas as pd
 import streamlit as st
 
+
 def nearest(lst, target):
     return min(lst, key=lambda x: abs(x - target))
 
-def distr_main():
 
+def distr_main():
     lc, rc = st.columns(2, gap='large')
 
     rc.text('')
@@ -17,16 +18,13 @@ def distr_main():
     ratio = rc.slider("Select the ratio (adjust for better result)", min_value=0.1, max_value=1.0, value=0.2, step=0.05)
     # iterations = rc.slider("Iteration Quantity (adjust for better result)", min_value=3, max_value=50, value=5, step=1,)
 
-
-    load_list = lc.file_uploader("LOAD LIST loader", type='xlsx')
+    load_list = lc.file_uploader("LOAD LIST loader", type='xlsx', key='for_single_phases')
 
     if not load_list:
         st.info("ADD LOAD LIST")
         st.stop()
 
     st.divider()
-
-
 
     loads_df = pd.read_excel(load_list, sheet_name="Sheet1")
 
@@ -67,7 +65,6 @@ def distr_main():
 
                 loads_df = loads_df.drop([ind_max, ind_min])
 
-
     for iterat in range(1, iterations):
 
         f_max = 0
@@ -99,7 +96,6 @@ def distr_main():
     rc.text('')
     rc.text('')
     rc.text('')
-
 
     f_max = 0
     f_min = f_min_init
