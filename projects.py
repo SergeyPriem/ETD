@@ -45,14 +45,14 @@ def create_backup_string(source_link, backup_folder, task_num):
 
 def create_project(proj_short, proj_full, client, proj_man, responsible_el, proj_status, proj_tech_ass,
                    proj_tech_conditions, proj_surveys, proj_mdr, proj_notes):
-    if len(proj_short) < 3:
-        return f"Wrong Project's short name: {proj_short}"
-    if len(proj_full) < 3:
-        return f"Wrong Project's full name: {proj_short}"
-    if proj_short in get_projects_names():
-        return f'Project {proj_short} is already in DataBase'
-    with db_session:
-        try:
+    try:
+        if len(proj_short) < 3:
+            return f"Wrong Project's short name: {proj_short}"
+        if len(proj_full) < 3:
+            return f"Wrong Project's full name: {proj_short}"
+        if proj_short in get_projects_names():
+            return f'Project {proj_short} is already in DataBase'
+        with db_session:
             Project(
                 short_name=proj_short,
                 full_name=proj_full,
@@ -67,9 +67,9 @@ def create_project(proj_short, proj_full, client, proj_man, responsible_el, proj
                 notes=proj_notes
             )
 
-            return f'New Project {proj_short} is added to DataBase'
-        except Exception as e:
-            return err_handler(e)
+        return f'New Project {proj_short} is added to DataBase'
+    except Exception as e:
+        return err_handler(e)
 
 
 def get_projects_names():
