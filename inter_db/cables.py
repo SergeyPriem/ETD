@@ -15,7 +15,7 @@ def get_cab_panels(cab_tag):
         with db_session:
             cab_tags = select((c.left_pan_id.panel_un, c.right_pan_id.panel_un)
                               for c in Cable if c.cable_tag == cab_tag)[:]
-        return cab_tags[0], cab_tags[1]
+        return cab_tags
     except Exception as e:
         st.toast(err_handler(e))
 

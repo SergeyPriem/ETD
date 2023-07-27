@@ -281,6 +281,7 @@ def wires_main(act):
 
     if cab_tag:
         cab_pan_left, cab_pan_right = get_cab_panels(cab_tag)
+        st.write(get_cab_panels(cab_tag))
         l.write(f": orange[Left Panel: {cab_pan_left}]")
         r.write(f": orange[Right Panel: {cab_pan_right}]")
 
