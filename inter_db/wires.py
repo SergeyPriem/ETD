@@ -277,17 +277,17 @@ def select_filtered_wires(cab_tag):
 def wires_main(act):
     cab_tag_list = get_cab_tags()
     c1, c2, c3, c4, c5, c6, c7,  = st.columns([1,1,1,3,1,1,1], gap='medium')
-    cab_tag = c.selectbox("Cable Tag", cab_tag_list)
+    cab_tag = c4.selectbox("Cable Tag", cab_tag_list)
 
     if cab_tag:
         cab_pan_left, cab_pan_right = get_cab_panels(cab_tag)
         # st.write(get_cab_panels(cab_tag))
         c2.text('')
         c3.text('')
-        c5.text('')
-        c5.text('')
+        c6.text('')
+        c6.text('')
         c2.text(f"Left Panel: {cab_pan_left}")
-        c5.text(f"Right Panel: {cab_pan_right}")
+        c6.text(f"Right Panel: {cab_pan_right}")
 
         df = select_filtered_wires(cab_tag)
 
