@@ -1,29 +1,18 @@
 ﻿# -*- coding: utf-8 -*-
 import datetime
 import io
-import streamlit as st
-import pandas as pd
-import numpy as np
 import math
 import os
-import gspread
-from streamlit_option_menu import option_menu
+
+import numpy as np
+import pandas as pd
+import streamlit as st
 
 from create_xml import add_main_bus, add_feeder
-from inter_db.equipment import create_equipment
 from inter_db.itercon_main import intercon_expander
-from inter_db.read_all_tabs import get_all_equip, get_all_panels, get_all_blocks, get_all_terminals, get_all_cables
 from section_generator import get_tags_from_cablist, generate_dxf, get_sect_from_layout
 from users import err_handler, reg_action
-from utilities import center_style, open_dxf_file, check_df, credentials
-
-from intercon.equipment import edit_equipment
-from intercon.cables import edit_cab_con
-from intercon.panels import edit_panel
-from intercon.blocks import edit_block
-from intercon.wires import edit_wires
-from intercon.data_interface import open_inercon_doc, open_intercon_google, save_to_gsheet
-
+from utilities import center_style, open_dxf_file, check_df
 
 cab_dict = {
     1.5: 1.5, 2.5: 2.5, 4: 4,
@@ -384,6 +373,7 @@ def sect_calc(cab_df, row: int, u_c: int, power: float, rated_current: float, de
               cos_start: float, sin_start: float, loads_df) -> tuple:
     if busduct:
         return 1, 1000, 1000, 0
+
     global section, voltage_drop, pe_sect
 
     par = 0
