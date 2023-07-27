@@ -24,8 +24,6 @@ def distr_main():
         st.info("ADD LOAD LIST")
         st.stop()
 
-    st.divider()
-
     loads_df = pd.read_excel(load_list, sheet_name="Sheet1")
 
     iterations = len(loads_df) + 5
@@ -88,7 +86,7 @@ def distr_main():
         nearest_index = final_df[(final_df.load == nearest_value) & (final_df.phase == let_max)].index[0]
         final_df.loc[nearest_index, 'phase'] = let_min
 
-    lc, rc = st.columns(2, gap='large')
+
     rc.data_editor(final_df, use_container_width=True)
 
     lc.write(f"#### {len(final_df)} loads. Consumption: {final_df.load.sum()} kW")
