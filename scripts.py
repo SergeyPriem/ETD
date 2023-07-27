@@ -1373,5 +1373,5 @@ def scripts_tab():
             intercon_expander()
 
         with st.expander('SINGLE PHASE LOAD DISTIBUTION'):
-            st.header(":orange[Distribute single phase loads per phases]")
+            st.title(":orange[Distribute single phase loads per phases]")
             distr_main()
