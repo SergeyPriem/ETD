@@ -1369,7 +1369,8 @@ def scripts_tab():
                 else:
                     st.write("Process Cable Layout and Add Sections' Template...")
 
-        intercon_expander()
+        with st.expander('CREATE INTERCONNECTION WIRING DIAGRAM'):
+            intercon_expander()
 
         with st.expander('SINGLE PHASE LOAD DISTIBUTION'):
             st.header("Distribute single phase loads per phases")
