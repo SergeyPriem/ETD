@@ -93,10 +93,10 @@ def distr_main():
     rc.data_editor(final_df, use_container_width=True)
 
     rc.write(f"#### {len(final_df)} loads. Consumption: {final_df.load.sum()} kW")
-
-    rc.text('')
-    rc.text('')
-    rc.text('')
+    st.divider()
+    lc.text('')
+    lc.text('')
+    lc.text('')
 
     f_max = 0
     f_min = f_min_init
@@ -112,7 +112,7 @@ def distr_main():
             f_min = f_sum
             let_min = f
 
-        rc.write(f"Phase {f}: {f_sum} kW")
+        lc.write(f"Phase {f}: {f_sum} kW")
 
     rc.text('')
     rc.write(f"Max: Phase {let_max}: {f_max} kW")
