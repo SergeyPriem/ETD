@@ -3,10 +3,21 @@ import pandas as pd
 import streamlit as st
 from pony.orm import db_session, select
 
-from inter_db.panels import get_eqip_tags, get_filtered_panels, get_panel_tags
+from inter_db.panels import get_panel_tags
 from inter_db.read_all_tabs import get_all_cables
 from models import Cable, Cab_purpose, Cab_types, Cab_wires, Cab_sect, Panel
-from utilities import err_handler, tab_to_df
+from utilities import err_handler
+
+
+@st.cache_data(show_spinner=False)
+def get_cab_panels(cab_tag):
+    try:
+        with db_session:
+            cab_tags = select((c.left_pan_id.panel_un, c.right_pan_id.panel_un)
+                              for c in Cable if c.cable_tag == cab_tag)[:]
+        return cab_tags
+    except Exception as e:
+        st.toast(err_handler(e))
 
 
 @st.cache_data(show_spinner=False)
@@ -37,6 +48,7 @@ def delete_cable(df):
             get_filtered_cables.clear()
             get_all_cables.clear()
             get_cab_tags.clear()
+            get_cab_panels.clear()
             st.button("OK", key='cable_deleted')
     else:
         st.toast(f"#### :orange[Select the Cable to delete in column 'Edit']")
@@ -81,6 +93,7 @@ def edit_cable(df):
             get_filtered_cables.clear()
             get_all_cables.clear()
             get_cab_tags.clear()
+            get_cab_panels.clear()
             st.button("OK", key='cables_updated')
     else:
         st.toast(f"#### :orange[Select the Cables to edit in column 'Edit']")
@@ -177,6 +190,7 @@ def create_cable(pan_tag_list):
                 get_filtered_cables.clear()
                 get_all_cables.clear()
                 get_cab_tags.clear()
+                get_cab_panels.clear()
                 st.button("OK", key='cable_added')
 
 
