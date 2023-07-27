@@ -31,6 +31,7 @@ def distr_main():
 
     iterations = len(loads_df) + 5
 
+    lc.subheader('Initial Load List')
     lc.data_editor(loads_df, use_container_width=True)
 
     lc.write(f"#### {len(loads_df)} loads. Consumption: {loads_df.load.sum()} kW")
@@ -89,7 +90,7 @@ def distr_main():
         nearest_index = final_df[(final_df.load == nearest_value) & (final_df.phase == let_max)].index[0]
         final_df.loc[nearest_index, 'phase'] = let_min
 
-
+    rc.subheader('Distributed Load List')
     rc.data_editor(final_df, use_container_width=True)
 
     rc.write(f"#### {len(final_df)} loads. Consumption: {final_df.load.sum()} kW")
@@ -131,7 +132,7 @@ def distr_main():
     c3.text('')
     c3.text('')
     c3.text('')
-    c3.text('')
+
     c3.download_button(
         label='Get Distributed Load List here', data=buffer,
         file_name=f'Distributed Loads {datetime.datetime.today().strftime("%Y-%m-%d-%H-%M")}.xlsx'
