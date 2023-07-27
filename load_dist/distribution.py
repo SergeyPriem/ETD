@@ -20,6 +20,9 @@ def distr_main():
 
     load_list = lc.file_uploader("LOAD LIST loader", type='xlsx', key='for_single_phases')
 
+    st.divider()
+    lc, rc = st.columns(2, gap='large')
+
     if not load_list:
         st.info("ADD LOAD LIST")
         st.stop()
@@ -89,7 +92,7 @@ def distr_main():
 
     rc.data_editor(final_df, use_container_width=True)
 
-    lc.write(f"#### {len(final_df)} loads. Consumption: {final_df.load.sum()} kW")
+    rc.write(f"#### {len(final_df)} loads. Consumption: {final_df.load.sum()} kW")
 
     rc.text('')
     rc.text('')
@@ -111,11 +114,11 @@ def distr_main():
 
         rc.write(f"Phase {f}: {f_sum} kW")
 
-    lc.text('')
-    lc.write(f"Max: Phase {let_max}: {f_max} kW")
-    lc.write(f"Min: Phase {let_min}: {f_min} kW")
-    lc.text('')
-    lc.write(f"### Delta: {f_max - f_min} kW")
+    rc.text('')
+    rc.write(f"Max: Phase {let_max}: {f_max} kW")
+    rc.write(f"Min: Phase {let_min}: {f_min} kW")
+    rc.text('')
+    rc.write(f"### Delta: {f_max - f_min} kW")
 
     final_df.set_index('consumer_name', inplace=True)
 
