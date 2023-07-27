@@ -596,14 +596,15 @@ def create_cab_list(contr_but_len, loads_df, panelDescr, diam_df, ex_df, glands_
             cl_df.loc[y, 'weight'] = cab_weight(purpose, cl_df.compos[y], cl_df.wires[y], cl_df.section[y],
                                                 diam_df)
 
-            # cab_weight(purpose, composition, wires, section, diam_df, ex_df)
-
             cl_df.loc[y, 'glandType'] = gland_type(cl_df.toUnit[y], ex_df)
             cl_df.loc[y, 'glandSize'] = gland_size(cl_df.diam[y], cl_df.compos[y], glands_df)
         except Exception as e:
-            st.warning('Ошибка определения диаметра кабеля: ', cl_df.cableTag[y])
+            st.warning(f"Ошибка определения диаметра кабеля: {cl_df.cableTag[y]}")
             e_str = f"{cl_df.cableTag[y]} > {err_handler(e)}"
             st.write(e_str)
+
+            cl_df.loc[y, 'glandType'] = "Not found"
+            cl_df.loc[y, 'glandSize'] = "Not found"
 
     for i in range(len(loads_df.parallel)):
         if loads_df.parallel[i] > 1:
