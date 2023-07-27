@@ -1372,4 +1372,4 @@ def scripts_tab():
             intercon_expander()
 
         with st.expander('SINGLE PHASE LOAD DISTIBUTION'):
-            distr_main()
+            # distr_main()
