@@ -286,8 +286,8 @@ def wires_main(act):
         l.text('')
         r.text('')
         r.text('')
-        st.write(f"Left Panel: {cab_pan_left}")
-        st.write(f"Right Panel: {cab_pan_right}")
+        st.write(f"Left Panel: {cab_pan_left} : xyz")
+        st.write(f"Right Panel: {cab_pan_right} : xyz")
 
         df = select_filtered_wires(cab_tag)
 
