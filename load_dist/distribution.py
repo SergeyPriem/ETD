@@ -35,7 +35,7 @@ def distr_main():
     lc.data_editor(loads_df, use_container_width=True)
 
     lc.write(f"#### {len(loads_df)} loads. Consumption: {loads_df.load.sum()} kW")
-    st.divider()
+
     f_max = 0
     let_max = ''
     f_min_init = loads_df.load.sum()
