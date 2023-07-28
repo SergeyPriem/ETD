@@ -44,16 +44,6 @@ def delete_cable(df):
                     del_row.delete()
                     st.toast(f"#### :green[Cable: {tag} is deleted]")
 
-                    wires_to_del = select(w.id for w in Wire if w.cable_id == del_row)[:]
-
-                    for wire_del in wires_to_del:
-                        wire_to_del = Wire[wire_del]
-                        wire_to_del.set(
-                            notes=f"Cable deleted by {st.session_state.user['login']}, "
-                                  f"date {datetime.datetime.today().strftime('%Y-%m-%d-%H-%M')}"
-                        )
-                    st.toast(f"#### :green[{len(wires_to_del)} wires deleted]")
-
         except Exception as e:
             st.toast(f"#### :red[Can't delete {tag}]")
             st.toast(f"##### {err_handler(e)}")
@@ -100,23 +90,6 @@ def edit_cable(df):
                         edit=False,
                         notes=row.notes,
                     )
-
-                    # if exist_wires_qty > c_wires:
-                    #     for w in range (c_wires+1, exist_wires_qty+1):
-                    #         Wire(
-                    #             cable_id=edit_row,
-                    #             wire_num=w,
-                    #             edit=False,
-                    #             left_term_id="",
-                    #             right_term_id="",
-                    #         )
-                    #
-                    # if exist_wires_qty < c_wires:
-                    #     for w in range (exist_wires_qty+1, c_wires+1):
-                    #         wire_to_del = select(w for w in Wire if w.cable_id == edit_row and w.wire_num == w).first()
-                    #
-                    #         wire_to_del.delete()
-
 
                     st.toast(f"#### :green[Cable: {row.cable_tag} is updated]")
         except Exception as e:
@@ -226,7 +199,7 @@ def create_cable(pan_tag_list):
                     #         right_term_id=0,
                     #     )
                 st.toast(f"#### :green[Cable {cab_tag} added]")
-                st.toast(f"#### :green[{wire_number} created]")
+
             except Exception as e:
                 st.toast(err_handler(e))
             finally:

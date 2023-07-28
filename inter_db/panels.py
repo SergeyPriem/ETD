@@ -5,7 +5,7 @@ from pony.orm import *
 
 from inter_db.read_all_tabs import get_all_panels
 from models import Equip, Panel
-from utilities import err_handler
+from utilities import err_handler, get_list_index
 
 
 @st.cache_data(show_spinner=False)
@@ -107,12 +107,12 @@ def get_panel_tags():
         st.toast(err_handler(e))
 
 
-def create_panel():
+def create_panel(sel_equip):
     eqip_tag_list = get_eqip_tags()
 
     with st.form('add_panel'):
         c1, c2, c3, c4, c5 = st.columns([1, 1, 1, 1.5, 0.5], gap='medium')
-        eq_tag = c1.selectbox('Equipment Tag', eqip_tag_list)
+        eq_tag = c1.selectbox('Equipment Tag', options=eqip_tag_list, index=get_list_index(eqip_tag_list, sel_equip))
         panel_tag = c2.text_input('Panel Tag')
         panel_descr = c3.text_input('Panel Description')
         panel_notes = c4.text_input('Notes')
@@ -157,7 +157,8 @@ def panels_main(act, prev_dict, prev_sel):
 
     if act == 'Create':
         data_to_show
-        create_panel()
+        if selected_equip:
+            create_panel(selected_equip)
 
     if act == 'View':
         data_to_show
