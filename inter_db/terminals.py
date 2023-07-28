@@ -12,8 +12,8 @@ from utilities import err_handler, tab_to_df, convert_txt_to_list
 
 def get_panel_terminals(pan):
     try:
-        data = select(str(b.block_id.block_tag)+":"+b.terminal_num for b in Terminal if pan in b.terminal_un)[:]
-
+        with db_session:
+            data = select(str(b.block_id.block_tag)+":"+b.terminal_num for b in Terminal if pan in b.terminal_un)[:]
         return data
     except Exception as e:
         st.toast(err_handler(e))
