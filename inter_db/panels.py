@@ -35,16 +35,16 @@ def get_filtered_panels(equip):
 
 
 def delete_panel(df):
-    tag_list = df.loc[df.edit.astype('str') == "True", 'id'].tolist()
-    if tag_list:
+    id_list = df.loc[df.edit.astype('str') == "True", 'id'].tolist()
+    if id_list:
         try:
             with db_session:
-                for id in tag_list:
+                for id in id_list:
                     del_row = Panel[id]
                     if not del_row:
-                        st.toast(f"#### :red[Fail, equipment {tag} not found]")
+                        st.toast(f"#### :red[Fail, equipment with {id} not found]")
                         continue
-                    tag = del_row.panel_ta
+                    tag = del_row.panel_tag
                     del_row.delete()
                     st.toast(f"#### :green[Panel: {tag} is deleted]")
         except Exception as e:
