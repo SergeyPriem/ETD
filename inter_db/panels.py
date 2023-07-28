@@ -112,9 +112,9 @@ def create_panel(sel_equip):
 
     with st.form('add_panel'):
         c1, c2, c3, c4, c5 = st.columns([1, 1, 1, 1.5, 0.5], gap='medium')
-        eq_tag = c1.selectbox('Equipment Tag', options=eqip_tag_list, index=get_list_index(eqip_tag_list, sel_equip))
-        panel_tag = c2.text_input('Panel Tag')
-        panel_descr = c3.text_input('Panel Description')
+        eq_tag = c1.selectbox('Equipment Tag *', options=eqip_tag_list, index=get_list_index(eqip_tag_list, sel_equip))
+        panel_tag = c2.text_input('Panel Tag *')
+        panel_descr = c3.text_input('Panel Description *')
         panel_notes = c4.text_input('Notes')
         c5.text('')
         c5.text('')

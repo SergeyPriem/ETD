@@ -87,8 +87,8 @@ def edit_block(df):
 def create_block(panel_tag):
     with st.form('add_block'):
         c1, c2, c3, c4, c5 = st.columns([1, 1, 1, 1.5, 0.5], gap='medium')
-        c1.text_input('Panel Tag', value=panel_tag, disabled=True)
-        block_tag = c2.text_input('Block Tag')
+        c1.text_input('Panel Tag *', value=panel_tag, disabled=True)
+        block_tag = c2.text_input('Block Tag *')
         block_descr = c3.text_input('Block Description')
         block_notes = c4.text_input('Notes')
         c5.text('')
