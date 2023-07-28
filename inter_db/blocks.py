@@ -107,12 +107,13 @@ def create_block(panel_tag):
                 st.toast(f"""#### :green[Block {block_tag} added!]""")
                 get_all_blocks.clear()
                 get_selected_blocks.clear()
-                if st.button("OK", key='eq_added'):
-                    st.experimental_rerun()
+
+                st.experimental_rerun()
 
             except Exception as e2:
                 st.toast(f"""#### :red[Seems, such Terminal Block already exists!]""")
                 st.toast(err_handler(e2))
+
         else:
             st.toast(f"""#### :red[Please fill all required (*) fields!]""")
 
