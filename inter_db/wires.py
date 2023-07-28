@@ -262,8 +262,8 @@ def select_filtered_wires(cab_tag):
                 w.id,
                 w.cable_id.cable_tag,
                 w.wire_num,
-                str(w.left_term_id.terminal_un.split(":")[2])+":"+str(w.left_term_id.terminal_un.split(":")[3]),
-                str(w.right_term_id.terminal_un.split(":")[2])+":"+str(w.right_term_id.terminal_un.split(":")[3]),
+                w.left_term_id.terminal_un,
+                w.right_term_id.terminal_un,
                 w.edit,
                 w.notes,
                 ) for w in Wire if cab == w.cable_id)[:]
@@ -323,12 +323,12 @@ def wires_main(act):
                                                   "left_term_id": st.column_config.SelectboxColumn(
                                                       "Left Terminal",
                                                       options=left_terminals,
-                                                      width='small',
+                                                      width='large',
                                                   ),
                                                   "right_term_id": st.column_config.SelectboxColumn(
                                                       "Right Terminal",
                                                       options=right_terminals,
-                                                      width='small',
+                                                      width='large',
                                                   ),
                                                   "edit": st.column_config.CheckboxColumn(
                                                       "Edit",
