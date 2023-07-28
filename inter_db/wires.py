@@ -293,8 +293,8 @@ def wires_main(act):
 
         if isinstance(df, pd.DataFrame):
 
-            pan_left = df.left_term_id.to_list[0]
-            pan_right = df.right_term_id.to_list[0]
+            pan_left = df.left_term_id.to_list()[0]
+            pan_right = df.right_term_id.to_list()[0]
             pan_left_list = pan_left.split(":")
             pan_right_list = pan_right.split(":")
             cab_pan_left = str(pan_left_list[0]) + ":" + str(pan_left_list[1])
