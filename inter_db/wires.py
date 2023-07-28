@@ -291,24 +291,27 @@ def wires_main(act):
 
         df = select_filtered_wires(cab_tag)
 
-        if isinstance(df, pd.DataFrame) and len(df):
+        if isinstance(df, pd.DataFrame):
 
-            pan_left = df.left_term_id.to_list()[0]
-            pan_right = df.right_term_id.to_list()[0]
-            pan_left_list = pan_left.split(":")
-            pan_right_list = pan_right.split(":")
-            cab_pan_left = str(pan_left_list[0]) + ":" + str(pan_left_list[1])
-            cab_pan_right = str(pan_right_list[0]) + ":" + str(pan_right_list[1])
+            if len(df):
+                pan_left = df.left_term_id.to_list()[0]
+                pan_right = df.right_term_id.to_list()[0]
+                pan_left_list = pan_left.split(":")
+                pan_right_list = pan_right.split(":")
+                cab_pan_left = str(pan_left_list[0]) + ":" + str(pan_left_list[1])
+                cab_pan_right = str(pan_right_list[0]) + ":" + str(pan_right_list[1])
+                data_to_show = st.data_editor(df, use_container_width=True, hide_index=True, key='wires_df')
+            else:
+                cab_pan_left = 'No panel available...'
+                cab_pan_right = 'No panel available...'
+
+                data_to_show = st.write(f"#### :blue[Wires of cable {cab_tag} not available ...]")
 
             c1.markdown(f"<h5 style='text-align: center; color: #249ded;'>Left Panel: {cab_pan_left}</h5>",
                         unsafe_allow_html=True)
             c3.markdown(f"<h5 style='text-align: center; color: #249ded;'>Right Panel: {cab_pan_right}</h5>",
                         unsafe_allow_html=True)
 
-            if len(df):
-                data_to_show = st.data_editor(df, use_container_width=True, hide_index=True, key='wires_df')
-            else:
-                data_to_show = st.write(f"#### :blue[Wires of cable {cab_tag} not available ...]")
 
         else:
             st.write(f"#### :blue[No wires available for selected Cable...]")
