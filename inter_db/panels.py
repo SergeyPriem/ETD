@@ -34,7 +34,6 @@ def get_filtered_panels(equip):
         return
 
 
-
 def delete_panel(df):
     tag_list = df.loc[df.edit.astype('str') == "True", 'panel_tag'].tolist()
     if tag_list:
@@ -46,7 +45,7 @@ def delete_panel(df):
                         st.toast(f"#### :red[Fail, equipment {tag} not found]")
                         continue
                     del_row.delete()
-                    st.toast(f"#### :green[Equipment: {tag} is deleted]")
+                    st.toast(f"#### :green[Panel: {tag} is deleted]")
         except Exception as e:
             st.toast(f"#### :red[Can't delete {tag}]")
             st.toast(f"##### {err_handler(e)}")
@@ -73,7 +72,7 @@ def edit_panel(df):
                         continue
 
                     edit_row.set(eq_id=eq_id, panel_tag=row.panel_tag, descr=row.description,
-                                 notes=row.notes, panel_un=str(row.equipment_tag)+":"+str(row.panel_tag))
+                                 notes=row.notes, panel_un=str(row.equipment_tag) + ":" + str(row.panel_tag))
                     st.toast(f"#### :green[Panel: {row.panel_tag} is updated]")
         except Exception as e:
             st.toast(f"Can't update {row.panel_tag}")
@@ -126,7 +125,7 @@ def create_panel(sel_equip):
                 with db_session:
                     eq_id = Equip.get(equipment_tag=eq_tag)
                     Panel(eq_id=eq_id, panel_tag=panel_tag, descr=panel_descr, edit=False, notes=panel_notes,
-                          panel_un=str(eq_tag)+":"+str(panel_tag))
+                          panel_un=str(eq_tag) + ":" + str(panel_tag))
 
                 st.toast(f"""#### :green[Panel {panel_tag}: {panel_descr} added!]""")
                 get_all_panels.clear()
@@ -167,13 +166,13 @@ def panels_main(act, prev_dict, prev_sel):
 
     if act == 'Delete':
         edited_df = data_to_show
-        if st.button("Delete Equipment"):
+        if st.button("Delete Panel"):
             delete_panel(edited_df)
 
     if act == 'Edit':
         edited_df = data_to_show
         if st.button("Edit Selected Panel"):
-                edit_panel(edited_df)
+            edit_panel(edited_df)
 
 
 def check_panels(df):
@@ -211,5 +210,3 @@ def add_panels(act_equip, q_ty):
     st.session_state.intercon['panel'] = pd.concat([st.session_state.intercon['panel'], df2])
     st.session_state.intercon['panel'] = st.session_state.intercon['panel'].reset_index(drop=True)
     st.experimental_rerun()
-
-
