@@ -249,6 +249,7 @@ import streamlit as st
 from pony.orm import db_session, select
 
 from inter_db.cables import get_cab_tags, get_cab_panels
+from inter_db.terminals import get_panel_terminals
 from models import Wire, Cable
 from utilities import err_handler
 
@@ -300,10 +301,48 @@ def wires_main(act):
                 pan_right_list = pan_right.split(":")
                 cab_pan_left = str(pan_left_list[0]) + ":" + str(pan_left_list[1])
                 cab_pan_right = str(pan_right_list[0]) + ":" + str(pan_right_list[1])
-                data_to_show = st.data_editor(df, use_container_width=True, hide_index=True, key='wires_df')
+
+                left_terminals = get_panel_terminals(cab_pan_left)
+                right_terminals = get_panel_terminals(cab_pan_right)
+
+                data_to_show = st.data_editor(df,
+                                              column_config={
+                                                  "id": st.column_config.NumberColumn(
+                                                      "ID",
+                                                      width='small'
+                                                  ),
+                                                  "cable_tag": st.column_config.TextColumn(
+                                                      "Cable Tag",
+                                                      width='mediun',
+                                                      disabled=True
+                                                  ),
+                                                  "wire_num": st.column_config.NumberColumn(
+                                                      "Wire's Number",
+                                                      width='small',
+                                                  ),
+                                                  "left_term_id": st.column_config.SelectboxColumn(
+                                                      "Left Terminal",
+                                                      options=left_terminals,
+                                                      width='small',
+                                                  ),
+                                                  "right_term_id": st.column_config.SelectboxColumn(
+                                                      "Right Terminal",
+                                                      options=right_terminals,
+                                                      width='small',
+                                                  ),
+                                                  "edit": st.column_config.CheckboxColumn(
+                                                      "Edit",
+                                                      width='small'),
+                                                  "notes": st.column_config.TextColumn(
+                                                  "Notes",
+                                                  width='large'
+                                                  )
+                                              },
+                                              use_container_width=True, hide_index=True, key='wires_df')
+
             else:
-                cab_pan_left = 'No panel available...'
-                cab_pan_right = 'No panel available...'
+                cab_pan_left = 'Not available...'
+                cab_pan_right = 'Not available...'
 
                 data_to_show = st.write(f"#### :blue[Wires of cable {cab_tag} not available ...]")
 
