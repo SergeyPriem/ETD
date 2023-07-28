@@ -280,7 +280,7 @@ def wires_main(act):
     cab_tag = c2.selectbox("Cable Tag", cab_tag_list)
 
     if cab_tag:
-        cab_pan_left, cab_pan_right = get_cab_panels(cab_tag)
+        # cab_pan_left, cab_pan_right = get_cab_panels(cab_tag)
         # st.write(get_cab_panels(cab_tag))
         c1.text('')
         c1.text('')
@@ -288,14 +288,23 @@ def wires_main(act):
         c3.text('')
         # c1.text(f"Left Panel: {cab_pan_left}")
         # c3.text(f"Right Panel: {cab_pan_right}")
-        c1.markdown(f"<h5 style='text-align: center; color: #249ded;'>Left Panel: {cab_pan_left}</h5>",
-                       unsafe_allow_html=True)
-        c3.markdown(f"<h5 style='text-align: center; color: #249ded;'>Right Panel: {cab_pan_right}</h5>",
-                       unsafe_allow_html=True)
 
         df = select_filtered_wires(cab_tag)
 
         if isinstance(df, pd.DataFrame):
+
+            pan_left = df.left_term_id.to_list[0]
+            pan_right = df.right_term_id.to_list[0]
+            pan_left_list = pan_left.split(":")
+            pan_right_list = pan_right.split(":")
+            cab_pan_left = str(pan_left_list[0]) + ":" + str(pan_left_list[1])
+            cab_pan_right = str(pan_right_list[0]) + ":" + str(pan_right_list[1])
+
+            c1.markdown(f"<h5 style='text-align: center; color: #249ded;'>Left Panel: {cab_pan_left}</h5>",
+                        unsafe_allow_html=True)
+            c3.markdown(f"<h5 style='text-align: center; color: #249ded;'>Right Panel: {cab_pan_right}</h5>",
+                        unsafe_allow_html=True)
+
             if len(df):
                 data_to_show = st.data_editor(df, use_container_width=True, hide_index=True, key='wires_df')
             else:
