@@ -291,7 +291,7 @@ def wires_main(act):
 
         df = select_filtered_wires(cab_tag)
 
-        if isinstance(df, pd.DataFrame):
+        if isinstance(df, pd.DataFrame) and len(df):
 
             pan_left = df.left_term_id.to_list()[0]
             pan_right = df.right_term_id.to_list()[0]
@@ -309,6 +309,10 @@ def wires_main(act):
                 data_to_show = st.data_editor(df, use_container_width=True, hide_index=True, key='wires_df')
             else:
                 data_to_show = st.write(f"#### :blue[Wires of cable {cab_tag} not available ...]")
+
+        else:
+            st.write(f"#### :blue[No wires available for selected Cable...]")
+            st.stop()
 
         if act == 'Create':
             data_to_show
