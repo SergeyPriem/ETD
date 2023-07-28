@@ -212,7 +212,7 @@ def create_cable(pan_tag_list):
                         notes=notes,
                     )
                     new_cab.flush()
-                    for w in range(1, int(c_wires)+1):
+                    for w in range(1, int(wire_number)+1):
                         Wire(
                             cable_id=new_cab.id,
                             wire_num=w,
@@ -221,7 +221,7 @@ def create_cable(pan_tag_list):
                             right_term_id="",
                         )
                 st.toast(f"#### :green[Cable {cab_tag} added]")
-                st.toast(f"#### :green[{c_wires} created]")
+                st.toast(f"#### :green[{wire_number} created]")
             except Exception as e:
                 st.toast(err_handler(e))
             finally:
