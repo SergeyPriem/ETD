@@ -27,7 +27,7 @@ def delete_block(df):
         finally:
             get_all_blocks.clear()
             get_selected_blocks.clear()
-            st.experimental_rerun()
+            st.button("OK")
     else:
         st.toast(f"#### :orange[Select the Terminal Block to delete in column 'Edit']")
 
@@ -55,7 +55,7 @@ def edit_block(df):
         finally:
             get_all_blocks.clear()
             get_selected_blocks.clear()
-            st.experimental_rerun()
+            st.button("OK")
     else:
         st.toast(f"#### :orange[Select the Panel to edit in column 'Edit']")
 
@@ -88,7 +88,7 @@ def create_block(panel_tag):
             finally:
                 get_all_blocks.clear()
                 get_selected_blocks.clear()
-                st.experimental_rerun()
+                st.button("OK")
 
 
         else:

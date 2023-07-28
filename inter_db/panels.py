@@ -128,14 +128,16 @@ def create_panel(sel_equip):
                           panel_un=str(eq_tag) + ":" + str(panel_tag))
 
                 st.toast(f"""#### :green[Panel {panel_tag}: {panel_descr} added!]""")
+
+            except Exception as e2:
+                st.toast(f"""#### :red[Seems, such Panel already exists!]""")
+                st.toast(err_handler(e2))
+            finally:
                 get_all_panels.clear()
                 get_filtered_panels.clear()
                 get_panel_tags.clear()
                 st.button("OK")
 
-            except Exception as e2:
-                st.toast(f"""#### :red[Seems, such Panel already exists!]""")
-                st.toast(err_handler(e2))
         else:
             st.toast(f"""#### :red[Please fill all required (*) fields!]""")
 

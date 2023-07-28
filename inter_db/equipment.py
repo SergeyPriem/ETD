@@ -32,7 +32,7 @@ def edit_equipment(df):
             finally:
                 get_all_equip.clear()
                 get_eqip_tags.clear()
-                st.experimental_rerun()
+                st.button("OK")
 
 
 def delete_equipment(df):
@@ -53,7 +53,7 @@ def delete_equipment(df):
             finally:
                 get_all_equip.clear()
                 get_eqip_tags.clear()
-                st.experimental_rerun()
+                st.button("OK")
 
 
 def create_equipment():
@@ -80,7 +80,7 @@ def create_equipment():
             finally:
                 get_all_equip.clear()
                 get_eqip_tags.clear()
-                st.experimental_rerun()
+                st.button("OK")
 
 
 def equipment_main(act=None, prev_dict=None, prev_sel=None):
