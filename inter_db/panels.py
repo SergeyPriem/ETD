@@ -53,7 +53,7 @@ def delete_panel(df):
             get_all_panels.clear()
             get_filtered_panels.clear()
             get_panel_tags.clear()
-            st.experimental_rerun()
+            st.button("OK")
     else:
         st.toast(f"#### :orange[Select the Panel to delete in column 'Edit']")
 
@@ -81,7 +81,7 @@ def edit_panel(df):
             get_all_panels.clear()
             get_filtered_panels.clear()
             get_panel_tags.clear()
-            st.experimental_rerun()
+            st.button("OK")
     else:
         st.toast(f"#### :orange[Select the Panel to edit in column 'Edit']")
 
@@ -131,7 +131,7 @@ def create_panel(sel_equip):
                 get_all_panels.clear()
                 get_filtered_panels.clear()
                 get_panel_tags.clear()
-                st.experimental_rerun()
+                st.button("OK")
 
             except Exception as e2:
                 st.toast(f"""#### :red[Seems, such Panel already exists!]""")
