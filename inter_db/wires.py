@@ -311,7 +311,6 @@ def wires_main(act):
                         unsafe_allow_html=True)
             c3.markdown(f"<h5 style='text-align: center; color: #249ded;'>Right Panel: {cab_pan_right}</h5>",
                         unsafe_allow_html=True)
-
         else:
             st.write(f"#### :blue[No wires available for selected Cable...]")
             st.stop()
