@@ -55,7 +55,8 @@ def edit_block(df):
         finally:
             get_all_blocks.clear()
             get_selected_blocks.clear()
-            st.button("OK", key='blocks_updated')
+            # st.button("OK", key='blocks_updated')
+            st.experimental_rerun()
     else:
         st.toast(f"#### :orange[Select the Panel to edit in column 'Edit']")
 
@@ -95,22 +96,25 @@ def create_block(panel_tag):
         c5.text('')
         block_but = c5.form_submit_button("Add", use_container_width=True)
 
-    if all([block_but, len(panel_tag), len(block_tag)]):
-        try:
-            with db_session:
-                pan_id = Panel.get(panel_un=panel_tag)
-                Block(pan_id=pan_id, block_tag=block_tag, descr=block_descr, edit=False,
-                      notes=block_notes, block_un=str(panel_tag) + ":" + str(block_tag))
+    if block_but:
+        if all([len(panel_tag), len(block_tag)]):
+            try:
+                with db_session:
+                    pan_id = Panel.get(panel_un=panel_tag)
+                    Block(pan_id=pan_id, block_tag=block_tag, descr=block_descr, edit=False,
+                          notes=block_notes, block_un=str(panel_tag) + ":" + str(block_tag))
 
-            st.toast(f"""#### :green[Block {block_tag} added!]""")
-            get_all_blocks.clear()
-            get_selected_blocks.clear()
-            if st.button("OK", key='eq_added'):
-                st.experimental_rerun()
+                st.toast(f"""#### :green[Block {block_tag} added!]""")
+                get_all_blocks.clear()
+                get_selected_blocks.clear()
+                if st.button("OK", key='eq_added'):
+                    st.experimental_rerun()
 
-        except Exception as e2:
-            st.toast(f"""#### :red[Seems, such Terminal Block already exists!]""")
-            st.toast(err_handler(e2))
+            except Exception as e2:
+                st.toast(f"""#### :red[Seems, such Terminal Block already exists!]""")
+                st.toast(err_handler(e2))
+        else:
+            st.toast(f"""#### :red[Please fill all required (*) fields!]""")
 
 
 @st.cache_data(show_spinner=False)
