@@ -35,7 +35,7 @@ def get_filtered_panels(equip):
 
 
 def delete_panel(df):
-    tag_list = df.loc[df.edit.astype('str') == "True", 'panel_tag'].tolist()
+    tag_list = df.loc[df.edit.astype('str') == "True", 'id'].tolist()
     if tag_list:
         try:
             with db_session:
