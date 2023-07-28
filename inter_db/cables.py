@@ -1,4 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
+import datetime
+
 import pandas as pd
 import streamlit as st
 from pony.orm import db_session, select
@@ -46,7 +48,10 @@ def delete_cable(df):
 
                     for wire_del in wires_to_del:
                         wire_to_del = Wire[wire_del]
-                        wire_to_del.delete()
+                        wire_to_del.set(
+                            notes=f"Cable deleted by {st.session_state.user['login']}, "
+                                  f"date {datetime.datetime.today().strftime('%Y-%m-%d-%H-%M')}"
+                        )
                     st.toast(f"#### :green[{len(wires_to_del)} wires deleted]")
 
         except Exception as e:
@@ -82,7 +87,7 @@ def edit_cable(df):
                     left_pan = Panel.get(panel_un=row.left_pan_tag)
                     right_pan = Panel.get(panel_un=row.right_pan_tag)
 
-                    exist_wires_qty = edit_row.wire_num
+                    # exist_wires_qty = edit_row.wire_num
 
                     edit_row.set(
                         cable_tag=row.cable_tag,
@@ -96,21 +101,21 @@ def edit_cable(df):
                         notes=row.notes,
                     )
 
-                    if exist_wires_qty > c_wires:
-                        for w in range (c_wires+1, exist_wires_qty+1):
-                            Wire(
-                                cable_id=edit_row,
-                                wire_num=w,
-                                edit=False,
-                                left_term_id="",
-                                right_term_id="",
-                            )
-
-                    if exist_wires_qty < c_wires:
-                        for w in range (exist_wires_qty+1, c_wires+1):
-                            wire_to_del = select(w for w in Wire if w.cable_id == edit_row and w.wire_num == w).first()
-
-                            wire_to_del.delete()
+                    # if exist_wires_qty > c_wires:
+                    #     for w in range (c_wires+1, exist_wires_qty+1):
+                    #         Wire(
+                    #             cable_id=edit_row,
+                    #             wire_num=w,
+                    #             edit=False,
+                    #             left_term_id="",
+                    #             right_term_id="",
+                    #         )
+                    #
+                    # if exist_wires_qty < c_wires:
+                    #     for w in range (exist_wires_qty+1, c_wires+1):
+                    #         wire_to_del = select(w for w in Wire if w.cable_id == edit_row and w.wire_num == w).first()
+                    #
+                    #         wire_to_del.delete()
 
 
                     st.toast(f"#### :green[Cable: {row.cable_tag} is updated]")
@@ -200,7 +205,7 @@ def create_cable(pan_tag_list):
                     c_type = Cab_types.get(cab_type=cab_type)
                     c_wires = Cab_wires.get(wire_num=wire_number)
                     c_sect = Cab_sect.get(section=wire_section)
-                    new_cab = Cable(
+                    Cable(
                         cable_tag=cab_tag,
                         purpose_id=purpose,
                         type_id=c_type,
@@ -211,15 +216,15 @@ def create_cable(pan_tag_list):
                         edit=False,
                         notes=notes,
                     )
-                    new_cab.flush()
-                    for w in range(1, int(wire_number)+1):
-                        Wire(
-                            cable_id=new_cab.id,
-                            wire_num=w,
-                            edit=False,
-                            left_term_id=0,
-                            right_term_id=0,
-                        )
+                    # new_cab.flush()
+                    # for w in range(1, int(wire_number)+1):
+                    #     Wire(
+                    #         cable_id=new_cab.id,
+                    #         wire_num=w,
+                    #         edit=False,
+                    #         left_term_id=0,
+                    #         right_term_id=0,
+                    #     )
                 st.toast(f"#### :green[Cable {cab_tag} added]")
                 st.toast(f"#### :green[{wire_number} created]")
             except Exception as e:
