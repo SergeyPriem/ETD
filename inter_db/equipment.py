@@ -59,28 +59,31 @@ def delete_equipment(df):
 def create_equipment():
     with st.form('add_eq'):
         lc, cc, rc, bc = st.columns([1, 1, 1.5, 0.5], gap='medium')
-        eq_tag = lc.text_input('Equipment Tag')
-        eq_descr = cc.text_input('Equipment Description')
+        eq_tag = lc.text_input('Equipment Tag *')
+        eq_descr = cc.text_input('Equipment Description *')
         eq_notes = rc.text_input('Notes')
         bc.text('')
         bc.text('')
         eq_but = bc.form_submit_button("Add", use_container_width=True)
 
-    if all([eq_but, len(eq_tag), len(eq_descr)]):
-        with db_session:
-            if eq_tag in select(eq.equipment_tag for eq in Equip)[:]:
-                st.toast(f"""#### :red[Equipment {eq_tag} already in DataBase]""")
-                return
-            try:
-                Equip(equipment_tag=eq_tag,descr=eq_descr,edit=False,notes=eq_notes)
-                st.toast(f"""#### :orange[Equipment {eq_tag}: {eq_descr} added!]""")
+    if eq_but:
+        if all([len(eq_tag), len(eq_descr)]):
+            with db_session:
+                if eq_tag in select(eq.equipment_tag for eq in Equip)[:]:
+                    st.toast(f"""#### :red[Equipment {eq_tag} already in DataBase]""")
+                    return
+                try:
+                    Equip(equipment_tag=eq_tag,descr=eq_descr,edit=False,notes=eq_notes)
+                    st.toast(f"""#### :orange[Equipment {eq_tag}: {eq_descr} added!]""")
 
-            except Exception as e:
-                st.toast(err_handler(e))
-            finally:
-                get_all_equip.clear()
-                get_eqip_tags.clear()
-                st.button("OK")
+                except Exception as e:
+                    st.toast(err_handler(e))
+                finally:
+                    get_all_equip.clear()
+                    get_eqip_tags.clear()
+                    st.button("OK")
+        else:
+            st.toast(f"""#### :red[Please fill all required (*) fields!]""")
 
 
 def equipment_main(act=None, prev_dict=None, prev_sel=None):
