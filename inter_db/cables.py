@@ -52,7 +52,7 @@ def delete_cable(df):
             get_all_cables.clear()
             get_cab_tags.clear()
             get_cab_panels.clear()
-            st.button("OK", key='cable_deleted')
+            st.experimental_rerun()
     else:
         st.toast(f"#### :orange[Select the Cable to delete in column 'Edit']")
 
@@ -100,7 +100,7 @@ def edit_cable(df):
             get_all_cables.clear()
             get_cab_tags.clear()
             get_cab_panels.clear()
-            st.button("OK", key='cables_updated')
+            st.experimental_rerun()
     else:
         st.toast(f"#### :orange[Select the Cables to edit in column 'Edit']")
 
@@ -207,7 +207,7 @@ def create_cable(pan_tag_list):
                 get_all_cables.clear()
                 get_cab_tags.clear()
                 get_cab_panels.clear()
-                st.button("OK", key='cable_added')
+                st.experimental_rerun()
 
 
 def cables_main(act, prev_dict, prev_sel):

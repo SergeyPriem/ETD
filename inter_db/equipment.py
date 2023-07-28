@@ -32,7 +32,7 @@ def edit_equipment(df):
             finally:
                 get_all_equip.clear()
                 get_eqip_tags.clear()
-                st.button("OK", key='eq_updated')
+                st.experimental_rerun()
 
 
 def delete_equipment(df):
@@ -53,7 +53,7 @@ def delete_equipment(df):
             finally:
                 get_all_equip.clear()
                 get_eqip_tags.clear()
-                st.button("OK", key='eq_deleted')
+                st.experimental_rerun()
 
 
 def create_equipment():
@@ -74,13 +74,13 @@ def create_equipment():
             try:
                 Equip(equipment_tag=eq_tag,descr=eq_descr,edit=False,notes=eq_notes)
                 st.toast(f"""#### :orange[Equipment {eq_tag}: {eq_descr} added!]""")
-                if st.button("OK", key='eq_added'):
-                    st.experimental_rerun()
+
             except Exception as e:
                 st.toast(err_handler(e))
             finally:
                 get_all_equip.clear()
                 get_eqip_tags.clear()
+                st.experimental_rerun()
 
 
 def equipment_main(act=None, prev_dict=None, prev_sel=None):

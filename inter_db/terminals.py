@@ -47,7 +47,7 @@ def edit_terminals(df, block_un):
             st.toast(f"##### {err_handler(e)}")
         finally:
             get_filtered_terminals.clear()
-            st.button("OK", key='terminal_updated')
+            st.experimental_rerun()
     else:
         st.toast(f"#### :orange[Select the Cables to edit in column 'Edit']")
 
@@ -72,7 +72,7 @@ def delete_terminals(df):
             st.toast(f"##### {err_handler(e)}")
         finally:
             get_filtered_terminals.clear()
-            st.button("OK", key='terminal_deleted')
+            st.experimental_rerun()
     else:
         st.toast(f"#### :orange[Select the Terminal to delete in column 'Edit']")
 
@@ -104,7 +104,7 @@ def create_terminals(block_un, terminals):
         st.toast(err_handler(e))
     finally:
         get_filtered_terminals.clear()
-        st.button("OK", key='terminals_added')
+        st.experimental_rerun()
 
 
 @st.cache_data(show_spinner=False)

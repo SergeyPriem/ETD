@@ -27,7 +27,7 @@ def delete_block(df):
         finally:
             get_all_blocks.clear()
             get_selected_blocks.clear()
-            st.button("OK", key='block_deleted')
+            st.experimental_rerun()
     else:
         st.toast(f"#### :orange[Select the Terminal Block to delete in column 'Edit']")
 
@@ -55,35 +55,11 @@ def edit_block(df):
         finally:
             get_all_blocks.clear()
             get_selected_blocks.clear()
-            # st.button("OK", key='blocks_updated')
             st.experimental_rerun()
     else:
         st.toast(f"#### :orange[Select the Panel to edit in column 'Edit']")
 
 
-# @st.cache_data(show_spinner=False)
-# def get_filtered_blocks(panel_id):
-#     try:
-#         with db_session:
-#             data = select(
-#                 (
-#                     b.id,
-#                     p.panel_tag,
-#                     b.block_tag,
-#                     b.descr,
-#                     b.edit,
-#                     b.notes,
-#                     b.block_un
-#                 )
-#                 for b in Block
-#                 for p in b.pan_id
-#                 if b.pan_id == panel_id
-#                  )[:]
-#             df = pd.DataFrame(data, columns=['id', 'panel_tag', 'block_tag', 'description', 'edit',
-#                                              'notes', 'block_un'])
-#             return df
-#     except Exception as e:
-#         st.toast(err_handler(e))
 
 def create_block(panel_tag):
     with st.form('add_block'):
@@ -105,14 +81,15 @@ def create_block(panel_tag):
                           notes=block_notes, block_un=str(panel_tag) + ":" + str(block_tag))
 
                 st.toast(f"""#### :green[Block {block_tag} added!]""")
-                get_all_blocks.clear()
-                get_selected_blocks.clear()
-
-                st.experimental_rerun()
 
             except Exception as e2:
                 st.toast(f"""#### :red[Seems, such Terminal Block already exists!]""")
                 st.toast(err_handler(e2))
+            finally:
+                get_all_blocks.clear()
+                get_selected_blocks.clear()
+                st.experimental_rerun()
+
 
         else:
             st.toast(f"""#### :red[Please fill all required (*) fields!]""")
