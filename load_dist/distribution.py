@@ -34,7 +34,7 @@ def distr_main():
     lc.subheader('Initial Load List')
     lc.data_editor(loads_df, use_container_width=True)
 
-    lc.write(f"#### {len(loads_df)} loads. Consumption: {loads_df.load.sum()} kW")
+    lc.write(f"#### {len(loads_df)} loads. Consumption: {round(loads_df.load.sum(),3)} kW")
 
     f_max = 0
     let_max = ''
@@ -93,13 +93,10 @@ def distr_main():
     rc.subheader('Distributed Load List')
     rc.data_editor(final_df, use_container_width=True)
 
-    rc.write(f"#### {len(final_df)} loads. Consumption: {final_df.load.sum()} kW")
+    rc.write(f"#### {len(final_df)} loads. Consumption: {round(final_df.load.sum(),3)} kW")
     st.divider()
 
     c1, c2,c3 = st.columns(3, gap='large')
-    # lc.text('')
-    # lc.text('')
-    # lc.text('')
 
     f_max = 0
     f_min = f_min_init
@@ -117,11 +114,10 @@ def distr_main():
 
         c1.write(f"Phase {f}: {f_sum} kW")
 
-    # rc.text('')
     c2.write(f"Max: Phase {let_max}: {f_max} kW")
     c2.write(f"Min: Phase {let_min}: {f_min} kW")
-    # rc.text('')
-    c2.write(f"### Delta: {f_max - f_min} kW")
+
+    c2.write(f"### Delta: {round(f_max - f_min, 3)} kW")
 
     final_df.set_index('consumer_name', inplace=True)
 
