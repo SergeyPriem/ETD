@@ -312,7 +312,6 @@ def wires_main(act):
 
         else:
             st.write(f"#### :blue[No wires available for selected Cable...]")
-
             st.stop()
 
         if act == 'Create':
