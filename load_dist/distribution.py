@@ -112,10 +112,10 @@ def distr_main():
             f_min = f_sum
             let_min = f
 
-        c1.write(f"Phase {f}: {f_sum} kW")
+        c1.write(f"Phase {f}: {round(f_sum, 3)} kW")
 
-    c2.write(f"Max: Phase {let_max}: {f_max} kW")
-    c2.write(f"Min: Phase {let_min}: {f_min} kW")
+    c2.write(f"Max: Phase {let_max}: {round(f_max, 3)} kW")
+    c2.write(f"Min: Phase {let_min}: {round(f_min, 3)} kW")
 
     c2.write(f"### Delta: {round(f_max - f_min, 3)} kW")
 
@@ -125,6 +125,7 @@ def distr_main():
 
     with pd.ExcelWriter(buffer) as writer:
         final_df.to_excel(writer)
+
     c3.text('')
     c3.text('')
     c3.text('')
