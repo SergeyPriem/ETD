@@ -217,8 +217,8 @@ def create_cable(pan_tag_list):
                             cable_id=new_cab.id,
                             wire_num=w,
                             edit=False,
-                            left_term_id="",
-                            right_term_id="",
+                            left_term_id=0,
+                            right_term_id=0,
                         )
                 st.toast(f"#### :green[Cable {cab_tag} added]")
                 st.toast(f"#### :green[{wire_number} created]")
