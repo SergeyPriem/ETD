@@ -120,23 +120,24 @@ def create_panel(sel_equip):
         c5.text('')
         pan_but = c5.form_submit_button("Add", use_container_width=True)
 
-    if all([pan_but, len(eq_tag), len(panel_tag), len(panel_descr)]):
-        try:
-            with db_session:
-                eq_id = Equip.get(equipment_tag=eq_tag)
-                Panel(eq_id=eq_id, panel_tag=panel_tag, descr=panel_descr, edit=False, notes=panel_notes,
-                      panel_un=str(eq_tag)+":"+str(panel_tag))
+    if pan_but:
+        if all([len(eq_tag), len(panel_tag), len(panel_descr)]):
+            try:
+                with db_session:
+                    eq_id = Equip.get(equipment_tag=eq_tag)
+                    Panel(eq_id=eq_id, panel_tag=panel_tag, descr=panel_descr, edit=False, notes=panel_notes,
+                          panel_un=str(eq_tag)+":"+str(panel_tag))
 
-            st.toast(f"""#### :green[Panel {panel_tag}: {panel_descr} added!]""")
-            get_all_panels.clear()
-            get_filtered_panels.clear()
-            get_panel_tags.clear()
-            if st.button("OK", key='eq_added'):
-                st.experimental_rerun()
+                st.toast(f"""#### :green[Panel {panel_tag}: {panel_descr} added!]""")
+                get_all_panels.clear()
+                get_filtered_panels.clear()
+                get_panel_tags.clear()
+                if st.button("OK", key='eq_added'):
+                    st.experimental_rerun()
 
-        except Exception as e2:
-            st.toast(f"""#### :red[Seems, such Panel already exists!]""")
-            st.toast(err_handler(e2))
+            except Exception as e2:
+                st.toast(f"""#### :red[Seems, such Panel already exists!]""")
+                st.toast(err_handler(e2))
     else:
         st.toast(f"""#### :red[Please fill all required (*) fields!]""")
 
