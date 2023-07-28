@@ -138,8 +138,8 @@ def create_panel(sel_equip):
             except Exception as e2:
                 st.toast(f"""#### :red[Seems, such Panel already exists!]""")
                 st.toast(err_handler(e2))
-    else:
-        st.toast(f"""#### :red[Please fill all required (*) fields!]""")
+        else:
+            st.toast(f"""#### :red[Please fill all required (*) fields!]""")
 
 
 def panels_main(act, prev_dict, prev_sel):
