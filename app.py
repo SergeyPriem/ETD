@@ -1049,8 +1049,6 @@ def services():
     if c1.button(f"### :red[Clear Data Cache]"): st.cache_data.clear()
     if c2.button(f"### :red[Clear Resource Cache]"): st.cache_resource.clear()
 
-    st.write(get_all_cables())
-
 
 def download_file(file_name, rc):
     if os.path.exists(f"temp_dxf/{file_name}"):
