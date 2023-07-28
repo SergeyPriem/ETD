@@ -292,6 +292,9 @@ def wires_main(act):
 
         df = select_filtered_wires(cab_tag)
 
+        df.left_term_id = df.left_term_id.astype('str').split(":")[2] +":"+ df.left_term_id.astype('str').split(":")[3]
+        df.right_term_id = df.right_term_id.astype('str').split(":")[2] +":"+ df.right_term_id.astype('str').split(":")[3]
+
         if isinstance(df, pd.DataFrame):
 
             if len(df):
