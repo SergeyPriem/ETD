@@ -1374,4 +1374,13 @@ def scripts_tab():
 
         with st.expander('SINGLE PHASE LOAD DISTIBUTION'):
             st.title(":orange[Distribute single phase loads per phases]")
+
+            st.divider()
+            st.write("Please find required templates in folder below  👇 ")
+            st.code(r'\\uz-fs\Uzle\WORK\Отдел ЭЛ\01 Малая Автоматизация\Шаблоны\SINGLE PHASE DISTR')
+            st.write("")
+            st.write("Fill the above-mentioned Load List and drop 👇 it "
+                     "to LOAD LIST loader (or load through 'Browse files')")
+            st.write("")
+
             distr_main()
