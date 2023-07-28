@@ -39,11 +39,12 @@ def delete_panel(df):
     if tag_list:
         try:
             with db_session:
-                for tag in tag_list:
-                    del_row = Panel.get(panel_tag=tag)
+                for id in tag_list:
+                    del_row = Panel[id]
                     if not del_row:
                         st.toast(f"#### :red[Fail, equipment {tag} not found]")
                         continue
+                    tag = del_row.panel_ta
                     del_row.delete()
                     st.toast(f"#### :green[Panel: {tag} is deleted]")
         except Exception as e:
@@ -65,7 +66,7 @@ def edit_panel(df):
         try:
             with db_session:
                 for ind, row in pan_df.iterrows():
-                    edit_row = Panel.get(panel_tag=row.panel_tag)
+                    edit_row = Panel[row.id]
                     eq_id = Equip.get(equipment_tag=row.equipment_tag).id
                     if not edit_row:
                         st.toast(f"#### :red[Fail, Panel: {row.panel_tag} not found]")
