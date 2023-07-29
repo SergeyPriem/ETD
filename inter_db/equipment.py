@@ -121,7 +121,7 @@ def equipment_main(act=None, prev_dict=None, prev_sel=None):
             c3.write("#### :red[Warning! If you delete the Equipment - all related, panels, blocks, terminals will be deleted!!!]")
             c2.text('')
             if c2.button("Delete Equipment"):
-                c1, c2, c3 = st.columns([5, 2, 5])
+                c1, c2, c3 = st.columns([6, 2, 6])
                 with c2:
                     yes_no = option_menu('Are you sure?', options=['Yes - Delete', 'No - Return'],
                                          menu_icon="exclamation-triangle", icons=['-', '-'], default_index=1)
