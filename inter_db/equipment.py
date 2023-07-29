@@ -47,6 +47,8 @@ def edit_equipment(df):
 
 def delete_equipment(df):
     st.write(df)
+
+
     eq_to_del = df[df.edit.astype('str') == "True"]
     if len(eq_to_del):
         with db_session:
@@ -137,7 +139,9 @@ def equipment_main(act=None, prev_dict=None, prev_sel=None):
                     st.session_state.confirmation = False
 
                     if yes_no == 'Yes - Delete':
-                        delete_equipment(edited_df)
+
+                        st.write(edited_df)
+                        # delete_equipment(edited_df)
         else:
             st.write(f"#### :blue[Equipment not available...]")
 
