@@ -120,14 +120,24 @@ def equipment_main(act=None, prev_dict=None, prev_sel=None):
             c1.write("#### :red[Warning! If you delete the Equipment - all related, panels, blocks, terminals will be deleted!!!]")
             c3.write("#### :red[Warning! If you delete the Equipment - all related, panels, blocks, terminals will be deleted!!!]")
             c2.text('')
+
+            if 'confirmation' not in st.session_state:
+                st.session_state.confirmation = False
+
             if c2.button("Delete Equipment"):
-                c1, c2, c3 = st.columns([6, 2, 6])
-                with c2:
+                st.session_state.confirmation = True
+
+            c1, c2, c3 = st.columns([5, 2, 5])
+            with c2:
+                if st.session_state.confirmation:
+
                     yes_no = option_menu('Are you sure?', options=['Yes - Delete', 'No - Return'],
                                          menu_icon="exclamation-triangle", icons=['-', '-'], default_index=1)
 
-                if yes_no == 'Yes - Delete':
-                    delete_equipment(edited_df)
+                    st.session_state.confirmation = False
+
+                    if yes_no == 'Yes - Delete':
+                        delete_equipment(edited_df)
         else:
             st.write(f"#### :blue[Equipment not available...]")
 
