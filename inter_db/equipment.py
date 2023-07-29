@@ -136,13 +136,11 @@ def equipment_main(act=None, prev_dict=None, prev_sel=None):
                     yes_no = option_menu('Are you sure?', options=['Yes - Delete', 'No - Return'],
                                          menu_icon="exclamation-triangle", icons=['-', '-'], default_index=1)
 
+                if yes_no == 'Yes - Delete':
 
-
-                    if yes_no == 'Yes - Delete':
-
-                        st.write(edited_df)
-                        # delete_equipment(edited_df)
-                    st.session_state.confirmation = False
+                    st.write(edited_df)
+                    # delete_equipment(edited_df)
+                st.session_state.confirmation = False
         else:
             st.write(f"#### :blue[Equipment not available...]")
 
