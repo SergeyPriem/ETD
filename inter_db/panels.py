@@ -3,6 +3,7 @@ import pandas as pd
 import streamlit as st
 from pony.orm import *
 
+from inter_db.equipment import get_eqip_tags
 from inter_db.read_all_tabs import get_all_panels
 from inter_db.terminals import get_filtered_blocks
 from models import Equip, Panel
@@ -90,14 +91,6 @@ def edit_panel(df):
         st.toast(f"#### :orange[Select the Panel to edit in column 'Edit']")
 
 
-@st.cache_data(show_spinner=False)
-def get_eqip_tags():
-    try:
-        with db_session:
-            eq_tags = select(eq.equipment_tag for eq in Equip)[:]
-        return eq_tags
-    except Exception as e:
-        st.toast(err_handler(e))
 
 
 @st.cache_data(show_spinner=False)

@@ -150,6 +150,9 @@ def terminals_main(act):
     block_tag_list = list(get_filtered_blocks(selected_equip))
     selected_block = c2.selectbox('Select the Terminal Block', block_tag_list)
 
+    data_to_show = None
+    df_to_show = None
+
     if act != 'Select required:':
         if selected_equip and selected_block:
             df_to_show = get_filtered_terminals(selected_block)

@@ -299,6 +299,8 @@ def wires_main(act):
         df.left_term_id = df.left_term_id.map(split_tag)
         df.right_term_id = df.right_term_id.map(split_tag)
 
+        data_to_show = None
+
         if isinstance(df, pd.DataFrame):
 
             if len(df):

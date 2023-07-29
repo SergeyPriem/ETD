@@ -2,11 +2,20 @@
 import pandas as pd
 import streamlit as st
 from pony.orm import db_session, select, IntegrityError
-
-from inter_db.panels import get_eqip_tags
 from inter_db.read_all_tabs import get_all_equip
 from models import Equip
 from utilities import err_handler
+
+
+@st.cache_data(show_spinner=False)
+def get_eqip_tags():
+    try:
+        with db_session:
+            eq_tags = select(eq.equipment_tag for eq in Equip)[:]
+        return eq_tags
+    except Exception as e:
+        st.toast(err_handler(e))
+
 
 
 def edit_equipment(df):
