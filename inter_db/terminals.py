@@ -53,22 +53,22 @@ def edit_terminals(df, block_un):
 
 
 def delete_terminals(df):
-    term_list = df.loc[df.edit.astype('str') == "True", 'terminal_un'].tolist()
-    if term_list:
+    del_term_df = df[df.edit.astype('str') == "True"]
+    if len(del_term_df):
         sum_deleted = 0
         try:
             with db_session:
-                for tag in term_list:
-                    del_row = Terminal.get(terminal_un=tag)
+                for ind, row in del_term_df.iterrows():
+                    del_row = Terminal[row.id]
                     if not del_row:
-                        st.toast(f"##### :red[Fail, Terminal {tag} not found]")
+                        st.toast(f"##### :red[Fail, Terminal {row.terminal_num} not found]")
                         continue
                     del_row.delete()
                     sum_deleted += 1
-                    st.toast(f":green[Terminal: {tag.split(':')[-1]} is deleted]")
+                    st.toast(f":green[Terminal: {row.terminal_num} deleted]")
                 st.toast(f"#### :green[{sum_deleted} terminals deleted]")
         except Exception as e:
-            st.toast(f"#### :red[Can't delete {tag}]")
+            st.toast(f"#### :red[Can't delete {row.terminal_num}]")
             st.toast(f"##### {err_handler(e)}")
         finally:
             get_filtered_terminals.clear()

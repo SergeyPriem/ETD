@@ -4,6 +4,7 @@ import streamlit as st
 from pony.orm import *
 
 from inter_db.read_all_tabs import get_all_panels
+from inter_db.terminals import get_filtered_blocks
 from models import Equip, Panel
 from utilities import err_handler, get_list_index
 
@@ -34,15 +35,15 @@ def get_filtered_panels(equip):
         return
 
 
-def delete_panel(df):
-    id_list = df.loc[df.edit.astype('str') == "True", 'id'].tolist()
-    if id_list:
+def delete_panel(df, get_selected_blocks=None):
+    del_pan_df = df[df.edit.astype('str') == "True"]
+    if len(del_pan_df):
         try:
             with db_session:
-                for id in id_list:
-                    del_row = Panel[id]
+                for ind, row in del_pan_df.iterrows():
+                    del_row = Panel[row.id]
                     if not del_row:
-                        st.toast(f"#### :red[Fail, equipment with {id} not found]")
+                        st.toast(f"#### :red[Fail, equipment with {row.panel_tag} not found]")
                         continue
                     tag = del_row.panel_tag
                     del_row.delete()
@@ -54,6 +55,8 @@ def delete_panel(df):
             get_all_panels.clear()
             get_filtered_panels.clear()
             get_panel_tags.clear()
+            get_selected_blocks.clear()
+            get_filtered_blocks()
             st.button("OK")
     else:
         st.toast(f"#### :orange[Select the Panel to delete in column 'Edit']")

@@ -10,19 +10,19 @@ from utilities import err_handler
 
 
 def delete_block(df):
-    block_list = df.loc[df.edit.astype('str') == "True", 'block_un'].tolist()
-    if block_list:
+    del_block_df = df[df.edit.astype('str') == "True"]
+    if len(del_block_df):
         try:
             with db_session:
-                for tag in block_list:
-                    del_row = Block.get(block_un=tag)
+                for ind, row in del_block_df.iterrows():
+                    del_row = Block[row.id]
                     if not del_row:
-                        st.toast(f"#### :red[Fail, Terminal Block {del_row.block_tag} not found]")
+                        st.toast(f"#### :red[Fail, Terminal Block {row.block_tag} not found]")
                         continue
                     del_row.delete()
-                    st.toast(f"#### :green[Terminal Block: {del_row.block_tag} is deleted]")
+                    st.toast(f"#### :green[Terminal Block: {row.block_tag} is deleted]")
         except Exception as e:
-            st.toast(f"#### :red[Can't delete {del_row.block_tag}]")
+            st.toast(f"#### :red[Can't delete {row.block_tag}]")
             st.toast(f"##### {err_handler(e)}")
         finally:
             get_all_blocks.clear()
@@ -58,7 +58,6 @@ def edit_block(df):
             st.button("OK")
     else:
         st.toast(f"#### :orange[Select the Panel to edit in column 'Edit']")
-
 
 
 def create_block(panel_tag):
@@ -118,7 +117,7 @@ def get_selected_blocks(panel_un):
         st.toast(err_handler(e))
 
 
-def blocks_main(act, prev_dict, prev_sel):
+def blocks_main(act):
     pan_tag_list = list(get_panel_tags())
     selected_panel = st.selectbox('Select the Panel', pan_tag_list)
     df_to_show = get_selected_blocks(selected_panel)
@@ -144,4 +143,3 @@ def blocks_main(act, prev_dict, prev_sel):
         edited_df = data_to_show
         if st.button("Edit Selected Terminal Block"):
             edit_block(edited_df)
-

@@ -1,5 +1,4 @@
 ﻿# -*- coding: utf-8 -*-
-import datetime
 
 import pandas as pd
 import streamlit as st
@@ -32,20 +31,20 @@ def get_cab_tags():
         st.toast(err_handler(e))
 
 def delete_cable(df):
-    tag_list = df.loc[df.edit.astype('str') == "True", 'cable_tag'].tolist()
-    if tag_list:
+    del_cab_df = df[df.edit.astype('str') == "True"]
+    if len(del_cab_df):
         try:
             with db_session:
-                for tag in tag_list:
-                    del_row = Cable.get(cable_tag=tag)
+                for ind, row in del_cab_df.iterrows():
+                    del_row = Cable[row.id]
                     if not del_row:
-                        st.toast(f"#### :red[Fail, cable: {tag} not found]")
+                        st.toast(f"#### :red[Fail, cable: {row.cable_tag} not found]")
                         continue
                     del_row.delete()
-                    st.toast(f"#### :green[Cable: {tag} is deleted]")
+                    st.toast(f"#### :green[Cable: {row.cable_tag} is deleted]")
 
         except Exception as e:
-            st.toast(f"#### :red[Can't delete {tag}]")
+            st.toast(f"#### :red[Can't delete {row.cable_tag}]")
             st.toast(f"##### {err_handler(e)}")
         finally:
             get_filtered_cables.clear()
@@ -64,8 +63,8 @@ def edit_cable(df):
         try:
             with db_session:
                 for ind, row in cables_df.iterrows():
-                    edit_row = Cable[row.id] #.get(cable_tag=row.cable_tag)
-                    # eq_id = Equip.get(equipment_tag=row.equipment_tag).id
+                    edit_row = Cable[row.id]
+
                     if not edit_row:
                         st.toast(f"#### :red[Fail, Cable: {row.cable_tag} not found]")
                         continue
