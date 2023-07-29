@@ -4,7 +4,7 @@ import streamlit as st
 from pony.orm import db_session, select
 import pandas as pd
 
-from inter_db.panels import get_eqip_tags, get_filtered_panels
+from inter_db.panels import get_eqip_tags
 from models import Terminal, Block
 from utilities import err_handler, tab_to_df, convert_txt_to_list
 
