@@ -2,6 +2,8 @@
 import pandas as pd
 import streamlit as st
 from pony.orm import db_session, select, IntegrityError
+from streamlit_option_menu import option_menu
+
 from inter_db.read_all_tabs import get_all_equip
 from models import Equip
 from utilities import err_handler
@@ -116,8 +118,13 @@ def equipment_main(act=None, prev_dict=None, prev_sel=None):
             c1, c2, c3 = st.columns(3, gap='medium')
             c1.write("#### :red[Warning! If you delete the Equipment - all related, panels, blocks, terminals will be deleted!!!]")
             c3.write("#### :red[Warning! If you delete the Equipment - all related, panels, blocks, terminals will be deleted!!!]")
-            if st.button(":red[Delete Equipment]"):
-                delete_equipment(edited_df)
+            if c2.button(":red[Delete Equipment]"):
+                # c1, c2, c3 = st.columns([5, 3, 5])
+                yes_no = option_menu('Are you sure?', options=['Yes - Delete', 'No - Return'],
+                                     menu_icon="exclamation-triangle", icons=['-', '-'], default_index=1)
+
+
+                if yes_no: delete_equipment(edited_df)
         else:
             st.write(f"#### :blue[Equipment not available...]")
 
