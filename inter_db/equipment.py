@@ -138,6 +138,8 @@ def equipment_main(act=None, prev_dict=None, prev_sel=None):
 
                     if yes_no == 'Yes - Delete':
 
+                        st.header(yes_no)
+
                         st.write(edited_df)
                         # delete_equipment(edited_df)
                     st.session_state.confirmation = False
