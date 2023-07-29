@@ -124,19 +124,21 @@ def equipment_main(act=None, prev_dict=None, prev_sel=None):
             c1.write("#### :red[Warning! If you delete the Equipment - all related, panels, blocks, terminals will be deleted!!!]")
             c3.write("#### :red[Warning! If you delete the Equipment - all related, panels, blocks, terminals will be deleted!!!]")
             c2.text('')
+
             st.write(st.session_state.confirmation)
             if c2.button("Delete Equipment"):
                 st.session_state.confirmation = True
             else:
                 st.session_state.confirmation = False
+
             st.write(st.session_state.confirmation)
             c1, c2, c3 = st.columns([5, 2, 5])
             with c2:
                 if st.session_state.confirmation:
 
                     yes_no = option_menu(None, options=['Are you sure?','Yes - Delete', 'No - Return'],
-                                         icons=['exclamation-triangle', '-', '-'], default_index=0)
-                    st.header(yes_no)
+                                         icons=['exclamation-triangle', '-', '-'], default_index=0,
+                                         orientation='horizontal')
 
                     if yes_no == 'Yes - Delete':
                         st.write(edited_df)
@@ -144,9 +146,7 @@ def equipment_main(act=None, prev_dict=None, prev_sel=None):
                         st.session_state.confirmation = False
                     if yes_no == 'No - Return':
                         st.write(edited_df)
-                        # delete_equipment(edited_df)
                         st.session_state.confirmation = False
-            st.write(st.session_state.confirmation)
         else:
             st.write(f"#### :blue[Equipment not available...]")
 
