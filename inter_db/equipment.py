@@ -100,7 +100,8 @@ def create_equipment():
 
 def equipment_main(act=None, prev_dict=None, prev_sel=None):
 
-
+    with st.sidebar:
+        st.write(st.session_state.confirmation)
 
     if act == 'Create':
         df_to_show = prev_dict[prev_sel]()
@@ -128,6 +129,8 @@ def equipment_main(act=None, prev_dict=None, prev_sel=None):
 
             if c2.button("Delete Equipment"):
                 st.session_state.confirmation = True
+            else:
+                st.session_state.confirmation = False
 
             c1, c2, c3 = st.columns([5, 2, 5])
             with c2:
