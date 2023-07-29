@@ -100,8 +100,6 @@ def create_equipment():
 
 def equipment_main(act=None, prev_dict=None, prev_sel=None):
 
-    with st.sidebar:
-        st.write(st.session_state.confirmation)
 
     if act == 'Create':
         df_to_show = prev_dict[prev_sel]()
