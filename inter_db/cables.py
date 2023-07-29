@@ -6,7 +6,7 @@ from pony.orm import db_session, select
 
 from inter_db.panels import get_panel_tags
 from inter_db.read_all_tabs import get_all_cables
-from models import Cable, Cab_purpose, Cab_types, Cab_wires, Cab_sect, Panel, Wire
+from models import Cable, Cab_purpose, Cab_types, Cab_wires, Cab_sect, Panel
 from utilities import err_handler
 
 
@@ -29,6 +29,7 @@ def get_cab_tags():
         return cab_tags
     except Exception as e:
         st.toast(err_handler(e))
+
 
 def delete_cable(df):
     del_cab_df = df[df.edit.astype('str') == "True"]
@@ -144,7 +145,6 @@ def get_cab_params():
 
 
 def create_cable(pan_tag_list):
-
     cab_purposes, cab_types, wire_numbers, wire_sections = get_cab_params()
 
     with st.form('add_cab'):
@@ -295,5 +295,3 @@ def cables_main(act, prev_dict, prev_sel):
         edited_df = data_to_show
         if st.button("Edit Selected Cables"):
             edit_cable(edited_df)
-
-

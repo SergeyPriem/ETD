@@ -248,7 +248,7 @@ import streamlit as st
 #         st.subheader(f'Select the Cable for Termination')
 from pony.orm import db_session, select
 
-from inter_db.cables import get_cab_tags, get_cab_panels
+from inter_db.cables import get_cab_tags
 from inter_db.terminals import get_panel_terminals
 from models import Wire, Cable
 from utilities import err_handler

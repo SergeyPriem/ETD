@@ -3,9 +3,9 @@ import pandas as pd
 import streamlit as st
 from pony.orm import db_session, select
 
-from inter_db.panels import get_eqip_tags, get_filtered_panels, get_panel_tags
+from inter_db.panels import get_panel_tags
 from inter_db.read_all_tabs import get_all_blocks
-from models import Equip, Panel, Block
+from models import Panel, Block
 from utilities import err_handler
 
 
