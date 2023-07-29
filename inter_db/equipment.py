@@ -133,8 +133,8 @@ def equipment_main(act=None, prev_dict=None, prev_sel=None):
             with c2:
                 if st.session_state.confirmation:
 
-                    yes_no = option_menu('Are you sure?', options=['Yes - Delete', 'No - Return'],
-                                         menu_icon="exclamation-triangle", icons=['-', '-'], default_index=1)
+                    yes_no = option_menu(None, options=['Are you sure?','Yes - Delete', 'No - Return'],
+                                         icons=['exclamation-triangle', '-', '-'], default_index=0)
                     st.header(yes_no)
 
                     if yes_no == 'Yes - Delete':
