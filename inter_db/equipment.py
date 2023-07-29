@@ -100,7 +100,6 @@ def create_equipment():
 
 def equipment_main(act=None, prev_dict=None, prev_sel=None):
 
-
     if act == 'Create':
         df_to_show = prev_dict[prev_sel]()
         if isinstance(df_to_show, pd.DataFrame):
@@ -120,33 +119,38 @@ def equipment_main(act=None, prev_dict=None, prev_sel=None):
         df_to_show = prev_dict[prev_sel]()
         if isinstance(df_to_show, pd.DataFrame):
             edited_df = st.data_editor(df_to_show)
-            c1, c2, c3 = st.columns(3, gap='medium')
-            c1.write("#### :red[Warning! If you delete the Equipment - all related, panels, blocks, terminals will be deleted!!!]")
-            c3.write("#### :red[Warning! If you delete the Equipment - all related, panels, blocks, terminals will be deleted!!!]")
-            c2.text('')
 
-            st.write(st.session_state.confirmation)
-            if c2.button("Delete Equipment"):
-                st.session_state.confirmation = True
-            else:
-                st.session_state.confirmation = False
+            def delete_with_warning():
+                c1, c2, c3 = st.columns(3, gap='medium')
+                c1.write("#### :red[Warning! If you delete the Equipment - all related, panels, blocks, terminals will be deleted!!!]")
+                c3.write("#### :red[Warning! If you delete the Equipment - all related, panels, blocks, terminals will be deleted!!!]")
+                c2.text('')
 
-            st.write(st.session_state.confirmation)
-            c1, c2, c3 = st.columns([5, 2, 5])
-            with c2:
-                if st.session_state.confirmation:
+                if c2.button("Delete Equipment"):
+                    st.session_state.confirmation = True
+                else:
+                    st.session_state.confirmation = False
 
-                    yes_no = option_menu(None, options=['Are you sure?','Yes - Delete', 'No - Return'],
-                                         icons=['exclamation-triangle', '-', '-'], default_index=0,
-                                         orientation='horizontal')
+                c1, c2, c3 = st.columns(3)
+                with c2:
+                    if st.session_state.confirmation:
 
-                    if yes_no == 'Yes - Delete':
-                        st.write(edited_df)
-                        # delete_equipment(edited_df)
+                        yes_no = option_menu(None, options=['Are you sure?','Yes - Delete', 'No - Return'],
+                                             icons=['exclamation-triangle', '-', '-'], default_index=0,
+                                             orientation='horizontal')
+
+                        if yes_no == 'Yes - Delete':
+                            st.session_state.confirmation = False
+                            return "Delete"
+                        if yes_no == 'No - Return':
+                            st.session_state.confirmation = False
+                            return "Escape"
                         st.session_state.confirmation = False
-                    if yes_no == 'No - Return':
-                        st.write(edited_df)
-                        st.session_state.confirmation = False
+
+
+            if delete_with_warning() == "Delete":
+                # delete_equipment(edited_df)
+                st.write(edited_df)
         else:
             st.write(f"#### :blue[Equipment not available...]")
 
