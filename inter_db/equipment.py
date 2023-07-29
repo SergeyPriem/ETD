@@ -135,10 +135,11 @@ def equipment_main(act=None, prev_dict=None, prev_sel=None):
 
                     yes_no = option_menu('Are you sure?', options=['Yes - Delete', 'No - Return'],
                                          menu_icon="exclamation-triangle", icons=['-', '-'], default_index=1)
+                    st.header(yes_no)
 
                     if yes_no == 'Yes - Delete':
 
-                        st.header(yes_no)
+
 
                         st.write(edited_df)
                         # delete_equipment(edited_df)
