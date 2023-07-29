@@ -24,7 +24,6 @@ def intercon_expander():
                                orientation="horizontal", default_index=0)
 
         if prev_sel != "SELECT:":
-            # st.data_editor(st.session_state.intercon[prev_sel], use_container_width=False)
 
             prev_dict = {
                 'Equipment': get_all_equip,
@@ -37,7 +36,7 @@ def intercon_expander():
 
             act = option_menu(None,
                               ['Select required:', 'View', 'Create', 'Edit', 'Delete'],
-                              icons=['-', '-', '-', '-', '-'], default_index=1, orientation='horizontal')
+                              icons=['-', '-', '-', '-', '-'], default_index=0, orientation='horizontal')
 
             if act != 'Select required:':
                 if prev_sel == 'Equipment':
