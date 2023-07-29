@@ -158,3 +158,5 @@ def equipment_main(act=None, prev_dict=None, prev_sel=None):
                 edit_equipment(edited_df)
         else:
             st.write(f"#### :blue[Equipment not available...]")
+
+    st.write(f"final: {st.session_state.confirmation}")
