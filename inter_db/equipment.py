@@ -145,7 +145,7 @@ def equipment_main(act=None, prev_dict=None, prev_sel=None):
                         if yes_no == 'No - Return':
                             st.session_state.confirmation = False
                             return "Escape"
-                        st.session_state.confirmation = False
+                        # st.session_state.confirmation = False
 
 
             if delete_with_warning() == "Delete":
