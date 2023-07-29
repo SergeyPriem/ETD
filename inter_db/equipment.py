@@ -46,6 +46,7 @@ def edit_equipment(df):
 
 
 def delete_equipment(df):
+    st.write(df)
     eq_to_del = df[df.edit.astype('str') == "True"]
     if len(eq_to_del):
         with db_session:
@@ -118,13 +119,15 @@ def equipment_main(act=None, prev_dict=None, prev_sel=None):
             c1, c2, c3 = st.columns(3, gap='medium')
             c1.write("#### :red[Warning! If you delete the Equipment - all related, panels, blocks, terminals will be deleted!!!]")
             c3.write("#### :red[Warning! If you delete the Equipment - all related, panels, blocks, terminals will be deleted!!!]")
-            if c2.button(":red[Delete Equipment]"):
-                # c1, c2, c3 = st.columns([5, 3, 5])
-                yes_no = option_menu('Are you sure?', options=['Yes - Delete', 'No - Return'],
-                                     menu_icon="exclamation-triangle", icons=['-', '-'], default_index=1)
+            c2.text('')
+            if c2.button("Delete Equipment"):
+                c1, c2, c3 = st.columns([5, 2, 5])
+                with c2:
+                    yes_no = option_menu('Are you sure?', options=['Yes - Delete', 'No - Return'],
+                                         menu_icon="exclamation-triangle", icons=['-', '-'], default_index=1)
 
-
-                if yes_no: delete_equipment(edited_df)
+                if yes_no == 'Yes - Delete':
+                    delete_equipment(edited_df)
         else:
             st.write(f"#### :blue[Equipment not available...]")
 
