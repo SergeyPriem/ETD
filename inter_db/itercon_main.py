@@ -15,7 +15,7 @@ def intercon_expander():
 
     st.title(':orange[Create Interconnection Wiring Diagram - under development...]')
 
-    if st.session_state['user']['access_level'] == "dev":
+    if st.session_state['user']['access_level'] == "dev" or st.session_state['user']['login'] == 'vyacheslav.shishov':
 
         preview_list = ["SELECT:", 'Equipment', 'Panels', 'Terminal Block', 'Terminals', 'Cables', 'Wires']
 

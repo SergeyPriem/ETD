@@ -99,6 +99,9 @@ def create_equipment():
 
 
 def equipment_main(act=None, prev_dict=None, prev_sel=None):
+
+
+
     if act == 'Create':
         df_to_show = prev_dict[prev_sel]()
         if isinstance(df_to_show, pd.DataFrame):
@@ -122,9 +125,6 @@ def equipment_main(act=None, prev_dict=None, prev_sel=None):
             c1.write("#### :red[Warning! If you delete the Equipment - all related, panels, blocks, terminals will be deleted!!!]")
             c3.write("#### :red[Warning! If you delete the Equipment - all related, panels, blocks, terminals will be deleted!!!]")
             c2.text('')
-
-            if 'confirmation' not in st.session_state:
-                st.session_state.confirmation = False
 
             if c2.button("Delete Equipment"):
                 st.session_state.confirmation = True
