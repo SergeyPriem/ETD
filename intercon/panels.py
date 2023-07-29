@@ -8,46 +8,6 @@ from models import Equip, Panel
 
 
 
-# def check_panels(df):
-#
-#     df.full_pan_tag = df.eq_tag.astype('str') + ":" + df.pan_tag.astype('str')
-#     check_list = df.loc[df.full_pan_tag.duplicated(), 'full_pan_tag'].tolist()
-#
-#     if len(check_list):
-#         st.write(f"#### :red[Duplicated Panel Tags {check_list}. Please fix and save]")
-#         st.button('OK', key='duplicated_panels')
-#         st.stop()
-#
-#
-#
-# def delete_panels(pan_to_del):
-#     st.session_state.intercon['panel'] = \
-#         st.session_state.intercon['panel'][~st.session_state.intercon['panel'].full_pan_tag.isin(pan_to_del)]
-#     st.experimental_rerun()
-#
-#
-# def save_panels(upd_panels_df, act_equip):
-#     temp_df = st.session_state.intercon['panel'].copy(deep=True)
-#     temp_df = temp_df[temp_df.eq_tag != act_equip]
-#
-#     st.session_state.intercon['panel'] = pd.concat([temp_df, upd_panels_df])
-#     st.session_state.intercon['panel'].reset_index(drop=True, inplace=True)
-#     st.write("#### :green[Panels saved successfully]")
-#     st.button("OK", key='panels_saved')
-#
-#
-# def add_panels(act_equip, q_ty):
-#
-#     df2 = pd.DataFrame()
-#
-#     for w in range(0, q_ty):
-#         df2.loc[w, ["eq_tag", 'pan_to_del']] = [act_equip, False]
-#
-#     st.session_state.intercon['panel'] = pd.concat([st.session_state.intercon['panel'], df2])
-#     st.session_state.intercon['panel'] = st.session_state.intercon['panel'].reset_index(drop=True)
-#     st.experimental_rerun()
-
-
 def edit_panel():
     eq_list = st.session_state.intercon['equip'].loc[:, 'eq_tag'].tolist()
 

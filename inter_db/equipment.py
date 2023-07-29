@@ -113,7 +113,10 @@ def equipment_main(act=None, prev_dict=None, prev_sel=None):
         df_to_show = prev_dict[prev_sel]()
         if isinstance(df_to_show, pd.DataFrame):
             edited_df = st.data_editor(df_to_show)
-            if st.button("Delete Equipment"):
+            c1, c2, c3 = st.columns(3, gap='medium')
+            c1.write("#### :red[Warning! If you delete the Equipment - all related, panels, blocks, terminals will be deleted!!!]")
+            c3.write("#### :red[Warning! If you delete the Equipment - all related, panels, blocks, terminals will be deleted!!!]")
+            if st.button(":red[Delete Equipment]"):
                 delete_equipment(edited_df)
         else:
             st.write(f"#### :blue[Equipment not available...]")
