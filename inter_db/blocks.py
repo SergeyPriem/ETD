@@ -172,7 +172,7 @@ def blocks_main(act):
                                      options=eq_tag_list,
                                      icons=['-'] * len(eq_tag_list),
                                      orientation='horizontal',
-                                     menu_icon=None)
+                                     menu_icon='1-square')
 
     pan_tag_list = list(get_panel_tags(selected_equip))
 
@@ -184,7 +184,8 @@ def blocks_main(act):
         selected_panel = option_menu('Select the Panel',
                                      options=pan_tag_list,
                                      icons=['-'] * len(pan_tag_list),
-                                     orientation='horizontal', menu_icon=None)
+                                     menu_icon='2-square',
+                                     orientation='horizontal')
 
     if selected_panel == 'No panels available':
         st.stop()
