@@ -245,7 +245,7 @@ def cables_main(act, prev_dict, prev_sel):
     if len(eq_tag_list) == 0:
         eq_tag_list = 'No equipment available'
     with rc1:
-        selected_right_equip = option_menu('Select the Left Side Equipment',
+        selected_right_equip = option_menu('Select the Right Side Equipment',
                                      options=eq_tag_list,
                                      icons=['-'] * len(eq_tag_list),
                                      orientation='horizontal',
@@ -260,7 +260,7 @@ def cables_main(act, prev_dict, prev_sel):
         pan_tag_list = 'No panels available'
 
     with rc2:
-        selected_right_panel = option_menu('Select the Left Side Panel',
+        selected_right_panel = option_menu('Select the Right Side Panel',
                                      options=right_pan_tag_list,
                                      icons=['-'] * len(right_pan_tag_list),
                                      orientation='horizontal', menu_icon='2-square')
