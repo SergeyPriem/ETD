@@ -109,14 +109,17 @@ def edit_cable(df):
 
 @st.cache_data(show_spinner=False)
 def get_filtered_cables(left_eq, left_pan, right_eq, right_pan):
-    try:
-        with db_session:
+    if left_eq == right_eq and left_pan == right_pan:
+        st.toast(f"##### :red[Left and Right Panels should be different]")
+        return None
+    else:
+        try:
+            with db_session:
 
-            left_pan = select(p for p in Panel if p.panel_tag == left_pan and p.eq_id.equipment_tag == left_eq)[:]
-            right_pan = select(p for p in Panel if p.panel_tag == right_pan and p.eq_id.equipment_tag == right_eq)[:]
+                left_pan = select(p for p in Panel if p.panel_tag == left_pan and p.eq_id.equipment_tag == left_eq)[:]
+                right_pan = select(p for p in Panel if p.panel_tag == right_pan and p.eq_id.equipment_tag == right_eq)[:]
 
-            if left_pan and right_pan:
-                if left_pan.id != right_pan.id:
+                if left_pan and right_pan:
                     data = select(
                         (c.id, c.cable_tag, c.purpose_id.circuit_descr, c.type_id.cab_type, c.wires_id.wire_num,
                          c.sect_id.section, c.left_pan_id.panel_un, c.right_pan_id.panel_un, c.edit, c.notes,)
@@ -127,12 +130,8 @@ def get_filtered_cables(left_eq, left_pan, right_eq, right_pan):
                                                      'left_pan_tag', 'right_pan_tag', 'edit', 'notes', ])
 
                     return df
-                else:
-                    st.toast(f"Left and Right Panels should be different")
-                    return None
-
-    except Exception as e:
-        st.toast(err_handler(e))
+        except Exception as e:
+            st.toast(err_handler(e))
 
 
 @st.cache_data(show_spinner=False, ttl=600)
