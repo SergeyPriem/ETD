@@ -5,7 +5,7 @@ from pony.orm import db_session, select
 import pandas as pd
 from streamlit_option_menu import option_menu
 
-from inter_db.blocks import get_blocks_list_by_eq_pan, get_selected_block
+from inter_db.blocks import get_blocks_list_by_eq_pan
 from inter_db.panels import get_eqip_tags, get_panel_tags
 from models import Terminal, Block, Equip, Panel
 from utilities import err_handler, convert_txt_to_list
@@ -27,7 +27,7 @@ def edit_terminals(df, block_un):
         try:
             with db_session:
                 for ind, row in term_df.iterrows():
-                    edit_row = Terminal[ind]
+                    edit_row = Terminal[row.id]
 
                     if not edit_row:
                         st.toast(f"#### :red[Fail, Terminal: {row.terminal_num} not found]")
@@ -62,7 +62,7 @@ def delete_terminals(df):
         try:
             with db_session:
                 for ind, row in del_term_df.iterrows():
-                    del_row = Terminal[ind]
+                    del_row = Terminal[row.id]
                     if not del_row:
                         st.toast(f"##### :red[Fail, Terminal {row.terminal_num} not found]")
                         continue
@@ -74,7 +74,6 @@ def delete_terminals(df):
             st.toast(f"#### :red[Can't delete {row.terminal_num}]")
             st.toast(f"##### {err_handler(e)}")
         finally:
-            get_filtered_terminals.clear()
             get_selected_block_terminals.clear()
             st.experimental_rerun()
     else:
@@ -109,19 +108,8 @@ def create_terminals(selected_equip, selected_panel, selected_block, terminals):
     except Exception as e:
         st.toast(err_handler(e))
     finally:
-        get_filtered_terminals.clear()
         get_selected_block_terminals.clear()
         st.experimental_rerun()
-
-
-# @st.cache_data(show_spinner=False)
-# def get_filtered_blocks(equip):
-#     try:
-#         with db_session:
-#             data = select(b.block_un for b in Block if equip in b.block_un)[:]
-#             return data
-#     except Exception as e:
-#         st.toast(err_handler(e))
 
 
 @st.cache_data(show_spinner=False)
@@ -137,11 +125,11 @@ def get_filtered_terminals(block):
                               t.int_link,
                               t.edit,
                               t.notes,
-                              t.terminal_un
+                              # t.terminal_un
                           ) for t in Terminal if t.block_id == selected_block)[:]
 
             df = pd.DataFrame(data, columns=['id', 'block_id', 'terminal_num', 'int_circuit', 'int_link',
-                                             'edit', 'notes', 'terminal_un'])
+                                             'edit', 'notes', ])  #'terminal_un'
             return df
     except Exception as e:
         st.toast(err_handler(e))
@@ -163,12 +151,12 @@ def get_selected_block_terminals(selected_equip, selected_panel, selected_block)
                     t.int_link,
                     t.edit,
                     t.notes,
-                    t.terminal_un
+                    # t.terminal_un
                 )
                 for t in Terminal if t.block_id == block)[:]
 
         df = pd.DataFrame(data, columns=['id', 'block_id', 'terminal_num', 'int_circuit', 'int_link',
-                                             'edit', 'notes', 'terminal_un'])
+                                             'edit', 'notes',]) # 'terminal_un'
         return df
     except Exception as e:
         st.toast(err_handler(e))
@@ -214,23 +202,6 @@ def terminals_main(act):
 
     df_to_show = get_selected_block_terminals(selected_equip, selected_panel, selected_block)
 
-
-
-#     eq_tag_list = list(get_eqip_tags())
-#     # pan_tag_list.insert(0, 'ALL')
-#
-#     c1, c2 = st.columns(2, gap='medium')
-#     selected_equip = c1.selectbox('Select the Equipment', eq_tag_list)
-#
-#     # block_tag_list = list(get_filtered_blocks(selected_equip))
-#     selected_block = c2.selectbox('Select the Terminal Block', block_tag_list)
-#
-#     data_to_show = None
-#     df_to_show = None
-#
-    # if act != 'Select required:':
-    #     if selected_equip and selected_block:
-    #         df_to_show = get_filtered_terminals(selected_block)
     if isinstance(df_to_show, pd.DataFrame):
         if len(df_to_show):
             data_to_show = st.data_editor(df_to_show,
@@ -265,10 +236,10 @@ def terminals_main(act):
                                                   "Notes",
                                                   width='large'
                                               ),
-                                              "terminal_un": st.column_config.TextColumn(
-                                                  "Terminal Unique Number",
-                                                  width='large'
-                                              ),
+                                              # "terminal_un": st.column_config.TextColumn(
+                                              #     "Terminal Unique Number",
+                                              #     width='large'
+                                              # ),
                                           },
                                           use_container_width=True, hide_index=True)
         else:
@@ -283,7 +254,7 @@ def terminals_main(act):
             if c2.button("Add Terminals", use_container_width=True):
                 terminals = convert_txt_to_list(terminals_str)
                 if all([len(terminals), isinstance(terminals, list)]):
-                    create_terminals(selected_block, terminals)
+                    create_terminals(selected_equip, selected_panel, selected_block, terminals)
 
         if act == 'View':
             data_to_show
