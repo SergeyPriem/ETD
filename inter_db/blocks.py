@@ -5,7 +5,7 @@ from pony.orm import db_session, select
 from streamlit_option_menu import option_menu
 
 from inter_db.equipment import get_eqip_tags
-from inter_db.panels import get_panel_tags, get_panels_by_equip_panel_tag
+from inter_db.panels import get_panel_tags #, get_panels_by_equip_panel_tag
 from inter_db.read_all_tabs import get_all_blocks
 from models import Panel, Block, Equip
 from utilities import err_handler
@@ -214,7 +214,7 @@ def blocks_main(act):
 
     if act == 'Create':
         data_to_show
-        create_block(selected_panel)
+        create_block(selected_equip, selected_panel)
 
     if act == 'View':
         data_to_show
