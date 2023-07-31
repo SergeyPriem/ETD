@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
+import time
 
 import pandas as pd
 import streamlit as st
 import json
 import os
 import ezdxf
+from streamlit_option_menu import option_menu
 
 POSITIONS = ('Trainee', 'III cat.', 'II cat.', 'I cat.', 'Lead', 'Group Head', 'Senior', 'Dep. Head')
 DEPARTMENTS = ('UzLITI Engineering', 'En-Solut', 'En-Concept', 'En-Smart', 'En-Design', 'Remote')
@@ -268,3 +270,46 @@ def convert_txt_to_list(txt):
         return final_list
     else:
         return []
+
+def act_with_warning(left_function=None, left_args=None, right_function=None, right_args=None,
+                     option_message="Are you sure?", left_button="YES", right_button="NO",
+                     header_message=None, header_color="red", warning_message="Warning", waiting_time=7):
+
+    """
+    :param left_function: function, related to left button
+    :param left_args: args for 'left' function
+    :param right_function: function, related to right button
+    :param right_args: args for 'right' function
+    :param option_message: left side inline message
+    :param left_button: text of left button
+    :param right_button: text of right button
+    :param header_message: warning header above the buttons
+    :param header_color: warning header color. Supported colors: blue, green, orange, red, violet. Default - red
+    :param warning_message: white warning message above the buttons
+    :param waiting_time: time of buttons presence
+    :return: Nothing
+    """
+
+    c1, c2, c3 = st.columns(3)
+    with c2:
+        c2.subheader(f":{header_color}[{header_message}]")
+
+        yes_no = option_menu(warning_message, options=[option_message, left_button, right_button],
+                             menu_icon='exclamation-triangle',icons=['-', '-', '-'],
+                             default_index=0, orientation='horizontal')
+
+    if yes_no == left_button:
+        if left_function:
+            left_function(left_args)
+        st.experimental_rerun()
+
+    if yes_no == right_button:
+        if right_function:
+            right_function(right_args)
+        st.experimental_rerun()
+
+    if yes_no == option_message:
+        c2.write(":blue[Waiting for your decision...]")
+        time.sleep(waiting_time)
+        st.experimental_rerun()
+
