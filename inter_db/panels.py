@@ -176,7 +176,7 @@ def create_panel(sel_equip):
             st.toast(f"""#### :red[Please fill all required (*) fields!]""")
 
 
-def panels_main(act, prev_dict, prev_sel):
+def panels_main(act):
     eq_tag_list = list(get_eqip_tags())
 
     c1, c2 = st.columns([1, 2], gap='medium')
