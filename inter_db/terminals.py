@@ -81,10 +81,12 @@ def delete_terminals(df):
         st.toast(f"#### :orange[Select the Terminal to delete in column 'Edit']")
 
 
-def create_terminals(block_un, terminals):
+def create_terminals(selected_equip, selected_panel, selected_block, terminals):
     try:
         with db_session:
-            block = Block.get(block_un=block_un)
+            equip = Equip.get(equipment_tag=selected_equip)
+            panel = select(p for p in Panel if p.panel_tag == selected_panel and p.eq_id == equip).first()
+            block = select(b for b in Block if b.pan_id == panel and b.block_tag == selected_block).first()
             exist_terminals = select(te.terminal_num for te in Terminal if te.block_id == block)[:]
 
             for t in terminals:
@@ -100,7 +102,7 @@ def create_terminals(block_un, terminals):
                     int_link="",
                     edit=False,
                     notes='',
-                    terminal_un=str(block_un) + ":" + t,
+                    # terminal_un=str(block_un) + ":" + t,
                 )
                 st.toast(f"##### :green[Terminal {t} added]")
 
@@ -165,8 +167,8 @@ def get_selected_block_terminals(selected_equip, selected_panel, selected_block)
                 )
                 for t in Terminal if t.block_id == block)[:]
 
-        df = pd.DataFrame(data, columns=['id', 'panel_tag', 'block_tag', 'description',
-                                         'edit', 'notes', 'block_un'])
+        df = pd.DataFrame(data, columns=['id', 'block_id', 'terminal_num', 'int_circuit', 'int_link',
+                                             'edit', 'notes', 'terminal_un'])
         return df
     except Exception as e:
         st.toast(err_handler(e))
