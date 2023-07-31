@@ -47,25 +47,25 @@ def edit_equipment(df):
 
 def delete_equipment(df):
     st.write(df)
-    st.stop()
+    # st.stop()
 
-    # eq_to_del = df[df.edit.astype('str') == "True"]
-    # if len(eq_to_del):
-    #     with db_session:
-    #         try:
-    #             for ind, row in eq_to_del.iterrows():
-    #                 del_row = Equip[row.id]
-    #                 if not del_row:
-    #                     st.toast(f"#### :red[Fail, equipment {row.equipment_tag} not found]")
-    #                     continue
-    #                 del_row.delete()
-    #                 st.toast(f"#### :green[Equipment: {row.equipment_tag} is deleted]")
-    #         except Exception as e:
-    #             st.toast(f"Can't delete {row.equipment_tag}")
-    #             st.toast(f"##### {err_handler(e)}")
-    #         finally:
-    #             st.cache_data.clear()
-    #             st.button("OK")
+    eq_to_del = df[df.edit.astype('str') == "True"]
+    if len(eq_to_del):
+        with db_session:
+            # try:
+            for ind, row in eq_to_del.iterrows():
+                del_row = Equip[row.id]
+                if not del_row:
+                    st.toast(f"#### :red[Fail, equipment {row.equipment_tag} not found]")
+                    continue
+                del_row.delete()
+                st.toast(f"#### :green[Equipment: {row.equipment_tag} is deleted]")
+            # except Exception as e:
+            #     st.toast(f"Can't delete {row.equipment_tag}")
+            #     st.toast(f"##### {err_handler(e)}")
+            # finally:
+            st.cache_data.clear()
+            st.button("OK")
 
 
 def create_equipment():
