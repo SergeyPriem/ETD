@@ -24,7 +24,7 @@ def edit_terminals(df, block_un):
         try:
             with db_session:
                 for ind, row in term_df.iterrows():
-                    edit_row = Terminal[row.id]
+                    edit_row = Terminal[ind]
 
                     if not edit_row:
                         st.toast(f"#### :red[Fail, Terminal: {row.terminal_num} not found]")
@@ -59,7 +59,7 @@ def delete_terminals(df):
         try:
             with db_session:
                 for ind, row in del_term_df.iterrows():
-                    del_row = Terminal[row.id]
+                    del_row = Terminal[ind]
                     if not del_row:
                         st.toast(f"##### :red[Fail, Terminal {row.terminal_num} not found]")
                         continue

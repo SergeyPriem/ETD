@@ -37,7 +37,7 @@ def delete_cable(df):
         try:
             with db_session:
                 for ind, row in del_cab_df.iterrows():
-                    del_row = Cable[row.id]
+                    del_row = Cable[ind]
                     if not del_row:
                         st.toast(f"#### :red[Fail, cable: {row.cable_tag} not found]")
                         continue
@@ -64,7 +64,7 @@ def edit_cable(df):
         try:
             with db_session:
                 for ind, row in cables_df.iterrows():
-                    edit_row = Cable[row.id]
+                    edit_row = Cable[ind]
 
                     if not edit_row:
                         st.toast(f"#### :red[Fail, Cable: {row.cable_tag} not found]")
