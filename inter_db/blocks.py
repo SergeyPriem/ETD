@@ -116,27 +116,43 @@ def get_blocks_list_by_eq_pan(selected_equip, selected_panel):
 def get_selected_block(selected_equip, selected_panel, selected_block):
     try:
         with db_session:
+            if selected_block != 'ALL':
+                data = select(
+                    (
+                        b.id,
+                        b.pan_id.panel_un,
+                        b.block_tag,
+                        b.descr,
+                        b.edit,
+                        b.notes,
+                        b.block_un
+                    )
+                    for b in Block
+                    for p in b.pan_id
+                    if selected_panel == b.pan_id.panel_tag and
+                    selected_equip == p.eq_id.equipment_tag and
+                    selected_block ==  b.block_tag
+                )[:]
+            else:
+                data = select(
+                    (
+                        b.id,
+                        b.pan_id.panel_un,
+                        b.block_tag,
+                        b.descr,
+                        b.edit,
+                        b.notes,
+                        b.block_un
+                    )
+                    for b in Block
+                    for p in b.pan_id
+                    if selected_panel == b.pan_id.panel_tag and
+                    selected_equip == p.eq_id.equipment_tag
+                )[:]
 
-            data = select(
-                (
-                    b.id,
-                    b.pan_id.panel_un,
-                    b.block_tag,
-                    b.descr,
-                    b.edit,
-                    b.notes,
-                    b.block_un
-                )
-                for b in Block
-                for p in b.pan_id
-                if selected_panel == b.pan_id.panel_tag and
-                selected_equip == p.eq_id.equipment_tag and
-                selected_block ==  b.block_tag
-            )[:]
-
-            df = pd.DataFrame(data, columns=['id', 'panel_tag', 'block_tag', 'description',
+        df = pd.DataFrame(data, columns=['id', 'panel_tag', 'block_tag', 'description',
                                              'edit', 'notes', 'block_un'])
-            return df
+        return df
     except Exception as e:
         st.toast(err_handler(e))
 
@@ -159,6 +175,7 @@ def blocks_main(act):
         pan_tag_list = ['No panels available']
 
 
+
     with c2:
         selected_panel = option_menu('Select the Panel',
                                      options=pan_tag_list,
@@ -173,6 +190,9 @@ def blocks_main(act):
 
     if len(block_tag_list) == 0:
         block_tag_list = ['No blocks available']
+    else:
+        if len(block_tag_list) > 1:
+            block_tag_list.append('ALL')
 
     with c3:
         selected_block = option_menu('Select the Terminal Block',

@@ -41,7 +41,6 @@ def get_panels_by_equip_panel_tag(equip_tag, pan_tag):
                     for p in Panel
                     if equip_tag == p.eq_id.equipment_tag)[:]
 
-
         df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag', 'description',
                                          'edit', 'notes', 'panel_un'])
         return df
@@ -201,7 +200,8 @@ def panels_main(act, prev_dict, prev_sel):
     if len(pan_tag_list) == 0:
         pan_tag_list = 'No panels available'
     else:
-        pan_tag_list.append("ALL")
+        if len(pan_tag_list) > 1:
+            pan_tag_list.append("ALL")
 
     with c2:
         selected_panel = option_menu('Select the Panel',
