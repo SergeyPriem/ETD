@@ -51,10 +51,10 @@ def delete_equipment(df):
 
     eq_to_del = df[df.edit.astype('str') == "True"]
     if len(eq_to_del):
-        with db_session:
-            # try:
-            for ind, row in eq_to_del.iterrows():
-                st.write(row)
+        # with db_session:
+        #     # try:
+        for ind, row in eq_to_del.iterrows():
+            st.write(row)
                 # del_row = Equip[row.id]
                 # if not del_row:
                 #     st.toast(f"#### :red[Fail, equipment {row.equipment_tag} not found]")
