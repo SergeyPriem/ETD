@@ -176,6 +176,10 @@ def blocks_main(act):
 
     pan_tag_list = list(get_panel_tags(selected_equip))
 
+    if len(pan_tag_list) == 0:
+        pan_tag_list = ['No panels available']
+        st.stop()
+
     with c2:
         selected_panel = option_menu('Select the Panel',
                                      options=pan_tag_list,
@@ -185,6 +189,7 @@ def blocks_main(act):
     block_tag_list = list(get_blocks_list_by_eq_pan(selected_equip, selected_panel))
     if len(block_tag_list) == 0:
         block_tag_list = ['No blocks available']
+        st.stop()
 
     with c3:
         selected_block = option_menu('Select the Terminal Block',
@@ -192,27 +197,29 @@ def blocks_main(act):
                                      icons=['-'] * len(block_tag_list),
                                      orientation='horizontal', menu_icon="-")
 
-    if selected_block != 'No blocks available':
-        df_to_show = get_selected_block(selected_equip, selected_panel, selected_block)
+    if selected_block == 'No blocks available':
+        st.stop()
 
-        if isinstance(df_to_show, pd.DataFrame) and len(df_to_show):
-            data_to_show = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
-        else:
-            data_to_show = st.write(f"#### :blue[Blocks not available...]")
+    df_to_show = get_selected_block(selected_equip, selected_panel, selected_block)
 
-        if act == 'Create':
-            data_to_show
-            create_block(selected_panel)
+    if isinstance(df_to_show, pd.DataFrame) and len(df_to_show):
+        data_to_show = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
+    else:
+        data_to_show = st.write(f"#### :blue[Blocks not available...]")
 
-        if act == 'View':
-            data_to_show
+    if act == 'Create':
+        data_to_show
+        create_block(selected_panel)
 
-        if act == 'Delete':
-            edited_df = data_to_show
-            if st.button("Delete Terminal Block"):
-                delete_block(edited_df)
+    if act == 'View':
+        data_to_show
 
-        if act == 'Edit':
-            edited_df = data_to_show
-            if st.button("Edit Selected Terminal Block"):
-                edit_block(edited_df)
+    if act == 'Delete':
+        edited_df = data_to_show
+        if st.button("Delete Terminal Block"):
+            delete_block(edited_df)
+
+    if act == 'Edit':
+        edited_df = data_to_show
+        if st.button("Edit Selected Terminal Block"):
+            edit_block(edited_df)
