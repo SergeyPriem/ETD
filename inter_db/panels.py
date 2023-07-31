@@ -180,6 +180,9 @@ def panels_main(act, prev_dict, prev_sel):
     # eq_tag_list.insert(0, 'ALL')
     # selected_equip = st.radio('Select the Equipment', eq_tag_list, horizontal=True)
 
+    c1, c2  = st.columns([1, 2], gap='medium')
+
+    with c1:
     selected_equip = option_menu('Select the Equipment',
                                  options=eq_tag_list,
                                  icons=None,
@@ -195,10 +198,13 @@ def panels_main(act, prev_dict, prev_sel):
     # st.write(pan_tag_list)
 
     # selected_panel = st.radio('Select the Panel', pan_tag_list, horizontal=True)
-    selected_panel = option_menu('Select the Panel',
-                                 options=pan_tag_list,
-                                 icons=None,
-                                 orientation='horizontal')
+    with c2:
+        selected_panel = option_menu('Select the Panel',
+                                     options=pan_tag_list,
+                                     icons=None,
+                                     orientation='horizontal')
+
+
 
     df_to_show = get_panels_by_equip_panel_tag(selected_equip, selected_panel)
 
