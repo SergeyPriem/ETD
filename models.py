@@ -168,7 +168,7 @@ def db_func():
         cables_r = Set('Cable', reverse='right_pan_id')
         cables_l = Set('Cable', reverse='left_pan_id')
         composite_key(eq_id, panel_tag)
-        panel_un = Required(str, 100, unique=True)
+        panel_un = Optional(str, 100, unique=True)
 
     class Block(db_int.Entity):
         id = PrimaryKey(int, size=32, auto=True)
@@ -179,7 +179,7 @@ def db_func():
         notes = Optional(str, 200)
         terminals = Set('Terminal')
         composite_key(pan_id, block_tag)
-        block_un = Required(str, 170, unique=True)
+        block_un = Optional(str, 170, unique=True)
 
     class Cable(db_int.Entity):
         id = PrimaryKey(int, size=32, auto=True)
@@ -232,7 +232,7 @@ def db_func():
         int_link = Optional(str, 10)
         edit = Optional(bool, default=False)
         notes = Optional(str, 100)
-        terminal_un = Required(str, 175, unique=True)
+        terminal_un = Optional(str, 175, unique=True)
         wires_l = Set(Wire, reverse='left_term_id')
         wires_r = Set(Wire, reverse='right_term_id')
         composite_key(block_id, terminal_num)
