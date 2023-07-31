@@ -2,8 +2,10 @@
 import pandas as pd
 import streamlit as st
 from pony.orm import db_session, select
+from streamlit_option_menu import option_menu
 
-from inter_db.panels import get_panel_tags
+from inter_db.equipment import get_eqip_tags
+from inter_db.panels import get_panel_tags, get_panels_by_equip_panel_tag
 from inter_db.read_all_tabs import get_all_blocks
 from models import Panel, Block
 from utilities import err_handler
@@ -93,6 +95,21 @@ def create_block(panel_tag):
         else:
             st.toast(f"""#### :red[Please fill all required (*) fields!]""")
 
+@st.cache_data(show_spinner=False)
+def get_blocks_list_by_eq_pan(selected_equip, selected_panel):
+    try:
+        with db_session:
+
+            data = select(b.block_tag
+                          for b in Block
+                          for p in b.pan_id
+                          if selected_panel == b.pan_id.panel_tag and selected_equip == p.eq_id.equipment_tag
+            )[:]
+
+            return data
+    except Exception as e:
+        st.toast(err_handler(e))
+
 
 @st.cache_data(show_spinner=False)
 def get_selected_blocks(panel_un):
@@ -117,10 +134,68 @@ def get_selected_blocks(panel_un):
         st.toast(err_handler(e))
 
 
+def get_selected_block(selected_equip, selected_panel, selected_block):
+    try:
+        with db_session:
+
+            data = select(
+                (
+                    b.id,
+                    b.pan_id.panel_un,
+                    b.block_tag,
+                    b.descr,
+                    b.edit,
+                    b.notes,
+                    b.block_un
+                )
+                for b in Block
+                for p in b.pan_id
+                if selected_panel == b.pan_id.panel_tag and
+                selected_equip == p.eq_id.equipment_tag and
+                selected_block ==  b.block_tag
+            )[:]
+
+            df = pd.DataFrame(data, columns=['id', 'panel_tag', 'block_tag', 'description',
+                                             'edit', 'notes', 'block_un'])
+            return df
+    except Exception as e:
+        st.toast(err_handler(e))
+
+
 def blocks_main(act):
-    pan_tag_list = list(get_panel_tags())
-    selected_panel = st.selectbox('Select the Panel', pan_tag_list)
-    df_to_show = get_selected_blocks(selected_panel)
+    eq_tag_list = list(get_eqip_tags())
+
+    c1, c2, c3 = st.columns([1, 2, 1], gap='medium')
+
+    with c1:
+        selected_equip = option_menu('Select the Equipment',
+                                     options=eq_tag_list,
+                                     icons=['-'] * len(eq_tag_list),
+                                     orientation='horizontal',
+                                     menu_icon=None)
+
+    pan_tag_list = list(get_panel_tags(selected_equip))
+
+    with c2:
+        selected_panel = option_menu('Select the Panel',
+                                     options=pan_tag_list,
+                                     icons=['-'] * len(pan_tag_list),
+                                     orientation='horizontal', menu_icon=None)
+
+    block_tag_list =  list(get_blocks_list_by_eq_pan(selected_equip, selected_panel))
+
+    with c3:
+        selected_block = option_menu('Select the Terminal Block',
+                                     options=block_tag_list,
+                                     icons=['-'] * len(block_tag_list),
+                                     orientation='horizontal', menu_icon="-")
+
+
+    df_to_show = get_selected_block(selected_equip, selected_panel, selected_block)
+
+    # pan_tag_list = list(get_panel_tags())
+    # selected_panel = st.selectbox('Select the Panel', pan_tag_list)
+    # df_to_show = get_selected_blocks(selected_panel)
 
     if isinstance(df_to_show, pd.DataFrame) and len(df_to_show):
         data_to_show = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
