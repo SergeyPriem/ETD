@@ -109,7 +109,7 @@ def edit_panel(df):
             with db_session:
                 for ind, row in pan_df.iterrows():
                     st.header(ind)
-                    edit_row = Panel[ind]
+                    edit_row = Panel[row.id]
                     eq_id = Equip.get(equipment_tag=row.equipment_tag).id
                     if not edit_row:
                         st.toast(f"#### :red[Fail, Panel: {row.panel_tag} not found]")
