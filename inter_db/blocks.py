@@ -8,7 +8,7 @@ from inter_db.equipment import get_eqip_tags
 from inter_db.panels import get_panel_tags #, get_panels_by_equip_panel_tag
 from inter_db.read_all_tabs import get_all_blocks
 from models import Panel, Block, Equip
-from utilities import err_handler
+from utilities import err_handler, act_with_warning
 
 
 def delete_block(df):
@@ -28,6 +28,7 @@ def delete_block(df):
             st.toast(f"##### {err_handler(e)}")
         finally:
             get_all_blocks.clear()
+            get_blocks_list_by_eq_pan.clear()
             get_selected_block.clear()
             st.button("OK")
     else:
@@ -58,6 +59,7 @@ def edit_block(df):
         finally:
             get_all_blocks.clear()
             get_selected_block.clear()
+            get_blocks_list_by_eq_pan.clear()
             st.button("OK")
     else:
         st.toast(f"#### :orange[Select the Panel to edit in column 'Edit']")
@@ -81,10 +83,7 @@ def create_block(equip_tag, panel_tag):
                 with db_session:
                     equip = Equip.get(equipment_tag=equip_tag)
                     panel = select(p for p in Panel if p.eq_id == equip).first()
-                    Block(pan_id=panel, block_tag=block_tag, descr=block_descr, edit=False,
-                          notes=block_notes,
-                          # block_un=str(panel_tag) + ":" + str(block_tag),
-                          )
+                    Block(pan_id=panel, block_tag=block_tag, descr=block_descr, edit=False,notes=block_notes)
 
                 st.toast(f"""#### :green[Block {block_tag} added!]""")
 
@@ -94,6 +93,7 @@ def create_block(equip_tag, panel_tag):
             finally:
                 get_all_blocks.clear()
                 get_selected_block.clear()
+                get_blocks_list_by_eq_pan.clear()
                 st.button("OK")
 
 
@@ -104,12 +104,11 @@ def create_block(equip_tag, panel_tag):
 def get_blocks_list_by_eq_pan(selected_equip, selected_panel):
     try:
         with db_session:
-
             data = select(b.block_tag
                           for b in Block
                           for p in b.pan_id
-                          if selected_panel == b.pan_id.panel_tag and selected_equip == p.eq_id.equipment_tag
-            )[:]
+                          if selected_panel == b.pan_id.panel_tag and
+                          selected_equip == p.eq_id.equipment_tag)[:]
 
             return data
     except Exception as e:
@@ -223,6 +222,9 @@ def blocks_main(act):
     if act == 'Delete':
         edited_df = data_to_show
         if st.button("Delete Terminal Block"):
+            act_with_warning(left_function=delete_block, left_args=edited_df,
+                             header_message="All related terminals will be deleted!")
+
             delete_block(edited_df)
 
     if act == 'Edit':

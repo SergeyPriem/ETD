@@ -7,7 +7,7 @@ from streamlit_option_menu import option_menu
 from inter_db.equipment import get_eqip_tags
 from inter_db.read_all_tabs import get_all_panels
 from models import Equip, Panel
-from utilities import err_handler, get_list_index
+from utilities import err_handler, get_list_index, act_with_warning
 
 
 def get_panels_by_equip_panel_tag(equip_tag, pan_tag):
@@ -109,7 +109,6 @@ def edit_panel(df):
         try:
             with db_session:
                 for ind, row in pan_df.iterrows():
-                    st.header(ind)
                     edit_row = Panel[row.id]
                     eq_id = Equip.get(equipment_tag=row.equipment_tag).id
                     if not edit_row:
@@ -227,7 +226,9 @@ def panels_main(act, prev_dict, prev_sel):
     if act == 'Delete':
         edited_df = data_to_show
         if st.button("Delete Panel"):
-            delete_panel(edited_df)
+            act_with_warning(left_function=delete_panel, left_args=edited_df,
+                             header_message="All related terminal blocks and terminals will be deleted!")
+
 
     if act == 'Edit':
         edited_df = data_to_show
