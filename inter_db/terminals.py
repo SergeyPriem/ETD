@@ -151,7 +151,7 @@ def get_selected_block_terminals(selected_equip, selected_panel, selected_block)
         with db_session:
             equip = Equip.get(equipment_tag=selected_equip)
             panel = select(p for p in Panel if p.panel_tag == selected_panel and p.eq_id == equip).first()
-            block = select(b for b in Block if b.pan_id == panel and b.block_tag == selected_block)
+            block = select(b for b in Block if b.pan_id == panel and b.block_tag == selected_block).first()
             data = select(
                 (
                     t.id,
