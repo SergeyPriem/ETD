@@ -50,7 +50,7 @@ def delete_cable(df):
             st.toast(f"#### :red[Can't delete {row.cable_tag}]")
             st.toast(f"##### {err_handler(e)}")
         finally:
-            get_filtered_cables.clear()
+            # get_filtered_cables.clear()
             get_all_cables.clear()
             get_cab_tags.clear()
             get_cab_panels.clear()
@@ -98,7 +98,7 @@ def edit_cable(df):
             st.toast(f"Can't update {row.cable_tag}")
             st.toast(f"##### {err_handler(e)}")
         finally:
-            get_filtered_cables.clear()
+            # get_filtered_cables.clear()
             get_all_cables.clear()
             get_cab_tags.clear()
             get_cab_panels.clear()
@@ -107,7 +107,7 @@ def edit_cable(df):
         st.toast(f"#### :orange[Select the Cables to edit in column 'Edit']")
 
 
-@st.cache_data(show_spinner=False)
+# @st.cache_data(show_spinner=False)
 def get_filtered_cables(left_eq, left_pan, right_eq, right_pan):
     if left_eq == right_eq and left_pan == right_pan:
         st.toast(f"##### :red[Left and Right Panels should be different]")
@@ -204,7 +204,7 @@ def create_cable(pan_tag_list):
             except Exception as e:
                 st.toast(err_handler(e))
             finally:
-                get_filtered_cables.clear()
+                # get_filtered_cables.clear()
                 get_all_cables.clear()
                 get_cab_tags.clear()
                 get_cab_panels.clear()
