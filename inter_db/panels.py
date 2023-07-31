@@ -2,6 +2,7 @@
 import pandas as pd
 import streamlit as st
 from pony.orm import *
+from streamlit_option_menu import option_menu
 
 from inter_db.equipment import get_eqip_tags
 from inter_db.read_all_tabs import get_all_panels
@@ -177,7 +178,9 @@ def create_panel(sel_equip):
 def panels_main(act, prev_dict, prev_sel):
     eq_tag_list = list(get_eqip_tags())
     # eq_tag_list.insert(0, 'ALL')
-    selected_equip = st.radio('Select the Equipment', eq_tag_list, horizontal=True)
+    # selected_equip = st.radio('Select the Equipment', eq_tag_list, horizontal=True)
+
+    selected_equip = option_menu('Select the Equipment', options=eq_tag_list, orientation='horizontal')
 
     # if selected_equip == 'ALL' and act != 'Select required:':
     #     df_to_show = prev_dict[prev_sel]()
@@ -186,7 +189,8 @@ def panels_main(act, prev_dict, prev_sel):
 
     pan_tag_list = get_panel_tags()
 
-    selected_panel = st.radio('Select the Panel', pan_tag_list, horizontal=True)
+    # selected_panel = st.radio('Select the Panel', pan_tag_list, horizontal=True)
+    selected_panel = option_menu('Select the Panel', options=pan_tag_list, orientation='horizontal')
 
     df_to_show = get_panels_by_equip_panel_tag(selected_equip, selected_panel)
 
