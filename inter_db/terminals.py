@@ -24,33 +24,33 @@ def edit_terminals(df, block_un):
     term_df = df[df.edit.astype('str') == "True"]
 
     if len(term_df):
-        try:
-            with db_session:
-                for ind, row in term_df.iterrows():
-                    edit_row = Terminal[row.id]
+        # try:
+        with db_session:
+            for ind, row in term_df.iterrows():
+                edit_row = Terminal[row.id]
 
-                    if not edit_row:
-                        st.toast(f"#### :red[Fail, Terminal: {row.terminal_num} not found]")
-                        continue
+                if not edit_row:
+                    st.toast(f"#### :red[Fail, Terminal: {row.terminal_num} not found]")
+                    continue
 
-                    block = Block.get(block_un=block_un)
+                block = Block.get(block_un=block_un)
 
-                    edit_row.set(
-                        block_id=block,
-                        terminal_num=row.terminal_num,
-                        int_circuit=row.int_circuit,
-                        int_link=row.int_link,
-                        edit=False,
-                        notes=row.notes,
-                        # terminal_un=str(block_un) + ":" + str(row.terminal_num),
-                    )
-                    st.toast(f"#### :green[Terminal: {row.terminal_num} is updated]")
-        except Exception as e:
-            st.toast(f"Can't update {row.terminal_num}")
-            st.toast(f"##### {err_handler(e)}")
-        finally:
-            get_filtered_terminals.clear()
-            st.experimental_rerun()
+                edit_row.set(
+                    block_id=block,
+                    terminal_num=row.terminal_num,
+                    int_circuit=row.int_circuit,
+                    int_link=row.int_link,
+                    edit=False,
+                    notes=row.notes,
+                    # terminal_un=str(block_un) + ":" + str(row.terminal_num),
+                )
+                st.toast(f"#### :green[Terminal: {row.terminal_num} is updated]")
+        # except Exception as e:
+        #     st.toast(f"Can't update {row.terminal_num}")
+        #     st.toast(f"##### {err_handler(e)}")
+        # finally:
+        get_filtered_terminals.clear()
+        st.experimental_rerun()
     else:
         st.toast(f"#### :orange[Select the Cables to edit in column 'Edit']")
 
