@@ -97,7 +97,7 @@ def delete_panel(df):
             get_filtered_panels.clear()
             get_panel_tags.clear()
             # get_selected_blocks.clear()
-            get_filtered_blocks()
+            # get_filtered_blocks.clear()
             st.button("OK")
     else:
         st.toast(f"#### :orange[Select the Panel to delete in column 'Edit']")

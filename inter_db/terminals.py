@@ -108,14 +108,14 @@ def create_terminals(block_un, terminals):
         st.experimental_rerun()
 
 
-@st.cache_data(show_spinner=False)
-def get_filtered_blocks(equip):
-    try:
-        with db_session:
-            data = select(b.block_un for b in Block if equip in b.block_un)[:]
-            return data
-    except Exception as e:
-        st.toast(err_handler(e))
+# @st.cache_data(show_spinner=False)
+# def get_filtered_blocks(equip):
+#     try:
+#         with db_session:
+#             data = select(b.block_un for b in Block if equip in b.block_un)[:]
+#             return data
+#     except Exception as e:
+#         st.toast(err_handler(e))
 
 
 @st.cache_data(show_spinner=False)

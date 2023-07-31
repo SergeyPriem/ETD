@@ -131,7 +131,7 @@ def get_selected_block(selected_equip, selected_panel, selected_block):
                     for p in b.pan_id
                     if selected_panel == b.pan_id.panel_tag and
                     selected_equip == p.eq_id.equipment_tag and
-                    selected_block ==  b.block_tag
+                    selected_block == b.block_tag
                 )[:]
             else:
                 data = select(
