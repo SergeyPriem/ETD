@@ -6,7 +6,6 @@ from streamlit_option_menu import option_menu
 
 from inter_db.equipment import get_eqip_tags
 from inter_db.read_all_tabs import get_all_panels
-from inter_db.terminals import get_filtered_blocks
 from models import Equip, Panel
 from utilities import err_handler, get_list_index
 
