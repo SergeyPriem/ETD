@@ -185,7 +185,7 @@ def panels_main(act, prev_dict, prev_sel):
     with c1:
         selected_equip = option_menu('Select the Equipment',
                                      options=eq_tag_list,
-                                     icons=None,
+                                     icons='-',
                                      orientation='horizontal')
 
     # if selected_equip == 'ALL' and act != 'Select required:':
@@ -201,10 +201,8 @@ def panels_main(act, prev_dict, prev_sel):
     with c2:
         selected_panel = option_menu('Select the Panel',
                                      options=pan_tag_list,
-                                     icons=None,
+                                     icons='-',
                                      orientation='horizontal')
-
-
 
     df_to_show = get_panels_by_equip_panel_tag(selected_equip, selected_panel)
 
