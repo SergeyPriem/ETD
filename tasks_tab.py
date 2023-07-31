@@ -302,9 +302,6 @@ def add_task(task_content):
 
                                 reply3 = update_state('task')
 
-                                st.write(f"reply3={reply3}")
-                                time.sleep(5)
-
                                 if reply3 != 'Data is updated':
                                     st.warning(reply3)
                                     st.stop()

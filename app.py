@@ -117,7 +117,6 @@ def show_sidebar_info():
             st.markdown(f"<h5 style='text-align: center; color: #00bbf9;'>telegram:  +998 90 959 80 30</h5>",
                         unsafe_allow_html=True)
 
-            st.write(st.session_state.confirmation)
 
 # @lru_cache(128)
 def get_menus(rights):

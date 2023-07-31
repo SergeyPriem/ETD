@@ -147,7 +147,7 @@ def equipment_main(act=None, prev_dict=None, prev_sel=None):
                             return "Escape"
                         # st.session_state.confirmation = False
 
-
+            st.title(delete_with_warning())
             if delete_with_warning() == "Delete":
                 # delete_equipment(edited_df)
                 st.write(edited_df)
