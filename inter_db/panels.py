@@ -130,10 +130,10 @@ def edit_panel(df):
 
 
 @st.cache_data(show_spinner=False)
-def get_panel_tags():
+def get_panel_tags(eq_tag):
     try:
         with db_session:
-            eq_tags = select(p.panel_tag for p in Panel)[:]
+            eq_tags = select(p.panel_tag for p in Panel if p.eq_id.equipment_tag == eq_tag)[:]
         return eq_tags
     except Exception as e:
         st.toast(err_handler(e))
@@ -189,7 +189,7 @@ def panels_main(act, prev_dict, prev_sel):
     # else:
     #     df_to_show = get_filtered_panels(selected_equip)
 
-    pan_tag_list = list(get_panel_tags())
+    pan_tag_list = list(get_panel_tags(selected_equip))
 
     st.write(pan_tag_list)
 
