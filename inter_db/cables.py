@@ -121,13 +121,12 @@ def get_filtered_cables(left_eq, left_pan, right_eq, right_pan):
                 if left_pan and right_pan:
                     data = select(
                         (c.id, c.cable_tag, c.purpose_id.circuit_descr, c.type_id.cab_type, c.wires_id.wire_num,
-                         c.sect_id.section, c.left_pan_id.panel_un, c.right_pan_id.panel_un, c.edit, c.notes,)
+                         c.sect_id.section, c.left_pan_id.panel_tag, c.right_pan_id.panel_tag, c.edit, c.notes,)
                         for c in Cable
-                        if (left_pan in c.left_pan_id.panel_un) and (right_pan in c.right_pan_id.panel_un))[:]
+                        if (left_pan == c.left_pan_id) and (right_pan == c.right_pan_id))[:]
 
                     df = pd.DataFrame(data, columns=['id', 'cable_tag', 'purpose', 'type', 'wire', 'section',
                                                      'left_pan_tag', 'right_pan_tag', 'edit', 'notes', ])
-
                     return df
         except Exception as e:
             st.toast(err_handler(e))
