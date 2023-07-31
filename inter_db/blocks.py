@@ -28,7 +28,7 @@ def delete_block(df):
             st.toast(f"##### {err_handler(e)}")
         finally:
             get_all_blocks.clear()
-            get_selected_blocks.clear()
+            get_selected_block.clear()
             st.button("OK")
     else:
         st.toast(f"#### :orange[Select the Terminal Block to delete in column 'Edit']")
@@ -56,7 +56,7 @@ def edit_block(df):
             st.toast(f"##### {err_handler(e)}")
         finally:
             get_all_blocks.clear()
-            get_selected_blocks.clear()
+            get_selected_block.clear()
             st.button("OK")
     else:
         st.toast(f"#### :orange[Select the Panel to edit in column 'Edit']")
@@ -88,7 +88,7 @@ def create_block(panel_tag):
                 st.toast(err_handler(e2))
             finally:
                 get_all_blocks.clear()
-                get_selected_blocks.clear()
+                get_selected_block.clear()
                 st.button("OK")
 
 
@@ -111,29 +111,29 @@ def get_blocks_list_by_eq_pan(selected_equip, selected_panel):
         st.toast(err_handler(e))
 
 
+# @st.cache_data(show_spinner=False)
+# def get_selected_blocks(panel_un):
+#     try:
+#         with db_session:
+#
+#             data = select(
+#                 (b.id,
+#                  b.pan_id.panel_un,
+#                  b.block_tag,
+#                  b.descr,
+#                  b.edit,
+#                  b.notes,
+#                  b.block_un)
+#                 for b in Block if panel_un in b.block_un
+#             )[:]
+#
+#             df = pd.DataFrame(data, columns=['id', 'panel_tag', 'block_tag', 'description',
+#                                              'edit', 'notes', 'block_un'])
+#             return df
+#     except Exception as e:
+#         st.toast(err_handler(e))
+
 @st.cache_data(show_spinner=False)
-def get_selected_blocks(panel_un):
-    try:
-        with db_session:
-
-            data = select(
-                (b.id,
-                 b.pan_id.panel_un,
-                 b.block_tag,
-                 b.descr,
-                 b.edit,
-                 b.notes,
-                 b.block_un)
-                for b in Block if panel_un in b.block_un
-            )[:]
-
-            df = pd.DataFrame(data, columns=['id', 'panel_tag', 'block_tag', 'description',
-                                             'edit', 'notes', 'block_un'])
-            return df
-    except Exception as e:
-        st.toast(err_handler(e))
-
-
 def get_selected_block(selected_equip, selected_panel, selected_block):
     try:
         with db_session:

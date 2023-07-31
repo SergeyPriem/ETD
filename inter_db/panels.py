@@ -14,31 +14,34 @@ from utilities import err_handler, get_list_index
 def get_panels_by_equip_panel_tag(equip_tag, pan_tag):
     try:
         with db_session:
-            data = select(
-                (
-                    p.id,
-                    p.eq_id.equipment_tag,
-                    p.panel_tag,
-                    p.descr,
-                    p.edit,
-                    p.notes,
-                    p.panel_un,
-                )
-                for p in Panel
-                if equip_tag == p.eq_id.equipment_tag and pan_tag == p.panel_tag)[:]
-            # data = select(
-            #     (
-            #         p.id,
-            #         p.eq_id.equipment_tag,
-            #         p.panel_tag,
-            #         p.descr,
-            #         p.edit,
-            #         p.notes,
-            #         p.panel_un,
-            #      )
-            #     for p in Panel
-            #     if p.eq_id == equip_id
-            # )[:]
+            if pan_tag != 'ALL':
+                data = select(
+                    (
+                        p.id,
+                        p.eq_id.equipment_tag,
+                        p.panel_tag,
+                        p.descr,
+                        p.edit,
+                        p.notes,
+                        p.panel_un,
+                    )
+                    for p in Panel
+                    if equip_tag == p.eq_id.equipment_tag and pan_tag == p.panel_tag)[:]
+            else:
+                data = select(
+                    (
+                        p.id,
+                        p.eq_id.equipment_tag,
+                        p.panel_tag,
+                        p.descr,
+                        p.edit,
+                        p.notes,
+                        p.panel_un,
+                    )
+                    for p in Panel
+                    if equip_tag == p.eq_id.equipment_tag)[:]
+
+
         df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag', 'description',
                                          'edit', 'notes', 'panel_un'])
         return df
@@ -74,13 +77,13 @@ def get_filtered_panels(equip):
         return
 
 
-def delete_panel(df, get_selected_blocks=None):
+def delete_panel(df):
     del_pan_df = df[df.edit.astype('str') == "True"]
     if len(del_pan_df):
         try:
             with db_session:
                 for ind, row in del_pan_df.iterrows():
-                    del_row = Panel[ind]
+                    del_row = Panel[row.id]
                     if not del_row:
                         st.toast(f"#### :red[Fail, equipment with {row.panel_tag} not found]")
                         continue
@@ -94,7 +97,7 @@ def delete_panel(df, get_selected_blocks=None):
             get_all_panels.clear()
             get_filtered_panels.clear()
             get_panel_tags.clear()
-            get_selected_blocks.clear()
+            # get_selected_blocks.clear()
             get_filtered_blocks()
             st.button("OK")
     else:
@@ -197,6 +200,8 @@ def panels_main(act, prev_dict, prev_sel):
 
     if len(pan_tag_list) == 0:
         pan_tag_list = 'No panels available'
+    else:
+        pan_tag_list.append("ALL")
 
     with c2:
         selected_panel = option_menu('Select the Panel',
