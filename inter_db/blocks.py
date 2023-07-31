@@ -178,7 +178,7 @@ def blocks_main(act):
 
     if len(pan_tag_list) == 0:
         pan_tag_list = ['No panels available']
-        st.stop()
+
 
     with c2:
         selected_panel = option_menu('Select the Panel',
@@ -186,10 +186,13 @@ def blocks_main(act):
                                      icons=['-'] * len(pan_tag_list),
                                      orientation='horizontal', menu_icon=None)
 
+    if selected_panel == 'No panels available':
+        st.stop()
+
     block_tag_list = list(get_blocks_list_by_eq_pan(selected_equip, selected_panel))
+
     if len(block_tag_list) == 0:
         block_tag_list = ['No blocks available']
-        st.stop()
 
     with c3:
         selected_block = option_menu('Select the Terminal Block',
