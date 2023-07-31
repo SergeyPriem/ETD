@@ -142,86 +142,87 @@ def get_filtered_terminals(block):
 
 
 def terminals_main(act):
-    eq_tag_list = list(get_eqip_tags())
-    # pan_tag_list.insert(0, 'ALL')
-
-    c1, c2 = st.columns(2, gap='medium')
-    selected_equip = c1.selectbox('Select the Equipment', eq_tag_list)
-
-    block_tag_list = list(get_filtered_blocks(selected_equip))
-    selected_block = c2.selectbox('Select the Terminal Block', block_tag_list)
-
-    data_to_show = None
-    df_to_show = None
-
-    if act != 'Select required:':
-        if selected_equip and selected_block:
-            df_to_show = get_filtered_terminals(selected_block)
-            if isinstance(df_to_show, pd.DataFrame):
-                if len(df_to_show):
-                    data_to_show = st.data_editor(df_to_show,
-                                                  column_config={
-                                                      "id": st.column_config.TextColumn(
-                                                          "ID",
-                                                          disabled=True,
-                                                          width='small'
-                                                      ),
-                                                      "block_id": st.column_config.TextColumn(
-                                                          "Block Tag",
-                                                          width='small',
-                                                          disabled=True,
-                                                      ),
-                                                      "terminal_num": st.column_config.TextColumn(
-                                                          "Number of Terminal",
-                                                          width='medium'
-                                                      ),
-                                                      "int_circuit": st.column_config.TextColumn(
-                                                          "Internal Circuit",
-                                                          width='medium'
-                                                      ),
-                                                      "int_link": st.column_config.TextColumn(
-                                                          "Jumper to Terminal",
-                                                          width='medium'
-                                                      ),
-                                                      "edit": st.column_config.CheckboxColumn(
-                                                          "Edit",
-                                                          width='small'
-                                                      ),
-                                                      "notes": st.column_config.TextColumn(
-                                                          "Notes",
-                                                          width='large'
-                                                      ),
-                                                      "terminal_un": st.column_config.TextColumn(
-                                                          "Terminal Unique Number",
-                                                          width='large'
-                                                      ),
-                                                  },
-                                                  use_container_width=True, hide_index=True)
-                else:
-                    data_to_show = st.write(f"#### :blue[Terminals not available...]")
-
-        if act == 'Create':
-            data_to_show
-            c1, c2 = st.columns(2, gap='medium')
-            terminals_str = c1.text_input("Terminals Numbers")
-            c2.text("")
-            c2.text("")
-            if c2.button("Add Terminals", use_container_width=True):
-                terminals = convert_txt_to_list(terminals_str)
-                if all([len(terminals), isinstance(terminals, list)]):
-                    create_terminals(selected_block, terminals)
-
-        if act == 'View':
-            data_to_show
-
-        if isinstance(df_to_show, pd.DataFrame):
-            if len(df_to_show):
-                if act == 'Delete':
-                    edited_df = data_to_show
-                    if st.button("Delete Selected Terminals"):
-                        delete_terminals(edited_df)
-
-                if act == 'Edit':
-                    edited_df = data_to_show
-                    if st.button("Edit Selected Terminals"):
-                        edit_terminals(edited_df, selected_block)
+    pass
+#     eq_tag_list = list(get_eqip_tags())
+#     # pan_tag_list.insert(0, 'ALL')
+#
+#     c1, c2 = st.columns(2, gap='medium')
+#     selected_equip = c1.selectbox('Select the Equipment', eq_tag_list)
+#
+#     # block_tag_list = list(get_filtered_blocks(selected_equip))
+#     selected_block = c2.selectbox('Select the Terminal Block', block_tag_list)
+#
+#     data_to_show = None
+#     df_to_show = None
+#
+#     if act != 'Select required:':
+#         if selected_equip and selected_block:
+#             df_to_show = get_filtered_terminals(selected_block)
+#             if isinstance(df_to_show, pd.DataFrame):
+#                 if len(df_to_show):
+#                     data_to_show = st.data_editor(df_to_show,
+#                                                   column_config={
+#                                                       "id": st.column_config.TextColumn(
+#                                                           "ID",
+#                                                           disabled=True,
+#                                                           width='small'
+#                                                       ),
+#                                                       "block_id": st.column_config.TextColumn(
+#                                                           "Block Tag",
+#                                                           width='small',
+#                                                           disabled=True,
+#                                                       ),
+#                                                       "terminal_num": st.column_config.TextColumn(
+#                                                           "Number of Terminal",
+#                                                           width='medium'
+#                                                       ),
+#                                                       "int_circuit": st.column_config.TextColumn(
+#                                                           "Internal Circuit",
+#                                                           width='medium'
+#                                                       ),
+#                                                       "int_link": st.column_config.TextColumn(
+#                                                           "Jumper to Terminal",
+#                                                           width='medium'
+#                                                       ),
+#                                                       "edit": st.column_config.CheckboxColumn(
+#                                                           "Edit",
+#                                                           width='small'
+#                                                       ),
+#                                                       "notes": st.column_config.TextColumn(
+#                                                           "Notes",
+#                                                           width='large'
+#                                                       ),
+#                                                       "terminal_un": st.column_config.TextColumn(
+#                                                           "Terminal Unique Number",
+#                                                           width='large'
+#                                                       ),
+#                                                   },
+#                                                   use_container_width=True, hide_index=True)
+#                 else:
+#                     data_to_show = st.write(f"#### :blue[Terminals not available...]")
+#
+#         if act == 'Create':
+#             data_to_show
+#             c1, c2 = st.columns(2, gap='medium')
+#             terminals_str = c1.text_input("Terminals Numbers")
+#             c2.text("")
+#             c2.text("")
+#             if c2.button("Add Terminals", use_container_width=True):
+#                 terminals = convert_txt_to_list(terminals_str)
+#                 if all([len(terminals), isinstance(terminals, list)]):
+#                     create_terminals(selected_block, terminals)
+#
+#         if act == 'View':
+#             data_to_show
+#
+#         if isinstance(df_to_show, pd.DataFrame):
+#             if len(df_to_show):
+#                 if act == 'Delete':
+#                     edited_df = data_to_show
+#                     if st.button("Delete Selected Terminals"):
+#                         delete_terminals(edited_df)
+#
+#                 if act == 'Edit':
+#                     edited_df = data_to_show
+#                     if st.button("Edit Selected Terminals"):
+#                         edit_terminals(edited_df, selected_block)
