@@ -185,7 +185,7 @@ def panels_main(act, prev_dict, prev_sel):
                                      options=eq_tag_list,
                                      icons=['-'] * len(eq_tag_list),
                                      orientation='horizontal',
-                                     menu_icon='4-square')
+                                     menu_icon='1-square')
 
     pan_tag_list = list(get_panel_tags(selected_equip))
 
@@ -193,7 +193,7 @@ def panels_main(act, prev_dict, prev_sel):
         selected_panel = option_menu('Select the Panel',
                                      options=pan_tag_list,
                                      icons=['-'] * len(pan_tag_list),
-                                     orientation='horizontal', menu_icon='4-square')
+                                     orientation='horizontal', menu_icon='2-square')
 
     df_to_show = get_panels_by_equip_panel_tag(selected_equip, selected_panel)
 

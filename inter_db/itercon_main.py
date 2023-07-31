@@ -20,7 +20,7 @@ def intercon_expander():
         preview_list = ["SELECT:", 'Equipment', 'Panels', 'Terminal Block', 'Terminals', 'Cables', 'Wires']
 
         prev_sel = option_menu(None, preview_list,
-                               icons=['1-square', '-', '-', '-', '-', '-', '-', '-', '-'],
+                               icons=['-', '-', '-', '-', '-', '-', '-', '-', '-'],
                                orientation="horizontal", default_index=0)
 
         if prev_sel != "SELECT:":
@@ -36,7 +36,9 @@ def intercon_expander():
 
             act = option_menu(None,
                               ['Select required:', 'View', 'Create', 'Edit', 'Delete'],
-                              icons=['2-square', '-', '-', '-', '-'], default_index=0, orientation='horizontal')
+                              icons=['-', '-', '-', '-', '-'], default_index=0, orientation='horizontal')
+
+            st.divider()
 
             if act != 'Select required:':
                 if prev_sel == 'Equipment':
