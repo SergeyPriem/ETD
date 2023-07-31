@@ -36,7 +36,7 @@ def intercon_expander():
 
             act = option_menu(None,
                               ['Select required:', 'View', 'Create', 'Edit', 'Delete'],
-                              icons=['-', '-', '-', '-', '-'], default_index=0, orientation='horizontal')
+                              icons=['-', '-', '-', '-', 'exclamation-octagon'], default_index=0, orientation='horizontal')
 
             st.divider()
 

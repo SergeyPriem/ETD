@@ -108,6 +108,7 @@ def edit_panel(df):
         try:
             with db_session:
                 for ind, row in pan_df.iterrows():
+                    st.header(ind)
                     edit_row = Panel[ind]
                     eq_id = Equip.get(equipment_tag=row.equipment_tag).id
                     if not edit_row:
@@ -180,6 +181,8 @@ def panels_main(act, prev_dict, prev_sel):
 
     c1, c2 = st.columns([1, 2], gap='medium')
 
+    if len(eq_tag_list) == 0:
+        eq_tag_list = 'No equipment available'
     with c1:
         selected_equip = option_menu('Select the Equipment',
                                      options=eq_tag_list,
@@ -187,13 +190,22 @@ def panels_main(act, prev_dict, prev_sel):
                                      orientation='horizontal',
                                      menu_icon='1-square')
 
+    if selected_equip == 'No equipment available':
+        st.stop()
+
     pan_tag_list = list(get_panel_tags(selected_equip))
+
+    if len(pan_tag_list) == 0:
+        pan_tag_list = 'No panels available'
 
     with c2:
         selected_panel = option_menu('Select the Panel',
                                      options=pan_tag_list,
                                      icons=['-'] * len(pan_tag_list),
                                      orientation='horizontal', menu_icon='2-square')
+
+    if selected_panel == 'No panels available':
+        st.stop()
 
     df_to_show = get_panels_by_equip_panel_tag(selected_equip, selected_panel)
 
