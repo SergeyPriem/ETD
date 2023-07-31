@@ -9,14 +9,15 @@ from models import Terminal, Block
 from utilities import err_handler, convert_txt_to_list
 
 
-
 def get_panel_terminals(pan):
     try:
         with db_session:
-            data = select(str(b.block_id.block_tag)+":"+b.terminal_num for b in Terminal if pan in b.terminal_un)[:]
+            data = select(str(b.block_id.block_tag) + ":" + b.terminal_num for b in Terminal if pan in b.terminal_un)[:]
         return data
     except Exception as e:
         st.toast(err_handler(e))
+
+
 def edit_terminals(df, block_un):
     term_df = df[df.edit.astype('str') == "True"]
 
@@ -81,7 +82,7 @@ def create_terminals(block_un, terminals):
     try:
         with db_session:
             block = Block.get(block_un=block_un)
-            exist_terminals = select(te.terminal_num for te in Terminal)[:]
+            exist_terminals = select(te.terminal_num for te in Terminal if te.block_id == block)[:]
 
             for t in terminals:
                 t = str(t)
@@ -224,5 +225,3 @@ def terminals_main(act):
                     edited_df = data_to_show
                     if st.button("Edit Selected Terminals"):
                         edit_terminals(edited_df, selected_block)
-
-

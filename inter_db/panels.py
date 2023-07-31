@@ -10,6 +10,43 @@ from models import Equip, Panel
 from utilities import err_handler, get_list_index
 
 
+def get_panels_by_equip_panel_tag(equip_tag, pan_tag):
+    try:
+        with db_session:
+            data = select(
+                (
+                    p.id,
+                    p.eq_id.equipment_tag,
+                    p.panel_tag,
+                    p.descr,
+                    p.edit,
+                    p.notes,
+                    p.panel_un,
+                )
+                for p in Panel
+                if equip_tag == p.eq_id.equipment_tag and pan_tag == p.panel_tag)[:]
+            # data = select(
+            #     (
+            #         p.id,
+            #         p.eq_id.equipment_tag,
+            #         p.panel_tag,
+            #         p.descr,
+            #         p.edit,
+            #         p.notes,
+            #         p.panel_un,
+            #      )
+            #     for p in Panel
+            #     if p.eq_id == equip_id
+            # )[:]
+        df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag', 'description',
+                                         'edit', 'notes', 'panel_un'])
+        return df
+
+    except Exception as e:
+        st.toast(err_handler(e))
+        return
+
+
 @st.cache_data(show_spinner=False)
 def get_filtered_panels(equip):
     try:
@@ -91,13 +128,11 @@ def edit_panel(df):
         st.toast(f"#### :orange[Select the Panel to edit in column 'Edit']")
 
 
-
-
 @st.cache_data(show_spinner=False)
 def get_panel_tags():
     try:
         with db_session:
-            eq_tags = select(p.panel_un for p in Panel)[:]
+            eq_tags = select(p.panel_tag for p in Panel)[:]
         return eq_tags
     except Exception as e:
         st.toast(err_handler(e))
@@ -141,13 +176,19 @@ def create_panel(sel_equip):
 
 def panels_main(act, prev_dict, prev_sel):
     eq_tag_list = list(get_eqip_tags())
-    eq_tag_list.insert(0, 'ALL')
+    # eq_tag_list.insert(0, 'ALL')
     selected_equip = st.selectbox('Select the Equipment', eq_tag_list)
 
-    if selected_equip == 'ALL' and act != 'Select required:':
-        df_to_show = prev_dict[prev_sel]()
-    else:
-        df_to_show = get_filtered_panels(selected_equip)
+    # if selected_equip == 'ALL' and act != 'Select required:':
+    #     df_to_show = prev_dict[prev_sel]()
+    # else:
+    #     df_to_show = get_filtered_panels(selected_equip)
+
+    pan_tag_list = get_panel_tags()
+
+    selected_panel = st.selectbox('Select the Panel', pan_tag_list)
+
+    df_to_show = get_panels_by_equip_panel_tag(selected_equip, selected_panel)
 
     if isinstance(df_to_show, pd.DataFrame):
         data_to_show = st.data_editor(df_to_show, use_container_width=True, hide_index=True)

@@ -46,7 +46,6 @@ def edit_equipment(df):
 
 
 def delete_equipment(df):
-    st.write(df)
 
     eq_to_del = df[df.edit.astype('str') == "True"]
     if len(eq_to_del):
@@ -149,7 +148,7 @@ def equipment_main(act=None, prev_dict=None, prev_sel=None):
             # st.title(delete_with_warning())
             if st.button("Delete Equipment"):
                 act_with_warning(left_function=delete_equipment, left_args=edited_df,
-                                 header_message="All related panels, terminal blocks, terminal will be deleted!")
+                                 header_message="All related panels, terminal blocks, terminals will be deleted!")
                 # delete_equipment(edited_df)
                 # st.write(edited_df)
         else:
