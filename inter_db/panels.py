@@ -183,10 +183,10 @@ def panels_main(act, prev_dict, prev_sel):
     c1, c2  = st.columns([1, 2], gap='medium')
 
     with c1:
-    selected_equip = option_menu('Select the Equipment',
-                                 options=eq_tag_list,
-                                 icons=None,
-                                 orientation='horizontal')
+        selected_equip = option_menu('Select the Equipment',
+                                     options=eq_tag_list,
+                                     icons=None,
+                                     orientation='horizontal')
 
     # if selected_equip == 'ALL' and act != 'Select required:':
     #     df_to_show = prev_dict[prev_sel]()
