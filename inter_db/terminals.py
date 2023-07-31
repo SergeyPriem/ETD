@@ -20,7 +20,7 @@ def get_panel_terminals(pan):
         st.toast(err_handler(e))
 
 
-def edit_terminals(df, block_un):
+def edit_terminals(df, selected_equip, selected_panel, selected_block):
     term_df = df[df.edit.astype('str') == "True"]
 
     if len(term_df):
@@ -33,7 +33,9 @@ def edit_terminals(df, block_un):
                     st.toast(f"#### :red[Fail, Terminal: {row.terminal_num} not found]")
                     continue
 
-                block = Block.get(block_un=block_un)
+                equip = Equip.get(equipment_tag=selected_equip)
+                panel = select(p for p in Panel if p.panel_tag == selected_panel and p.eq_id == equip).first()
+                block = select(b for b in Block if b.pan_id == panel and b.block_tag == selected_block).first()
 
                 edit_row.set(
                     block_id=block,
@@ -269,4 +271,4 @@ def terminals_main(act):
                 if act == 'Edit':
                     edited_df = data_to_show
                     if st.button("Edit Selected Terminals"):
-                        edit_terminals(edited_df, selected_block)
+                        edit_terminals(edited_df, selected_equip, selected_panel, selected_block)
