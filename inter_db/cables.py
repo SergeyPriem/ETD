@@ -249,7 +249,7 @@ def cables_main(act, prev_dict, prev_sel):
                                      options=eq_tag_list,
                                      icons=['-'] * len(eq_tag_list),
                                      orientation='horizontal',
-                                     menu_icon='1-square')
+                                     menu_icon='3-square')
 
     if selected_right_equip == 'No equipment available':
         st.stop()
@@ -263,7 +263,7 @@ def cables_main(act, prev_dict, prev_sel):
         selected_right_panel = option_menu('Select the Right Side Panel',
                                      options=right_pan_tag_list,
                                      icons=['-'] * len(right_pan_tag_list),
-                                     orientation='horizontal', menu_icon='2-square')
+                                     orientation='horizontal', menu_icon='4-square')
 
 
     # c1, c2 = st.columns(2, gap='medium')
