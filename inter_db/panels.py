@@ -187,7 +187,7 @@ def panels_main(act, prev_dict, prev_sel):
     # else:
     #     df_to_show = get_filtered_panels(selected_equip)
 
-    pan_tag_list = get_panel_tags()
+    pan_tag_list = list(get_panel_tags())
 
     # selected_panel = st.radio('Select the Panel', pan_tag_list, horizontal=True)
     selected_panel = option_menu('Select the Panel', options=pan_tag_list, orientation='horizontal')
