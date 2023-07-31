@@ -209,9 +209,6 @@ def panels_main(act, prev_dict, prev_sel):
                                      icons=['-'] * len(pan_tag_list),
                                      orientation='horizontal', menu_icon='2-square')
 
-    if selected_panel == 'No panels available':
-        st.stop()
-
     df_to_show = get_panels_by_equip_panel_tag(selected_equip, selected_panel)
 
     if isinstance(df_to_show, pd.DataFrame):

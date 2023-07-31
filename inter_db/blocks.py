@@ -200,8 +200,6 @@ def blocks_main(act):
                                      icons=['-'] * len(block_tag_list),
                                      orientation='horizontal', menu_icon='3-square')
 
-    if selected_block == 'No blocks available':
-        st.stop()
 
     df_to_show = get_selected_block(selected_equip, selected_panel, selected_block)
 
