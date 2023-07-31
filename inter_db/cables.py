@@ -112,8 +112,8 @@ def get_filtered_cables(left_eq, left_pan, right_eq, right_pan):
     try:
         with db_session:
 
-            left_pan = select(p for p in Panel if p.panel_tag == left_pan and p.eq_id.equipment_tag == left_eq)
-            right_pan = select(p for p in Panel if p.panel_tag == right_pan and p.eq_id.equipment_tag == right_eq)
+            left_pan = select(p for p in Panel if p.panel_tag == left_pan and p.eq_id.equipment_tag == left_eq)[:]
+            right_pan = select(p for p in Panel if p.panel_tag == right_pan and p.eq_id.equipment_tag == right_eq)[:]
 
             if left_pan and right_pan:
                 if left_pan.id != right_pan.id:
