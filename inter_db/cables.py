@@ -257,7 +257,7 @@ def cables_main(act, prev_dict, prev_sel):
     right_pan_tag_list = list(get_panel_tags(selected_right_equip))
 
     if len(right_pan_tag_list) == 0:
-        pan_tag_list = 'No panels available'
+        right_pan_tag_list = 'No panels available'
 
     with rc2:
         selected_right_panel = option_menu('Select the Right Side Panel',
@@ -312,12 +312,12 @@ def cables_main(act, prev_dict, prev_sel):
                                           ),
                                           "left_pan_tag": st.column_config.SelectboxColumn(
                                               "Left Panel Tag",
-                                              options=pan_tag_list,
+                                              options=left_pan_tag_list,
                                               width='medium'
                                           ),
                                           "right_pan_tag": st.column_config.SelectboxColumn(
                                               "Right Panel Tag",
-                                              options=pan_tag_list,
+                                              options=right_pan_tag_list,
                                               width='medium'
                                           ),
                                           "edit": st.column_config.CheckboxColumn(
