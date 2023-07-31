@@ -42,7 +42,7 @@ def edit_terminals(df, block_un):
                         int_link=row.int_link,
                         edit=False,
                         notes=row.notes,
-                        terminal_un=str(block_un) + ":" + str(row.terminal_num),
+                        # terminal_un=str(block_un) + ":" + str(row.terminal_num),
                     )
                     st.toast(f"#### :green[Terminal: {row.terminal_num} is updated]")
         except Exception as e:
