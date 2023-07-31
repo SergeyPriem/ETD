@@ -177,7 +177,7 @@ def create_panel(sel_equip):
 def panels_main(act, prev_dict, prev_sel):
     eq_tag_list = list(get_eqip_tags())
     # eq_tag_list.insert(0, 'ALL')
-    selected_equip = st.radio('Select the Equipment', eq_tag_list)
+    selected_equip = st.radio('Select the Equipment', eq_tag_list, horizontal=True)
 
     # if selected_equip == 'ALL' and act != 'Select required:':
     #     df_to_show = prev_dict[prev_sel]()
@@ -186,7 +186,7 @@ def panels_main(act, prev_dict, prev_sel):
 
     pan_tag_list = get_panel_tags()
 
-    selected_panel = st.radio('Select the Panel', pan_tag_list)
+    selected_panel = st.radio('Select the Panel', pan_tag_list, horizontal=True)
 
     df_to_show = get_panels_by_equip_panel_tag(selected_equip, selected_panel)
 
