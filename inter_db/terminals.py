@@ -75,6 +75,7 @@ def delete_terminals(df):
             st.toast(f"##### {err_handler(e)}")
         finally:
             get_filtered_terminals.clear()
+            get_selected_block_terminals.clear()
             st.experimental_rerun()
     else:
         st.toast(f"#### :orange[Select the Terminal to delete in column 'Edit']")
@@ -107,6 +108,7 @@ def create_terminals(block_un, terminals):
         st.toast(err_handler(e))
     finally:
         get_filtered_terminals.clear()
+        get_selected_block_terminals.clear()
         st.experimental_rerun()
 
 
@@ -143,6 +145,7 @@ def get_filtered_terminals(block):
         st.toast(err_handler(e))
 
 
+@st.cache_data(show_spinner=False)
 def get_selected_block_terminals(selected_equip, selected_panel, selected_block):
     try:
         with db_session:
