@@ -267,15 +267,6 @@ def cables_main(act):
                                      orientation='horizontal', menu_icon='4-square')
 
 
-    # c1, c2 = st.columns(2, gap='medium')
-
-    # selected_pan_left = c1.text_input('Search Left Panel by part of tag')
-    # selected_pan_right = c2.text_input('Select Right Panel  by part of tag')
-
-    # if all([selected_pan_left == 'ALL', selected_pan_right == 'ALL', ]):
-    #     df_to_show = prev_dict[prev_sel]()
-    # else:
-
     if selected_left_panel == selected_right_panel and selected_left_equip == selected_right_equip:
         st.toast(f"##### :red[Left and Right Panels should be different]")
     else:

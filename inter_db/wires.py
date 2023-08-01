@@ -246,7 +246,7 @@ import streamlit as st
 #             st.write("##### Wires deleted")
 #     else:
 #         st.subheader(f'Select the Cable for Termination')
-from pony.orm import db_session, select
+from pony.orm import db_session, select, delete
 from streamlit_option_menu import option_menu
 
 from inter_db.cables import get_filtered_cables
@@ -254,23 +254,27 @@ from inter_db.equipment import get_eqip_tags
 from inter_db.panels import get_panel_tags
 from inter_db.terminals import get_panel_terminals
 from models import Wire, Cable
-from utilities import err_handler
+from utilities import err_handler, act_with_warning
 
 
 def create_wires(cab_tag, wires_num):
-    # try:
-    with db_session:
-        cable = Cable.get(cable_tag=cab_tag)
-        for w in range(1, wires_num+1):
-            Wire(
-                cable_id=cable,
-                wire_num=w
-            )
-        st.toast(f"{w} wires created")
-    # except Exception as e:
-    #     st.toast(err_handler(e))
+    try:
+        with db_session:
+            cable = Cable.get(cable_tag=cab_tag)
+            for w in range(1, wires_num+1):
+                Wire(
+                    cable_id=cable,
+                    wire_num=w
+                )
+            st.toast(f"{w} wires created")
+    except Exception as e:
+        st.toast(err_handler(e))
+    finally:
+        get_filtered_wires.clear()
+        st.experimental_rerun()
 
 
+@st.cache_data(show_spinner=False)
 def get_filtered_wires(cab_tag):
     try:
         with db_session:
@@ -288,6 +292,17 @@ def get_filtered_wires(cab_tag):
         df = pd.DataFrame(data, columns=['id', 'cable_tag', 'wire_num', 'left_term_id', 'right_term_id',
                                          'edit', 'notes', ])
         return df
+    except Exception as e:
+        st.toast(err_handler(e))
+
+
+
+def delete_wires(cab_tag):
+    try:
+        with db_session:
+            cab = Cable.get(cable_tag=cab_tag)
+            delete(w for w in Wire if w.cab_id == cab)
+        return "All wires deleted"
     except Exception as e:
         st.toast(err_handler(e))
 
@@ -353,11 +368,6 @@ def wires_main(act):
     else:
         st.toast(cab_tag_list)
         st.stop()
-
-
-    c1, c2, c3 = st.columns(3, gap='medium')
-    # cab_tag = c2.selectbox("Cable Tag", cab_tag_list)
-
 
     if len(cab_tag_list) == 0:
         cab_tag_list = ['No cables available']
@@ -435,13 +445,18 @@ def wires_main(act):
             data_to_show
 
         if act == 'Delete':
-            edited_df = data_to_show
-            # if st.button("Delete Equipment"):
-            #     delete_w_con(edited_df, cab_tag)
+            data_to_show
+            if st.button("Delete All Wires"):
+                act_with_warning(
+                    left_function=delete_wires,
+                    left_args=cab_tag,
+                    header_message="All wires will and their connections will be deleted!"
+                )
+
 
         if act == 'Edit':
             edited_df = data_to_show
-            # if st.button("Edit Selected Cables"):
-            #     edit_w_con(edited_df, cab_tag)
+            # if st.button("Edit Selected Wires"):
+            #     edit_wires(edited_df, cab_tag)
     else:
         st.write(f"#### :blue[Select Cable Tag to proceed...]")
