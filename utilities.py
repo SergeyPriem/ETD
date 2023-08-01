@@ -271,10 +271,10 @@ def convert_txt_to_list(txt):
     else:
         return []
 
+
 def act_with_warning(left_function=None, left_args=None, right_function=None, right_args=None,
                      option_message="Are you sure?", left_button="YES", right_button="NO",
                      header_message=None, header_color="red", warning_message="Warning", waiting_time=7):
-
     """
     :param left_function: function, related to left button
     :param left_args: args for 'left' function
@@ -295,7 +295,7 @@ def act_with_warning(left_function=None, left_args=None, right_function=None, ri
         c2.subheader(f":{header_color}[{header_message}]")
 
         yes_no = option_menu(warning_message, options=[option_message, left_button, right_button],
-                             menu_icon='exclamation-triangle',icons=['-', '-', '-'],
+                             menu_icon='exclamation-triangle', icons=['-', '-', '-'],
                              default_index=0, orientation='horizontal')
 
     if yes_no == left_button:
@@ -312,4 +312,3 @@ def act_with_warning(left_function=None, left_args=None, right_function=None, ri
         c2.write(":blue[Waiting for your decision...]")
         time.sleep(waiting_time)
         st.experimental_rerun()
-
