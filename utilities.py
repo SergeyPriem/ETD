@@ -288,7 +288,7 @@ def act_with_warning(left_function=None, left_args=None, right_function=None, ri
     :param header_color: warning header color. Supported colors: blue, green, orange, red, violet. Default - red
     :param warning_message: white warning message above the buttons
     :param waiting_time: time of buttons presence
-    :return: Nothing
+    :return: None
     """
 
     c1, c2, c3 = st.columns(3)
@@ -314,4 +314,3 @@ def act_with_warning(left_function=None, left_args=None, right_function=None, ri
         time.sleep(waiting_time)
         st.experimental_rerun()
 
-    st.text("quit from act_w")
