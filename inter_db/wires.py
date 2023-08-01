@@ -326,10 +326,10 @@ def wires_main(act):
         right_pan_tag_list = 'No panels available'
 
     with rc2:
-        selected_right_panel = option_menu('Select the Right Side Panel',
+        selected_right_panel = option_menu('Select the Cable',
                                            options=right_pan_tag_list,
                                            icons=['-'] * len(right_pan_tag_list),
-                                           orientation='horizontal', menu_icon='4-square')
+                                           orientation='horizontal', menu_icon='5-square')
 
     cab_df = get_filtered_cables(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel)
 
@@ -355,14 +355,6 @@ def wires_main(act):
                                            orientation='horizontal', menu_icon='4-square')
 
     if cab_tag:
-        # cab_pan_left, cab_pan_right = get_cab_panels(cab_tag)
-        # st.write(get_cab_panels(cab_tag))
-        c1.text('')
-        c1.text('')
-        c3.text('')
-        c3.text('')
-        # c1.text(f"Left Panel: {cab_pan_left}")
-        # c3.text(f"Right Panel: {cab_pan_right}")
 
         df = get_filtered_wires(cab_tag)
 
@@ -424,15 +416,8 @@ def wires_main(act):
                                               use_container_width=True, hide_index=True, key='wires_df')
 
             else:
-                cab_pan_left = 'Not available...'
-                cab_pan_right = 'Not available...'
-
                 data_to_show = st.write(f"#### :blue[Wires of cable {cab_tag} not available ...]")
 
-            c1.markdown(f"<h5 style='text-align: center; color: #249ded;'>Left Panel: {cab_pan_left}</h5>",
-                        unsafe_allow_html=True)
-            c3.markdown(f"<h5 style='text-align: center; color: #249ded;'>Right Panel: {cab_pan_right}</h5>",
-                        unsafe_allow_html=True)
         else:
             st.write(f"#### :blue[No wires available for selected Cable...]")
             st.stop()
