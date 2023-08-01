@@ -287,7 +287,7 @@ def get_filtered_wires(cab_tag):
                               w.right_term_id,
                               w.edit,
                               w.notes,
-                          ) for w in Wire if cab == w.cable_id)[:]
+                          ) for w in Wire if w.cable_id.cable_tag == cab_tag)[:]
 
         df = pd.DataFrame(data, columns=['id', 'cable_tag', 'wire_num', 'left_term_id', 'right_term_id',
                                          'edit', 'notes', ])
