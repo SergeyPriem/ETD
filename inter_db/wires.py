@@ -375,12 +375,12 @@ def wires_main(act):
 
         df = get_filtered_wires(cab_tag)
 
-        def split_tag(x):
-            x2 = x.split(":")
-            return x2[2] + ":" + x2[3]
-
-        df.left_term_id = df.left_term_id.map(split_tag)
-        df.right_term_id = df.right_term_id.map(split_tag)
+        # def split_tag(x):
+        #     x2 = x.split(":")
+        #     return x2[2] + ":" + x2[3]
+        #
+        # df.left_term_id = df.left_term_id.map(split_tag)
+        # df.right_term_id = df.right_term_id.map(split_tag)
 
         data_to_show = None
 
