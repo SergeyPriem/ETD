@@ -264,7 +264,7 @@ def create_wires(cab_tag, wires_num):
             for w in range(1, wires_num+1):
                 Wire(
                     cable_id=cable,
-                    wires_num=w
+                    wire_num=w
                 )
             st.toast(f"{w} wires created")
     except Exception as e:
