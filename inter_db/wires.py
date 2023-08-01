@@ -297,13 +297,16 @@ def get_filtered_wires(cab_tag):
 
 
 def delete_wires(cab_tag):
-    try:
-        with db_session:
-            cab = Cable.get(cable_tag=cab_tag)
-            delete(w for w in Wire if w.cable_id == cab)
-        st.toast("All wires deleted")
-    except Exception as e:
-        st.toast(err_handler(e))
+    # try:
+    with db_session:
+        cab = Cable.get(cable_tag=cab_tag)
+        delete(w for w in Wire if w.cable_id == cab)
+    st.toast("All wires deleted")
+    # except Exception as e:
+    #     st.toast(err_handler(e))
+    # finally:
+    #     get_filtered_wires.clear()
+
 
 
 def wires_main(act):
