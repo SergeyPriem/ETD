@@ -383,7 +383,7 @@ def wires_main(act):
                           icons=['-'] * len(cab_tag_list),
                           orientation='horizontal', menu_icon='5-square')
 
-    if cab_tag:
+    if cab_tag != 'No cables available':
 
         st.write(":blue[Selected Cable Details]")
         st.data_editor(cab_df[cab_df.cable_tag == cab_tag], use_container_width=True)
