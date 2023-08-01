@@ -300,9 +300,13 @@ def delete_wires(cab_tag):
     st.text("Inside del fun")
     try:
         with db_session:
-            # cab = Cable.get(cable_tag=cab_tag)
+            cab = Cable.get(cable_tag=cab_tag)
+            st.write(cab)
+            wires = select(w for w in Wire if w.cable_id.cable_tag == cab_tag)[:]
             # delete(w for w in Wire if w.cable_id == cab)
-            Wire.select(lambda w: w.cable_id.cable_tag == cab_tag).delete(bulk=True)
+            # Wire.select(lambda w: w.cable_id.cable_tag == cab_tag).delete(bulk=True)
+            for w in wires:
+                st.write(w)
         st.toast(f"All wires of {cab_tag} deleted")
     except Exception as e:
         st.toast(err_handler(e))
