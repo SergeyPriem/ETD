@@ -246,7 +246,7 @@ import streamlit as st
 #             st.write("##### Wires deleted")
 #     else:
 #         st.subheader(f'Select the Cable for Termination')
-from pony.orm import db_session, select, delete
+from pony.orm import db_session, select
 from streamlit_option_menu import option_menu
 
 from inter_db.cables import get_filtered_cables
@@ -298,18 +298,16 @@ def get_filtered_wires(cab_tag):
 
 def delete_wires(cab_tag):
     st.text("Inside del fun")
-    # try:
-    # with db_session:
-    #     cab = Cable.get(cable_tag=cab_tag)
-    #     delete(w for w in Wire if w.cable_id == cab)
-
-
-
-    st.toast(f"All wires of {cab_tag} deleted")
-    # except Exception as e:
-    #     st.toast(err_handler(e))
-    # finally:
-    #     get_filtered_wires.clear()
+    try:
+        with db_session:
+            # cab = Cable.get(cable_tag=cab_tag)
+            # delete(w for w in Wire if w.cable_id == cab)
+            Wire.select(lambda w: w.cable_id.cable_tag == cab_tag).delete(bulk=True)
+        st.toast(f"All wires of {cab_tag} deleted")
+    except Exception as e:
+        st.toast(err_handler(e))
+    finally:
+        get_filtered_wires.clear()
 
 
 
