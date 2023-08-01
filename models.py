@@ -200,8 +200,8 @@ def db_func():
         notes = Optional(str, 200)
         wire_num = Required(int, size=8)
         edit = Optional(bool, default=False)
-        left_term_id = Required('Terminal', reverse='wires_l')
-        right_term_id = Required('Terminal', reverse='wires_r')
+        left_term_id = Optional('Terminal', reverse='wires_l')
+        right_term_id = Optional('Terminal', reverse='wires_r')
         composite_key(cable_id, wire_num)
 
     class Cab_purpose(db_int.Entity):

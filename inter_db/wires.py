@@ -257,6 +257,20 @@ from models import Wire, Cable
 from utilities import err_handler
 
 
+def create_wires(cab_tag, wires_num):
+    try:
+        with db_session:
+            cable = Cable.get(cable_tag=cab_tag)
+            for w in range(1, wires_num+1):
+                Wire(
+                    cable_id=cable,
+                    wires_num=w
+                )
+            st.toast(f"{w} wires created")
+    except Exception as e:
+        st.toast(err_handler(e))
+
+
 def get_filtered_wires(cab_tag):
     try:
         with db_session:
@@ -357,7 +371,7 @@ def wires_main(act):
     if cab_tag:
 
         st.write(":blue[Selected Cable Details]")
-        st.write(cab_df[cab_df.cable_tag == cab_tag])
+        st.data_editor(cab_df[cab_df.cable_tag == cab_tag], use_container_width=True)
 
         df = get_filtered_wires(cab_tag)
 
@@ -427,7 +441,7 @@ def wires_main(act):
 
         if act == 'Create':
             data_to_show
-            create_w_con(cab_tag)
+            create_wires(cab_tag, int(cab_df.loc[cab_df.cable_tag == cab_tag, 'wire']))
 
         if act == 'View':
             data_to_show
