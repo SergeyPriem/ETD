@@ -308,6 +308,7 @@ def delete_wires(cab_tag):
         st.toast(err_handler(e))
     finally:
         get_filtered_wires.clear()
+        st.experimental_rerun()
 
 
 
