@@ -4,7 +4,6 @@ import pandas as pd
 import streamlit as st
 from pony.orm import db_session, select
 from streamlit_option_menu import option_menu
-
 from inter_db.equipment import get_eqip_tags
 from inter_db.panels import get_panel_tags
 from inter_db.read_all_tabs import get_all_cables
@@ -39,7 +38,7 @@ def delete_cable(df):
         try:
             with db_session:
                 for ind, row in del_cab_df.iterrows():
-                    del_row = Cable[ind]
+                    del_row = Cable[row.id]
                     if not del_row:
                         st.toast(f"#### :red[Fail, cable: {row.cable_tag} not found]")
                         continue
@@ -50,7 +49,7 @@ def delete_cable(df):
             st.toast(f"#### :red[Can't delete {row.cable_tag}]")
             st.toast(f"##### {err_handler(e)}")
         finally:
-            # get_filtered_cables.clear()
+            get_filtered_cables.clear()
             get_all_cables.clear()
             get_cab_tags.clear()
             get_cab_panels.clear()
@@ -59,14 +58,21 @@ def delete_cable(df):
         st.toast(f"#### :orange[Select the Cable to delete in column 'Edit']")
 
 
-def edit_cable(df):
+def edit_cable(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel, df):
     cables_df = df[df.edit.astype('str') == "True"]
 
     if len(cables_df):
         try:
             with db_session:
+                left_pan = select(p for p in Panel
+                                  if p.panel_tag == selected_left_panel and
+                                  p.eq_id.equipment_tag == selected_left_equip).first()
+                right_pan = select(p for p in Panel
+                                   if p.panel_tag == selected_right_panel and
+                                   p.eq_id.equipment_tag == selected_right_equip).first()
+
                 for ind, row in cables_df.iterrows():
-                    edit_row = Cable[ind]
+                    edit_row = Cable[row.id]
 
                     if not edit_row:
                         st.toast(f"#### :red[Fail, Cable: {row.cable_tag} not found]")
@@ -76,10 +82,8 @@ def edit_cable(df):
                     c_type = Cab_types.get(cab_type=row.type)
                     c_wires = Cab_wires.get(wire_num=row.wire)
                     c_sect = Cab_sect.get(section=row.section)
-                    left_pan = Panel.get(panel_un=row.left_pan_tag)
-                    right_pan = Panel.get(panel_un=row.right_pan_tag)
-
-                    # exist_wires_qty = edit_row.wire_num
+                    # left_pan = Panel.get(panel_un=row.left_pan_tag)
+                    # right_pan = Panel.get(panel_un=row.right_pan_tag)
 
                     edit_row.set(
                         cable_tag=row.cable_tag,
@@ -98,7 +102,7 @@ def edit_cable(df):
             st.toast(f"Can't update {row.cable_tag}")
             st.toast(f"##### {err_handler(e)}")
         finally:
-            # get_filtered_cables.clear()
+            get_filtered_cables.clear()
             get_all_cables.clear()
             get_cab_tags.clear()
             get_cab_panels.clear()
@@ -107,7 +111,7 @@ def edit_cable(df):
         st.toast(f"#### :orange[Select the Cables to edit in column 'Edit']")
 
 
-# @st.cache_data(show_spinner=False)
+@st.cache_data(show_spinner=False)
 def get_filtered_cables(left_eq, left_pan, right_eq, right_pan):
     if left_eq == right_eq and left_pan == right_pan:
         st.toast(f"##### :red[Left and Right Panels should be different]")
@@ -169,7 +173,7 @@ def create_cable(left_eq_tag, left_pan_tag, right_eq_tag, right_pan_tag):
 
     if add_cab_but:
         if left_pan_tag == right_pan_tag and left_eq_tag == right_eq_tag:
-            st.warning("Left and Right panels should be different")
+            st.toast(f"##### :red[Left and Right Panels should be different]")
         else:
             try:
                 with db_session:
@@ -211,7 +215,7 @@ def create_cable(left_eq_tag, left_pan_tag, right_eq_tag, right_pan_tag):
             except Exception as e:
                 st.toast(err_handler(e))
             finally:
-                # get_filtered_cables.clear()
+                get_filtered_cables.clear()
                 get_all_cables.clear()
                 get_cab_tags.clear()
                 get_cab_panels.clear()
@@ -338,7 +342,7 @@ def cables_main(act):
                                       },
                                       use_container_width=True, hide_index=True)
     else:
-        data_to_show = st.write(f"#### :blue[Panels not available...]")
+        data_to_show = st.write(f"#### :blue[Cables not available...]")
         # st.stop()
 
     if act == 'Create':
@@ -356,4 +360,4 @@ def cables_main(act):
     if act == 'Edit':
         edited_df = data_to_show
         if st.button("Edit Selected Cables"):
-            edit_cable(edited_df)
+            edit_cable(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel, edited_df)
