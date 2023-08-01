@@ -114,7 +114,8 @@ def edit_cable(selected_left_equip, selected_left_panel, selected_right_equip, s
 @st.cache_data(show_spinner=False)
 def get_filtered_cables(left_eq, left_pan, right_eq, right_pan):
     if left_eq == right_eq and left_pan == right_pan:
-        st.toast(f"##### :red[Left and Right Panels should be different]")
+        pass
+        # st.toast(f"##### :red[Left and Right Panels should be different]")
         # return None
     else:
         try:
