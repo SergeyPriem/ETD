@@ -300,12 +300,12 @@ def act_with_warning(left_function=None, left_args=None, right_function=None, ri
 
     if yes_no == left_button:
         if left_function:
-            st.toast(left_function(left_args))
+            left_function(left_args)
         st.experimental_rerun()
 
     if yes_no == right_button:
         if right_function:
-            st.toast(right_function(right_args))
+            right_function(right_args)
         st.experimental_rerun()
 
     if yes_no == option_message:
