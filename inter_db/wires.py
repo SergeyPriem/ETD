@@ -297,6 +297,7 @@ def get_filtered_wires(cab_tag):
 
 
 def delete_wires(cab_tag):
+    st.text("Inside del fun")
     # try:
     # with db_session:
     #     cab = Cable.get(cable_tag=cab_tag)
@@ -450,6 +451,7 @@ def wires_main(act):
         if act == 'Delete':
             data_to_show
             if st.button("Delete All Wires"):
+                st.text("button deleted")
                 act_with_warning(
                     left_function=delete_wires,
                     left_args=cab_tag,
