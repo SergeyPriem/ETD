@@ -387,15 +387,9 @@ def wires_main(act):
         if isinstance(df, pd.DataFrame):
 
             if len(df):
-                pan_left = df.left_term_id.to_list()[0]
-                pan_right = df.right_term_id.to_list()[0]
-                pan_left_list = pan_left.split(":")
-                pan_right_list = pan_right.split(":")
-                cab_pan_left = str(pan_left_list[0]) + ":" + str(pan_left_list[1])
-                cab_pan_right = str(pan_right_list[0]) + ":" + str(pan_right_list[1])
 
-                left_terminals = get_panel_terminals(cab_pan_left)
-                right_terminals = get_panel_terminals(cab_pan_right)
+                left_terminals = get_panel_terminals(selected_left_equip, selected_left_panel)
+                right_terminals = get_panel_terminals(selected_right_equip, selected_right_panel)
 
                 data_to_show = st.data_editor(df,
                                               column_config={
