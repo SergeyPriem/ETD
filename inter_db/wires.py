@@ -375,6 +375,7 @@ def wires_main(act):
         st.toast(cab_tag_list)
         st.stop()
 
+
     if len(cab_tag_list) == 0:
         cab_tag_list = ['No cables available']
 
