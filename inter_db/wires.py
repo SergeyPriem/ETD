@@ -280,7 +280,6 @@ def get_filtered_wires(cab_tag):
         return err_handler(e)
 
 
-
 def edit_wires(edited_df, cab_tag):
     try:
         pass
@@ -312,14 +311,13 @@ def delete_wires(cab_tag):
             wires = select(w for w in Wire if w.cable_id.cable_tag == cab_tag)[:]
             for w in wires:
                 w.delete()
-                st.toast(f'Deleted wire {w.wire_num}')
+                # st.toast(f'Deleted wire {w.wire_num}')
         st.toast(f"All wires of {cab_tag} deleted")
     except Exception as e:
         st.toast(err_handler(e))
     finally:
         get_filtered_wires.clear()
         st.experimental_rerun()
-
 
 
 def wires_main(act):
@@ -382,7 +380,6 @@ def wires_main(act):
     else:
         st.toast(cab_tag_list)
         st.stop()
-
 
     if len(cab_tag_list) == 0:
         cab_tag_list = ['No cables available']
