@@ -441,7 +441,8 @@ def wires_main(act):
 
         if act == 'Create':
             data_to_show
-            create_wires(cab_tag, cab_df.loc[cab_df.cable_tag == cab_tag, 'wire'].astype('int'))
+            st.write(cab_df.loc[cab_df.cable_tag == cab_tag, 'wire'])
+            # create_wires(cab_tag, cab_df.loc[cab_df.cable_tag == cab_tag, 'wire'].astype('int'))
 
         if act == 'View':
             data_to_show
