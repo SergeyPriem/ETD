@@ -306,6 +306,7 @@ def delete_wires(cab_tag):
             # delete(w for w in Wire if w.cable_id == cab)
             # Wire.select(lambda w: w.cable_id.cable_tag == cab_tag).delete(bulk=True)
             for w in wires:
+                w.delete()
                 st.write(w)
         st.toast(f"All wires of {cab_tag} deleted")
     except Exception as e:
