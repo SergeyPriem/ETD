@@ -276,7 +276,8 @@ def get_filtered_wires(cab_tag):
                                          'edit', 'notes', ])
         return df
     except Exception as e:
-        st.toast(err_handler(e))
+        # st.toast(err_handler(e))
+        return err_handler(e)
 
 
 
