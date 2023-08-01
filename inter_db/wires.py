@@ -278,7 +278,7 @@ def create_wires(cab_tag, wires_num):
 def get_filtered_wires(cab_tag):
     try:
         with db_session:
-            cab = Cable.get(cable_tag=cab_tag)
+            # cab = Cable.get(cable_tag=cab_tag)
             data = select((
                               w.id,
                               w.cable_id.cable_tag,
