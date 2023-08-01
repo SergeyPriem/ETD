@@ -303,7 +303,7 @@ def delete_wires(cab_tag):
             wires = select(w for w in Wire if w.cable_id.cable_tag == cab_tag)[:]
             for w in wires:
                 w.delete()
-                st.write(f'Deleted wire {w.wire_num}')
+                st.toast(f'Deleted wire {w.wire_num}')
         st.toast(f"All wires of {cab_tag} deleted")
     except Exception as e:
         st.toast(err_handler(e))
