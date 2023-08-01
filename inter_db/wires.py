@@ -258,17 +258,17 @@ from utilities import err_handler
 
 
 def create_wires(cab_tag, wires_num):
-    try:
-        with db_session:
-            cable = Cable.get(cable_tag=cab_tag)
-            for w in range(1, wires_num+1):
-                Wire(
-                    cable_id=cable,
-                    wire_num=w
-                )
-            st.toast(f"{w} wires created")
-    except Exception as e:
-        st.toast(err_handler(e))
+    # try:
+    with db_session:
+        cable = Cable.get(cable_tag=cab_tag)
+        for w in range(1, wires_num+1):
+            Wire(
+                cable_id=cable,
+                wire_num=w
+            )
+        st.toast(f"{w} wires created")
+    # except Exception as e:
+    #     st.toast(err_handler(e))
 
 
 def get_filtered_wires(cab_tag):
@@ -441,7 +441,8 @@ def wires_main(act):
 
         if act == 'Create':
             data_to_show
-            create_wires(cab_tag, cab_df.loc[cab_df.cable_tag == cab_tag, 'wire'].to_numpy()[0])
+            if st.button('Create Wires'):
+                create_wires(cab_tag, cab_df.loc[cab_df.cable_tag == cab_tag, 'wire'].to_numpy()[0])
 
         if act == 'View':
             data_to_show
