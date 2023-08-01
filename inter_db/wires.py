@@ -452,11 +452,12 @@ def wires_main(act):
             data_to_show
             if st.button("Delete All Wires"):
                 st.text("button deleted")
-                act_with_warning(
-                    left_function=delete_wires,
-                    left_args=cab_tag,
-                    header_message="All wires will and their connections will be deleted!"
-                )
+                delete_wires(cab_tag)
+                # act_with_warning(
+                #     left_function=delete_wires,
+                #     left_args=cab_tag,
+                #     header_message="All wires will and their connections will be deleted!"
+                # )
                 st.write("RETURNED from DEL")
 
         if act == 'Edit':
