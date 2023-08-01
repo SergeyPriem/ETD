@@ -216,11 +216,11 @@ def cables_main(act):
 
     eq_tag_list = list(get_eqip_tags())
 
-    lc1, lc2 = st.columns([1, 2], gap='medium')
+    lc, rc = st.columns(2, gap='medium')
 
     if len(eq_tag_list) == 0:
         eq_tag_list = 'No equipment available'
-    with lc1:
+    with lc:
         selected_left_equip = option_menu('Select the Left Side Equipment',
                                      options=eq_tag_list,
                                      icons=['-'] * len(eq_tag_list),
@@ -235,7 +235,7 @@ def cables_main(act):
     if len(left_pan_tag_list) == 0:
         left_pan_tag_list = 'No panels available'
 
-    with lc2:
+    with lc:
         selected_left_panel = option_menu('Select the Left Side Panel',
                                      options=left_pan_tag_list,
                                      icons=['-'] * len(left_pan_tag_list),
@@ -245,7 +245,7 @@ def cables_main(act):
 
     if len(eq_tag_list) == 0:
         eq_tag_list = 'No equipment available'
-    with rc1:
+    with rc:
         selected_right_equip = option_menu('Select the Right Side Equipment',
                                      options=eq_tag_list,
                                      icons=['-'] * len(eq_tag_list),
@@ -260,7 +260,7 @@ def cables_main(act):
     if len(right_pan_tag_list) == 0:
         right_pan_tag_list = 'No panels available'
 
-    with rc2:
+    with rc:
         selected_right_panel = option_menu('Select the Right Side Panel',
                                      options=right_pan_tag_list,
                                      icons=['-'] * len(right_pan_tag_list),

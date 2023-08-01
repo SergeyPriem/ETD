@@ -249,7 +249,7 @@ import streamlit as st
 from pony.orm import db_session, select
 from streamlit_option_menu import option_menu
 
-from inter_db.cables import get_cab_tags, get_filtered_cables
+from inter_db.cables import get_filtered_cables
 from inter_db.equipment import get_eqip_tags
 from inter_db.panels import get_panel_tags
 from inter_db.terminals import get_panel_terminals
