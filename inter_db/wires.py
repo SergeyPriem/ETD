@@ -326,10 +326,10 @@ def wires_main(act):
         right_pan_tag_list = 'No panels available'
 
     with rc2:
-        selected_right_panel = option_menu('Select the Cable',
+        selected_right_panel = option_menu('Select the Right Side Panel',
                                            options=right_pan_tag_list,
                                            icons=['-'] * len(right_pan_tag_list),
-                                           orientation='horizontal', menu_icon='5-square')
+                                           orientation='horizontal', menu_icon='4-square')
 
     cab_df = get_filtered_cables(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel)
 
@@ -349,12 +349,15 @@ def wires_main(act):
     if len(cab_tag_list) == 0:
         cab_tag_list = ['No cables available']
 
-    cab_tag = option_menu('Select the Right Side Panel',
+    cab_tag = option_menu('Select the Cable',
                                            options=cab_tag_list,
                                            icons=['-'] * len(cab_tag_list),
                                            orientation='horizontal', menu_icon='4-square')
 
     if cab_tag:
+
+        st.write(":blue[Selected Cable Details]")
+        st.write(cab_df[cab_df.cable_tag == cab_tag])
 
         df = get_filtered_wires(cab_tag)
 
@@ -424,7 +427,7 @@ def wires_main(act):
 
         if act == 'Create':
             data_to_show
-            # create_w_con(cab_tag)
+            create_w_con(cab_tag)
 
         if act == 'View':
             data_to_show
