@@ -48,7 +48,7 @@ def intercon_expander():
                 if prev_sel == 'Terminal Block':
                     blocks_main(act)
                 if prev_sel == 'Cables':
-                    cables_main(act, prev_dict, prev_sel)
+                    cables_main(act)
                 if prev_sel == 'Terminals':
                     terminals_main(act)
                 if prev_sel == 'Wires':

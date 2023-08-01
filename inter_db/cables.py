@@ -146,14 +146,14 @@ def get_cab_params():
         return err_handler(e)
 
 
-def create_cable(pan_tag_list):
+def create_cable(left_eq_tag, left_pan_tag, right_eq_tag, right_pan_tag):
     cab_purposes, cab_types, wire_numbers, wire_sections = get_cab_params()
 
     with st.form('add_cab'):
         lc, cc, rc = st.columns(3, gap='medium')
-        left_pan_tag = lc.selectbox("Select Left Panel", pan_tag_list)
+        # left_pan_tag = lc.selectbox("Select Left Panel", pan_tag_list)
         cab_tag = cc.text_input("Cable Tag")
-        right_pan_tag = rc.selectbox("Select Right Panel", pan_tag_list)
+        # right_pan_tag = rc.selectbox("Select Right Panel", pan_tag_list)
 
         c1, c2, c3, c4 = st.columns(4, gap='medium')
 
@@ -168,13 +168,20 @@ def create_cable(pan_tag_list):
         add_cab_but = bc.form_submit_button("Add Cable", use_container_width=True)
 
     if add_cab_but:
-        if left_pan_tag == right_pan_tag:
+        if left_pan_tag == right_pan_tag and left_eq_tag == right_eq_tag:
             st.warning("Left and Right panels should be different")
         else:
             try:
                 with db_session:
-                    left_pan = Panel.get(panel_un=left_pan_tag)
-                    right_pan = Panel.get(panel_un=right_pan_tag)
+                    left_pan = select(
+                        p for p in Panel
+                        if p.panel_tag == left_pan_tag and p.eq_id.equipment_tag == left_eq_tag).first()
+                    right_pan = select(
+                        p for p in Panel
+                        if p.panel_tag == right_pan_tag and p.eq_id.equipment_tag == right_eq_tag).first()
+
+                    # left_pan = Panel.get(panel_un=left_pan_tag)
+                    # right_pan = Panel.get(panel_un=right_pan_tag)
                     purpose = Cab_purpose.get(circuit_descr=cab_purpose)
                     c_type = Cab_types.get(cab_type=cab_type)
                     c_wires = Cab_wires.get(wire_num=wire_number)
@@ -211,7 +218,7 @@ def create_cable(pan_tag_list):
                 st.button("OK")
 
 
-def cables_main(act, prev_dict, prev_sel):
+def cables_main(act):
 
     eq_tag_list = list(get_eqip_tags())
 
@@ -336,7 +343,7 @@ def cables_main(act, prev_dict, prev_sel):
 
     if act == 'Create':
         data_to_show
-        create_cable(pan_tag_list)
+        create_cable(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel)
 
     if act == 'View':
         data_to_show
