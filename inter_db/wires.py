@@ -318,7 +318,7 @@ def wires_main(act):
         selected_left_panel = option_menu('Select the Left Side Panel',
                                           options=left_pan_tag_list,
                                           icons=['-'] * len(left_pan_tag_list),
-                                          orientation='horizontal', menu_icon='2-square')
+                                          orientation='horizontal', menu_icon='3-square')
 
     lc2, rc2 = st.columns(2, gap='medium')
 
@@ -329,7 +329,7 @@ def wires_main(act):
                                            options=eq_tag_list,
                                            icons=['-'] * len(eq_tag_list),
                                            orientation='horizontal',
-                                           menu_icon='3-square')
+                                           menu_icon='2-square')
 
     if selected_right_equip == 'No equipment available':
         st.stop()
