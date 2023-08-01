@@ -261,7 +261,7 @@ def create_wires(cab_tag, wires_num):
     try:
         with db_session:
             cable = Cable.get(cable_tag=cab_tag)
-            for w in range(1, wires_num+1):
+            for w in range(1, wires_num + 1):
                 Wire(
                     cable_id=cable,
                     wire_num=w
@@ -296,15 +296,14 @@ def get_filtered_wires(cab_tag):
         st.toast(err_handler(e))
 
 
-
 def delete_wires(cab_tag):
-    # try:
-    with db_session:
-        cab = Cable.get(cable_tag=cab_tag)
-        delete(w for w in Wire if w.cab_id == cab)
-    st.toast("All wires deleted")
-    # except Exception as e:
-    #     st.toast(err_handler(e))
+    try:
+        with db_session:
+            cab = Cable.get(cable_tag=cab_tag)
+            delete(w for w in Wire if w.cable_id == cab)
+        st.toast("All wires deleted")
+    except Exception as e:
+        st.toast(err_handler(e))
 
 
 def wires_main(act):
@@ -334,7 +333,6 @@ def wires_main(act):
                                           options=left_pan_tag_list,
                                           icons=['-'] * len(left_pan_tag_list),
                                           orientation='horizontal', menu_icon='2-square')
-
 
     if len(eq_tag_list) == 0:
         eq_tag_list = 'No equipment available'
@@ -373,9 +371,9 @@ def wires_main(act):
         cab_tag_list = ['No cables available']
 
     cab_tag = option_menu('Select the Cable',
-                                           options=cab_tag_list,
-                                           icons=['-'] * len(cab_tag_list),
-                                           orientation='horizontal', menu_icon='5-square')
+                          options=cab_tag_list,
+                          icons=['-'] * len(cab_tag_list),
+                          orientation='horizontal', menu_icon='5-square')
 
     if cab_tag:
 
@@ -383,7 +381,6 @@ def wires_main(act):
         st.data_editor(cab_df[cab_df.cable_tag == cab_tag], use_container_width=True)
 
         df = get_filtered_wires(cab_tag)
-
 
         data_to_show = None
 
@@ -452,7 +449,6 @@ def wires_main(act):
                     left_args=cab_tag,
                     header_message="All wires will and their connections will be deleted!"
                 )
-
 
         if act == 'Edit':
             edited_df = data_to_show
