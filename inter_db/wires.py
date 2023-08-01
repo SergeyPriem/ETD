@@ -314,17 +314,16 @@ def wires_main(act):
     if len(left_pan_tag_list) == 0:
         left_pan_tag_list = 'No panels available'
 
-    with rc1:
+    with lc1:
         selected_left_panel = option_menu('Select the Left Side Panel',
                                           options=left_pan_tag_list,
                                           icons=['-'] * len(left_pan_tag_list),
                                           orientation='horizontal', menu_icon='3-square')
 
-    lc2, rc2 = st.columns(2, gap='medium')
 
     if len(eq_tag_list) == 0:
         eq_tag_list = 'No equipment available'
-    with lc2:
+    with rc1:
         selected_right_equip = option_menu('Select the Right Side Equipment',
                                            options=eq_tag_list,
                                            icons=['-'] * len(eq_tag_list),
@@ -339,7 +338,7 @@ def wires_main(act):
     if len(right_pan_tag_list) == 0:
         right_pan_tag_list = 'No panels available'
 
-    with rc2:
+    with rc1:
         selected_right_panel = option_menu('Select the Right Side Panel',
                                            options=right_pan_tag_list,
                                            icons=['-'] * len(right_pan_tag_list),
