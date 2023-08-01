@@ -446,17 +446,17 @@ def wires_main(act):
         else:
             st.write(f"#### :blue[No wires available for selected Cable...]")
             st.stop()
-
+        edited_df = data_to_show
         if act == 'Create':
-            data_to_show
+            # data_to_show
             if st.button('Create Wires'):
                 create_wires(cab_tag, cab_df.loc[cab_df.cable_tag == cab_tag, 'wire'].to_numpy()[0])
 
-        if act == 'View':
-            data_to_show
+        # if act == 'View':
+        #     # data_to_show
 
         if act == 'Delete':
-            data_to_show
+            # data_to_show
             if st.button("Delete All Wires"):
                 # delete_wires(cab_tag)
                 act_with_warning(
@@ -467,7 +467,7 @@ def wires_main(act):
                 )
 
         if act == 'Edit':
-            edited_df = data_to_show
+            # edited_df = data_to_show
             if st.button("Edit Selected Wires"):
                 edit_wires(edited_df, cab_tag)
     else:
