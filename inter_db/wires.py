@@ -302,7 +302,7 @@ def delete_wires(cab_tag):
         with db_session:
             cab = Cable.get(cable_tag=cab_tag)
             delete(w for w in Wire if w.cab_id == cab)
-        return "All wires deleted"
+        st.toast("All wires deleted")
     except Exception as e:
         st.toast(err_handler(e))
 
