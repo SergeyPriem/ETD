@@ -279,6 +279,14 @@ def get_filtered_wires(cab_tag):
         st.toast(err_handler(e))
 
 
+
+def edit_wires(edited_df, cab_tag):
+    try:
+        pass
+    except Exception as e:
+        st.toast(err_handler(e))
+
+
 def create_wires(cab_tag, wires_num):
     try:
         with db_session:
@@ -452,16 +460,17 @@ def wires_main(act):
         if act == 'Delete':
             data_to_show
             if st.button("Delete All Wires"):
-                # delete_wires(cab_tag)
-                act_with_warning(
-                    left_function=delete_wires,
-                    left_args=cab_tag,
-                    header_message="All wires will and their connections will be deleted!"
-                )
+                delete_wires(cab_tag)
+                # act_with_warning(
+                #     left_function=delete_wires,
+                #     left_args=cab_tag,
+                #     header_message="All wires will and their connections will be deleted!",
+                #     waiting_time=10
+                # )
 
         if act == 'Edit':
             edited_df = data_to_show
-            # if st.button("Edit Selected Wires"):
-            #     edit_wires(edited_df, cab_tag)
+            if st.button("Edit Selected Wires"):
+                edit_wires(edited_df, cab_tag)
     else:
         st.write(f"#### :blue[Select Cable Tag to proceed...]")
