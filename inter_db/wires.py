@@ -366,7 +366,7 @@ def wires_main(act):
     cab_tag = option_menu('Select the Cable',
                                            options=cab_tag_list,
                                            icons=['-'] * len(cab_tag_list),
-                                           orientation='horizontal', menu_icon='4-square')
+                                           orientation='horizontal', menu_icon='5-square')
 
     if cab_tag:
 
