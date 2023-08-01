@@ -279,8 +279,8 @@ def get_filtered_wires(cab_tag):
                               w.id,
                               w.cable_id.cable_tag,
                               w.wire_num,
-                              w.left_term_id.terminal_un,
-                              w.right_term_id.terminal_un,
+                              w.left_term_id,
+                              w.right_term_id,
                               w.edit,
                               w.notes,
                           ) for w in Wire if cab == w.cable_id)[:]
