@@ -271,7 +271,7 @@ def convert_txt_to_list(txt):
     else:
         return []
 
-
+@st.cache_data(show_spinner=True, ttl=600)
 def act_with_warning(left_function=None, left_args=None, right_function=None, right_args=None,
                      option_message="Are you sure?", left_button="YES", right_button="NO",
                      header_message=None, header_color="red", warning_message="Warning", waiting_time=7):

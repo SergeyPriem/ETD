@@ -460,13 +460,13 @@ def wires_main(act):
         if act == 'Delete':
             data_to_show
             if st.button("Delete All Wires"):
-                delete_wires(cab_tag)
-                # act_with_warning(
-                #     left_function=delete_wires,
-                #     left_args=cab_tag,
-                #     header_message="All wires will and their connections will be deleted!",
-                #     waiting_time=10
-                # )
+                # delete_wires(cab_tag)
+                act_with_warning(
+                    left_function=delete_wires,
+                    left_args=cab_tag,
+                    header_message="All wires will and their connections will be deleted!",
+                    waiting_time=10
+                )
 
         if act == 'Edit':
             edited_df = data_to_show
