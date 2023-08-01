@@ -275,7 +275,7 @@ def convert_txt_to_list(txt):
 def act_with_warning(left_function=None, left_args=None, right_function=None, right_args=None,
                      option_message="Are you sure?", left_button="YES", right_button="NO",
                      header_message=None, header_color="red", warning_message="Warning", waiting_time=7):
-    st.text("inside act_W")
+
     """
     :param left_function: function, related to left button
     :param left_args: args for 'left' function
