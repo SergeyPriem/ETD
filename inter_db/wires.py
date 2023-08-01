@@ -304,7 +304,7 @@ def delete_wires(cab_tag):
 
 
 
-    st.toast(f"All wires of {cab_tag} deleted ")
+    st.toast(f"All wires of {cab_tag} deleted")
     # except Exception as e:
     #     st.toast(err_handler(e))
     # finally:
@@ -455,6 +455,7 @@ def wires_main(act):
                     left_args=cab_tag,
                     header_message="All wires will and their connections will be deleted!"
                 )
+                st.write("RETURNED from DEL")
 
         if act == 'Edit':
             edited_df = data_to_show
