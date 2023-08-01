@@ -295,7 +295,7 @@ def get_filtered_wires(cab_tag):
 def wires_main(act):
     eq_tag_list = list(get_eqip_tags())
 
-    lc1, lc2 = st.columns([1, 2], gap='medium')
+    lc1, rc1 = st.columns(2, gap='medium')
 
     if len(eq_tag_list) == 0:
         eq_tag_list = 'No equipment available'
@@ -314,17 +314,17 @@ def wires_main(act):
     if len(left_pan_tag_list) == 0:
         left_pan_tag_list = 'No panels available'
 
-    with lc2:
+    with rc1:
         selected_left_panel = option_menu('Select the Left Side Panel',
                                           options=left_pan_tag_list,
                                           icons=['-'] * len(left_pan_tag_list),
                                           orientation='horizontal', menu_icon='2-square')
 
-    rc1, rc2 = st.columns([1, 2], gap='medium')
+    lc2, rc2 = st.columns(2, gap='medium')
 
     if len(eq_tag_list) == 0:
         eq_tag_list = 'No equipment available'
-    with rc1:
+    with lc2:
         selected_right_equip = option_menu('Select the Right Side Equipment',
                                            options=eq_tag_list,
                                            icons=['-'] * len(eq_tag_list),
@@ -375,12 +375,6 @@ def wires_main(act):
 
         df = get_filtered_wires(cab_tag)
 
-        # def split_tag(x):
-        #     x2 = x.split(":")
-        #     return x2[2] + ":" + x2[3]
-        #
-        # df.left_term_id = df.left_term_id.map(split_tag)
-        # df.right_term_id = df.right_term_id.map(split_tag)
 
         data_to_show = None
 
@@ -390,7 +384,7 @@ def wires_main(act):
 
                 left_terminals = get_panel_terminals(selected_left_equip, selected_left_panel)
                 right_terminals = get_panel_terminals(selected_right_equip, selected_right_panel)
-
+                st.write(":blue[Wires Details]")
                 data_to_show = st.data_editor(df,
                                               column_config={
                                                   "id": st.column_config.NumberColumn(
