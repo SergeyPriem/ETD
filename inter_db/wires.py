@@ -257,23 +257,6 @@ from models import Wire, Cable
 from utilities import err_handler, act_with_warning
 
 
-def create_wires(cab_tag, wires_num):
-    try:
-        with db_session:
-            cable = Cable.get(cable_tag=cab_tag)
-            for w in range(1, wires_num + 1):
-                Wire(
-                    cable_id=cable,
-                    wire_num=w
-                )
-            st.toast(f"{w} wires created")
-    except Exception as e:
-        st.toast(err_handler(e))
-    finally:
-        get_filtered_wires.clear()
-        st.experimental_rerun()
-
-
 @st.cache_data(show_spinner=False)
 def get_filtered_wires(cab_tag):
     try:
@@ -294,6 +277,23 @@ def get_filtered_wires(cab_tag):
         return df
     except Exception as e:
         st.toast(err_handler(e))
+
+
+def create_wires(cab_tag, wires_num):
+    try:
+        with db_session:
+            cable = Cable.get(cable_tag=cab_tag)
+            for w in range(1, wires_num + 1):
+                Wire(
+                    cable_id=cable,
+                    wire_num=w
+                )
+            st.toast(f"{w} wires created")
+    except Exception as e:
+        st.toast(err_handler(e))
+    finally:
+        get_filtered_wires.clear()
+        st.experimental_rerun()
 
 
 def delete_wires(cab_tag):
