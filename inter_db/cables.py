@@ -27,9 +27,9 @@ def get_cab_tags():
     try:
         with db_session:
             cab_tags = select(c.cable_tag for c in Cable)[:]
-        return cab_tags
+        return list(cab_tags)
     except Exception as e:
-        st.toast(err_handler(e))
+        return err_handler(e)
 
 
 def delete_cable(df):
@@ -113,28 +113,23 @@ def edit_cable(selected_left_equip, selected_left_panel, selected_right_equip, s
 
 @st.cache_data(show_spinner=False)
 def get_filtered_cables(left_eq, left_pan, right_eq, right_pan):
-    if left_eq == right_eq and left_pan == right_pan:
-        pass
-        # st.toast(f"##### :red[Left and Right Panels should be different]")
-        # return None
-    else:
-        try:
-            with db_session:
-                left_pan = select(p for p in Panel if p.panel_tag == left_pan and p.eq_id.equipment_tag == left_eq).first()
-                right_pan = select(p for p in Panel if p.panel_tag == right_pan and p.eq_id.equipment_tag == right_eq).first()
+    try:
+        with db_session:
+            left_pan = select(p for p in Panel if p.panel_tag == left_pan and p.eq_id.equipment_tag == left_eq).first()
+            right_pan = select(p for p in Panel if p.panel_tag == right_pan and p.eq_id.equipment_tag == right_eq).first()
 
-                if left_pan and right_pan:
-                    data = select(
-                        (c.id, c.cable_tag, c.purpose_id.circuit_descr, c.type_id.cab_type, c.wires_id.wire_num,
-                         c.sect_id.section, c.left_pan_id.panel_tag, c.right_pan_id.panel_tag, c.edit, c.notes,)
-                        for c in Cable
-                        if (left_pan == c.left_pan_id) and (right_pan == c.right_pan_id))[:]
+            if left_pan and right_pan:
+                data = select(
+                    (c.id, c.cable_tag, c.purpose_id.circuit_descr, c.type_id.cab_type, c.wires_id.wire_num,
+                     c.sect_id.section, c.left_pan_id.panel_tag, c.right_pan_id.panel_tag, c.edit, c.notes,)
+                    for c in Cable
+                    if (left_pan == c.left_pan_id) and (right_pan == c.right_pan_id))[:]
 
-                    df = pd.DataFrame(data, columns=['id', 'cable_tag', 'purpose', 'type', 'wire', 'section',
-                                                     'left_pan_tag', 'right_pan_tag', 'edit', 'notes', ])
-                    return df
-        except Exception as e:
-            st.toast(err_handler(e))
+                df = pd.DataFrame(data, columns=['id', 'cable_tag', 'purpose', 'type', 'wire', 'section',
+                                                 'left_pan_tag', 'right_pan_tag', 'edit', 'notes', ])
+                return df
+    except Exception as e:
+        st.toast(err_handler(e))
 
 
 @st.cache_data(show_spinner=False, ttl=600)
@@ -145,7 +140,6 @@ def get_cab_params():
             types = select(ct.cab_type for ct in Cab_types)[:]
             wire_num = select(w.wire_num for w in Cab_wires)[:]
             wire_sect = select(s.section for s in Cab_sect)[:]
-
         return purposes, types, wire_num, wire_sect
     except Exception as e:
         return err_handler(e)
@@ -156,9 +150,7 @@ def create_cable(left_eq_tag, left_pan_tag, right_eq_tag, right_pan_tag):
 
     with st.form('add_cab'):
         lc, cc, rc = st.columns(3, gap='medium')
-        # left_pan_tag = lc.selectbox("Select Left Panel", pan_tag_list)
         cab_tag = cc.text_input("Cable Tag")
-        # right_pan_tag = rc.selectbox("Select Right Panel", pan_tag_list)
 
         c1, c2, c3, c4 = st.columns(4, gap='medium')
 
@@ -173,54 +165,51 @@ def create_cable(left_eq_tag, left_pan_tag, right_eq_tag, right_pan_tag):
         add_cab_but = bc.form_submit_button("Add Cable", use_container_width=True)
 
     if add_cab_but:
-        if left_pan_tag == right_pan_tag and left_eq_tag == right_eq_tag:
-            st.toast(f"##### :red[Left and Right Panels should be different]")
-        else:
-            try:
-                with db_session:
-                    left_pan = select(
-                        p for p in Panel
-                        if p.panel_tag == left_pan_tag and p.eq_id.equipment_tag == left_eq_tag).first()
-                    right_pan = select(
-                        p for p in Panel
-                        if p.panel_tag == right_pan_tag and p.eq_id.equipment_tag == right_eq_tag).first()
+        try:
+            with db_session:
+                left_pan = select(
+                    p for p in Panel
+                    if p.panel_tag == left_pan_tag and p.eq_id.equipment_tag == left_eq_tag).first()
+                right_pan = select(
+                    p for p in Panel
+                    if p.panel_tag == right_pan_tag and p.eq_id.equipment_tag == right_eq_tag).first()
 
-                    # left_pan = Panel.get(panel_un=left_pan_tag)
-                    # right_pan = Panel.get(panel_un=right_pan_tag)
-                    purpose = Cab_purpose.get(circuit_descr=cab_purpose)
-                    c_type = Cab_types.get(cab_type=cab_type)
-                    c_wires = Cab_wires.get(wire_num=wire_number)
-                    c_sect = Cab_sect.get(section=wire_section)
-                    Cable(
-                        cable_tag=cab_tag,
-                        purpose_id=purpose,
-                        type_id=c_type,
-                        wires_id=c_wires,
-                        sect_id=c_sect,
-                        left_pan_id=left_pan,
-                        right_pan_id=right_pan,
-                        edit=False,
-                        notes=notes,
-                    )
-                    # new_cab.flush()
-                    # for w in range(1, int(wire_number)+1):
-                    #     Wire(
-                    #         cable_id=new_cab.id,
-                    #         wire_num=w,
-                    #         edit=False,
-                    #         left_term_id=0,
-                    #         right_term_id=0,
-                    #     )
-                st.toast(f"#### :green[Cable {cab_tag} added]")
+                # left_pan = Panel.get(panel_un=left_pan_tag)
+                # right_pan = Panel.get(panel_un=right_pan_tag)
+                purpose = Cab_purpose.get(circuit_descr=cab_purpose)
+                c_type = Cab_types.get(cab_type=cab_type)
+                c_wires = Cab_wires.get(wire_num=wire_number)
+                c_sect = Cab_sect.get(section=wire_section)
+                Cable(
+                    cable_tag=cab_tag,
+                    purpose_id=purpose,
+                    type_id=c_type,
+                    wires_id=c_wires,
+                    sect_id=c_sect,
+                    left_pan_id=left_pan,
+                    right_pan_id=right_pan,
+                    edit=False,
+                    notes=notes,
+                )
+                # new_cab.flush()
+                # for w in range(1, int(wire_number)+1):
+                #     Wire(
+                #         cable_id=new_cab.id,
+                #         wire_num=w,
+                #         edit=False,
+                #         left_term_id=0,
+                #         right_term_id=0,
+                #     )
+            st.toast(f"#### :green[Cable {cab_tag} added]")
 
-            except Exception as e:
-                st.toast(err_handler(e))
-            finally:
-                get_filtered_cables.clear()
-                get_all_cables.clear()
-                get_cab_tags.clear()
-                get_cab_panels.clear()
-                st.button("OK")
+        except Exception as e:
+            st.toast(err_handler(e))
+        finally:
+            get_filtered_cables.clear()
+            get_all_cables.clear()
+            get_cab_tags.clear()
+            get_cab_panels.clear()
+            st.button("OK")
 
 
 def cables_main(act):
@@ -286,79 +275,83 @@ def cables_main(act):
     # if all([selected_pan_left == 'ALL', selected_pan_right == 'ALL', ]):
     #     df_to_show = prev_dict[prev_sel]()
     # else:
-    df_to_show = get_filtered_cables(selected_left_equip, selected_left_panel,
-                                     selected_right_equip,selected_right_panel)
 
-    if isinstance(df_to_show, pd.DataFrame):
-        cab_purposes, cab_types, wire_numbers, wire_sections = get_cab_params()
-        data_to_show = st.data_editor(df_to_show,
-                                      column_config={
-                                          "id": st.column_config.TextColumn(
-                                              "ID",
-                                              disabled=True,
-                                              width='small'
-                                          ),
-                                          "cable_tag": st.column_config.TextColumn(
-                                              "Cable Tag",
-                                              width='medium'
-                                          ),
-                                          "purpose": st.column_config.SelectboxColumn(
-                                              "Cable Purpose",
-                                              options=cab_purposes,
-                                              width='small'
-                                          ),
-                                          "type": st.column_config.SelectboxColumn(
-                                              "Cable Type",
-                                              options=cab_types,
-                                              width='medium'
-                                          ),
-                                          "wire": st.column_config.SelectboxColumn(
-                                              "Wires' Number",
-                                              options=wire_numbers,
-                                              width='small'
-                                          ),
-                                          "section": st.column_config.SelectboxColumn(
-                                              "Wires' Section",
-                                              options=wire_sections,
-                                              width='small'
-                                          ),
-                                          "left_pan_tag": st.column_config.SelectboxColumn(
-                                              "Left Panel Tag",
-                                              options=left_pan_tag_list,
-                                              width='medium'
-                                          ),
-                                          "right_pan_tag": st.column_config.SelectboxColumn(
-                                              "Right Panel Tag",
-                                              options=right_pan_tag_list,
-                                              width='medium'
-                                          ),
-                                          "edit": st.column_config.CheckboxColumn(
-                                              "Edit",
-                                              width='small'
-                                          ),
-                                          "notes": st.column_config.TextColumn(
-                                              "Notes",
-                                              width='large'
-                                          ),
-                                      },
-                                      use_container_width=True, hide_index=True)
+    if selected_left_panel == selected_right_panel and selected_left_equip == selected_right_equip:
+        st.toast(f"##### :red[Left and Right Panels should be different]")
     else:
-        data_to_show = st.write(f"#### :blue[Cables not available...]")
-        # st.stop()
+        df_to_show = get_filtered_cables(selected_left_equip, selected_left_panel,
+                                         selected_right_equip,selected_right_panel)
 
-    if act == 'Create':
-        data_to_show
-        create_cable(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel)
+        if isinstance(df_to_show, pd.DataFrame):
+            cab_purposes, cab_types, wire_numbers, wire_sections = get_cab_params()
+            data_to_show = st.data_editor(df_to_show,
+                                          column_config={
+                                              "id": st.column_config.TextColumn(
+                                                  "ID",
+                                                  disabled=True,
+                                                  width='small'
+                                              ),
+                                              "cable_tag": st.column_config.TextColumn(
+                                                  "Cable Tag",
+                                                  width='medium'
+                                              ),
+                                              "purpose": st.column_config.SelectboxColumn(
+                                                  "Cable Purpose",
+                                                  options=cab_purposes,
+                                                  width='small'
+                                              ),
+                                              "type": st.column_config.SelectboxColumn(
+                                                  "Cable Type",
+                                                  options=cab_types,
+                                                  width='medium'
+                                              ),
+                                              "wire": st.column_config.SelectboxColumn(
+                                                  "Wires' Number",
+                                                  options=wire_numbers,
+                                                  width='small'
+                                              ),
+                                              "section": st.column_config.SelectboxColumn(
+                                                  "Wires' Section",
+                                                  options=wire_sections,
+                                                  width='small'
+                                              ),
+                                              "left_pan_tag": st.column_config.SelectboxColumn(
+                                                  "Left Panel Tag",
+                                                  options=left_pan_tag_list,
+                                                  width='medium'
+                                              ),
+                                              "right_pan_tag": st.column_config.SelectboxColumn(
+                                                  "Right Panel Tag",
+                                                  options=right_pan_tag_list,
+                                                  width='medium'
+                                              ),
+                                              "edit": st.column_config.CheckboxColumn(
+                                                  "Edit",
+                                                  width='small'
+                                              ),
+                                              "notes": st.column_config.TextColumn(
+                                                  "Notes",
+                                                  width='large'
+                                              ),
+                                          },
+                                          use_container_width=True, hide_index=True)
+        else:
+            st.toast(df_to_show)
+            data_to_show = st.write(f"#### :blue[Cables not available...]")
 
-    if act == 'View':
-        data_to_show
+        if act == 'Create':
+            data_to_show
+            create_cable(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel)
 
-    if act == 'Delete':
-        edited_df = data_to_show
-        if st.button("Delete Equipment"):
-            delete_cable(edited_df)
+        if act == 'View':
+            data_to_show
 
-    if act == 'Edit':
-        edited_df = data_to_show
-        if st.button("Edit Selected Cables"):
-            edit_cable(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel, edited_df)
+        if act == 'Delete':
+            edited_df = data_to_show
+            if st.button("Delete Equipment"):
+                delete_cable(edited_df)
+
+        if act == 'Edit':
+            edited_df = data_to_show
+            if st.button("Edit Selected Cables"):
+                edit_cable(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel, edited_df)

@@ -247,38 +247,112 @@ import streamlit as st
 #     else:
 #         st.subheader(f'Select the Cable for Termination')
 from pony.orm import db_session, select
+from streamlit_option_menu import option_menu
 
-from inter_db.cables import get_cab_tags
+from inter_db.cables import get_cab_tags, get_filtered_cables
+from inter_db.equipment import get_eqip_tags
+from inter_db.panels import get_panel_tags
 from inter_db.terminals import get_panel_terminals
 from models import Wire, Cable
 from utilities import err_handler
 
 
-def select_filtered_wires(cab_tag):
+def get_filtered_wires(cab_tag):
     try:
         with db_session:
             cab = Cable.get(cable_tag=cab_tag)
             data = select((
-                w.id,
-                w.cable_id.cable_tag,
-                w.wire_num,
-                w.left_term_id.terminal_un,
-                w.right_term_id.terminal_un,
-                w.edit,
-                w.notes,
-                ) for w in Wire if cab == w.cable_id)[:]
+                              w.id,
+                              w.cable_id.cable_tag,
+                              w.wire_num,
+                              w.left_term_id.terminal_un,
+                              w.right_term_id.terminal_un,
+                              w.edit,
+                              w.notes,
+                          ) for w in Wire if cab == w.cable_id)[:]
 
         df = pd.DataFrame(data, columns=['id', 'cable_tag', 'wire_num', 'left_term_id', 'right_term_id',
-                                         'edit', 'notes',])
+                                         'edit', 'notes', ])
         return df
     except Exception as e:
         st.toast(err_handler(e))
 
 
 def wires_main(act):
-    cab_tag_list = get_cab_tags()
-    c1, c2, c3  = st.columns(3, gap='medium')
-    cab_tag = c2.selectbox("Cable Tag", cab_tag_list)
+    eq_tag_list = list(get_eqip_tags())
+
+    lc1, lc2 = st.columns([1, 2], gap='medium')
+
+    if len(eq_tag_list) == 0:
+        eq_tag_list = 'No equipment available'
+    with lc1:
+        selected_left_equip = option_menu('Select the Left Side Equipment',
+                                          options=eq_tag_list,
+                                          icons=['-'] * len(eq_tag_list),
+                                          orientation='horizontal',
+                                          menu_icon='1-square')
+
+    if selected_left_equip == 'No equipment available':
+        st.stop()
+
+    left_pan_tag_list = list(get_panel_tags(selected_left_equip))
+
+    if len(left_pan_tag_list) == 0:
+        left_pan_tag_list = 'No panels available'
+
+    with lc2:
+        selected_left_panel = option_menu('Select the Left Side Panel',
+                                          options=left_pan_tag_list,
+                                          icons=['-'] * len(left_pan_tag_list),
+                                          orientation='horizontal', menu_icon='2-square')
+
+    rc1, rc2 = st.columns([1, 2], gap='medium')
+
+    if len(eq_tag_list) == 0:
+        eq_tag_list = 'No equipment available'
+    with rc1:
+        selected_right_equip = option_menu('Select the Right Side Equipment',
+                                           options=eq_tag_list,
+                                           icons=['-'] * len(eq_tag_list),
+                                           orientation='horizontal',
+                                           menu_icon='3-square')
+
+    if selected_right_equip == 'No equipment available':
+        st.stop()
+
+    right_pan_tag_list = list(get_panel_tags(selected_right_equip))
+
+    if len(right_pan_tag_list) == 0:
+        right_pan_tag_list = 'No panels available'
+
+    with rc2:
+        selected_right_panel = option_menu('Select the Right Side Panel',
+                                           options=right_pan_tag_list,
+                                           icons=['-'] * len(right_pan_tag_list),
+                                           orientation='horizontal', menu_icon='4-square')
+
+    cab_df = get_filtered_cables(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel)
+
+    cab_tag_list = cab_df.cable_tag.tolist()
+
+    if isinstance(cab_df, pd.DataFrame):
+        cab_tag_list = cab_df.cable_tag.tolist()
+    else:
+        st.toast(cab_tag_list)
+        st.stop()
+
+
+    c1, c2, c3 = st.columns(3, gap='medium')
+    # cab_tag = c2.selectbox("Cable Tag", cab_tag_list)
+
+
+    if len(cab_tag_list) == 0:
+        cab_tag_list = ['No cables available']
+
+    cab_tag = option_menu('Select the Right Side Panel',
+                                           options=cab_tag_list,
+                                           icons=['-'] * len(cab_tag_list),
+                                           orientation='horizontal', menu_icon='4-square')
 
     if cab_tag:
         # cab_pan_left, cab_pan_right = get_cab_panels(cab_tag)
@@ -290,11 +364,11 @@ def wires_main(act):
         # c1.text(f"Left Panel: {cab_pan_left}")
         # c3.text(f"Right Panel: {cab_pan_right}")
 
-        df = select_filtered_wires(cab_tag)
+        df = get_filtered_wires(cab_tag)
 
         def split_tag(x):
             x2 = x.split(":")
-            return x2[2]+":"+x2[3]
+            return x2[2] + ":" + x2[3]
 
         df.left_term_id = df.left_term_id.map(split_tag)
         df.right_term_id = df.right_term_id.map(split_tag)
@@ -343,8 +417,8 @@ def wires_main(act):
                                                       "Edit",
                                                       width='small'),
                                                   "notes": st.column_config.TextColumn(
-                                                  "Notes",
-                                                  width='large'
+                                                      "Notes",
+                                                      width='large'
                                                   )
                                               },
                                               use_container_width=True, hide_index=True, key='wires_df')
@@ -381,4 +455,3 @@ def wires_main(act):
             #     edit_w_con(edited_df, cab_tag)
     else:
         st.write(f"#### :blue[Select Cable Tag to proceed...]")
-
