@@ -117,8 +117,12 @@ def delete_wires(cab_tag):
 @st.cache_data(show_spinner=False)
 def id_to_terminal(x):
     with db_session:
-        term = Terminal[x]
-        return str(term.block_id.block_tag) + " : " + str(term.terminal_num)
+        if x ==0:
+            return 0
+
+        else:
+            term = Terminal[x]
+            return str(term.block_id.block_tag) + " : " + str(term.terminal_num)
 
 
 
