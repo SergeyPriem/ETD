@@ -67,7 +67,6 @@ def get_filtered_panels(equip):
         df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag', 'description',
                                          'edit', 'notes', 'panel_un'])
         return df
-
     except Exception as e:
         return err_handler(e)
 
@@ -93,7 +92,7 @@ def delete_panel(df):
             get_filtered_panels.clear()
             get_panel_tags.clear()
             get_panels_by_equip_panel_tag.clear()
-            st.button("OK")
+            st.experimental_rerun()
     else:
         st.toast(f"#### :orange[Select the Panel to delete in column 'Edit']")
 

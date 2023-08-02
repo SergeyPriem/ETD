@@ -300,12 +300,10 @@ def act_with_warning(left_function=None, left_args=None, right_function=None, ri
         if c2.button(left_button, use_container_width=True):
             if left_function:
                 left_function(left_args)
-            # st.experimental_rerun()
 
         if c3.button(right_button, use_container_width=True):
             if right_function:
                 right_function(right_args)
-            # st.experimental_rerun()
 
     else:
         c1, c2, c3 = st.columns(3)
@@ -319,12 +317,10 @@ def act_with_warning(left_function=None, left_args=None, right_function=None, ri
         if yes_no == left_button:
             if left_function:
                 left_function(left_args)
-            # st.experimental_rerun()
 
         if yes_no == right_button:
             if right_function:
                 right_function(right_args)
-            # st.experimental_rerun()
 
     st.write(":blue[Waiting for your decision...]")
     time.sleep(waiting_time)
