@@ -313,13 +313,11 @@ def act_with_warning(left_function=None, left_args=None, right_function=None, ri
     #     c2.write(":blue[Waiting for your decision...]")
     #     time.sleep(waiting_time)
     #     st.experimental_rerun()
-    c1, c2, c3, c4 = st.columns([5,1,1,5])
-    # with c2:
-    st.subheader(f":{header_color}[{header_message}]")
 
-        # yes_no = option_menu(warning_message, options=[option_message, left_button, right_button],
-        #                      menu_icon='exclamation-triangle', icons=['-', '-', '-'],
-        #                      default_index=0, orientation='horizontal')
+    st.subheader(f":{header_color}[{header_message}]")
+    st.subheader(f"⚠️ :{header_color}[Warning]")
+
+    c1, c2, c3, c4 = st.columns([5,1,1,5])
 
     if c2.button(left_button, use_container_width=True):
         if left_function:
@@ -331,7 +329,6 @@ def act_with_warning(left_function=None, left_args=None, right_function=None, ri
             right_function(right_args)
         st.experimental_rerun()
 
-    # if yes_no == option_message:
     st.write(":blue[Waiting for your decision...]")
     time.sleep(waiting_time)
     st.experimental_rerun()
