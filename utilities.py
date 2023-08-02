@@ -274,7 +274,8 @@ def convert_txt_to_list(txt):
 
 def act_with_warning(left_function=None, left_args=None, right_function=None, right_args=None,
                      option_message="Are you sure?", left_button="YES", right_button="NO",
-                     header_message=None, header_color="red", warning_message="Warning", waiting_time=7):
+                     header_message=None, header_color="red", warning_message="Warning", waiting_time=7,
+                     use_buttons=True):
 
     """
     :param left_function: function, related to left button
@@ -288,50 +289,49 @@ def act_with_warning(left_function=None, left_args=None, right_function=None, ri
     :param header_color: warning header color. Supported colors: blue, green, orange, red, violet. Default - red
     :param warning_message: white warning message above the buttons
     :param waiting_time: time of buttons presence
+    :param use_buttons: if True, st.buttons will be used, else - option menu
     :return: None
     """
+    if use_buttons:
+        st.subheader(f"⚠️ :{header_color}[Warning! {header_message}]")
+        st.subheader(f"{warning_message}")
 
-    # c1, c2, c3 = st.columns(3)
-    # with c2:
-    #     c2.subheader(f":{header_color}[{header_message}]")
-    #
-    #     yes_no = option_menu(warning_message, options=[option_message, left_button, right_button],
-    #                          menu_icon='exclamation-triangle', icons=['-', '-', '-'],
-    #                          default_index=0, orientation='horizontal')
-    #
-    # if yes_no == left_button:
-    #     if left_function:
-    #         left_function(left_args)
-    #     st.experimental_rerun()
-    #
-    # if yes_no == right_button:
-    #     if right_function:
-    #         right_function(right_args)
-    #     st.experimental_rerun()
-    #
-    # if yes_no == option_message:
-    #     c2.write(":blue[Waiting for your decision...]")
-    #     time.sleep(waiting_time)
-    #     st.experimental_rerun()
+        c1, c2, c3, c4 = st.columns([5, 1, 1, 5])
 
-    st.subheader(f":{header_color}[{header_message}]")
-    st.subheader(f"⚠️ :{header_color}[Warning]")
+        if c2.button(left_button, use_container_width=True):
+            if left_function:
+                left_function(left_args)
+            st.experimental_rerun()
 
-    c1, c2, c3, c4 = st.columns([5,1,1,5])
+        if c3.button(right_button, use_container_width=True):
+            if right_function:
+                right_function(right_args)
+            st.experimental_rerun()
 
-    if c2.button(left_button, use_container_width=True):
-        if left_function:
-            left_function(left_args)
-        st.experimental_rerun()
+    else:
+        c1, c2, c3 = st.columns(3)
+        with c2:
+            c2.subheader(f":{header_color}[{header_message}]")
 
-    if c3.button(right_button, use_container_width=True):
-        if right_function:
-            right_function(right_args)
-        st.experimental_rerun()
+            yes_no = option_menu(warning_message, options=[option_message, left_button, right_button],
+                                 menu_icon='exclamation-triangle', icons=['-', '-', '-'],
+                                 default_index=0, orientation='horizontal')
 
-    st.write(":blue[Waiting for your decision...]")
+        if yes_no == left_button:
+            if left_function:
+                left_function(left_args)
+            st.experimental_rerun()
+
+        if yes_no == right_button:
+            if right_function:
+                right_function(right_args)
+            st.experimental_rerun()
+
+
+    c2.write(":blue[Waiting for your decision...]")
     time.sleep(waiting_time)
     st.experimental_rerun()
+
 
 
 def ben(func):

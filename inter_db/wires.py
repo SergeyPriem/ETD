@@ -485,7 +485,7 @@ def wires_main(act):
                     left_function=delete_wires,
                     left_args=cab_tag,
                     header_message="All wires will and their connections will be deleted!",
-                    waiting_time=4
+                    waiting_time=4, use_buttons=True
                 )
 
         if act == 'Edit':
