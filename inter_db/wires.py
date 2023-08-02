@@ -67,8 +67,8 @@ def edit_wires(edited_df, cab_tag):
                 right_term = select(t for t in Terminal
                                    if t.block_id == right_block and t.terminal_num == right_term_num).first()
                 wire.set(
-                    left_term_id=left_term,
-                    right_term_id=right_term,
+                    left_term_id=left_term.get_pk(),
+                    right_term_id=right_term.get_pk(),
                     notes=row.notes
                 )
                 i += 1
