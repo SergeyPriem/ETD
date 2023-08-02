@@ -78,8 +78,8 @@ def edit_wires(edited_df, cab_tag):
     # except Exception as e:
     #     st.toast(err_handler(e))
     # finally:
-    get_filtered_wires.clear()
-    st.experimental_rerun()
+    # get_filtered_wires.clear()
+    # st.experimental_rerun()
 
 
 def create_wires(cab_tag, wires_num):
