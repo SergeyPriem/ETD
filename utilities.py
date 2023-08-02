@@ -276,7 +276,6 @@ def act_with_warning(left_function=None, left_args=None, right_function=None, ri
                      option_message="Are you sure?", left_button="YES", right_button="NO",
                      header_message=None, header_color="red", warning_message="Warning", waiting_time=7,
                      use_buttons=True):
-
     """
     :param left_function: function, related to left button
     :param left_args: args for 'left' function
@@ -327,11 +326,9 @@ def act_with_warning(left_function=None, left_args=None, right_function=None, ri
                 right_function(right_args)
             st.experimental_rerun()
 
-
-    c2.write(":blue[Waiting for your decision...]")
+    st.write(":blue[Waiting for your decision...]")
     time.sleep(waiting_time)
     st.experimental_rerun()
-
 
 
 def ben(func):
