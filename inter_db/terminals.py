@@ -87,6 +87,7 @@ def delete_terminals(df):
 
 
 def create_terminals(selected_equip, selected_panel, selected_block, terminals):
+    i = 0
     try:
         with db_session:
             equip = Equip.get(equipment_tag=selected_equip)
@@ -109,7 +110,8 @@ def create_terminals(selected_equip, selected_panel, selected_block, terminals):
                     notes='',
                     # terminal_un=str(block_un) + ":" + t,
                 )
-                st.toast(f"##### :green[Terminal {t} added]")
+                i += 1
+            st.toast(f"##### :green[{i} terminals added]")
 
     except Exception as e:
         st.toast(err_handler(e))
