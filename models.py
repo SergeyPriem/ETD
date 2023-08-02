@@ -202,8 +202,8 @@ def db_func():
         edit = Optional(bool, default=False)
         # left_term_id = Optional('Terminal', reverse='wires_l')
         # right_term_id = Optional('Terminal', reverse='wires_r')
-        left_term_id = Optional(str, 50)
-        right_term_id = Optional(str, 50)
+        left_term_id = Optional(int, size=64)
+        right_term_id = Optional(int, size=64)
         composite_key(cable_id, wire_num)
 
     class Cab_purpose(db_int.Entity):
