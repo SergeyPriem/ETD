@@ -328,12 +328,16 @@ def wires_main(act):
     if len(eq_tag_list) == 0:
         eq_tag_list = 'No equipment available'
     with lc1:
-        selected_left_equip = option_menu('Select the Left Side Equipment',
+        selected_left_equip = st.radio('Select the Left Side Equipment',
                                           options=eq_tag_list,
-                                          icons=['-'] * len(eq_tag_list),
-                                          orientation='horizontal',
-                                          menu_icon='1-square')
+                                          horizontal=True)
 
+        # selected_left_equip = option_menu('Select the Left Side Equipment',
+        #                                   options=eq_tag_list,
+        #                                   icons=['-'] * len(eq_tag_list),
+        #                                   orientation='horizontal',
+        #                                   menu_icon='1-square')
+        #
     if selected_left_equip == 'No equipment available':
         st.stop()
 
@@ -343,19 +347,25 @@ def wires_main(act):
         left_pan_tag_list = 'No panels available'
 
     with lc1:
-        selected_left_panel = option_menu('Select the Left Side Panel',
+        selected_left_panel = st.radio('Select the Left Side Panel',
                                           options=left_pan_tag_list,
-                                          icons=['-'] * len(left_pan_tag_list),
-                                          orientation='horizontal', menu_icon='2-square')
+                                          horizontal=True)
+        # selected_left_panel = option_menu('Select the Left Side Panel',
+        #                                   options=left_pan_tag_list,
+        #                                   icons=['-'] * len(left_pan_tag_list),
+        #                                   orientation='horizontal', menu_icon='2-square')
 
     if len(eq_tag_list) == 0:
         eq_tag_list = 'No equipment available'
     with rc1:
-        selected_right_equip = option_menu('Select the Right Side Equipment',
+        selected_right_equip = st.radio('Select the Right Side Equipment',
                                            options=eq_tag_list,
-                                           icons=['-'] * len(eq_tag_list),
-                                           orientation='horizontal',
-                                           menu_icon='3-square')
+                                           horizontal=True)
+        # selected_right_equip = option_menu('Select the Right Side Equipment',
+        #                                    options=eq_tag_list,
+        #                                    icons=['-'] * len(eq_tag_list),
+        #                                    orientation='horizontal',
+        #                                    menu_icon='3-square')
 
     if selected_right_equip == 'No equipment available':
         st.stop()
@@ -366,10 +376,13 @@ def wires_main(act):
         right_pan_tag_list = 'No panels available'
 
     with rc1:
-        selected_right_panel = option_menu('Select the Right Side Panel',
+        selected_right_panel = st.radio('Select the Right Side Panel',
                                            options=right_pan_tag_list,
-                                           icons=['-'] * len(right_pan_tag_list),
-                                           orientation='horizontal', menu_icon='4-square')
+                                           horizontal=True)
+        # selected_right_panel = option_menu('Select the Right Side Panel',
+        #                                    options=right_pan_tag_list,
+        #                                    icons=['-'] * len(right_pan_tag_list),
+        #                                    orientation='horizontal', menu_icon='4-square')
 
     cab_df = get_filtered_cables(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel)
 
@@ -384,10 +397,13 @@ def wires_main(act):
     if len(cab_tag_list) == 0:
         cab_tag_list = ['No cables available']
 
-    cab_tag = option_menu('Select the Cable',
+    cab_tag = st.radio('Select the Cable',
                           options=cab_tag_list,
-                          icons=['-'] * len(cab_tag_list),
-                          orientation='horizontal', menu_icon='5-square')
+                          horizontal=True)
+    # cab_tag = option_menu('Select the Cable',
+    #                       options=cab_tag_list,
+    #                       icons=['-'] * len(cab_tag_list),
+    #                       orientation='horizontal', menu_icon='5-square')
 
     if cab_tag != 'No cables available':
 
