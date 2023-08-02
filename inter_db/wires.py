@@ -67,7 +67,7 @@ def delete_wires(cab_tag):
             wires = select(w for w in Wire if w.cable_id.cable_tag == cab_tag)[:]
             for w in wires:
                 w.delete()
-            st.toast(f"All wires of {cab_tag} deleted")
+            st.toast(f"##### :green[All wires of {cab_tag} deleted]")
     except Exception as e:
         st.toast(err_handler(e))
     finally:
@@ -228,7 +228,7 @@ def wires_main(act):
                     left_args=cab_tag,
                     header_message="All wires and their connections will be deleted!",
                     warning_message="Delete?",
-                    waiting_time=5, use_buttons=True
+                    waiting_time=7, use_buttons=True
                 )
 
         if act == 'Edit':
