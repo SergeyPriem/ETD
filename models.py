@@ -234,7 +234,7 @@ def db_func():
         int_link = Optional(str, 10)
         edit = Optional(bool, default=False)
         notes = Optional(str, 100)
-        terminal_un = Optional(str, 175, unique=True)
+        # terminal_un = Optional(str, 175, unique=True)
         # wires_l = Set(Wire, reverse='left_term_id')
         # wires_r = Set(Wire, reverse='right_term_id')
         composite_key(block_id, terminal_num)
