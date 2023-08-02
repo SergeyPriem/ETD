@@ -314,3 +314,12 @@ def act_with_warning(left_function=None, left_args=None, right_function=None, ri
         time.sleep(waiting_time)
         st.experimental_rerun()
 
+
+def ben(func):
+    def wrapper(*args):
+        start = time.time()
+        func(*args)
+        end = time.time()
+        print(f'Time spent: {round(end - start, 2)} s.')
+
+    return wrapper

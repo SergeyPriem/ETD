@@ -254,7 +254,7 @@ from inter_db.equipment import get_eqip_tags
 from inter_db.panels import get_panel_tags
 from inter_db.terminals import get_panel_terminals
 from models import Wire, Cable
-from utilities import err_handler, act_with_warning
+from utilities import err_handler, act_with_warning, ben
 
 
 @st.cache_data(show_spinner=False)
@@ -481,6 +481,7 @@ def wires_main(act):
             # data_to_show
             if st.button("Delete All Wires"):
                 # delete_wires(cab_tag)
+                @ben
                 act_with_warning(
                     left_function=delete_wires,
                     left_args=cab_tag,
