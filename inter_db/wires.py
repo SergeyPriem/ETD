@@ -8,7 +8,7 @@ from inter_db.cables import get_filtered_cables
 from inter_db.equipment import get_eqip_tags
 from inter_db.panels import get_panel_tags
 from inter_db.terminals import get_panel_terminals
-from models import Wire, Cable
+from models import Wire, Cable, Block, Terminal
 from utilities import err_handler, act_with_warning
 
 
@@ -35,8 +35,41 @@ def get_filtered_wires(cab_tag):
 
 
 def edit_wires(edited_df, cab_tag):
+    df = edited_df[edited_df.edit.astype('str') == "True"]
     try:
-        pass
+        with db_session:
+            for ind, row in df.iterrows():
+                wire = Wire[ind]
+                left_panel = Cable.get(cable_tag=cab_tag).left_pan_id
+                right_panel = Cable.get(cable_tag=cab_tag).right_pan_id
+
+                left_ful_term = row.left_term_id.split(" : ")
+                right_ful_term = row.right_term_id.split(" : ")
+
+                if len(left_ful_term) == 2 and len(right_ful_term) == 2:
+
+                    left_block_tag = left_ful_term[0]
+                    right_block_tag = right_ful_term[0]
+
+                    left_term_num = left_ful_term[1]
+                    right_term_num = right_ful_term[1]
+
+                    left_block = select(b for b in Block
+                                        if b.block_tag == left_block_tag and b.pan_id == left_panel).first()
+                    right_block = select(b for b in Block
+                                        if b.block_tag == right_block_tag and b.pan_id == right_panel).first()
+
+                    left_term = select(t for t in Terminal
+                                       if t.block_id == left_block and t.terminal_num == left_term_num)
+                    right_term = select(t for t in Terminal
+                                       if t.block_id == right_block and t.terminal_num == right_term_num)
+                    wire.set(
+                        left_term_id=left_term,
+                        right_term_id=right_term,
+                        notes=row.notes
+                    )
+                else:
+                    st.toast(f"##### :red[Wrong terminals for wire {row.wire_num}]")
     except Exception as e:
         st.toast(err_handler(e))
     finally:
