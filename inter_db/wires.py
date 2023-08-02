@@ -36,6 +36,7 @@ def get_filtered_wires(cab_tag):
 
 def edit_wires(edited_df, cab_tag):
     df = edited_df[edited_df.edit.astype('str') == "True"]
+    i = 0
     try:
         with db_session:
             for ind, row in df.iterrows():
@@ -68,8 +69,10 @@ def edit_wires(edited_df, cab_tag):
                         right_term_id=right_term,
                         notes=row.notes
                     )
+                    i += 1
                 else:
                     st.toast(f"##### :red[Wrong terminals for wire {row.wire_num}]")
+            st.toast(f"##### :green[{i} wires updated]")
     except Exception as e:
         st.toast(err_handler(e))
     finally:
