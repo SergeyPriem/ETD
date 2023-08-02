@@ -25,15 +25,6 @@ def intercon_expander():
 
         if prev_sel != "SELECT:":
 
-            prev_dict = {
-                'Equipment': get_all_equip,
-                'Panels': get_all_panels,
-                'Terminal Block': get_all_blocks,
-                'Terminals': get_all_terminals,
-                'Cables': get_all_cables,
-                # 'Wires': Wire,
-            }
-
             act = option_menu(None,
                               ['Select required:', 'View', 'Create', 'Edit', 'Delete'],
                               icons=['-', '-', '-', '-', 'exclamation-octagon'], default_index=0, orientation='horizontal')
@@ -42,7 +33,7 @@ def intercon_expander():
 
             if act != 'Select required:':
                 if prev_sel == 'Equipment':
-                    equipment_main(act, prev_dict, prev_sel)
+                    equipment_main(act)
                 if prev_sel == 'Panels':
                     panels_main(act)
                 if prev_sel == 'Terminal Block':

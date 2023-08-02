@@ -81,8 +81,10 @@ def create_block(equip_tag, panel_tag):
         if all([len(panel_tag), len(block_tag)]):
             try:
                 with db_session:
-                    equip = Equip.get(equipment_tag=equip_tag)
-                    panel = select(p for p in Panel if p.eq_id == equip).first()
+                    # equip = Equip.get(equipment_tag=equip_tag)
+                    panel = select(p for p in Panel
+                                   if p.eq_id.equipment_tag == equip_tag and p.panel_tag == panel_tag).first()
+
                     Block(pan_id=panel, block_tag=block_tag, descr=block_descr, edit=False, notes=block_notes)
 
                 st.toast(f"""#### :green[Block {block_tag} added!]""")

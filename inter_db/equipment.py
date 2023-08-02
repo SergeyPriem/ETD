@@ -94,40 +94,26 @@ def create_equipment():
             st.toast(f"""#### :red[Please fill all required (*) fields!]""")
 
 
-def equipment_main(act=None, prev_dict=None, prev_sel=None):
+def equipment_main(act):
+
+    df_to_show = get_all_equip()
+
+    if isinstance(df_to_show, pd.DataFrame):
+        edited_df = st.data_editor(df_to_show)
+    else:
+        st.write(f"#### :blue[Equipment not available...]")
+        st.stop()
 
     if act == 'Create':
-        df_to_show = prev_dict[prev_sel]()
-        if isinstance(df_to_show, pd.DataFrame):
-            st.data_editor(df_to_show)
-        else:
-            st.write(f"#### :blue[Equipment not available...]")
         create_equipment()
 
-    if act == 'View':
-        df_to_show = prev_dict[prev_sel]()
-        if isinstance(df_to_show, pd.DataFrame):
-            st.data_editor(df_to_show)
-        else:
-            st.write(f"#### :blue[Equipment not available...]")
-
     if act == 'Delete':
-        df_to_show = prev_dict[prev_sel]()
-        if isinstance(df_to_show, pd.DataFrame):
-            edited_df = st.data_editor(df_to_show)
-
-            if st.button("Delete Equipment"):
-                act_with_warning(left_function=delete_equipment, left_args=edited_df,
-                                 header_message="All related panels, terminal blocks, terminals will be deleted!")
-        else:
-            st.write(f"#### :blue[Equipment not available...]")
+        if st.button("Delete Equipment"):
+            act_with_warning(left_function=delete_equipment, left_args=edited_df,
+                             header_message="All related panels, terminal blocks, terminals will be deleted!")
 
     if act == 'Edit':
-        df_to_show = prev_dict[prev_sel]()
-        if isinstance(df_to_show, pd.DataFrame):
-            edited_df = st.data_editor(df_to_show)
-            if st.button("Edit Selected Equipment"):
-                edit_equipment(edited_df)
-        else:
-            st.write(f"#### :blue[Equipment not available...]")
+        if st.button("Edit Selected Equipment"):
+            edit_equipment(edited_df)
+
 
