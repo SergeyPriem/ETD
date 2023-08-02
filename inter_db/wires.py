@@ -53,7 +53,7 @@ def create_wires(cab_tag, wires_num):
                     cable_id=cable,
                     wire_num=w
                 )
-            st.toast(f"{w} wires created")
+            st.toast(f"##### :green[{w} wires created]")
     except Exception as e:
         st.toast(err_handler(e))
     finally:
@@ -228,7 +228,7 @@ def wires_main(act):
                     left_args=cab_tag,
                     header_message="All wires and their connections will be deleted!",
                     warning_message="Delete?",
-                    waiting_time=4, use_buttons=True
+                    waiting_time=5, use_buttons=True
                 )
 
         if act == 'Edit':
