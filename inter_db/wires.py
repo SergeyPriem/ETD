@@ -208,6 +208,9 @@ def wires_main(act):
 
     df = get_filtered_wires(cab_tag)
 
+    df.left_term_id = df.left_term_id.astype('str')
+    df.right_term_id = df.right_term_id.astype('str')
+
     if not isinstance(df, pd.DataFrame):
         st.write(f"#### :blue[No wires available for selected Cable...]")
         st.stop()
