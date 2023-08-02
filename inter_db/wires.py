@@ -117,7 +117,7 @@ def delete_wires(cab_tag):
 @st.cache_data(show_spinner=False)
 def id_to_terminal(x):
     with db_session:
-        if x ==0:
+        if x == 0:
             return 0
         else:
             term = Terminal[x]
@@ -220,11 +220,10 @@ def wires_main(act):
 
     df = get_filtered_wires(cab_tag)
 
+    df.left_term_id = df.left_term_id.map(id_to_terminal)
     df.left_term_id = df.left_term_id.astype('str')
 
-
-    df.left_term_id = df.left_term_id.map(id_to_terminal)
-
+    df.right_term_id = df.right_term_id.map(id_to_terminal)
     df.right_term_id = df.right_term_id.astype('str')
 
     if not isinstance(df, pd.DataFrame):
