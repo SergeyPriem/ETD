@@ -3,13 +3,13 @@ import pandas as pd
 import streamlit as st
 from pony.orm import *
 from streamlit_option_menu import option_menu
-
 from inter_db.equipment import get_eqip_tags
 from inter_db.read_all_tabs import get_all_panels
 from models import Equip, Panel
 from utilities import err_handler, get_list_index, act_with_warning
 
 
+@st.cache_data(show_spinner=False)
 def get_panels_by_equip_panel_tag(equip_tag, pan_tag):
     try:
         with db_session:
@@ -43,10 +43,8 @@ def get_panels_by_equip_panel_tag(equip_tag, pan_tag):
         df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag', 'description',
                                          'edit', 'notes', 'panel_un'])
         return df
-
     except Exception as e:
-        st.toast(err_handler(e))
-        return
+        return err_handler(e)
 
 
 @st.cache_data(show_spinner=False)
@@ -71,8 +69,7 @@ def get_filtered_panels(equip):
         return df
 
     except Exception as e:
-        st.toast(err_handler(e))
-        return
+        return err_handler(e)
 
 
 def delete_panel(df):
@@ -95,8 +92,7 @@ def delete_panel(df):
             get_all_panels.clear()
             get_filtered_panels.clear()
             get_panel_tags.clear()
-            # get_selected_blocks.clear()
-            # get_filtered_blocks.clear()
+            get_panels_by_equip_panel_tag.clear()
             st.button("OK")
     else:
         st.toast(f"#### :orange[Select the Panel to delete in column 'Edit']")
@@ -125,6 +121,7 @@ def edit_panel(df):
             get_all_panels.clear()
             get_filtered_panels.clear()
             get_panel_tags.clear()
+            get_panels_by_equip_panel_tag.clear()
             st.button("OK")
     else:
         st.toast(f"#### :orange[Select the Panel to edit in column 'Edit']")
@@ -137,7 +134,7 @@ def get_panel_tags(eq_tag):
             eq_tags = select(p.panel_tag for p in Panel if p.eq_id.equipment_tag == eq_tag)[:]
         return eq_tags
     except Exception as e:
-        st.toast(err_handler(e))
+        return [err_handler(e)]
 
 
 def create_panel(sel_equip):
@@ -207,67 +204,26 @@ def panels_main(act):
                                      icons=['-'] * len(pan_tag_list),
                                      orientation='horizontal', menu_icon='2-square')
 
-    df_to_show = get_panels_by_equip_panel_tag(selected_equip, selected_panel)
-
-    if isinstance(df_to_show, pd.DataFrame):
-        data_to_show = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
-    else:
-        data_to_show = st.write(f"#### :blue[Panels not available...]")
-        st.stop()
-
     if act == 'Create':
-        data_to_show
         if selected_equip:
             create_panel(selected_equip)
 
-    if act == 'View':
-        data_to_show
+    df_to_show = get_panels_by_equip_panel_tag(selected_equip, selected_panel)
+
+    if not isinstance(df_to_show, pd.DataFrame):
+        st.write(f"#### :blue[Panels not available...]")
+        st.stop()
+
+    edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
 
     if act == 'Delete':
-        edited_df = data_to_show
         if st.button("Delete Panel"):
             act_with_warning(left_function=delete_panel, left_args=edited_df,
-                             header_message="All related terminal blocks and terminals will be deleted!")
-
+                             header_message="All related terminal blocks and terminals will be deleted!",
+                             warning_message='Are you sure?')
 
     if act == 'Edit':
-        edited_df = data_to_show
         if st.button("Edit Selected Panel"):
             edit_panel(edited_df)
 
 
-def check_panels(df):
-    df.full_pan_tag = df.eq_tag.astype('str') + ":" + df.pan_tag.astype('str')
-    check_list = df.loc[df.full_pan_tag.duplicated(), 'full_pan_tag'].tolist()
-
-    if len(check_list):
-        st.write(f"#### :red[Duplicated Panel Tags {check_list}. Please fix and save]")
-        st.button('OK', key='duplicated_panels')
-        st.stop()
-
-
-def delete_panels(pan_to_del):
-    st.session_state.intercon['panel'] = \
-        st.session_state.intercon['panel'][~st.session_state.intercon['panel'].full_pan_tag.isin(pan_to_del)]
-    st.experimental_rerun()
-
-
-def save_panels(upd_panels_df, act_equip):
-    temp_df = st.session_state.intercon['panel'].copy(deep=True)
-    temp_df = temp_df[temp_df.eq_tag != act_equip]
-
-    st.session_state.intercon['panel'] = pd.concat([temp_df, upd_panels_df])
-    st.session_state.intercon['panel'].reset_index(drop=True, inplace=True)
-    st.write("#### :green[Panels saved successfully]")
-    st.button("OK", key='panels_saved')
-
-
-def add_panels(act_equip, q_ty):
-    df2 = pd.DataFrame()
-
-    for w in range(0, q_ty):
-        df2.loc[w, ["eq_tag", 'pan_to_del']] = [act_equip, False]
-
-    st.session_state.intercon['panel'] = pd.concat([st.session_state.intercon['panel'], df2])
-    st.session_state.intercon['panel'] = st.session_state.intercon['panel'].reset_index(drop=True)
-    st.experimental_rerun()

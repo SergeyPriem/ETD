@@ -5,7 +5,7 @@ from pony.orm import db_session, select
 from streamlit_option_menu import option_menu
 
 from inter_db.equipment import get_eqip_tags
-from inter_db.panels import get_panel_tags #, get_panels_by_equip_panel_tag
+from inter_db.panels import get_panel_tags  # , get_panels_by_equip_panel_tag
 from inter_db.read_all_tabs import get_all_blocks
 from models import Panel, Block, Equip
 from utilities import err_handler, act_with_warning
@@ -83,7 +83,7 @@ def create_block(equip_tag, panel_tag):
                 with db_session:
                     equip = Equip.get(equipment_tag=equip_tag)
                     panel = select(p for p in Panel if p.eq_id == equip).first()
-                    Block(pan_id=panel, block_tag=block_tag, descr=block_descr, edit=False,notes=block_notes)
+                    Block(pan_id=panel, block_tag=block_tag, descr=block_descr, edit=False, notes=block_notes)
 
                 st.toast(f"""#### :green[Block {block_tag} added!]""")
 
@@ -100,6 +100,7 @@ def create_block(equip_tag, panel_tag):
         else:
             st.toast(f"""#### :red[Please fill all required (*) fields!]""")
 
+
 @st.cache_data(show_spinner=False)
 def get_blocks_list_by_eq_pan(selected_equip, selected_panel):
     try:
@@ -113,7 +114,6 @@ def get_blocks_list_by_eq_pan(selected_equip, selected_panel):
             return data
     except Exception as e:
         st.toast(err_handler(e))
-
 
 
 @st.cache_data(show_spinner=False)
@@ -155,7 +155,7 @@ def get_selected_block(selected_equip, selected_panel, selected_block):
                 )[:]
 
         df = pd.DataFrame(data, columns=['id', 'panel_tag', 'block_tag', 'description',
-                                             'edit', 'notes', 'block_un'])
+                                         'edit', 'notes', 'block_un'])
         return df
     except Exception as e:
         st.toast(err_handler(e))
@@ -177,8 +177,6 @@ def blocks_main(act):
 
     if len(pan_tag_list) == 0:
         pan_tag_list = ['No panels available']
-
-
 
     with c2:
         selected_panel = option_menu('Select the Panel',
@@ -204,30 +202,23 @@ def blocks_main(act):
                                      icons=['-'] * len(block_tag_list),
                                      orientation='horizontal', menu_icon='3-square')
 
+    if act == 'Create':
+        create_block(selected_equip, selected_panel)
 
     df_to_show = get_selected_block(selected_equip, selected_panel, selected_block)
 
-    if isinstance(df_to_show, pd.DataFrame) and len(df_to_show):
-        data_to_show = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
-    else:
-        data_to_show = st.write(f"#### :blue[Blocks not available...]")
+    if not (isinstance(df_to_show, pd.DataFrame) and len(df_to_show)):
+        st.write(f"#### :blue[Blocks not available...]")
+        st.stop()
 
-    if act == 'Create':
-        data_to_show
-        create_block(selected_equip, selected_panel)
-
-    if act == 'View':
-        data_to_show
+    edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
 
     if act == 'Delete':
-        edited_df = data_to_show
         if st.button("Delete Terminal Block"):
             act_with_warning(left_function=delete_block, left_args=edited_df,
-                             header_message="All related terminals will be deleted!")
-
-            delete_block(edited_df)
+                             header_message="All related terminals will be deleted!",
+                             warning_message="Are you sure?")
 
     if act == 'Edit':
-        edited_df = data_to_show
         if st.button("Edit Selected Terminal Block"):
             edit_block(edited_df)
