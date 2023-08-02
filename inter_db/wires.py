@@ -113,6 +113,15 @@ def delete_wires(cab_tag):
         st.experimental_rerun()
 
 
+
+@st.cache_data(show_spinner=False)
+def id_to_terminal(x):
+    with db_session:
+        term = Terminal[x]
+        return str(term.block_id.block_tag) + " : " + str(term.terminal_num)
+
+
+
 def wires_main(act):
 
     eq_tag_list = list(get_eqip_tags())
@@ -209,6 +218,10 @@ def wires_main(act):
     df = get_filtered_wires(cab_tag)
 
     df.left_term_id = df.left_term_id.astype('str')
+
+
+    df.left_term_id = df.left_term_id.map(id_to_terminal)
+
     df.right_term_id = df.right_term_id.astype('str')
 
     if not isinstance(df, pd.DataFrame):
@@ -223,6 +236,8 @@ def wires_main(act):
         else:
             left_terminals = []
             right_terminals = []
+
+
 
         st.write(":blue[Wires Details]")
         edited_df = st.data_editor(df,

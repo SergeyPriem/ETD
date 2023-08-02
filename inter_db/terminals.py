@@ -11,6 +11,7 @@ from models import Terminal, Block, Equip, Panel
 from utilities import err_handler, convert_txt_to_list
 
 
+@st.cache_data(show_spinner=False)
 def get_panel_terminals(equip_tag, panel_tag):
     try:
         with db_session:
@@ -56,6 +57,7 @@ def edit_terminals(df, selected_equip, selected_panel, selected_block):
             st.toast(f"##### {err_handler(e)}")
         finally:
             get_filtered_terminals.clear()
+            get_panel_terminals.clear()
             st.experimental_rerun()
     else:
         st.toast(f"#### :orange[Select the Cables to edit in column 'Edit']")
@@ -81,6 +83,7 @@ def delete_terminals(df):
             st.toast(f"##### {err_handler(e)}")
         finally:
             get_selected_block_terminals.clear()
+            get_panel_terminals.clear()
             st.experimental_rerun()
     else:
         st.toast(f"#### :orange[Select the Terminal to delete in column 'Edit']")
@@ -117,6 +120,7 @@ def create_terminals(selected_equip, selected_panel, selected_block, terminals):
         st.toast(err_handler(e))
     finally:
         get_selected_block_terminals.clear()
+        get_panel_terminals.clear()
         st.experimental_rerun()
 
 
