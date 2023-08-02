@@ -2,8 +2,6 @@
 import pandas as pd
 import streamlit as st
 from pony.orm import db_session, select, IntegrityError
-from streamlit_option_menu import option_menu
-
 from inter_db.read_all_tabs import get_all_equip
 from models import Equip
 from utilities import err_handler, act_with_warning

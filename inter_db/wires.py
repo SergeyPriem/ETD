@@ -321,6 +321,7 @@ def delete_wires(cab_tag):
 
 
 def wires_main(act):
+
     eq_tag_list = list(get_eqip_tags())
 
     lc1, rc1 = st.columns(2, gap='medium')
@@ -418,8 +419,13 @@ def wires_main(act):
 
             if len(df):
 
-                left_terminals = get_panel_terminals(selected_left_equip, selected_left_panel)
-                right_terminals = get_panel_terminals(selected_right_equip, selected_right_panel)
+                if act == "Delete":
+                    left_terminals = get_panel_terminals(selected_left_equip, selected_left_panel)
+                    right_terminals = get_panel_terminals(selected_right_equip, selected_right_panel)
+                else:
+                    left_terminals = []
+                    right_terminals = []
+
                 st.write(":blue[Wires Details]")
                 data_to_show = st.data_editor(df,
                                               column_config={
