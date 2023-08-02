@@ -397,13 +397,13 @@ def wires_main(act):
     if len(cab_tag_list) == 0:
         cab_tag_list = ['No cables available']
 
-    cab_tag = st.radio('Select the Cable',
-                          options=cab_tag_list,
-                          horizontal=True)
-    # cab_tag = option_menu('Select the Cable',
+    # cab_tag = st.radio('Select the Cable',
     #                       options=cab_tag_list,
-    #                       icons=['-'] * len(cab_tag_list),
-    #                       orientation='horizontal', menu_icon='5-square')
+    #                       horizontal=True)
+    cab_tag = option_menu('Select the Cable',
+                          options=cab_tag_list,
+                          icons=['-'] * len(cab_tag_list),
+                          orientation='horizontal', menu_icon='5-square')
 
     if cab_tag != 'No cables available':
 
