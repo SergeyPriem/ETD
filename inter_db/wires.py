@@ -119,7 +119,6 @@ def id_to_terminal(x):
     with db_session:
         if x ==0:
             return 0
-
         else:
             term = Terminal[x]
             return str(term.block_id.block_tag) + " : " + str(term.terminal_num)
