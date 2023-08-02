@@ -406,85 +406,72 @@ def wires_main(act):
                           icons=['-'] * len(cab_tag_list),
                           orientation='horizontal', menu_icon='5-square')
 
-    if cab_tag != 'No cables available':
+    if cab_tag == 'No cables available':
+        st.write(f"#### :blue[Select Cable Tag to proceed ore create new one]")
+        st.stop()
 
-        st.write(":blue[Selected Cable Details]")
-        st.data_editor(cab_df[cab_df.cable_tag == cab_tag], use_container_width=True)
+    st.write(":blue[Selected Cable Details]")
+    st.data_editor(cab_df[cab_df.cable_tag == cab_tag], use_container_width=True)
 
-        df = get_filtered_wires(cab_tag)
+    df = get_filtered_wires(cab_tag)
 
-        data_to_show = None
+    if not isinstance(df, pd.DataFrame):
+        st.write(f"#### :blue[No wires available for selected Cable...]")
+        st.stop()
 
-        if isinstance(df, pd.DataFrame):
+    if len(df):
 
-            if len(df):
-
-                if act == "Delete":
-                    left_terminals = get_panel_terminals(selected_left_equip, selected_left_panel)
-                    right_terminals = get_panel_terminals(selected_right_equip, selected_right_panel)
-                else:
-                    left_terminals = []
-                    right_terminals = []
-
-                st.write(":blue[Wires Details]")
-                data_to_show = st.data_editor(df,
-                                              column_config={
-                                                  "id": st.column_config.NumberColumn(
-                                                      "ID",
-                                                      width='small'
-                                                  ),
-                                                  "cable_tag": st.column_config.TextColumn(
-                                                      "Cable Tag",
-                                                      width='mediun',
-                                                      disabled=True
-                                                  ),
-                                                  "wire_num": st.column_config.NumberColumn(
-                                                      "Wire's Number",
-                                                      width='small',
-                                                  ),
-                                                  "left_term_id": st.column_config.SelectboxColumn(
-                                                      "Left Terminal",
-                                                      options=left_terminals,
-                                                      width='large',
-                                                  ),
-                                                  "right_term_id": st.column_config.SelectboxColumn(
-                                                      "Right Terminal",
-                                                      options=right_terminals,
-                                                      width='large',
-                                                  ),
-                                                  "edit": st.column_config.CheckboxColumn(
-                                                      "Edit",
-                                                      width='small'),
-                                                  "notes": st.column_config.TextColumn(
-                                                      "Notes",
-                                                      width='large'
-                                                  )
-                                              },
-                                              use_container_width=True, hide_index=True, key='wires_df')
-
-            else:
-                data_to_show = st.write(f"#### :blue[Wires of cable {cab_tag} not available ...]")
-
+        if act == "Edit":
+            left_terminals = get_panel_terminals(selected_left_equip, selected_left_panel)
+            right_terminals = get_panel_terminals(selected_right_equip, selected_right_panel)
         else:
-            st.write(f"#### :blue[No wires available for selected Cable...]")
-            st.stop()
-        edited_df = data_to_show
-        if act == 'Create':
-            # data_to_show
-            if st.button('Create Wires'):
-                create_wires(cab_tag, cab_df.loc[cab_df.cable_tag == cab_tag, 'wire'].to_numpy()[0])
+            left_terminals = []
+            right_terminals = []
 
-        # if act == 'View':
-        #     # data_to_show
+        st.write(":blue[Wires Details]")
+        edited_df = st.data_editor(df,
+                                      column_config={
+                                          "id": st.column_config.NumberColumn(
+                                              "ID",
+                                              width='small'
+                                          ),
+                                          "cable_tag": st.column_config.TextColumn(
+                                              "Cable Tag",
+                                              width='mediun',
+                                              disabled=True
+                                          ),
+                                          "wire_num": st.column_config.NumberColumn(
+                                              "Wire's Number",
+                                              width='small',
+                                          ),
+                                          "left_term_id": st.column_config.SelectboxColumn(
+                                              "Left Terminal",
+                                              options=left_terminals,
+                                              width='large',
+                                          ),
+                                          "right_term_id": st.column_config.SelectboxColumn(
+                                              "Right Terminal",
+                                              options=right_terminals,
+                                              width='large',
+                                          ),
+                                          "edit": st.column_config.CheckboxColumn(
+                                              "Edit",
+                                              width='small'),
+                                          "notes": st.column_config.TextColumn(
+                                              "Notes",
+                                              width='large'
+                                          )
+                                      },
+                                      use_container_width=True, hide_index=True, key='wires_df')
+
 
         if act == 'Delete':
 
             if st.button("Delete All Wires"):
-
                 act_with_warning(
                     left_function=delete_wires,
                     left_args=cab_tag,
-                    header_message="All wires will and their connections will be deleted!",
+                    header_message="All wires and their connections will be deleted!",
                     warning_message="Delete?",
                     waiting_time=4, use_buttons=True
                 )
@@ -492,5 +479,11 @@ def wires_main(act):
         if act == 'Edit':
             if st.button("Edit Selected Wires"):
                 edit_wires(edited_df, cab_tag)
+
     else:
-        st.write(f"#### :blue[Select Cable Tag to proceed...]")
+        st.write(f"#### :blue[Wires of cable {cab_tag} not available ...]")
+        if act == 'Create':
+            if st.button('Create Wires'):
+                create_wires(cab_tag, cab_df.loc[cab_df.cable_tag == cab_tag, 'wire'].to_numpy()[0])
+
+
