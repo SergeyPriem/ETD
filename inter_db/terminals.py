@@ -113,6 +113,17 @@ def create_terminals(selected_equip, selected_panel, selected_block, terminals):
                     # terminal_un=str(block_un) + ":" + t,
                 )
                 i += 1
+
+            Terminal(
+                block_id=block,
+                terminal_num=999,
+                int_circuit="SPARE",
+                int_link="SPARE",
+                edit=False,
+                notes='',
+                # terminal_un=str(block_un) + ":" + t,
+            )
+
             st.toast(f"##### :green[{i} terminals added]")
 
     except Exception as e:

@@ -122,6 +122,7 @@ def create_wires(cab_tag, wires_num, left_term_init, right_term_init):
                 left_term_id=left_term_first,
                 right_term_id=right_term_first,
             )
+
         st.toast(f"##### :green[{w} wires created]")
     # except Exception as e:
     #     st.toast(err_handler(e))
