@@ -317,7 +317,7 @@ def wires_main(act):
         if act == 'Create':
             if st.button('Create Wires'):
                 if left_terminals[0] and right_terminals[0]:
-                    if " : " in left_terminals[0] and " : ":
+                    if " : " in left_terminals[0] and " : " in right_terminals[0]:
                         create_wires(cab_tag,
                                      cab_df.loc[cab_df.cable_tag == cab_tag, 'wire'].to_numpy()[0],
                                      left_terminals[0],
