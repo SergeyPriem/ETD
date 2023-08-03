@@ -44,20 +44,28 @@ def edit_wires(edited_df, cab_tag, all_wires=False):
     try:
         with db_session:
             for ind, row in df.iterrows():
-                try:
+
+                j = 0
+                if " : " in row.left_term_id:
                     left_ful_term = row.left_term_id.split(" : ")
+                else:
+                    j += 1
+                    st.toast(f"Wrong Left terminal for wire {row.wire_num}")
+
+                if " : " in row.right_term_id:
                     right_ful_term = row.right_term_id.split(" : ")
-                except Exception as e:
-                    st.toast(f"Wrong tetminal for wire {row.wire_num}")
-                    st.toast(err_handler(e))
+                else:
+                    j += 1
+                    st.toast(f"Wrong Left terminal for wire {row.wire_num}")
+
+                if j > 0:
+                    continue
 
                 if len(left_ful_term) == 2 and len(right_ful_term) == 2:
 
                     wire = Wire[row.id]
                     left_panel = Cable.get(cable_tag=cab_tag).left_pan_id
                     right_panel = Cable.get(cable_tag=cab_tag).right_pan_id
-
-                    # st.write(row)
 
                     left_block_tag = left_ful_term[0]
                     right_block_tag = right_ful_term[0]
