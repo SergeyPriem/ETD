@@ -20,8 +20,10 @@ def get_filtered_wires(cab_tag):
                               w.id,
                               w.cable_id.cable_tag,
                               w.wire_num,
-                              str(w.left_term_id.block_id) + " : " + str(w.left_term_id.terminal_num),
-                              str(w.right_term_id.block_id) + " : " + str(w.right_term_id.terminal_num),
+                              w.left_term_id.block_id,
+                              w.right_term_id.block_id,
+                              # str(w.left_term_id.block_id) + " : " + str(w.left_term_id.terminal_num),
+                              # str(w.right_term_id.block_id) + " : " + str(w.right_term_id.terminal_num),
                               w.edit,
                               w.notes,
                           ) for w in Wire if w.cable_id.cable_tag == cab_tag)[:]
