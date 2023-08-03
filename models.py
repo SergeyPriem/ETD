@@ -200,10 +200,8 @@ def db_func():
         notes = Optional(str, 200)
         wire_num = Required(int, size=8)
         edit = Optional(bool, default=False)
-        # left_term_id = Optional('Terminal', reverse='wires_l')
-        # right_term_id = Optional('Terminal', reverse='wires_r')
-        left_term_id = Optional(int, size=64)
-        right_term_id = Optional(int, size=64)
+        left_term_id = Optional('Terminal', reverse='wires_l', default=0)
+        right_term_id = Optional('Terminal', reverse='wires_r', default=0)
         composite_key(cable_id, wire_num)
 
     class Cab_purpose(db_int.Entity):
@@ -234,9 +232,8 @@ def db_func():
         int_link = Optional(str, 10)
         edit = Optional(bool, default=False)
         notes = Optional(str, 100)
-        # terminal_un = Optional(str, 175, unique=True)
-        # wires_l = Set(Wire, reverse='left_term_id')
-        # wires_r = Set(Wire, reverse='right_term_id')
+        wires_l = Set(Wire, reverse='left_term_id')
+        wires_r = Set(Wire, reverse='right_term_id')
         composite_key(block_id, terminal_num)
 
     db_int.bind(
