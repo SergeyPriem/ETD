@@ -121,8 +121,8 @@ def create_wires(cab_tag, wires_num):
             Wire(
                 cable_id=cable,
                 wire_num=w,
-                left_term_id=0,
-                right_term_id=0
+                left_term_id=1,
+                right_term_id=1
             )
         st.toast(f"##### :green[{w} wires created]")
     # except Exception as e:
