@@ -60,12 +60,12 @@ def edit_wires(edited_df, cab_tag):
                     left_block = select(b for b in Block
                                         if b.block_tag == left_block_tag and b.pan_id == left_panel).first()
                     right_block = select(b for b in Block
-                                        if b.block_tag == right_block_tag and b.pan_id == right_panel).first()
+                                         if b.block_tag == right_block_tag and b.pan_id == right_panel).first()
 
                     left_term = select(t for t in Terminal
                                        if t.block_id == left_block and t.terminal_num == left_term_num).first()
                     right_term = select(t for t in Terminal
-                                       if t.block_id == right_block and t.terminal_num == right_term_num).first()
+                                        if t.block_id == right_block and t.terminal_num == right_term_num).first()
                     wire.set(
                         left_term_id=left_term.get_pk(),
                         right_term_id=right_term.get_pk(),
@@ -79,6 +79,7 @@ def edit_wires(edited_df, cab_tag):
         st.toast(err_handler(e))
     finally:
         get_filtered_wires.clear()
+        id_to_terminal.clear()
         st.experimental_rerun()
 
 
@@ -96,6 +97,7 @@ def create_wires(cab_tag, wires_num):
         st.toast(err_handler(e))
     finally:
         get_filtered_wires.clear()
+        id_to_terminal.clear()
         st.experimental_rerun()
 
 
@@ -110,8 +112,8 @@ def delete_wires(cab_tag):
         st.toast(err_handler(e))
     finally:
         get_filtered_wires.clear()
+        id_to_terminal.clear()
         st.experimental_rerun()
-
 
 
 @st.cache_data(show_spinner=False)
@@ -124,9 +126,25 @@ def id_to_terminal(x):
             return str(term.block_id.block_tag) + " : " + str(term.terminal_num)
 
 
+def check_dulicated_terminals(df):
+    left_series = df.left_term_id
+    right_series = df.right_term_id
+
+    left_dup = left_series[left_series.duplicated(keep="first")]
+    right_dup = right_series[right_series.duplicated(keep="first")]
+
+    if len(left_dup) > 0:
+        st.write("Duplicates found in left termination")
+        st.write(left_dup)
+    if len(right_dup) > 0:
+        st.write("Duplicates found in right termination")
+        st.write(right_dup)
+
+    if len(left_dup) > 0 or len(right_dup) > 0:
+        st.stop()
+
 
 def wires_main(act):
-
     eq_tag_list = list(get_eqip_tags())
 
     lc1, rc1 = st.columns(2, gap='medium')
@@ -134,10 +152,6 @@ def wires_main(act):
     if len(eq_tag_list) == 0:
         eq_tag_list = 'No equipment available'
     with lc1:
-        # selected_left_equip = st.radio('Select the Left Side Equipment',
-        #                                   options=eq_tag_list,
-        #                                   horizontal=True)
-
         selected_left_equip = option_menu('Select the Left Side Equipment',
                                           options=eq_tag_list,
                                           icons=['-'] * len(eq_tag_list),
@@ -153,9 +167,6 @@ def wires_main(act):
         left_pan_tag_list = 'No panels available'
 
     with lc1:
-        # selected_left_panel = st.radio('Select the Left Side Panel',
-        #                                   options=left_pan_tag_list,
-        #                                   horizontal=True)
         selected_left_panel = option_menu('Select the Left Side Panel',
                                           options=left_pan_tag_list,
                                           icons=['-'] * len(left_pan_tag_list),
@@ -164,9 +175,6 @@ def wires_main(act):
     if len(eq_tag_list) == 0:
         eq_tag_list = 'No equipment available'
     with rc1:
-        # selected_right_equip = st.radio('Select the Right Side Equipment',
-        #                                    options=eq_tag_list,
-        #                                    horizontal=True)
         selected_right_equip = option_menu('Select the Right Side Equipment',
                                            options=eq_tag_list,
                                            icons=['-'] * len(eq_tag_list),
@@ -182,9 +190,6 @@ def wires_main(act):
         right_pan_tag_list = 'No panels available'
 
     with rc1:
-        # selected_right_panel = st.radio('Select the Right Side Panel',
-        #                                    options=right_pan_tag_list,
-        #                                    horizontal=True)
         selected_right_panel = option_menu('Select the Right Side Panel',
                                            options=right_pan_tag_list,
                                            icons=['-'] * len(right_pan_tag_list),
@@ -203,9 +208,6 @@ def wires_main(act):
     if len(cab_tag_list) == 0:
         cab_tag_list = ['No cables available']
 
-    # cab_tag = st.radio('Select the Cable',
-    #                       options=cab_tag_list,
-    #                       horizontal=True)
     cab_tag = option_menu('Select the Cable',
                           options=cab_tag_list,
                           icons=['-'] * len(cab_tag_list),
@@ -239,44 +241,41 @@ def wires_main(act):
             left_terminals = []
             right_terminals = []
 
-
-
         st.write(":blue[Wires Details]")
         edited_df = st.data_editor(df,
-                                      column_config={
-                                          "id": st.column_config.NumberColumn(
-                                              "ID",
-                                              width='small'
-                                          ),
-                                          "cable_tag": st.column_config.TextColumn(
-                                              "Cable Tag",
-                                              width='mediun',
-                                              disabled=True
-                                          ),
-                                          "wire_num": st.column_config.NumberColumn(
-                                              "Wire's Number",
-                                              width='small',
-                                          ),
-                                          "left_term_id": st.column_config.SelectboxColumn(
-                                              "Left Terminal",
-                                              options=left_terminals,
-                                              width='large',
-                                          ),
-                                          "right_term_id": st.column_config.SelectboxColumn(
-                                              "Right Terminal",
-                                              options=right_terminals,
-                                              width='large',
-                                          ),
-                                          "edit": st.column_config.CheckboxColumn(
-                                              "Edit",
-                                              width='small'),
-                                          "notes": st.column_config.TextColumn(
-                                              "Notes",
-                                              width='large'
-                                          )
-                                      },
-                                      use_container_width=True, hide_index=True, key='wires_df')
-
+                                   column_config={
+                                       "id": st.column_config.NumberColumn(
+                                           "ID",
+                                           width='small'
+                                       ),
+                                       "cable_tag": st.column_config.TextColumn(
+                                           "Cable Tag",
+                                           width='mediun',
+                                           disabled=True
+                                       ),
+                                       "wire_num": st.column_config.NumberColumn(
+                                           "Wire's Number",
+                                           width='small',
+                                       ),
+                                       "left_term_id": st.column_config.SelectboxColumn(
+                                           "Left Terminal",
+                                           options=left_terminals,
+                                           width='large',
+                                       ),
+                                       "right_term_id": st.column_config.SelectboxColumn(
+                                           "Right Terminal",
+                                           options=right_terminals,
+                                           width='large',
+                                       ),
+                                       "edit": st.column_config.CheckboxColumn(
+                                           "Edit",
+                                           width='small'),
+                                       "notes": st.column_config.TextColumn(
+                                           "Notes",
+                                           width='large'
+                                       )
+                                   },
+                                   use_container_width=True, hide_index=True, key='wires_df')
 
         if act == 'Delete':
 
@@ -291,6 +290,7 @@ def wires_main(act):
 
         if act == 'Edit':
             if st.button("Edit Selected Wires"):
+                check_dulicated_terminals(edited_df)
                 edit_wires(edited_df, cab_tag)
 
     else:
@@ -298,5 +298,3 @@ def wires_main(act):
         if act == 'Create':
             if st.button('Create Wires'):
                 create_wires(cab_tag, cab_df.loc[cab_df.cable_tag == cab_tag, 'wire'].to_numpy()[0])
-
-
