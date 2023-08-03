@@ -90,30 +90,30 @@ def delete_terminals(df):
 
 def create_terminals(selected_equip, selected_panel, selected_block, terminals):
     i = 0
-    try:
-        with db_session:
-            equip = Equip.get(equipment_tag=selected_equip)
-            panel = select(p for p in Panel if p.panel_tag == selected_panel and p.eq_id == equip).first()
-            block = select(b for b in Block if b.pan_id == panel and b.block_tag == selected_block).first()
-            exist_terminals = select(te.terminal_num for te in Terminal if te.block_id == block)[:]
+    # try:
+    with db_session:
+        equip = Equip.get(equipment_tag=selected_equip)
+        panel = select(p for p in Panel if p.panel_tag == selected_panel and p.eq_id == equip).first()
+        block = select(b for b in Block if b.pan_id == panel and b.block_tag == selected_block).first()
+        exist_terminals = select(te.terminal_num for te in Terminal if te.block_id == block)[:]
 
-            for t in terminals:
-                t = str(t)
-                if t in exist_terminals:
-                    st.toast(f"##### :red[Terminal {t} already exists...]")
-                    continue
+        for t in terminals:
+            t = str(t)
+            if t in exist_terminals:
+                st.toast(f"##### :red[Terminal {t} already exists...]")
+                continue
 
-                Terminal(
-                    block_id=block,
-                    terminal_num=t,
-                    int_circuit="",
-                    int_link="",
-                    edit=False,
-                    notes='',
-                    # terminal_un=str(block_un) + ":" + t,
-                )
-                i += 1
-
+            Terminal(
+                block_id=block,
+                terminal_num=t,
+                int_circuit="",
+                int_link="",
+                edit=False,
+                notes='',
+                # terminal_un=str(block_un) + ":" + t,
+            )
+            i += 1
+        if not (999 in exist_terminals):
             Terminal(
                 block_id=block,
                 terminal_num=999,
@@ -124,14 +124,14 @@ def create_terminals(selected_equip, selected_panel, selected_block, terminals):
                 # terminal_un=str(block_un) + ":" + t,
             )
 
-            st.toast(f"##### :green[{i} terminals added]")
+        st.toast(f"##### :green[{i} terminals added]")
 
-    except Exception as e:
-        st.toast(err_handler(e))
-    finally:
-        get_selected_block_terminals.clear()
-        get_panel_terminals.clear()
-        st.experimental_rerun()
+    # except Exception as e:
+    #     st.toast(err_handler(e))
+    # finally:
+    get_selected_block_terminals.clear()
+    get_panel_terminals.clear()
+    st.experimental_rerun()
 
 
 @st.cache_data(show_spinner=False)
