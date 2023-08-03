@@ -44,8 +44,12 @@ def edit_wires(edited_df, cab_tag, all_wires=False):
     try:
         with db_session:
             for ind, row in df.iterrows():
-                left_ful_term = row.left_term_id.split(" : ")
-                right_ful_term = row.right_term_id.split(" : ")
+                try:
+                    left_ful_term = row.left_term_id.split(" : ")
+                    right_ful_term = row.right_term_id.split(" : ")
+                except Exception as e:
+                    st.toast(f"Wrong tetminal for wire {row.wire_num}")
+                    st.toast(err_handler(e))
 
                 if len(left_ful_term) == 2 and len(right_ful_term) == 2:
 
@@ -300,7 +304,7 @@ def wires_main(act):
                 edit_wires(edited_df, cab_tag, all_wires=False)
 
             if c4.button("Save All Wires Termination", help="It will be slower but with complete duplicates check"):
-                check_dulicated_terminals(edited_df)
+                check_dulicated_terminals(edited_df[edited_df.edit.astype('str') == "True"])
                 edit_wires(edited_df, cab_tag, all_wires=True)
 
     else:
