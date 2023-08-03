@@ -35,7 +35,7 @@ def get_filtered_wires(cab_tag):
                           ) for w in Wire if w.cable_id.cable_tag == cab_tag)[:]
 
             df = pd.DataFrame(data, columns=['id', 'cable_tag', 'wire_num', 'left_term_id', 'right_term_id',
-                                         'edit', 'notes', ])
+                                             'edit', 'notes', ])
 
             # df.left_term_id = df.left_term_id.map(id_to_terminal)
             # df.left_term_id = df.left_term_id.astype('str')
@@ -120,7 +120,9 @@ def create_wires(cab_tag, wires_num):
         for w in range(1, wires_num + 1):
             Wire(
                 cable_id=cable,
-                wire_num=w
+                wire_num=w,
+                left_term_id=0,
+                right_term_id=0
             )
         st.toast(f"##### :green[{w} wires created]")
     # except Exception as e:
