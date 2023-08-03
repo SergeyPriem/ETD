@@ -20,8 +20,6 @@ def get_filtered_wires(cab_tag):
                               w.id,
                               w.cable_id.cable_tag,
                               w.wire_num,
-                              # w.left_term_id.block_id.block_tag,
-                              # w.right_term_id.block_id.block_tag,
                               str(w.left_term_id.block_id.block_tag) + " : " + str(w.left_term_id.terminal_num),
                               str(w.right_term_id.block_id.block_tag) + " : " + str(w.right_term_id.terminal_num),
                               w.edit,
@@ -101,7 +99,7 @@ def edit_wires(edited_df, cab_tag, all_wires=False):
         st.experimental_rerun()
 
 
-def create_wires(cab_tag, wires_num):
+def create_wires(cab_tag, wires_num, left_term_init, right_term_init):
     # try:
     with db_session:
         cable = Cable.get(cable_tag=cab_tag)
@@ -109,8 +107,8 @@ def create_wires(cab_tag, wires_num):
             Wire(
                 cable_id=cable,
                 wire_num=w,
-                left_term_id=Terminal[1],
-                right_term_id=Terminal[1]
+                left_term_id=Terminal[left_term_init.split(" : ")[1]],
+                right_term_id=Terminal[right_term_init.split(" : ")[1]]
             )
         st.toast(f"##### :green[{w} wires created]")
     # except Exception as e:
@@ -238,13 +236,10 @@ def wires_main(act):
     st.write(":blue[Selected Cable Details]")
     st.data_editor(cab_df[cab_df.cable_tag == cab_tag], use_container_width=True)
 
-    df = get_filtered_wires(cab_tag)
+    left_terminals = get_panel_terminals(selected_left_equip, selected_left_panel)
+    right_terminals = get_panel_terminals(selected_right_equip, selected_right_panel)
 
-    # df.left_term_id = df.left_term_id.map(id_to_terminal)
-    # df.left_term_id = df.left_term_id.astype('str')
-    #
-    # df.right_term_id = df.right_term_id.map(id_to_terminal)
-    # df.right_term_id = df.right_term_id.astype('str')
+    df = get_filtered_wires(cab_tag)
 
     if not isinstance(df, pd.DataFrame):
         st.write(f"#### :blue[No wires available for selected Cable...]")
@@ -252,12 +247,12 @@ def wires_main(act):
 
     if len(df):
 
-        if act == "Edit":
-            left_terminals = get_panel_terminals(selected_left_equip, selected_left_panel)
-            right_terminals = get_panel_terminals(selected_right_equip, selected_right_panel)
-        else:
-            left_terminals = []
-            right_terminals = []
+        # if act == "Edit":
+        #     left_terminals = get_panel_terminals(selected_left_equip, selected_left_panel)
+        #     right_terminals = get_panel_terminals(selected_right_equip, selected_right_panel)
+        # else:
+        #     left_terminals = []
+        #     right_terminals = []
 
         st.write(":blue[Wires Details]")
         edited_df = st.data_editor(df,
@@ -321,4 +316,13 @@ def wires_main(act):
         st.write(f"#### :blue[Wires of cable {cab_tag} not available ...]")
         if act == 'Create':
             if st.button('Create Wires'):
-                create_wires(cab_tag, cab_df.loc[cab_df.cable_tag == cab_tag, 'wire'].to_numpy()[0])
+                if left_terminals[0] and right_terminals[0]:
+                    if " : " in left_terminals[0] and " : ":
+                        create_wires(cab_tag,
+                                     cab_df.loc[cab_df.cable_tag == cab_tag, 'wire'].to_numpy()[0],
+                                     left_terminals[0],
+                                     right_terminals[0])
+                    else:
+                        st.toast(f"##### :orange[Create terminals first]")
+                else:
+                    st.toast(f"##### :orange[Create terminals first]")
