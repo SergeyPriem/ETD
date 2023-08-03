@@ -12,7 +12,7 @@ from models import Wire, Cable, Block, Terminal
 from utilities import err_handler, act_with_warning
 
 
-# @st.cache_data(show_spinner=False)
+@st.cache_data(show_spinner=False)
 def get_filtered_wires(cab_tag):
     try:
         with db_session:
@@ -94,41 +94,40 @@ def edit_wires(edited_df, cab_tag, all_wires=False):
     except Exception as e:
         st.toast(err_handler(e))
     finally:
-        # get_filtered_wires.clear()
-        # id_to_terminal.clear()
+        get_filtered_wires.clear()
         st.experimental_rerun()
 
 
 def create_wires(cab_tag, wires_num, left_term_init, right_term_init):
-    # try:
-    with db_session:
-        cable = Cable.get(cable_tag=cab_tag)
+    try:
+        with db_session:
+            cable = Cable.get(cable_tag=cab_tag)
 
-        left_block = left_term_init.split(" : ")[0]
-        left_term = left_term_init.split(" : ")[1]
+            left_block = left_term_init.split(" : ")[0]
+            left_term = left_term_init.split(" : ")[1]
 
-        right_block = right_term_init.split(" : ")[0]
-        right_term = right_term_init.split(" : ")[1]
+            right_block = right_term_init.split(" : ")[0]
+            right_term = right_term_init.split(" : ")[1]
 
-        left_term_first = select(t for t in Terminal
-                                 if t.block_id.block_tag == left_block and t.terminal_num == left_term).first()
-        right_term_first = select(t for t in Terminal
-                           if t.block_id.block_tag == right_block and t.terminal_num == right_term).first()
+            left_term_first = select(t for t in Terminal
+                                     if t.block_id.block_tag == left_block and t.terminal_num == left_term).first()
+            right_term_first = select(t for t in Terminal
+                               if t.block_id.block_tag == right_block and t.terminal_num == right_term).first()
 
-        for w in range(1, wires_num + 1):
-            Wire(
-                cable_id=cable,
-                wire_num=w,
-                left_term_id=left_term_first,
-                right_term_id=right_term_first,
-            )
+            for w in range(1, wires_num + 1):
+                Wire(
+                    cable_id=cable,
+                    wire_num=w,
+                    left_term_id=left_term_first,
+                    right_term_id=right_term_first,
+                )
 
-        st.toast(f"##### :green[{w} wires created]")
-    # except Exception as e:
-    #     st.toast(err_handler(e))
-    # finally:
-    # get_filtered_wires.clear()
-    st.experimental_rerun()
+            st.toast(f"##### :green[{w} wires created]")
+    except Exception as e:
+        st.toast(err_handler(e))
+    finally:
+        get_filtered_wires.clear()
+        st.experimental_rerun()
 
 
 def delete_wires(cab_tag):
@@ -141,18 +140,8 @@ def delete_wires(cab_tag):
     except Exception as e:
         st.toast(err_handler(e))
     finally:
-        # get_filtered_wires.clear()
+        get_filtered_wires.clear()
         st.experimental_rerun()
-
-
-# @st.cache_data(show_spinner=False)
-# def id_to_terminal(x):
-#     with db_session:
-#         if x == 0:
-#             return 0
-#         else:
-#             term = Terminal[x]
-#             return str(term.block_id.block_tag) + " : " + str(term.terminal_num)
 
 
 def check_dulicated_terminals(df):
@@ -318,11 +307,11 @@ def wires_main(act):
             c1, c2, c3, c4, c5 = st.columns(5, gap='large')
             if c2.button("Save Selected Wires Termination",
                          help="It will be faster but without complete duplicates check"):
-                check_dulicated_terminals(edited_df)
+                check_dulicated_terminals(edited_df[edited_df.edit.astype('str') == "True"])
                 edit_wires(edited_df, cab_tag, all_wires=False)
 
             if c4.button("Save All Wires Termination", help="It will be slower but with complete duplicates check"):
-                check_dulicated_terminals(edited_df[edited_df.edit.astype('str') == "True"])
+                check_dulicated_terminals(edited_df)
                 edit_wires(edited_df, cab_tag, all_wires=True)
 
     else:
