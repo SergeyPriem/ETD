@@ -4,7 +4,6 @@ import streamlit as st
 from pony.orm import db_session, select
 import pandas as pd
 from streamlit_option_menu import option_menu
-
 from inter_db.blocks import get_blocks_list_by_eq_pan
 from inter_db.panels import get_eqip_tags, get_panel_tags
 from models import Terminal, Block, Equip, Panel

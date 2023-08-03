@@ -29,7 +29,6 @@ def get_filtered_wires(cab_tag):
             df = pd.DataFrame(data, columns=['id', 'cable_tag', 'wire_num', 'left_term_id', 'right_term_id',
                                              'edit', 'notes', ])
 
-
         return df
     except Exception as e:
         return err_handler(e)
@@ -108,8 +107,8 @@ def create_wires(cab_tag, wires_num):
             Wire(
                 cable_id=cable,
                 wire_num=w,
-                left_term_id=1,
-                right_term_id=1
+                left_term_id=Terminal[1],
+                right_term_id=Terminal[1]
             )
         st.toast(f"##### :green[{w} wires created]")
     # except Exception as e:
