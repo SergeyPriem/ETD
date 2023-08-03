@@ -103,12 +103,24 @@ def create_wires(cab_tag, wires_num, left_term_init, right_term_init):
     # try:
     with db_session:
         cable = Cable.get(cable_tag=cab_tag)
+
+        left_block = left_term_init.split(" : ")[0]
+        left_term = left_term_init.split(" : ")[1]
+
+        right_block = right_term_init.split(" : ")[0]
+        right_term = right_term_init.split(" : ")[1]
+
+        left_term_first = select(t for t in Terminal
+                                 if t.block_id.block_tag == left_block and t.terminal_num == left_term).first()
+        right_term_first = select(t for t in Terminal
+                           if t.block_id.block_tag == right_block and t.terminal_num == right_term).first()
+
         for w in range(1, wires_num + 1):
             Wire(
                 cable_id=cable,
                 wire_num=w,
-                left_term_id=Terminal[left_term_init.split(" : ")[1]],
-                right_term_id=Terminal[right_term_init.split(" : ")[1]]
+                left_term_id=left_term_first,
+                right_term_id=right_term_first,
             )
         st.toast(f"##### :green[{w} wires created]")
     # except Exception as e:
