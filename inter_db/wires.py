@@ -145,6 +145,7 @@ def delete_wires(cab_tag):
 
 
 def check_dulicated_terminals(df):
+    i=0
     left_series = df.left_term_id
     right_series = df.right_term_id
 
@@ -159,6 +160,13 @@ def check_dulicated_terminals(df):
         rc.write(right_dup)
 
     if len(left_dup) > 0 or len(right_dup) > 0:
+        for l in left_dup:
+            if "999" not in l:
+                i += 1
+        for r in right_dup:
+            if "999" not in r:
+                i += 1
+    if i > 0:
         st.stop()
 
 
