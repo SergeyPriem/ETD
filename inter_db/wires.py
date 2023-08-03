@@ -316,6 +316,8 @@ def wires_main(act):
         st.write(f"#### :blue[Wires of cable {cab_tag} not available ...]")
         if act == 'Create':
             if st.button('Create Wires'):
+                st.write(f"Left Terminals: {left_terminals}")
+                st.write(f"Right Terminals: {right_terminals}")
                 if left_terminals[0] and right_terminals[0]:
                     if " : " in left_terminals[0] and " : " in right_terminals[0]:
                         create_wires(cab_tag,
