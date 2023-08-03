@@ -17,8 +17,10 @@ def get_panel_terminals(equip_tag, panel_tag):
             panel = select(p for p in Panel if p.panel_tag == panel_tag and p.eq_id.equipment_tag == equip_tag).first()
             blocks = select(b for b in Block if b.pan_id == panel)[:]
 
-            data = select(str(t.block_id.block_tag) + " : " + str(t.terminal_num)
+            data = select(t.block_id.block_tag
                           for t in Terminal if t.block_id in blocks)[:]
+            # data = select(str(t.block_id.block_tag) + " : " + str(t.terminal_num)
+            #               for t in Terminal if t.block_id in blocks)[:]
         return data
     except Exception as e:
         st.toast(err_handler(e))
