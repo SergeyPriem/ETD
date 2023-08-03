@@ -132,13 +132,13 @@ def check_dulicated_terminals(df):
 
     left_dup = left_series[left_series.duplicated(keep="first")].tolist()
     right_dup = right_series[right_series.duplicated(keep="first")].tolist()
-
+    lc, rc = st.columns(2)
     if len(left_dup) > 0:
-        st.write("Duplicates found in left termination")
-        st.write(left_dup)
+        lc.write("##### :red[Duplicates found in left termination]")
+        lc.write(left_dup)
     if len(right_dup) > 0:
-        st.write("Duplicates found in right termination")
-        st.write(right_dup)
+        rc.write("##### :red[Duplicates found in right termination]")
+        rc.write(right_dup)
 
     if len(left_dup) > 0 or len(right_dup) > 0:
         st.stop()
