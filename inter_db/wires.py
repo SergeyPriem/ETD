@@ -34,8 +34,12 @@ def get_filtered_wires(cab_tag):
         return err_handler(e)
 
 
-def edit_wires(edited_df, cab_tag):
-    df = edited_df[edited_df.edit.astype('str') == "True"]
+def edit_wires(edited_df, cab_tag, all=False):
+    if all:
+        df = edited_df
+    else:
+        df = edited_df[edited_df.edit.astype('str') == "True"]
+
     i = 0
     try:
         with db_session:
@@ -289,9 +293,15 @@ def wires_main(act):
                 )
 
         if act == 'Edit':
-            if st.button("Edit Selected Wires"):
+            c1, c2 = st.columns(2, gap='medium')
+            if c1.button("Save Selected Wires Termination",
+                         help="It will be faster but without complete duplicates check"):
                 check_dulicated_terminals(edited_df)
-                edit_wires(edited_df, cab_tag)
+                edit_wires(edited_df, cab_tag, all=False)
+
+            if c2.button("Save All Wires Termination", help="It will be slower but with complete duplicates check"):
+                check_dulicated_terminals(edited_df)
+                edit_wires(edited_df, cab_tag, all=True)
 
     else:
         st.write(f"#### :blue[Wires of cable {cab_tag} not available ...]")
