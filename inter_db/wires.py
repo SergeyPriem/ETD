@@ -16,6 +16,13 @@ from utilities import err_handler, act_with_warning
 def get_filtered_wires(cab_tag):
     try:
         with db_session:
+            def id_to_terminal(x):
+                if x == 0:
+                    return 0
+                else:
+                    term = Terminal[x]
+                    return str(term.block_id.block_tag) + " : " + str(term.terminal_num)
+
             # cab = Cable.get(cable_tag=cab_tag)
             data = select((
                               w.id,
@@ -27,8 +34,15 @@ def get_filtered_wires(cab_tag):
                               w.notes,
                           ) for w in Wire if w.cable_id.cable_tag == cab_tag)[:]
 
-        df = pd.DataFrame(data, columns=['id', 'cable_tag', 'wire_num', 'left_term_id', 'right_term_id',
+            df = pd.DataFrame(data, columns=['id', 'cable_tag', 'wire_num', 'left_term_id', 'right_term_id',
                                          'edit', 'notes', ])
+
+            df.left_term_id = df.left_term_id.map(id_to_terminal)
+            df.left_term_id = df.left_term_id.astype('str')
+
+            df.right_term_id = df.right_term_id.map(id_to_terminal)
+            df.right_term_id = df.right_term_id.astype('str')
+
         return df
     except Exception as e:
         return err_handler(e)
@@ -95,7 +109,7 @@ def edit_wires(edited_df, cab_tag, all_wires=False):
         st.toast(err_handler(e))
     finally:
         get_filtered_wires.clear()
-        id_to_terminal.clear()
+        # id_to_terminal.clear()
         st.experimental_rerun()
 
 
@@ -113,7 +127,7 @@ def create_wires(cab_tag, wires_num):
         st.toast(err_handler(e))
     finally:
         get_filtered_wires.clear()
-        id_to_terminal.clear()
+        # id_to_terminal.clear()
         st.experimental_rerun()
 
 
@@ -128,18 +142,18 @@ def delete_wires(cab_tag):
         st.toast(err_handler(e))
     finally:
         get_filtered_wires.clear()
-        id_to_terminal.clear()
+        # id_to_terminal.clear()
         st.experimental_rerun()
 
 
-@st.cache_data(show_spinner=False)
-def id_to_terminal(x):
-    with db_session:
-        if x == 0:
-            return 0
-        else:
-            term = Terminal[x]
-            return str(term.block_id.block_tag) + " : " + str(term.terminal_num)
+# @st.cache_data(show_spinner=False)
+# def id_to_terminal(x):
+#     with db_session:
+#         if x == 0:
+#             return 0
+#         else:
+#             term = Terminal[x]
+#             return str(term.block_id.block_tag) + " : " + str(term.terminal_num)
 
 
 def check_dulicated_terminals(df):
@@ -238,11 +252,11 @@ def wires_main(act):
 
     df = get_filtered_wires(cab_tag)
 
-    df.left_term_id = df.left_term_id.map(id_to_terminal)
-    df.left_term_id = df.left_term_id.astype('str')
-
-    df.right_term_id = df.right_term_id.map(id_to_terminal)
-    df.right_term_id = df.right_term_id.astype('str')
+    # df.left_term_id = df.left_term_id.map(id_to_terminal)
+    # df.left_term_id = df.left_term_id.astype('str')
+    #
+    # df.right_term_id = df.right_term_id.map(id_to_terminal)
+    # df.right_term_id = df.right_term_id.astype('str')
 
     if not isinstance(df, pd.DataFrame):
         st.write(f"#### :blue[No wires available for selected Cable...]")
