@@ -16,12 +16,12 @@ from utilities import err_handler, act_with_warning
 def get_filtered_wires(cab_tag):
     try:
         with db_session:
-            def id_to_terminal(x):
-                if x == 0:
-                    return 0
-                else:
-                    term = Terminal[x]
-                    return str(term.block_id.block_tag) + " : " + str(term.terminal_num)
+            # def id_to_terminal(x):
+            #     if x == 0:
+            #         return 0
+            #     else:
+            #         term = Terminal[x]
+            #         return str(term.block_id.block_tag) + " : " + str(term.terminal_num)
 
             # cab = Cable.get(cable_tag=cab_tag)
             data = select((
@@ -37,11 +37,11 @@ def get_filtered_wires(cab_tag):
             df = pd.DataFrame(data, columns=['id', 'cable_tag', 'wire_num', 'left_term_id', 'right_term_id',
                                          'edit', 'notes', ])
 
-            df.left_term_id = df.left_term_id.map(id_to_terminal)
-            df.left_term_id = df.left_term_id.astype('str')
-
-            df.right_term_id = df.right_term_id.map(id_to_terminal)
-            df.right_term_id = df.right_term_id.astype('str')
+            # df.left_term_id = df.left_term_id.map(id_to_terminal)
+            # df.left_term_id = df.left_term_id.astype('str')
+            #
+            # df.right_term_id = df.right_term_id.map(id_to_terminal)
+            # df.right_term_id = df.right_term_id.astype('str')
 
         return df
     except Exception as e:
@@ -114,21 +114,20 @@ def edit_wires(edited_df, cab_tag, all_wires=False):
 
 
 def create_wires(cab_tag, wires_num):
-    try:
-        with db_session:
-            cable = Cable.get(cable_tag=cab_tag)
-            for w in range(1, wires_num + 1):
-                Wire(
-                    cable_id=cable,
-                    wire_num=w
-                )
-            st.toast(f"##### :green[{w} wires created]")
-    except Exception as e:
-        st.toast(err_handler(e))
-    finally:
-        get_filtered_wires.clear()
-        # id_to_terminal.clear()
-        st.experimental_rerun()
+    # try:
+    with db_session:
+        cable = Cable.get(cable_tag=cab_tag)
+        for w in range(1, wires_num + 1):
+            Wire(
+                cable_id=cable,
+                wire_num=w
+            )
+        st.toast(f"##### :green[{w} wires created]")
+    # except Exception as e:
+    #     st.toast(err_handler(e))
+    # finally:
+    get_filtered_wires.clear()
+    st.experimental_rerun()
 
 
 def delete_wires(cab_tag):
@@ -142,7 +141,6 @@ def delete_wires(cab_tag):
         st.toast(err_handler(e))
     finally:
         get_filtered_wires.clear()
-        # id_to_terminal.clear()
         st.experimental_rerun()
 
 
