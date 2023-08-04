@@ -67,7 +67,7 @@ def copy_equipment(df):
     if len(eq_df) == 1:
         with st.form('copy_eq'):
             lc, cc, rc, bc = st.columns([1, 1, 1.5, 0.5], gap='medium')
-            eq_tag = lc.text_input('Equipment Tag *', key='copy_eq')
+            eq_tag = lc.text_input('Equipment Tag *', key='copy_eq', value=eq_df.descr.to_numpy()[0][:-1])
             eq_descr = cc.text_input('Equipment Description *', value=eq_df.descr.to_numpy()[0])
             eq_notes = rc.text_input('Notes', value=eq_df.notes.to_numpy()[0])
             bc.text('')
@@ -80,17 +80,17 @@ def copy_equipment(df):
                     if eq_tag in select(eq.equipment_tag for eq in Equip)[:]:
                         st.toast(f"""#### :red[Equipment {eq_tag} already in DataBase]""")
                         return
-                    # try:
-                    st.write(eq_tag, eq_descr, eq_notes)
-                    Equip(equipment_tag=eq_tag, descr=eq_descr, edit=False, notes=eq_notes)
-                    st.toast(f"""#### :green[Equipment {eq_tag}: {eq_descr} added!]""")
+                    try:
+                        st.write(eq_tag, eq_descr, eq_notes)
+                        Equip(equipment_tag=eq_tag, descr=eq_descr, edit=False, notes=eq_notes)
+                        st.toast(f"""#### :green[Equipment {eq_tag}: {eq_descr} added!]""")
 
-                    # except Exception as e:
-                    #     st.toast(err_handler(e))
-                    # finally:
-                    get_all_equip.clear()
-                    get_eqip_tags.clear()
-                    st.button("OK")
+                    except Exception as e:
+                        st.toast(err_handler(e))
+                    finally:
+                        get_all_equip.clear()
+                        get_eqip_tags.clear()
+                        st.button("OK")
             else:
                 st.toast(f"""#### :red[Please fill all required (*) fields!]""")
     else:
