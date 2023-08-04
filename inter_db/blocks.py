@@ -101,9 +101,9 @@ def create_block(equip_tag, panel_tag):
         else:
             st.toast(f"""#### :red[Please fill all required (*) fields!]""")
 
-def copy_block(equip_tag, panel_tag, source_bblock_tag):
+def copy_block(equip_tag, panel_tag, source_block_tag):
 
-    terminals =
+    terminals = []
     with st.form('add_block'):
         c1, c2, c3, c4, c5, c6, c7 = st.columns([0.5, 0.5, 1, 1, 1.5, 0.6, 0.4], gap='medium')
         c1.text_input('Equipment Tag *', value=equip_tag, disabled=True)
@@ -255,7 +255,7 @@ def blocks_main(act):
         create_block(selected_equip, selected_panel)
 
     if act == 'Copy':
-        copy_block(selected_equip, selected_panel)
+        copy_block(selected_equip, selected_panel, source_block_tag=selected_block)
 
     if not (isinstance(df_to_show, pd.DataFrame) and len(df_to_show)):
         st.write(f"#### :blue[Blocks not available...]")
