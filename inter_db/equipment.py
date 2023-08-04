@@ -63,10 +63,10 @@ def delete_equipment(df):
 
 
 def copy_equipment(df):
-    st.write("SUKA")
+    # st.write("SUKA")
     eq_df = df[df.edit.astype('str') == "True"]
-    st.write(eq_df)
-    st.write(len(eq_df))
+    # st.write(eq_df)
+    # st.write(len(eq_df))
     if len(eq_df) == 1:
         with st.form('copy_eq'):
             lc, cc, rc, bc = st.columns([1, 1, 1.5, 0.5], gap='medium')
@@ -153,5 +153,4 @@ def equipment_main(act):
             edit_equipment(edited_df)
 
     if act == 'Copy':
-        if st.button("Copy Selected Equipment"):
-            copy_equipment(edited_df)
+        copy_equipment(edited_df)
