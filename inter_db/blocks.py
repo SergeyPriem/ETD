@@ -7,7 +7,7 @@ from streamlit_option_menu import option_menu
 from inter_db.equipment import get_eqip_tags
 from inter_db.panels import get_panel_tags  # , get_panels_by_equip_panel_tag
 from inter_db.read_all_tabs import get_all_blocks
-# from inter_db.terminals import create_terminals
+from inter_db.utils import get_blocks_list_by_eq_pan, get_selected_block, create_terminals, get_block_terminals
 from models import Panel, Block
 from utilities import err_handler, act_with_warning
 
@@ -103,7 +103,8 @@ def create_block(equip_tag, panel_tag):
 
 def copy_block(equip_tag, panel_tag, source_block_tag):
 
-    terminals = []
+    terminals = get_block_terminals(equip_tag, panel_tag, source_block_tag)
+
     with st.form('add_block'):
         c1, c2, c3, c4, c5, c6, c7 = st.columns([0.5, 0.5, 1, 1, 1.5, 0.6, 0.4], gap='medium')
         c1.text_input('Equipment Tag *', value=equip_tag, disabled=True)
@@ -132,7 +133,7 @@ def copy_block(equip_tag, panel_tag, source_block_tag):
                                          edit=False, notes=block_notes)
 
 
-                    # create_terminals(equip_tag, panel_tag, block_tag, terminals)
+                    create_terminals(equip_tag, panel_tag, block_tag, terminals)
 
                 st.toast(f"""#### :green[Block {block_tag} added!]""")
 
@@ -146,66 +147,6 @@ def copy_block(equip_tag, panel_tag, source_block_tag):
                 st.button("OK")
         else:
             st.toast(f"""#### :red[Please fill all required (*) fields!]""")
-
-
-@st.cache_data(show_spinner=False)
-def get_blocks_list_by_eq_pan(selected_equip, selected_panel):
-    try:
-        with db_session:
-            data = select(b.block_tag
-                          for b in Block
-                          for p in b.pan_id
-                          if selected_panel == b.pan_id.panel_tag and
-                          selected_equip == p.eq_id.equipment_tag)[:]
-
-            return data
-    except Exception as e:
-        st.toast(err_handler(e))
-
-
-@st.cache_data(show_spinner=False)
-def get_selected_block(selected_equip, selected_panel, selected_block):
-    try:
-        with db_session:
-            if selected_block != 'ALL':
-                data = select(
-                    (
-                        b.id,
-                        b.pan_id.panel_un,
-                        b.block_tag,
-                        b.descr,
-                        b.edit,
-                        b.notes,
-                        b.block_un
-                    )
-                    for b in Block
-                    for p in b.pan_id
-                    if selected_panel == b.pan_id.panel_tag and
-                    selected_equip == p.eq_id.equipment_tag and
-                    selected_block == b.block_tag
-                )[:]
-            else:
-                data = select(
-                    (
-                        b.id,
-                        b.pan_id.panel_un,
-                        b.block_tag,
-                        b.descr,
-                        b.edit,
-                        b.notes,
-                        b.block_un
-                    )
-                    for b in Block
-                    for p in b.pan_id
-                    if selected_panel == b.pan_id.panel_tag and
-                    selected_equip == p.eq_id.equipment_tag
-                )[:]
-
-        df = pd.DataFrame(data, columns=['id', 'panel_tag', 'block_tag', 'description',
-                                         'edit', 'notes', 'block_un'])
-        return df
-    except Exception as e:
-        st.toast(err_handler(e))
 
 
 def blocks_main(act):

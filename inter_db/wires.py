@@ -28,7 +28,6 @@ def get_filtered_wires(cab_tag):
 
             df = pd.DataFrame(data, columns=['id', 'cable_tag', 'wire_num', 'left_term_id', 'right_term_id',
                                              'edit', 'notes', ])
-
         return df
     except Exception as e:
         return err_handler(e)

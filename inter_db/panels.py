@@ -5,70 +5,9 @@ from pony.orm import *
 from streamlit_option_menu import option_menu
 from inter_db.equipment import get_eqip_tags
 from inter_db.read_all_tabs import get_all_panels
+from inter_db.utils import get_filtered_panels, get_panels_by_equip_panel_tag, get_panel_tags
 from models import Equip, Panel
-from utilities import err_handler, get_list_index, act_with_warning
-
-
-@st.cache_data(show_spinner=False)
-def get_panels_by_equip_panel_tag(equip_tag, pan_tag):
-    try:
-        with db_session:
-            if pan_tag != 'ALL':
-                data = select(
-                    (
-                        p.id,
-                        p.eq_id.equipment_tag,
-                        p.panel_tag,
-                        p.descr,
-                        p.edit,
-                        p.notes,
-                        p.panel_un,
-                    )
-                    for p in Panel
-                    if equip_tag == p.eq_id.equipment_tag and pan_tag == p.panel_tag)[:]
-            else:
-                data = select(
-                    (
-                        p.id,
-                        p.eq_id.equipment_tag,
-                        p.panel_tag,
-                        p.descr,
-                        p.edit,
-                        p.notes,
-                        p.panel_un,
-                    )
-                    for p in Panel
-                    if equip_tag == p.eq_id.equipment_tag)[:]
-
-        df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag', 'description',
-                                         'edit', 'notes', 'panel_un'])
-        return df
-    except Exception as e:
-        return err_handler(e)
-
-
-@st.cache_data(show_spinner=False)
-def get_filtered_panels(equip):
-    try:
-        with db_session:
-            equip_id = Equip.get(equipment_tag=equip)
-            data = select(
-                (p.id,
-                 p.eq_id.equipment_tag,
-                 p.panel_tag,
-                 p.descr,
-                 p.edit,
-                 p.notes,
-                 p.panel_un,
-                 )
-                for p in Panel
-                if p.eq_id == equip_id
-            )[:]
-        df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag', 'description',
-                                         'edit', 'notes', 'panel_un'])
-        return df
-    except Exception as e:
-        return err_handler(e)
+from utilities import err_handler, act_with_warning
 
 
 def delete_panel(df):
@@ -124,16 +63,6 @@ def edit_panel(df):
             st.button("OK")
     else:
         st.toast(f"#### :orange[Select the Panel to edit in column 'Edit']")
-
-
-@st.cache_data(show_spinner=False)
-def get_panel_tags(eq_tag):
-    try:
-        with db_session:
-            eq_tags = select(p.panel_tag for p in Panel if p.eq_id.equipment_tag == eq_tag)[:]
-        return eq_tags
-    except Exception as e:
-        return [err_handler(e)]
 
 
 def create_panel(sel_equip):
