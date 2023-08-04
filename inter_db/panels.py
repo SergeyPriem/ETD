@@ -177,14 +177,16 @@ def copy_panel(panel_tag):
     # pan_df = df[df.edit.astype('str') == "True"]
 
     with st.form('add_panel'):
-        c1, c2, c3, c4, c5, c6 = st.columns([0.7, 0.7, 1, 1.5, 0.7, 0.4], gap='medium')
+        c1, c2, c3, c4, c5, c6 = st.columns([0.7, 0.7, 1, 1.5, 0.6, 0.4], gap='medium')
         eq_tag = c1.selectbox('Copy to Equipment *', options=eqip_tag_list)
         panel_tag = c2.text_input('Panel Tag *', value=panel_tag)
         panel_descr = c3.text_input('Panel Description *')
         panel_notes = c4.text_input('Notes')
+        c5.text('')
+        c5.text('')
+        c6.text('')
+        c6.text('')
         nested_blocks = c5.checkbox("Copy nested blocks and terminals")
-        c5.text('')
-        c5.text('')
         pan_but = c6.form_submit_button("Add", use_container_width=True)
 
     if pan_but:
