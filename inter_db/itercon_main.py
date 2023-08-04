@@ -6,7 +6,6 @@ from inter_db.blocks import blocks_main
 from inter_db.cables import cables_main
 from inter_db.equipment import equipment_main
 from inter_db.panels import panels_main
-from inter_db.read_all_tabs import get_all_equip, get_all_panels, get_all_blocks, get_all_terminals, get_all_cables
 from inter_db.terminals import terminals_main
 from inter_db.wires import wires_main
 
@@ -26,8 +25,9 @@ def intercon_expander():
         if prev_sel != "SELECT:":
 
             act = option_menu(None,
-                              ['Select required:', 'View', 'Create', 'Edit', 'Delete'],
-                              icons=['-', '-', '-', '-', 'exclamation-octagon'], default_index=0, orientation='horizontal')
+                              ['Select required:', 'Create', 'Copy', 'Edit', 'Delete'],
+                              icons=['-', '-', '-', '-', 'exclamation-octagon'],
+                              default_index=0, orientation='horizontal')
 
             st.divider()
 
