@@ -81,16 +81,16 @@ def copy_equipment(df):
                     if eq_tag in select(eq.equipment_tag for eq in Equip)[:]:
                         st.toast(f"""#### :red[Equipment {eq_tag} already in DataBase]""")
                         return
-                    try:
+                    # try:
                         Equip(equipment_tag=eq_tag, descr=eq_descr, edit=False, notes=eq_notes)
-                        st.toast(f"""#### :orange[Equipment {eq_tag}: {eq_descr} added!]""")
+                    st.toast(f"""#### :orange[Equipment {eq_tag}: {eq_descr} added!]""")
 
-                    except Exception as e:
-                        st.toast(err_handler(e))
-                    finally:
-                        get_all_equip.clear()
-                        get_eqip_tags.clear()
-                        st.button("OK")
+                    # except Exception as e:
+                    #     st.toast(err_handler(e))
+                    # finally:
+                    get_all_equip.clear()
+                    get_eqip_tags.clear()
+                    st.button("OK")
             else:
                 st.toast(f"""#### :red[Please fill all required (*) fields!]""")
     else:
