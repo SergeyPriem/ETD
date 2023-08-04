@@ -130,16 +130,16 @@ def copy_panel(selected_equip, panel_tag):
 
                 if copy_nested_blocks:
                     panel = select(p for p in Panel if p.eq_id == eq_id and p.panel_tag == panel_tag).first()
-                    panel_blocks_df = select(b for b in Block if b.pan_id == panel)
+                    panel_blocks = select(b for b in Block if b.pan_id == panel)[:]
                     # panel_blocks_df = select(b for b in Block if )
 
-                    for ind, row in panel_blocks_df.iterrows():
-                        add_block_to_db(eq_tag, panel_tag, block_tag=row.block_tag,
-                                        block_descr=row.description, block_notes=row.notes)
+                    for block in panel_blocks:
+                        add_block_to_db(eq_tag, panel_tag, block_tag=block.block_tag,
+                                        block_descr=block.description, block_notes=block.notes)
 
-                        terminals = select(t.terminal_num for t in Terminal if t.block_id == row.id)[:]
+                        terminals = select(t.terminal_num for t in Terminal if t.block_id == block.id)[:]
 
-                        create_terminals(selected_equip, panel_tag, row.block_tag, terminals)
+                        create_terminals(selected_equip, panel_tag, block.block_tag, terminals)
 
             # except Exception as e2:
             st.toast(f"""#### :red[Seems, such Panel already exists!]""")
