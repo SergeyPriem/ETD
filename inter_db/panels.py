@@ -177,7 +177,7 @@ def copy_panel(panel_tag):
     # pan_df = df[df.edit.astype('str') == "True"]
 
     with st.form('add_panel'):
-        c1, c2, c3, c4, c5, c6 = st.columns([1, 1, 1, 1.5, 0.5, 0.5], gap='medium')
+        c1, c2, c3, c4, c5, c6 = st.columns([0.7, 0.7, 1, 1.5, 0.7, 0.4], gap='medium')
         eq_tag = c1.selectbox('Copy to Equipment *', options=eqip_tag_list)
         panel_tag = c2.text_input('Panel Tag *', value=panel_tag)
         panel_descr = c3.text_input('Panel Description *')
