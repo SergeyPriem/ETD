@@ -17,7 +17,6 @@ def get_eqip_tags():
         st.toast(err_handler(e))
 
 
-
 def edit_equipment(df):
     eq_df = df[df.edit.astype('str') == "True"]
     if len(eq_df):
@@ -44,7 +43,6 @@ def edit_equipment(df):
 
 
 def delete_equipment(df):
-
     eq_to_del = df[df.edit.astype('str') == "True"]
     if len(eq_to_del):
         with db_session:
@@ -63,9 +61,10 @@ def delete_equipment(df):
                 st.cache_data.clear()
                 st.button("OK")
 
+
 def copy_equipment(df):
     eq_df = df[df.edit.astype('str') == "True"]
-    eq_df
+    st.write(eq_df)
     if len(eq_df) == 1:
         with st.form('copy_eq'):
             lc, cc, rc, bc = st.columns([1, 1, 1.5, 0.5], gap='medium')
@@ -130,7 +129,6 @@ def create_equipment():
 
 
 def equipment_main(act):
-
     df_to_show = get_all_equip()
 
     if isinstance(df_to_show, pd.DataFrame):
@@ -154,5 +152,3 @@ def equipment_main(act):
     if act == 'Copy':
         if st.button("Copy Selected Equipment"):
             copy_equipment(edited_df)
-
-
