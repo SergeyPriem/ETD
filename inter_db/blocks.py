@@ -7,7 +7,7 @@ from streamlit_option_menu import option_menu
 from inter_db.equipment import get_eqip_tags
 from inter_db.panels import get_panel_tags  # , get_panels_by_equip_panel_tag
 from inter_db.read_all_tabs import get_all_blocks
-from inter_db.terminals import create_terminals
+# from inter_db.terminals import create_terminals
 from models import Panel, Block
 from utilities import err_handler, act_with_warning
 
@@ -132,7 +132,7 @@ def copy_block(equip_tag, panel_tag, source_block_tag):
                                          edit=False, notes=block_notes)
 
 
-                    create_terminals(equip_tag, panel_tag, block_tag, terminals)
+                    # create_terminals(equip_tag, panel_tag, block_tag, terminals)
 
                 st.toast(f"""#### :green[Block {block_tag} added!]""")
 
