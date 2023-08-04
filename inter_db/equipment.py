@@ -65,6 +65,7 @@ def delete_equipment(df):
 
 def copy_equipment(df):
     eq_df = df[df.edit.astype('str') == "True"]
+    eq_df
     if len(eq_df) == 1:
         with st.form('copy_eq'):
             lc, cc, rc, bc = st.columns([1, 1, 1.5, 0.5], gap='medium')
