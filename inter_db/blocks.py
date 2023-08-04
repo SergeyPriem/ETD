@@ -8,7 +8,7 @@ from inter_db.equipment import get_eqip_tags
 from inter_db.panels import get_panel_tags  # , get_panels_by_equip_panel_tag
 from inter_db.read_all_tabs import get_all_blocks
 from inter_db.terminals import create_terminals
-from models import Panel, Block, Equip, Terminal
+from models import Panel, Block
 from utilities import err_handler, act_with_warning
 
 
