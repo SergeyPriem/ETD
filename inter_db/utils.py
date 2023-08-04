@@ -3,6 +3,7 @@ import streamlit as st
 from pony.orm import db_session, select
 import pandas as pd
 
+from inter_db.read_all_tabs import get_all_blocks
 from models import Panel, Block, Terminal, Equip
 from utilities import err_handler
 
@@ -257,6 +258,47 @@ def create_terminals(selected_equip, selected_panel, selected_block, terminals):
         get_selected_block_terminals.clear()
         get_panel_terminals.clear()
         st.experimental_rerun()
+
+
+def create_block(equip_tag, panel_tag):
+    with st.form('add_block'):
+        c1, c2, c3, c4, c5, c6 = st.columns([0.5, 0.5, 1, 1, 1.5, 0.5], gap='medium')
+        c1.text_input('Equipment Tag *', value=equip_tag, disabled=True)
+        c2.text_input('Panel Tag *', value=panel_tag, disabled=True)
+        block_tag = c3.text_input('Block Tag *')
+        block_descr = c4.text_input('Block Description')
+        block_notes = c5.text_input('Notes')
+        c6.text('')
+        c6.text('')
+        block_but = c6.form_submit_button("Add", use_container_width=True)
+
+    if block_but:
+        add_block_to_db(equip_tag, panel_tag, block_tag, block_descr, block_notes)
+
+
+def add_block_to_db(equip_tag, panel_tag, block_tag, block_descr, block_notes):
+    if all([len(panel_tag), len(block_tag)]):
+        try:
+            with db_session:
+                # equip = Equip.get(equipment_tag=equip_tag)
+                panel = select(p for p in Panel
+                               if p.eq_id.equipment_tag == equip_tag and p.panel_tag == panel_tag).first()
+
+                added_block = Block(pan_id=panel, block_tag=block_tag, descr=block_descr, edit=False, notes=block_notes)
+
+            st.toast(f"""#### :green[Block {block_tag} added!]""")
+
+        except Exception as e2:
+            st.toast(f"""#### :red[Seems, such Terminal Block already exists!]""")
+            st.toast(err_handler(e2))
+        finally:
+            get_all_blocks.clear()
+            get_selected_block.clear()
+            get_blocks_list_by_eq_pan.clear()
+            st.button("OK")
+            return added_block
+    else:
+        st.toast(f"""#### :red[Please fill all required (*) fields!]""")
 
 
 @st.cache_data(show_spinner=False)

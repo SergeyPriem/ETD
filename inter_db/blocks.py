@@ -7,7 +7,8 @@ from streamlit_option_menu import option_menu
 from inter_db.equipment import get_eqip_tags
 from inter_db.panels import get_panel_tags  # , get_panels_by_equip_panel_tag
 from inter_db.read_all_tabs import get_all_blocks
-from inter_db.utils import get_blocks_list_by_eq_pan, get_selected_block, create_terminals, get_block_terminals
+from inter_db.utils import get_blocks_list_by_eq_pan, get_selected_block, create_terminals, get_block_terminals, \
+    create_block
 from models import Panel, Block
 from utilities import err_handler, act_with_warning
 
@@ -66,40 +67,6 @@ def edit_block(df):
         st.toast(f"#### :orange[Select the Panel to edit in column 'Edit']")
 
 
-def create_block(equip_tag, panel_tag):
-    with st.form('add_block'):
-        c1, c2, c3, c4, c5, c6 = st.columns([0.5, 0.5, 1, 1, 1.5, 0.5], gap='medium')
-        c1.text_input('Equipment Tag *', value=equip_tag, disabled=True)
-        c2.text_input('Panel Tag *', value=panel_tag, disabled=True)
-        block_tag = c3.text_input('Block Tag *')
-        block_descr = c4.text_input('Block Description')
-        block_notes = c5.text_input('Notes')
-        c6.text('')
-        c6.text('')
-        block_but = c6.form_submit_button("Add", use_container_width=True)
-
-    if block_but:
-        if all([len(panel_tag), len(block_tag)]):
-            try:
-                with db_session:
-                    # equip = Equip.get(equipment_tag=equip_tag)
-                    panel = select(p for p in Panel
-                                   if p.eq_id.equipment_tag == equip_tag and p.panel_tag == panel_tag).first()
-
-                    Block(pan_id=panel, block_tag=block_tag, descr=block_descr, edit=False, notes=block_notes)
-
-                st.toast(f"""#### :green[Block {block_tag} added!]""")
-
-            except Exception as e2:
-                st.toast(f"""#### :red[Seems, such Terminal Block already exists!]""")
-                st.toast(err_handler(e2))
-            finally:
-                get_all_blocks.clear()
-                get_selected_block.clear()
-                get_blocks_list_by_eq_pan.clear()
-                st.button("OK")
-        else:
-            st.toast(f"""#### :red[Please fill all required (*) fields!]""")
 
 def copy_block(equip_tag, panel_tag, source_block_tag):
 
