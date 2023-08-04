@@ -145,7 +145,7 @@ def equipment_main(act):
                              header_message="All related panels, terminal blocks, terminals will be deleted!")
 
     if act == 'Edit':
-        if st.button("Edit Selected Equipment"):
+        if st.button("Save edited Equipment"):
             edit_equipment(edited_df)
 
     if act == 'Copy':
