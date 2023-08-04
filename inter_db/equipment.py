@@ -82,6 +82,7 @@ def copy_equipment(df):
                         st.toast(f"""#### :red[Equipment {eq_tag} already in DataBase]""")
                         return
                     # try:
+                    st.write(eq_tag, eq_descr, eq_notes)
                     Equip(equipment_tag=eq_tag, descr=eq_descr, edit=False, notes=eq_notes)
                     st.toast(f"""#### :orange[Equipment {eq_tag}: {eq_descr} added!]""")
 
