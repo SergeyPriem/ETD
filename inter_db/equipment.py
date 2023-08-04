@@ -59,7 +59,7 @@ def delete_equipment(df):
                 st.toast(f"##### {err_handler(e)}")
             finally:
                 st.cache_data.clear()
-                st.button("OK")
+                st.experimental_rerun()
 
 
 def copy_equipment(df):
@@ -67,7 +67,7 @@ def copy_equipment(df):
     if len(eq_df) == 1:
         with st.form('copy_eq'):
             lc, cc, rc, bc = st.columns([1, 1, 1.5, 0.5], gap='medium')
-            eq_tag = lc.text_input('Equipment Tag *', key='copy_eq', value=eq_df.descr.to_numpy()[0][:-1])
+            eq_tag = lc.text_input('Equipment Tag *', key='copy_eq', value=eq_df.equipment_tag.to_numpy()[0][:-1])
             eq_descr = cc.text_input('Equipment Description *', value=eq_df.descr.to_numpy()[0])
             eq_notes = rc.text_input('Notes', value=eq_df.notes.to_numpy()[0])
             bc.text('')
@@ -140,7 +140,7 @@ def equipment_main(act):
         create_equipment()
 
     if act == 'Delete':
-        if st.button("Delete Equipment"):
+        if st.button("Delete Selected"):
             act_with_warning(left_function=delete_equipment, left_args=edited_df,
                              header_message="All related panels, terminal blocks, terminals will be deleted!")
 

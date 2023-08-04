@@ -137,17 +137,55 @@ def get_panel_tags(eq_tag):
 
 
 def create_panel(sel_equip):
-    eqip_tag_list = get_eqip_tags()
+    # eqip_tag_list = get_eqip_tags()
 
     with st.form('add_panel'):
         c1, c2, c3, c4, c5 = st.columns([1, 1, 1, 1.5, 0.5], gap='medium')
-        eq_tag = c1.selectbox('Equipment Tag *', options=eqip_tag_list, index=get_list_index(eqip_tag_list, sel_equip))
+        eq_tag = c1.text_input('Equipment Tag *', value=sel_equip)
         panel_tag = c2.text_input('Panel Tag *')
         panel_descr = c3.text_input('Panel Description *')
         panel_notes = c4.text_input('Notes')
         c5.text('')
         c5.text('')
         pan_but = c5.form_submit_button("Add", use_container_width=True)
+
+    if pan_but:
+        if all([len(eq_tag), len(panel_tag), len(panel_descr)]):
+            try:
+                with db_session:
+                    eq_id = Equip.get(equipment_tag=eq_tag)
+                    Panel(eq_id=eq_id, panel_tag=panel_tag, descr=panel_descr, edit=False, notes=panel_notes,
+                          panel_un=str(eq_tag) + ":" + str(panel_tag))
+
+                st.toast(f"""#### :green[Panel {panel_tag}: {panel_descr} added!]""")
+
+            except Exception as e2:
+                st.toast(f"""#### :red[Seems, such Panel already exists!]""")
+                st.toast(err_handler(e2))
+            finally:
+                get_all_panels.clear()
+                get_filtered_panels.clear()
+                get_panel_tags.clear()
+                st.button("OK")
+
+        else:
+            st.toast(f"""#### :red[Please fill all required (*) fields!]""")
+
+def copy_panel(panel_tag):
+    eqip_tag_list = get_eqip_tags()
+
+    # pan_df = df[df.edit.astype('str') == "True"]
+
+    with st.form('add_panel'):
+        c1, c2, c3, c4, c5, c6 = st.columns([1, 1, 1, 1.5, 0.5, 0.5], gap='medium')
+        eq_tag = c1.selectbox('Copy to Equipment *', options=eqip_tag_list)
+        panel_tag = c2.text_input('Panel Tag *', value=panel_tag)
+        panel_descr = c3.text_input('Panel Description *')
+        panel_notes = c4.text_input('Notes')
+        nested_blocks = c5.checkbox("Copy nested blocks and terminals")
+        c5.text('')
+        c5.text('')
+        pan_but = c6.form_submit_button("Add", use_container_width=True)
 
     if pan_but:
         if all([len(eq_tag), len(panel_tag), len(panel_descr)]):
@@ -203,11 +241,15 @@ def panels_main(act):
                                      icons=['-'] * len(pan_tag_list),
                                      orientation='horizontal', menu_icon='2-square')
 
+    df_to_show = get_panels_by_equip_panel_tag(selected_equip, selected_panel)
+
     if act == 'Create':
         if selected_equip:
             create_panel(selected_equip)
 
-    df_to_show = get_panels_by_equip_panel_tag(selected_equip, selected_panel)
+    if act == 'Copy':
+        if selected_equip:
+            copy_panel(selected_equip)
 
     if not isinstance(df_to_show, pd.DataFrame):
         st.write(f"#### :blue[Panels not available...]")
