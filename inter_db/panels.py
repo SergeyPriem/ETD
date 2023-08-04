@@ -126,20 +126,20 @@ def copy_panel(selected_equip, panel_tag):
                 Panel(eq_id=eq_id, panel_tag=panel_tag, descr=panel_descr, edit=False, notes=panel_notes,
                       panel_un=str(eq_tag) + ":" + str(panel_tag))
 
-            st.toast(f"""#### :green[Panel {panel_tag}: {panel_descr} added!]""")
+                st.toast(f"""#### :green[Panel {panel_tag}: {panel_descr} added!]""")
 
-            if copy_nested_blocks:
-                panel = select(p for p in Panel if p.eq_id == eq_id and p.panel_tag == panel_tag).first()
-                panel_blocks_df = select(b for b in Block if b.pan_id == panel)
-                # panel_blocks_df = select(b for b in Block if )
+                if copy_nested_blocks:
+                    panel = select(p for p in Panel if p.eq_id == eq_id and p.panel_tag == panel_tag).first()
+                    panel_blocks_df = select(b for b in Block if b.pan_id == panel)
+                    # panel_blocks_df = select(b for b in Block if )
 
-                for ind, row in panel_blocks_df.iterrows():
-                    add_block_to_db(eq_tag, panel_tag, block_tag=row.block_tag,
-                                    block_descr=row.description, block_notes=row.notes)
+                    for ind, row in panel_blocks_df.iterrows():
+                        add_block_to_db(eq_tag, panel_tag, block_tag=row.block_tag,
+                                        block_descr=row.description, block_notes=row.notes)
 
-                    terminals = select(t.terminal_num for t in Terminal if t.block_id == row.id)[:]
+                        terminals = select(t.terminal_num for t in Terminal if t.block_id == row.id)[:]
 
-                    create_terminals(selected_equip, panel_tag, row.block_tag, terminals)
+                        create_terminals(selected_equip, panel_tag, row.block_tag, terminals)
 
             # except Exception as e2:
             st.toast(f"""#### :red[Seems, such Panel already exists!]""")
