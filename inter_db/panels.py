@@ -105,8 +105,6 @@ def create_panel(sel_equip):
 def copy_panel(selected_equip, panel_tag):
     eqip_tag_list = get_eqip_tags()
 
-    # pan_df = df[df.edit.astype('str') == "True"]
-
     with st.form('add_panel'):
         c1, c2, c3, c4, c5, c6 = st.columns([0.7, 0.7, 1, 1.5, 0.6, 0.4], gap='medium')
         eq_tag = c1.selectbox('Copy to Equipment *', options=eqip_tag_list)
@@ -122,36 +120,35 @@ def copy_panel(selected_equip, panel_tag):
 
     if pan_but:
         if all([len(eq_tag), len(panel_tag), len(panel_descr)]):
-            try:
-                with db_session:
-                    eq_id = Equip.get(equipment_tag=eq_tag)
-                    Panel(eq_id=eq_id, panel_tag=panel_tag, descr=panel_descr, edit=False, notes=panel_notes,
-                          panel_un=str(eq_tag) + ":" + str(panel_tag))
+            # try:
+            with db_session:
+                eq_id = Equip.get(equipment_tag=eq_tag)
+                Panel(eq_id=eq_id, panel_tag=panel_tag, descr=panel_descr, edit=False, notes=panel_notes,
+                      panel_un=str(eq_tag) + ":" + str(panel_tag))
 
-                st.toast(f"""#### :green[Panel {panel_tag}: {panel_descr} added!]""")
+            st.toast(f"""#### :green[Panel {panel_tag}: {panel_descr} added!]""")
 
-                if copy_nested_blocks:
-                    panel = select(p for p in Panel if p.eq_id == eq_id and p.panel_tag == panel_tag).first()
-                    panel_blocks_df = select(b for b in Block if b.pan_id == panel)
-                    # panel_blocks_df = select(b for b in Block if )
+            if copy_nested_blocks:
+                panel = select(p for p in Panel if p.eq_id == eq_id and p.panel_tag == panel_tag).first()
+                panel_blocks_df = select(b for b in Block if b.pan_id == panel)
+                # panel_blocks_df = select(b for b in Block if )
 
-                    for ind, row in panel_blocks_df.iterrows():
-                        add_block_to_db(eq_tag, panel_tag, block_tag=row.block_tag,
-                                        block_descr=row.description, block_notes=row.notes)
+                for ind, row in panel_blocks_df.iterrows():
+                    add_block_to_db(eq_tag, panel_tag, block_tag=row.block_tag,
+                                    block_descr=row.description, block_notes=row.notes)
 
-                        terminals = select(t.terminal_num for t in Terminal if t.block_id == row.id)[:]
+                    terminals = select(t.terminal_num for t in Terminal if t.block_id == row.id)[:]
 
-                        create_terminals(selected_equip, panel_tag, row.block_tag, terminals)
+                    create_terminals(selected_equip, panel_tag, row.block_tag, terminals)
 
-
-            except Exception as e2:
-                st.toast(f"""#### :red[Seems, such Panel already exists!]""")
-                st.toast(err_handler(e2))
-            finally:
-                get_all_panels.clear()
-                get_filtered_panels.clear()
-                get_panel_tags.clear()
-                st.button("OK")
+            # except Exception as e2:
+            st.toast(f"""#### :red[Seems, such Panel already exists!]""")
+            # st.toast(err_handler(e2))
+            # finally:
+            get_all_panels.clear()
+            get_filtered_panels.clear()
+            get_panel_tags.clear()
+            st.button("OK")
 
         else:
             st.toast(f"""#### :red[Please fill all required (*) fields!]""")
