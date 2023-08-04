@@ -61,7 +61,7 @@ def edit_panel(df):
             get_filtered_panels.clear()
             get_panel_tags.clear()
             get_panels_by_equip_panel_tag.clear()
-            st.button("OK")
+            st.experimental_rerun()
     else:
         st.toast(f"#### :orange[Select the Panel to edit in column 'Edit']")
 
@@ -96,7 +96,8 @@ def create_panel(sel_equip):
                 get_all_panels.clear()
                 get_filtered_panels.clear()
                 get_panel_tags.clear()
-                st.button("OK")
+                get_panels_by_equip_panel_tag.clear()
+                st.experimental_rerun()
 
         else:
             st.toast(f"""#### :red[Please fill all required (*) fields!]""")
@@ -148,7 +149,8 @@ def copy_panel(selected_equip, panel_tag):
             get_all_panels.clear()
             get_filtered_panels.clear()
             get_panel_tags.clear()
-            st.button("OK")
+            get_panels_by_equip_panel_tag.clear()
+            st.experimental_rerun()
 
         else:
             st.toast(f"""#### :red[Please fill all required (*) fields!]""")
