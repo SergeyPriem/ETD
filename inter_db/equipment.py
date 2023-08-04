@@ -63,10 +63,7 @@ def delete_equipment(df):
 
 
 def copy_equipment(df):
-    # st.write("SUKA")
     eq_df = df[df.edit.astype('str') == "True"]
-    # st.write(eq_df)
-    # st.write(len(eq_df))
     if len(eq_df) == 1:
         with st.form('copy_eq'):
             lc, cc, rc, bc = st.columns([1, 1, 1.5, 0.5], gap='medium')
@@ -78,7 +75,6 @@ def copy_equipment(df):
             copy_but = bc.form_submit_button("Copy Selected", use_container_width=True)
 
         if copy_but:
-            st.write(eq_tag)
             if all([len(eq_tag), len(eq_descr)]):
                 with db_session:
                     if eq_tag in select(eq.equipment_tag for eq in Equip)[:]:
@@ -87,7 +83,7 @@ def copy_equipment(df):
                     # try:
                     st.write(eq_tag, eq_descr, eq_notes)
                     Equip(equipment_tag=eq_tag, descr=eq_descr, edit=False, notes=eq_notes)
-                    st.toast(f"""#### :orange[Equipment {eq_tag}: {eq_descr} added!]""")
+                    st.toast(f"""#### :green[Equipment {eq_tag}: {eq_descr} added!]""")
 
                     # except Exception as e:
                     #     st.toast(err_handler(e))
@@ -119,7 +115,7 @@ def create_equipment():
                     return
                 try:
                     Equip(equipment_tag=eq_tag, descr=eq_descr, edit=False, notes=eq_notes)
-                    st.toast(f"""#### :orange[Equipment {eq_tag}: {eq_descr} added!]""")
+                    st.toast(f"""#### :green[Equipment {eq_tag}: {eq_descr} added!]""")
 
                 except Exception as e:
                     st.toast(err_handler(e))
