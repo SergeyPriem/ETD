@@ -63,12 +63,13 @@ def delete_equipment(df):
 
 
 def copy_equipment(df):
+    st.write("SUKA")
     eq_df = df[df.edit.astype('str') == "True"]
     st.write(eq_df)
     if len(eq_df) == 1:
         with st.form('copy_eq'):
             lc, cc, rc, bc = st.columns([1, 1, 1.5, 0.5], gap='medium')
-            eq_tag = lc.text_input('Equipment Tag *')
+            eq_tag = lc.text_input('Equipment Tag *', key='copy_eq')
             eq_descr = cc.text_input('Equipment Description *', value=eq_df.descr.to_numpy()[0])
             eq_notes = rc.text_input('Notes', value=eq_df.notes.to_numpy()[0])
             bc.text('')
@@ -76,6 +77,7 @@ def copy_equipment(df):
             copy_but = bc.form_submit_button("Copy Selected", use_container_width=True)
 
         if copy_but:
+            st.write(eq_tag)
             if all([len(eq_tag), len(eq_descr)]):
                 with db_session:
                     if eq_tag in select(eq.equipment_tag for eq in Equip)[:]:
