@@ -5,7 +5,7 @@ from pony.orm import db_session, select
 from streamlit_option_menu import option_menu
 
 from inter_db.equipment import get_eqip_tags
-from inter_db.panels import get_panel_tags  # , get_panels_by_equip_panel_tag
+from inter_db.panels import get_panel_tags
 from inter_db.read_all_tabs import get_all_blocks
 from inter_db.utils import get_blocks_list_by_eq_pan, get_selected_block, create_terminals, get_block_terminals, \
     create_block

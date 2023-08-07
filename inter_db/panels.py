@@ -26,8 +26,8 @@ def delete_panel(df):
                 st.write(del_row)
                 if not del_row:
                     st.toast(f"#### :red[Fail, equipment with {row.panel_tag} not found]")
-                    # continue
-                    st.stop()
+                    continue
+                    # st.stop()
                 tag = del_row.panel_tag
                 del_row.delete()
                 # commit()
