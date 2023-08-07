@@ -15,10 +15,13 @@ from utilities import err_handler, act_with_warning
 
 def delete_panel(df):
     del_pan_df = df[df.edit.astype('str') == "True"]
+    st.write(del_pan_df)
     if len(del_pan_df):
         try:
             with db_session:
                 for ind, row in del_pan_df.iterrows():
+                    st.write(ind)
+                    st.write(row)
                     del_row = Panel[row.id]
                     if not del_row:
                         st.toast(f"#### :red[Fail, equipment with {row.panel_tag} not found]")
