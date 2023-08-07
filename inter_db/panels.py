@@ -136,14 +136,14 @@ def copy_panel(eq_tag_old, panel_tag_old):
                     panel_blocks = select(b for b in Block if b.pan_id == panel_old)[:]
                     # panel_blocks_df = select(b for b in Block if )
                     st.write(panel_blocks)
-                    st.stop()
+                    # st.stop()
                     for block in panel_blocks:
                         add_block_to_db(eq_tag, panel_tag, block_tag=block.block_tag,
                                         block_descr=block.description, block_notes=block.notes)
 
                         terminals = select(t.terminal_num for t in Terminal if t.block_id == block.id)[:]
 
-                        create_terminals(selected_equip, panel_tag, block.block_tag, terminals)
+                        create_terminals(eq_tag, panel_tag, block.block_tag, terminals)
 
             # except Exception as e2:
             st.toast(f"""#### :red[Seems, such Panel already exists!]""")
