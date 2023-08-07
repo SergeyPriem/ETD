@@ -133,14 +133,19 @@ def copy_panel(eq_tag_old, panel_tag_old):
                         panel_old = select(p for p in Panel if p.eq_id == eq_id_old and p.panel_tag == panel_tag_old).first()
                         panel_blocks = select(b for b in Block if b.pan_id == panel_old)[:]
 
+                        st.write(panel_blocks)
+
                         if len(panel_blocks):
                             for block in panel_blocks:
+                                st.write(block)
                                 add_block_to_db(eq_tag, panel_tag, block_tag=block.block_tag,
                                                 block_descr=block.descr, block_notes=block.notes)
 
                                 st.toast(f"Block {block.block_tag} added")
 
                                 terminals = select(t.terminal_num for t in Terminal if t.block_id == block)[:]
+
+                                st.write(terminals)
 
                                 if len(terminals):
                                     create_terminals(eq_tag, panel_tag, block.block_tag, terminals)
