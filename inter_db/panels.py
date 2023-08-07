@@ -138,10 +138,13 @@ def copy_panel(eq_tag_old, panel_tag_old):
                                 add_block_to_db(eq_tag, panel_tag, block_tag=block.block_tag,
                                                 block_descr=block.descr, block_notes=block.notes)
 
+                                st.toast(f"Block {block.block_tag} added")
+
                                 terminals = select(t.terminal_num for t in Terminal if t.block_id == block)[:]
 
                                 if len(terminals):
                                     create_terminals(eq_tag, panel_tag, block.block_tag, terminals)
+                                    st.toast(f"Terminals {terminals} added")
             except Exception as e2:
                 st.toast(f"""#### :red[Seems, such Panel already exists!]""")
                 st.toast(err_handler(e2))
