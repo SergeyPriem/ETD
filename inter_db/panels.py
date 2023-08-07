@@ -162,21 +162,21 @@ def copy_panel(eq_tag_old, panel_tag_old):
 
                     st.write(terminals)
 
-        if len(terminals):
-            with db_session:
-                create_terminals(eq_tag, panel_tag, block.block_tag, terminals)
-                st.toast(f"Terminals {terminals} added")
-            # except Exception as e2:
-            #     st.toast(f"""#### :red[Seems, such Panel already exists!]""")
-            #     st.toast(err_handler(e2))
-            # finally:
-            #     get_all_panels.clear()
-            #     get_filtered_panels.clear()
-            #     get_panel_tags.clear()
-            #     get_panels_by_equip_panel_tag.clear()
-            st.cache_data.clear()
-            time.sleep(20)
-            st.experimental_rerun()
+            if len(terminals):
+                with db_session:
+                    create_terminals(eq_tag, panel_tag, block.block_tag, terminals)
+                    st.toast(f"Terminals {terminals} added")
+                # except Exception as e2:
+                #     st.toast(f"""#### :red[Seems, such Panel already exists!]""")
+                #     st.toast(err_handler(e2))
+                # finally:
+                #     get_all_panels.clear()
+                #     get_filtered_panels.clear()
+                #     get_panel_tags.clear()
+                #     get_panels_by_equip_panel_tag.clear()
+                st.cache_data.clear()
+                time.sleep(20)
+                st.experimental_rerun()
 
         else:
             st.toast(f"""#### :red[Please fill all required (*) fields!]""")
