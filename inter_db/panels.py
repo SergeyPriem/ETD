@@ -7,7 +7,7 @@ from pony.orm import *
 from streamlit_option_menu import option_menu
 from inter_db.equipment import get_eqip_tags
 from inter_db.read_all_tabs import get_all_panels
-from inter_db.utils import get_filtered_panels, get_panels_by_equip_panel_tag, get_panel_tags, create_block, \
+from inter_db.utils import get_filtered_panels, get_panels_by_equip_panel_tag, get_panel_tags, \
     add_block_to_db, create_terminals
 from models import Equip, Panel, Block, Terminal
 from utilities import err_handler, act_with_warning
@@ -25,6 +25,7 @@ def delete_panel(df):
                         continue
                     tag = del_row.panel_tag
                     del_row.delete()
+                    commit()
                     st.toast(f"#### :green[Panel: {tag} is deleted]")
         except Exception as e:
             st.toast(f"#### :red[Can't delete {tag}]")
@@ -122,66 +123,55 @@ def copy_panel(eq_tag_old, panel_tag_old):
         pan_but = c6.form_submit_button("Add", use_container_width=True)
 
     if pan_but:
-        if all([len(eq_tag), len(panel_tag), len(panel_descr)]):
-            # try:
-            with db_session:
-                eq_id = Equip.get(equipment_tag=eq_tag)
-                eq_id_old = Equip.get(equipment_tag=eq_tag_old)
-                Panel(eq_id=eq_id, panel_tag=panel_tag, descr=panel_descr, edit=False, notes=panel_notes,
-                      panel_un=str(eq_tag) + ":" + str(panel_tag))
+        try:
+            if all([len(eq_tag), len(panel_tag), len(panel_descr)]):
+                # try:
+                with db_session:
+                    eq_id = Equip.get(equipment_tag=eq_tag)
+                    eq_id_old = Equip.get(equipment_tag=eq_tag_old)
+                    Panel(eq_id=eq_id, panel_tag=panel_tag, descr=panel_descr, edit=False, notes=panel_notes,
+                          panel_un=str(eq_tag) + ":" + str(panel_tag))
 
-                st.toast(f"""#### :green[Panel {panel_tag}: {panel_descr} added!]""")
+                    st.toast(f"""#### :green[Panel {panel_tag}: {panel_descr} added!]""")
 
-                st.write(copy_nested_blocks)
+                    st.write(copy_nested_blocks)
 
-                if copy_nested_blocks:
-                    panel_old = select(
-                        p for p in Panel if p.eq_id == eq_id_old and p.panel_tag == panel_tag_old).first()
-                    panel_blocks = select(b for b in Block if b.pan_id == panel_old)[:]
-                    st.write(panel_blocks)
+                    if copy_nested_blocks:
+                        panel_old = select(
+                            p for p in Panel if p.eq_id == eq_id_old and p.panel_tag == panel_tag_old).first()
+                        panel_blocks = select(b for b in Block if b.pan_id == panel_old)[:]
+                        st.write(panel_blocks)
 
-        if len(panel_blocks):
-            for block in panel_blocks:
-                st.write(block)
-                st.write(block.block_tag)
-                st.write(block.descr)
-                st.write(block.notes)
-                st.write(
-                    f"equip_tag={eq_tag}, panel_tag={panel_tag}, block_tag= {block.block_tag}, block_descr= {block.descr}, block_notes= {block.notes}")
+            if len(panel_blocks):
+                for block in panel_blocks:
 
-                created_block = add_block_to_db(equip_tag=eq_tag, panel_tag=panel_tag,
-                                                block_tag=block.block_tag,
-                                                block_descr=block.descr,
-                                                block_notes=block.notes)
+                    add_block_to_db(equip_tag=eq_tag, panel_tag=panel_tag,
+                                    block_tag=block.block_tag,
+                                    block_descr=block.descr,
+                                    block_notes=block.notes)
 
-                st.write(created_block)
+                    # st.write(created_block)
 
-                st.toast(f"Block {block.block_tag} added")
+                    st.toast(f"##### :green[Block {block.block_tag} added]")
 
-                def get_block_terminals(bl):
-                    with db_session:
-                        terms = select(t.terminal_num for t in Terminal if t.block_id == bl)[:]
-                    return terms
+                    def get_block_terminals(bl):
+                        with db_session:
+                            terms = select(t.terminal_num for t in Terminal if t.block_id == bl)[:]
+                        return terms
 
-                terminals = get_block_terminals(block)
+                    terminals = get_block_terminals(block)
 
-                st.write(terminals)
+                    st.write(terminals)
 
-                if len(terminals):
-                    create_terminals(eq_tag, panel_tag, block.block_tag, terminals)
-                    st.toast(f"Terminals {terminals} added")
-                    # except Exception as e2:
-                    #     st.toast(f"""#### :red[Seems, such Panel already exists!]""")
-                    #     st.toast(err_handler(e2))
-                    # finally:
-                    #     get_all_panels.clear()
-                    #     get_filtered_panels.clear()
-                    #     get_panel_tags.clear()
-                    #     get_panels_by_equip_panel_tag.clear()
-        st.cache_data.clear()
-        time.sleep(20)
-        st.experimental_rerun()
-
+                    if len(terminals):
+                        create_terminals(eq_tag, panel_tag, block.block_tag, terminals)
+                        st.toast(f"###### :green[Terminals {terminals} added]")
+        except Exception as e2:
+            st.toast(f"""#### :red[Seems, such Panel already exists!]""")
+            st.toast(err_handler(e2))
+        finally:
+            st.cache_data.clear()
+            st.experimental_rerun()
     else:
         st.toast(f"""#### :red[Please fill all required (*) fields!]""")
 
