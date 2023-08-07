@@ -137,7 +137,6 @@ def copy_panel(eq_tag_old, panel_tag_old):
                 if copy_nested_blocks:
                     panel_old = select(p for p in Panel if p.eq_id == eq_id_old and p.panel_tag == panel_tag_old).first()
                     panel_blocks = select(b for b in Block if b.pan_id == panel_old)[:]
-
                     st.write(panel_blocks)
 
         if len(panel_blocks):
