@@ -278,25 +278,25 @@ def create_block(equip_tag, panel_tag):
 
 def add_block_to_db(equip_tag, panel_tag, block_tag, block_descr, block_notes):
     if all([len(panel_tag), len(block_tag)]):
-        try:
-            with db_session:
-                # equip = Equip.get(equipment_tag=equip_tag)
-                panel = select(p for p in Panel
-                               if p.eq_id.equipment_tag == equip_tag and p.panel_tag == panel_tag).first()
+        # try:
+        with db_session:
+            # equip = Equip.get(equipment_tag=equip_tag)
+            panel = select(p for p in Panel
+                           if p.eq_id.equipment_tag == equip_tag and p.panel_tag == panel_tag).first()
 
-                added_block = Block(pan_id=panel, block_tag=block_tag, descr=block_descr, edit=False, notes=block_notes)
+            added_block = Block(pan_id=panel, block_tag=block_tag, descr=block_descr, edit=False, notes=block_notes)
 
-            st.toast(f"""#### :green[Block {block_tag} added!]""")
+        st.toast(f"""#### :green[Block {block_tag} added!]""")
 
-        except Exception as e2:
-            st.toast(f"""#### :red[Seems, such Terminal Block already exists!]""")
-            st.toast(err_handler(e2))
-        finally:
-            get_all_blocks.clear()
-            get_selected_block.clear()
-            get_blocks_list_by_eq_pan.clear()
-            st.button("OK")
-            return added_block
+        # except Exception as e2:
+        #     st.toast(f"""#### :red[Seems, such Terminal Block already exists!]""")
+        #     st.toast(err_handler(e2))
+        # finally:
+        get_all_blocks.clear()
+        get_selected_block.clear()
+        get_blocks_list_by_eq_pan.clear()
+        st.button("OK")
+        return added_block
     else:
         st.toast(f"""#### :red[Please fill all required (*) fields!]""")
 
