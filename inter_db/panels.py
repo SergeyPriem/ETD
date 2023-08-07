@@ -39,7 +39,8 @@ def delete_panel(df):
             get_filtered_panels.clear()
             get_panel_tags.clear()
             get_panels_by_equip_panel_tag.clear()
-            st.experimental_rerun()
+            # st.experimental_rerun()
+            st.stop()
     else:
         st.toast(f"#### :orange[Select the Panel to delete in column 'Edit']")
 
@@ -232,6 +233,7 @@ def panels_main(act):
             act_with_warning(left_function=delete_panel, left_args=edited_df,
                              header_message="All related terminal blocks and terminals will be deleted!",
                              warning_message='Are you sure?')
+
 
     if act == 'Edit':
         if st.button("Edit Selected Panel"):
