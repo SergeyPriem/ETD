@@ -135,6 +135,7 @@ def copy_panel(selected_equip, panel_tag):
                     panel_blocks = select(b for b in Block if b.pan_id == panel)[:]
                     # panel_blocks_df = select(b for b in Block if )
                     st.write(panel_blocks)
+                    st.stop()
                     for block in panel_blocks:
                         add_block_to_db(eq_tag, panel_tag, block_tag=block.block_tag,
                                         block_descr=block.description, block_notes=block.notes)
