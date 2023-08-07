@@ -225,7 +225,7 @@ def create_terminals(selected_equip, selected_panel, selected_block, terminals):
 
         for t in terminals:
             t = str(t)
-            if t in exist_terminals:
+            if t in exist_terminals :
                 st.toast(f"##### :red[Terminal {t} already exists...]")
                 continue
 
@@ -239,6 +239,8 @@ def create_terminals(selected_equip, selected_panel, selected_block, terminals):
                 # terminal_un=str(block_un) + ":" + t,
             )
             i += 1
+
+    with db_session:
         if not ('999' in exist_terminals):
             Terminal(
                 block_id=block,
