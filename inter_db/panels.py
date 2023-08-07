@@ -173,11 +173,11 @@ def copy_panel(eq_tag_old, panel_tag_old):
                     #     get_panel_tags.clear()
                     #     get_panels_by_equip_panel_tag.clear()
                     st.cache_data.clear()
-                    time.sleep(20)
-                    st.experimental_rerun()
+        time.sleep(20)
+        st.experimental_rerun()
 
-        else:
-            st.toast(f"""#### :red[Please fill all required (*) fields!]""")
+    else:
+        st.toast(f"""#### :red[Please fill all required (*) fields!]""")
 
 
 def panels_main(act):
