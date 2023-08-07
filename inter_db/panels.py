@@ -140,32 +140,32 @@ def copy_panel(eq_tag_old, panel_tag_old):
 
                     st.write(panel_blocks)
 
-                    if len(panel_blocks):
-                        for block in panel_blocks:
-                            st.write(block)
-                            st.write(block.block_tag)
-                            st.write(block.descr)
-                            st.write(block.notes)
-                            st.write(f"equip_tag={eq_tag}, panel_tag={panel_tag}, block_tag= {block.block_tag}, block_descr= {block.descr}, block_notes= {block.notes}")
+            if len(panel_blocks):
+                for block in panel_blocks:
+                    st.write(block)
+                    st.write(block.block_tag)
+                    st.write(block.descr)
+                    st.write(block.notes)
+                    st.write(f"equip_tag={eq_tag}, panel_tag={panel_tag}, block_tag= {block.block_tag}, block_descr= {block.descr}, block_notes= {block.notes}")
 
-                            with db_session:
-                                created_block = add_block_to_db(equip_tag=eq_tag, panel_tag=panel_tag,
-                                                                block_tag=block.block_tag,
-                                                                block_descr=block.descr,
-                                                                block_notes=block.notes)
+                    with db_session:
+                        created_block = add_block_to_db(equip_tag=eq_tag, panel_tag=panel_tag,
+                                                        block_tag=block.block_tag,
+                                                        block_descr=block.descr,
+                                                        block_notes=block.notes)
 
-                                st.write(created_block)
+                        st.write(created_block)
 
-                                st.toast(f"Block {block.block_tag} added")
+                        st.toast(f"Block {block.block_tag} added")
 
-                                terminals = select(t.terminal_num for t in Terminal if t.block_id == block)[:]
+                        terminals = select(t.terminal_num for t in Terminal if t.block_id == block)[:]
 
-                                st.write(terminals)
+                        st.write(terminals)
 
-                                if len(terminals):
-                                    with db_session:
-                                        create_terminals(eq_tag, panel_tag, block.block_tag, terminals)
-                                        st.toast(f"Terminals {terminals} added")
+            if len(terminals):
+                with db_session:
+                    create_terminals(eq_tag, panel_tag, block.block_tag, terminals)
+                    st.toast(f"Terminals {terminals} added")
             # except Exception as e2:
             #     st.toast(f"""#### :red[Seems, such Panel already exists!]""")
             #     st.toast(err_handler(e2))
