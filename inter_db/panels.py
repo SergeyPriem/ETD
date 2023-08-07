@@ -158,12 +158,9 @@ def copy_panel(eq_tag_old, panel_tag_old):
 
                 st.toast(f"Block {block.block_tag} added")
 
-                # terminals = select(t.terminal_num for t in Terminal if t.block_id == block)[:]
-
                 def get_block_terminals(bl):
                     with db_session:
                         terms = select(t.terminal_num for t in Terminal if t.block_id == bl)[:]
-
                     return terms
 
                 terminals = get_block_terminals(block)
@@ -181,7 +178,7 @@ def copy_panel(eq_tag_old, panel_tag_old):
                     #     get_filtered_panels.clear()
                     #     get_panel_tags.clear()
                     #     get_panels_by_equip_panel_tag.clear()
-                    st.cache_data.clear()
+        st.cache_data.clear()
         time.sleep(20)
         st.experimental_rerun()
 
