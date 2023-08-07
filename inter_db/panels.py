@@ -156,7 +156,8 @@ def copy_panel(eq_tag_old, panel_tag_old):
 
                 st.toast(f"Block {block.block_tag} added")
 
-                terminals = select(t.terminal_num for t in Terminal if t.block_id == block)[:]
+                with db_session:
+                    terminals = select(t.terminal_num for t in Terminal if t.block_id == block)[:]
 
                 st.write(terminals)
 
