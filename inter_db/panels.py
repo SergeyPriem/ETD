@@ -103,13 +103,13 @@ def create_panel(sel_equip):
             st.toast(f"""#### :red[Please fill all required (*) fields!]""")
 
 
-def copy_panel(selected_equip, panel_tag):
+def copy_panel(eq_tag_old, panel_tag_old):
     eqip_tag_list = get_eqip_tags()
 
     with st.form('add_panel'):
         c1, c2, c3, c4, c5, c6 = st.columns([0.7, 0.7, 1, 1.5, 0.6, 0.4], gap='medium')
         eq_tag = c1.selectbox('Copy to Equipment *', options=eqip_tag_list)
-        panel_tag = c2.text_input('Panel Tag *', value=panel_tag)
+        panel_tag = c2.text_input('Panel Tag *', value=panel_tag_old)
         panel_descr = c3.text_input('Panel Description *')
         panel_notes = c4.text_input('Notes')
         c5.text('')
@@ -124,15 +124,16 @@ def copy_panel(selected_equip, panel_tag):
             # try:
             with db_session:
                 eq_id = Equip.get(equipment_tag=eq_tag)
+                eq_id_old = Equip.get(equipment_tag=eq_tag_old)
                 Panel(eq_id=eq_id, panel_tag=panel_tag, descr=panel_descr, edit=False, notes=panel_notes,
                       panel_un=str(eq_tag) + ":" + str(panel_tag))
 
                 st.toast(f"""#### :green[Panel {panel_tag}: {panel_descr} added!]""")
                 st.write(copy_nested_blocks)
                 if copy_nested_blocks:
-                    panel = select(p for p in Panel if p.eq_id == eq_id and p.panel_tag == panel_tag).first()
-                    st.write(panel)
-                    panel_blocks = select(b for b in Block if b.pan_id == panel)[:]
+                    panel_old = select(p for p in Panel if p.eq_id == eq_id_old and p.panel_tag == panel_tag_old).first()
+                    st.write(panel_old)
+                    panel_blocks = select(b for b in Block if b.pan_id == panel_old)[:]
                     # panel_blocks_df = select(b for b in Block if )
                     st.write(panel_blocks)
                     st.stop()
