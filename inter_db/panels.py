@@ -231,10 +231,10 @@ def panels_main(act):
 
     if act == 'Delete':
         if st.button("Delete Panel"):
-            act_with_warning(left_function=delete_panel, left_args=edited_df,
-                             header_message="All related terminal blocks and terminals will be deleted!",
-                             warning_message='Are you sure?')
-
+            # act_with_warning(left_function=delete_panel, left_args=edited_df,
+            #                  header_message="All related terminal blocks and terminals will be deleted!",
+            #                  warning_message='Are you sure?')
+            delete_panel(edited_df)
 
     if act == 'Edit':
         if st.button("Edit Selected Panel"):
