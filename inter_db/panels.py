@@ -25,7 +25,7 @@ def delete_panel(df):
                         continue
                     tag = del_row.panel_tag
                     del_row.delete()
-                    commit()
+                    # commit()
                     st.toast(f"#### :green[Panel: {tag} is deleted]")
         except Exception as e:
             st.toast(f"#### :red[Can't delete {tag}]")
