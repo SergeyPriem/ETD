@@ -135,7 +135,8 @@ def copy_panel(eq_tag_old, panel_tag_old):
                 st.write(copy_nested_blocks)
 
                 if copy_nested_blocks:
-                    panel_old = select(p for p in Panel if p.eq_id == eq_id_old and p.panel_tag == panel_tag_old).first()
+                    panel_old = select(
+                        p for p in Panel if p.eq_id == eq_id_old and p.panel_tag == panel_tag_old).first()
                     panel_blocks = select(b for b in Block if b.pan_id == panel_old)[:]
                     st.write(panel_blocks)
 
@@ -145,7 +146,8 @@ def copy_panel(eq_tag_old, panel_tag_old):
                 st.write(block.block_tag)
                 st.write(block.descr)
                 st.write(block.notes)
-                st.write(f"equip_tag={eq_tag}, panel_tag={panel_tag}, block_tag= {block.block_tag}, block_descr= {block.descr}, block_notes= {block.notes}")
+                st.write(
+                    f"equip_tag={eq_tag}, panel_tag={panel_tag}, block_tag= {block.block_tag}, block_descr= {block.descr}, block_notes= {block.notes}")
 
                 created_block = add_block_to_db(equip_tag=eq_tag, panel_tag=panel_tag,
                                                 block_tag=block.block_tag,
@@ -156,8 +158,15 @@ def copy_panel(eq_tag_old, panel_tag_old):
 
                 st.toast(f"Block {block.block_tag} added")
 
-                with db_session:
-                    terminals = select(t.terminal_num for t in Terminal if t.block_id == block)[:]
+                terminals = select(t.terminal_num for t in Terminal if t.block_id == block)[:]
+
+                def get_block_terminals(block):
+                    with db_session:
+                        terms = select(t.terminal_num for t in Terminal if t.block_id == block)[:]
+
+                    return terms
+
+                terminals = get_block_terminals(block)
 
                 st.write(terminals)
 
