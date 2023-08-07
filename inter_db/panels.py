@@ -15,33 +15,27 @@ from utilities import err_handler, act_with_warning
 
 def delete_panel(df):
     del_pan_df = df[df.edit.astype('str') == "True"]
-    st.write(del_pan_df)
     if len(del_pan_df):
-        # try:
-        with db_session:
-            for ind, row in del_pan_df.iterrows():
-                st.write(ind)
-                st.write(row)
-                del_row = Panel[row.id]
-                st.write(del_row)
-                if not del_row:
-                    st.toast(f"#### :red[Fail, equipment with {row.panel_tag} not found]")
-                    continue
-                    # st.stop()
-                tag = del_row.panel_tag
-                del_row.delete()
-                # commit()
-                st.toast(f"#### :green[Panel: {tag} is deleted]")
-        # except Exception as e:
-        st.toast(f"#### :red[Can't delete {tag}]")
-        # st.toast(f"##### {err_handler(e)}")
-        # finally:
-        get_all_panels.clear()
-        get_filtered_panels.clear()
-        get_panel_tags.clear()
-        get_panels_by_equip_panel_tag.clear()
-        st.experimental_rerun()
-        # st.stop()
+        try:
+            with db_session:
+                for ind, row in del_pan_df.iterrows():
+                    del_row = Panel[row.id]
+                    if not del_row:
+                        st.toast(f"#### :red[Fail, equipment with {row.panel_tag} not found]")
+                        continue
+                    tag = del_row.panel_tag
+                    del_row.delete()
+                    commit()
+                    st.toast(f"#### :green[Panel: {tag} is deleted]")
+        except Exception as e:
+            st.toast(f"#### :red[Can't delete {tag}]")
+            st.toast(f"##### {err_handler(e)}")
+        finally:
+            get_all_panels.clear()
+            get_filtered_panels.clear()
+            get_panel_tags.clear()
+            get_panels_by_equip_panel_tag.clear()
+            st.experimental_rerun()
     else:
         st.toast(f"#### :orange[Select the Panel to delete in column 'Edit']")
 
