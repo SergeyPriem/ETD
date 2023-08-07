@@ -240,8 +240,9 @@ def create_terminals(selected_equip, selected_panel, selected_block, terminals):
             )
             i += 1
 
-    with db_session:
-        if not ('999' in exist_terminals):
+        if '999' in exist_terminals or '999' in terminals:
+            pass
+        else:
             Terminal(
                 block_id=block,
                 terminal_num='999',
