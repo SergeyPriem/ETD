@@ -23,6 +23,7 @@ def delete_panel(df):
                     st.write(ind)
                     st.write(row)
                     del_row = Panel[row.id]
+                    st.write(del_row)
                     if not del_row:
                         st.toast(f"#### :red[Fail, equipment with {row.panel_tag} not found]")
                         continue
