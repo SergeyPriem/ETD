@@ -189,7 +189,6 @@ def get_selected_block_terminals(selected_equip, selected_panel, selected_block)
         st.toast(err_handler(e))
 
 
-
 def create_terminals(selected_equip, selected_panel, selected_block, terminals):
     i = 0
     # try:
@@ -212,7 +211,6 @@ def create_terminals(selected_equip, selected_panel, selected_block, terminals):
                 int_link="",
                 edit=False,
                 notes='',
-                # terminal_un=str(block_un) + ":" + t,
             )
             i += 1
 
