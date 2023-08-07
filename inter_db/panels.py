@@ -1,4 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
+import time
+
 import pandas as pd
 import streamlit as st
 from pony.orm import *
@@ -129,6 +131,9 @@ def copy_panel(eq_tag_old, panel_tag_old):
                           panel_un=str(eq_tag) + ":" + str(panel_tag))
 
                     st.toast(f"""#### :green[Panel {panel_tag}: {panel_descr} added!]""")
+
+                    st.write(copy_nested_blocks)
+
                     if copy_nested_blocks:
                         panel_old = select(p for p in Panel if p.eq_id == eq_id_old and p.panel_tag == panel_tag_old).first()
                         panel_blocks = select(b for b in Block if b.pan_id == panel_old)[:]
@@ -159,6 +164,7 @@ def copy_panel(eq_tag_old, panel_tag_old):
             #     get_panel_tags.clear()
             #     get_panels_by_equip_panel_tag.clear()
                 st.cache_data.clear()
+                time.sleep(20)
                 st.experimental_rerun()
 
         else:
