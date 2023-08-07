@@ -132,7 +132,6 @@ def get_selected_block(selected_equip, selected_panel, selected_block):
                         b.descr,
                         b.edit,
                         b.notes,
-                        b.block_un
                     )
                     for b in Block
                     for p in b.pan_id
@@ -149,7 +148,6 @@ def get_selected_block(selected_equip, selected_panel, selected_block):
                         b.descr,
                         b.edit,
                         b.notes,
-                        b.block_un
                     )
                     for b in Block
                     for p in b.pan_id
@@ -158,7 +156,7 @@ def get_selected_block(selected_equip, selected_panel, selected_block):
                 )[:]
 
         df = pd.DataFrame(data, columns=['id', 'panel_tag', 'block_tag', 'description',
-                                         'edit', 'notes', 'block_un'])
+                                         'edit', 'notes'])
         return df
     except Exception as e:
         st.toast(err_handler(e))
@@ -190,28 +188,6 @@ def get_selected_block_terminals(selected_equip, selected_panel, selected_block)
     except Exception as e:
         st.toast(err_handler(e))
 
-
-@st.cache_data(show_spinner=False)
-def get_filtered_terminals(block):
-    try:
-        with db_session:
-            selected_block = Block.get(block_un=block)
-            data = select((
-                              t.id,
-                              t.block_id.block_tag,
-                              t.terminal_num,
-                              t.int_circuit,
-                              t.int_link,
-                              t.edit,
-                              t.notes,
-                              # t.terminal_un
-                          ) for t in Terminal if t.block_id == selected_block)[:]
-
-            df = pd.DataFrame(data, columns=['id', 'block_id', 'terminal_num', 'int_circuit', 'int_link',
-                                             'edit', 'notes', ])  # 'terminal_un'
-            return df
-    except Exception as e:
-        st.toast(err_handler(e))
 
 
 def create_terminals(selected_equip, selected_panel, selected_block, terminals):

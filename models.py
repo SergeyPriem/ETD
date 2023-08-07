@@ -179,7 +179,7 @@ def db_func():
         notes = Optional(str, 200)
         terminals = Set('Terminal')
         composite_key(pan_id, block_tag)
-        block_un = Optional(str, 170, unique=True)
+
 
     class Cable(db_int.Entity):
         id = PrimaryKey(int, size=32, auto=True)

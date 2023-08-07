@@ -6,7 +6,7 @@ import pandas as pd
 from streamlit_option_menu import option_menu
 from inter_db.blocks import get_blocks_list_by_eq_pan
 from inter_db.panels import get_eqip_tags, get_panel_tags
-from inter_db.utils import get_selected_block_terminals, get_filtered_terminals, get_panel_terminals, create_terminals, \
+from inter_db.utils import get_selected_block_terminals, get_panel_terminals, create_terminals, \
     get_block_terminals
 from models import Terminal, Block, Equip, Panel
 from utilities import err_handler, convert_txt_to_list
@@ -43,7 +43,7 @@ def edit_terminals(df, selected_equip, selected_panel, selected_block):
             st.toast(f"Can't update {row.terminal_num}")
             st.toast(f"##### {err_handler(e)}")
         finally:
-            get_filtered_terminals.clear()
+            # get_filtered_terminals.clear()
             get_panel_terminals.clear()
             get_block_terminals.clear()
             st.experimental_rerun()
