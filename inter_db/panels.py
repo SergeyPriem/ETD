@@ -143,8 +143,14 @@ def copy_panel(eq_tag_old, panel_tag_old):
                     if len(panel_blocks):
                         for block in panel_blocks:
                             st.write(block)
-                            add_block_to_db(eq_tag, panel_tag, block_tag=block.block_tag,
-                                            block_descr=block.descr, block_notes=block.notes)
+                            st.write(f"equip_tag={eq_tag}, panel_tag={panel_tag}, block_tag= {block.block_tag}, block_descr= {block.descr}, block_notes= {block.note}")
+
+                            created_block = add_block_to_db(equip_tag=eq_tag, panel_tag=panel_tag,
+                                                            block_tag=block.block_tag,
+                                                            block_descr=block.descr,
+                                                            block_notes=block.notes)
+
+                            st.write(created_block)
 
                             st.toast(f"Block {block.block_tag} added")
 
