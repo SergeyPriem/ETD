@@ -277,6 +277,7 @@ def create_block(equip_tag, panel_tag):
 
     if block_but:
         add_block_to_db(equip_tag, panel_tag, block_tag, block_descr, block_notes)
+        st.experimental_rerun()
 
 
 def add_block_to_db(equip_tag, panel_tag, block_tag, block_descr, block_notes):
@@ -298,7 +299,7 @@ def add_block_to_db(equip_tag, panel_tag, block_tag, block_descr, block_notes):
         get_all_blocks.clear()
         get_selected_block.clear()
         get_blocks_list_by_eq_pan.clear()
-        st.button("OK")
+        # st.button("OK")
         return added_block
     else:
         st.toast(f"""#### :red[Please fill all required (*) fields!]""")

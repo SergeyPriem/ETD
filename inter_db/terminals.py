@@ -171,6 +171,7 @@ def terminals_main(act):
                 terminals = convert_txt_to_list(terminals_str)
                 if all([len(terminals), isinstance(terminals, list)]):
                     create_terminals(selected_equip, selected_panel, selected_block, terminals)
+                    st.experimental_rerun()
 
         if len(df_to_show):
             if act == 'Delete':
