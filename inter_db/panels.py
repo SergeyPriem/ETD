@@ -142,7 +142,7 @@ def copy_panel(eq_tag_old, panel_tag_old):
                         # add_block_to_db(eq_tag, panel_tag, block_tag=block.block_tag,
                         #                 block_descr=block.descr, block_notes=block.notes)
 
-                        terminals = select(t.terminal_num for t in Terminal if t.block_id == block.id)[:]
+                        terminals = select(t.terminal_num for t in Terminal if t.block_id == block)[:]
                         st.write(f"terminals={terminals}")
                         # create_terminals(eq_tag, panel_tag, block.block_tag, terminals)
                         st.write(f"{eq_tag}, {panel_tag}, {block.block_tag}, {terminals}")
