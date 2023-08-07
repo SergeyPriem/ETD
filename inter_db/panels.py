@@ -139,7 +139,7 @@ def copy_panel(eq_tag_old, panel_tag_old):
                     # st.stop()
                     for block in panel_blocks:
                         add_block_to_db(eq_tag, panel_tag, block_tag=block.block_tag,
-                                        block_descr=block.description, block_notes=block.notes)
+                                        block_descr=block.descr, block_notes=block.notes)
 
                         terminals = select(t.terminal_num for t in Terminal if t.block_id == block.id)[:]
 
