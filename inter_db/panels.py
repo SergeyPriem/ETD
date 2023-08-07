@@ -39,8 +39,8 @@ def delete_panel(df):
         get_filtered_panels.clear()
         get_panel_tags.clear()
         get_panels_by_equip_panel_tag.clear()
-        # st.experimental_rerun()
-        st.stop()
+        st.experimental_rerun()
+        # st.stop()
     else:
         st.toast(f"#### :orange[Select the Panel to delete in column 'Edit']")
 
