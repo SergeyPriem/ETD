@@ -160,9 +160,9 @@ def copy_panel(eq_tag_old, panel_tag_old):
 
                 terminals = select(t.terminal_num for t in Terminal if t.block_id == block)[:]
 
-                def get_block_terminals(block):
+                def get_block_terminals(bl):
                     with db_session:
-                        terms = select(t.terminal_num for t in Terminal if t.block_id == block)[:]
+                        terms = select(t.terminal_num for t in Terminal if t.block_id == bl)[:]
 
                     return terms
 
