@@ -178,12 +178,11 @@ def get_selected_block_terminals(selected_equip, selected_panel, selected_block)
                     t.int_link,
                     t.edit,
                     t.notes,
-                    # t.terminal_un
                 )
                 for t in Terminal if t.block_id == block)[:]
 
-        df = pd.DataFrame(data, columns=['id', 'block_id', 'terminal_num', 'int_circuit', 'int_link',
-                                         'edit', 'notes', ])  # 'terminal_un'
+        df = pd.DataFrame(data,
+                          columns=['id', 'block_id', 'terminal_num', 'int_circuit', 'int_link', 'edit', 'notes', ])
         return df
     except Exception as e:
         st.toast(err_handler(e))
@@ -191,50 +190,96 @@ def get_selected_block_terminals(selected_equip, selected_panel, selected_block)
 
 def create_terminals(selected_equip, selected_panel, selected_block, terminals):
     i = 0
-    # try:
-    with db_session:
-        equip = Equip.get(equipment_tag=selected_equip)
-        panel = select(p for p in Panel if p.panel_tag == selected_panel and p.eq_id == equip).first()
-        block = select(b for b in Block if b.pan_id == panel and b.block_tag == selected_block).first()
-        exist_terminals = select(te.terminal_num for te in Terminal if te.block_id == block)[:]
+    try:
+        with db_session:
+            equip = Equip.get(equipment_tag=selected_equip)
+            panel = select(p for p in Panel if p.panel_tag == selected_panel and p.eq_id == equip).first()
+            block = select(b for b in Block if b.pan_id == panel and b.block_tag == selected_block).first()
+            exist_terminals = select(te.terminal_num for te in Terminal if te.block_id == block)[:]
 
-        for t in terminals:
-            t = str(t)
-            if t in exist_terminals :
-                st.toast(f"##### :red[Terminal {t} already exists...]")
-                continue
+            for t in terminals:
+                t = str(t)
+                if t in exist_terminals:
+                    st.toast(f"##### :red[Terminal {t} already exists...]")
+                    continue
 
-            Terminal(
-                block_id=block,
-                terminal_num=t,
-                int_circuit="",
-                int_link="",
-                edit=False,
-                notes='',
-            )
-            i += 1
+                Terminal(
+                    block_id=block,
+                    terminal_num=t,
+                    int_circuit="",
+                    int_link="",
+                    edit=False,
+                    notes='',
+                )
+                i += 1
 
-        if '999' in exist_terminals or '999' in terminals:
-            pass
-        else:
-            Terminal(
-                block_id=block,
-                terminal_num='999',
-                int_circuit="SPARE",
-                int_link="SPARE",
-                edit=False,
-                notes='',
-                # terminal_un=str(block_un) + ":" + t,
-            )
+            if 'isolated' in exist_terminals or 'isolated' in terminals:
+                pass
+            else:
+                Terminal(
+                    block_id=block,
+                    terminal_num='isolated',
+                    int_circuit="SPARE",
+                    int_link="SPARE",
+                    edit=False,
+                    notes='',
+                )
 
-    st.toast(f"##### :green[{i} terminals added]")
+        st.toast(f"##### :green[{i} terminals added]")
 
-    # except Exception as e:
-    #     st.toast(err_handler(e))
-    # finally:
-    # get_selected_block_terminals.clear()
-    # get_panel_terminals.clear()
-    # st.experimental_rerun()
+    except Exception as e:
+        st.toast(err_handler(e))
+    finally:
+        get_selected_block_terminals.clear()
+        get_panel_terminals.clear()
+        st.experimental_rerun()
+
+
+def create_terminals_with_internals(selected_equip, selected_panel, selected_block, terminals):
+    i = 0
+    try:
+        with db_session:
+            equip = Equip.get(equipment_tag=selected_equip)
+            panel = select(p for p in Panel if p.panel_tag == selected_panel and p.eq_id == equip).first()
+            block = select(b for b in Block if b.pan_id == panel and b.block_tag == selected_block).first()
+            exist_terminals = select(te for te in Terminal if te.block_id == block)[:]
+
+            for t in terminals:
+                # t = str(t)
+                if t in exist_terminals:
+                    st.toast(f"##### :red[Terminal {t.terminal_num} already exists...]")
+                    continue
+
+                Terminal(
+                    block_id=block,
+                    terminal_num=t.terminal_num,
+                    int_circuit=t.int_circuit,
+                    int_link=t.int_link,
+                    edit=False,
+                    notes=t.notes,
+                )
+                i += 1
+
+            if 'isolated' in exist_terminals or 'isolated' in terminals:
+                pass
+            else:
+                Terminal(
+                    block_id=block,
+                    terminal_num='isolated',
+                    int_circuit="SPARE",
+                    int_link="SPARE",
+                    edit=False,
+                    notes='',
+                )
+
+        st.toast(f"##### :green[{i} terminals added]")
+
+    except Exception as e:
+        st.toast(err_handler(e))
+    finally:
+        get_selected_block_terminals.clear()
+        get_panel_terminals.clear()
+        st.experimental_rerun()
 
 
 def create_block(equip_tag, panel_tag):
@@ -256,24 +301,24 @@ def create_block(equip_tag, panel_tag):
 
 def add_block_to_db(equip_tag, panel_tag, block_tag, block_descr, block_notes):
     if all([len(panel_tag), len(block_tag)]):
-        # try:
-        with db_session:
-            # equip = Equip.get(equipment_tag=equip_tag)
-            panel = select(p for p in Panel
-                           if p.eq_id.equipment_tag == equip_tag and p.panel_tag == panel_tag).first()
+        try:
+            with db_session:
+                # equip = Equip.get(equipment_tag=equip_tag)
+                panel = select(p for p in Panel
+                               if p.eq_id.equipment_tag == equip_tag and p.panel_tag == panel_tag).first()
 
-            added_block = Block(pan_id=panel, block_tag=block_tag, descr=block_descr, edit=False, notes=block_notes)
+                added_block = Block(pan_id=panel, block_tag=block_tag, descr=block_descr, edit=False, notes=block_notes)
 
-        st.toast(f"""#### :green[Block {block_tag} added!]""")
+            st.toast(f"""#### :green[Block {block_tag} added!]""")
 
-        # except Exception as e2:
-        #     st.toast(f"""#### :red[Seems, such Terminal Block already exists!]""")
-        #     st.toast(err_handler(e2))
-        # finally:
-        get_all_blocks.clear()
-        get_selected_block.clear()
-        get_blocks_list_by_eq_pan.clear()
-        # st.button("OK")
+        except Exception as e2:
+            st.toast(f"""#### :red[Seems, such Terminal Block already exists!]""")
+            st.toast(err_handler(e2))
+        finally:
+            get_all_blocks.clear()
+            get_selected_block.clear()
+            get_blocks_list_by_eq_pan.clear()
+            # st.button("OK")
         return added_block
     else:
         st.toast(f"""#### :red[Please fill all required (*) fields!]""")

@@ -8,7 +8,7 @@ from streamlit_option_menu import option_menu
 from inter_db.equipment import get_eqip_tags
 from inter_db.read_all_tabs import get_all_panels
 from inter_db.utils import get_filtered_panels, get_panels_by_equip_panel_tag, get_panel_tags, \
-    add_block_to_db, create_terminals
+    add_block_to_db, create_terminals, create_terminals_with_internals
 from models import Equip, Panel, Block, Terminal
 from utilities import err_handler, act_with_warning
 
@@ -138,7 +138,9 @@ def copy_panel(eq_tag_old, panel_tag_old):
 
                     if copy_nested_blocks:
                         panel_old = select(
-                            p for p in Panel if p.eq_id == eq_id_old and p.panel_tag == panel_tag_old).first()
+                            p for p in Panel
+                            if p.eq_id == eq_id_old and p.panel_tag == panel_tag_old
+                        ).first()
                         panel_blocks = select(b for b in Block if b.pan_id == panel_old)[:]
                         st.write(panel_blocks)
 
@@ -149,8 +151,6 @@ def copy_panel(eq_tag_old, panel_tag_old):
                                     block_tag=block.block_tag,
                                     block_descr=block.descr,
                                     block_notes=block.notes)
-
-                    # st.write(created_block)
 
                     st.toast(f"##### :green[Block {block.block_tag} added]")
 
@@ -164,8 +164,9 @@ def copy_panel(eq_tag_old, panel_tag_old):
                     st.write(terminals)
 
                     if len(terminals):
-                        create_terminals(eq_tag, panel_tag, block.block_tag, terminals)
+                        create_terminals_with_internals(eq_tag, panel_tag, block.block_tag, terminals)
                         st.toast(f"###### :green[Terminals {terminals} added]")
+
         except Exception as e2:
             st.toast(f"""#### :red[Seems, such Panel already exists!]""")
             st.toast(err_handler(e2))
