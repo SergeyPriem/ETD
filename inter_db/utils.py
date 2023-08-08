@@ -183,6 +183,7 @@ def get_selected_block_terminals(selected_equip, selected_panel, selected_block)
 
         df = pd.DataFrame(data,
                           columns=['id', 'block_id', 'terminal_num', 'int_circuit', 'int_link', 'edit', 'notes', ])
+
         return df
     except Exception as e:
         st.toast(err_handler(e))
