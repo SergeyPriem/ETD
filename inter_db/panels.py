@@ -178,7 +178,7 @@ def panels_main(act):
     c1, c2 = st.columns([1, 2], gap='medium')
 
     if len(eq_tag_list) == 0:
-        eq_tag_list = 'No equipment available'
+        eq_tag_list = ['No equipment available']
     with c1:
         selected_equip = option_menu('Select the Equipment',
                                      options=eq_tag_list,
