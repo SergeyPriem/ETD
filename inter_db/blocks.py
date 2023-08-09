@@ -68,8 +68,9 @@ def edit_block(df):
 def copy_block(init_block_id):
     with db_session:
         init_block = Block[init_block_id]
+        st.write(f"init block={init_block}")
         init_terminals = select(t for t in Terminal if t.block_id == init_block)[:]
-
+        st.write(f"init_terminals={init_terminals}")
     if init_block:
         c1, c2, c3, c4, c5, c6, c7 = st.columns([0.7, 0.5, 1, 1, 1.5, 0.6, 0.4], gap='medium')
         eqip_tag_list = get_eqip_tags()
@@ -99,6 +100,8 @@ def copy_block(init_block_id):
                                     block_notes=block_notes)
 
                     if init_terminals and copy_nested_perminals:
+                        st.write("inside condition")
+                        st.write(eq_tag, pan_tag, block_tag, init_terminals)
                         create_terminals_with_internals(eq_tag, pan_tag, block_tag, init_terminals)
                         st.toast(f"###### :green[Terminals {init_terminals} added]")
 
