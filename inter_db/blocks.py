@@ -93,7 +93,7 @@ def copy_block(init_block_id):
 
         if block_but:
             if all([len(eq_tag), len(pan_tag), len(block_tag)]):
-                # try:
+                try:
                     add_block_to_db(equip_tag=eq_tag, panel_tag=pan_tag,
                                     block_tag=block_tag,
                                     block_descr=block_descr,
@@ -107,10 +107,10 @@ def copy_block(init_block_id):
 
                     st.toast(f"""#### :green[Block {block_tag} added!]""")
 
-                # except Exception as e2:
-                #     st.toast(f"""#### :red[Seems, such Terminal Block already exists!]""")
-                #     st.toast(err_handler(e2))
-                # finally:
+                except Exception as e2:
+                    st.toast(f"""#### :red[Seems, such Terminal Block already exists!]""")
+                    st.toast(err_handler(e2))
+                finally:
                     st.cache_data.clear()
                     st.experimental_rerun()
             else:
