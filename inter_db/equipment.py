@@ -26,7 +26,7 @@ def edit_equipment(df):
         finally:
             get_all_equip.clear()
             get_eqip_tags.clear()
-            st.button("OK")
+            st.experimental_rerun()
 
 
 def delete_equipment(df):
