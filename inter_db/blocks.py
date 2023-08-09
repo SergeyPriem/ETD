@@ -68,6 +68,7 @@ def edit_block(df):
 def copy_block(init_block_id):
     with db_session:
         init_block = Block[init_block_id]
+        terminals = select(t for t in Terminal if t.block_id == init_block)[:]
 
     if init_block:
         c1, c2, c3, c4, c5, c6, c7 = st.columns([0.7, 0.5, 1, 1, 1.5, 0.6, 0.4], gap='medium')
@@ -96,10 +97,8 @@ def copy_block(init_block_id):
                                     block_tag=block_tag,
                                     block_descr=block_descr,
                                     block_notes=block_notes)
-                    with db_session:
-                        terminals = select(t for t in Terminal if t.block_id == init_block)[:]
 
-                    if len(terminals):
+                    if terminals:
                         create_terminals_with_internals(eq_tag, pan_tag, block_tag, terminals)
                         st.toast(f"###### :green[Terminals {terminals} added]")
 
