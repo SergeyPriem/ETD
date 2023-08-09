@@ -88,7 +88,7 @@ def copy_block(init_equip_tag, init_panel_tag, init_block_id):
             c6.checkbox('Copy nested terminals')
             c7.text('')
             c7.text('')
-            block_but = c7.form_submit_button("Copy", use_container_width=True)
+            block_but = st.form_submit_button("Copy", use_container_width=True)
 
         if block_but:
             if len(block_tag):
