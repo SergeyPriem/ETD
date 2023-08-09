@@ -125,7 +125,7 @@ def equipment_main(act):
         create_equipment()
 
     if act == 'Delete':
-        st.subheader("⚠ All related panels, terminal blocks, terminals will be deleted!")
+        st.subheader(f"⚠ :red[All related panels, terminal blocks, terminals will be deleted!]")
         if st.button("Delete Selected"):
             # act_with_warning(left_function=delete_equipment, left_args=edited_df,
             #                  header_message="All related panels, terminal blocks, terminals will be deleted!",
