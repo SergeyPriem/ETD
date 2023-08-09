@@ -64,7 +64,7 @@ def edit_block(df):
         st.toast(f"#### :orange[Select the Panel to edit in column 'Edit']")
 
 
-def copy_block(init_equip_tag, init_panel_tag, init_block_id):
+def copy_block(init_block_id):
     with db_session:
         init_block = Block[init_block_id]
 
@@ -73,22 +73,20 @@ def copy_block(init_equip_tag, init_panel_tag, init_block_id):
         eqip_tag_list = get_eqip_tags()
         eq_tag = c1.selectbox('Equipment Tag *', eqip_tag_list)
 
+        pan_tag_list = []
         if eq_tag:
             pan_tag_list = get_panel_tags(eq_tag)
-        else:
-            st.stop()
 
-        with st.form('copy_block'):
-            pan_tag = c2.selectbox('Panel Tag *', pan_tag_list)
-            block_tag = c3.text_input('Block Tag *', value=init_block.block_tag[:-1])
-            block_descr = c4.text_input('Block Description', value=init_block.descr)
-            block_notes = c5.text_input('Notes', value=init_block.notes)
-            c6.text('')
-            c6.text('')
-            c6.checkbox('Copy nested terminals')
-            c7.text('')
-            c7.text('')
-            block_but = st.form_submit_button("Copy", use_container_width=True)
+        pan_tag = c2.selectbox('Panel Tag *', pan_tag_list)
+        block_tag = c3.text_input('Block Tag *', value=init_block.block_tag[:-1])
+        block_descr = c4.text_input('Block Description', value=init_block.descr)
+        block_notes = c5.text_input('Notes', value=init_block.notes)
+        c6.text('')
+        c6.text('')
+        c6.checkbox('Copy nested terminals')
+        c7.text('')
+        c7.text('')
+        block_but = c7.button("Copy", use_container_width=True)
 
         if block_but:
             if len(block_tag):
@@ -173,7 +171,7 @@ def blocks_main(act):
         create_block(selected_equip, selected_panel)
 
     if act == 'Copy':
-        copy_block(selected_equip, selected_panel, df_to_show.id.to_numpy()[0])
+        copy_block(df_to_show.id.to_numpy()[0])
 
     if not (isinstance(df_to_show, pd.DataFrame) and len(df_to_show)):
         st.write(f"#### :blue[Blocks not available...]")
