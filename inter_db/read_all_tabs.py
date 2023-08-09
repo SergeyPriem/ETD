@@ -7,11 +7,13 @@ from utilities import err_handler, tab_to_df
 
 
 @st.cache_data(show_spinner=False)
-def get_all_equip():
+def get_equip_by_tag(eq_tag):
     with db_session:
         try:
-            table = select(u for u in Equip)[:]
-            return tab_to_df(table)
+            data = select(eq for eq in Equip if eq.equipment_tag == eq_tag)[:]
+
+            df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'descr', 'edit', 'notes'])
+            return df
         except Exception as e:
             return err_handler(e)
 

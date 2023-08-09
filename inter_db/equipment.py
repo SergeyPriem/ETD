@@ -2,7 +2,9 @@
 import pandas as pd
 import streamlit as st
 from pony.orm import db_session, select, IntegrityError
-from inter_db.read_all_tabs import get_all_equip
+from streamlit_option_menu import option_menu
+
+from inter_db.read_all_tabs import get_equip_by_tag
 from models import Equip
 from utilities import err_handler, act_with_warning
 from inter_db.utils import get_eqip_tags, good_index
@@ -12,7 +14,7 @@ def edit_equipment(df):
     eq_df = df[df.edit.astype('str') == "True"]
     try:
         with db_session:
-            if len(eq_df) > 1:
+            if len(eq_df):
                 for ind, row in eq_df.iterrows():
                     edit_row = Equip[row.id]
                     edit_row.set(equipment_tag=row.equipment_tag, descr=row.descr, notes=row.notes)
@@ -103,7 +105,7 @@ def create_equipment():
                 except Exception as e:
                     st.toast(err_handler(e))
                 finally:
-                    get_all_equip.clear()
+                    get_equip_by_tag.clear()
                     get_eqip_tags.clear()
                     st.button("OK")
         else:
@@ -111,7 +113,25 @@ def create_equipment():
 
 
 def equipment_main(act):
-    df_to_show = get_all_equip()
+
+    eq_tag_list = list(get_eqip_tags())
+
+    c1, c2 = st.columns([1, 2], gap='medium')
+
+    if len(eq_tag_list) == 0:
+        eq_tag_list = 'No equipment available'
+    with c1:
+        selected_equip = option_menu('Select the Equipment',
+                                     options=eq_tag_list,
+                                     icons=['-'] * len(eq_tag_list),
+                                     orientation='horizontal',
+                                     menu_icon='1-square')
+
+    if selected_equip == 'No equipment available':
+        st.stop()
+
+
+    df_to_show = get_equip_by_tag()
 
     edited_df = pd.DataFrame()
 

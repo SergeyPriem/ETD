@@ -172,7 +172,7 @@ def blocks_main(act):
 
     if act == 'Delete':
         st.subheader(f":warning: :red[All nested terminals will be deleted!]")
-        if st.button("Delete Terminal Block"):
+        if st.button("Delete Terminal Block(s)"):
             # act_with_warning(left_function=delete_block, left_args=edited_df,
             #                  header_message="All related terminals will be deleted!",
             #                  warning_message="Are you sure?")
