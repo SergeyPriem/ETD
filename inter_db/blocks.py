@@ -63,15 +63,15 @@ def edit_block(df):
 def copy_block(init_block_id):
     with db_session:
         init_block = Block[init_block_id]
-        st.write(f"init block={init_block}")
         init_terminals = select(t for t in Terminal if t.block_id == init_block and t.terminal_num != "isolated")[:]
-        st.write(f"init_terminals={init_terminals}")
+
     if init_block:
         c1, c2, c3, c4, c5, c6, c7 = st.columns([0.7, 0.5, 1, 1, 1.5, 0.6, 0.4], gap='medium')
         eqip_tag_list = get_eqip_tags()
         eq_tag = c1.selectbox('Equipment Tag *', eqip_tag_list)
 
         pan_tag_list = []
+
         if eq_tag:
             pan_tag_list = get_panel_tags(eq_tag)
 
@@ -81,7 +81,7 @@ def copy_block(init_block_id):
         block_notes = c5.text_input('Notes', value=init_block.notes)
         c6.text('')
         c6.text('')
-        copy_nested_perminals = c6.checkbox('Copy nested terminals')
+        copy_nested_terminals = c6.checkbox('Copy nested terminals')
         c7.text('')
         c7.text('')
         block_but = c7.button("Copy", use_container_width=True)
@@ -94,9 +94,7 @@ def copy_block(init_block_id):
                                     block_descr=block_descr,
                                     block_notes=block_notes)
 
-                    if init_terminals and copy_nested_perminals:
-                        st.write("inside condition")
-                        st.write(eq_tag, pan_tag, block_tag, init_terminals)
+                    if init_terminals and copy_nested_terminals:
                         create_terminals_with_internals(eq_tag, pan_tag, block_tag, init_terminals)
                         st.toast(f"###### :green[Terminals {init_terminals} added]")
 
@@ -105,11 +103,14 @@ def copy_block(init_block_id):
                 except Exception as e2:
                     st.toast(f"""#### :red[Seems, such Terminal Block already exists!]""")
                     st.toast(err_handler(e2))
+
                 finally:
                     st.cache_data.clear()
                     st.experimental_rerun()
+
             else:
                 st.toast(f"""#### :red[Please fill all required (*) fields!]""")
+
     else:
         st.toast(f"##### :red[Block with ID {init_block_id} not found]")
 
