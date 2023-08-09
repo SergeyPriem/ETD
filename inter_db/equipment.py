@@ -14,7 +14,7 @@ def edit_equipment(df):
         try:
             with db_session:
                 for ind, row in eq_df.iterrows():
-                    edit_row = Equip[ind]
+                    edit_row = Equip[row.id]
                     if not edit_row:
                         st.toast(f"#### :red[Fail, equipment {str(row.equipment_tag)} not found]")
                         continue
@@ -36,21 +36,21 @@ def edit_equipment(df):
 def delete_equipment(df):
     eq_to_del = df[df.edit.astype('str') == "True"]
     if len(eq_to_del):
-        with db_session:
-            # try:
+        try:
+            with db_session:
                 for ind, row in eq_to_del.iterrows():
-                    del_row = Equip[ind]
+                    del_row = Equip[row.id]
                     if not del_row:
                         st.toast(f"#### :red[Fail, equipment {row.equipment_tag} not found]")
                         continue
                     del_row.delete()
                     st.toast(f"#### :green[Equipment: {row.equipment_tag} is deleted]")
-            # except Exception as e:
-            #     st.toast(f"Can't delete {row.equipment_tag}")
-            #     st.toast(f"##### {err_handler(e)}")
-            # finally:
-                st.cache_data.clear()
-                st.experimental_rerun()
+        except Exception as e:
+            st.toast(f"Can't delete {row.equipment_tag}")
+            st.toast(f"##### {err_handler(e)}")
+        finally:
+            st.cache_data.clear()
+            st.experimental_rerun()
 
 
 def copy_equipment(df):
@@ -119,6 +119,8 @@ def create_equipment():
 
 def equipment_main(act):
     df_to_show = get_all_equip()
+
+    edited_df = pd.DataFrame()
 
     if isinstance(df_to_show, pd.DataFrame):
         edited_df = st.data_editor(df_to_show)
