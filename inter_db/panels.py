@@ -1,16 +1,16 @@
 ﻿# -*- coding: utf-8 -*-
-import time
 
 import pandas as pd
 import streamlit as st
 from pony.orm import *
 from streamlit_option_menu import option_menu
+
 from inter_db.equipment import get_eqip_tags
 from inter_db.read_all_tabs import get_all_panels
 from inter_db.utils import get_filtered_panels, get_panels_by_equip_panel_tag, get_panel_tags, \
-    add_block_to_db, create_terminals, create_terminals_with_internals
+    add_block_to_db, create_terminals_with_internals
 from models import Equip, Panel, Block, Terminal
-from utilities import err_handler, act_with_warning
+from utilities import err_handler
 
 
 def delete_panel(df):
