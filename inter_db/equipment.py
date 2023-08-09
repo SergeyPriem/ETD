@@ -122,8 +122,7 @@ def equipment_main(act):
     eq_tag_list = list(get_eqip_tags())
 
     if len(eq_tag_list) == 0:
-        eq_tag_list = 'No panels available'
-        st.stop()
+        eq_tag_list = ['No equipment available']
     else:
         if len(eq_tag_list) > 1:
             eq_tag_list.append("ALL")

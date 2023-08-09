@@ -192,7 +192,7 @@ def panels_main(act):
     pan_tag_list = list(get_panel_tags(selected_equip))
 
     if len(pan_tag_list) == 0:
-        pan_tag_list = 'No panels available'
+        pan_tag_list = ['No panels available']
     else:
         if len(pan_tag_list) > 1:
             pan_tag_list.append("ALL")
