@@ -36,6 +36,8 @@ def edit_equipment(df):
 def delete_equipment(df):
     st.write(df)
     eq_to_del = df[df.edit.astype('str') == "True"]
+
+    st.write(eq_to_del)
     st.stop()
     if len(eq_to_del):
         try:
