@@ -17,7 +17,7 @@ def delete_cable(df):
         try:
             with db_session:
                 for ind, row in del_cab_df.iterrows():
-                    del_row = Cable[ind]
+                    del_row = Cable[row.id]
                     if not del_row:
                         st.toast(f"#### :red[Fail, cable: {row.cable_tag} with id {ind} not found]")
                         continue
@@ -48,7 +48,7 @@ def edit_cable(selected_left_equip, selected_left_panel, selected_right_equip, s
                                    p.eq_id.equipment_tag == selected_right_equip).first()
 
                 for ind, row in cables_df.iterrows():
-                    edit_row = Cable[ind]
+                    edit_row = Cable[row.id]
 
                     if not edit_row:
                         st.toast(f"#### :red[Fail, Cable: {row.cable_tag} with id {ind} not found]")
@@ -78,7 +78,6 @@ def edit_cable(selected_left_equip, selected_left_panel, selected_right_equip, s
         finally:
             st.cache_data.clear()
             st.button('OK')
-
     else:
         st.toast(f"#### :orange[Select the Cables to edit in column 'Edit']")
 

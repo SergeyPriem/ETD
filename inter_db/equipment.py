@@ -14,7 +14,7 @@ def edit_equipment(df):
         with db_session:
             if len(eq_df) > 1:
                 for ind, row in eq_df.iterrows():
-                    edit_row = Equip[ind]
+                    edit_row = Equip[row.id]
                     edit_row.set(equipment_tag=row.equipment_tag, descr=row.descr, notes=row.notes)
                     st.toast(f"#### :green[Equipment: {str(row.equipment_tag)} is updated]")
     except Exception as e:
@@ -34,7 +34,7 @@ def delete_equipment(df):
         try:
             with db_session:
                 for ind, row in eq_to_del.iterrows():
-                    Equip[ind].delete()
+                    Equip[row.id].delete()
                     st.toast(f"#### :green[Equipment: {row.equipment_tag}  with id {ind} is deleted]")
 
         except Exception as e:

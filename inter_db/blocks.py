@@ -18,7 +18,7 @@ def delete_block(df):
         try:
             with db_session:
                 for ind, row in del_block_df.iterrows():
-                    del_row = Block[ind]
+                    del_row = Block[row.id]
                     if not del_row:
                         st.toast(f"#### :red[Fail, Terminal Block {row.block_tag}  with id {ind} not found]")
                         continue
@@ -41,7 +41,7 @@ def edit_block(df):
         try:
             with db_session:
                 for ind, row in block_df.iterrows():
-                    edit_row = Block[ind]
+                    edit_row = Block[row.id]
 
                     if not edit_row:
                         st.toast(f"#### :red[Fail, Terminal Block: {row.block_tag} with id {ind} not found]")

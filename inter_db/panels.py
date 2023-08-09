@@ -19,7 +19,7 @@ def delete_panel(df):
         try:
             with db_session:
                 for ind, row in del_pan_df.iterrows():
-                    del_row = Panel[ind]
+                    del_row = Panel[row.id]
                     if not del_row:
                         st.toast(f"#### :red[Fail, equipment with {row.panel_tag}  with id {ind} not found]")
                         continue
@@ -47,7 +47,7 @@ def edit_panel(df):
         try:
             with db_session:
                 for ind, row in pan_df.iterrows():
-                    edit_row = Panel[ind]
+                    edit_row = Panel[row.id]
                     eq_id = Equip.get(equipment_tag=row.equipment_tag).id
                     if not edit_row:
                         st.toast(f"#### :red[Fail, Panel: {row.panel_tag}  with id {ind} not found]")
