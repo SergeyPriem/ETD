@@ -68,7 +68,7 @@ def edit_block(df):
 def copy_block(init_block_id):
     with db_session:
         init_block = Block[init_block_id]
-        terminals = select(t for t in Terminal if t.block_id == init_block)[:]
+        init_terminals = select(t for t in Terminal if t.block_id == init_block)[:]
 
     if init_block:
         c1, c2, c3, c4, c5, c6, c7 = st.columns([0.7, 0.5, 1, 1, 1.5, 0.6, 0.4], gap='medium')
@@ -85,29 +85,29 @@ def copy_block(init_block_id):
         block_notes = c5.text_input('Notes', value=init_block.notes)
         c6.text('')
         c6.text('')
-        c6.checkbox('Copy nested terminals')
+        copy_nested_perminals = c6.checkbox('Copy nested terminals')
         c7.text('')
         c7.text('')
         block_but = c7.button("Copy", use_container_width=True)
 
         if block_but:
-            if len(block_tag):
-                try:
+            if all([len(eq_tag), len(pan_tag), len(block_tag)]):
+                # try:
                     add_block_to_db(equip_tag=eq_tag, panel_tag=pan_tag,
                                     block_tag=block_tag,
                                     block_descr=block_descr,
                                     block_notes=block_notes)
 
-                    if terminals:
-                        create_terminals_with_internals(eq_tag, pan_tag, block_tag, terminals)
-                        st.toast(f"###### :green[Terminals {terminals} added]")
+                    if init_terminals and copy_nested_perminals:
+                        create_terminals_with_internals(eq_tag, pan_tag, block_tag, init_terminals)
+                        st.toast(f"###### :green[Terminals {init_terminals} added]")
 
                     st.toast(f"""#### :green[Block {block_tag} added!]""")
 
-                except Exception as e2:
-                    st.toast(f"""#### :red[Seems, such Terminal Block already exists!]""")
-                    st.toast(err_handler(e2))
-                finally:
+                # except Exception as e2:
+                #     st.toast(f"""#### :red[Seems, such Terminal Block already exists!]""")
+                #     st.toast(err_handler(e2))
+                # finally:
                     st.cache_data.clear()
                     st.experimental_rerun()
             else:
