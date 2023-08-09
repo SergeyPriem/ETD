@@ -139,7 +139,7 @@ def equipment_main(act):
     edited_df = pd.DataFrame()
 
     if isinstance(df_to_show, pd.DataFrame):
-        edited_df = st.data_editor(df_to_show)
+        edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
     else:
         st.write(f"#### :blue[Equipment not available...]")
         st.stop()
