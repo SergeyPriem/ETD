@@ -113,7 +113,6 @@ def create_equipment():
 
 
 def equipment_main(act):
-
     eq_tag_list = list(get_eqip_tags())
 
     if len(eq_tag_list) == 0:
@@ -127,7 +126,6 @@ def equipment_main(act):
 
     if selected_equip == 'No equipment available':
         st.stop()
-
 
     df_to_show = get_equip_by_tag(selected_equip)
 
