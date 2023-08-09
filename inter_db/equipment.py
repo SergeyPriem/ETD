@@ -32,10 +32,13 @@ def edit_equipment(df):
 
 def delete_equipment(df):
     eq_to_del = df[df.edit.astype('str') == "True"]
+    st.write(eq_to_del)
     if len(eq_to_del):
         try:
             with db_session:
                 for ind, row in eq_to_del.iterrows():
+                    st.write(ind)
+                    st.write(row)
                     if row.id == 0:
                         st.warning("ID can't be 0")
                         continue
