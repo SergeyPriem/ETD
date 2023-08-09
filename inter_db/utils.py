@@ -319,3 +319,14 @@ def add_block_to_db(equip_tag, panel_tag, block_tag, block_descr, block_notes):
 @st.cache_data(show_spinner=False)
 def get_terminals_by_block_id(block_id):
     ...
+
+
+def good_index(ind_ex, row_w):
+    if isinstance(row_w.id, int):
+        return row_w.id
+    if isinstance(row_w[0], int):
+        return row_w[0]
+    if isinstance(ind_ex, int):
+        return ind_ex
+
+    return False

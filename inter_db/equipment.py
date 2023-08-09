@@ -5,7 +5,7 @@ from pony.orm import db_session, select, IntegrityError
 from inter_db.read_all_tabs import get_all_equip
 from models import Equip
 from utilities import err_handler, act_with_warning
-from inter_db.utils import get_eqip_tags
+from inter_db.utils import get_eqip_tags, good_index
 
 
 def edit_equipment(df):
@@ -14,7 +14,15 @@ def edit_equipment(df):
         try:
             with db_session:
                 for ind, row in eq_df.iterrows():
-                    edit_row = Equip[row.id]
+
+                    good_ind = good_index(ind, row)
+
+                    if good_ind:
+                        edit_row = Equip[good_ind]
+                    else:
+                        edit_row = False
+                        st.toast(f"#### :red[Fail, equipment {str(row.equipment_tag)} not found]")
+
                     if not edit_row:
                         st.toast(f"#### :red[Fail, equipment {str(row.equipment_tag)} not found]")
                         continue
@@ -43,12 +51,21 @@ def delete_equipment(df):
         try:
             with db_session:
                 for ind, row in eq_to_del.iterrows():
-                    del_row = Equip[row.id]
-                    st.write(f"del_row={del_row}")
+
+                    good_ind = good_index(ind, row)
+
+                    if good_ind:
+                        del_row = Equip[good_ind]
+                    else:
+                        del_row = False
+                        st.toast(f"#### :red[Fail, equipment {str(row.equipment_tag)} not found]")
+
                     if not del_row:
                         st.toast(f"#### :red[Fail, equipment {row.equipment_tag} not found]")
                         continue
+
                     del_row.delete()
+
                     st.toast(f"#### :green[Equipment: {row.equipment_tag} is deleted]")
         except Exception as e:
             st.toast(f"Can't delete {row.equipment_tag}")
@@ -140,7 +157,8 @@ def equipment_main(act):
     if act == 'Delete':
         if st.button("Delete Selected"):
             act_with_warning(left_function=delete_equipment, left_args=edited_df,
-                             header_message="All related panels, terminal blocks, terminals will be deleted!")
+                             header_message="All related panels, terminal blocks, terminals will be deleted!",
+                             warning_message="Are you sure?")
 
     if act == 'Edit':
         if st.button("Save edited Equipment"):
