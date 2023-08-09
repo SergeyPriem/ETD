@@ -36,6 +36,9 @@ def delete_equipment(df):
         try:
             with db_session:
                 for ind, row in eq_to_del.iterrows():
+                    if row.id == 0:
+                        st.warning("ID can't be 0")
+                        continue
                     Equip[row.id].delete()
                     st.toast(f"#### :green[Equipment: {row.equipment_tag}  with id {ind} is deleted]")
 
