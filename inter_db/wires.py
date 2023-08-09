@@ -7,7 +7,8 @@ from streamlit_option_menu import option_menu
 from inter_db.cables import get_filtered_cables
 from inter_db.equipment import get_eqip_tags
 from inter_db.panels import get_panel_tags
-from utils import get_panel_terminals
+from inter_db.utils import get_panel_terminals
+
 from models import Wire, Cable, Block, Terminal
 from utilities import err_handler, act_with_warning
 
