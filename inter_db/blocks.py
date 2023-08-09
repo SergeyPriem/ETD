@@ -69,13 +69,16 @@ def copy_block(init_equip_tag, init_panel_tag, init_block_id):
         init_block = Block[init_block_id]
 
     if init_block:
-
+        c1, c2, c3, c4, c5, c6, c7 = st.columns([0.5, 0.5, 1, 1, 1.5, 0.6, 0.4], gap='medium')
         eqip_tag_list = get_eqip_tags()
-        pan_tag_list = get_panel_tags()
+        eq_tag = c1.selectbox('Equipment Tag *', eqip_tag_list)
+
+        if eq_tag:
+            pan_tag_list = get_panel_tags(eq_tag)
+        else:
+            st.stop()
 
         with st.form('copy_block'):
-            c1, c2, c3, c4, c5, c6, c7 = st.columns([0.5, 0.5, 1, 1, 1.5, 0.6, 0.4], gap='medium')
-            eq_tag = c1.selectbox('Equipment Tag *', eqip_tag_list)
             pan_tag = c2.selectbox('Panel Tag *', pan_tag_list)
             block_tag = c3.text_input('Block Tag *', value=init_block.block_tag[:-1])
             block_descr = c4.text_input('Block Description', value=init_block.descr)
@@ -88,7 +91,7 @@ def copy_block(init_equip_tag, init_panel_tag, init_block_id):
             block_but = c7.form_submit_button("Copy", use_container_width=True)
 
         if block_but:
-            if all([len(init_panel_tag), len(block_tag)]):
+            if len(block_tag):
                 try:
                     with db_session:
                         # equip = Equip.get(equipment_tag=equip_tag)
