@@ -6,8 +6,8 @@ from streamlit_option_menu import option_menu
 
 from inter_db.read_all_tabs import get_equip_by_tag
 from models import Equip
-from utilities import err_handler, act_with_warning
-from inter_db.utils import get_eqip_tags, good_index
+from utilities import err_handler
+from inter_db.utils import get_eqip_tags
 
 
 def edit_equipment(df):
@@ -131,7 +131,7 @@ def equipment_main(act):
         st.stop()
 
 
-    df_to_show = get_equip_by_tag()
+    df_to_show = get_equip_by_tag(selected_equip)
 
     edited_df = pd.DataFrame()
 
