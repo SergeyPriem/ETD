@@ -24,8 +24,7 @@ def edit_equipment(df):
             st.toast(f"#### :red[Equipment {str(row.equipment_tag)} already exists...]")
             st.toast(f"##### {err_handler(e2)}")
         finally:
-            get_all_equip.clear()
-            get_eqip_tags.clear()
+            st.cache_data.clear()
             st.experimental_rerun()
 
 
