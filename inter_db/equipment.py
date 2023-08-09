@@ -54,6 +54,7 @@ def delete_equipment(df):
         #     with db_session:
         for ind, row in eq_to_del.iterrows():
 
+            st.write(row)
             st.write(type(row))
 
         #             good_ind = good_index(ind, row)
@@ -79,6 +80,7 @@ def delete_equipment(df):
         #     st.stop()
         #     st.experimental_rerun()
         #
+        st.stop()
 
 def copy_equipment(df):
     eq_df = df[df.edit.astype('str') == "True"]
