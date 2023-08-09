@@ -108,7 +108,7 @@ def create_panel(sel_equip):
 
 def get_block_terminals(bl):
     with db_session:
-        terms = select(t.terminal_num for t in Terminal if t.block_id == bl)[:]
+        terms = select(t.terminal_num for t in Terminal if t.block_id == bl and t.terminal_num != "isolated")[:]
     return terms
 
 

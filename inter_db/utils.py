@@ -261,17 +261,6 @@ def create_terminals_with_internals(selected_equip, selected_panel, selected_blo
             )
             i += 1
 
-        if 'isolated' in exist_terminals or 'isolated' in terminals:
-            pass
-        else:
-            Terminal(
-                block_id=block,
-                terminal_num='isolated',
-                int_circuit="SPARE",
-                int_link="SPARE",
-                edit=False,
-                notes='',
-            )
 
     st.toast(f"##### :green[{i} terminals added]")
 
