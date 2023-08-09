@@ -116,16 +116,14 @@ def equipment_main(act):
 
     eq_tag_list = list(get_eqip_tags())
 
-    c1, c2 = st.columns([1, 2], gap='medium')
-
     if len(eq_tag_list) == 0:
         eq_tag_list = 'No equipment available'
-    with c1:
-        selected_equip = option_menu('Select the Equipment',
-                                     options=eq_tag_list,
-                                     icons=['-'] * len(eq_tag_list),
-                                     orientation='horizontal',
-                                     menu_icon='1-square')
+
+    selected_equip = option_menu('Select the Equipment',
+                                 options=eq_tag_list,
+                                 icons=['-'] * len(eq_tag_list),
+                                 orientation='horizontal',
+                                 menu_icon='1-square')
 
     if selected_equip == 'No equipment available':
         st.stop()
