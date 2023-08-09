@@ -78,7 +78,7 @@ def copy_block(init_block_id):
             pan_tag_list = get_panel_tags(eq_tag)
 
         pan_tag = c2.selectbox('Panel Tag *', pan_tag_list)
-        block_tag = c3.text_input('Block Tag *', value=init_block.block_tag[:-1])
+        block_tag = c3.text_input('Block Tag *', value=init_block.block_tag)
         block_descr = c4.text_input('Block Description', value=init_block.descr)
         block_notes = c5.text_input('Notes', value=init_block.notes)
         c6.text('')
@@ -97,7 +97,7 @@ def copy_block(init_block_id):
                                                     if
                                                     p.eq_id.equipment_tag == eq_tag and p.panel_tag == pan_tag).first()
 
-                        if len(panel_to_add_block):
+                        if panel_to_add_block:
 
                             Block(pan_id=panel_to_add_block, block_tag=block_tag, descr=block_descr,
                                   edit=False, notes=block_notes)
