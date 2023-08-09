@@ -7,7 +7,7 @@ from streamlit_option_menu import option_menu
 from inter_db.cables import get_filtered_cables
 from inter_db.equipment import get_eqip_tags
 from inter_db.panels import get_panel_tags
-from inter_db.terminals import get_panel_terminals
+from utils import get_panel_terminals
 from models import Wire, Cable, Block, Terminal
 from utilities import err_handler, act_with_warning
 
@@ -256,12 +256,6 @@ def wires_main(act):
 
     if len(df):
 
-        # if act == "Edit":
-        #     left_terminals = get_panel_terminals(selected_left_equip, selected_left_panel)
-        #     right_terminals = get_panel_terminals(selected_right_equip, selected_right_panel)
-        # else:
-        #     left_terminals = []
-        #     right_terminals = []
 
         st.write(":blue[Wires Details]")
         edited_df = st.data_editor(df,
