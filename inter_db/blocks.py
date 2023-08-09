@@ -102,7 +102,7 @@ def copy_block(init_block_id):
                             Block(pan_id=panel_to_add_block, block_tag=block_tag, descr=block_descr,
                                   edit=False, notes=block_notes)
 
-                            terminals = select(t for t in Terminal if t.block_id == init_block_id)[:]
+                            terminals = select(t for t in Terminal if t.block_id == init_block)[:]
 
                             if len(terminals):
                                 create_terminals_with_internals(eq_tag, pan_tag, block_tag, terminals)
@@ -114,10 +114,8 @@ def copy_block(init_block_id):
                     st.toast(f"""#### :red[Seems, such Terminal Block already exists!]""")
                     st.toast(err_handler(e2))
                 finally:
-                    get_all_blocks.clear()
-                    get_selected_block.clear()
-                    get_blocks_list_by_eq_pan.clear()
-                    st.button("OK")
+                    st.cache_data.clear()
+                    st.experimental_rerun()
             else:
                 st.toast(f"""#### :red[Please fill all required (*) fields!]""")
     else:
