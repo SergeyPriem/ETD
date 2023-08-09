@@ -21,7 +21,7 @@ def edit_terminals(df, selected_equip, selected_panel, selected_block):
                     edit_row = Terminal[row.id]
 
                     if not edit_row:
-                        st.toast(f"#### :red[Fail, Terminal: {row.terminal_num} with id {ind} not found]")
+                        st.toast(f"#### :red[Fail, Terminal: {row.terminal_num}  not found]")
                         continue
 
                     equip = Equip.get(equipment_tag=selected_equip)
@@ -38,7 +38,7 @@ def edit_terminals(df, selected_equip, selected_panel, selected_block):
                     )
                     st.toast(f"#### :green[Terminal: {row.terminal_num} is updated]")
         except Exception as e:
-            st.toast(f"Can't update {row.terminal_num} with id {ind}")
+            st.toast(f"Can't update {row.terminal_num} ")
             st.toast(f"##### {err_handler(e)}")
         finally:
             st.cache_data.clear()
@@ -56,14 +56,14 @@ def delete_terminals(df):
                 for ind, row in del_term_df.iterrows():
                     del_row = Terminal[row.id]
                     if not del_row:
-                        st.toast(f"##### :red[Fail, Terminal {row.terminal_num} with id {ind} not found]")
+                        st.toast(f"##### :red[Fail, Terminal {row.terminal_num}  not found]")
                         continue
                     del_row.delete()
                     sum_deleted += 1
                     st.toast(f":green[Terminal: {row.terminal_num} deleted]")
                 st.toast(f"#### :green[{sum_deleted} terminals deleted]")
         except Exception as e:
-            st.toast(f"#### :red[Can't delete {row.terminal_num} with id {ind}]")
+            st.toast(f"#### :red[Can't delete {row.terminal_num} ]")
             st.toast(f"##### {err_handler(e)}")
         finally:
             st.cache_data.clear()

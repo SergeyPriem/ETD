@@ -21,14 +21,14 @@ def delete_panel(df):
                 for ind, row in del_pan_df.iterrows():
                     del_row = Panel[row.id]
                     if not del_row:
-                        st.toast(f"#### :red[Fail, equipment with {row.panel_tag}  with id {ind} not found]")
+                        st.toast(f"#### :red[Fail, equipment with {row.panel_tag}   not found]")
                         continue
                     tag = del_row.panel_tag
                     del_row.delete()
                     # commit()
                     st.toast(f"#### :green[Panel: {tag} is deleted]")
         except Exception as e:
-            st.toast(f"#### :red[Can't delete {tag}  with id {ind}]")
+            st.toast(f"#### :red[Can't delete {tag}  ]")
             st.toast(f"##### {err_handler(e)}")
         finally:
             get_all_panels.clear()
@@ -50,14 +50,14 @@ def edit_panel(df):
                     edit_row = Panel[row.id]
                     eq_id = Equip.get(equipment_tag=row.equipment_tag).id
                     if not edit_row:
-                        st.toast(f"#### :red[Fail, Panel: {row.panel_tag}  with id {ind} not found]")
+                        st.toast(f"#### :red[Fail, Panel: {row.panel_tag}   not found]")
                         continue
 
                     edit_row.set(eq_id=eq_id, panel_tag=row.panel_tag, descr=row.description,
                                  notes=row.notes, panel_un=str(row.equipment_tag) + ":" + str(row.panel_tag))
                     st.toast(f"#### :green[Panel: {row.panel_tag} is updated]")
         except Exception as e:
-            st.toast(f"Can't update {row.panel_tag} with id {ind}")
+            st.toast(f"Can't update {row.panel_tag} ")
             st.toast(f"##### {err_handler(e)}")
         finally:
             get_all_panels.clear()

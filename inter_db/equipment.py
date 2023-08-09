@@ -20,10 +20,10 @@ def edit_equipment(df):
                     edit_row.set(equipment_tag=row.equipment_tag, descr=row.descr, notes=row.notes)
                     st.toast(f"#### :green[Equipment: {str(row.equipment_tag)} is updated]")
     except Exception as e:
-        st.toast(f"Can't update {str(row.equipment_tag)} with id {ind}")
+        st.toast(f"Can't update {str(row.equipment_tag)} ")
         st.toast(f"##### {err_handler(e)}")
     except IntegrityError as e2:
-        st.toast(f"#### :red[Equipment {str(row.equipment_tag)}  with id {ind} already exists...]")
+        st.toast(f"#### :red[Equipment {str(row.equipment_tag)}   already exists...]")
         st.toast(f"##### {err_handler(e2)}")
     finally:
         st.cache_data.clear()
@@ -43,10 +43,10 @@ def delete_equipment(df):
                         continue
 
                     Equip[row.id].delete()
-                    st.toast(f"#### :green[Equipment: {row.equipment_tag}  with id {ind} is deleted]")
+                    st.toast(f"#### :green[Equipment: {row.equipment_tag}   is deleted]")
 
         except Exception as e:
-            st.toast(f"Can't delete {row.equipment_tag} with id {ind}")
+            st.toast(f"Can't delete {row.equipment_tag} ")
             st.toast(f"##### {err_handler(e)}")
 
         finally:
