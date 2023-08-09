@@ -164,7 +164,7 @@ def blocks_main(act):
     if act == 'Copy':
         copy_block(int(df_to_show.id.to_numpy()[0]))
 
-    if not (isinstance(df_to_show, pd.DataFrame) and len(df_to_show)):
+    if not isinstance(df_to_show, pd.DataFrame) or len(df_to_show) == 0:
         st.write(f"#### :blue[Blocks not available...]")
         st.stop()
 

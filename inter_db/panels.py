@@ -205,6 +205,12 @@ def panels_main(act):
 
     df_to_show = get_panels_by_equip_panel_tag(selected_equip, selected_panel)
 
+    if not isinstance(df_to_show, pd.DataFrame) or len(df_to_show) == 0:
+        st.write(f"#### :blue[Panels not available...]")
+        st.stop()
+
+    edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
+
     if act == 'Create':
         if selected_equip:
             create_panel(selected_equip)
@@ -212,12 +218,6 @@ def panels_main(act):
     if act == 'Copy':
         if selected_equip:
             copy_panel(selected_equip, selected_panel)
-
-    if not isinstance(df_to_show, pd.DataFrame):
-        st.write(f"#### :blue[Panels not available...]")
-        st.stop()
-
-    edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
 
     if act == 'Delete':
         st.subheader(f":warning: :red[All nested terminal blocks, terminals will be deleted!]")
