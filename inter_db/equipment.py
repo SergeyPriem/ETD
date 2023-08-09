@@ -27,7 +27,7 @@ def edit_equipment(df):
             st.toast(f"##### {err_handler(e2)}")
         finally:
             st.cache_data.clear()
-            st.experimental_rerun()
+            st.button('OK')
 
 
 def delete_equipment(df):
