@@ -14,19 +14,7 @@ def edit_equipment(df):
         try:
             with db_session:
                 for ind, row in eq_df.iterrows():
-
-                    good_ind = good_index(ind, row)
-
-                    if good_ind:
-                        edit_row = Equip[good_ind]
-                    else:
-                        edit_row = False
-                        st.toast(f"#### :red[Fail, equipment {str(row.equipment_tag)} not found]")
-
-                    if not edit_row:
-                        st.toast(f"#### :red[Fail, equipment {str(row.equipment_tag)} not found]")
-                        continue
-
+                    edit_row = Equip[ind]
                     edit_row.set(equipment_tag=row.equipment_tag, descr=row.descr, notes=row.notes)
                     st.toast(f"#### :green[Equipment: {str(row.equipment_tag)} is updated]")
         except Exception as e:
@@ -56,10 +44,8 @@ def delete_equipment(df):
 
         finally:
             st.cache_data.clear()
-            st.stop()
             st.experimental_rerun()
-        #
-        st.stop()
+
 
 def copy_equipment(df):
     eq_df = df[df.edit.astype('str') == "True"]
