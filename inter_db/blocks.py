@@ -69,7 +69,7 @@ def copy_block(init_block_id):
         init_block = Block[init_block_id]
 
     if init_block:
-        c1, c2, c3, c4, c5, c6, c7 = st.columns([0.5, 0.5, 1, 1, 1.5, 0.6, 0.4], gap='medium')
+        c1, c2, c3, c4, c5, c6, c7 = st.columns([0.7, 0.5, 1, 1, 1.5, 0.6, 0.4], gap='medium')
         eqip_tag_list = get_eqip_tags()
         eq_tag = c1.selectbox('Equipment Tag *', eqip_tag_list)
 
