@@ -40,6 +40,7 @@ def delete_equipment(df):
             with db_session:
                 for ind, row in eq_to_del.iterrows():
                     del_row = Equip[row.id]
+                    st.write(f"del_row={del_row}")
                     if not del_row:
                         st.toast(f"#### :red[Fail, equipment {row.equipment_tag} not found]")
                         continue
