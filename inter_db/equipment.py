@@ -37,7 +37,7 @@ def delete_equipment(df):
     eq_to_del = df[df.edit.astype('str') == "True"]
     if len(eq_to_del):
         with db_session:
-            try:
+            # try:
                 for ind, row in eq_to_del.iterrows():
                     del_row = Equip[ind]
                     if not del_row:
@@ -45,10 +45,10 @@ def delete_equipment(df):
                         continue
                     del_row.delete()
                     st.toast(f"#### :green[Equipment: {row.equipment_tag} is deleted]")
-            except Exception as e:
-                st.toast(f"Can't delete {row.equipment_tag}")
-                st.toast(f"##### {err_handler(e)}")
-            finally:
+            # except Exception as e:
+            #     st.toast(f"Can't delete {row.equipment_tag}")
+            #     st.toast(f"##### {err_handler(e)}")
+            # finally:
                 st.cache_data.clear()
                 st.experimental_rerun()
 
@@ -79,9 +79,8 @@ def copy_equipment(df):
                     except Exception as e:
                         st.toast(err_handler(e))
                     finally:
-                        get_all_equip.clear()
-                        get_eqip_tags.clear()
-                        st.button("OK")
+                        st.cache_data.clear()
+                        st.experimental_rerun()
             else:
                 st.toast(f"""#### :red[Please fill all required (*) fields!]""")
     else:
