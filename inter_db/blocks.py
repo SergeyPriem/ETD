@@ -7,7 +7,8 @@ from streamlit_option_menu import option_menu
 from inter_db.equipment import get_eqip_tags
 from inter_db.panels import get_panel_tags
 from inter_db.read_all_tabs import get_all_blocks
-from inter_db.utils import get_blocks_list_by_eq_pan, get_selected_block, create_block, create_terminals_with_internals
+from inter_db.utils import get_blocks_list_by_eq_pan, get_selected_block, create_block, create_terminals_with_internals, \
+    add_block_to_db
 from models import Panel, Block, Terminal
 from utilities import err_handler, act_with_warning
 
@@ -92,23 +93,18 @@ def copy_block(init_block_id):
             if len(block_tag):
                 try:
                     with db_session:
-                        # equip = Equip.get(equipment_tag=equip_tag)
-                        panel_to_add_block = select(p for p in Panel
-                                                    if
-                                                    p.eq_id.equipment_tag == eq_tag and p.panel_tag == pan_tag).first()
+                        add_block_to_db(equip_tag=eq_tag, panel_tag=pan_tag,
+                                        block_tag=block_tag,
+                                        block_descr=block_descr,
+                                        block_notes=block_notes)
 
-                        if panel_to_add_block:
+                        terminals = select(t for t in Terminal if t.block_id == init_block)[:]
 
-                            Block(pan_id=panel_to_add_block, block_tag=block_tag, descr=block_descr,
-                                  edit=False, notes=block_notes)
+                        if len(terminals):
+                            create_terminals_with_internals(eq_tag, pan_tag, block_tag, terminals)
+                            st.toast(f"###### :green[Terminals {terminals} added]")
 
-                            terminals = select(t for t in Terminal if t.block_id == init_block)[:]
-
-                            if len(terminals):
-                                create_terminals_with_internals(eq_tag, pan_tag, block_tag, terminals)
-                                st.toast(f"###### :green[Terminals {terminals} added]")
-
-                            st.toast(f"""#### :green[Block {block_tag} added!]""")
+                        st.toast(f"""#### :green[Block {block_tag} added!]""")
 
                 except Exception as e2:
                     st.toast(f"""#### :red[Seems, such Terminal Block already exists!]""")
