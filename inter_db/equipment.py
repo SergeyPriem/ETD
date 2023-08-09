@@ -54,6 +54,7 @@ def delete_equipment(df):
         #     with db_session:
         for ind, row in eq_to_del.iterrows():
 
+            st.write(ind)
             st.write(row)
             st.write(type(row))
 
