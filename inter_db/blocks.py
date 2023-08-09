@@ -7,8 +7,7 @@ from streamlit_option_menu import option_menu
 from inter_db.equipment import get_eqip_tags
 from inter_db.panels import get_panel_tags
 from inter_db.read_all_tabs import get_all_blocks
-from inter_db.utils import get_blocks_list_by_eq_pan, get_selected_block, create_terminals, get_block_terminals, \
-    create_block, create_terminals_with_internals, get_terminals_by_block_id
+from inter_db.utils import get_blocks_list_by_eq_pan, get_selected_block, create_block, create_terminals_with_internals
 from models import Panel, Block, Terminal
 from utilities import err_handler, act_with_warning
 
