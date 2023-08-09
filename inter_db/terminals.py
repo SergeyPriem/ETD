@@ -12,7 +12,7 @@ from utilities import err_handler, convert_txt_to_list
 
 
 def edit_terminals(df, selected_equip, selected_panel, selected_block):
-    term_df = df[df.edit.astype('str') == "True"]
+    term_df = df[(df.edit.astype('str') == "True") & (df.terminal_num != "isolated")]
 
     if len(term_df):
         try:
@@ -50,7 +50,7 @@ def edit_terminals(df, selected_equip, selected_panel, selected_block):
 
 
 def delete_terminals(df):
-    del_term_df = df[df.edit.astype('str') == "True"]
+    del_term_df = df[(df.edit.astype('str') == "True") & (df.terminal_num != "isolated")]
     if len(del_term_df):
         sum_deleted = 0
         try:
