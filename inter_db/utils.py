@@ -323,10 +323,13 @@ def get_terminals_by_block_id(block_id):
 
 def good_index(ind_ex, row_w):
     if isinstance(row_w.id, int):
+        st.write("row.id")
         return row_w.id
     if isinstance(row_w[0], int):
+        st.write("row[0]")
         return row_w[0]
     if isinstance(ind_ex, int):
+        st.write('index')
         return ind_ex
-
+    st.write('False')
     return False
