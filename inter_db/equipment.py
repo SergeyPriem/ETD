@@ -135,11 +135,13 @@ def equipment_main(act):
 
     df_to_show = get_equip_by_tag(selected_equip)
 
-    edited_df = pd.DataFrame()
+
 
     if not isinstance(df_to_show, pd.DataFrame) or len(df_to_show) == 0:
         st.write(f"#### :blue[Equipment not available...]")
         st.stop()
+
+    edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
 
     if act == 'Create':
         create_equipment()
