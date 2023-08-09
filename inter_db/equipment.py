@@ -38,7 +38,7 @@ def delete_equipment(df):
     eq_to_del = df[df.edit.astype('str') == "True"]
 
     st.write(eq_to_del)
-    st.stop()
+    # st.stop()
     if len(eq_to_del):
         try:
             with db_session:
@@ -55,6 +55,7 @@ def delete_equipment(df):
             st.toast(f"##### {err_handler(e)}")
         finally:
             st.cache_data.clear()
+            st.stop()
             st.experimental_rerun()
 
 
