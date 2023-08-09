@@ -10,15 +10,26 @@ from utilities import err_handler, tab_to_df
 def get_equip_by_tag(eq_tag):
     with db_session:
         try:
-            data = select(
-                (
-                    eq.id,
-                    eq.equipment_tag,
-                    eq.descr,
-                    eq.edit,
-                    eq.notes,
-                    )
-                for eq in Equip if eq.equipment_tag == eq_tag)[:]
+            if eq_tag != "ALL":
+                data = select(
+                    (
+                        eq.id,
+                        eq.equipment_tag,
+                        eq.descr,
+                        eq.edit,
+                        eq.notes,
+                        )
+                    for eq in Equip if eq.equipment_tag == eq_tag)[:]
+            else:
+                data = select(
+                    (
+                        eq.id,
+                        eq.equipment_tag,
+                        eq.descr,
+                        eq.edit,
+                        eq.notes,
+                        )
+                    for eq in Equip)[:]
 
             df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'descr', 'edit', 'notes'])
             return df

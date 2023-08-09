@@ -116,16 +116,17 @@ def equipment_main(act):
     eq_tag_list = list(get_eqip_tags())
 
     if len(eq_tag_list) == 0:
-        eq_tag_list = 'No equipment available'
+        eq_tag_list = 'No panels available'
+        st.stop()
+    else:
+        if len(eq_tag_list) > 1:
+            eq_tag_list.append("ALL")
 
     selected_equip = option_menu('Select the Equipment',
                                  options=eq_tag_list,
                                  icons=['-'] * len(eq_tag_list),
                                  orientation='horizontal',
                                  menu_icon='1-square')
-
-    if selected_equip == 'No equipment available':
-        st.stop()
 
     df_to_show = get_equip_by_tag(selected_equip)
 
