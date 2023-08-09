@@ -172,9 +172,10 @@ def blocks_main(act):
 
     if act == 'Delete':
         if st.button("Delete Terminal Block"):
-            act_with_warning(left_function=delete_block, left_args=edited_df,
-                             header_message="All related terminals will be deleted!",
-                             warning_message="Are you sure?")
+            # act_with_warning(left_function=delete_block, left_args=edited_df,
+            #                  header_message="All related terminals will be deleted!",
+            #                  warning_message="Are you sure?")
+            delete_block(edited_df)
 
     if act == 'Edit':
         if st.button("Edit Selected Terminal Block"):
