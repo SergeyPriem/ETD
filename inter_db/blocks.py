@@ -29,7 +29,7 @@ def delete_block(df):
             st.toast(f"##### {err_handler(e)}")
         finally:
             st.cache_data.clear()
-            st.experimental_rerun()
+            st.button("OK")
     else:
         st.toast(f"#### :orange[Select the Terminal Block to delete in column 'Edit']")
 
@@ -41,7 +41,7 @@ def edit_block(df):
         try:
             with db_session:
                 for ind, row in block_df.iterrows():
-                    edit_row = Block[ind]  # .get(block_un=row.block_un)
+                    edit_row = Block[ind]
 
                     if not edit_row:
                         st.toast(f"#### :red[Fail, Terminal Block: {row.block_tag} not found]")
@@ -55,7 +55,7 @@ def edit_block(df):
             st.toast(f"##### {err_handler(e)}")
         finally:
             st.cache_data.clear()
-            st.experimental_rerun()
+            st.button("OK")
     else:
         st.toast(f"#### :orange[Select the Panel to edit in column 'Edit']")
 
