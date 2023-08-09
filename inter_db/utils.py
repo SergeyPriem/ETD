@@ -246,7 +246,7 @@ def create_terminals_with_internals(selected_equip, selected_panel, selected_blo
             exist_terminals = select(te for te in Terminal if te.block_id == block)[:]
 
             for t in terminals:
-                if t in exist_terminals:
+                if t in exist_terminals or t.terminal_num == "isolated":
                     st.toast(f"##### :red[Terminal {t.terminal_num} already exists...]")
                     continue
 
@@ -260,6 +260,15 @@ def create_terminals_with_internals(selected_equip, selected_panel, selected_blo
                 )
                 i += 1
             st.toast(f"##### :green[{i} terminals added]")
+
+            Terminal(
+                block_id=block,
+                terminal_num='isolated',
+                int_circuit='SPARE',
+                int_link='SPARE',
+                edit=False,
+            )
+
 
     except Exception as e:
         st.toast(err_handler(e))

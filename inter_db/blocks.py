@@ -6,9 +6,8 @@ from streamlit_option_menu import option_menu
 
 from inter_db.equipment import get_eqip_tags
 from inter_db.panels import get_panel_tags
-from inter_db.read_all_tabs import get_all_blocks
-from inter_db.utils import get_blocks_list_by_eq_pan, get_selected_block, create_block, create_terminals_with_internals, \
-    add_block_to_db
+from inter_db.utils import get_blocks_list_by_eq_pan, get_selected_block, create_block, \
+    create_terminals_with_internals, add_block_to_db
 from models import Panel, Block, Terminal
 from utilities import err_handler, act_with_warning
 
@@ -29,10 +28,8 @@ def delete_block(df):
             st.toast(f"#### :red[Can't delete {row.block_tag}]")
             st.toast(f"##### {err_handler(e)}")
         finally:
-            get_all_blocks.clear()
-            get_blocks_list_by_eq_pan.clear()
-            get_selected_block.clear()
-            st.button("OK")
+            st.cache_data.clear()
+            st.experimental_rerun()
     else:
         st.toast(f"#### :orange[Select the Terminal Block to delete in column 'Edit']")
 
@@ -57,10 +54,8 @@ def edit_block(df):
             st.toast(f"Can't update {row.block_tag}")
             st.toast(f"##### {err_handler(e)}")
         finally:
-            get_all_blocks.clear()
-            get_selected_block.clear()
-            get_blocks_list_by_eq_pan.clear()
-            st.button("OK")
+            st.cache_data.clear()
+            st.experimental_rerun()
     else:
         st.toast(f"#### :orange[Select the Panel to edit in column 'Edit']")
 

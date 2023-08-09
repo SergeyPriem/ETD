@@ -10,7 +10,7 @@ from inter_db.read_all_tabs import get_all_panels
 from inter_db.utils import get_filtered_panels, get_panels_by_equip_panel_tag, get_panel_tags, \
     add_block_to_db, create_terminals_with_internals
 from models import Equip, Panel, Block, Terminal
-from utilities import err_handler
+from utilities import err_handler, act_with_warning
 
 
 def delete_panel(df):
@@ -227,10 +227,10 @@ def panels_main(act):
 
     if act == 'Delete':
         if st.button("Delete Selected Panel(s)"):
-            # act_with_warning(left_function=delete_panel, left_args=edited_df,
-            #                  header_message="All related terminal blocks and terminals will be deleted!",
-            #                  warning_message='Are you sure?')
-            delete_panel(edited_df)
+            act_with_warning(left_function=delete_panel, left_args=edited_df,
+                             header_message="All related terminal blocks and terminals will be deleted!",
+                             warning_message='Are you sure?')
+
 
     if act == 'Edit':
         if st.button("Edit Selected Panel"):
