@@ -68,7 +68,7 @@ def copy_block(init_equip_tag, init_panel_tag, init_block_id):
     with db_session:
         init_block = Block[init_block_id]
 
-    if len(init_block) == 1:
+    if init_block:
 
         eqip_tag_list = get_eqip_tags()
         pan_tag_list = get_panel_tags()
