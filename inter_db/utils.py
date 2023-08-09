@@ -4,7 +4,7 @@ from pony.orm import db_session, select
 import pandas as pd
 
 from inter_db.read_all_tabs import get_all_blocks
-from models import Panel, Block, Terminal, Equip
+from models import Panel, Block, Terminal, Equip, Cable, Cab_purpose, Cab_types, Cab_wires, Cab_sect
 from utilities import err_handler
 
 
@@ -333,3 +333,58 @@ def good_index(ind_ex, row_w):
         return ind_ex
     st.write('False')
     return False
+
+
+@st.cache_data(show_spinner=False)
+def get_cab_panels(cab_tag):
+    try:
+        with db_session:
+            cab_tags = select((c.left_pan_id.panel_un, c.right_pan_id.panel_un)
+                              for c in Cable if c.cable_tag == cab_tag).first()
+        return cab_tags
+    except Exception as e:
+        st.toast(err_handler(e))
+
+
+@st.cache_data(show_spinner=False)
+def get_cab_tags():
+    try:
+        with db_session:
+            cab_tags = select(c.cable_tag for c in Cable)[:]
+        return list(cab_tags)
+    except Exception as e:
+        return err_handler(e)
+
+
+@st.cache_data(show_spinner=False)
+def get_filtered_cables(left_eq, left_pan, right_eq, right_pan):
+    try:
+        with db_session:
+            left_pan = select(p for p in Panel if p.panel_tag == left_pan and p.eq_id.equipment_tag == left_eq).first()
+            right_pan = select(p for p in Panel if p.panel_tag == right_pan and p.eq_id.equipment_tag == right_eq).first()
+
+            if left_pan and right_pan:
+                data = select(
+                    (c.id, c.cable_tag, c.purpose_id.circuit_descr, c.type_id.cab_type, c.wires_id.wire_num,
+                     c.sect_id.section, c.left_pan_id.panel_tag, c.right_pan_id.panel_tag, c.edit, c.notes,)
+                    for c in Cable
+                    if (left_pan == c.left_pan_id) and (right_pan == c.right_pan_id))[:]
+
+                df = pd.DataFrame(data, columns=['id', 'cable_tag', 'purpose', 'type', 'wire', 'section',
+                                                 'left_pan_tag', 'right_pan_tag', 'edit', 'notes', ])
+                return df
+    except Exception as e:
+        st.toast(err_handler(e))
+
+
+@st.cache_data(show_spinner=False, ttl=600)
+def get_cab_params():
+    try:
+        with db_session:
+            purposes = select(cp.circuit_descr for cp in Cab_purpose)[:]
+            types = select(ct.cab_type for ct in Cab_types)[:]
+            wire_num = select(w.wire_num for w in Cab_wires)[:]
+            wire_sect = select(s.section for s in Cab_sect)[:]
+        return purposes, types, wire_num, wire_sect
+    except Exception as e:
+        return err_handler(e)

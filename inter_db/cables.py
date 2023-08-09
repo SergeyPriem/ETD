@@ -6,30 +6,9 @@ from pony.orm import db_session, select
 from streamlit_option_menu import option_menu
 from inter_db.equipment import get_eqip_tags
 from inter_db.panels import get_panel_tags
-from inter_db.read_all_tabs import get_all_cables
+from inter_db.utils import get_cab_params, get_filtered_cables
 from models import Cable, Cab_purpose, Cab_types, Cab_wires, Cab_sect, Panel
 from utilities import err_handler
-
-
-@st.cache_data(show_spinner=False)
-def get_cab_panels(cab_tag):
-    try:
-        with db_session:
-            cab_tags = select((c.left_pan_id.panel_un, c.right_pan_id.panel_un)
-                              for c in Cable if c.cable_tag == cab_tag).first()
-        return cab_tags
-    except Exception as e:
-        st.toast(err_handler(e))
-
-
-@st.cache_data(show_spinner=False)
-def get_cab_tags():
-    try:
-        with db_session:
-            cab_tags = select(c.cable_tag for c in Cable)[:]
-        return list(cab_tags)
-    except Exception as e:
-        return err_handler(e)
 
 
 def delete_cable(df):
@@ -38,7 +17,7 @@ def delete_cable(df):
         try:
             with db_session:
                 for ind, row in del_cab_df.iterrows():
-                    del_row = Cable[row.id]
+                    del_row = Cable[ind]
                     if not del_row:
                         st.toast(f"#### :red[Fail, cable: {row.cable_tag} not found]")
                         continue
@@ -49,11 +28,8 @@ def delete_cable(df):
             st.toast(f"#### :red[Can't delete {row.cable_tag}]")
             st.toast(f"##### {err_handler(e)}")
         finally:
-            get_filtered_cables.clear()
-            get_all_cables.clear()
-            get_cab_tags.clear()
-            get_cab_panels.clear()
-            st.button("OK")
+            st.cache_data.clear()
+            st.experimental_rerun()
     else:
         st.toast(f"#### :orange[Select the Cable to delete in column 'Edit']")
 
@@ -72,7 +48,7 @@ def edit_cable(selected_left_equip, selected_left_panel, selected_right_equip, s
                                    p.eq_id.equipment_tag == selected_right_equip).first()
 
                 for ind, row in cables_df.iterrows():
-                    edit_row = Cable[row.id]
+                    edit_row = Cable[ind]
 
                     if not edit_row:
                         st.toast(f"#### :red[Fail, Cable: {row.cable_tag} not found]")
@@ -82,8 +58,6 @@ def edit_cable(selected_left_equip, selected_left_panel, selected_right_equip, s
                     c_type = Cab_types.get(cab_type=row.type)
                     c_wires = Cab_wires.get(wire_num=row.wire)
                     c_sect = Cab_sect.get(section=row.section)
-                    # left_pan = Panel.get(panel_un=row.left_pan_tag)
-                    # right_pan = Panel.get(panel_un=row.right_pan_tag)
 
                     edit_row.set(
                         cable_tag=row.cable_tag,
@@ -102,48 +76,15 @@ def edit_cable(selected_left_equip, selected_left_panel, selected_right_equip, s
             st.toast(f"Can't update {row.cable_tag}")
             st.toast(f"##### {err_handler(e)}")
         finally:
-            get_filtered_cables.clear()
-            get_all_cables.clear()
-            get_cab_tags.clear()
-            get_cab_panels.clear()
-            st.button("OK")
+            st.cache_data.clear()
+            st.experimental_rerun()
+
     else:
         st.toast(f"#### :orange[Select the Cables to edit in column 'Edit']")
 
 
-@st.cache_data(show_spinner=False)
-def get_filtered_cables(left_eq, left_pan, right_eq, right_pan):
-    try:
-        with db_session:
-            left_pan = select(p for p in Panel if p.panel_tag == left_pan and p.eq_id.equipment_tag == left_eq).first()
-            right_pan = select(p for p in Panel if p.panel_tag == right_pan and p.eq_id.equipment_tag == right_eq).first()
-
-            if left_pan and right_pan:
-                data = select(
-                    (c.id, c.cable_tag, c.purpose_id.circuit_descr, c.type_id.cab_type, c.wires_id.wire_num,
-                     c.sect_id.section, c.left_pan_id.panel_tag, c.right_pan_id.panel_tag, c.edit, c.notes,)
-                    for c in Cable
-                    if (left_pan == c.left_pan_id) and (right_pan == c.right_pan_id))[:]
-
-                df = pd.DataFrame(data, columns=['id', 'cable_tag', 'purpose', 'type', 'wire', 'section',
-                                                 'left_pan_tag', 'right_pan_tag', 'edit', 'notes', ])
-                return df
-    except Exception as e:
-        st.toast(err_handler(e))
-
-
-@st.cache_data(show_spinner=False, ttl=600)
-def get_cab_params():
-    try:
-        with db_session:
-            purposes = select(cp.circuit_descr for cp in Cab_purpose)[:]
-            types = select(ct.cab_type for ct in Cab_types)[:]
-            wire_num = select(w.wire_num for w in Cab_wires)[:]
-            wire_sect = select(s.section for s in Cab_sect)[:]
-        return purposes, types, wire_num, wire_sect
-    except Exception as e:
-        return err_handler(e)
-
+def copy_cable():
+    ...
 
 def create_cable(left_eq_tag, left_pan_tag, right_eq_tag, right_pan_tag):
     cab_purposes, cab_types, wire_numbers, wire_sections = get_cab_params()
@@ -174,8 +115,6 @@ def create_cable(left_eq_tag, left_pan_tag, right_eq_tag, right_pan_tag):
                     p for p in Panel
                     if p.panel_tag == right_pan_tag and p.eq_id.equipment_tag == right_eq_tag).first()
 
-                # left_pan = Panel.get(panel_un=left_pan_tag)
-                # right_pan = Panel.get(panel_un=right_pan_tag)
                 purpose = Cab_purpose.get(circuit_descr=cab_purpose)
                 c_type = Cab_types.get(cab_type=cab_type)
                 c_wires = Cab_wires.get(wire_num=wire_number)
@@ -191,29 +130,16 @@ def create_cable(left_eq_tag, left_pan_tag, right_eq_tag, right_pan_tag):
                     edit=False,
                     notes=notes,
                 )
-                # new_cab.flush()
-                # for w in range(1, int(wire_number)+1):
-                #     Wire(
-                #         cable_id=new_cab.id,
-                #         wire_num=w,
-                #         edit=False,
-                #         left_term_id=0,
-                #         right_term_id=0,
-                #     )
             st.toast(f"#### :green[Cable {cab_tag} added]")
 
         except Exception as e:
             st.toast(err_handler(e))
         finally:
-            get_filtered_cables.clear()
-            get_all_cables.clear()
-            get_cab_tags.clear()
-            get_cab_panels.clear()
-            st.button("OK")
+            st.cache_data.clear()
+            st.experimental_rerun()
 
 
 def cables_main(act):
-
     eq_tag_list = list(get_eqip_tags())
 
     lc, rc = st.columns(2, gap='medium')
@@ -222,10 +148,10 @@ def cables_main(act):
         eq_tag_list = 'No equipment available'
     with lc:
         selected_left_equip = option_menu('Select the Left Side Equipment',
-                                     options=eq_tag_list,
-                                     icons=['-'] * len(eq_tag_list),
-                                     orientation='horizontal',
-                                     menu_icon='1-square')
+                                          options=eq_tag_list,
+                                          icons=['-'] * len(eq_tag_list),
+                                          orientation='horizontal',
+                                          menu_icon='1-square')
 
     if selected_left_equip == 'No equipment available':
         st.stop()
@@ -237,9 +163,9 @@ def cables_main(act):
 
     with lc:
         selected_left_panel = option_menu('Select the Left Side Panel',
-                                     options=left_pan_tag_list,
-                                     icons=['-'] * len(left_pan_tag_list),
-                                     orientation='horizontal', menu_icon='2-square')
+                                          options=left_pan_tag_list,
+                                          icons=['-'] * len(left_pan_tag_list),
+                                          orientation='horizontal', menu_icon='2-square')
 
     rc1, rc2 = st.columns([1, 2], gap='medium')
 
@@ -247,10 +173,10 @@ def cables_main(act):
         eq_tag_list = 'No equipment available'
     with rc:
         selected_right_equip = option_menu('Select the Right Side Equipment',
-                                     options=eq_tag_list,
-                                     icons=['-'] * len(eq_tag_list),
-                                     orientation='horizontal',
-                                     menu_icon='3-square')
+                                           options=eq_tag_list,
+                                           icons=['-'] * len(eq_tag_list),
+                                           orientation='horizontal',
+                                           menu_icon='3-square')
 
     if selected_right_equip == 'No equipment available':
         st.stop()
@@ -262,16 +188,15 @@ def cables_main(act):
 
     with rc:
         selected_right_panel = option_menu('Select the Right Side Panel',
-                                     options=right_pan_tag_list,
-                                     icons=['-'] * len(right_pan_tag_list),
-                                     orientation='horizontal', menu_icon='4-square')
-
+                                           options=right_pan_tag_list,
+                                           icons=['-'] * len(right_pan_tag_list),
+                                           orientation='horizontal', menu_icon='4-square')
 
     if selected_left_panel == selected_right_panel and selected_left_equip == selected_right_equip:
         st.toast(f"##### :red[Left and Right Panels should be different]")
     else:
         df_to_show = get_filtered_cables(selected_left_equip, selected_left_panel,
-                                         selected_right_equip,selected_right_panel)
+                                         selected_right_equip, selected_right_panel)
 
         if isinstance(df_to_show, pd.DataFrame):
             cab_purposes, cab_types, wire_numbers, wire_sections = get_cab_params()
@@ -331,11 +256,10 @@ def cables_main(act):
             data_to_show = st.write(f"#### :blue[Cables not available...]")
 
         if act == 'Create':
-            data_to_show
             create_cable(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel)
 
-        if act == 'View':
-            data_to_show
+        if act == 'Copy':
+            copy_cable()
 
         if act == 'Delete':
             edited_df = data_to_show
@@ -345,4 +269,5 @@ def cables_main(act):
         if act == 'Edit':
             edited_df = data_to_show
             if st.button("Edit Selected Cables"):
-                edit_cable(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel, edited_df)
+                edit_cable(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel,
+                           edited_df)
