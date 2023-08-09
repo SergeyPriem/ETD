@@ -92,19 +92,18 @@ def copy_block(init_block_id):
         if block_but:
             if len(block_tag):
                 try:
+                    add_block_to_db(equip_tag=eq_tag, panel_tag=pan_tag,
+                                    block_tag=block_tag,
+                                    block_descr=block_descr,
+                                    block_notes=block_notes)
                     with db_session:
-                        add_block_to_db(equip_tag=eq_tag, panel_tag=pan_tag,
-                                        block_tag=block_tag,
-                                        block_descr=block_descr,
-                                        block_notes=block_notes)
-
                         terminals = select(t for t in Terminal if t.block_id == init_block)[:]
 
-                        if len(terminals):
-                            create_terminals_with_internals(eq_tag, pan_tag, block_tag, terminals)
-                            st.toast(f"###### :green[Terminals {terminals} added]")
+                    if len(terminals):
+                        create_terminals_with_internals(eq_tag, pan_tag, block_tag, terminals)
+                        st.toast(f"###### :green[Terminals {terminals} added]")
 
-                        st.toast(f"""#### :green[Block {block_tag} added!]""")
+                    st.toast(f"""#### :green[Block {block_tag} added!]""")
 
                 except Exception as e2:
                     st.toast(f"""#### :red[Seems, such Terminal Block already exists!]""")
