@@ -8,7 +8,7 @@ from streamlit_option_menu import option_menu
 from inter_db.equipment import get_eqip_tags
 from inter_db.read_all_tabs import get_all_panels
 from inter_db.utils import get_filtered_panels, get_panels_by_equip_panel_tag, get_panel_tags, \
-    add_block_to_db, create_terminals_with_internals
+    add_block_to_db, create_terminals_with_internals, get_block_terminals
 from models import Equip, Panel, Block, Terminal
 from utilities import err_handler, act_with_warning
 
@@ -21,21 +21,21 @@ def delete_panel(df):
                 for ind, row in del_pan_df.iterrows():
                     del_row = Panel[ind]
                     if not del_row:
-                        st.toast(f"#### :red[Fail, equipment with {row.panel_tag} not found]")
+                        st.toast(f"#### :red[Fail, equipment with {row.panel_tag}  with id {ind} not found]")
                         continue
                     tag = del_row.panel_tag
                     del_row.delete()
                     # commit()
                     st.toast(f"#### :green[Panel: {tag} is deleted]")
         except Exception as e:
-            st.toast(f"#### :red[Can't delete {tag}]")
+            st.toast(f"#### :red[Can't delete {tag}  with id {ind}]")
             st.toast(f"##### {err_handler(e)}")
         finally:
             get_all_panels.clear()
             get_filtered_panels.clear()
             get_panel_tags.clear()
             get_panels_by_equip_panel_tag.clear()
-            st.experimental_rerun()
+            st.button('OK')
     else:
         st.toast(f"#### :orange[Select the Panel to delete in column 'Edit']")
 
@@ -50,21 +50,21 @@ def edit_panel(df):
                     edit_row = Panel[ind]
                     eq_id = Equip.get(equipment_tag=row.equipment_tag).id
                     if not edit_row:
-                        st.toast(f"#### :red[Fail, Panel: {row.panel_tag} not found]")
+                        st.toast(f"#### :red[Fail, Panel: {row.panel_tag}  with id {ind} not found]")
                         continue
 
                     edit_row.set(eq_id=eq_id, panel_tag=row.panel_tag, descr=row.description,
                                  notes=row.notes, panel_un=str(row.equipment_tag) + ":" + str(row.panel_tag))
                     st.toast(f"#### :green[Panel: {row.panel_tag} is updated]")
         except Exception as e:
-            st.toast(f"Can't update {row.panel_tag}")
+            st.toast(f"Can't update {row.panel_tag} with id {ind}")
             st.toast(f"##### {err_handler(e)}")
         finally:
             get_all_panels.clear()
             get_filtered_panels.clear()
             get_panel_tags.clear()
             get_panels_by_equip_panel_tag.clear()
-            st.experimental_rerun()
+            st.button('OK')
     else:
         st.toast(f"#### :orange[Select the Panel to edit in column 'Edit']")
 
@@ -100,16 +100,10 @@ def create_panel(sel_equip):
                 get_filtered_panels.clear()
                 get_panel_tags.clear()
                 get_panels_by_equip_panel_tag.clear()
-                st.experimental_rerun()
+                st.button('OK')
 
         else:
             st.toast(f"""#### :red[Please fill all required (*) fields!]""")
-
-
-def get_block_terminals(bl):
-    with db_session:
-        terms = select(t.terminal_num for t in Terminal if t.block_id == bl and t.terminal_num != "isolated")[:]
-    return terms
 
 
 def copy_panel(eq_tag_old, panel_tag_old):
@@ -173,7 +167,7 @@ def copy_panel(eq_tag_old, panel_tag_old):
             st.toast(err_handler(e2))
         finally:
             st.cache_data.clear()
-            st.experimental_rerun()
+            st.button("OK")
     else:
         st.toast(f"""#### :red[Please fill all required (*) fields!]""")
 

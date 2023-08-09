@@ -10,24 +10,22 @@ from inter_db.utils import get_eqip_tags, good_index
 
 def edit_equipment(df):
     eq_df = df[df.edit.astype('str') == "True"]
-    if len(eq_df):
-        try:
-            with db_session:
+    try:
+        with db_session:
+            if len(eq_df) > 1:
                 for ind, row in eq_df.iterrows():
-                    st.write(ind)
-                    st.write(row)
-                    # edit_row = Equip[ind]
-                    # edit_row.set(equipment_tag=row.equipment_tag, descr=row.descr, notes=row.notes)
-                    # st.toast(f"#### :green[Equipment: {str(row.equipment_tag)} is updated]")
-        except Exception as e:
-            st.toast(f"Can't update {str(row.equipment_tag)}")
-            st.toast(f"##### {err_handler(e)}")
-        except IntegrityError as e2:
-            st.toast(f"#### :red[Equipment {str(row.equipment_tag)} already exists...]")
-            st.toast(f"##### {err_handler(e2)}")
-        finally:
-            st.cache_data.clear()
-            st.button('OK')
+                    edit_row = Equip[ind]
+                    edit_row.set(equipment_tag=row.equipment_tag, descr=row.descr, notes=row.notes)
+                    st.toast(f"#### :green[Equipment: {str(row.equipment_tag)} is updated]")
+    except Exception as e:
+        st.toast(f"Can't update {str(row.equipment_tag)} with id {ind}")
+        st.toast(f"##### {err_handler(e)}")
+    except IntegrityError as e2:
+        st.toast(f"#### :red[Equipment {str(row.equipment_tag)}  with id {ind} already exists...]")
+        st.toast(f"##### {err_handler(e2)}")
+    finally:
+        st.cache_data.clear()
+        st.button('OK')
 
 
 def delete_equipment(df):
@@ -37,15 +35,15 @@ def delete_equipment(df):
             with db_session:
                 for ind, row in eq_to_del.iterrows():
                     Equip[ind].delete()
-                    st.toast(f"#### :green[Equipment: {row.equipment_tag} is deleted]")
+                    st.toast(f"#### :green[Equipment: {row.equipment_tag}  with id {ind} is deleted]")
 
         except Exception as e:
-            st.toast(f"Can't delete {row.equipment_tag}")
+            st.toast(f"Can't delete {row.equipment_tag} with id {ind}")
             st.toast(f"##### {err_handler(e)}")
 
         finally:
             st.cache_data.clear()
-            st.experimental_rerun()
+            st.button('OK')
 
 
 def copy_equipment(df):
@@ -75,7 +73,7 @@ def copy_equipment(df):
                         st.toast(err_handler(e))
                     finally:
                         st.cache_data.clear()
-                        st.experimental_rerun()
+                        st.button('OK')
             else:
                 st.toast(f"""#### :red[Please fill all required (*) fields!]""")
     else:

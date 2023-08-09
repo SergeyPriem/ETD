@@ -19,17 +19,17 @@ def delete_cable(df):
                 for ind, row in del_cab_df.iterrows():
                     del_row = Cable[ind]
                     if not del_row:
-                        st.toast(f"#### :red[Fail, cable: {row.cable_tag} not found]")
+                        st.toast(f"#### :red[Fail, cable: {row.cable_tag} with id {ind} not found]")
                         continue
                     del_row.delete()
                     st.toast(f"#### :green[Cable: {row.cable_tag} is deleted]")
 
         except Exception as e:
-            st.toast(f"#### :red[Can't delete {row.cable_tag}]")
+            st.toast(f"#### :red[Can't delete {row.cable_tag} with id {ind}]")
             st.toast(f"##### {err_handler(e)}")
         finally:
             st.cache_data.clear()
-            st.experimental_rerun()
+            st.button('OK')
     else:
         st.toast(f"#### :orange[Select the Cable to delete in column 'Edit']")
 
@@ -51,7 +51,7 @@ def edit_cable(selected_left_equip, selected_left_panel, selected_right_equip, s
                     edit_row = Cable[ind]
 
                     if not edit_row:
-                        st.toast(f"#### :red[Fail, Cable: {row.cable_tag} not found]")
+                        st.toast(f"#### :red[Fail, Cable: {row.cable_tag} with id {ind} not found]")
                         continue
 
                     purpose = Cab_purpose.get(circuit_descr=row.purpose)
@@ -73,11 +73,11 @@ def edit_cable(selected_left_equip, selected_left_panel, selected_right_equip, s
 
                     st.toast(f"#### :green[Cable: {row.cable_tag} is updated]")
         except Exception as e:
-            st.toast(f"Can't update {row.cable_tag}")
+            st.toast(f"Can't update {row.cable_tag} with id {ind}")
             st.toast(f"##### {err_handler(e)}")
         finally:
             st.cache_data.clear()
-            st.experimental_rerun()
+            st.button('OK')
 
     else:
         st.toast(f"#### :orange[Select the Cables to edit in column 'Edit']")
@@ -136,7 +136,7 @@ def create_cable(left_eq_tag, left_pan_tag, right_eq_tag, right_pan_tag):
             st.toast(err_handler(e))
         finally:
             st.cache_data.clear()
-            st.experimental_rerun()
+            st.button('OK')
 
 
 def cables_main(act):

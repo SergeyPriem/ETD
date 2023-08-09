@@ -20,12 +20,12 @@ def delete_block(df):
                 for ind, row in del_block_df.iterrows():
                     del_row = Block[ind]
                     if not del_row:
-                        st.toast(f"#### :red[Fail, Terminal Block {row.block_tag} not found]")
+                        st.toast(f"#### :red[Fail, Terminal Block {row.block_tag}  with id {ind} not found]")
                         continue
                     del_row.delete()
                     st.toast(f"#### :green[Terminal Block: {row.block_tag} is deleted]")
         except Exception as e:
-            st.toast(f"#### :red[Can't delete {row.block_tag}]")
+            st.toast(f"#### :red[Can't delete {row.block_tag} with id {ind}]")
             st.toast(f"##### {err_handler(e)}")
         finally:
             st.cache_data.clear()
@@ -44,14 +44,14 @@ def edit_block(df):
                     edit_row = Block[ind]
 
                     if not edit_row:
-                        st.toast(f"#### :red[Fail, Terminal Block: {row.block_tag} not found]")
+                        st.toast(f"#### :red[Fail, Terminal Block: {row.block_tag} with id {ind} not found]")
                         continue
 
                     pan_id = Panel.get(panel_un=row.panel_tag)
                     edit_row.set(pan_id=pan_id, block_tag=row.block_tag, descr=row.description, notes=row.notes)
                     st.toast(f"#### :green[Terminal Block: {row.block_tag} is updated]")
         except Exception as e:
-            st.toast(f"Can't update {row.block_tag}")
+            st.toast(f"Can't update {row.block_tag} with id {ind}")
             st.toast(f"##### {err_handler(e)}")
         finally:
             st.cache_data.clear()
@@ -106,7 +106,7 @@ def copy_block(init_block_id):
 
                 finally:
                     st.cache_data.clear()
-                    st.experimental_rerun()
+                    st.button("OK")
 
             else:
                 st.toast(f"""#### :red[Please fill all required (*) fields!]""")

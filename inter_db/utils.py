@@ -268,8 +268,6 @@ def create_terminals_with_internals(selected_equip, selected_panel, selected_blo
                 int_link='SPARE',
                 edit=False,
             )
-
-
     except Exception as e:
         st.toast(err_handler(e))
 
@@ -288,7 +286,7 @@ def create_block(equip_tag, panel_tag):
 
     if block_but:
         add_block_to_db(equip_tag, panel_tag, block_tag, block_descr, block_notes)
-        st.experimental_rerun()
+        st.button("OK")
 
 
 def add_block_to_db(equip_tag, panel_tag, block_tag, block_descr, block_notes):
@@ -361,7 +359,8 @@ def get_filtered_cables(left_eq, left_pan, right_eq, right_pan):
     try:
         with db_session:
             left_pan = select(p for p in Panel if p.panel_tag == left_pan and p.eq_id.equipment_tag == left_eq).first()
-            right_pan = select(p for p in Panel if p.panel_tag == right_pan and p.eq_id.equipment_tag == right_eq).first()
+            right_pan = select(
+                p for p in Panel if p.panel_tag == right_pan and p.eq_id.equipment_tag == right_eq).first()
 
             if left_pan and right_pan:
                 data = select(
@@ -388,3 +387,9 @@ def get_cab_params():
         return purposes, types, wire_num, wire_sect
     except Exception as e:
         return err_handler(e)
+
+
+def get_block_terminals(bl):
+    with db_session:
+        terms = select(t.terminal_num for t in Terminal if t.block_id == bl and t.terminal_num != "isolated")[:]
+    return terms
