@@ -14,9 +14,11 @@ def edit_equipment(df):
         try:
             with db_session:
                 for ind, row in eq_df.iterrows():
-                    edit_row = Equip[ind]
-                    edit_row.set(equipment_tag=row.equipment_tag, descr=row.descr, notes=row.notes)
-                    st.toast(f"#### :green[Equipment: {str(row.equipment_tag)} is updated]")
+                    st.write(ind)
+                    st.write(row)
+                    # edit_row = Equip[ind]
+                    # edit_row.set(equipment_tag=row.equipment_tag, descr=row.descr, notes=row.notes)
+                    # st.toast(f"#### :green[Equipment: {str(row.equipment_tag)} is updated]")
         except Exception as e:
             st.toast(f"Can't update {str(row.equipment_tag)}")
             st.toast(f"##### {err_handler(e)}")
