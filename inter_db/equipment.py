@@ -50,33 +50,35 @@ def delete_equipment(df):
     st.stop()
 
     if len(eq_to_del):
-        try:
-            with db_session:
-                for ind, row in eq_to_del.iterrows():
+        # try:
+        #     with db_session:
+        for ind, row in eq_to_del.iterrows():
 
-                    good_ind = good_index(ind, row)
+            st.write(type(row))
 
-                    if good_ind:
-                        del_row = Equip[good_ind]
-                    else:
-                        del_row = False
-                        st.toast(f"#### :red[Fail, equipment {str(row.equipment_tag)} not found]")
-
-                    if not del_row:
-                        st.toast(f"#### :red[Fail, equipment {row.equipment_tag} not found]")
-                        continue
-
-                    del_row.delete()
-
-                    st.toast(f"#### :green[Equipment: {row.equipment_tag} is deleted]")
-        except Exception as e:
-            st.toast(f"Can't delete {row.equipment_tag}")
-            st.toast(f"##### {err_handler(e)}")
-        finally:
-            st.cache_data.clear()
-            st.stop()
-            st.experimental_rerun()
-
+        #             good_ind = good_index(ind, row)
+        #
+        #             if good_ind:
+        #                 del_row = Equip[good_ind]
+        #             else:
+        #                 del_row = False
+        #                 st.toast(f"#### :red[Fail, equipment {str(row.equipment_tag)} not found]")
+        #
+        #             if not del_row:
+        #                 st.toast(f"#### :red[Fail, equipment {row.equipment_tag} not found]")
+        #                 continue
+        #
+        #             del_row.delete()
+        #
+        #             st.toast(f"#### :green[Equipment: {row.equipment_tag} is deleted]")
+        # except Exception as e:
+        #     st.toast(f"Can't delete {row.equipment_tag}")
+        #     st.toast(f"##### {err_handler(e)}")
+        # finally:
+        #     st.cache_data.clear()
+        #     st.stop()
+        #     st.experimental_rerun()
+        #
 
 def copy_equipment(df):
     eq_df = df[df.edit.astype('str') == "True"]
