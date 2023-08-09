@@ -171,7 +171,7 @@ def blocks_main(act):
         create_block(selected_equip, selected_panel)
 
     if act == 'Copy':
-        copy_block(df_to_show.id.to_numpy()[0])
+        copy_block(int(df_to_show.id.to_numpy()[0]))
 
     if not (isinstance(df_to_show, pd.DataFrame) and len(df_to_show)):
         st.write(f"#### :blue[Blocks not available...]")
