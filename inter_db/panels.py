@@ -106,6 +106,12 @@ def create_panel(sel_equip):
             st.toast(f"""#### :red[Please fill all required (*) fields!]""")
 
 
+def get_block_terminals(bl):
+    with db_session:
+        terms = select(t.terminal_num for t in Terminal if t.block_id == bl)[:]
+    return terms
+
+
 def copy_panel(eq_tag_old, panel_tag_old):
     eqip_tag_list = get_eqip_tags()
 
@@ -153,11 +159,6 @@ def copy_panel(eq_tag_old, panel_tag_old):
                                     block_notes=block.notes)
 
                     st.toast(f"##### :green[Block {block.block_tag} added]")
-
-                    def get_block_terminals(bl):
-                        with db_session:
-                            terms = select(t.terminal_num for t in Terminal if t.block_id == bl)[:]
-                        return terms
 
                     terminals = get_block_terminals(block)
 

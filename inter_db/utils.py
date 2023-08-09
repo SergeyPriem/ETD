@@ -326,5 +326,5 @@ def add_block_to_db(equip_tag, panel_tag, block_tag, block_descr, block_notes):
 
 
 @st.cache_data(show_spinner=False)
-def get_block_terminals(equip_tag, panel_tag, source_block_tag):
+def get_terminals_by_block_id(block_id):
     ...

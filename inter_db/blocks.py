@@ -8,8 +8,8 @@ from inter_db.equipment import get_eqip_tags
 from inter_db.panels import get_panel_tags
 from inter_db.read_all_tabs import get_all_blocks
 from inter_db.utils import get_blocks_list_by_eq_pan, get_selected_block, create_terminals, get_block_terminals, \
-    create_block
-from models import Panel, Block
+    create_block, create_terminals_with_internals, get_terminals_by_block_id
+from models import Panel, Block, Terminal
 from utilities import err_handler, act_with_warning
 
 
@@ -65,53 +65,63 @@ def edit_block(df):
         st.toast(f"#### :orange[Select the Panel to edit in column 'Edit']")
 
 
+def copy_block(init_equip_tag, init_panel_tag, init_block_id):
+    with db_session:
+        init_block = Block[init_block_id]
 
-def copy_block(equip_tag, panel_tag, source_block_tag):
+    if len(init_block) == 1:
 
-    terminals = get_block_terminals(equip_tag, panel_tag, source_block_tag)
+        eqip_tag_list = get_eqip_tags()
+        pan_tag_list = get_panel_tags()
 
-    with st.form('add_block'):
-        c1, c2, c3, c4, c5, c6, c7 = st.columns([0.5, 0.5, 1, 1, 1.5, 0.6, 0.4], gap='medium')
-        c1.text_input('Equipment Tag *', value=equip_tag, disabled=True)
-        c2.text_input('Panel Tag *', value=panel_tag, disabled=True)
-        block_tag = c3.text_input('Block Tag *')
-        block_descr = c4.text_input('Block Description')
-        block_notes = c5.text_input('Notes')
-        c6.text('')
-        c6.text('')
-        c6.checkbox('Copy nested terminals')
-        c7.text('')
-        c7.text('')
-        block_but = c7.form_submit_button("Add", use_container_width=True)
+        with st.form('copy_block'):
+            c1, c2, c3, c4, c5, c6, c7 = st.columns([0.5, 0.5, 1, 1, 1.5, 0.6, 0.4], gap='medium')
+            eq_tag = c1.selectbox('Equipment Tag *', eqip_tag_list)
+            pan_tag = c2.selectbox('Panel Tag *', pan_tag_list)
+            block_tag = c3.text_input('Block Tag *', value=init_block.block_tag[:-1])
+            block_descr = c4.text_input('Block Description', value=init_block.descr)
+            block_notes = c5.text_input('Notes', value=init_block.notes)
+            c6.text('')
+            c6.text('')
+            c6.checkbox('Copy nested terminals')
+            c7.text('')
+            c7.text('')
+            block_but = c7.form_submit_button("Copy", use_container_width=True)
 
+        if block_but:
+            if all([len(init_panel_tag), len(block_tag)]):
+                try:
+                    with db_session:
+                        # equip = Equip.get(equipment_tag=equip_tag)
+                        panel_to_add_block = select(p for p in Panel
+                                                    if
+                                                    p.eq_id.equipment_tag == eq_tag and p.panel_tag == pan_tag).first()
 
+                        if len(panel_to_add_block):
 
-    if block_but:
-        if all([len(panel_tag), len(block_tag)]):
-            try:
-                with db_session:
-                    # equip = Equip.get(equipment_tag=equip_tag)
-                    panel = select(p for p in Panel
-                                   if p.eq_id.equipment_tag == equip_tag and p.panel_tag == panel_tag).first()
+                            Block(pan_id=panel_to_add_block, block_tag=block_tag, descr=block_descr,
+                                  edit=False, notes=block_notes)
 
-                    copied_block = Block(pan_id=panel, block_tag=block_tag, descr=block_descr,
-                                         edit=False, notes=block_notes)
+                            terminals = select(t for t in Terminal if t.block_id == init_block_id)[:]
 
+                            if len(terminals):
+                                create_terminals_with_internals(eq_tag, pan_tag, block_tag, terminals)
+                                st.toast(f"###### :green[Terminals {terminals} added]")
 
-                    create_terminals(equip_tag, panel_tag, block_tag, terminals)
+                            st.toast(f"""#### :green[Block {block_tag} added!]""")
 
-                st.toast(f"""#### :green[Block {block_tag} added!]""")
-
-            except Exception as e2:
-                st.toast(f"""#### :red[Seems, such Terminal Block already exists!]""")
-                st.toast(err_handler(e2))
-            finally:
-                get_all_blocks.clear()
-                get_selected_block.clear()
-                get_blocks_list_by_eq_pan.clear()
-                st.button("OK")
-        else:
-            st.toast(f"""#### :red[Please fill all required (*) fields!]""")
+                except Exception as e2:
+                    st.toast(f"""#### :red[Seems, such Terminal Block already exists!]""")
+                    st.toast(err_handler(e2))
+                finally:
+                    get_all_blocks.clear()
+                    get_selected_block.clear()
+                    get_blocks_list_by_eq_pan.clear()
+                    st.button("OK")
+            else:
+                st.toast(f"""#### :red[Please fill all required (*) fields!]""")
+    else:
+        st.toast(f"##### :red[Block with ID {init_block_id} not found]")
 
 
 def blocks_main(act):
@@ -161,7 +171,7 @@ def blocks_main(act):
         create_block(selected_equip, selected_panel)
 
     if act == 'Copy':
-        copy_block(selected_equip, selected_panel, source_block_tag=selected_block)
+        copy_block(selected_equip, selected_panel, df_to_show.id.to_numpy()[0])
 
     if not (isinstance(df_to_show, pd.DataFrame) and len(df_to_show)):
         st.write(f"#### :blue[Blocks not available...]")
