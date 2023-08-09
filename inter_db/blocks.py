@@ -171,6 +171,7 @@ def blocks_main(act):
     edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
 
     if act == 'Delete':
+        st.subheader("⚠ All related terminals will be deleted!")
         if st.button("Delete Terminal Block"):
             # act_with_warning(left_function=delete_block, left_args=edited_df,
             #                  header_message="All related terminals will be deleted!",
