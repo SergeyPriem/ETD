@@ -112,6 +112,17 @@ def terminals_main(act):
 
     df_to_show = get_selected_block_terminals(selected_equip, selected_panel, selected_block)
 
+    if act == 'Create':
+        c1, c2 = st.columns(2, gap='medium')
+        terminals_str = c1.text_input("Terminals Numbers")
+        c2.text("")
+        c2.text("")
+        if c2.button("Add Terminals", use_container_width=True):
+            terminals = convert_txt_to_list(terminals_str)
+            if all([len(terminals), isinstance(terminals, list)]):
+                create_terminals(selected_equip, selected_panel, selected_block, terminals)
+                st.experimental_rerun()
+
     if not isinstance(df_to_show, pd.DataFrame) or len(df_to_show) == 0:
         st.write("##### :blue[Please, create Terminals]")
         st.stop()
@@ -148,24 +159,8 @@ def terminals_main(act):
                                               "Notes",
                                               width='large'
                                           ),
-                                          # "terminal_un": st.column_config.TextColumn(
-                                          #     "Terminal Unique Number",
-                                          #     width='large'
-                                          # ),
                                       },
                                       use_container_width=True, hide_index=True)
-
-    if act == 'Create':
-        # data_to_show
-        c1, c2 = st.columns(2, gap='medium')
-        terminals_str = c1.text_input("Terminals Numbers")
-        c2.text("")
-        c2.text("")
-        if c2.button("Add Terminals", use_container_width=True):
-            terminals = convert_txt_to_list(terminals_str)
-            if all([len(terminals), isinstance(terminals, list)]):
-                create_terminals(selected_equip, selected_panel, selected_block, terminals)
-                st.experimental_rerun()
 
     if act == 'Delete':
         edited_df = data_to_show

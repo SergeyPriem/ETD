@@ -210,7 +210,35 @@ def panels_main(act):
         st.write("##### :blue[Please, create Panel]")
         st.stop()
     else:
-        edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
+        edited_df = st.data_editor(df_to_show,
+                                   column_config={
+                                       'id': st.column_config.TextColumn(
+                                           'ID',
+                                           disabled=True,
+                                           width='small'
+                                       ),
+                                       'equipment_tag': st.column_config.TextColumn(
+                                           'Equipment Tag',
+                                           width='medium',
+                                       ),
+                                       'panel_tag': st.column_config.TextColumn(
+                                           'Equipment Tag',
+                                           width='medium',
+                                       ),
+                                       'description': st.column_config.TextColumn(
+                                           'Equipment Description',
+                                           width='medium',
+                                       ),
+                                       'edit': st.column_config.CheckboxColumn(
+                                           'Edit',
+                                           width='small',
+                                       ),
+                                       'notes': st.column_config.TextColumn(
+                                           'Notes',
+                                           width='medium',
+                                       ),
+                                   },
+                                   use_container_width=True, hide_index=True)
 
     if act == 'Copy':
         if selected_equip:

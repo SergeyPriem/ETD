@@ -169,7 +169,35 @@ def blocks_main(act):
     if act == 'Copy':
         copy_block(int(df_to_show.id.to_numpy()[0]))
 
-    edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
+    edited_df = st.data_editor(df_to_show,
+                               column_config={
+                                   'id': st.column_config.TextColumn(
+                                       'ID',
+                                       disabled=True,
+                                       width='small'
+                                   ),
+                                   'panel_tag': st.column_config.TextColumn(
+                                       'Panel Tag',
+                                       width='medium',
+                                   ),
+                                   'block_tag': st.column_config.TextColumn(
+                                       'Terminal Block Tag',
+                                       width='medium',
+                                   ),
+                                   'description': st.column_config.TextColumn(
+                                       'Description',
+                                       width='medium',
+                                   ),
+                                   'edit': st.column_config.CheckboxColumn(
+                                       'Edit',
+                                       width='small',
+                                   ),
+                                   'notes': st.column_config.TextColumn(
+                                       'Notes',
+                                       width='medium',
+                                   ),
+                               },
+                               use_container_width=True, hide_index=True)
 
     if act == 'Delete':
         st.subheader(f":warning: :red[All nested terminals will be deleted!]")

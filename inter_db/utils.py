@@ -45,7 +45,6 @@ def get_panels_by_equip_panel_tag(equip_tag, pan_tag):
                         p.descr,
                         p.edit,
                         p.notes,
-                        p.panel_un,
                     )
                     for p in Panel
                     if equip_tag == p.eq_id.equipment_tag and pan_tag == p.panel_tag)[:]
@@ -58,13 +57,12 @@ def get_panels_by_equip_panel_tag(equip_tag, pan_tag):
                         p.descr,
                         p.edit,
                         p.notes,
-                        p.panel_un,
                     )
                     for p in Panel
                     if equip_tag == p.eq_id.equipment_tag)[:]
 
         df = pd.DataFrame(data, columns=['id', 'equipment_tag', 'panel_tag', 'description',
-                                         'edit', 'notes', 'panel_un'])
+                                         'edit', 'notes',])
         return df
     except Exception as e:
         return err_handler(e)
