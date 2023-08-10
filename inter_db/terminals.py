@@ -7,12 +7,16 @@ from streamlit_option_menu import option_menu
 from inter_db.blocks import get_blocks_list_by_eq_pan
 from inter_db.panels import get_eqip_tags, get_panel_tags
 from inter_db.utils import get_selected_block_terminals, create_terminals
+from inter_db.wires import check_duplicated_terminals
 from models import Terminal, Block, Equip, Panel
 from utilities import err_handler, convert_txt_to_list
 
 
-def edit_terminals(df, selected_equip, selected_panel, selected_block):
-    term_df = df[(df.edit.astype('str') == "True") & (df.terminal_num != "isolated")]
+def edit_terminals(df, selected_equip, selected_panel, selected_block, all_term=False):
+    if all_term:
+        term_df = df
+    else:
+        term_df = df[(df.edit.astype('str') == "True") & (df.terminal_num != "isolated")]
 
     if len(term_df):
         try:
@@ -127,7 +131,7 @@ def terminals_main(act):
         st.write("##### :blue[Please, create Terminals]")
         st.stop()
     else:
-        data_to_show = st.data_editor(df_to_show,
+        edited_df = st.data_editor(df_to_show,
                                       column_config={
                                           "id": st.column_config.TextColumn(
                                               "ID",
@@ -164,11 +168,20 @@ def terminals_main(act):
                                       use_container_width=True, hide_index=True)
 
     if act == 'Delete':
-        edited_df = data_to_show
         if st.button("Delete Selected Terminals"):
             delete_terminals(edited_df)
 
     if act == 'Edit':
-        edited_df = data_to_show
-        if st.button("Edit Selected Terminals"):
-            edit_terminals(edited_df, selected_equip, selected_panel, selected_block)
+
+        c1, c2, c3, c4, c5 = st.columns(5, gap='large')
+        if c2.button("Save Selected Terminals",
+                     help="It will be faster but without complete duplicates check"):
+            check_duplicated_terminals(edited_df[edited_df.edit.astype('str') == "True"])
+            edit_terminals(edited_df, selected_equip, selected_panel, selected_block, all_term=False)
+
+        if c4.button("Save All Terminals", help="It will be slower but with complete duplicates check"):
+            check_duplicated_terminals(edited_df)
+            edit_terminals(edited_df, selected_equip, selected_panel, selected_block, all_term=True)
+
+
+

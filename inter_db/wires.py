@@ -144,7 +144,7 @@ def delete_wires(cab_tag):
         st.experimental_rerun()
 
 
-def check_dulicated_terminals(df):
+def check_duplicated_terminals(df):
     i = 0
     left_series = df.left_term_id
     right_series = df.right_term_id
@@ -161,10 +161,10 @@ def check_dulicated_terminals(df):
 
     if len(left_dup) > 0 or len(right_dup) > 0:
         for l in left_dup:
-            if "999" not in l:
+            if "isolated" not in l:
                 i += 1
         for r in right_dup:
-            if "999" not in r:
+            if "isolated" not in r:
                 i += 1
     if i > 0:
         st.stop()
@@ -199,7 +199,7 @@ def wires_main(act):
         eq_tag_list = ['No equipment available']
     with rc1:
         selected_right_equip = option_menu('Select the Right Side Equipment',
-                                           options=eq_tag_list,
+                                           options=eq_tag_list, default_index=len(eq_tag_list)-1,
                                            icons=['-'] * len(eq_tag_list),
                                            orientation='horizontal',
                                            menu_icon='3-square')
@@ -211,7 +211,7 @@ def wires_main(act):
 
     with rc1:
         selected_right_panel = option_menu('Select the Right Side Panel',
-                                           options=right_pan_tag_list,
+                                           options=right_pan_tag_list, default_index=len(right_pan_tag_list)-1,
                                            icons=['-'] * len(right_pan_tag_list),
                                            orientation='horizontal', menu_icon='4-square')
 
@@ -358,9 +358,9 @@ def wires_main(act):
         c1, c2, c3, c4, c5 = st.columns(5, gap='large')
         if c2.button("Save Selected Wires Termination",
                      help="It will be faster but without complete duplicates check"):
-            check_dulicated_terminals(edited_df[edited_df.edit.astype('str') == "True"])
+            check_duplicated_terminals(edited_df[edited_df.edit.astype('str') == "True"])
             edit_wires(edited_df, cab_tag, all_wires=False)
 
         if c4.button("Save All Wires Termination", help="It will be slower but with complete duplicates check"):
-            check_dulicated_terminals(edited_df)
+            check_duplicated_terminals(edited_df)
             edit_wires(edited_df, cab_tag, all_wires=True)
