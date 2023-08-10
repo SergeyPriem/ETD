@@ -18,6 +18,7 @@ def get_all_terminals(equip_tag):
             wires = select(
                 (
                     w.id,
+
                     w.left_term_id.block_id.pan_id.eq_id.equipment_tag,
                     w.left_term_id.block_id.pan_id.panel_tag,
                     w.left_term_id.block_id.block_tag,
@@ -36,7 +37,6 @@ def get_all_terminals(equip_tag):
                     w.right_term_id.int_circuit,
                     w.right_term_id.int_link,
                     w.right_term_id.notes,
-
 
                     w.notes
                 )
@@ -79,3 +79,6 @@ def generate_wd():
         st.data_editor(term_df, use_container_width=True, hide_index=True)
     else:
         st.write("##### :blue[Wires not found]")
+
+    panels_list = term_df.left_pan_tag.unique().sort()
+    st.write(panels_list)
