@@ -13,7 +13,7 @@ def get_all_terminals(equip_tag):
     try:
         with db_session:
             equip = Equip.get(equipment_tag=equip_tag)
-            panels = select(p for p in Panel if p.eq_id in equip)[:]
+            panels = select(p for p in Panel if p.eq_id == equip)[:]
             cables = select(cab for cab in Cable if cab.left_pan_id in panels)[:]
             wires = select(w for w in Wire if w.cable_id in cables)[:]
 
