@@ -20,8 +20,8 @@ def get_all_terminals(equip_tag):
                     w.id,
                     w.cable_id.cable_tag,
                     w.wire_num,
-                    w.left_term_id.block_id.bblock_tag,
-                    w.right_term_id.block_id.bblock_tag,
+                    w.left_term_id.block_id.block_tag,
+                    w.right_term_id.block_id.block_tag,
                     w.notes
                 )
                 for w in Wire if w.cable_id in cables)[:]
