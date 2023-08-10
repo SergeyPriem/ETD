@@ -58,6 +58,9 @@ def get_all_terminals(equip_tag):
         st.toast(err_handler(e))
 
 
+def draw_pan_connection(panel):
+    ...
+
 def generate_wd():
     eq_tag_list = list(get_eqip_tags())
 
@@ -67,11 +70,15 @@ def generate_wd():
         if len(eq_tag_list) > 1:
             eq_tag_list.append("ALL")
 
-    selected_equip = option_menu('Select the Equipment',
-                                 options=eq_tag_list,
-                                 icons=['-'] * len(eq_tag_list),
-                                 orientation='horizontal',
-                                 menu_icon='1-square')
+    c1, c2 = st.columns(2, gap='medium')
+
+    with c1:
+        selected_equip = option_menu('Select the Equipment',
+                                     options=eq_tag_list,
+                                     icons=['-'] * len(eq_tag_list),
+                                     orientation='horizontal',
+                                     menu_icon='1-square')
+    dxf_template = c2.file_uploader("TEMPLATE loader", type='dxf')
 
     term_df = get_all_terminals(selected_equip)
 
@@ -82,3 +89,6 @@ def generate_wd():
 
     panels_list = list(term_df.left_panel_tag.unique())
     st.write(panels_list)
+
+    for p in panels_list:
+        draw_pan_connection(p)
