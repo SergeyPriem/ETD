@@ -191,6 +191,7 @@ def blocks_main(act):
                                    'edit': st.column_config.CheckboxColumn(
                                        'Edit',
                                        width='small',
+                                       help='Select this to Copy, Edit or Delete',
                                    ),
                                    'notes': st.column_config.TextColumn(
                                        'Notes',

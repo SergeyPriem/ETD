@@ -232,11 +232,11 @@ def panels_main(act):
                                        'edit': st.column_config.CheckboxColumn(
                                            'Edit',
                                            width='small',
+                                           help='Select this to Copy, Edit or Delete',
                                        ),
                                        'notes': st.column_config.TextColumn(
                                            'Notes',
                                            width='medium',
-                                           help='Select this to Copy, Edit or Delete',
                                        ),
                                    },
                                    use_container_width=True, hide_index=True)

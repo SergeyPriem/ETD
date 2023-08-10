@@ -232,7 +232,51 @@ def wires_main(act):
         st.stop()
 
     st.write(":blue[Selected Cable Details]")
-    st.data_editor(cab_df[cab_df.cable_tag == cab_tag], use_container_width=True)
+    cab_to_show = cab_df[cab_df.cable_tag == cab_tag]
+
+    cab_to_show.drop(columns=['edit'], inplace=True)
+
+    st.data_editor(cab_to_show,
+                   column_config={
+                       'id': st.column_config.TextColumn(
+                           'ID',
+                           disabled=True,
+                           width='small'
+                       ),
+                       'cable_tag': st.column_config.TextColumn(
+                           'Cable Tag',
+                           width='medium',
+                       ),
+                       'purpose': st.column_config.TextColumn(
+                           'Circuits Purpose',
+                           width='small',
+                       ),
+                       'type': st.column_config.TextColumn(
+                           'Cable Type',
+                           width='small',
+                       ),
+                       'wire': st.column_config.NumberColumn(
+                           'Wires Q-ty',
+                           width='small',
+                       ),
+                       'section': st.column_config.TextColumn(
+                           'Cross Section',
+                           width='small',
+                       ),
+                       'left_pan_tag': st.column_config.TextColumn(
+                           "Tag of 'left' panel",
+                           width='medium',
+                       ),
+                       'right_pan_tag': st.column_config.TextColumn(
+                           "Tag of 'right' panel",
+                           width='medium',
+                       ),
+                       'notes': st.column_config.TextColumn(
+                           'Notes',
+                           width='medium',
+                       ),
+                   },
+                   hide_index=True, use_container_width=True)
 
     left_terminals = get_panel_terminals(selected_left_equip, selected_left_panel)
     right_terminals = get_panel_terminals(selected_right_equip, selected_right_panel)
