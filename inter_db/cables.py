@@ -182,7 +182,7 @@ def cables_main(act):
 
     with rc:
         selected_right_panel = option_menu('Select the Right Side Panel',
-                                           options=right_pan_tag_list,
+                                           options=right_pan_tag_list, default_index=len(right_pan_tag_list)-1,
                                            icons=['-'] * len(right_pan_tag_list),
                                            orientation='horizontal', menu_icon='4-square')
 
