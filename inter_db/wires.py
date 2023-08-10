@@ -217,16 +217,13 @@ def wires_main(act):
 
     cab_df = get_filtered_cables(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel)
 
-    cab_tag_list = cab_df.cable_tag.tolist()
 
-    if isinstance(cab_df, pd.DataFrame):
+    if isinstance(cab_df, pd.DataFrame) and len(cab_df) != 0:
         cab_tag_list = cab_df.cable_tag.tolist()
     else:
-        st.toast(cab_tag_list)
-        st.stop()
-
-    if len(cab_tag_list) == 0:
         cab_tag_list = ['No cables available']
+        st.toast(cab_df)
+
 
     cab_tag = option_menu('Select the Cable',
                           options=cab_tag_list,
@@ -234,7 +231,6 @@ def wires_main(act):
                           orientation='horizontal', menu_icon='5-square')
 
     if cab_tag == 'No cables available':
-        st.write(f"#### :blue[Select Cable Tag to proceed ore create new one]")
         st.stop()
 
     st.write(":blue[Selected Cable Details]")
@@ -250,8 +246,6 @@ def wires_main(act):
         st.stop()
 
     if len(df):
-
-
         st.write(":blue[Wires Details]")
         edited_df = st.data_editor(df,
                                    column_config={
