@@ -9,8 +9,8 @@ from inter_db.equipment import get_eqip_tags
 from inter_db.read_all_tabs import get_all_panels
 from inter_db.utils import get_filtered_panels, get_panels_by_equip_panel_tag, get_panel_tags, \
     add_block_to_db, create_terminals_with_internals, get_block_terminals
-from models import Equip, Panel, Block, Terminal
-from utilities import err_handler, act_with_warning
+from models import Equip, Panel, Block
+from utilities import err_handler
 
 
 def delete_panel(df):
@@ -203,7 +203,6 @@ def panels_main(act):
     df_to_show = get_panels_by_equip_panel_tag(selected_equip, selected_panel)
 
     if not isinstance(df_to_show, pd.DataFrame) or len(df_to_show) == 0:
-        st.write(f"#### :blue[Panels not available...]")
         st.stop()
 
     edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)

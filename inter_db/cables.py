@@ -152,8 +152,6 @@ def cables_main(act):
                                           orientation='horizontal',
                                           menu_icon='1-square')
 
-    if selected_left_equip == 'No equipment available':
-        st.stop()
 
     left_pan_tag_list = list(get_panel_tags(selected_left_equip))
 
@@ -176,9 +174,6 @@ def cables_main(act):
                                            icons=['-'] * len(eq_tag_list),
                                            orientation='horizontal',
                                            menu_icon='3-square')
-
-    if selected_right_equip == 'No equipment available':
-        st.stop()
 
     right_pan_tag_list = list(get_panel_tags(selected_right_equip))
 
