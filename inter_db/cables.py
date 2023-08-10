@@ -200,7 +200,52 @@ def cables_main(act):
         st.write("##### :blue[Please, create Cable]")
         st.stop()
     else:
-        edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
+        edited_df = st.data_editor(df_to_show,
+                                   column_config={
+                                       'id': st.column_config.TextColumn(
+                                           'ID',
+                                           disabled=True,
+                                           width='small'
+                                       ),
+                                       'cable_tag': st.column_config.TextColumn(
+                                           'Cable Tag',
+                                           width='medium',
+                                       ),
+                                       'purpose': st.column_config.TextColumn(
+                                           'Circuits Purpose',
+                                           width='small',
+                                       ),
+                                       'type': st.column_config.TextColumn(
+                                           'Cable Type',
+                                           width='small',
+                                       ),
+                                       'wire': st.column_config.NumberColumn(
+                                           'Wires Q-ty',
+                                           width='small',
+                                       ),
+                                       'section': st.column_config.TextColumn(
+                                           'Cross Section',
+                                           width='small',
+                                       ),
+                                       'left_pan_tag': st.column_config.TextColumn(
+                                           "Tag of 'left' panel",
+                                           width='medium',
+                                       ),
+                                       'right_pan_tag': st.column_config.TextColumn(
+                                           "Tag of 'right' panel",
+                                           width='medium',
+                                       ),
+                                       'edit': st.column_config.CheckboxColumn(
+                                           'Edit',
+                                           width='small',
+                                           help='Select this to Copy, Edit or Delete',
+                                       ),
+                                       'notes': st.column_config.TextColumn(
+                                           'Notes',
+                                           width='medium',
+                                       ),
+                                   },
+                                   use_container_width=True, hide_index=True)
 
     if act == 'Copy':
         copy_cable()

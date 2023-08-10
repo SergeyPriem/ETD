@@ -239,21 +239,23 @@ def wires_main(act):
 
     df = get_filtered_wires(cab_tag)
 
-    if act == 'Create':
-        if st.button('Create Wires'):
-            st.write(f"Left Terminals: {left_terminals}")
-            st.write(f"Right Terminals: {right_terminals}")
-            if left_terminals[0] and right_terminals[0]:
-                if " : " in left_terminals[0] and " : " in right_terminals[0]:
-                    create_wires(cab_tag,
-                                 cab_df.loc[cab_df.cable_tag == cab_tag, 'wire'].to_numpy()[0],
-                                 left_terminals[0],
-                                 right_terminals[0])
+    if len(df) > 0:
+        ...
+    else:
+        if act == 'Create':
+            if st.button('Create Wires'):
+                st.write(f"Left Terminals: {left_terminals}")
+                st.write(f"Right Terminals: {right_terminals}")
+                if len(left_terminals[0]) and len(right_terminals[0]):
+                    if " : " in left_terminals[0] and " : " in right_terminals[0]:
+                        create_wires(cab_tag,
+                                     cab_df.loc[cab_df.cable_tag == cab_tag, 'wire'].to_numpy()[0],
+                                     left_terminals[0],
+                                     right_terminals[0])
+                    else:
+                        st.toast(f"##### :orange[Create terminals first]")
                 else:
                     st.toast(f"##### :orange[Create terminals first]")
-            else:
-                st.toast(f"##### :orange[Create terminals first]")
-
 
     if not isinstance(df, pd.DataFrame) or len(df) == 0:
         st.write(f"#### :blue[Please create Wires]")
@@ -268,7 +270,7 @@ def wires_main(act):
                                    ),
                                    "cable_tag": st.column_config.TextColumn(
                                        "Cable Tag",
-                                       width='mediun',
+                                       width='medium',
                                        disabled=True
                                    ),
                                    "wire_num": st.column_config.NumberColumn(
@@ -287,7 +289,9 @@ def wires_main(act):
                                    ),
                                    "edit": st.column_config.CheckboxColumn(
                                        "Edit",
-                                       width='small'),
+                                       width='small',
+                                       help='Select this to Copy, Edit or Delete',
+                                   ),
                                    "notes": st.column_config.TextColumn(
                                        "Notes",
                                        width='large'
@@ -316,5 +320,3 @@ def wires_main(act):
         if c4.button("Save All Wires Termination", help="It will be slower but with complete duplicates check"):
             check_dulicated_terminals(edited_df)
             edit_wires(edited_df, cab_tag, all_wires=True)
-
-

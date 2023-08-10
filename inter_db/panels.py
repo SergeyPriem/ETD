@@ -236,6 +236,7 @@ def panels_main(act):
                                        'notes': st.column_config.TextColumn(
                                            'Notes',
                                            width='medium',
+                                           help='Select this to Copy, Edit or Delete',
                                        ),
                                    },
                                    use_container_width=True, hide_index=True)
