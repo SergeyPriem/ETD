@@ -80,5 +80,5 @@ def generate_wd():
     else:
         st.write("##### :blue[Wires not found]")
 
-    panels_list = term_df.left_pan_tag.unique().sort()
+    panels_list = term_df.left_panel_tag.unique().sort()
     st.write(panels_list)
