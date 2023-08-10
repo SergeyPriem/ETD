@@ -15,9 +15,20 @@ def get_all_terminals(equip_tag):
             equip = Equip.get(equipment_tag=equip_tag)
             panels = select(p for p in Panel if p.eq_id == equip)[:]
             cables = select(cab for cab in Cable if cab.left_pan_id in panels)[:]
-            wires = select(w for w in Wire if w.cable_id in cables)[:]
+            wires = select(
+                (
+                    w.id,
+                    w.cable_id.cable_tag,
+                    w.wire_num,
+                    w.left_term_id.block_id.bblock_tag,
+                    w.right_term_id.block_id.bblock_tag,
+                    w.notes
+                )
+                for w in Wire if w.cable_id in cables)[:]
 
-            return tab_to_df(wires)
+            wires_df = pd.DataFrame(data=wires, columns=['id', 'cable_tag', 'wire_num', 'left_block_tag',
+                                                         'right_block_tag', 'notes'])
+            return wires_df
 
     except Exception as e:
         st.toast(err_handler(e))
