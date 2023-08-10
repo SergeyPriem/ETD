@@ -193,24 +193,24 @@ def cables_main(act):
         df_to_show = get_filtered_cables(selected_left_equip, selected_left_panel,
                                          selected_right_equip, selected_right_panel)
 
+    if act == 'Create':
+        create_cable(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel)
+
     if not isinstance(df_to_show, pd.DataFrame) or len(df_to_show) == 0:
-        st.write("##### :blue[Please, create Equipment]")
+        st.write("##### :blue[Please, create Cable]")
         st.stop()
     else:
         edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
 
-        if act == 'Create':
-            create_cable(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel)
+    if act == 'Copy':
+        copy_cable()
 
-        if act == 'Copy':
-            copy_cable()
+    if act == 'Delete':
+        st.subheader(f":warning: :red[All nested wires will be deleted!]")
+        if st.button("Delete Selected Cable(s)"):
+            delete_cable(edited_df)
 
-        if act == 'Delete':
-            st.subheader(f":warning: :red[All nested wires will be deleted!]")
-            if st.button("Delete Selected Cable(s)"):
-                delete_cable(edited_df)
-
-        if act == 'Edit':
-            if st.button("Edit Selected Cables"):
-                edit_cable(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel,
-                           edited_df)
+    if act == 'Edit':
+        if st.button("Edit Selected Cables"):
+            edit_cable(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel,
+                       edited_df)

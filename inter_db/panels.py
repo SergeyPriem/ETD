@@ -207,7 +207,7 @@ def panels_main(act):
             create_panel(selected_equip)
 
     if not isinstance(df_to_show, pd.DataFrame) or len(df_to_show) == 0:
-        st.write("##### :blue[Please, create Equipment]")
+        st.write("##### :blue[Please, create Panel]")
         st.stop()
     else:
         edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
