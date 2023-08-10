@@ -18,10 +18,12 @@ def get_all_terminals(equip_tag):
             wires = select(
                 (
                     w.id,
-                    w.cable_id.cable_tag,
-                    w.wire_num,
+                    w.left_term_id.block_id.pan_id.eq_id.equipment_tag,
+                    w.left_term_id.block_id.pan_id.panel_tag,
                     w.left_term_id.block_id.block_tag,
                     w.left_term_id.terminal_num,
+                    w.cable_id.cable_tag,
+                    w.wire_num,
                     w.right_term_id.block_id.pan_id.eq_id.equipment_tag,
                     w.right_term_id.block_id.pan_id.panel_tag,
                     w.right_term_id.block_id.block_tag,
@@ -31,10 +33,13 @@ def get_all_terminals(equip_tag):
                 for w in Wire if w.cable_id in cables)[:]
 
             wires_df = pd.DataFrame(
-                data=wires, columns=['id', 'cable_tag', 'wire_num',
-                                     'left_block_tag', 'left_term',
-                                     'right_equip_tag', 'right_panel_tag', 'right_block_tag', 'right_term',
-                                     'notes'])
+                data=wires, columns=[
+                    'id',
+                    'left_equip_tag', 'left_panel_tag', 'left_block_tag', 'left_term',
+                    'cable_tag', 'wire_num',
+                    'right_equip_tag', 'right_panel_tag', 'right_block_tag', 'right_term',
+                    'notes'
+                ])
             return wires_df
 
     except Exception as e:
