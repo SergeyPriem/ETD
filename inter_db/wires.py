@@ -176,7 +176,7 @@ def wires_main(act):
     lc1, rc1 = st.columns(2, gap='medium')
 
     if len(eq_tag_list) == 0:
-        eq_tag_list = 'No equipment available'
+        eq_tag_list = ['No equipment available']
     with lc1:
         selected_left_equip = option_menu('Select the Left Side Equipment',
                                           options=eq_tag_list,
@@ -184,13 +184,10 @@ def wires_main(act):
                                           orientation='horizontal',
                                           menu_icon='1-square')
 
-    if selected_left_equip == 'No equipment available':
-        st.stop()
-
     left_pan_tag_list = list(get_panel_tags(selected_left_equip))
 
     if len(left_pan_tag_list) == 0:
-        left_pan_tag_list = 'No panels available'
+        left_pan_tag_list = ['No panels available']
 
     with lc1:
         selected_left_panel = option_menu('Select the Left Side Panel',
@@ -199,7 +196,7 @@ def wires_main(act):
                                           orientation='horizontal', menu_icon='2-square')
 
     if len(eq_tag_list) == 0:
-        eq_tag_list = 'No equipment available'
+        eq_tag_list = ['No equipment available']
     with rc1:
         selected_right_equip = option_menu('Select the Right Side Equipment',
                                            options=eq_tag_list,
@@ -207,13 +204,10 @@ def wires_main(act):
                                            orientation='horizontal',
                                            menu_icon='3-square')
 
-    if selected_right_equip == 'No equipment available':
-        st.stop()
-
     right_pan_tag_list = list(get_panel_tags(selected_right_equip))
 
     if len(right_pan_tag_list) == 0:
-        right_pan_tag_list = 'No panels available'
+        right_pan_tag_list = ['No panels available']
 
     with rc1:
         selected_right_panel = option_menu('Select the Right Side Panel',
