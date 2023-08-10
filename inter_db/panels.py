@@ -143,6 +143,9 @@ def copy_panel(eq_tag_old, panel_tag_old):
                         ).first()
                         panel_blocks = select(b for b in Block if b.pan_id == panel_old)[:]
                         st.write(panel_blocks)
+            else:
+                st.toast(f"""#### :red[Please fill all required (*) fields!]""")
+                st.stop()
 
             if len(panel_blocks):
                 for block in panel_blocks:
@@ -168,8 +171,7 @@ def copy_panel(eq_tag_old, panel_tag_old):
         finally:
             st.cache_data.clear()
             st.button("OK")
-    else:
-        st.toast(f"""#### :red[Please fill all required (*) fields!]""")
+
 
 
 def panels_main(act):

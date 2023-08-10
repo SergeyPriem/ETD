@@ -85,7 +85,8 @@ def copy_equipment(df):
             else:
                 st.toast(f"""#### :red[Please fill all required (*) fields!]""")
     else:
-        st.toast("##### :orange[Select only one Equipment]")
+        if len(eq_df) > 1:
+            st.toast("##### :orange[Select only one Equipment]")
 
 
 def create_equipment():
