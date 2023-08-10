@@ -70,7 +70,7 @@ def generate_wd():
         if len(eq_tag_list) > 1:
             eq_tag_list.append("ALL")
 
-    c1, c2 = st.columns(2, gap='medium')
+    c1, c2 = st.columns([3, 1], gap='medium')
 
     with c1:
         selected_equip = option_menu('Select the Equipment',
