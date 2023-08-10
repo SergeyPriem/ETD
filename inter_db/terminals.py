@@ -7,9 +7,19 @@ from streamlit_option_menu import option_menu
 from inter_db.blocks import get_blocks_list_by_eq_pan
 from inter_db.panels import get_eqip_tags, get_panel_tags
 from inter_db.utils import get_selected_block_terminals, create_terminals
-from inter_db.wires import check_duplicated_terminals
+from inter_db.wires import check_duplicated_termination
 from models import Terminal, Block, Equip, Panel
 from utilities import err_handler, convert_txt_to_list
+
+
+def check_duplicated_terms(df):
+    term_series = df.terminal_num
+    duplicates = term_series[term_series.duplicated(keep="first")].tolist()
+
+    if len(duplicates) > 0:
+        st.write("##### :red[Duplicates found in Terminal Block]")
+        st.write(duplicates)
+        st.stop()
 
 
 def edit_terminals(df, selected_equip, selected_panel, selected_block, all_term=False):
@@ -132,40 +142,40 @@ def terminals_main(act):
         st.stop()
     else:
         edited_df = st.data_editor(df_to_show,
-                                      column_config={
-                                          "id": st.column_config.TextColumn(
-                                              "ID",
-                                              disabled=True,
-                                              width='small'
-                                          ),
-                                          "block_id": st.column_config.TextColumn(
-                                              "Block Tag",
-                                              width='small',
-                                              disabled=True,
-                                          ),
-                                          "terminal_num": st.column_config.TextColumn(
-                                              "Number of Terminal",
-                                              width='medium'
-                                          ),
-                                          "int_circuit": st.column_config.TextColumn(
-                                              "Internal Circuit",
-                                              width='medium'
-                                          ),
-                                          "int_link": st.column_config.TextColumn(
-                                              "Jumper to Terminal",
-                                              width='medium'
-                                          ),
-                                          "edit": st.column_config.CheckboxColumn(
-                                              "Edit",
-                                              width='small',
-                                              help='Select this to Copy, Edit or Delete',
-                                          ),
-                                          "notes": st.column_config.TextColumn(
-                                              "Notes",
-                                              width='large'
-                                          ),
-                                      },
-                                      use_container_width=True, hide_index=True)
+                                   column_config={
+                                       "id": st.column_config.TextColumn(
+                                           "ID",
+                                           disabled=True,
+                                           width='small'
+                                       ),
+                                       "block_id": st.column_config.TextColumn(
+                                           "Block Tag",
+                                           width='small',
+                                           disabled=True,
+                                       ),
+                                       "terminal_num": st.column_config.TextColumn(
+                                           "Number of Terminal",
+                                           width='medium'
+                                       ),
+                                       "int_circuit": st.column_config.TextColumn(
+                                           "Internal Circuit",
+                                           width='medium'
+                                       ),
+                                       "int_link": st.column_config.TextColumn(
+                                           "Jumper to Terminal",
+                                           width='medium'
+                                       ),
+                                       "edit": st.column_config.CheckboxColumn(
+                                           "Edit",
+                                           width='small',
+                                           help='Select this to Copy, Edit or Delete',
+                                       ),
+                                       "notes": st.column_config.TextColumn(
+                                           "Notes",
+                                           width='large'
+                                       ),
+                                   },
+                                   use_container_width=True, hide_index=True)
 
     if act == 'Delete':
         if st.button("Delete Selected Terminals"):
@@ -176,12 +186,9 @@ def terminals_main(act):
         c1, c2, c3, c4, c5 = st.columns(5, gap='large')
         if c2.button("Save Selected Terminals",
                      help="It will be faster but without complete duplicates check"):
-            check_duplicated_terminals(edited_df[edited_df.edit.astype('str') == "True"])
+            check_duplicated_terms(edited_df[edited_df.edit.astype('str') == "True"])
             edit_terminals(edited_df, selected_equip, selected_panel, selected_block, all_term=False)
 
         if c4.button("Save All Terminals", help="It will be slower but with complete duplicates check"):
-            check_duplicated_terminals(edited_df)
+            check_duplicated_terms(edited_df)
             edit_terminals(edited_df, selected_equip, selected_panel, selected_block, all_term=True)
-
-
-

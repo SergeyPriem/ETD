@@ -144,7 +144,7 @@ def delete_wires(cab_tag):
         st.experimental_rerun()
 
 
-def check_duplicated_terminals(df):
+def check_duplicated_termination(df):
     i = 0
     left_series = df.left_term_id
     right_series = df.right_term_id
@@ -358,9 +358,9 @@ def wires_main(act):
         c1, c2, c3, c4, c5 = st.columns(5, gap='large')
         if c2.button("Save Selected Wires Termination",
                      help="It will be faster but without complete duplicates check"):
-            check_duplicated_terminals(edited_df[edited_df.edit.astype('str') == "True"])
+            check_duplicated_termination(edited_df[edited_df.edit.astype('str') == "True"])
             edit_wires(edited_df, cab_tag, all_wires=False)
 
         if c4.button("Save All Wires Termination", help="It will be slower but with complete duplicates check"):
-            check_duplicated_terminals(edited_df)
+            check_duplicated_termination(edited_df)
             edit_wires(edited_df, cab_tag, all_wires=True)
