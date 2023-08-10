@@ -168,9 +168,10 @@ def cables_main(act):
 
     if len(eq_tag_list) == 0:
         eq_tag_list = ['No equipment available']
+
     with rc:
         selected_right_equip = option_menu('Select the Right Side Equipment',
-                                           options=eq_tag_list,
+                                           options=eq_tag_list, default_index=len(eq_tag_list)-1,
                                            icons=['-'] * len(eq_tag_list),
                                            orientation='horizontal',
                                            menu_icon='3-square')
