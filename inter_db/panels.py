@@ -175,7 +175,7 @@ def copy_panel(eq_tag_old, panel_tag_old):
 def panels_main(act):
     eq_tag_list = list(get_eqip_tags())
 
-    c1, c2 = st.columns([1, 2], gap='medium')
+    c1, c2 = st.columns([1, 1], gap='medium')
 
     if len(eq_tag_list) == 0:
         eq_tag_list = ['No equipment available']

@@ -25,13 +25,13 @@ def intercon_expander():
         if prev_sel != "SELECT:":
 
             act = option_menu(None,
-                              ['Select required:', 'Create', 'Copy', 'Edit', 'Delete'],
+                              ['Select acton:', 'Create', 'Copy', 'Edit', 'Delete'],
                               icons=['-', '-', '-', '-', 'exclamation-octagon'],
                               default_index=0, orientation='horizontal')
 
             st.divider()
 
-            if act != 'Select required:':
+            if act != 'Select acton:':
                 if prev_sel == 'Equipment':
                     equipment_main(act)
                 if prev_sel == 'Panels':
