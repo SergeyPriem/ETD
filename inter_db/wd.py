@@ -22,12 +22,22 @@ def get_all_terminals(equip_tag):
                     w.left_term_id.block_id.pan_id.panel_tag,
                     w.left_term_id.block_id.block_tag,
                     w.left_term_id.terminal_num,
+                    w.left_term_id.int_circuit,
+                    w.left_term_id.int_link,
+                    w.left_term_id.notes,
+
                     w.cable_id.cable_tag,
                     w.wire_num,
+
                     w.right_term_id.block_id.pan_id.eq_id.equipment_tag,
                     w.right_term_id.block_id.pan_id.panel_tag,
                     w.right_term_id.block_id.block_tag,
                     w.right_term_id.terminal_num,
+                    w.right_term_id.int_circuit,
+                    w.right_term_id.int_link,
+                    w.right_term_id.notes,
+
+
                     w.notes
                 )
                 for w in Wire if w.cable_id in cables)[:]
@@ -36,8 +46,10 @@ def get_all_terminals(equip_tag):
                 data=wires, columns=[
                     'id',
                     'left_equip_tag', 'left_panel_tag', 'left_block_tag', 'left_term',
+                    'left_int_circ', 'left_jumper', 'left_note',
                     'cable_tag', 'wire_num',
                     'right_equip_tag', 'right_panel_tag', 'right_block_tag', 'right_term',
+                    'right_int_circ', 'right_jumper', 'right_note',
                     'notes'
                 ])
             return wires_df
@@ -64,6 +76,6 @@ def generate_wd():
     term_df = get_all_terminals(selected_equip)
 
     if isinstance(term_df, pd.DataFrame) and len(term_df):
-        st.data_editor(term_df, use_container_width=True)
+        st.data_editor(term_df, use_container_width=True, hide_index=True)
     else:
         st.write("##### :blue[Wires not found]")
