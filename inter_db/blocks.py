@@ -143,9 +143,6 @@ def blocks_main(act):
                                      menu_icon='2-square',
                                      orientation='horizontal')
 
-    if selected_panel == 'No panels available':
-        st.stop()
-
     block_tag_list = list(get_blocks_list_by_eq_pan(selected_equip, selected_panel))
 
     if len(block_tag_list) == 0:
@@ -169,7 +166,6 @@ def blocks_main(act):
         copy_block(int(df_to_show.id.to_numpy()[0]))
 
     if not isinstance(df_to_show, pd.DataFrame) or len(df_to_show) == 0:
-        st.write(f"#### :blue[Blocks not available...]")
         st.stop()
 
     edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)

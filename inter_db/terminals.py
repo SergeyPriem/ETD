@@ -100,9 +100,6 @@ def terminals_main(act):
                                      menu_icon='2-square',
                                      orientation='horizontal')
 
-    if selected_panel == 'No panels available':
-        st.stop()
-
     block_tag_list = list(get_blocks_list_by_eq_pan(selected_equip, selected_panel))
 
     if len(block_tag_list) == 0:
@@ -117,7 +114,6 @@ def terminals_main(act):
     df_to_show = get_selected_block_terminals(selected_equip, selected_panel, selected_block)
 
     if not isinstance(df_to_show, pd.DataFrame) or len(df_to_show) == 0:
-        st.write(f"#### :blue[Terminals not available...]")
         st.stop()
 
 

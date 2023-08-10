@@ -186,9 +186,6 @@ def panels_main(act):
                                      orientation='horizontal',
                                      menu_icon='1-square')
 
-    if selected_equip == 'No equipment available':
-        st.stop()
-
     pan_tag_list = list(get_panel_tags(selected_equip))
 
     if len(pan_tag_list) == 0:
@@ -226,7 +223,6 @@ def panels_main(act):
             #                  header_message="All related terminal blocks and terminals will be deleted!",
             #                  warning_message='Are you sure?')
             delete_panel(edited_df)
-
 
     if act == 'Edit':
         if st.button("Edit Selected Panel"):
