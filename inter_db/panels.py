@@ -202,14 +202,15 @@ def panels_main(act):
 
     df_to_show = get_panels_by_equip_panel_tag(selected_equip, selected_panel)
 
-    if not isinstance(df_to_show, pd.DataFrame) or len(df_to_show) == 0:
-        st.stop()
-
-    edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
-
     if act == 'Create':
         if selected_equip:
             create_panel(selected_equip)
+
+    if not isinstance(df_to_show, pd.DataFrame) or len(df_to_show) == 0:
+        st.write("##### :blue[Please, create Equipment]")
+        st.stop()
+    else:
+        edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
 
     if act == 'Copy':
         if selected_equip:

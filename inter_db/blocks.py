@@ -162,11 +162,12 @@ def blocks_main(act):
     if act == 'Create':
         create_block(selected_equip, selected_panel)
 
+    if not isinstance(df_to_show, pd.DataFrame) or len(df_to_show) == 0:
+        st.write("##### :blue[Please, create Terminal Block]")
+        st.stop()
+
     if act == 'Copy':
         copy_block(int(df_to_show.id.to_numpy()[0]))
-
-    if not isinstance(df_to_show, pd.DataFrame) or len(df_to_show) == 0:
-        st.stop()
 
     edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
 

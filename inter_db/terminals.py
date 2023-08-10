@@ -80,7 +80,6 @@ def terminals_main(act):
     if len(eq_tag_list) == 0:
         eq_tag_list = ['No equipment available']
 
-
     with c1:
         selected_equip = option_menu('Select the Equipment',
                                      options=eq_tag_list,
@@ -114,48 +113,47 @@ def terminals_main(act):
     df_to_show = get_selected_block_terminals(selected_equip, selected_panel, selected_block)
 
     if not isinstance(df_to_show, pd.DataFrame) or len(df_to_show) == 0:
+        st.write("##### :blue[Please, create Terminals]")
         st.stop()
-
-
-    data_to_show = st.data_editor(df_to_show,
-                                  column_config={
-                                      "id": st.column_config.TextColumn(
-                                          "ID",
-                                          disabled=True,
-                                          width='small'
-                                      ),
-                                      "block_id": st.column_config.TextColumn(
-                                          "Block Tag",
-                                          width='small',
-                                          disabled=True,
-                                      ),
-                                      "terminal_num": st.column_config.TextColumn(
-                                          "Number of Terminal",
-                                          width='medium'
-                                      ),
-                                      "int_circuit": st.column_config.TextColumn(
-                                          "Internal Circuit",
-                                          width='medium'
-                                      ),
-                                      "int_link": st.column_config.TextColumn(
-                                          "Jumper to Terminal",
-                                          width='medium'
-                                      ),
-                                      "edit": st.column_config.CheckboxColumn(
-                                          "Edit",
-                                          width='small'
-                                      ),
-                                      "notes": st.column_config.TextColumn(
-                                          "Notes",
-                                          width='large'
-                                      ),
-                                      # "terminal_un": st.column_config.TextColumn(
-                                      #     "Terminal Unique Number",
-                                      #     width='large'
-                                      # ),
-                                  },
-                                  use_container_width=True, hide_index=True)
-
+    else:
+        data_to_show = st.data_editor(df_to_show,
+                                      column_config={
+                                          "id": st.column_config.TextColumn(
+                                              "ID",
+                                              disabled=True,
+                                              width='small'
+                                          ),
+                                          "block_id": st.column_config.TextColumn(
+                                              "Block Tag",
+                                              width='small',
+                                              disabled=True,
+                                          ),
+                                          "terminal_num": st.column_config.TextColumn(
+                                              "Number of Terminal",
+                                              width='medium'
+                                          ),
+                                          "int_circuit": st.column_config.TextColumn(
+                                              "Internal Circuit",
+                                              width='medium'
+                                          ),
+                                          "int_link": st.column_config.TextColumn(
+                                              "Jumper to Terminal",
+                                              width='medium'
+                                          ),
+                                          "edit": st.column_config.CheckboxColumn(
+                                              "Edit",
+                                              width='small'
+                                          ),
+                                          "notes": st.column_config.TextColumn(
+                                              "Notes",
+                                              width='large'
+                                          ),
+                                          # "terminal_un": st.column_config.TextColumn(
+                                          #     "Terminal Unique Number",
+                                          #     width='large'
+                                          # ),
+                                      },
+                                      use_container_width=True, hide_index=True)
 
     if act == 'Create':
         # data_to_show

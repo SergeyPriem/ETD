@@ -135,13 +135,14 @@ def equipment_main(act):
 
     df_to_show = get_equip_by_tag(selected_equip)
 
-    if not isinstance(df_to_show, pd.DataFrame) or len(df_to_show) == 0:
-        st.stop()
-
-    edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
-
     if act == 'Create':
         create_equipment()
+
+    if not isinstance(df_to_show, pd.DataFrame) or len(df_to_show) == 0:
+        st.write("##### :blue[Please, create Equipment]")
+        st.stop()
+    else:
+        edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
 
     if act == 'Delete':
         st.subheader(f":warning: :red[All nested panels, terminal blocks, terminals will be deleted!]")

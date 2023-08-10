@@ -188,66 +188,16 @@ def cables_main(act):
 
     if selected_left_panel == selected_right_panel and selected_left_equip == selected_right_equip:
         st.toast(f"##### :red[Left and Right Panels should be different]")
+        st.stop()
     else:
         df_to_show = get_filtered_cables(selected_left_equip, selected_left_panel,
                                          selected_right_equip, selected_right_panel)
 
-        if isinstance(df_to_show, pd.DataFrame):
-            cab_purposes, cab_types, wire_numbers, wire_sections = get_cab_params()
-            data_to_show = st.data_editor(df_to_show,
-                                          column_config={
-                                              "id": st.column_config.TextColumn(
-                                                  "ID",
-                                                  disabled=True,
-                                                  width='small'
-                                              ),
-                                              "cable_tag": st.column_config.TextColumn(
-                                                  "Cable Tag",
-                                                  width='medium'
-                                              ),
-                                              "purpose": st.column_config.SelectboxColumn(
-                                                  "Cable Purpose",
-                                                  options=cab_purposes,
-                                                  width='small'
-                                              ),
-                                              "type": st.column_config.SelectboxColumn(
-                                                  "Cable Type",
-                                                  options=cab_types,
-                                                  width='medium'
-                                              ),
-                                              "wire": st.column_config.SelectboxColumn(
-                                                  "Wires' Number",
-                                                  options=wire_numbers,
-                                                  width='small'
-                                              ),
-                                              "section": st.column_config.SelectboxColumn(
-                                                  "Wires' Section",
-                                                  options=wire_sections,
-                                                  width='small'
-                                              ),
-                                              "left_pan_tag": st.column_config.SelectboxColumn(
-                                                  "Left Panel Tag",
-                                                  options=left_pan_tag_list,
-                                                  width='medium'
-                                              ),
-                                              "right_pan_tag": st.column_config.SelectboxColumn(
-                                                  "Right Panel Tag",
-                                                  options=right_pan_tag_list,
-                                                  width='medium'
-                                              ),
-                                              "edit": st.column_config.CheckboxColumn(
-                                                  "Edit",
-                                                  width='small'
-                                              ),
-                                              "notes": st.column_config.TextColumn(
-                                                  "Notes",
-                                                  width='large'
-                                              ),
-                                          },
-                                          use_container_width=True, hide_index=True)
-        else:
-            st.toast(df_to_show)
-            data_to_show = st.write(f"#### :blue[Cables not available...]")
+    if not isinstance(df_to_show, pd.DataFrame) or len(df_to_show) == 0:
+        st.write("##### :blue[Please, create Equipment]")
+        st.stop()
+    else:
+        edited_df = st.data_editor(df_to_show, use_container_width=True, hide_index=True)
 
         if act == 'Create':
             create_cable(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel)
@@ -256,12 +206,11 @@ def cables_main(act):
             copy_cable()
 
         if act == 'Delete':
-            edited_df = data_to_show
-            if st.button("Delete Equipment"):
+            st.subheader(f":warning: :red[All nested wires will be deleted!]")
+            if st.button("Delete Selected Cable(s)"):
                 delete_cable(edited_df)
 
         if act == 'Edit':
-            edited_df = data_to_show
             if st.button("Edit Selected Cables"):
                 edit_cable(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel,
                            edited_df)
