@@ -7,6 +7,7 @@ from inter_db.cables import cables_main
 from inter_db.equipment import equipment_main
 from inter_db.panels import panels_main
 from inter_db.terminals import terminals_main
+from inter_db.wd import generate_wd
 from inter_db.wires import wires_main
 
 
@@ -16,11 +17,16 @@ def intercon_expander():
 
     if st.session_state['user']['access_level'] == "dev" or st.session_state['user']['login'] == 'vyacheslav.shishov':
 
-        preview_list = ["SELECT:", 'Equipment', 'Panels', 'Terminal Block', 'Terminals', 'Cables', 'Wires']
+        preview_list = ["SELECT:", 'Equipment', 'Panels', 'Terminal Block', 'Terminals', 'Cables', 'Wires',
+                        "Generate WD"]
 
         prev_sel = option_menu(None, preview_list,
                                icons=['-', '-', '-', '-', '-', '-', '-', '-', '-'],
                                orientation="horizontal", default_index=0)
+
+        if prev_sel == "Generate WD":
+            generate_wd()
+            st.stop()
 
         if prev_sel != "SELECT:":
 
