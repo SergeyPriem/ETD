@@ -112,7 +112,7 @@ def create_wires(cab_tag, wires_num, left_term_init, right_term_init):
             left_term_first = select(t for t in Terminal
                                      if t.block_id.block_tag == left_block and t.terminal_num == left_term).first()
             right_term_first = select(t for t in Terminal
-                               if t.block_id.block_tag == right_block and t.terminal_num == right_term).first()
+                                      if t.block_id.block_tag == right_block and t.terminal_num == right_term).first()
 
             for w in range(1, wires_num + 1):
                 Wire(
@@ -145,7 +145,7 @@ def delete_wires(cab_tag):
 
 
 def check_dulicated_terminals(df):
-    i=0
+    i = 0
     left_series = df.left_term_id
     right_series = df.right_term_id
 
@@ -217,13 +217,11 @@ def wires_main(act):
 
     cab_df = get_filtered_cables(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel)
 
-
     if isinstance(cab_df, pd.DataFrame) and len(cab_df) != 0:
         cab_tag_list = cab_df.cable_tag.tolist()
     else:
         cab_tag_list = ['No cables available']
         st.toast(cab_df)
-
 
     cab_tag = option_menu('Select the Cable',
                           options=cab_tag_list,
@@ -241,82 +239,82 @@ def wires_main(act):
 
     df = get_filtered_wires(cab_tag)
 
-    if not isinstance(df, pd.DataFrame):
-        st.write(f"#### :blue[No wires available for selected Cable...]")
-        st.stop()
-
-    if len(df):
-        st.write(":blue[Wires Details]")
-        edited_df = st.data_editor(df,
-                                   column_config={
-                                       "id": st.column_config.NumberColumn(
-                                           "ID",
-                                           width='small'
-                                       ),
-                                       "cable_tag": st.column_config.TextColumn(
-                                           "Cable Tag",
-                                           width='mediun',
-                                           disabled=True
-                                       ),
-                                       "wire_num": st.column_config.NumberColumn(
-                                           "Wire's Number",
-                                           width='small',
-                                       ),
-                                       "left_term_id": st.column_config.SelectboxColumn(
-                                           "Left Terminal",
-                                           options=left_terminals,
-                                           width='large',
-                                       ),
-                                       "right_term_id": st.column_config.SelectboxColumn(
-                                           "Right Terminal",
-                                           options=right_terminals,
-                                           width='large',
-                                       ),
-                                       "edit": st.column_config.CheckboxColumn(
-                                           "Edit",
-                                           width='small'),
-                                       "notes": st.column_config.TextColumn(
-                                           "Notes",
-                                           width='large'
-                                       )
-                                   },
-                                   use_container_width=True, hide_index=True, key='wires_df')
-
-        if act == 'Delete':
-
-            if st.button("Delete All Wires"):
-                act_with_warning(
-                    left_function=delete_wires,
-                    left_args=cab_tag,
-                    header_message="All wires and their connections will be deleted!",
-                    warning_message="Delete?",
-                    waiting_time=7, use_buttons=False
-                )
-
-        if act == 'Edit':
-            c1, c2, c3, c4, c5 = st.columns(5, gap='large')
-            if c2.button("Save Selected Wires Termination",
-                         help="It will be faster but without complete duplicates check"):
-                check_dulicated_terminals(edited_df[edited_df.edit.astype('str') == "True"])
-                edit_wires(edited_df, cab_tag, all_wires=False)
-
-            if c4.button("Save All Wires Termination", help="It will be slower but with complete duplicates check"):
-                check_dulicated_terminals(edited_df)
-                edit_wires(edited_df, cab_tag, all_wires=True)
-
-    else:
-        st.write(f"#### :blue[Wires of cable {cab_tag} not available ...]")
-        if act == 'Create':
-            if st.button('Create Wires'):
-                st.write(f"Left Terminals: {left_terminals}")
-                st.write(f"Right Terminals: {right_terminals}")
-                if left_terminals[0] and right_terminals[0]:
-                    if " : " in left_terminals[0] and " : " in right_terminals[0]:
-                        create_wires(cab_tag,
-                                     cab_df.loc[cab_df.cable_tag == cab_tag, 'wire'].to_numpy()[0],
-                                     left_terminals[0],
-                                     right_terminals[0])
-                    else:
-                        st.toast(f"##### :orange[Create terminals first]")
+    if act == 'Create':
+        if st.button('Create Wires'):
+            st.write(f"Left Terminals: {left_terminals}")
+            st.write(f"Right Terminals: {right_terminals}")
+            if left_terminals[0] and right_terminals[0]:
+                if " : " in left_terminals[0] and " : " in right_terminals[0]:
+                    create_wires(cab_tag,
+                                 cab_df.loc[cab_df.cable_tag == cab_tag, 'wire'].to_numpy()[0],
+                                 left_terminals[0],
+                                 right_terminals[0])
                 else:
                     st.toast(f"##### :orange[Create terminals first]")
+            else:
+                st.toast(f"##### :orange[Create terminals first]")
+
+
+    if not isinstance(df, pd.DataFrame) or len(df) == 0:
+        st.write(f"#### :blue[Please create Wires]")
+        st.stop()
+
+    st.write(":blue[Wires Details]")
+    edited_df = st.data_editor(df,
+                               column_config={
+                                   "id": st.column_config.NumberColumn(
+                                       "ID",
+                                       width='small'
+                                   ),
+                                   "cable_tag": st.column_config.TextColumn(
+                                       "Cable Tag",
+                                       width='mediun',
+                                       disabled=True
+                                   ),
+                                   "wire_num": st.column_config.NumberColumn(
+                                       "Wire's Number",
+                                       width='small',
+                                   ),
+                                   "left_term_id": st.column_config.SelectboxColumn(
+                                       "Left Terminal",
+                                       options=left_terminals,
+                                       width='large',
+                                   ),
+                                   "right_term_id": st.column_config.SelectboxColumn(
+                                       "Right Terminal",
+                                       options=right_terminals,
+                                       width='large',
+                                   ),
+                                   "edit": st.column_config.CheckboxColumn(
+                                       "Edit",
+                                       width='small'),
+                                   "notes": st.column_config.TextColumn(
+                                       "Notes",
+                                       width='large'
+                                   )
+                               },
+                               use_container_width=True, hide_index=True, key='wires_df')
+
+    if act == 'Delete':
+
+        if st.button("Delete All Wires"):
+            act_with_warning(
+                left_function=delete_wires,
+                left_args=cab_tag,
+                header_message="All wires and their connections will be deleted!",
+                warning_message="Delete?",
+                waiting_time=7, use_buttons=False
+            )
+
+    if act == 'Edit':
+        c1, c2, c3, c4, c5 = st.columns(5, gap='large')
+        if c2.button("Save Selected Wires Termination",
+                     help="It will be faster but without complete duplicates check"):
+            check_dulicated_terminals(edited_df[edited_df.edit.astype('str') == "True"])
+            edit_wires(edited_df, cab_tag, all_wires=False)
+
+        if c4.button("Save All Wires Termination", help="It will be slower but with complete duplicates check"):
+            check_dulicated_terminals(edited_df)
+            edit_wires(edited_df, cab_tag, all_wires=True)
+
+
