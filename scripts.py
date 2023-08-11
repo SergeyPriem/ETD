@@ -2,7 +2,6 @@
 import datetime
 import io
 import math
-import os
 
 import numpy as np
 import pandas as pd
@@ -13,7 +12,7 @@ from inter_db.itercon_main import intercon_expander
 from load_dist.distribution import distr_main
 from section_generator import get_tags_from_cablist, generate_dxf, get_sect_from_layout
 from users import err_handler, reg_action
-from utilities import center_style, open_dxf_file, check_df
+from utilities import center_style, open_dxf_file, check_df, save_uploaded_file
 
 cab_dict = {
     1.5: 1.5, 2.5: 2.5, 4: 4,
@@ -58,16 +57,6 @@ compositDic = {
     4: '3PHG',
     5: '3PHNG'
 }
-
-
-def save_uploaded_file(uploaded_file):
-    try:
-        with open(os.path.join("temp_dxf", uploaded_file.name), "wb") as f:
-            f.write(uploaded_file.getbuffer())
-        return uploaded_file.name
-    except Exception as e:
-        st.warning(f"Can't save file to temp. folder: {err_handler(e)}")
-        st.stop()
 
 
 def max_nearest(target: int) -> int:

@@ -335,3 +335,13 @@ def ben(func):
         print(f'Time spent: {round(end - start, 2)} s.')
 
     return wrapper
+
+
+def save_uploaded_file(uploaded_file):
+    try:
+        with open(os.path.join("temp_dxf", uploaded_file.name), "wb") as f:
+            f.write(uploaded_file.getbuffer())
+        return uploaded_file.name
+    except Exception as e:
+        st.warning(f"Can't save file to temp. folder: {err_handler(e)}")
+        st.stop()
