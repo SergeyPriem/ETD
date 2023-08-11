@@ -417,8 +417,8 @@ def get_sect_from_layout(cablist_df, layout_path):  ### 3
     all_sect_df.sort_values(by=['delta'], ascending=False, inplace=True)
 
     if len(all_sect_df) > 0:
-        st.write(":green[The table below represents the sections extracted from cable layout. Column 'delta' " \
-                       "represents the difference in cable length taken from 'cable list' and 'power_layout'.]")
+        st.write(":green[The table below represents the sections extracted from cable layout. Column 'delta' "
+                 "represents the difference in cable length taken from 'cable list' and 'power_layout'.]")
         st.write(":green[Please adjust your Cable List or check/update the Cable Layout if the delta is significant.]")
         st.write(":blue[Info: during cable routing script uses cable length taken from the 'power_layout']")
 
@@ -427,6 +427,7 @@ def get_sect_from_layout(cablist_df, layout_path):  ### 3
                      'chan_size', 'cab_bus']], use_container_width=True)
 
     return all_sect_df
+
 
 def distrib_cables(df_x, trays_height, volume_percent, width_percent, lv_horis_gap, mv_horis_gap):
     initial_volume = df_x.chan_size.head(1).values[0] * trays_height * volume_percent / 100
@@ -489,7 +490,6 @@ def distrib_cables(df_x, trays_height, volume_percent, width_percent, lv_horis_g
 
 def generate_dxf(all_sect_df, vertical_trays_gap, trays_height, volume_percent, width_percent,
                  lv_horis_gap, mv_horis_gap, sections_template_path):
-
     st.session_state.p_x = 0
 
     all_sect_df['tray_vol'] = all_sect_df.chan_size * trays_height

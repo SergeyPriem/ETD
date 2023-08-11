@@ -6,8 +6,9 @@ from streamlit_option_menu import option_menu
 
 from inter_db.utils import get_eqip_tags
 from models import Wire, Cable, Equip, Panel
-from utilities import err_handler, tab_to_df
-
+from scripts import save_uploaded_file
+from utilities import err_handler, tab_to_df, open_dxf_file
+import ezdxf
 
 def get_all_terminals(equip_tag):
     try:
@@ -20,7 +21,9 @@ def get_all_terminals(equip_tag):
                     w.id,
 
                     w.left_term_id.block_id.pan_id.eq_id.equipment_tag,
+                    w.left_term_id.block_id.pan_id.eq_id.descr,
                     w.left_term_id.block_id.pan_id.panel_tag,
+                    w.left_term_id.block_id.pan_id.descr,
                     w.left_term_id.block_id.block_tag,
                     w.left_term_id.terminal_num,
                     w.left_term_id.int_circuit,
@@ -31,7 +34,9 @@ def get_all_terminals(equip_tag):
                     w.wire_num,
 
                     w.right_term_id.block_id.pan_id.eq_id.equipment_tag,
+                    w.right_term_id.block_id.pan_id.eq_id.descr,
                     w.right_term_id.block_id.pan_id.panel_tag,
+                    w.right_term_id.block_id.pan_id.descr,
                     w.right_term_id.block_id.block_tag,
                     w.right_term_id.terminal_num,
                     w.right_term_id.int_circuit,
@@ -45,10 +50,10 @@ def get_all_terminals(equip_tag):
             wires_df = pd.DataFrame(
                 data=wires, columns=[
                     'id',
-                    'left_equip_tag', 'left_panel_tag', 'left_block_tag', 'left_term',
+                    'left_equip_tag', 'left_equip_descr', 'left_panel_tag', 'left_panel_descr', 'left_block_tag', 'left_term',
                     'left_int_circ', 'left_jumper', 'left_note',
                     'cable_tag', 'wire_num',
-                    'right_equip_tag', 'right_panel_tag', 'right_block_tag', 'right_term',
+                    'right_equip_tag', 'right_equip_descr', 'right_panel_tag', 'right_panel_descr', 'right_block_tag', 'right_term',
                     'right_int_circ', 'right_jumper', 'right_note',
                     'notes'
                 ])
@@ -58,7 +63,7 @@ def get_all_terminals(equip_tag):
         st.toast(err_handler(e))
 
 
-def draw_pan_connection(panel):
+def draw_pan_connection(panel, dxf_template):
     ...
 
 def generate_wd():
@@ -85,10 +90,20 @@ def generate_wd():
     if isinstance(term_df, pd.DataFrame) and len(term_df):
         st.data_editor(term_df, use_container_width=True, hide_index=True)
     else:
-        st.write("##### :blue[Wires not found]")
+        st.write("##### :blue[No links found...]")
 
     panels_list = list(term_df.left_panel_tag.unique())
     st.write(panels_list)
 
+    template_path = f'temp_dxf/{save_uploaded_file(dxf_template)}'
+    doc = open_dxf_file(template_path)
+    msp = doc.modelspace()
+
+    if 'term_coord' not in st.session_state:
+        st.session_state.term_coord = {
+            'x': 0,
+            'y': 0,
+        }
+
     for p in panels_list:
-        draw_pan_connection(p)
+        draw_pan_connection(p, msp)
