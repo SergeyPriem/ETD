@@ -102,6 +102,7 @@ def generate_wd():
     else:
         st.write("##### :blue[No links found...]")
 
+    st.stop()
     panels_list = list(term_df.left_panel_tag.unique())
     st.write(panels_list)
 
