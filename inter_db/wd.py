@@ -22,8 +22,10 @@ def get_all_terminals(equip_tag):
 
                     w.left_term_id.block_id.pan_id.eq_id.equipment_tag,
                     w.left_term_id.block_id.pan_id.eq_id.descr,
+                    w.left_term_id.block_id.pan_id.eq_id.notes,
                     w.left_term_id.block_id.pan_id.panel_tag,
                     w.left_term_id.block_id.pan_id.descr,
+                    w.left_term_id.block_id.pan_id.notes,
                     w.left_term_id.block_id.block_tag,
                     w.left_term_id.terminal_num,
                     w.left_term_id.int_circuit,
@@ -40,8 +42,10 @@ def get_all_terminals(equip_tag):
 
                     w.right_term_id.block_id.pan_id.eq_id.equipment_tag,
                     w.right_term_id.block_id.pan_id.eq_id.descr,
+                    w.right_term_id.block_id.pan_id.eq_id.notes,
                     w.right_term_id.block_id.pan_id.panel_tag,
                     w.right_term_id.block_id.pan_id.descr,
+                    w.right_term_id.block_id.pan_id.notes,
                     w.right_term_id.block_id.block_tag,
                     w.right_term_id.terminal_num,
                     w.right_term_id.int_circuit,
@@ -54,11 +58,13 @@ def get_all_terminals(equip_tag):
             wires_df = pd.DataFrame(
                 data=wires, columns=[
                     'id',
-                    'left_equip_tag', 'left_equip_descr', 'left_panel_tag', 'left_panel_descr', 'left_block_tag',
-                    'left_term', 'left_int_circ', 'left_jumper', 'left_term_note',
+                    'left_equip_tag', 'left_equip_descr', 'left_equip_notes',
+                    'left_panel_tag', 'left_panel_descr', 'left_panel_notes',
+                    'left_block_tag', 'left_term', 'left_int_circ', 'left_jumper', 'left_term_note',
                     'cable_tag', 'cable_descr', 'cable_type', 'cable_wires', 'cable_section', 'cable_notes', 'wire_num',
-                    'right_equip_tag', 'right_equip_descr', 'right_panel_tag', 'right_panel_descr', 'right_block_tag',
-                    'right_term', 'right_int_circ', 'right_jumper', 'right_term_note',
+                    'right_equip_tag', 'right_equip_descr', 'right_equip_notes',
+                    'right_panel_tag', 'right_panel_descr', 'right_panel_notes',
+                    'right_block_tag', 'right_term', 'right_int_circ', 'right_jumper', 'right_term_note',
                     'wire_notes'
                 ])
             return wires_df
@@ -105,9 +111,19 @@ def generate_wd():
 
     if 'term_coord' not in st.session_state:
         st.session_state.term_coord = {
-            'x': 0,
-            'y': 0,
+            'x': 10,
+            'y': 10,
         }
+
+    ins_block = msp.add_blockref('equip_head',
+                                 insert=(st.session_state.term_coord['x'], st.session_state.term_coord['x'])
+                                 )
+    att_values = {
+        'EQUIP_TAG_DESCR': str(term_df.left_equip_tag[0]) + " - " + str(term_df.left_equip_descr[0]),
+        'EQUIP_NOTES': v.cab_tag,
+    }
+
+    ins_block.add_auto_attribs(att_values)
 
     for p in panels_list:
         draw_pan_connection(p, msp)
