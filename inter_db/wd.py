@@ -47,7 +47,6 @@ def get_all_terminals(equip_tag):
                     w.right_term_id.int_circuit,
                     w.right_term_id.int_link,
                     w.right_term_id.notes,
-
                     w.notes
                 )
                 for w in Wire if w.cable_id in cables)[:]
@@ -55,12 +54,12 @@ def get_all_terminals(equip_tag):
             wires_df = pd.DataFrame(
                 data=wires, columns=[
                     'id',
-                    'left_equip_tag', 'left_equip_descr', 'left_panel_tag', 'left_panel_descr', 'left_block_tag', 'left_term',
-                    'left_int_circ', 'left_jumper', 'left_note',
+                    'left_equip_tag', 'left_equip_descr', 'left_panel_tag', 'left_panel_descr', 'left_block_tag',
+                    'left_term', 'left_int_circ', 'left_jumper', 'left_term_note',
                     'cable_tag', 'cable_descr', 'cable_type', 'cable_wires', 'cable_section', 'cable_notes', 'wire_num',
-                    'right_equip_tag', 'right_equip_descr', 'right_panel_tag', 'right_panel_descr', 'right_block_tag', 'right_term',
-                    'right_int_circ', 'right_jumper', 'right_note',
-                    'notes'
+                    'right_equip_tag', 'right_equip_descr', 'right_panel_tag', 'right_panel_descr', 'right_block_tag',
+                    'right_term', 'right_int_circ', 'right_jumper', 'right_term_note',
+                    'wire_notes'
                 ])
             return wires_df
 
