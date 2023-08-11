@@ -35,6 +35,7 @@ def get_all_terminals(equip_tag):
                     w.cable_id.type_id.cab_type,
                     w.cable_id.wires_id.wire_num,
                     w.cable_id.sect_id.section,
+                    w.cable_id.notes,
                     w.wire_num,
 
                     w.right_term_id.block_id.pan_id.eq_id.equipment_tag,
@@ -56,7 +57,7 @@ def get_all_terminals(equip_tag):
                     'id',
                     'left_equip_tag', 'left_equip_descr', 'left_panel_tag', 'left_panel_descr', 'left_block_tag', 'left_term',
                     'left_int_circ', 'left_jumper', 'left_note',
-                    'cable_tag', 'cable_descr', 'cable_type', 'cable_wires', 'cable_section', 'wire_num',
+                    'cable_tag', 'cable_descr', 'cable_type', 'cable_wires', 'cable_section', 'cable_notes', 'wire_num',
                     'right_equip_tag', 'right_equip_descr', 'right_panel_tag', 'right_panel_descr', 'right_block_tag', 'right_term',
                     'right_int_circ', 'right_jumper', 'right_note',
                     'notes'
