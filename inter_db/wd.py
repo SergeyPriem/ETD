@@ -70,8 +70,25 @@ def get_all_terminals(equip_tag):
     #     st.toast(err_handler(e))
 
 
-def draw_pan_connection(panel, dxf_template):
-    ...
+def draw_pan_head(panel, msp, right_shift):
+
+    ins_block = msp.add_blockref('equip_head',
+                                 insert=(st.session_state.term_coord['x'], st.session_state.term_coord['y']))
+    att_values = {
+        'EQUIP_TAG_DESCR': str(term_df.left_equip_tag[0]) + " - " + str(term_df.left_equip_descr[0]),
+        'EQUIP_NOTES': "----",
+    }
+    ins_block.add_auto_attribs(att_values)
+
+    ins_block = msp.add_blockref('equip_head',
+                                 insert=(
+                                 st.session_state.term_coord['x'] + right_shift, st.session_state.term_coord['y']))
+    att_values = {
+        'EQUIP_TAG_DESCR': str(term_df.right_equip_tag[0]) + " - " + str(term_df.right_equip_descr[0]),
+        'EQUIP_NOTES': "----",
+    }
+    ins_block.add_auto_attribs(att_values)
+
 
 def generate_wd():
     eq_tag_list = list(get_eqip_tags())
@@ -99,7 +116,7 @@ def generate_wd():
     else:
         st.write("##### :blue[No links found...]")
 
-    st.stop()
+    # st.stop()
     panels_list = list(term_df.left_panel_tag.unique())
     st.write(panels_list)
 
@@ -110,18 +127,31 @@ def generate_wd():
     if 'term_coord' not in st.session_state:
         st.session_state.term_coord = {
             'x': 10,
-            'y': 10,
+            'y': -10,
         }
 
-    ins_block = msp.add_blockref('equip_head',
-                                 insert=(st.session_state.term_coord['x'], st.session_state.term_coord['x'])
-                                 )
-    att_values = {
-        'EQUIP_TAG_DESCR': str(term_df.left_equip_tag[0]) + " - " + str(term_df.left_equip_descr[0]),
-        'EQUIP_NOTES': v.cab_tag,
-    }
+    right_shift = 220
+    def insert_equip_head():
+        ins_block = msp.add_blockref('equip_head',
+                                     insert=(st.session_state.term_coord['x'], st.session_state.term_coord['y']))
+        att_values = {
+            'EQUIP_TAG_DESCR': str(term_df.left_equip_tag[0]) + " - " + str(term_df.left_equip_descr[0]),
+            'EQUIP_NOTES': "----",
+        }
+        ins_block.add_auto_attribs(att_values)
 
-    ins_block.add_auto_attribs(att_values)
+        ins_block = msp.add_blockref('equip_head',
+                                     insert=(st.session_state.term_coord['x'] + right_shift, st.session_state.term_coord['y']))
+        att_values = {
+            'EQUIP_TAG_DESCR': str(term_df.right_equip_tag[0]) + " - " + str(term_df.right_equip_descr[0]),
+            'EQUIP_NOTES': "----",
+        }
+        ins_block.add_auto_attribs(att_values)
+
+    insert_equip_head()
+
+    st.session_state.term_coord['y'] -= 18
+
 
     for p in panels_list:
-        draw_pan_connection(p, msp)
+        draw_pan_head(p, msp, right_shift)
