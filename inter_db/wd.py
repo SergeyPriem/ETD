@@ -6,8 +6,8 @@ from streamlit_option_menu import option_menu
 
 from inter_db.utils import get_eqip_tags
 from models import Wire, Cable, Equip, Panel
-from scripts import save_uploaded_file
-from utilities import err_handler, tab_to_df, open_dxf_file
+
+from utilities import err_handler, tab_to_df, open_dxf_file, save_uploaded_file
 import ezdxf
 
 def get_all_terminals(equip_tag):
