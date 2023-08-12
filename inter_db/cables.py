@@ -6,7 +6,7 @@ from pony.orm import db_session, select
 from streamlit_option_menu import option_menu
 from inter_db.equipment import get_eqip_tags
 from inter_db.panels import get_panel_tags
-from inter_db.utils import get_cab_params, get_filtered_cables
+from inter_db.utils import get_cab_params, get_filtered_cables, get_all_cables
 from models import Cable, Cab_purpose, Cab_types, Cab_wires, Cab_sect, Panel
 from utilities import err_handler
 
@@ -167,8 +167,6 @@ def cables_main(act):
                                           icons=['-'] * len(left_pan_tag_list),
                                           orientation='horizontal', menu_icon='2-square')
 
-    rc1, rc2 = st.columns([1, 2], gap='medium')
-
     if len(eq_tag_list) == 0:
         eq_tag_list = ['No equipment available']
 
@@ -200,6 +198,9 @@ def cables_main(act):
     else:
         df_to_show = get_filtered_cables(selected_left_equip, selected_left_panel,
                                          selected_right_equip, selected_right_panel)
+
+    if st.button("Show All Cables"):
+        st.data_editor(get_all_cables(), use_container_width=True)
 
     if act == 'Create':
         create_cable(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel)
