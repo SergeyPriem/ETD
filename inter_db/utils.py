@@ -377,7 +377,7 @@ def get_filtered_cables(left_eq, left_pan, right_eq, right_pan):
                                                  'left_pan_tag', 'right_pan_tag', 'edit', 'notes', ])
                 return df
     except Exception as e:
-        st.toast(err_handler(e))
+        # st.toast(err_handler(e))
         return err_handler(e)
 
 
