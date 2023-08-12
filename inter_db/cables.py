@@ -191,6 +191,13 @@ def cables_main(act):
                                            icons=['-'] * len(right_pan_tag_list),
                                            orientation='horizontal', menu_icon='4-square')
 
+    b1, b2, b3, b4, b5, b6 = st.columns(6, gap='medium')
+    b4.button('Hide All Cables', use_container_width=True)
+    if b3.button("Show All Cables", use_container_width=True):
+        df_to_show = get_all_cables()
+        st.data_editor(df_to_show, use_container_width=True, hide_index=True)
+        st.stop()
+
     if selected_left_panel == selected_right_panel and selected_left_equip == selected_right_equip:
         st.toast(f"##### :red[Left and Right Panels should be different]")
         st.stop()
@@ -198,12 +205,6 @@ def cables_main(act):
         df_to_show = get_filtered_cables(selected_left_equip, selected_left_panel,
                                          selected_right_equip, selected_right_panel)
 
-    b1, b2, b3, b4, b5, b6 = st.columns(6, gap='medium')
-    b4.button('Hide All Cables', use_container_width=True)
-    if b3.button("Show All Cables", use_container_width=True):
-        df_to_show = get_all_cables()
-        st.data_editor(df_to_show, use_container_width=True, hide_index=True)
-        st.stop()
 
     if act == 'Create':
         create_cable(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel)
