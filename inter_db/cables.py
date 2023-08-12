@@ -202,7 +202,6 @@ def cables_main(act):
     b4.button('Hide All Cables', use_container_width=True)
     if b3.button("Show All Cables", use_container_width=True):
         df_to_show = get_all_cables()
-        df_to_show = df_to_show.drop(columns=['edit'])
         st.data_editor(df_to_show, use_container_width=True, hide_index=True)
         st.stop()
 
