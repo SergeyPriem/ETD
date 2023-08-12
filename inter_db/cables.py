@@ -92,17 +92,17 @@ def create_cable(left_eq_tag, left_pan_tag, right_eq_tag, right_pan_tag):
         lc, cc, rc = st.columns(3, gap='medium')
         cab_tag = cc.text_input("Cable Tag")
 
-        c1, c2, c3, c4 = st.columns(4, gap='medium')
+        c1, c2, c3, c4, c5, c6 = st.columns(6, gap='medium')
 
         cab_purpose = c1.selectbox('Cable Purpose', cab_purposes)
         cab_type = c2.selectbox('Cable Type', cab_types)
         wire_number = c3.selectbox('Wires Quantity', wire_numbers)
         wire_section = c4.selectbox('Wires Quantity', wire_sections)
-        bl, bc = st.columns(2, gap='medium')
-        notes = bl.text_input("Notes")
-        bc.text('')
-        bc.text('')
-        add_cab_but = bc.form_submit_button("Add Cable", use_container_width=True)
+        # bl, bc = st.columns(2, gap='medium')
+        notes = c5.text_input("Notes")
+        c6.text('')
+        c6.text('')
+        add_cab_but = c6.form_submit_button("Add Cable", use_container_width=True)
 
     if add_cab_but:
         try:
