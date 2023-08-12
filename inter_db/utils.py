@@ -392,11 +392,15 @@ def get_all_cables():
         with db_session:
             data = select(
                 (c.id, c.cable_tag, c.purpose_id.circuit_descr, c.type_id.cab_type, c.wires_id.wire_num,
-                 c.sect_id.section, c.left_pan_id.panel_tag, c.right_pan_id.panel_tag, c.edit, c.notes,)
+                 c.sect_id.section,
+                 c.left_pan_id.eq_id.equipment_tag,
+                 c.right_pan_id.eq_id.equipment_tag,
+                 c.left_pan_id.panel_tag, c.right_pan_id.panel_tag, c.edit, c.notes,)
 
                 for c in Cable)[:]
 
             df = pd.DataFrame(data, columns=['id', 'cable_tag', 'purpose', 'type', 'wire', 'section',
+                                             'Left Equipment', 'Right Equipment',
                                              'left_pan_tag', 'right_pan_tag', 'edit', 'notes', ])
             return df
     except Exception as e:
