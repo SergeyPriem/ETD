@@ -26,7 +26,7 @@ def get_panel_terminals(equip_tag, panel_tag):
             blocks = select(b for b in Block if b.pan_id == panel)[:]
 
             data = select(str(t.block_id.block_tag) + " : " + str(t.terminal_num) +
-                          str(f"{' : !!!' if len(t.cab_wire) > 4 else ''}")
+                          str(f"{' : ' + t.cab_wire if len(t.cab_wire) > 4 else ''}")
                           for t in Terminal if t.block_id in blocks)[:]
         return data
     except Exception as e:
