@@ -378,6 +378,7 @@ def get_filtered_cables(left_eq, left_pan, right_eq, right_pan):
                 return df
     except Exception as e:
         # st.toast(err_handler(e))
+        st.toast(e)
         return err_handler(e)
 
 
