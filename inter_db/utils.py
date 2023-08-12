@@ -175,12 +175,14 @@ def get_selected_block_terminals(selected_equip, selected_panel, selected_block)
                     t.int_circuit,
                     t.int_link,
                     t.edit,
+                    t.cab_wire,
                     t.notes,
                 )
                 for t in Terminal if t.block_id == block)[:]
 
         df = pd.DataFrame(data,
-                          columns=['id', 'block_id', 'terminal_num', 'int_circuit', 'int_link', 'edit', 'notes', ])
+                          columns=['id', 'block_id', 'terminal_num', 'int_circuit', 'int_link', 'edit',
+                                   'cab_wire', 'notes', ])
 
         return df
     except Exception as e:
