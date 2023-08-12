@@ -212,6 +212,7 @@ def create_terminals(selected_equip, selected_panel, selected_block, terminals):
                     int_circuit="",
                     int_link="",
                     edit=False,
+                    cab_wire='free',
                     notes='',
                 )
                 i += 1
