@@ -361,23 +361,17 @@ def get_cab_tags():
 def get_filtered_cables(left_eq, left_pan, right_eq, right_pan):
     try:
         with db_session:
-            if left_pan == "ALL":
-                left_pan = select(p for p in Panel if p.eq_id.equipment_tag == left_eq)[:]
-            else:
-                left_pan = select(p for p in Panel if p.panel_tag == left_pan and p.eq_id.equipment_tag == left_eq)[:]
+            left_pan = select(p for p in Panel if p.panel_tag == left_pan and p.eq_id.equipment_tag == left_eq)[:]
 
-            if right_pan == "ALL":
-                right_pan = select(p for p in Panel if p.eq_id.equipment_tag == right_eq)[:]
-            else:
-                right_pan = select(
-                    p for p in Panel if p.panel_tag == right_pan and p.eq_id.equipment_tag == right_eq)[:]
+            right_pan = select(
+                p for p in Panel if p.panel_tag == right_pan and p.eq_id.equipment_tag == right_eq)[:]
 
             if left_pan and right_pan:
                 data = select(
                     (c.id, c.cable_tag, c.purpose_id.circuit_descr, c.type_id.cab_type, c.wires_id.wire_num,
                      c.sect_id.section, c.left_pan_id.panel_tag, c.right_pan_id.panel_tag, c.edit, c.notes,)
                     for c in Cable
-                    if (c.left_pan_id in left_pan) and (c.right_pan_id in right_pan))[:]
+                    if (c.left_pan_id == left_pan) and (c.right_pan_id == right_pan))[:]
 
                 df = pd.DataFrame(data, columns=['id', 'cable_tag', 'purpose', 'type', 'wire', 'section',
                                                  'left_pan_tag', 'right_pan_tag', 'edit', 'notes', ])
