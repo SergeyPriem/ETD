@@ -85,6 +85,7 @@ def edit_cable(selected_left_equip, selected_left_panel, selected_right_equip, s
 def copy_cable():
     ...
 
+
 def create_cable(left_eq_tag, left_pan_tag, right_eq_tag, right_pan_tag):
     cab_purposes, cab_types, wire_numbers, wire_sections = get_cab_params()
 
@@ -92,7 +93,7 @@ def create_cable(left_eq_tag, left_pan_tag, right_eq_tag, right_pan_tag):
         lc, cc, rc = st.columns(3, gap='medium')
         cab_tag = cc.text_input("Cable Tag")
 
-        c1, c2, c3, c4, c5, c6 = st.columns(6, gap='medium')
+        c1, c2, c3, c4, c5, c6 = st.columns([1, 1, 0.7, 0.7, 1.6, 1], gap='medium')
 
         cab_purpose = c1.selectbox('Cable Purpose', cab_purposes)
         cab_type = c2.selectbox('Cable Type', cab_types)
@@ -152,7 +153,6 @@ def cables_main(act):
                                           orientation='horizontal',
                                           menu_icon='1-square')
 
-
     left_pan_tag_list = list(get_panel_tags(selected_left_equip))
 
     if len(left_pan_tag_list) == 0:
@@ -172,7 +172,7 @@ def cables_main(act):
 
     with rc:
         selected_right_equip = option_menu('Select the Right Side Equipment',
-                                           options=eq_tag_list, default_index=len(eq_tag_list)-1,
+                                           options=eq_tag_list, default_index=len(eq_tag_list) - 1,
                                            icons=['-'] * len(eq_tag_list),
                                            orientation='horizontal',
                                            menu_icon='3-square')
@@ -185,10 +185,9 @@ def cables_main(act):
         if len(right_pan_tag_list) > 1:
             right_pan_tag_list.append("ALL")
 
-
     with rc:
         selected_right_panel = option_menu('Select the Right Side Panel',
-                                           options=right_pan_tag_list, default_index=len(right_pan_tag_list)-1,
+                                           options=right_pan_tag_list, default_index=len(right_pan_tag_list) - 1,
                                            icons=['-'] * len(right_pan_tag_list),
                                            orientation='horizontal', menu_icon='4-square')
 
@@ -206,7 +205,6 @@ def cables_main(act):
         df_to_show = df_to_show.drop(columns=['edit'])
         st.data_editor(df_to_show, use_container_width=True, hide_index=True)
         st.stop()
-
 
     if act == 'Create':
         create_cable(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel)
