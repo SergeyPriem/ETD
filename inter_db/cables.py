@@ -198,7 +198,7 @@ def cables_main(act):
         df_to_show = get_filtered_cables(selected_left_equip, selected_left_panel,
                                          selected_right_equip, selected_right_panel)
 
-    b1, b2, b3, b4, b5, b6 = st.columns(6)
+    b1, b2, b3, b4, b5, b6 = st.columns(6, gap='medium')
     b4.button('Hide All Cables', use_container_width=True)
     if b3.button("Show All Cables", use_container_width=True):
         df_to_show = get_all_cables()
