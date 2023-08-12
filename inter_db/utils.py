@@ -18,7 +18,7 @@ def get_eqip_tags():
         st.toast(err_handler(e))
 
 
-# @st.cache_data(show_spinner=False)
+@st.cache_data(show_spinner=False)
 def get_panel_terminals(equip_tag, panel_tag):
     try:
         with db_session:
