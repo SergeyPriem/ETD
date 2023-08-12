@@ -231,6 +231,7 @@ def db_func():
         int_circuit = Optional(str, 10)
         int_link = Optional(str, 10)
         edit = Optional(bool, default=False)
+        cab_wire = Optional(str, 120)
         notes = Optional(str, 100)
         wires_l = Set(Wire, reverse='left_term_id')
         wires_r = Set(Wire, reverse='right_term_id')

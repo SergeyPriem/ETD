@@ -87,6 +87,10 @@ def edit_wires(edited_df, cab_tag, all_wires=False):
                         right_term_id=right_term.get_pk(),
                         notes=row.notes
                     )
+
+                    left_term.set(cab_wire=str(cab_tag) + " > " + str(wire.wire_num))
+                    right_term.set(cab_wire=str(cab_tag) + " > " + str(wire.wire_num))
+
                     i += 1
                 else:
                     st.toast(f"##### :red[Wrong terminals for wire {row.wire_num}]")
