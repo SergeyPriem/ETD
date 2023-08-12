@@ -157,6 +157,9 @@ def cables_main(act):
 
     if len(left_pan_tag_list) == 0:
         left_pan_tag_list = ['No panels available']
+    else:
+        if len(left_pan_tag_list) > 1:
+            left_pan_tag_list.append("ALL")
 
     with lc:
         selected_left_panel = option_menu('Select the Left Side Panel',
@@ -180,6 +183,10 @@ def cables_main(act):
 
     if len(right_pan_tag_list) == 0:
         right_pan_tag_list = ['No panels available']
+    else:
+        if len(right_pan_tag_list) > 1:
+            right_pan_tag_list.append("ALL")
+
 
     with rc:
         selected_right_panel = option_menu('Select the Right Side Panel',
