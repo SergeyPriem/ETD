@@ -199,8 +199,14 @@ def cables_main(act):
         df_to_show = get_filtered_cables(selected_left_equip, selected_left_panel,
                                          selected_right_equip, selected_right_panel)
 
-    if st.button("Show All Cables"):
-        st.data_editor(get_all_cables(), use_container_width=True)
+    b1, b2, b3, b4, b5, b6 = st.columns(6)
+
+    if b3.button("Show All Cables", use_container_width=True):
+        df_to_show = get_all_cables()
+        df_to_show.drop(columns=['edit'], inplace=True)
+        st.data_editor(df_to_show, use_container_width=True, hide_index=True)
+
+    b4.button('Hide All Cables', use_container_width=True)
 
     if act == 'Create':
         create_cable(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel)
