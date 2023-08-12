@@ -200,12 +200,10 @@ def cables_main(act):
                                          selected_right_equip, selected_right_panel)
 
     b1, b2, b3, b4, b5, b6 = st.columns(6)
-
     if b3.button("Show All Cables", use_container_width=True):
         df_to_show = get_all_cables()
-        df_to_show.drop(columns=['edit'], inplace=True)
+        df_to_show = df_to_show.drop(columns=['edit'])
         st.data_editor(df_to_show, use_container_width=True, hide_index=True)
-
     b4.button('Hide All Cables', use_container_width=True)
 
     if act == 'Create':
