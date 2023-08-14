@@ -381,7 +381,7 @@ def get_filtered_cables(left_eq, left_pan, right_eq, right_pan):
         st.toast(e)
         return err_handler(e)
 
-
+@st.cache_data(show_spinner=False)
 def get_all_blocks_for_preview():
     try:
         with db_session:
@@ -402,6 +402,7 @@ def get_all_blocks_for_preview():
         return err_handler(e)
 
 
+@st.cache_data(show_spinner=False)
 def get_all_cables():
     try:
         with db_session:
