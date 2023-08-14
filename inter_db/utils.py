@@ -378,6 +378,7 @@ def get_filtered_cables(left_eq, left_pan, right_eq, right_pan):
         st.toast(e)
         return err_handler(e)
 
+
 @st.cache_data(show_spinner=False)
 def get_all_blocks_for_preview():
     try:
@@ -444,6 +445,7 @@ def get_block_terminals(bl):
     with db_session:
         terms = select(t.terminal_num for t in Terminal if t.block_id == bl and t.terminal_num != "isolated")[:]
     return terms
+
 
 @st.cache_data(show_spinner=False)
 def get_cable_wires(cable_tag):

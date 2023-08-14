@@ -294,10 +294,12 @@ def cables_main(act):
             if len(cab_wires_df) > 0:
 
                 edited_wires_df = st.data_editor(data=cab_wires_df, use_container_width=True, hide_index=True)
+
+                if st.button("Edit Selected Wires"):
+                    edit_wires(edited_wires_df)
+
             else:
                 st.write("##### :blue[Wires not available]")
         else:
             st.write(cab_wires_df)
 
-        if st.button("Edit Selected Wires"):
-            edit_wires(edited_wires_df)
