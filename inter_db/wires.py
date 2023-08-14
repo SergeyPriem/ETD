@@ -88,8 +88,8 @@ def edit_wires(edited_df, cab_tag, all_wires=False):
                         notes=row.notes
                     )
 
-                    left_term.set(cab_wire=str(cab_tag) + " > " + str(wire.wire_num))
-                    right_term.set(cab_wire=str(cab_tag) + " > " + str(wire.wire_num))
+                    # left_term.set(cab_wire=str(cab_tag) + " > " + str(wire.wire_num))
+                    # right_term.set(cab_wire=str(cab_tag) + " > " + str(wire.wire_num))
 
                     i += 1
                 else:

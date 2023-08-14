@@ -169,11 +169,6 @@ def terminals_main(act):
                                            width='small',
                                            help='Select this to Copy, Edit or Delete',
                                        ),
-                                       "cab_wire": st.column_config.TextColumn(
-                                           "Connected Wire",
-                                           disabled=True,
-                                           width='large'
-                                       ),
                                        "notes": st.column_config.TextColumn(
                                            "Notes",
                                            width='large'

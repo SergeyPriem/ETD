@@ -27,7 +27,7 @@ def get_panel_terminals(equip_tag, panel_tag):
 
             # data = select(str(t.block_id.block_tag) + " : " + str(t.terminal_num)
             #               for t in Terminal if t.block_id in blocks)[:]
-            data = select(str(t.block_id.block_tag) + " : " + str(t.terminal_num) + " : " + str(f"{t.cab_wire}")
+            data = select(str(t.block_id.block_tag) + " : " + str(t.terminal_num)
                           for t in Terminal if t.block_id in blocks)[:]
         return data
     except Exception as e:
@@ -177,14 +177,12 @@ def get_selected_block_terminals(selected_equip, selected_panel, selected_block)
                     t.int_circuit,
                     t.int_link,
                     t.edit,
-                    t.cab_wire,
                     t.notes,
                 )
                 for t in Terminal if t.block_id == block)[:]
 
         df = pd.DataFrame(data,
-                          columns=['id', 'block_id', 'terminal_num', 'int_circuit', 'int_link', 'edit',
-                                   'cab_wire', 'notes', ])
+                          columns=['id', 'block_id', 'terminal_num', 'int_circuit', 'int_link', 'edit', 'notes', ])
 
         return df
     except Exception as e:
@@ -212,7 +210,6 @@ def create_terminals(selected_equip, selected_panel, selected_block, terminals):
                     int_circuit="",
                     int_link="",
                     edit=False,
-                    cab_wire='free',
                     notes='',
                 )
                 i += 1
