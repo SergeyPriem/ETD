@@ -448,16 +448,18 @@ def get_block_terminals(bl):
 @st.cache_data(show_spinner=False)
 def get_cable_wires(cable_tag):
     try:
-        cable = Cable.get(cable_tag=cable_tag)
-        wires = select(
-            (
-                w.id,
-                w.cable_id.cable_tag,
-                w.wire_num,
-                w.edit,
-                w.notes,
-            )
-            for w in Wire if w.cable_id == cable)[:]
+        with db_session:
+            cable = Cable.get(cable_tag=cable_tag)
+
+            wires = select(
+                (
+                    w.id,
+                    w.cable_id.cable_tag,
+                    w.wire_num,
+                    w.edit,
+                    w.notes,
+                )
+                for w in Wire if w.cable_id == cable)[:]
 
         df = pd.DataFrame(data=wires, columns=['id', 'cable_tag', 'wire_num', 'edit', 'notes'])
         return df
