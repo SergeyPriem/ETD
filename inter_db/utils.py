@@ -4,7 +4,7 @@ from pony.orm import db_session, select
 import pandas as pd
 
 from inter_db.read_all_tabs import get_all_blocks
-from models import Panel, Block, Terminal, Equip, Cable, Cab_purpose, Cab_types, Cab_wires, Cab_sect
+from models import Panel, Block, Terminal, Equip, Cable, Cab_purpose, Cab_types, Cab_wires, Cab_sect, Wire
 from utilities import err_handler
 
 
@@ -444,3 +444,22 @@ def get_block_terminals(bl):
     with db_session:
         terms = select(t.terminal_num for t in Terminal if t.block_id == bl and t.terminal_num != "isolated")[:]
     return terms
+
+@st.cache_data(show_spinner=False)
+def get_cable_wires(cable_tag):
+    try:
+        cable = Cable.get(cable_tag=cable_tag)
+        wires = select(
+            (
+                w.id,
+                w.cable_id.cable_tag,
+                w.wire_num,
+                w.edit,
+                w.notes,
+            )
+            for w in Wire if w.cable_id == cable)[:]
+
+        df = pd.DataFrame(data=wires, columns=['id', 'cable_tag', 'wire_num', 'edit', 'notes'])
+        return df
+    except Exception as e:
+        return err_handler(e)

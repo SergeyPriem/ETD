@@ -6,8 +6,9 @@ from pony.orm import db_session, select
 from streamlit_option_menu import option_menu
 from inter_db.equipment import get_eqip_tags
 from inter_db.panels import get_panel_tags
-from inter_db.utils import get_cab_params, get_filtered_cables, get_all_cables
-from models import Cable, Cab_purpose, Cab_types, Cab_wires, Cab_sect, Panel
+from inter_db.utils import get_cab_params, get_filtered_cables, get_all_cables, get_cable_wires
+from inter_db.wires import edit_wires
+from models import Cable, Cab_purpose, Cab_types, Cab_wires, Cab_sect, Panel, Wire
 from utilities import err_handler
 
 
@@ -43,6 +44,7 @@ def edit_cable(selected_left_equip, selected_left_panel, selected_right_equip, s
                 left_pan = select(p for p in Panel
                                   if p.panel_tag == selected_left_panel and
                                   p.eq_id.equipment_tag == selected_left_equip).first()
+
                 right_pan = select(p for p in Panel
                                    if p.panel_tag == selected_right_panel and
                                    p.eq_id.equipment_tag == selected_right_equip).first()
@@ -119,7 +121,7 @@ def create_cable(left_eq_tag, left_pan_tag, right_eq_tag, right_pan_tag):
                 c_type = Cab_types.get(cab_type=cab_type)
                 c_wires = Cab_wires.get(wire_num=wire_number)
                 c_sect = Cab_sect.get(section=wire_section)
-                Cable(
+                created_cable = Cable(
                     cable_tag=cab_tag,
                     purpose_id=purpose,
                     type_id=c_type,
@@ -130,13 +132,23 @@ def create_cable(left_eq_tag, left_pan_tag, right_eq_tag, right_pan_tag):
                     edit=False,
                     notes=notes,
                 )
-            st.toast(f"#### :green[Cable {cab_tag} added]")
+
+                for w in range(1, wire_number + 1):
+                    Wire(
+                        cable_id=created_cable,
+                        wire_num=w,
+                    )
+
+            # st.toast(f"#### :green[Cable {cab_tag} added]")
+            status = 200
 
         except Exception as e:
-            st.toast(err_handler(e))
+            # st.toast(err_handler(e))
+            status = err_handler(e)
         finally:
             st.cache_data.clear()
-            st.button('OK')
+
+        return status
 
 
 def cables_main(act):
@@ -205,9 +217,13 @@ def cables_main(act):
         df_to_show = get_filtered_cables(selected_left_equip, selected_left_panel,
                                          selected_right_equip, selected_right_panel)
 
-
     if act == 'Create':
-        create_cable(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel)
+        reply = create_cable(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel)
+
+        if reply == 200:
+            st.toast(f"#### :green[Cable created]")
+        else:
+            st.toast(reply)
 
     if not isinstance(df_to_show, pd.DataFrame) or len(df_to_show) == 0:
         st.write("##### :blue[Please, create Cable]")
@@ -270,5 +286,18 @@ def cables_main(act):
 
     if act == 'Edit':
         if st.button("Edit Selected Cables"):
-            edit_cable(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel,
-                       edited_df)
+            edit_cable(selected_left_equip, selected_left_panel, selected_right_equip, selected_right_panel, edited_df)
+
+        cab_wires_df = get_cable_wires(edited_df.cable_tag.to_numpy()[0])
+
+        if isinstance(cab_wires_df, pd.DataFrame):
+            if len(cab_wires_df) > 0:
+
+                edited_wires_df = st.data_editor(data=cab_wires_df, use_container_width=True, hide_index=True)
+            else:
+                st.write("##### :blue[Wires not available]")
+        else:
+            st.write(cab_wires_df)
+
+        if st.button("Edit Selected Wires"):
+            edit_wires(edited_wires_df)

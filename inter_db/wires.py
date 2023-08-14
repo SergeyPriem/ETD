@@ -106,17 +106,6 @@ def create_wires(cab_tag, wires_num):
     try:
         with db_session:
             cable = Cable.get(cable_tag=cab_tag)
-            #
-            # left_block = left_term_init.split(" : ")[0]
-            # left_term = left_term_init.split(" : ")[1]
-            #
-            # right_block = right_term_init.split(" : ")[0]
-            # right_term = right_term_init.split(" : ")[1]
-
-            # left_term_first = select(t for t in Terminal
-            #                          if t.block_id.block_tag == left_block and t.terminal_num == left_term).first()
-            # right_term_first = select(t for t in Terminal
-            #                           if t.block_id.block_tag == right_block and t.terminal_num == right_term).first()
 
             for w in range(1, wires_num + 1):
                 Wire(
@@ -361,3 +350,5 @@ def wires_main(act):
         if c4.button("Save All Wires Termination", help="It will be slower but with complete duplicates check"):
             check_duplicated_termination(edited_df)
             edit_wires(edited_df, cab_tag, all_wires=True)
+
+
