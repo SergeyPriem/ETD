@@ -264,7 +264,7 @@ def cables_main(act):
         copy_cable()
 
     if act == 'Delete':
-        st.subheader(f":warning: :red[All nested wires will be deleted!]")
+        st.subheader(f":warning: :red[All nested wires and their termination will be deleted!]")
         if st.button("Delete Selected Cable(s)"):
             delete_cable(edited_df)
 
