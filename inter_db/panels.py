@@ -248,7 +248,7 @@ def panels_main(act):
             copy_panel(selected_equip, selected_panel)
 
     if act == 'Delete':
-        st.subheader(f":warning: :red[All nested terminal blocks, terminals will be deleted!]")
+        st.subheader(f":warning: :red[All nested terminal blocks, terminals and related cables will be deleted!]")
         if st.button("Delete Selected Panel(s)"):
             # act_with_warning(left_function=delete_panel, left_args=edited_df,
             #                  header_message="All related terminal blocks and terminals will be deleted!",

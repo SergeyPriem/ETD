@@ -382,6 +382,26 @@ def get_filtered_cables(left_eq, left_pan, right_eq, right_pan):
         return err_handler(e)
 
 
+def get_all_blocks_for_preview():
+    try:
+        with db_session:
+            data = select(
+                (b.id,
+                 b.pan_id.eq_id.equipment_tag,
+                 b.pan_id.panel_tag,
+                 b.block_tag,
+                 b.descr,
+                 b.notes,)
+
+                for b in Block)[:]
+
+            df = pd.DataFrame(data, columns=['ID', 'Equipment', 'Panel', 'Terminal Block', 'Description', 'Notes', ])
+            return df
+    except Exception as e:
+        # st.toast(err_handler(e))
+        return err_handler(e)
+
+
 def get_all_cables():
     try:
         with db_session:
@@ -400,12 +420,12 @@ def get_all_cables():
 
                 for c in Cable)[:]
 
-            df = pd.DataFrame(data, columns=['id', 'Left Equipment', 'Left Panel',
+            df = pd.DataFrame(data, columns=['ID', 'Left Equipment', 'Left Panel',
                                              'Cable Tag', 'Purpose', 'Type', 'Wires', 'Section',
                                              'Right Equipment', 'Right Panel', 'Notes', ])
             return df
     except Exception as e:
-        st.toast(err_handler(e))
+        # st.toast(err_handler(e))
         return err_handler(e)
 
 

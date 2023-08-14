@@ -7,9 +7,9 @@ from streamlit_option_menu import option_menu
 from inter_db.equipment import get_eqip_tags
 from inter_db.panels import get_panel_tags
 from inter_db.utils import get_blocks_list_by_eq_pan, get_selected_block, create_block, \
-    create_terminals_with_internals, add_block_to_db
+    create_terminals_with_internals, add_block_to_db, get_all_blocks_for_preview
 from models import Panel, Block, Terminal
-from utilities import err_handler, act_with_warning
+from utilities import err_handler
 
 
 def delete_block(df):
@@ -156,6 +156,14 @@ def blocks_main(act):
                                      options=block_tag_list,
                                      icons=['-'] * len(block_tag_list),
                                      orientation='horizontal', menu_icon='3-square')
+
+    b1, b2, b3, b4, b5, b6 = st.columns(6, gap='medium')
+    b4.button('Hide All Terminal Blocks', use_container_width=True)
+    if b3.button("Show All Terminal Blocks", use_container_width=True):
+        df_to_show = get_all_blocks_for_preview()
+        st.data_editor(df_to_show, use_container_width=True, hide_index=True)
+        st.stop()
+
 
     df_to_show = get_selected_block(selected_equip, selected_panel, selected_block)
 
