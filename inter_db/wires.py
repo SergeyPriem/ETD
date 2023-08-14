@@ -102,28 +102,26 @@ def edit_wires(edited_df, cab_tag, all_wires=False):
         st.experimental_rerun()
 
 
-def create_wires(cab_tag, wires_num, left_term_init, right_term_init):
+def create_wires(cab_tag, wires_num):
     try:
         with db_session:
             cable = Cable.get(cable_tag=cab_tag)
+            #
+            # left_block = left_term_init.split(" : ")[0]
+            # left_term = left_term_init.split(" : ")[1]
+            #
+            # right_block = right_term_init.split(" : ")[0]
+            # right_term = right_term_init.split(" : ")[1]
 
-            left_block = left_term_init.split(" : ")[0]
-            left_term = left_term_init.split(" : ")[1]
-
-            right_block = right_term_init.split(" : ")[0]
-            right_term = right_term_init.split(" : ")[1]
-
-            left_term_first = select(t for t in Terminal
-                                     if t.block_id.block_tag == left_block and t.terminal_num == left_term).first()
-            right_term_first = select(t for t in Terminal
-                                      if t.block_id.block_tag == right_block and t.terminal_num == right_term).first()
+            # left_term_first = select(t for t in Terminal
+            #                          if t.block_id.block_tag == left_block and t.terminal_num == left_term).first()
+            # right_term_first = select(t for t in Terminal
+            #                           if t.block_id.block_tag == right_block and t.terminal_num == right_term).first()
 
             for w in range(1, wires_num + 1):
                 Wire(
                     cable_id=cable,
                     wire_num=w,
-                    left_term_id=left_term_first,
-                    right_term_id=right_term_first,
                 )
 
             st.toast(f"##### :green[{w} wires created]")
@@ -292,14 +290,9 @@ def wires_main(act):
     else:
         if act == 'Create':
             if st.button('Create Wires'):
-                st.write(f"Left Terminals: {left_terminals}")
-                st.write(f"Right Terminals: {right_terminals}")
                 if len(left_terminals[0]) and len(right_terminals[0]):
                     if " : " in left_terminals[0] and " : " in right_terminals[0]:
-                        create_wires(cab_tag,
-                                     cab_df.loc[cab_df.cable_tag == cab_tag, 'wire'].to_numpy()[0],
-                                     left_terminals[0],
-                                     right_terminals[0])
+                        create_wires(cab_tag, cab_df.loc[cab_df.cable_tag == cab_tag, 'wire'].to_numpy()[0])
                     else:
                         st.toast(f"##### :orange[Create terminals first]")
                 else:

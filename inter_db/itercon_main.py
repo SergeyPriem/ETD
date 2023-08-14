@@ -17,7 +17,7 @@ def intercon_expander():
 
     if st.session_state['user']['access_level'] == "dev" or st.session_state['user']['login'] == 'vyacheslav.shishov':
 
-        preview_list = ["SELECT:", 'Equipment', 'Panels', 'Terminal Block', 'Terminals', 'Cables', 'Wires',
+        preview_list = ["SELECT:", 'Equipment', 'Panels', 'Terminal Block', 'Terminals', 'Cables', 'Termination',
                         "Generate WD"]
 
         prev_sel = option_menu(None, preview_list,
@@ -48,7 +48,7 @@ def intercon_expander():
                     cables_main(act)
                 if prev_sel == 'Terminals':
                     terminals_main(act)
-                if prev_sel == 'Wires':
+                if prev_sel == 'Termination':
                     wires_main(act)
             else:
                 st.write("Select the option 👆 to proceed")

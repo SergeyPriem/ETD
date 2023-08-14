@@ -240,11 +240,15 @@ def db_func():
         id = PrimaryKey(int, auto=True)
         terminal = Required(Terminal)
         wire = Required(Wire)
+        edit = Optional(bool, default=False)
+        notes = Optional(str, 100)
 
     class R_link(db_int.Entity):
         id = PrimaryKey(int, auto=True)
         terminal = Required(Terminal)
         wire = Required(Wire)
+        edit = Optional(bool, default=False)
+        notes = Optional(str, 100)
 
     db_int.bind(
         provider='mysql',
