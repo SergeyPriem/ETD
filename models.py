@@ -236,12 +236,12 @@ def db_func():
         r_link = Optional('R_link')
         composite_key(block_id, terminal_num)
 
-    class L_link(db.Entity):
+    class L_link(db_int.Entity):
         id = PrimaryKey(int, auto=True)
         terminal = Required(Terminal)
         wire = Required(Wire)
 
-    class R_link(db.Entity):
+    class R_link(db_int.Entity):
         id = PrimaryKey(int, auto=True)
         terminal = Required(Terminal)
         wire = Required(Wire)
