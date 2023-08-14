@@ -143,11 +143,9 @@ def create_cable(left_eq_tag, left_pan_tag, right_eq_tag, right_pan_tag):
             status = 200
 
         except Exception as e:
-            # st.toast(err_handler(e))
             status = err_handler(e)
         finally:
             st.cache_data.clear()
-
         return status
 
 
@@ -222,6 +220,7 @@ def cables_main(act):
 
         if reply == 200:
             st.toast(f"#### :green[Cable created]")
+            st.button("OK")
         else:
             st.toast(reply)
 
@@ -293,7 +292,7 @@ def cables_main(act):
         if isinstance(cab_wires_df, pd.DataFrame):
             if len(cab_wires_df) > 0:
 
-                edited_wires_df = st.data_editor(data=cab_wires_df, use_container_width=True, hide_index=True)
+                edited_wires_df = st.data_editor(data=cab_wires_df, hide_index=True)
 
                 if st.button("Edit Selected Wires"):
                     edit_wires(edited_wires_df)
