@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import base64
 import time
 
 import pandas as pd
@@ -345,3 +346,17 @@ def save_uploaded_file(uploaded_file):
     except Exception as e:
         st.warning(f"Can't save file to temp. folder: {err_handler(e)}")
         st.stop()
+
+
+def add_local_background_image(image):
+    with open(image, "rb") as image:
+        encoded_string = base64.b64encode(image.read())
+    st.markdown(
+        f"""
+            <style>
+                .stApp {{
+                    background-image: url(data:files/{"jpg"};base64,{encoded_string.decode()});
+                    background-size: cover
+                }}
+            </style>
+        """, unsafe_allow_html=True)
