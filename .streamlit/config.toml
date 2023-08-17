@@ -1,9 +1,10 @@
 [theme]
-#primaryColor="#b83112"
+
 primaryColor="#249ded"
-backgroundColor="#3b3f40"
-secondaryBackgroundColor="#494e4f"
+backgroundColor="#2e2f2f"
+secondaryBackgroundColor="#2a2d2d"
 textColor="#ffffff"
+
 
 
 [runner]

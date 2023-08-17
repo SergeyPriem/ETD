@@ -399,7 +399,7 @@ def home_content():
     empty21, content2, empty22 = st.columns([1, 20, 1])
 
     with home_cont:
-        st.title(':orange[Electrical Department]')
+        st.title(':orange[Power Electrical Department]')
 
         username = f"{st.session_state.user['name']} {st.session_state.user['surname']}"
         st.header(f'Welcome, {username}!')
@@ -501,7 +501,7 @@ def home_content():
                                 st.experimental_rerun()
                             st.text("")
                     else:
-                        st.write('No New Tasks')
+                        st.write('##### :orange[No New Tasks]')
 
                 with trans_col:
                     # df = get_my_trans(st.session_state.user['login'])
@@ -606,7 +606,7 @@ def home_content():
                             st.text("")
 
                     else:
-                        st.write('No New Transmittals')
+                        st.write('##### :orange[No New Transmittals]')
 
 
 def login_register():
@@ -618,7 +618,7 @@ def login_register():
         st.empty()
 
     with log_content:
-        st.title(':orange[Electrical Department]')
+        st.title(':orange[Power Electrical Department]')
 
         # st.header('Welcome, Colleague!')
 
@@ -1126,12 +1126,14 @@ def prepare_menus(menu, icons, vert_menu):
                                    icons=icons,
                                    )
     else:
-        selected = option_menu(None,
-                               options=menu,
-                               default_index=0,
-                               icons=icons,
-                               menu_icon=None,
-                               orientation='horizontal')
+        c1, c2, c3 = st.columns([2,5,2])
+        with c2:
+            selected = option_menu(None,
+                                   options=menu,
+                                   default_index=0,
+                                   icons=icons,
+                                   menu_icon=None,
+                                   orientation='horizontal')
 
     return selected
 
@@ -1190,7 +1192,7 @@ def layout(*args):
     <style>
       # MainMenu {visibility: hidden;}
       footer {visibility: hidden;}
-     .stApp { bottom: 105px; }
+     .stApp { bottom: 0px; }
     </style>
     """
 
