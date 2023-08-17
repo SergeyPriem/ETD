@@ -399,7 +399,7 @@ def home_content():
     empty21, content2, empty22 = st.columns([1, 20, 1])
 
     with home_cont:
-        st.title(':orange[Power Electrical Department]')
+        st.title(':orange[Electrical Department]')
 
         username = f"{st.session_state.user['name']} {st.session_state.user['surname']}"
         st.header(f'Welcome, {username}!')
@@ -618,7 +618,7 @@ def login_register():
         st.empty()
 
     with log_content:
-        st.title(':orange[Power Electrical Department]')
+        st.title(':orange[Electrical Department]')
 
         # st.header('Welcome, Colleague!')
 
