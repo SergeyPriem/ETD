@@ -360,3 +360,31 @@ def add_local_background_image(image):
                 }}
             </style>
         """, unsafe_allow_html=True)
+
+
+def hide_buttons():
+    st.markdown(
+        """
+            <style>
+                button {
+                    background: none!important;
+                    border: none;
+                    padding: 0!important;
+                    color: white !important;
+                    text-decoration: none;
+                    cursor: pointer;
+                    border: none !important;
+                }
+                button:hover {
+                    text-decoration: none;
+                    color: red !important;
+                }
+                button:focus {
+                    outline: none !important;
+                    box-shadow: none !important;
+                    color: #249ded !important;
+                }
+            </style>
+        """,
+        unsafe_allow_html=True,
+    )
