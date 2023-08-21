@@ -58,7 +58,7 @@ def db_func():
         phone = Optional(str, 13, nullable=True)
         telegram = Optional(str, 80, nullable=True)
         vert_menu = Optional(int, size=8)
-        refresh_delay = Optional(int, size=16, nullable=True)
+        but_type = Optional(int, size=8)
         script_acc = Optional(int, size=8)
         hashed_pass = Optional(str, 60)
         projects = Set(Project)
