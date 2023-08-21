@@ -4,18 +4,22 @@ import datetime
 import gc
 import os
 import random
+
 import pandas as pd
+import streamlit as st
 from PIL import Image
+from htbuilder import HtmlElement, div, hr, a, p, img, styles
+from htbuilder.units import percent, px
 from streamlit_extras.dataframe_explorer import dataframe_explorer
 from streamlit_option_menu import option_menu
 
 from admin_tools import manage_projects
 from drawing_sets_tab import drawing_sets, manage_units
-from inter_db.read_all_tabs import get_all_cables
 from just_for_fun_tab import manual
 from lesson_learned_tab import lessons_content
 from models import Users, Task, Trans, VisitLog, Action
 from projects import confirm_task, confirm_trans, trans_status_to_db, get_all, get_table
+from projects import get_state, update_tables
 from scripts import scripts_tab
 from send_emails import send_mail
 from settings_tab import settings_content
@@ -26,12 +30,6 @@ from users import check_user, add_to_log, create_appl_user, update_users_in_db, 
 from utilities import appearance_settings, POSITIONS, DEPARTMENTS, mail_to_name, TRANS_STATUSES, \
     center_style, set_init_state, update_state, get_list_index, title_with_help, add_local_background_image, \
     hide_buttons
-
-from projects import get_state, update_tables
-
-import streamlit as st
-from htbuilder import HtmlElement, div, hr, a, p, img, styles
-from htbuilder.units import percent, px
 
 # import openpyxl
 st.set_page_config(layout="wide", page_icon=Image.open("images/small_logo.jpg"),

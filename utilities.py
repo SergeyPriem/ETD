@@ -368,12 +368,11 @@ def hide_buttons():
             <style>
                 button {
                     background: none!important;
-                    border: none;
                     padding: 0!important;
                     color: white !important;
                     text-decoration: none;
                     cursor: pointer;
-                    border: none !important;
+                    border-color: red;
                 }
                 button:hover {
                     text-decoration: none;
@@ -388,3 +387,28 @@ def hide_buttons():
         """,
         unsafe_allow_html=True,
     )
+    # st.markdown(
+    #     """
+    #         <style>
+    #             button {
+    #                 background: none!important;
+    #                 border: none;
+    #                 padding: 0!important;
+    #                 color: white !important;
+    #                 text-decoration: none;
+    #                 cursor: pointer;
+    #                 border: none !important;
+    #             }
+    #             button:hover {
+    #                 text-decoration: none;
+    #                 color: red !important;
+    #             }
+    #             button:focus {
+    #                 outline: none !important;
+    #                 box-shadow: none !important;
+    #                 color: #249ded !important;
+    #             }
+    #         </style>
+    #     """,
+    #     unsafe_allow_html=True,
+    # )
