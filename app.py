@@ -1283,7 +1283,7 @@ if __name__ == "__main__":
 
     create_states()
 
-    hide_buttons()
+    # hide_buttons()
 
     if not st.session_state.logged:
         login_register()
