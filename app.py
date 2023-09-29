@@ -790,6 +790,9 @@ def login_register():
                 # st.session_state.adb = get_all()
                 # make_short_delay()
 
+        st.write(
+            "Check out the New Site with extended features [link](https://ps-power.streamlit.app/)")
+
 
 def manage_users():
     center_style()
