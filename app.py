@@ -790,7 +790,7 @@ def login_register():
                 # st.session_state.adb = get_all()
                 # make_short_delay()
 
-        st.write(":shamrock: [Check out the New Site with extended features](https://ps-power.streamlit.app/)")
+        st.write("	:fire: [Check out the New Site with extended features](https://ps-power.streamlit.app/)")
 
 
 def manage_users():
