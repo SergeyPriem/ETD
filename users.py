@@ -6,7 +6,7 @@ from models import Users, VisitLog, Action
 from pony.orm import *
 
 
-from utilities import mail_to_name, err_handler, tab_to_df
+from utilities import mail_to_name, err_handler, tab_to_df, VERSION
 
 set_sql_debug(False)
 
@@ -201,7 +201,7 @@ def check_user(login, password):
 def add_to_log(login):
     with db_session:
         try:
-            logger = VisitLog(login_time=datetime.datetime.now(), users=Users.get(login=login))
+            logger = VisitLog(login_time=datetime.datetime.now(), users=Users.get(login=login), version=VERSION)
         except Exception as e:
             return f"ERROR: {err_handler(e)}"
     return f"Hello, {mail_to_name(logger.users.id)}. Do your best and forget the rest 😎"

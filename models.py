@@ -93,6 +93,7 @@ def db_func():
     class VisitLog(db_int.Entity):
         id = PrimaryKey(int, size=32, auto=True)
         login_time = Required(datetime)
+        version = Required(str, 100)
         users = Required(Users)
 
     class Speciality(db_int.Entity):
