@@ -414,3 +414,27 @@ def hide_buttons():
     #     """,
     #     unsafe_allow_html=True,
     # )
+
+
+def timeit(method):
+    def timed(*args, **kw):
+        # if st.session_state.user['access_level'] != 'dev':
+        #     return method(*args, **kw)
+        # else:
+        ts = time.time()
+        result = method(*args, **kw)
+        te = time.time()
+
+        if 'log_time' in kw:
+            name = kw.get('log_name', method.__name__.upper())
+            kw['log_time'][name] = int((te - ts) * 1000)
+        else:
+            try:
+                if st.session_state.user["access_level"] == "dev":
+                    # st.toast('%r  %2.2f ms' % (method.__name__, (te - ts) * 1000))
+                    st.toast(f"###### :orange[{method.__name__}: {round((te - ts) * 1000, 0)}]")
+            except:
+                st.toast(f"###### :orange[{method.__name__}: {round((te - ts) * 1000, 0)}]")
+        return result
+
+    return timed

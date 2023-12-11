@@ -191,13 +191,16 @@ def incom_sect_cb_calc(loads_df: pd.DataFrame) -> pd.DataFrame:
     c_kw_pe = loads_df.loc[(loads_df.equip != 'INCOMER') & (loads_df.equip != 'SECT_BREAKER'), 'c_kw'].sum()
     i_kw_pe = loads_df.loc[(loads_df.equip != 'INCOMER') & (loads_df.equip != 'SECT_BREAKER'), 'i_kw'].sum()
     s_kw_pe = loads_df.loc[(loads_df.equip != 'INCOMER') & (loads_df.equip != 'SECT_BREAKER'), 's_kw'].sum()
+
     c_kvar_pe = loads_df.loc[(loads_df.equip != 'INCOMER') & (loads_df.equip != 'SECT_BREAKER'), 'c_kvar'].sum()
     i_kvar_pe = loads_df.loc[(loads_df.equip != 'INCOMER') & (loads_df.equip != 'SECT_BREAKER'), 'i_kvar'].sum()
     s_kvar_pe = loads_df.loc[(loads_df.equip != 'INCOMER') & (loads_df.equip != 'SECT_BREAKER'), 's_kvar'].sum()
+
     max_i_kw_pe = loads_df.loc[(loads_df.equip == 'MOTOR'), 'i_kw'].max()
     max_i_kvar_pe = loads_df.loc[(loads_df.equip == 'MOTOR'), 'i_kvar'].max()
     max_s_kw_pe = loads_df.loc[(loads_df.equip == 'MOTOR'), 's_kw'].max()
     max_s_kvar_pe = loads_df.loc[(loads_df.equip == 'MOTOR'), 's_kvar'].max()
+
     rated_power_kw_pe = c_kw_pe + max(i_kw_pe * 0.3, max_i_kw_pe) + max(s_kw_pe * 0.1, max_s_kw_pe)
     rated_power_kvar_pe = c_kvar_pe + max(i_kvar_pe * 0.3, max_i_kvar_pe) + max(s_kvar_pe * 0.1, max_s_kvar_pe)
     loads_df.loc[(loads_df.equip == 'INCOMER'), 'peak_kw_pe'] = rated_power_kw_pe

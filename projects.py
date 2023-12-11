@@ -5,7 +5,7 @@ import time
 
 from pony.orm import *
 
-from utilities import err_handler, tab_to_df
+from utilities import err_handler, tab_to_df, timeit
 from models import Project, SOD, Task, Users, Speciality, Trans
 
 import pandas as pd
@@ -803,7 +803,7 @@ def get_trans_nums(proj_short):
         except Exception as e:
             return err_handler(e)
 
-
+@timeit
 def get_all():
     with db_session:
         try:
