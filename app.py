@@ -8,8 +8,6 @@ import random
 import pandas as pd
 import streamlit as st
 from PIL import Image
-from htbuilder import HtmlElement, div, hr, a, p, img, styles
-from htbuilder.units import percent, px
 from streamlit_extras.dataframe_explorer import dataframe_explorer
 from streamlit_option_menu import option_menu
 
@@ -1179,104 +1177,31 @@ def initial():
         win_selector(prepared_menus)
 
 
-def image(src_as_string, **style):
-    return img(src=src_as_string, style=styles(**style))
-
-
-def link(link, text, **style):
-    return a(_href=link, _target="_blank", style=styles(**style))(text)
-
-
-def layout(*args):
-    style = """
-    <style>
-      # MainMenu {visibility: hidden;}
-      footer {visibility: hidden;}
-     .stApp { bottom: 0px; }
-    </style>
-    """
-
-    style_div = styles(
-        position="fixed",
-        left=0,
-        bottom=0,
-        margin=px(0, 0, 0, 0),
-        width=percent(100),
-        color="#5892fc",
-        text_align="center",
-        height="auto",
-        opacity=1
-    )
-
-    style_hr = styles(
-        display="block",
-        margin=px(0, 0, "auto", "auto"),
-        border_style="inset",
-        border_width=px(0)
-    )
-
-    body = p()
-    foot = div(
-        style=style_div
-    )(
-        hr(
-            style=style_hr
-        ),
-        body
-    )
-
-    st.markdown(style, unsafe_allow_html=True)
-
-    for arg in args:
-        if isinstance(arg, str):
-            body(arg)
-
-        elif isinstance(arg, HtmlElement):
-            body(arg)
-
-    st.markdown(str(foot), unsafe_allow_html=True)
-
-
 def footer(reply):
+    items = [
+        "✉️ sergey.priemshiy@uzliti-en.com",
+        "✈️ +998 90 959 80 30",
+        f"Mode: {st.session_state.proj_scope}",
+    ]
     if reply:
-        myargs = [
-            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-            "sergey.priemshiy@uzliti-en.com"
-            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "
-            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-            "telegram:&nbsp&nbsp+998&nbsp90&nbsp959&nbsp80&nbsp30"
-            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "
-            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-            f"Mode:&nbsp&nbsp'{st.session_state.proj_scope}'"
-            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "
+        items.append(str(reply))
 
-            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-            f"{reply}"
-            f"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-        ]
-    else:
-        myargs = [
-            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-            "sergey.priemshiy@uzliti-en.com"
-            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "
-            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-            "telegram:&nbsp&nbsp+998&nbsp90&nbsp959&nbsp80&nbsp30"
-            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "
-            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-            f"Mode:&nbsp&nbsp'{st.session_state.proj_scope}'"
-            "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "
-        ]
+    parts = "".join(f'<span style="margin:0 1.4rem;">{i}</span>' for i in items)
 
-    # myargs = [
-    #     "Made in ",
-    #     image('https://avatars3.githubusercontent.com/u/45109972?s=400&v=4',
-    #           width=px(25), height=px(25)),
-    #     " with ❤️ by ",
-    #     link("https://twitter.com/ChristianKlose3", "@ChristianKlose3"),
-    #     br(),
-    #     link("https://buymeacoffee.com/chrischross", image('https://i.imgur.com/thJhzOO.png')),
-    # ]
-    layout(*myargs)
+    st.markdown(
+        f"""
+        <style>
+          #MainMenu {{visibility: hidden;}}
+          footer {{visibility: hidden;}}
+        </style>
+        <div style="position:fixed; left:0; bottom:0; width:100%;
+                    text-align:center; color:#5892fc; padding:6px 0;
+                    background:rgba(46,47,47,0.92); font-size:0.85rem; z-index:100;">
+          {parts}
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 if __name__ == "__main__":
