@@ -174,6 +174,7 @@ def copy_panel(eq_tag_old, panel_tag_old):
 
 
 
+@st.fragment
 def panels_main(act):
     eq_tag_list = list(get_eqip_tags())
 

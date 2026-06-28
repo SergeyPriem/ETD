@@ -233,7 +233,7 @@ def create_terminals(selected_equip, selected_panel, selected_block, terminals):
     finally:
         get_selected_block_terminals.clear()
         get_panel_terminals.clear()
-        st.experimental_rerun()
+        st.rerun()
 
 
 def create_terminals_with_internals(selected_equip, selected_panel, selected_block, terminals):

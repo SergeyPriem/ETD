@@ -149,6 +149,7 @@ def create_cable(left_eq_tag, left_pan_tag, right_eq_tag, right_pan_tag):
         return status
 
 
+@st.fragment
 def cables_main(act):
     eq_tag_list = list(get_eqip_tags())
 

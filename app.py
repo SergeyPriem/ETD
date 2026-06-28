@@ -17,7 +17,7 @@ from admin_tools import manage_projects
 from drawing_sets_tab import drawing_sets, manage_units
 from just_for_fun_tab import manual
 from lesson_learned_tab import lessons_content
-from models import Users, Task, Trans, VisitLog, Action
+from models import Users, Task, Trans, VisitLog, Action, connect
 from projects import confirm_task, confirm_trans, trans_status_to_db, get_all, get_table
 from projects import get_state, update_tables
 from scripts import scripts_tab
@@ -385,7 +385,7 @@ def form_for_trans():
 
         if st.button('Close', use_container_width=True):
             st.session_state.trans_status['trans_num'] = None
-            st.experimental_rerun()
+            st.rerun()
 
 
 def home_content():
@@ -496,7 +496,7 @@ def home_content():
                                          args=(row.id,)):
                                 st.info(f"Task {task_id} confirmed!!")
                                 st.session_state.adb['task'] = get_table(Task)
-                                st.experimental_rerun()
+                                st.rerun()
                             st.text("")
                     else:
                         st.write('##### :orange[No New Tasks]')
@@ -600,7 +600,7 @@ def home_content():
                                       on_click=update_trans_status,
                                       args=(row.trans_num, row.short_name,))
                             st.session_state.adb['trans'] = get_table(Trans)
-                            # st.experimental_rerun()
+                            # st.rerun()
                             st.text("")
 
                     else:
@@ -665,7 +665,7 @@ def login_register():
                                 st.stop()
                             else:
                                 st.info('Logged In')
-                                st.experimental_rerun()
+                                st.rerun()
 
                         else:
                             st.session_state.logged = False
@@ -1073,7 +1073,7 @@ def del_file(lc, rc):
         st.session_state.del_conf = None
         lc.warning('Uf-f-f-f...')
         # time.sleep(1)
-        st.experimental_rerun()
+        st.rerun()
 
     if rc.button('Confirm', type='primary') and st.session_state.del_conf:
         try:
@@ -1084,7 +1084,7 @@ def del_file(lc, rc):
         except Exception as e:
             rc.error(err_handler(e))
             # time.sleep(3)
-        st.experimental_rerun()
+        st.rerun()
 
 
 def home():
@@ -1119,7 +1119,7 @@ def prepare_menus(menu, icons, vert_menu):
     if vert_menu == 1:
         with st.sidebar:
             image = Image.open("images/big_logo.jpg")
-            st.image(image, use_column_width=True)
+            st.image(image, width="stretch")
             selected = option_menu(None,
                                    options=menu,
                                    default_index=0,
@@ -1282,6 +1282,8 @@ def footer(reply):
 if __name__ == "__main__":
 
     st.session_state.r_now = datetime.datetime.now()
+
+    connect()  # lazy DB bind + mapping (once per process, cached)
 
     create_states()
 

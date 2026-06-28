@@ -598,7 +598,7 @@ def create_cab_list(contr_but_len, loads_df, panelDescr, diam_df, ex_df, glands_
 
     loads_df.set_index('load_tag', inplace=True)
 
-    cl_df.loadRat = cl_df.loadRat.astype(str).replace('\.0', '', regex=True)
+    cl_df.loadRat = cl_df.loadRat.astype(str).replace(r'\.0', '', regex=True)
 
     cl_df = cl_df.query('cableTag != "-"')
 
@@ -608,12 +608,12 @@ def create_cab_list(contr_but_len, loads_df, panelDescr, diam_df, ex_df, glands_
 
 
 def replace_zero(loads_df):
-    loads_df['CONSUM-CABLE_TYPE'] = loads_df['CONSUM-CABLE_TYPE'].astype(str).str.replace('\.0mm2', 'mm2', regex=True)
-    loads_df['CONSUM-CABLE_TYPE'] = loads_df['CONSUM-CABLE_TYPE'].astype(str).str.replace('\.0/', '/', regex=True)
-    loads_df['CONT_AMPACITY'] = loads_df['CONT_AMPACITY'].astype(str).str.replace('\.0A', 'A', regex=True)
-    loads_df['CB_AMPACITY'] = loads_df['CB_AMPACITY'].astype(str).str.replace('\.0', '', regex=True)
-    loads_df['CB_RATING'] = loads_df['CB_RATING'].astype(str).str.replace('\.0', '', regex=True)
-    loads_df['CB_SET'] = loads_df['CB_SET'].astype(str).str.replace('\.0A', 'A', regex=True)
+    loads_df['CONSUM-CABLE_TYPE'] = loads_df['CONSUM-CABLE_TYPE'].astype(str).str.replace(r'\.0mm2', 'mm2', regex=True)
+    loads_df['CONSUM-CABLE_TYPE'] = loads_df['CONSUM-CABLE_TYPE'].astype(str).str.replace(r'\.0/', '/', regex=True)
+    loads_df['CONT_AMPACITY'] = loads_df['CONT_AMPACITY'].astype(str).str.replace(r'\.0A', 'A', regex=True)
+    loads_df['CB_AMPACITY'] = loads_df['CB_AMPACITY'].astype(str).str.replace(r'\.0', '', regex=True)
+    loads_df['CB_RATING'] = loads_df['CB_RATING'].astype(str).str.replace(r'\.0', '', regex=True)
+    loads_df['CB_SET'] = loads_df['CB_SET'].astype(str).str.replace(r'\.0A', 'A', regex=True)
     loads_df['rated_current'] = round(loads_df['rated_current'], 1)
 
     return loads_df

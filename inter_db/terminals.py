@@ -85,6 +85,7 @@ def delete_terminals(df):
         st.toast(f"#### :orange[Select the Terminal to delete in column 'Edit']")
 
 
+@st.fragment
 def terminals_main(act):
     eq_tag_list = list(get_eqip_tags())
 
@@ -134,7 +135,7 @@ def terminals_main(act):
             terminals = convert_txt_to_list(terminals_str)
             if all([len(terminals), isinstance(terminals, list)]):
                 create_terminals(selected_equip, selected_panel, selected_block, terminals)
-                st.experimental_rerun()
+                st.rerun()
 
     if not isinstance(df_to_show, pd.DataFrame) or len(df_to_show) == 0:
         st.write("##### :blue[Please, create Terminals]")

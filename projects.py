@@ -5,7 +5,7 @@ import time
 
 from pony.orm import *
 
-from utilities import err_handler, tab_to_df, timeit
+from utilities import err_handler, tab_to_df, timeit, STATE_FILE
 from models import Project, SOD, Task, Users, Speciality, Trans
 
 import pandas as pd
@@ -14,7 +14,7 @@ import streamlit as st
 from pathlib import Path
 
 
-set_sql_debug(True)
+set_sql_debug(False)
 
 BACKUP_FOLDER: Path = Path('//uz-fs/Uzle/Work/Отдел ЭЛ/Архив заданий/')
 
@@ -1016,12 +1016,10 @@ def update_trans(id, trans_date, responsible, author, in_reply_to, ref_date, sub
 
 
 def get_state():
-    if os.path.exists("temp_dxf/state.json"):
-        # print('file exists')
+    if os.path.exists(STATE_FILE):
         try:
-            with open("temp_dxf/state.json", "r", encoding="utf-8") as f:
-                state_json = f.read()
-            cur_state = json.loads(state_json)
+            with open(STATE_FILE, "r", encoding="utf-8") as f:
+                cur_state = json.loads(f.read())
             return cur_state
         except Exception as e:
             return err_handler(e)
@@ -1076,4 +1074,4 @@ def update_tables():
                 return f"{reply['status']} by {upd_login}"
 
     if counter:
-        st.experimental_rerun()
+        st.rerun()

@@ -10,7 +10,7 @@ from inter_db.panels import get_panel_tags
 from inter_db.utils import get_panel_terminals
 
 from models import Wire, Cable, Block, Terminal
-from utilities import err_handler, act_with_warning
+from utilities import err_handler, confirm_action
 
 
 @st.cache_data(show_spinner=False)
@@ -100,7 +100,7 @@ def edit_wires(edited_df, cab_tag, all_wires=False):
         st.toast(err_handler(e))
     finally:
         get_filtered_wires.clear()
-        st.experimental_rerun()
+        st.rerun()
 
 
 def create_wires(cab_tag, wires_num):
@@ -119,7 +119,7 @@ def create_wires(cab_tag, wires_num):
         st.toast(err_handler(e))
     finally:
         get_filtered_wires.clear()
-        st.experimental_rerun()
+        st.rerun()
 
 
 def delete_wires(cab_tag):
@@ -133,7 +133,7 @@ def delete_wires(cab_tag):
         st.toast(err_handler(e))
     finally:
         get_filtered_wires.clear()
-        st.experimental_rerun()
+        st.rerun()
 
 
 def check_duplicated_termination(df):
@@ -162,6 +162,7 @@ def check_duplicated_termination(df):
         st.stop()
 
 
+@st.fragment
 def wires_main(act):
     eq_tag_list = list(get_eqip_tags())
 
@@ -333,12 +334,10 @@ def wires_main(act):
     if act == 'Delete':
 
         if st.button("Delete All Wires"):
-            act_with_warning(
-                left_function=delete_wires,
-                left_args=cab_tag,
-                header_message="All wires and their connections will be deleted!",
-                warning_message="Delete?",
-                waiting_time=7, use_buttons=False
+            confirm_action(
+                "All wires and their connections will be deleted!",
+                delete_wires, cab_tag,
+                title="Delete wires?", confirm_label="Delete",
             )
 
     if act == 'Edit':

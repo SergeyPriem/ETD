@@ -6,7 +6,7 @@ import pandas as pd
 def delete_equipment(equip_to_del):
     st.session_state.intercon['equip'] = \
         st.session_state.intercon['equip'][~st.session_state.intercon['equip'].eq_tag.isin(equip_to_del)]
-    st.experimental_rerun()
+    st.rerun()
 
 
 def save_equipment(df):
@@ -92,6 +92,6 @@ def edit_equipment():
 
                 df1 = st.session_state.intercon['equip'].copy(deep=True)
                 st.session_state.intercon['equip'] = pd.concat([df1, df2], ignore_index=True)
-                st.experimental_rerun()
+                st.rerun()
         else:
             st.button('❗ Some fields are empty...')

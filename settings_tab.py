@@ -80,7 +80,7 @@ def settings_content():
                 reply = update_settings(st.session_state.user['login'], st.session_state.user['vert_menu'])
                 st.session_state.adb['users'] = get_table(Users)
                 st.success(reply)
-                st.experimental_rerun()
+                st.rerun()
 
         with scope_tab:
             with st.form('change_scope'):

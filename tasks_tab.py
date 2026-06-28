@@ -110,7 +110,7 @@ def add_task(task_content):
                                               )
 
                 l_c, r_c = st.columns([1, 9], gap='medium')
-                l_c.write(':red[\* - required]')
+                l_c.write(r':red[\* - required]')
                 task_preview = r_c.form_submit_button("Preview Task", use_container_width=True,
                                                       on_click=disable_add_task, args=(False,))
 

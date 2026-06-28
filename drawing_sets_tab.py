@@ -522,7 +522,7 @@ def request_updates(temp_sod):
 
         if cancel_but:
             st.session_state.req_lines_avail += 1
-            st.experimental_rerun()
+            st.rerun()
 
         if i:
             st.button(f'{i} Requests Sent - OK', use_container_width=True)
@@ -589,7 +589,7 @@ def manage_units():
                 r_c.text('')
                 status = r_c.select_slider("Select the Current Status *", COMPLETION, value='0%')
                 notes = l_c.text_area("Add Notes", max_chars=500, height=90).strip()
-                l_c.write(":red[\* - required]")
+                l_c.write(r":red[\* - required]")
                 r_c.text('')
                 create_sod_but = r_c.form_submit_button("Create", use_container_width=True)
 

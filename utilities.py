@@ -114,56 +114,61 @@ def mail_to_name(mail):
         return "Colleague"
 
 
+# --- Cross-session refresh marker (shared file) ---------------------------
+# A poor-man's pub/sub: a per-table {id, user} counter bumped on every write.
+# Centralized here so the path is defined once and writes are atomic
+# (write to a temp file, then os.replace) — a partially-written JSON can no
+# longer be read by a concurrent session.
+STATE_FILE = os.path.join("temp_dxf", "state.json")
+
+DEFAULT_STATE = {
+    "sod": {"id": 1, "user": None},
+    "trans": {"id": 1, "user": None},
+    "project": {"id": 1, "user": None},
+    "task": {"id": 1, "user": None},
+}
+
+
+def _write_state_atomic(data: dict) -> None:
+    tmp = f"{STATE_FILE}.{os.getpid()}.tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(data, f)
+    os.replace(tmp, STATE_FILE)
+
+
 def set_init_state(data=None):
-    if isinstance(data, dict):
-        if os.path.exists("temp_dxf/state.json"):
-            try:
-                with open("temp_dxf/state.json", "w", encoding="utf-8") as f:
-                    json.dump(data, f)
-                return 'Data is set'
-            except Exception as e:
-                return err_handler(e)
-        else:
-            data = {
-                "sod": {"id": 1, "user": None},
-                "trans": {"id": 1, "user": None},
-                "project": {"id": 1, "user": None},
-                "task": {"id": 1, "user": None},
-            }
-            try:
-                with open("temp_dxf/state.json", "w", encoding="utf-8") as f:
-                    json.dump(data, f)
-                return "File Created"
-            except Exception as e:
-                return err_handler(e)
-    else:
+    if not isinstance(data, dict):
         return "Wrong Data Format"
+    try:
+        if not os.path.exists(STATE_FILE):
+            data = DEFAULT_STATE
+            _write_state_atomic(data)
+            return "File Created"
+        _write_state_atomic(data)
+        return 'Data is set'
+    except Exception as e:
+        return err_handler(e)
 
 
 def update_state(tab_name: str):
-    if isinstance(tab_name, str):
-        if os.path.exists("temp_dxf/state.json"):
-            try:
-                with open("temp_dxf/state.json", "r", encoding="utf-8") as f:
-                    state_json = f.read()
-                    data = json.loads(state_json)
-
-            except Exception as e:
-                return f"Can't open file{err_handler(e)}"
-
-            data[tab_name]['id'] += 1
-            data[tab_name]['user'] = st.session_state.user['login']
-
-            try:
-                with open("temp_dxf/state.json", "w", encoding="utf-8") as f:
-                    json.dump(data, f)
-                return 'Data is updated'
-            except Exception as e:
-                return f"Can't save file{err_handler(e)}"
-        else:
-            return "File not found"
-    else:
+    if not isinstance(tab_name, str):
         return "Wrong Data Format"
+    if not os.path.exists(STATE_FILE):
+        return "File not found"
+    try:
+        with open(STATE_FILE, "r", encoding="utf-8") as f:
+            data = json.loads(f.read())
+    except Exception as e:
+        return f"Can't open file{err_handler(e)}"
+
+    data[tab_name]['id'] += 1
+    data[tab_name]['user'] = st.session_state.user['login']
+
+    try:
+        _write_state_atomic(data)
+        return 'Data is updated'
+    except Exception as e:
+        return f"Can't save file{err_handler(e)}"
 
 
 def open_dxf_file(path):
@@ -219,21 +224,6 @@ def title_with_help(title, help_content, ratio=24, divider=True):
 
     if divider:
         st.divider()
-
-
-credentials = {
-    "type": "service_account",
-    "project_id": "termination-bgpp",
-    "private_key_id": st.secrets['sak']['private_key_id'],
-    "private_key": st.secrets['sak']['private_key'],
-    "client_email": st.secrets['sak']['client_email'],
-    "client_id": st.secrets['sak']['client_id'],
-    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-    "token_uri": "https://oauth2.googleapis.com/token",
-    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-    "client_x509_cert_url": st.secrets['sak']['client_x509_cert_url'],
-    "universe_domain": "googleapis.com"
-}
 
 
 @st.cache_data(show_spinner=False)
@@ -327,7 +317,30 @@ def act_with_warning(left_function=None, left_args=None, right_function=None, ri
 
     st.write(":blue[Waiting for your decision...]")
     time.sleep(waiting_time)
-    st.experimental_rerun()
+    st.rerun()
+
+
+def confirm_action(message, on_confirm, *args,
+                   title="Please confirm", confirm_label="Yes", cancel_label="Cancel"):
+    """Modern, non-blocking confirmation modal (Streamlit 1.58 `st.dialog`).
+
+    Replacement for the legacy `act_with_warning`, which froze the whole script
+    with `time.sleep(...)`. Here the UI stays responsive: the action runs only
+    when the user clicks confirm. `on_confirm(*args)` may itself call st.rerun()
+    (the cancel branch reruns to close the dialog).
+    """
+
+    @st.dialog(title)
+    def _dialog():
+        st.warning(message)
+        cancel_col, confirm_col = st.columns(2)
+        if cancel_col.button(cancel_label, use_container_width=True):
+            st.rerun()
+        if confirm_col.button(confirm_label, type="primary", use_container_width=True):
+            on_confirm(*args)
+            st.rerun()
+
+    _dialog()
 
 
 def ben(func):

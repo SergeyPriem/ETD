@@ -119,6 +119,7 @@ def create_equipment():
             st.toast(f"""#### :red[Please fill all required (*) fields!]""")
 
 
+@st.fragment
 def equipment_main(act):
     eq_tag_list = list(get_eqip_tags())
 

@@ -40,32 +40,3 @@ def send_mail(receiver: str, cc_rec: str, subj: str, html: str):
         return 200
     except Exception as e:
         return err_handler(e)
-
-ass_num = 789
-ass_subject = f'New assignment {ass_num}'
-ass_link = r'\\uz-fs\Uzle\Отдел ЭЛ'
-ass_html = f"""
-    <html>
-      <head></head>
-      <body>
-        <h3>
-          Hello, Colleague!
-          <hr>
-        </h3>
-        <h5>
-          You got this message because of new incoming assignment: {ass_num}
-        </h5>
-        <p>
-            Please find it on your <a href="https://e-design.streamlit.app/">site</a>
-            <br>
-            <br>
-            or by link:<br>{ass_link}
-            <hr>
-            Best regards, Administration 😎
-        </p>
-      </body>
-    </html>
-"""
-
-# st.write(send_mail(receiver="sergey.priemshiy@uzliti-en.com", cc_rec="p.s@email.ua", subj=ass_subject, html=ass_html))
-

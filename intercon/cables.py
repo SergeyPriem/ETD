@@ -6,7 +6,7 @@ import streamlit as st
 def delete_cable(cab_to_del_list):
     st.session_state.intercon['cable'] = \
         st.session_state.intercon['cable'][~st.session_state.intercon['cable'].cab_tag.isin(cab_to_del_list)]
-    st.experimental_rerun()
+    st.rerun()
 
 
 def save_cables(df, full_pan_tag_left, full_pan_tag_right):
@@ -89,7 +89,7 @@ def edit_cab_con():
                     df1 = st.session_state.intercon['cable'].copy(deep=True)
                     st.session_state.intercon['cable'] = pd.concat([df1, df2],
                                                                    ignore_index=True)
-                    st.experimental_rerun()
+                    st.rerun()
                 else:
                     st.button("❗ Enter the Cable Tag")
 

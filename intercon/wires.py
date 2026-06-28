@@ -5,7 +5,7 @@ import streamlit as st
 def delete_wires(wires_to_del):
     st.session_state.intercon['wire'] = \
         st.session_state.intercon['wire'][~st.session_state.intercon['wire'].wire_uniq.isin(wires_to_del)]
-    st.experimental_rerun()
+    st.rerun()
 
 def add_wires(act_cable, wires_to_add):
     wire_df = st.session_state.intercon['wire']
@@ -27,7 +27,7 @@ def add_wires(act_cable, wires_to_add):
 
     st.session_state.intercon['wire'] = pd.concat([st.session_state.intercon['wire'], df2])
     st.session_state.intercon['wire'] = st.session_state.intercon['wire'].reset_index(drop=True)
-    st.experimental_rerun()
+    st.rerun()
 
 
 def order_of_wires(df):

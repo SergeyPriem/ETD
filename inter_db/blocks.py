@@ -115,6 +115,7 @@ def copy_block(init_block_id):
         st.toast(f"##### :red[Block with ID {init_block_id} not found]")
 
 
+@st.fragment
 def blocks_main(act):
     eq_tag_list = list(get_eqip_tags())
 
