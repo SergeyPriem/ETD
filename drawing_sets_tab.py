@@ -12,6 +12,7 @@ from functools import lru_cache
 from streamlit_extras.dataframe_explorer import dataframe_explorer
 
 
+@st.fragment
 def drawing_sets():
     center_style()
 
@@ -528,6 +529,75 @@ def request_updates(temp_sod):
             st.button(f'{i} Requests Sent - OK', use_container_width=True)
 
 
+@st.dialog("Edit Unit Details")
+def _edit_unit_dialog(proj_short, unit_name, current_stage, u_id, sod_df, u_df):
+    new_unit_name = st.text_input('New Name for Unit', value=unit_name)
+    new_stage = st.selectbox("New Stage for Unit", STAGES, index=get_list_index(STAGES, current_stage))
+
+    st.write('')
+    if not st.button("Update Details for Unit", type="primary", use_container_width=True):
+        return
+
+    reply = update_unit_name_stage(u_id, new_unit_name, new_stage)
+
+    if reply['status'] != 201:
+        st.warning(reply['err_descr'])
+        return
+
+    subj = f"{proj_short}: {unit_name}. Changes"
+
+    html = f"""
+        <html>
+          <head></head>
+          <body>
+            <h3>
+              Hello, Colleague!
+              <hr>
+            </h3>
+            <h5>
+              You got this message because you are involved in the project :
+              <b>{proj_short}</b>
+            </h5>
+            <p>Some data for the Project were updated</p>
+            <br>
+            <p>Project short name: <b>{proj_short}</b></p>
+            <p>Old Unit name: <b>{unit_name}</b></p>
+            <p>New Unit Name: <b>{new_unit_name}</b></p>
+            <p>Old Project Stage: <b>{current_stage}</b></p>
+            <p>New Project Stage: <b>{new_stage}</b></p>
+            <p>
+            <hr>
+            Best regards, Administration 😎
+            </p>
+          </body>
+        </html>
+    """
+
+    receiver = u_df.loc[u_df.login == sod_df.loc[u_id, 'coord_id'], 'email'].to_numpy()[0]
+    cc_rec = u_df.loc[u_df.login == sod_df.loc[u_id, 'perf_id'], 'email'].to_numpy()[0]
+
+    if not (isinstance(receiver, str) and "@" in receiver):
+        st.warning("Can't get Coordinator e-mail...")
+        return
+
+    if not (isinstance(cc_rec, str) and "@" in cc_rec):
+        st.warning("Can't get Coordinator e-mail...")
+        return
+
+    if receiver == cc_rec:
+        cc_rec = 'sergey.priemshiy@uzliti-en.com'
+
+    send_mail(receiver, cc_rec, subj, html)
+
+    reply3 = update_state('sod')
+
+    if reply3 != 'Data is updated':
+        st.warning(reply3)
+        return
+
+    st.rerun()
+
+
 def manage_units():
 
     center_style()
@@ -665,88 +735,12 @@ def manage_units():
 
                 current_stage = sod_df.loc[sod_df.set_name == unit_name, 'stage'].to_numpy()[0]
 
-                with st.form('update_unit'):
-                    lc, rc = st.columns(2, gap='medium')
-                    new_unit_name = lc.text_input('New Name for Unit', value=unit_name)
-                    new_stage = rc.selectbox("New Stage for Unit", STAGES, index=get_list_index(STAGES, current_stage))
+                u_id = sod_df.loc[(sod_df.project_id == proj_short) &
+                                  (sod_df.set_name == unit_name)].index.to_numpy()[0]
 
-                    upd_unit_but = st.form_submit_button("Update Details for Unit", use_container_width=True)
-
-                if upd_unit_but:
-                    u_id = sod_df.loc[(sod_df.project_id == proj_short) &
-                                      (sod_df.set_name == unit_name)].index.to_numpy()[0]
-
-                    reply = update_unit_name_stage(u_id, new_unit_name, new_stage)
-
-                    l_rep, c_rep, r_rep = st.columns([1, 2, 1], gap='medium')
-
-                    if reply['status'] == 201:
-
-                        l_rep.success('Unit Details Updated')
-
-                        subj = f"{proj_short}: {unit_name}. Changes"
-
-                        html = f"""
-                            <html>
-                              <head></head>
-                              <body>
-                                <h3>
-                                  Hello, Colleague!
-                                  <hr>
-                                </h3>
-                                <h5>
-                                  You got this message because you are involved in the project :
-                                  <b>{proj_short}</b>
-                                </h5>
-                                <p>Some data for the Project were updated</p>
-                                <br>
-                                <p>Project short name: <b>{proj_short}</b></p>
-                                <p>Old Unit name: <b>{unit_name}</b></p>
-                                <p>New Unit Name: <b>{new_unit_name}</b></p>
-                                <p>Old Project Stage: <b>{current_stage}</b></p>
-                                <p>New Project Stage: <b>{new_stage}</b></p>
-                                <p>
-                                <hr>
-                                Best regards, Administration 😎
-                                </p>
-                              </body>
-                            </html>
-                        """
-
-                        u_df = st.session_state.adb['users']
-
-                        receiver = u_df.loc[u_df.login == sod_df.loc[u_id, 'coord_id'], 'email'].to_numpy()[0]
-                        cc_rec = u_df.loc[u_df.login == sod_df.loc[u_id, 'perf_id'], 'email'].to_numpy()[0]
-
-                        if not (isinstance(receiver, str) and "@" in receiver):
-                            st.warning("Can't get Coordinator e-mail...")
-                            st.stop()
-
-                        if not (isinstance(cc_rec, str) and "@" in cc_rec):
-                            st.warning("Can't get Coordinator e-mail...")
-                            st.stop()
-
-                        if receiver == cc_rec:
-                            cc_rec = 'sergey.priemshiy@uzliti-en.com'
-
-                        reply2 = send_mail(receiver, cc_rec, subj, html)
-
-                        if reply2 == 200:
-                            c_rep.success(f'Notifications were sent to {receiver}, {cc_rec}')
-
-                        reply3 = update_state('sod')
-
-                        if reply3 != 'Data is updated':
-                            st.warning(reply3)
-
-                        r_rep.text('')
-                        r_rep.button('Close Report', key='close_upd_unit_report', use_container_width=True)
-
-                        st.stop()
-
-                    else:
-                        st.warning(reply['err_descr'])
-                        st.stop()
+                r_c.text('')
+                if r_c.button("Edit Unit Details…", use_container_width=True):
+                    _edit_unit_dialog(proj_short, unit_name, current_stage, u_id, sod_df, u_df)
 
             else:
                 r_c.text("")

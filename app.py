@@ -118,10 +118,10 @@ def show_sidebar_info():
 # @lru_cache(128)
 def get_menus(rights):
     # st.session_state.temp_log.append('get_menus')
-    performer_menu = ["Home", "Drawings", "Transmittals", "Tasks", 'Scripts', 'Manual',
+    performer_menu = ["Home", "Search", "Drawings", "Transmittals", "Tasks", 'Scripts', 'Manual',
                       'Knowledge', 'Settings']
 
-    performer_icons = ['house', 'bi bi-file-earmark-spreadsheet-fill', 'bi bi-file-arrow-down',
+    performer_icons = ['house', 'bi bi-search', 'bi bi-file-earmark-spreadsheet-fill', 'bi bi-file-arrow-down',
                        'bi bi-file-check', 'bi bi-diagram-3', 'bi bi-book', 'bi bi-pen', 'bi bi-gear']
 
     admin_menu = ["Units"]
@@ -426,67 +426,20 @@ def home_content():
                         st.subheader(":orange[New Incoming Tasks]")
                         for ind, row in df.iterrows():
                             name_surname = mail_to_name(row.added_by)
-                            st.markdown(f"""<h4>Task: {row.id}</h4>""", unsafe_allow_html=True)
-
-                            st.markdown("""<style>
-                                                .nobord td {
-                                                        border-style: hidden;
-                                                        margin-left: auto;
-                                                        margin-right: auto;
-                                                        text-align: left;
-                                                    }
-                                                  </style>
-                                                  """, unsafe_allow_html=True)
-
-                            st.markdown(f"""
-                                <table class="nobord">
-                                <tr>
-                                    <td>Project</td>
-                                    <td>{row.project}</td>
-                                </tr>
-                                <tr>
-                                    <td>Unit</td>
-                                    <td>{row.unit}</td>
-                                </tr>
-                                <tr>
-                                    <td>Speciality</td>
-                                    <td>{row.speciality}</td>
-                                </tr>
-                                <tr>
-                                    <td>Stage</td>
-                                    <td>{row.stage}</td>
-                                </tr>
-                                <tr>
-                                    <td>Issue Date</td>
-                                    <td>{row.date}</td>
-                                </tr>
-                                <tr>
-                                    <td>Description</td>
-                                    <td>{row.description}</td>
-                                </tr>
-                                <tr>
-                                    <td>Link</td>
-                                    <td>{row.link}</td>
-                                </tr>
-                                <tr>
-                                    <td>Backup Copy</td>
-                                    <td>{row.backup_copy}</td>
-                                </tr>
-                                <tr>
-                                    <td>Source</td>
-                                    <td>{row.source}</td>
-                                </tr>
-                                <tr>
-                                    <td>Comment</td>
-                                    <td>{row.comment}</td>
-                                </tr>
-                                <tr>
-                                    <td>Added By</td>
-                                    <td>{name_surname}</td>
-                                </tr>
-                                </table>
-                                <br>
-                                """, unsafe_allow_html=True)
+                            st.markdown(f"#### :orange[Task: {row.id}]")
+                            _detail_table([
+                                ("Project", row.project),
+                                ("Unit", row.unit),
+                                ("Speciality", row.speciality),
+                                ("Stage", row.stage),
+                                ("Issue Date", row.date),
+                                ("Description", row.description),
+                                ("Link", row.link),
+                                ("Backup Copy", row.backup_copy),
+                                ("Source", row.source),
+                                ("Comment", row.comment),
+                                ("Added By", name_surname),
+                            ])
 
                             but_key1 = f"Confirm Task: {row.id}"
                             task_id = row.id
@@ -510,76 +463,22 @@ def home_content():
                         # df = df.loc[df.status != "Closed"]
                         for ind, row in df.iterrows():
                             # name_surname = mail_to_name(row.added_by)
-                            st.markdown(f"""<h4>Transmittal: {row.trans_num}</h4>""", unsafe_allow_html=True)
-
-                            st.markdown("""<style>
-                                                .nobord {
-                                                        border-style: hidden;
-                                                        margin-left: auto;
-                                                        margin-right: auto;
-                                                        text-align: left;
-                                                    }
-                                                  </style>
-                                                  """, unsafe_allow_html=True)
-
-                            st.markdown(f"""
-                                <table class="nobord">
-                                <tr>
-                                    <td>Transmittal Number</td>
-                                    <td>{row.trans_num}</td>
-                                </tr>
-                                <tr>
-                                    <td>Project</td>
-                                    <td>{row.short_name}</td>
-                                </tr>
-                                <tr>
-                                    <td>Subject</td>
-                                    <td>{row.subj}</td>
-                                </tr>
-
-                                <tr>
-                                    <td>Transmittal Date</td>
-                                    <td>{row.trans_date}</td>
-                                </tr>
-                                <tr>
-                                    <td>Is reply required?</td>
-                                    <td>{"Yes" if row.ans_required else "No"}</td>
-                                </tr>
-                                <tr>
-                                    <td>Previous Transmittal</td>
-                                    <td>{row.ref_trans}</td>
-                                </tr>
-                                <tr>
-                                    <td>Responsible</td>
-                                    <td>{row.login_x}</td>
-                                </tr>
-                                <tr>
-                                    <td>Author</td>
-                                    <td>{row.author}</td>
-                                </tr>
-                                <tr>
-                                    <td>Link</td>
-                                    <td>{row.link}</td>
-                                </tr>
-                                <tr>
-                                    <td>Type</td>
-                                    <td>{row.t_type}</td>
-                                </tr>
-                                <tr>
-                                    <td>Notes</td>
-                                    <td>{row.notes}</td>
-                                </tr>
-                                <tr>
-                                    <td>Added By</td>
-                                    <td>{row.login_y}</td>
-                                </tr>
-                                <tr>
-                                    <td>Status</td>
-                                    <td>{row.status}</td>
-                                </tr>
-                                </table>
-                                <br>
-                                """, unsafe_allow_html=True)
+                            st.markdown(f"#### :orange[Transmittal: {row.trans_num}]")
+                            _detail_table([
+                                ("Transmittal Number", row.trans_num),
+                                ("Project", row.short_name),
+                                ("Subject", row.subj),
+                                ("Transmittal Date", row.trans_date),
+                                ("Is reply required?", "Yes" if row.ans_required else "No"),
+                                ("Previous Transmittal", row.ref_trans),
+                                ("Responsible", row.login_x),
+                                ("Author", row.author),
+                                ("Link", row.link),
+                                ("Type", row.t_type),
+                                ("Notes", row.notes),
+                                ("Added By", row.login_y),
+                                ("Status", row.status),
+                            ])
 
                             but_key1 = f"Confirm receiving: {row.trans_num}"
                             but_key2 = f"Update Status for: {row.trans_num}"
@@ -1085,6 +984,56 @@ def del_file(lc, rc):
         st.rerun()
 
 
+@st.fragment
+def global_search():
+    center_style()
+
+    s_l, s_c, s_r = st.columns([1, 15, 1])
+
+    with s_c:
+        st.title(':orange[Global Search]')
+
+        query = st.text_input(
+            'Search across Projects, Units, Tasks and Transmittals  🔎',
+            placeholder='Type at least 2 characters…',
+        ).strip()
+
+        if len(query) < 2:
+            st.info('Enter at least 2 characters to search across all registries.')
+            return
+
+        registries = {
+            'Projects': st.session_state.adb.get('project'),
+            'Units': st.session_state.adb.get('sod'),
+            'Tasks': st.session_state.adb.get('task'),
+            'Transmittals': st.session_state.adb.get('trans'),
+        }
+
+        total = 0
+
+        for label, df in registries.items():
+            if df is None or df.empty:
+                continue
+
+            mask = df.apply(
+                lambda col: col.astype('string').str.contains(query, case=False, na=False, regex=False)
+            ).any(axis=1)
+
+            hits = df[mask]
+
+            if hits.empty:
+                continue
+
+            total += len(hits)
+            st.subheader(f':orange[{label}]  ·  {len(hits)}')
+            st.dataframe(hits, hide_index=True, use_container_width=True)
+
+        if total == 0:
+            st.warning(f'No matches for "{query}".')
+        else:
+            st.caption(f'{total} match(es) found across all registries.')
+
+
 def home():
     if st.session_state.trans_status['trans_num']:
         form_for_trans()
@@ -1095,6 +1044,7 @@ def home():
 def win_selector(selected):
     tab_dict = {
         "Home": home,
+        "Search": global_search,
         "Projects": manage_projects,
         "Transmittals": transmittals_content,
         "Tasks": tasks_content,
@@ -1175,6 +1125,21 @@ def initial():
         )
 
         win_selector(prepared_menus)
+
+
+def _detail_table(pairs):
+    """Render a record's field/value pairs as a native (non-HTML) table."""
+    detail_df = pd.DataFrame(pairs, columns=["Field", "Value"])
+    detail_df["Value"] = detail_df["Value"].astype("string").fillna("—")
+    st.dataframe(
+        detail_df,
+        hide_index=True,
+        use_container_width=True,
+        column_config={
+            "Field": st.column_config.TextColumn("Field", width="small"),
+            "Value": st.column_config.TextColumn("Value", width="large"),
+        },
+    )
 
 
 def footer(reply):

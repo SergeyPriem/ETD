@@ -13,6 +13,7 @@ def disable_add_task(cur_stat):
     st.session_state.disable_add_task = cur_stat
 
 
+@st.fragment
 def tasks_content():
     center_style()
 

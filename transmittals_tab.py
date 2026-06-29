@@ -55,6 +55,7 @@ def det_trans_from_df(login=None):
     return trans_df
 
 
+@st.fragment
 def transmittals_content():
 
     # make_short_delay()
